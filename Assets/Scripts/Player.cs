@@ -66,10 +66,8 @@ public class Player : Actor
         List<Cell> path = currentLevel.pf.GetCellPath(Position, targetPos);
         foreach (Cell cell in path)
         {
-            MoveToCell(cell);
-            TurnController.turnController.ChangeTurn();
+            Move(cell);
         }
-        currentLevel.RefreshFOV();
     }
 
     // Attempt to move along a given path
@@ -77,10 +75,8 @@ public class Player : Actor
     {
         foreach (Cell cell in path)
         {
-            MoveToCell(cell);
-            TurnController.turnController.ChangeTurn();
+            Move(cell);
         }
-        currentLevel.RefreshFOV();
     }
 
     // Actually make the move to another cell
