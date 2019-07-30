@@ -72,15 +72,15 @@ public class Level : MonoBehaviour
     public void RefreshFOV()
     {
         for (int octant = 0; octant < 8; octant++)
-            ShadowOctant(player.Position, octant);
-        cellDrawer.DrawLevel(this);
+            cellDrawer.DrawCells(ShadowOctant(player.Position, octant));
     }
 
-    // Generate an octant of shadows
-    public void ShadowOctant(Vector2Int origin, int octant)
+    // Generate an octant of shadows, and return the FOV area to be redrawn
+    public List<Cell> ShadowOctant(Vector2Int origin, int octant)
     {
         ShadowLine line = new ShadowLine();
         bool fullShadow = false;
+        List<Cell> ret = new List<Cell>();
 
         for (int row = 0; row < player.FOVRadius; row++)
         {
@@ -92,6 +92,7 @@ public class Level : MonoBehaviour
                 // Break on this row if going out of bounds
                 if (!Contains(pos)) break;
 
+                ret.Add(cells[pos.x, pos.y]);
                 // If entire row is known to be in shadow, set this cell to be 
                 // in shadow
                 if (fullShadow)
@@ -113,6 +114,7 @@ public class Level : MonoBehaviour
                 }
             }
         }
+        return ret;
     }
 
     // Creates a Shadow that corresponds to the projected silhouette of the
