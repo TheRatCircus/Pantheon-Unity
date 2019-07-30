@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class Cell
 {
+    // Statics
+    // The offset of each tile from Unity's true grid coords
+    public const float TileOffsetX = .5f;
+    public const float TileOffsetY = .5f;
+
     private Vector2Int position;
 
     bool blocked = true; // Can cell be moved through?

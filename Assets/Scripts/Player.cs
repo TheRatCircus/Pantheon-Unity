@@ -1,5 +1,6 @@
 ﻿// Player controller
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Player : Actor
 {
@@ -57,6 +58,29 @@ public class Player : Actor
         destinationCell = currentLevel.Cells[destinationPos.x, destinationPos.y];
         if (destinationCell != null && destinationCell.IsWalkable())
             Move(destinationCell);
+    }
+
+    // Attempt to move along a path given a destination
+    public void MoveAlongPath(Vector2Int targetPos)
+    {
+        List<Cell> path = currentLevel.pf.GetCellPath(Position, targetPos);
+        foreach (Cell cell in path)
+        {
+            MoveToCell(cell);
+            TurnController.turnController.ChangeTurn();
+        }
+        currentLevel.RefreshFOV();
+    }
+
+    // Attempt to move along a given path
+    public void MoveAlongPath(List<Cell> path)
+    {
+        foreach (Cell cell in path)
+        {
+            MoveToCell(cell);
+            TurnController.turnController.ChangeTurn();
+        }
+        currentLevel.RefreshFOV();
     }
 
     // Actually make the move to another cell

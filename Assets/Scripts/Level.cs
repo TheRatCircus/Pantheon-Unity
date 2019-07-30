@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class Level : MonoBehaviour
 {
     // Requisite objects
+    public PathFinder pf;
     public CellDrawer cellDrawer;
     public Tile groundTile;
     public Tile wallTile;
@@ -19,9 +20,11 @@ public class Level : MonoBehaviour
     Vector2Int spawnPoint;
 
     Player player;
+    public Player _player { get => player; }
 
     // Properties
     public Cell[,] Cells { get => cells; }
+    public Vector2Int LevelSize { get => levelSize; }
 
     // Awake is called when the script instance is being loaded
     private void Awake()
@@ -34,6 +37,7 @@ public class Level : MonoBehaviour
     private void Start()
     {
         player = GameObject.Find("PlayerCharacter").GetComponent<Player>();
+        pf = new PathFinder(this);
 
         cellDrawer.DrawLevel(this);
         SpawnPlayer();
@@ -45,7 +49,7 @@ public class Level : MonoBehaviour
         if (Contains(pos))
             return cells[pos.x, pos.y];
         else
-            return null;
+            throw new System.Exception($"Attempt to access out-of-bounds cell {pos.x}, {pos.y}");
     }
 
     // Put the player in their spawn position
@@ -186,8 +190,6 @@ public class Level : MonoBehaviour
             if (index < Shadows.Count && Shadows[index].Start < shadow.End)
                 overlappingNext = Shadows[index];
 
-            Debug.Log(overlappingPrevious + " " + overlappingNext);
-
             // Insert and unify with overlapping shadows
             if (overlappingNext != null)
             {
@@ -251,5 +253,5 @@ public class Level : MonoBehaviour
             return start <= other.Start && end >= other.End;
         }
     }
-
 }
+
