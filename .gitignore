@@ -1,0 +1,4 @@
+# Ignore Unity temp files
+Temp
+Library/CrashedAssetImports.txt
+Library/EditorInstance.json

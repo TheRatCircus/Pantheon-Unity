@@ -1,0 +1,2 @@
+D:\Misc\Development\unity\Pantheon\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
+D:\Misc\Development\unity\Pantheon\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache
