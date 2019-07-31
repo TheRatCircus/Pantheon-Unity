@@ -20,7 +20,7 @@ public class Level : MonoBehaviour
     Vector2Int spawnPoint;
 
     // Contents
-    public Actor[] actors;
+    public List<Actor> actors;
     Player player;
     public Player _player { get => player; }
 

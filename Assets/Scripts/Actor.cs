@@ -127,6 +127,7 @@ public class Actor : MonoBehaviour
     // Handle this actor's death
     protected virtual void OnDeath()
     {
+        level.actors.Remove(this);
         Destroy(gameObject);
         GameLog.Send($"You kill the {actorName}!", MessageColour.White);
         MakeEntity.instance.MakeCorpseAt(corpsePrefab, cell);
