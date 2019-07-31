@@ -1,6 +1,7 @@
 ﻿// Player controller
-using UnityEngine;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Player : Actor
 {
@@ -10,10 +11,13 @@ public class Player : Actor
     public int FOVRadius { get => fovRadius; }
 
     // Awake is called when the script instance is being loaded
-    private void Awake()
+    protected override void Awake()
     {
-        maxHealth = 100;
-        health = maxHealth;
+        actorName = "Player";
+        maxHealth = 10;
+        minDamage = 2;
+        maxDamage = 4;
+        base.Awake();
     }
 
     // Update is called once per frame
@@ -25,7 +29,7 @@ public class Player : Actor
     // Receive input from the player on the player's turn
     private void CatchInput()
     {
-        if (TurnController.turnController.gameState == GameState.Player0Turn)
+        if (TurnController.instance.gameState == GameState.Player0Turn)
         {
             // TODO: Clean this up
             if (Input.GetButtonDown("Up"))
@@ -45,28 +49,17 @@ public class Player : Actor
             else if (Input.GetButtonDown("Down Right"))
                 TryMove(new Vector2Int(1, -1));
             else if (Input.GetButtonDown("Wait"))
-                TurnController.turnController.ChangeTurn();
+                TurnController.instance.ChangeTurn();
         }
-    }
-
-    // Attempt to move to another cell
-    private void TryMove(Vector2Int move)
-    {
-        Cell destinationCell;
-        Vector2Int destinationPos = 
-            new Vector2Int((int)transform.position.x + move.x, (int)transform.position.y + move.y);
-        destinationCell = currentLevel.Cells[destinationPos.x, destinationPos.y];
-        if (destinationCell != null && destinationCell.IsWalkable())
-            Move(destinationCell);
     }
 
     // Attempt to move along a path given a destination
     public void MoveAlongPath(Vector2Int targetPos)
     {
-        List<Cell> path = currentLevel.pf.GetCellPath(Position, targetPos);
+        List<Cell> path = level.pf.GetCellPath(Position, targetPos);
         foreach (Cell cell in path)
         {
-            Move(cell);
+            PlayerMove(cell);
         }
     }
 
@@ -75,15 +68,44 @@ public class Player : Actor
     {
         foreach (Cell cell in path)
         {
-            Move(cell);
+            bool nearbyEnemy = false;
+            PlayerMove(cell);
+            foreach (Actor actor in level.actors)
+                if (actor is Enemy && actor._Cell.Visible)
+                    nearbyEnemy = true;
+            if (nearbyEnemy)
+            {
+                GameLog.Send($"An enemy is nearby!", MessageColour.Red);
+                break;
+            }
         }
     }
 
+    // Attempt to move to another cell by Vector
+    protected override void TryMove(Vector2Int move)
+    {
+        Cell destinationCell;
+        Vector2Int destinationPos =
+            new Vector2Int((int)transform.position.x + move.x, (int)transform.position.y + move.y);
+        destinationCell = level.Cells[destinationPos.x, destinationPos.y];
+        if (destinationCell != null && destinationCell.IsWalkable())
+            PlayerMove(destinationCell);
+        else if (destinationCell._Actor != null)
+            Attack(destinationCell);
+    }
+
     // Actually make the move to another cell
-    private void Move(Cell destinationCell)
+    private void PlayerMove(Cell destinationCell)
     {
         MoveToCell(destinationCell);
-        currentLevel.RefreshFOV();
-        TurnController.turnController.ChangeTurn();
+        level.RefreshFOV();
+        TurnController.instance.ChangeTurn();
+    }
+
+    // Handle the player's death
+    protected override void OnDeath()
+    {
+        TurnController.instance.gameState = GameState.PlayersDead;
+        GameLog.Send("You have expired...", MessageColour.Purple);
     }
 }

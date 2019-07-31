@@ -46,7 +46,7 @@ public class LevelGen
                 {
                     Vector2Int prevCenter = rooms[numRooms - 1].Center();
 
-                    if (Random.Range(0, 1) == 1)
+                    if (Random.Range(0, 2) == 1)
                     {
                         CreateHorizontalTunnel(ref map, prevCenter.x, newCenter.x, prevCenter.y);
                         CreateVerticalTunnel(ref map, prevCenter.y, newCenter.y, newCenter.x);

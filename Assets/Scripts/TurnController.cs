@@ -6,26 +6,27 @@ using System;
 public enum GameState
 {
     Player0Turn = 0,
-    EnemyTurn = 1
+    EnemyTurn = 1,
+    PlayersDead = 2
 }
 
 public class TurnController : MonoBehaviour
 {
     // Singleton
-    public static TurnController turnController;
+    public static TurnController instance;
 
-    public int round = 0;
     public int turn = 0;
 
     public GameState gameState = GameState.Player0Turn;
 
     // Events
-    public event Action OnEnemyTurnEvent;
+    public event Action OnTurnChangeEvent;
+    public event Action OnNPCTurnEvent;
 
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
-        turnController = this;
+        instance = this;
     }
 
     // Change turn over to next state
@@ -35,13 +36,12 @@ public class TurnController : MonoBehaviour
         {
             case GameState.Player0Turn:
                 gameState = GameState.EnemyTurn;
-                //Debug.Log("Enemies taking turn.");
                 DoEnemyTurn();
                 break;
             case GameState.EnemyTurn:
                 gameState = GameState.Player0Turn;
-                //Debug.Log("Players taking turn");
-                round++;
+                // End of round
+                OnTurnChangeEvent?.Invoke();
                 break;
         }
         turn++;
@@ -51,7 +51,7 @@ public class TurnController : MonoBehaviour
     // and then change back to players
     private void DoEnemyTurn()
     {
-        OnEnemyTurnEvent?.Invoke();
+        OnNPCTurnEvent?.Invoke();
         ChangeTurn();
     }
 }

@@ -18,6 +18,11 @@ public class MouseControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CellActions();
+    }
+
+    private void CellActions()
+    {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         // Offset tile anchor
         mousePos.x += Cell.TileOffsetX;
@@ -25,8 +30,11 @@ public class MouseControl : MonoBehaviour
         Vector3Int posInt = grid.LocalToCell(mousePos);
         Cell cell;
 
-        if (mousePos.x >= 1 && mousePos.y >= 1 && mousePos.x < level.LevelSize.x && mousePos.y < level.LevelSize.y)
+        if (mousePos.x >= 1 && mousePos.y >= 1 &&
+            mousePos.x < level.LevelSize.x && mousePos.y < level.LevelSize.y)
+        {
             cell = level.GetCell((Vector2Int)posInt);
+        }
         else
             cell = null;
 
@@ -36,16 +44,15 @@ public class MouseControl : MonoBehaviour
             crosshair.transform.position = crosshairPos;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) &&
+            TurnController.instance.gameState == GameState.Player0Turn)
         {
             path = level.pf.GetCellPath(level._player.Position, cell.Position);
             player.MoveAlongPath(path);
         }
-
-        if (Input.GetMouseButtonDown(1))
-            Debug.Log(cell);
-
-        if (Input.GetMouseButtonDown(2))
+        else if (Input.GetMouseButtonDown(1))
+            GameLog.Send(cell.ToString(), MessageColour.White);
+        else if (Input.GetMouseButtonDown(2))
             DebugChangeCell(cell);
     }
 

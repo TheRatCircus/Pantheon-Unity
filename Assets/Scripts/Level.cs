@@ -19,6 +19,8 @@ public class Level : MonoBehaviour
     Vector2Int levelSize;
     Vector2Int spawnPoint;
 
+    // Contents
+    public Actor[] actors;
     Player player;
     public Player _player { get => player; }
 
@@ -52,6 +54,19 @@ public class Level : MonoBehaviour
             throw new System.Exception($"Attempt to access out-of-bounds cell {pos.x}, {pos.y}");
     }
 
+    public Cell GetRandomWalkable()
+    {
+        Cell cell;
+        do
+        {
+            Vector2Int randomPosition = new Vector2Int();
+            randomPosition.x = Random.Range(0, LevelSize.x);
+            randomPosition.y = Random.Range(0, LevelSize.y);
+            cell = GetCell(randomPosition);
+        } while (!cell.IsWalkable());
+        return cell;
+    }
+
     // Put the player in their spawn position
     public void SpawnPlayer()
     {
@@ -63,16 +78,21 @@ public class Level : MonoBehaviour
     public bool Contains(Vector2Int pos)
     {
         if (pos.x < levelSize.x && pos.y < levelSize.y)
-            return (pos.x > 0 && pos.y > 0);
+            return (pos.x >= 0 && pos.y >= 0);
         else return false;
     }
 
     // Change visibility and reveal new cells. Only call when a player spawns
     // or moves/is moved
-    public void RefreshFOV()
+    public List<Cell> RefreshFOV()
     {
+        List<Cell> refreshedCells = new List<Cell>();
         for (int octant = 0; octant < 8; octant++)
-            cellDrawer.DrawCells(ShadowOctant(player.Position, octant));
+        {
+            refreshedCells.AddRange(ShadowOctant(player.Position, octant));
+        }
+        cellDrawer.DrawCells(refreshedCells);
+        return refreshedCells;
     }
 
     // Generate an octant of shadows, and return the FOV area to be redrawn

@@ -57,8 +57,11 @@ public class PathFinder
         List<Cell> cellPath = new List<Cell>();
         List<Node> nodes = FindPath(startPos, targetPos);
 
-        foreach (Node n in nodes)
-            cellPath.Add(NodeToCell(n));
+        if (nodes != null)
+        {
+            foreach (Node n in nodes)
+                cellPath.Add(NodeToCell(n));
+        }
 
         return cellPath;
     }
