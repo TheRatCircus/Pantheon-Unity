@@ -1,4 +1,6 @@
-# Ignore Unity temp files
+# Ignore Unity and MSVS temp files
 Temp
 Library/CrashedAssetImports.txt
 Library/EditorInstance.json
+Library/shadercompiler-UnityShaderCompiler.exe0.log
+.vs/Pantheon/v15/Server/sqlite3/storage.ide-shm
