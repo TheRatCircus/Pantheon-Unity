@@ -3,47 +3,38 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 
-public class CellDrawer : MonoBehaviour
+public static class CellDrawer
 {
-    public Tilemap tilemap;
-    public Level level;
-
-    // TODO: Cleanup
-
     // Draw a single cell
-    public void DrawCell(Cell cell)
+    public static void DrawCell(Level level, Cell cell)
     {
-        DrawTile(cell);
+        DrawTile(level, cell);
     }
 
     // Draw a list of cells
-    public void DrawCells(List<Cell> cells)
+    public static void DrawCells(Level level, List<Cell> cells)
     {
         foreach (Cell cell in cells)
-        {
-            DrawTile(cell);
-        }
+            DrawTile(level, cell);
     }
 
     // Draw the whole level
-    public void DrawLevel(Level level)
+    public static void DrawLevel(Level level)
     {
         foreach (Cell cell in level.Cells)
-        {
-            DrawTile(cell);
-        }
+            DrawTile(level, cell);
     }
 
     // Draw a cell's tile
-    public void DrawTile(Cell cell)
+    public static void DrawTile(Level level, Cell cell)
     {
         if (!cell.Revealed)
-            tilemap.SetTile((Vector3Int)cell.Position, level.unknownTile);
+            level.Tilemap.SetTile((Vector3Int)cell.Position, level.unknownTile);
         else
         {
-            tilemap.SetTile((Vector3Int)cell.Position,
+            level.Tilemap.SetTile((Vector3Int)cell.Position,
                 cell.Blocked ? level.wallTile : level.groundTile);
-            tilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
+            level.Tilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
         }
     }
 }

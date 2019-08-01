@@ -1,5 +1,4 @@
 ﻿// Player controller
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,35 +30,24 @@ public class Player : Actor
     {
         if (TurnController.instance.gameState == GameState.Player0Turn)
         {
-            // TODO: Clean this up
             if (Input.GetButtonDown("Up"))
-                TryMove(new Vector2Int(0, 1));
+                PlayerTryMove(new Vector2Int(0, 1));
             else if (Input.GetButtonDown("Down"))
-                TryMove(new Vector2Int(0, -1));
+                PlayerTryMove(new Vector2Int(0, -1));
             else if (Input.GetButtonDown("Left"))
-                TryMove(new Vector2Int(-1, 0));
+                PlayerTryMove(new Vector2Int(-1, 0));
             else if (Input.GetButtonDown("Right"))
-                TryMove(new Vector2Int(1, 0));
+                PlayerTryMove(new Vector2Int(1, 0));
             else if (Input.GetButtonDown("Up Left"))
-                TryMove(new Vector2Int(-1, 1));
+                PlayerTryMove(new Vector2Int(-1, 1));
             else if (Input.GetButtonDown("Up Right"))
-                TryMove(new Vector2Int(1, 1));
+                PlayerTryMove(new Vector2Int(1, 1));
             else if (Input.GetButtonDown("Down Left"))
-                TryMove(new Vector2Int(-1, -1));
+                PlayerTryMove(new Vector2Int(-1, -1));
             else if (Input.GetButtonDown("Down Right"))
-                TryMove(new Vector2Int(1, -1));
+                PlayerTryMove(new Vector2Int(1, -1));
             else if (Input.GetButtonDown("Wait"))
                 TurnController.instance.ChangeTurn();
-        }
-    }
-
-    // Attempt to move along a path given a destination
-    public void MoveAlongPath(Vector2Int targetPos)
-    {
-        List<Cell> path = level.pf.GetCellPath(Position, targetPos);
-        foreach (Cell cell in path)
-        {
-            PlayerMove(cell);
         }
     }
 
@@ -69,7 +57,6 @@ public class Player : Actor
         foreach (Cell cell in path)
         {
             bool nearbyEnemy = false;
-            PlayerMove(cell);
             foreach (Actor actor in level.actors)
                 if (actor is Enemy && actor._Cell.Visible)
                     nearbyEnemy = true;
@@ -78,20 +65,27 @@ public class Player : Actor
                 GameLog.Send($"An enemy is nearby!", MessageColour.Red);
                 break;
             }
+            PlayerTryMove(cell);
         }
     }
 
-    // Attempt to move to another cell by Vector
-    protected override void TryMove(Vector2Int move)
+    // Attempt to move to another given Cell
+    private void PlayerTryMove(Cell cell)
     {
-        Cell destinationCell;
-        Vector2Int destinationPos =
-            new Vector2Int((int)transform.position.x + move.x, (int)transform.position.y + move.y);
-        destinationCell = level.Cells[destinationPos.x, destinationPos.y];
-        if (destinationCell != null && destinationCell.IsWalkable())
-            PlayerMove(destinationCell);
-        else if (destinationCell._Actor != null)
-            Attack(destinationCell);
+        if (cell != null && cell.IsWalkable())
+            PlayerMove(cell);
+        else if (cell._Actor != null)
+            Attack(cell);
+    }
+
+    // Attempt to move to another cell by delta Vector
+    private void PlayerTryMove(Vector2Int pos)
+    {
+        Cell cell = level.GetCell(this.cell.Position + pos);
+        if (cell != null && cell.IsWalkable())
+            PlayerMove(cell);
+        else if (cell._Actor != null)
+            Attack(cell);
     }
 
     // Actually make the move to another cell

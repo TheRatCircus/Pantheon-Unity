@@ -51,19 +51,6 @@ public class Actor : MonoBehaviour
         health = maxHealth;
     }
 
-    // Attempt to move to another cell by Vector
-    protected virtual void TryMove(Vector2Int move)
-    {
-        Cell destinationCell;
-        Vector2Int destinationPos =
-            new Vector2Int((int)transform.position.x + move.x, (int)transform.position.y + move.y);
-        destinationCell = level.Cells[destinationPos.x, destinationPos.y];
-        if (destinationCell != null && destinationCell.IsWalkable())
-            MoveToCell(destinationCell);
-        else if (destinationCell._Actor != null)
-            Attack(destinationCell);
-    }
-
     // Attempt to move to another given Cell
     protected virtual void TryMove(Cell destinationCell)
     {
@@ -73,7 +60,7 @@ public class Actor : MonoBehaviour
             Attack(destinationCell);
     }
 
-    // Move this actor to a new cell by reference
+    // Move this actor to a new cell
     public void MoveToCell(Cell cell)
     {
         // Save previous cell temporarily
@@ -86,22 +73,6 @@ public class Actor : MonoBehaviour
         if (prevCell != null)
             prevCell._Actor = null;
         OnMoveEvent?.Invoke(cell);
-    }
-
-    // Move this actor to a new cell by position
-    public void MoveToCell(Vector2Int pos)
-    {
-        // Save previous cell temporarily
-        Cell prevCell = cell;
-        transform.position = Helpers.V2IToV3(pos);
-        // Reassign new cell
-        Cell newCell = level.GetCell(pos);
-        cell = newCell;
-        newCell._Actor = this;
-        // Empty previous cell
-        if (prevCell != null)
-            prevCell._Actor = null;
-        OnMoveEvent?.Invoke(newCell);
     }
 
     // Make a melee attack on another cell
@@ -134,18 +105,6 @@ public class Actor : MonoBehaviour
         level.actors.Remove(this);
         Destroy(gameObject);
         GameLog.Send($"You kill the {actorName}!", MessageColour.White);
-        MakeEntity.instance.MakeCorpseAt(corpsePrefab, cell);
-    }
-
-    // Calc distance to another cell
-    public int DistanceTo(Cell other)
-    {
-        return (int)Vector2Int.Distance(other.Position, cell.Position);
-    }
-
-    // Calc distance to another actor
-    public int DistanceTo(Actor other)
-    {
-        return (int)Vector2Int.Distance(other._Cell.Position, _Cell.Position);
+        MakeEntity.instance.MakeCorpseAt(corpsePrefab, level, cell);
     }
 }

@@ -50,9 +50,7 @@ public class Enemy : Actor
 
         // Engage in combat
         if (target != null)
-        {
             PathMoveToTarget();
-        }
     }
 
     // Make a single move along a path towards a target
@@ -63,6 +61,7 @@ public class Enemy : Actor
             TryMove(path[0]);
     }
 
+    // Handle enemy death
     protected override void OnDeath()
     {
         base.OnDeath();

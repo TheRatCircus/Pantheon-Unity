@@ -4,9 +4,11 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
+    // Requisite objects
     public GameObject prefab;
     public Transform target;
 
+    // UI elements
     Transform ui;
     Image healthSlider;
 
@@ -27,6 +29,7 @@ public class HealthBar : MonoBehaviour
         targetActor.OnMoveEvent += OnMove;
     }
 
+    // Handle OnHealthChange event
     void OnHealthChange(int health, int maxHealth)
     {
         if (ui != null)
@@ -38,15 +41,17 @@ public class HealthBar : MonoBehaviour
         }
     }
 
+    // Handle OnMove event
     private void OnMove(Cell cell)
     {
         Reposition(cell);
     }
 
+    // Reposition this health bar to a new cell
     private void Reposition(Cell cell)
     {
         Vector3 newPosition = Helpers.V2IToV3(cell.Position);
-        newPosition.y -= .2f;
+        newPosition.y -= .35f;
         ui.position = newPosition;
     }
 }

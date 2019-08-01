@@ -6,8 +6,6 @@ public class MakeEntity : MonoBehaviour
     // Singleton
     public static MakeEntity instance;
 
-    public Transform level;
-
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
@@ -15,9 +13,9 @@ public class MakeEntity : MonoBehaviour
     }
 
     // Make a corpse at a cell
-    public void MakeCorpseAt(GameObject corpsePrefab, Cell cell)
+    public void MakeCorpseAt(GameObject corpsePrefab, Level level, Cell cell)
     {
-        GameObject corpse = Instantiate(corpsePrefab, Helpers.V2IToV3(cell.Position), new Quaternion(), level);
+        GameObject corpse = Instantiate(corpsePrefab, Helpers.V2IToV3(cell.Position), new Quaternion(), level.transform);
         Item corpseItem = corpse.GetComponent<Item>();
         corpseItem.MoveToCell(cell);
     }

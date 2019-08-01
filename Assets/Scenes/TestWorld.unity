@@ -396,9 +396,8 @@ GameObject:
   - component: {fileID: 572823033}
   - component: {fileID: 572823035}
   - component: {fileID: 572823034}
-  - component: {fileID: 572823036}
   m_Layer: 0
-  m_Name: Terrain
+  m_Name: Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -537,20 +536,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!114 &572823036
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 572823032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8b417a2358959c41aaacb1996cd0ac7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tilemap: {fileID: 572823035}
-  level: {fileID: 1137255356}
 --- !u!1 &599566649
 GameObject:
   m_ObjectHideFlags: 0
@@ -578,7 +563,7 @@ RectTransform:
   m_GameObject: {fileID: 599566649}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalScale: {x: 0.225, y: 0.225, z: 1}
   m_Children: []
   m_Father: {fileID: 1299990570}
   m_RootOrder: 0
@@ -872,7 +857,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c9fc20fc6de506468911ff39b63bed4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellDrawer: {fileID: 572823036}
   groundTile: {fileID: 11400000, guid: 54c2dae89fae3a64ca6e01921078e1da, type: 2}
   wallTile: {fileID: 11400000, guid: f182eaa5644255f469402b41bc90904b, type: 2}
   unknownTile: {fileID: 11400000, guid: 200c77702078a4e4d90e808bf9898762, type: 2}

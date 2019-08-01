@@ -2,7 +2,7 @@
 using UnityEngine;
 using System;
 
-// Represents the finite list of states the game can be in
+// Represents the list of states the game can be in
 public enum GameState
 {
     Player0Turn = 0,
@@ -15,8 +15,10 @@ public class TurnController : MonoBehaviour
     // Singleton
     public static TurnController instance;
 
+    // Current turn
     public int turn = 0;
 
+    // The game's state
     public GameState gameState = GameState.Player0Turn;
 
     // Events
@@ -41,10 +43,16 @@ public class TurnController : MonoBehaviour
             case GameState.EnemyTurn:
                 gameState = GameState.Player0Turn;
                 // End of round
+                turn++;
                 OnTurnChangeEvent?.Invoke();
                 break;
         }
-        turn++;
+    }
+
+    // Check if player's turn to avoid unwieldy comparisons in other code
+    public static bool IsPlayerTurn()
+    {
+        return instance.gameState == GameState.Player0Turn;
     }
 
     // Send event to all enemies allowing them to carry out their turn,

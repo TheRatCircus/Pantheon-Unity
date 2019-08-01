@@ -4,16 +4,6 @@ using UnityEngine;
 
 public static class Bresenham
 {
-    // Swap two references
-    // TODO: Maybe move this elsewhere?
-    static void Swap<T>(ref T lhs, ref T rhs)
-    {
-        T temp;
-        temp = lhs;
-        lhs = rhs;
-        rhs = temp;
-    }
-
     // Plot a path via Bresenham's Line Algorithm
     static private List<Cell> GetPath(Cell origin, Cell target)
     {
@@ -27,13 +17,13 @@ public static class Bresenham
         bool steep = Mathf.Abs(y1 - y0) > Mathf.Abs(x1 - x0);
         if (steep)
         {
-            Swap(ref x0, ref y0);
-            Swap(ref x1, ref y1);
+            Helpers.Swap(ref x0, ref y0);
+            Helpers.Swap(ref x1, ref y1);
         }
         if (x0 > x1)
         {
-            Swap(ref x0, ref x1);
-            Swap(ref y0, ref y1);
+            Helpers.Swap(ref x0, ref x1);
+            Helpers.Swap(ref y0, ref y1);
         }
 
         int dX = (x1 - x0), dY = Mathf.Abs(y1 - y0), err = (dX / 2), ystep = (y0 < y1 ? 1 : -1), y = y0;

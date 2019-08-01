@@ -43,11 +43,17 @@ public class GameLog : MonoBehaviour
             case MessageColour.White:
                 colourStyleStr = "white";
                 break;
+            case MessageColour.Grey:
+                colourStyleStr = "grey";
+                break;
             case MessageColour.Yellow:
                 colourStyleStr = "yellow";
                 break;
             case MessageColour.Red:
                 colourStyleStr = "red";
+                break;
+            case MessageColour.Purple:
+                colourStyleStr = "purple";
                 break;
             default:
                 colourStyleStr = "white";

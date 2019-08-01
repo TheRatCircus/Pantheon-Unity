@@ -30,9 +30,7 @@ public class PathFinder
         List<Node> neighbours = new List<Node>();
 
         for (int x = -1; x <= 1; x++)
-        {
             for (int y = -1; y <= 1; y++)
-            {
                 if (x == 0 && y == 0)
                     continue;
                 else
@@ -46,8 +44,6 @@ public class PathFinder
                         neighbours.Add(map[checkX, checkY]);
                     }
                 }
-            }
-        }
         return neighbours;
     }
 
@@ -58,10 +54,8 @@ public class PathFinder
         List<Node> nodes = FindPath(startPos, targetPos);
 
         if (nodes != null)
-        {
             foreach (Node n in nodes)
                 cellPath.Add(NodeToCell(n));
-        }
 
         return cellPath;
     }
@@ -92,16 +86,12 @@ public class PathFinder
             closedSet.Add(currentNode);
 
             if (currentNode == targetNode)
-            {
                 return RetracePath(startNode, targetNode);
-            }
 
             foreach (Node neighbour in GetNeighbours(currentNode))
             {
                 if (neighbour.blocked || closedSet.Contains(neighbour))
-                {
                     continue;
-                }
 
                 int newMoveCostToNeighbour = currentNode.GCost + GetDistance(currentNode, neighbour);
                 if (newMoveCostToNeighbour < neighbour.GCost || !openSet.Contains(neighbour))
@@ -111,9 +101,7 @@ public class PathFinder
                     neighbour.parent = currentNode;
 
                     if (!openSet.Contains(neighbour))
-                    {
                         openSet.Add(neighbour);
-                    }
                 }
             }
         }

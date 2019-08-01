@@ -4,14 +4,15 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
-    public Player player;
-
+    // UI elements
     public Text turnCounter;
     public Text healthCounter;
 
+    // Start is called before the first frame update
     private void Start()
     {
         TurnController.instance.OnTurnChangeEvent += UpdateTurnCounter;
+        Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         player.OnHealthChangeEvent += UpdateHealthCounter;
         UpdateTurnCounter();
         healthCounter.text = $"Health: {player.Health} / {player.MaxHealth}";

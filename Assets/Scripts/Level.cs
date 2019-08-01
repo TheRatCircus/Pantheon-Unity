@@ -7,7 +7,8 @@ public class Level : MonoBehaviour
 {
     // Requisite objects
     public PathFinder pf;
-    public CellDrawer cellDrawer;
+
+    private Tilemap tilemap;
     public Tile groundTile;
     public Tile wallTile;
     public Tile unknownTile;
@@ -18,7 +19,6 @@ public class Level : MonoBehaviour
     // Attributes of the level
     Vector2Int levelSize;
     Vector2Int spawnPoint;
-    public Vector2Int SpawnPoint { get => spawnPoint; }
 
     // Contents
     public List<Actor> actors;
@@ -28,6 +28,7 @@ public class Level : MonoBehaviour
     // Properties
     public Cell[,] Cells { get => cells; }
     public Vector2Int LevelSize { get => levelSize; }
+    public Tilemap Tilemap { get => tilemap; }
 
     // Awake is called when the script instance is being loaded
     private void Awake()
@@ -41,8 +42,9 @@ public class Level : MonoBehaviour
     {
         player = GameObject.Find("PlayerCharacter").GetComponent<Player>();
         pf = new PathFinder(this);
+        tilemap = transform.GetComponentInChildren<Tilemap>();
 
-        cellDrawer.DrawLevel(this);
+        CellDrawer.DrawLevel(this);
         SpawnPlayer();
     }
 
@@ -55,6 +57,7 @@ public class Level : MonoBehaviour
             throw new System.Exception($"Attempt to access out-of-bounds cell {pos.x}, {pos.y}");
     }
 
+    // Find a random walkable cell in the level
     public Cell GetRandomWalkable()
     {
         Cell cell;
@@ -71,7 +74,7 @@ public class Level : MonoBehaviour
     // Put the player in their spawn position
     public void SpawnPlayer()
     {
-        player.MoveToCell(spawnPoint);
+        player.MoveToCell(GetCell(spawnPoint));
         RefreshFOV();
     }
 
@@ -85,15 +88,10 @@ public class Level : MonoBehaviour
 
     // Change visibility and reveal new cells. Only call when a player spawns
     // or moves/is moved
-    public List<Cell> RefreshFOV()
+    public void RefreshFOV()
     {
-        List<Cell> refreshedCells = new List<Cell>();
         for (int octant = 0; octant < 8; octant++)
-        {
-            refreshedCells.AddRange(ShadowOctant(player.Position, octant));
-        }
-        cellDrawer.DrawCells(refreshedCells);
-        return refreshedCells;
+            CellDrawer.DrawCells(this, ShadowOctant(player.Position, octant));
     }
 
     // Generate an octant of shadows, and return the FOV area to be redrawn
@@ -133,7 +131,6 @@ public class Level : MonoBehaviour
                         fullShadow = line.IsFullShadow();
                     }
                 }
-                Debug.Log(pos + " " + cells[pos.x, pos.y].Visible);
             }
         }
         return ret;

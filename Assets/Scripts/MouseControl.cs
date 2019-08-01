@@ -21,6 +21,7 @@ public class MouseControl : MonoBehaviour
         CellActions();
     }
 
+    // Mouse interactions with cells
     private void CellActions()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -42,18 +43,19 @@ public class MouseControl : MonoBehaviour
         {
             Vector3 crosshairPos = new Vector3(cell.Position.x, cell.Position.y, 0);
             crosshair.transform.position = crosshairPos;
-        }
 
-        if (Input.GetMouseButtonDown(0) &&
-            TurnController.instance.gameState == GameState.Player0Turn)
-        {
-            path = level.pf.GetCellPath(level._player.Position, cell.Position);
-            player.MoveAlongPath(path);
+            if (Input.GetMouseButtonDown(0) &&
+                TurnController.IsPlayerTurn() &&
+                cell.Revealed)
+            {
+                path = level.pf.GetCellPath(level._player.Position, cell.Position);
+                player.MoveAlongPath(path);
+            }
+            else if (Input.GetMouseButtonDown(1))
+                GameLog.Send(cell.ToString(), MessageColour.White);
+            else if (Input.GetMouseButtonDown(2))
+                DebugChangeCell(cell);
         }
-        else if (Input.GetMouseButtonDown(1))
-            GameLog.Send(cell.ToString(), MessageColour.White);
-        else if (Input.GetMouseButtonDown(2))
-            DebugChangeCell(cell);
     }
 
     // Gizmo vars
@@ -78,12 +80,7 @@ public class MouseControl : MonoBehaviour
     private void OnDrawGizmos()
     {
         if (path != null)
-        {
             foreach (Cell c in path)
-            {
                 Gizmos.DrawWireCube(Helpers.V2IToV3(c.Position), new Vector3(.5f, .5f, .5f));
-            }
-        }
-
     }
 }
