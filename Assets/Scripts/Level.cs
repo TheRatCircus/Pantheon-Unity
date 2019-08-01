@@ -92,7 +92,7 @@ public class Level : MonoBehaviour
             do
             {
                 if (attempts > 100)
-                    throw new UnityException("Attempt to generate new enemy position failed");
+                    throw new System.Exception("Attempt to generate new enemy position failed");
                 cell = GetRandomWalkable();
                 attempts++;
             } while (Distance(cell, GetCell(spawnPoint)) <= 7);
@@ -119,10 +119,10 @@ public class Level : MonoBehaviour
     // Get the distance between two cells on this level
     public int Distance(Cell a, Cell b)
     {
-        int dx = a.Position.x - b.Position.x;
-        int dy = a.Position.y - b.Position.y;
+        int dx = b.Position.x - a.Position.x;
+        int dy = b.Position.y - a.Position.y;
 
-        return (int)Mathf.Sqrt(dx * 2 + dy * 2);
+        return (int)Mathf.Sqrt(Mathf.Pow(dx, 2) + Mathf.Pow(dy, 2));
     }
 
     // Generate an octant of shadows, and return the FOV area to be redrawn
