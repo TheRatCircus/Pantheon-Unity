@@ -13,6 +13,8 @@ public class Level : MonoBehaviour
     public Tile wallTile;
     public Tile unknownTile;
 
+    public GameObject enemyPrefab;
+
     // Map data
     private Cell[,] cells;
 
@@ -46,6 +48,7 @@ public class Level : MonoBehaviour
 
         CellDrawer.DrawLevel(this);
         SpawnPlayer();
+        SpawnEnemies();
     }
 
     // Cell accessor, mostly for validation
@@ -78,6 +81,25 @@ public class Level : MonoBehaviour
         RefreshFOV();
     }
 
+    // Spawn some enemies at random about the dungeon, but never too close to
+    // the player spawn point
+    public void SpawnEnemies()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            Cell cell;
+            int attempts = 0;
+            do
+            {
+                if (attempts > 100)
+                    throw new UnityException("Attempt to generate new enemy position failed");
+                cell = GetRandomWalkable();
+                attempts++;
+            } while (Distance(cell, GetCell(spawnPoint)) <= 7);
+            MakeEntity.instance.MakeEnemyAt(enemyPrefab, this, cell);
+        } 
+    }
+
     // Does this Level contain a point?
     public bool Contains(Vector2Int pos)
     {
@@ -92,6 +114,15 @@ public class Level : MonoBehaviour
     {
         for (int octant = 0; octant < 8; octant++)
             CellDrawer.DrawCells(this, ShadowOctant(player.Position, octant));
+    }
+
+    // Get the distance between two cells on this level
+    public int Distance(Cell a, Cell b)
+    {
+        int dx = a.Position.x - b.Position.x;
+        int dy = a.Position.y - b.Position.y;
+
+        return (int)Mathf.Sqrt(dx * 2 + dy * 2);
     }
 
     // Generate an octant of shadows, and return the FOV area to be redrawn
