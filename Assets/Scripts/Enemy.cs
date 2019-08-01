@@ -24,12 +24,12 @@ public class Enemy : Actor
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.enabled = false;
 
         TurnController.instance.OnNPCTurnEvent += DecideAction;
         TurnController.instance.OnTurnChangeEvent += TurnUpdate;
 
         MoveToCell(level.GetRandomWalkable());
+        spriteRenderer.enabled = cell.Visible;
     }
 
     // Changes made to this actor on a per-turn basis

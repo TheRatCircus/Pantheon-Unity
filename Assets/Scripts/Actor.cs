@@ -36,12 +36,14 @@ public class Actor : MonoBehaviour
             health = Mathf.Clamp(value, -255, maxHealth);
             if (health <= 0)
                 OnDeath();
-            OnHealthChangeEvent?.Invoke();
+            OnHealthChangeEvent?.Invoke(health, maxHealth);
         }
     }
+    public int MaxHealth { get => maxHealth; }
 
     // Events
-    public event Action OnHealthChangeEvent;
+    public event Action<int, int> OnHealthChangeEvent;
+    public event Action<Cell> OnMoveEvent;
 
     // Awake is called when the script instance is being loaded
     protected virtual void Awake()
@@ -76,13 +78,14 @@ public class Actor : MonoBehaviour
     {
         // Save previous cell temporarily
         Cell prevCell = this.cell;
-        transform.position = Helpers.GridToVector3(cell.Position);
+        transform.position = Helpers.V2IToV3(cell.Position);
         // Reassign new cell
         cell._Actor = this;
         this.cell = cell;
         // Empty previous cell
         if (prevCell != null)
             prevCell._Actor = null;
+        OnMoveEvent?.Invoke(cell);
     }
 
     // Move this actor to a new cell by position
@@ -90,7 +93,7 @@ public class Actor : MonoBehaviour
     {
         // Save previous cell temporarily
         Cell prevCell = cell;
-        transform.position = Helpers.GridToVector3(pos);
+        transform.position = Helpers.V2IToV3(pos);
         // Reassign new cell
         Cell newCell = level.GetCell(pos);
         cell = newCell;
@@ -98,6 +101,7 @@ public class Actor : MonoBehaviour
         // Empty previous cell
         if (prevCell != null)
             prevCell._Actor = null;
+        OnMoveEvent?.Invoke(newCell);
     }
 
     // Make a melee attack on another cell
@@ -120,8 +124,8 @@ public class Actor : MonoBehaviour
     public void MeleeHit(Actor target)
     {
         int damageDealt = UnityEngine.Random.Range(minDamage, maxDamage + 1);
-        target.Health -= damageDealt;
         GameLog.Send($"{(this is Player ? "You hit the goblin." : "The goblin hits you.")}", MessageColour.White);
+        target.Health -= damageDealt;
     }
 
     // Handle this actor's death

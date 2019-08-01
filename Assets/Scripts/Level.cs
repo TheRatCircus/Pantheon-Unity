@@ -18,6 +18,7 @@ public class Level : MonoBehaviour
     // Attributes of the level
     Vector2Int levelSize;
     Vector2Int spawnPoint;
+    public Vector2Int SpawnPoint { get => spawnPoint; }
 
     // Contents
     public List<Actor> actors;
@@ -132,6 +133,7 @@ public class Level : MonoBehaviour
                         fullShadow = line.IsFullShadow();
                     }
                 }
+                Debug.Log(pos + " " + cells[pos.x, pos.y].Visible);
             }
         }
         return ret;

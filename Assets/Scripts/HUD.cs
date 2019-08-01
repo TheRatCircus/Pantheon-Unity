@@ -14,7 +14,7 @@ public class HUD : MonoBehaviour
         TurnController.instance.OnTurnChangeEvent += UpdateTurnCounter;
         player.OnHealthChangeEvent += UpdateHealthCounter;
         UpdateTurnCounter();
-        UpdateHealthCounter();
+        healthCounter.text = $"Health: {player.Health} / {player.MaxHealth}";
     }
 
     // Update the turn counter
@@ -25,9 +25,9 @@ public class HUD : MonoBehaviour
     }
 
     // Update the health counter
-    private void UpdateHealthCounter()
+    private void UpdateHealthCounter(int health, int maxHealth)
     {
-        string healthCounterStr = $"Health: {player.Health}";
+        string healthCounterStr = $"Health: {health} / {maxHealth}";
         healthCounter.text = healthCounterStr;
     }
 }

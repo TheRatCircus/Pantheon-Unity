@@ -3,8 +3,8 @@ using UnityEngine;
 
 public static class Helpers
 {
-    // Convert a position on a grid to a Vector3
-    public static Vector3 GridToVector3(Vector2Int gridPos)
+    // Convert a Vector2Int to a Vector3
+    public static Vector3 V2IToV3(Vector2Int gridPos)
     {
         return new Vector3(gridPos.x, gridPos.y);
     }

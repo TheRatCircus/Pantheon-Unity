@@ -32,6 +32,6 @@ public class Item : MonoBehaviour
             Cell prevCell = this.cell;
         }
         this.cell = cell;
-        transform.position = Helpers.GridToVector3(cell.Position);
+        transform.position = Helpers.V2IToV3(cell.Position);
     }
 }

@@ -17,7 +17,7 @@ public class MakeEntity : MonoBehaviour
     // Make a corpse at a cell
     public void MakeCorpseAt(GameObject corpsePrefab, Cell cell)
     {
-        GameObject corpse = Instantiate(corpsePrefab, Helpers.GridToVector3(cell.Position), new Quaternion(), level);
+        GameObject corpse = Instantiate(corpsePrefab, Helpers.V2IToV3(cell.Position), new Quaternion(), level);
         Item corpseItem = corpse.GetComponent<Item>();
         corpseItem.MoveToCell(cell);
     }

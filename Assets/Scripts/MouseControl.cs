@@ -81,7 +81,7 @@ public class MouseControl : MonoBehaviour
         {
             foreach (Cell c in path)
             {
-                Gizmos.DrawWireCube(Helpers.GridToVector3(c.Position), new Vector3(.5f, .5f, .5f));
+                Gizmos.DrawWireCube(Helpers.V2IToV3(c.Position), new Vector3(.5f, .5f, .5f));
             }
         }
 
