@@ -87,7 +87,7 @@ public class Actor : MonoBehaviour
     {
         if (UnityEngine.Random.Range(0, 101) > 60)
             MeleeHit(target);
-        else
+        else if (target.health > 0)
             GameLog.Send($"{(this is Player ? "You miss the goblin." : "The goblin misses you.")}", MessageColour.White);
     }
 
