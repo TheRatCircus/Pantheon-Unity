@@ -6,7 +6,9 @@ public class Player : Actor
 {
     protected int inventorySize = 40;
     public int InventorySize { get => inventorySize; }
-    private int fovRadius = 7;
+    // FOV radius not in cells but the floating-point distance between player
+    // and point in grid
+    private int fovRadius = 15;
 
     // Properties
     public int FOVRadius { get => fovRadius; }
@@ -54,7 +56,10 @@ public class Player : Actor
             else if (Input.GetButtonDown("Down Right"))
                 PlayerTryMove(new Vector2Int(1, -1));
             else if (Input.GetButtonDown("Wait"))
+            {
                 TurnController.instance.ChangeTurn();
+                level.RefreshFOV();
+            }
             else if (Input.GetButtonDown("Inventory"))
                 OnInventoryToggleEvent?.Invoke();
             else if (Input.GetButtonDown("Pickup"))

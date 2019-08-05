@@ -111,6 +111,8 @@ public class Level : MonoBehaviour
         else return false;
     }
 
+    #region FOV
+
     // Change visibility and reveal new cells. Only call when a player spawns
     // or moves/is moved
     public void RefreshFOV()
@@ -128,35 +130,71 @@ public class Level : MonoBehaviour
         return (int)Mathf.Sqrt(Mathf.Pow(dx, 2) + Mathf.Pow(dy, 2));
     }
 
+    // Coordinates used to transform a point in an octant
+    static Vector2Int[,] octantCoordinates = new Vector2Int[,]
+    {
+        { new Vector2Int(0, -1), new Vector2Int(1, 0) },
+        { new Vector2Int(1, 0), new Vector2Int(0, -1) },
+        { new Vector2Int(1, 0), new Vector2Int(0, 1) },
+        { new Vector2Int(0, 1), new Vector2Int(1, 0) },
+        { new Vector2Int(0, 1), new Vector2Int(-1, 0) },
+        { new Vector2Int(-1, 0), new Vector2Int(0, 1) },
+        { new Vector2Int(-1, 0), new Vector2Int(0, -1) },
+        { new Vector2Int(0, -1), new Vector2Int(-1, 0) }
+    };
+
     // Generate an octant of shadows, and return the FOV area to be redrawn
     public List<Cell> ShadowOctant(Vector2Int origin, int octant)
     {
+        // Increments based off of octantCoordinates
+        var rowInc = octantCoordinates[octant, 0];
+        var colInc = octantCoordinates[octant, 1];
+
         ShadowLine line = new ShadowLine();
         bool fullShadow = false;
         List<Cell> ret = new List<Cell>();
 
-        for (int row = 0; row < player.FOVRadius; row++)
+        for (int row = 0; row < 30; row++)
         {
+            // Record position
+            Vector2Int pos = origin + (rowInc * row);
             // Stop once going out of bounds
-            if (!Contains(origin + TransformOctant(row, 0, octant))) break;
+            if (!Contains(pos)) break;
+
+            bool pastMaxDistance = false;
             for (int col = 0; col <= row; col++)
             {
-                Vector2Int pos = origin + TransformOctant(row, col, octant);
                 // Break on this row if going out of bounds
                 if (!Contains(pos)) break;
-
+                // Add new cells to list of updated cells
                 ret.Add(cells[pos.x, pos.y]);
+                // Visibility fall off over distance
+                int fallOff = 255;
+
                 // If entire row is known to be in shadow, set this cell to be 
                 // in shadow
-                if (fullShadow)
-                    cells[pos.x, pos.y].Visible = false;
+                if (fullShadow || pastMaxDistance)
+                    cells[pos.x, pos.y].SetVisibility(false, fallOff);
                 else
                 {
+                    fallOff = 0;
+                    float distance = Vector2.Distance(origin, pos);
+                    if (distance > player.FOVRadius)
+                    {
+                        fallOff = 255;
+                        pastMaxDistance = true;
+                    }
+                    else
+                    {
+                        float normalized = distance / player.FOVRadius;
+                        normalized = Mathf.Pow(normalized, 2);
+                        fallOff = (int)(normalized * 255);
+                    }
                     Shadow projection = ProjectTile(row, col);
                     
                     // Set the visibility of this tile
                     bool visible = !line.IsInShadow(projection);
-                    cells[pos.x, pos.y].Visible = visible;
+                    cells[pos.x, pos.y].SetVisibility(visible, fallOff);
                     
                     // Add any opaque tiles to the shadow map
                     if (visible && cells[pos.x, pos.y].Opaque)
@@ -165,6 +203,8 @@ public class Level : MonoBehaviour
                         fullShadow = line.IsFullShadow();
                     }
                 }
+                pos += colInc;
+                if (!Contains(pos)) break;
             }
         }
         return ret;
@@ -183,23 +223,6 @@ public class Level : MonoBehaviour
         return new Shadow(topLeft, bottomRight, 
             new Vector2(col, row + 2), 
             new Vector2(col + 1, row + 1));
-    }
-
-    // Transform a point to one of 8 possible octants
-    public Vector2Int TransformOctant(int row, int col, int octant)
-    {
-        switch (octant)
-        {
-            case 0: return new Vector2Int(col, -row);
-            case 1: return new Vector2Int(row, -col);
-            case 2: return new Vector2Int(row, col);
-            case 3: return new Vector2Int(col, row);
-            case 4: return new Vector2Int(-col, row);
-            case 5: return new Vector2Int(-row, col);
-            case 6: return new Vector2Int(-row, -col);
-            case 7: return new Vector2Int(-col, -row);
-        }
-        throw new System.Exception("Bad octant");
     }
 
     // Generate a line of shadows
@@ -308,4 +331,6 @@ public class Level : MonoBehaviour
             return start <= other.Start && end >= other.End;
         }
     }
+
+    #endregion
 }

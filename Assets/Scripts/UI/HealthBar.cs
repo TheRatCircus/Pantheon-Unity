@@ -6,7 +6,6 @@ public class HealthBar : MonoBehaviour
 {
     // Requisite objects
     public GameObject prefab;
-    public Transform target;
 
     // UI elements
     Transform ui;

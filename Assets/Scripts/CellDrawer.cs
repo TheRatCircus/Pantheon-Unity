@@ -34,13 +34,17 @@ public static class CellDrawer
         {
             level.terrainTilemap.SetTile((Vector3Int)cell.Position, cell._terrainData._tile);
             level.terrainTilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
-            if (cell.Visible && cell.Items.Count > 0)
+            if (cell.Revealed && cell.Items.Count > 0)
                 if (cell._actor == null)
                 {
                     Tile itemTile = ScriptableObject.CreateInstance<Tile>();
+                    itemTile.flags = TileFlags.None;
                     itemTile.sprite = cell.Items[0]._sprite;
                     if (itemTile.sprite != null)
+                    {
                         level.itemTilemap.SetTile((Vector3Int)cell.Position, itemTile);
+                        level.itemTilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
+                    }
                     else
                         throw new System.Exception("Attempted to draw an item with no sprite");
                 }

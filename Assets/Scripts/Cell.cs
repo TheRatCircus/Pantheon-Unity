@@ -30,12 +30,6 @@ public class Cell
     public bool Visible
     {
         get => visible;
-        set
-        {
-            visible = value;
-            // If made visible, reveal but never unreveal
-            if (value) Revealed = true;
-        }
     }
     public bool Revealed { get => revealed; set => revealed = value; }
     public Actor _actor { get => actor; set => actor = value; }
@@ -46,6 +40,25 @@ public class Cell
     public Cell(Vector2Int position)
     {
         this.position = position;
+    }
+
+    public void SetVisibility(bool visible, int fallOff)
+    {
+        if (!visible)
+        {
+            this.visible = false;
+            return;
+        }
+        else
+        {
+            if (fallOff > 100)
+                this.visible = false;
+            else
+            {
+                this.visible = true;
+                revealed = true;
+            }
+        }
     }
 
     // Set this cell's terrain type and adjust its attributes accordingly
@@ -65,7 +78,8 @@ public class Cell
     // toString override: returns name of tile, position, contained actor
     public override string ToString()
     {
-        string ret = $"{(revealed ? terrainData.DisplayName : "Unknown terrain")} at {position}";
+        string ret = $"{(visible ? "Visible" : "Unseen")} {(revealed ? terrainData.DisplayName : "Unknown terrain")} at {position}";
+        //string ret = $"{(revealed ? terrainData.DisplayName : "Unknown terrain")} at {position}";
         return ret;
     }
 }

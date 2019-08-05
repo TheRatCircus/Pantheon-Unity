@@ -525,6 +525,7 @@ GameObject:
   - component: {fileID: 297659949}
   - component: {fileID: 297659948}
   - component: {fileID: 297659950}
+  - component: {fileID: 297659951}
   m_Layer: 5
   m_Name: Log
   m_TagString: Untagged
@@ -603,6 +604,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 0
+--- !u!114 &297659951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 297659946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae0b864e5fc9c544f9256f2fceda8a0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventList: []
+  shortEventList: []
+  logText: {fileID: 2022245629}
 --- !u!1 &392357401
 GameObject:
   m_ObjectHideFlags: 0
@@ -1064,9 +1080,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 600936734}
-  - component: {fileID: 600936735}
   - component: {fileID: 600936736}
   - component: {fileID: 600936738}
+  - component: {fileID: 600936735}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -1097,7 +1113,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 600936733}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77e0b6fd977d3f649984adb7bca4531b, type: 3}
+  m_Script: {fileID: 11500000, guid: a9e66a4b1c8cd664299421a055711fa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tilemap: {fileID: 572823035}
@@ -1354,11 +1370,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1056139893}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2eea802bff401f04b82a19ce75112fe6, type: 3}
+  m_Script: {fileID: 11500000, guid: 4564d8b13644750498ab0589c2e10517, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 76116226387992997, guid: 200f7e1c897048e4f96d52e81a3f2c5d, type: 3}
-  target: {fileID: 1056139895}
 --- !u!1 &1064644937
 GameObject:
   m_ObjectHideFlags: 0
@@ -1593,8 +1608,8 @@ GameObject:
   - component: {fileID: 1299990569}
   - component: {fileID: 1299990568}
   - component: {fileID: 1299990567}
-  - component: {fileID: 1299990571}
   - component: {fileID: 1299990572}
+  - component: {fileID: 1299990571}
   m_Layer: 5
   m_Name: HUD
   m_TagString: Untagged
@@ -1694,7 +1709,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1299990566}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51272ccd0f974c34d862a20831b76015, type: 3}
+  m_Script: {fileID: 11500000, guid: 33e499003c01d6d42a7f16869822e0fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   turnCounter: {fileID: 1749549058}
@@ -2144,7 +2159,6 @@ GameObject:
   - component: {fileID: 2022245628}
   - component: {fileID: 2022245630}
   - component: {fileID: 2022245629}
-  - component: {fileID: 2022245631}
   m_Layer: 5
   m_Name: LogText
   m_TagString: Untagged
@@ -2213,18 +2227,3 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2022245627}
   m_CullTransparentMesh: 0
---- !u!114 &2022245631
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2022245627}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52b3f50a418686a4497c93f6369b412a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventList: []
-  shortEventList: []
-  logText: {fileID: 2022245629}
