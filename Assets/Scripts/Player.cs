@@ -127,13 +127,13 @@ public class Player : Actor
         if (cell.Items.Count > 0)
             PickupItem(cell.Items[0]);
         else
-            GameLog.Send("There is nothing here to pickup.", MessageColour.Grey);
+            GameLog.Send("There is nothing here to pick up.", MessageColour.Grey);
     }
 
     // Pick up an item
     protected override void PickupItem(Item item)
     {
-        GameLog.Send($"You picked up a {item.DisplayName}", MessageColour.White);
+        GameLog.Send($"You pick up a {item.DisplayName}", MessageColour.White);
         cell.Items.Remove(item);
         inventory.Add(item);
         item.Owner = this;
@@ -174,6 +174,6 @@ public class Player : Actor
     protected override void OnDeath()
     {
         TurnController.instance.gameState = GameState.PlayersDead;
-        GameLog.Send("You have expired...", MessageColour.Purple);
+        GameLog.Send("You perish...", MessageColour.Purple);
     }
 }

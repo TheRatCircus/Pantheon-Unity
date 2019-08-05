@@ -65,8 +65,7 @@ public class Cell
     // toString override: returns name of tile, position, contained actor
     public override string ToString()
     {
-        string ret = $"{(visible ? "Visible" : "Unseen")} {(opaque ? "Wall" : "Floor")} at {position}" +
-            $" containing {(actor != null ? actor.ToString() : "nothing")}";
+        string ret = $"{(revealed ? terrainData.DisplayName : "Unknown terrain")} at {position}";
         return ret;
     }
 }
