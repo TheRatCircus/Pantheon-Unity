@@ -8,7 +8,9 @@ public class Level : MonoBehaviour
     // Requisite objects
     public PathFinder pf;
 
-    private Tilemap tilemap;
+    public Tilemap terrainTilemap;
+    public Tilemap itemTilemap;
+
     public Tile groundTile;
     public Tile wallTile;
     public Tile unknownTile;
@@ -30,7 +32,6 @@ public class Level : MonoBehaviour
     // Properties
     public Cell[,] Cells { get => cells; }
     public Vector2Int LevelSize { get => levelSize; }
-    public Tilemap Tilemap { get => tilemap; }
 
     // Awake is called when the script instance is being loaded
     private void Awake()
@@ -44,11 +45,11 @@ public class Level : MonoBehaviour
     {
         player = GameObject.Find("PlayerCharacter").GetComponent<Player>();
         pf = new PathFinder(this);
-        tilemap = transform.GetComponentInChildren<Tilemap>();
 
         CellDrawer.DrawLevel(this);
         SpawnPlayer();
         SpawnEnemies();
+        GetRandomWalkable().Items.Add(new Item(Database.GetPotion(PotionType.Health)));
     }
 
     // Cell accessor, mostly for validation
@@ -66,9 +67,11 @@ public class Level : MonoBehaviour
         Cell cell;
         do
         {
-            Vector2Int randomPosition = new Vector2Int();
-            randomPosition.x = Random.Range(0, LevelSize.x);
-            randomPosition.y = Random.Range(0, LevelSize.y);
+            Vector2Int randomPosition = new Vector2Int
+            {
+                x = Random.Range(0, LevelSize.x),
+                y = Random.Range(0, LevelSize.y)
+            };
             cell = GetCell(randomPosition);
         } while (!cell.IsWalkable());
         return cell;
@@ -96,7 +99,7 @@ public class Level : MonoBehaviour
                 cell = GetRandomWalkable();
                 attempts++;
             } while (Distance(cell, GetCell(spawnPoint)) <= 7);
-            MakeEntity.instance.MakeEnemyAt(enemyPrefab, this, cell);
+            MakeEntity.MakeEnemyAt(enemyPrefab, this, cell);
         } 
     }
 
@@ -306,4 +309,3 @@ public class Level : MonoBehaviour
         }
     }
 }
-

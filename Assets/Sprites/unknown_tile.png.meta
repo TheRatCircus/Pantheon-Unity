@@ -86,7 +86,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 8da7fc01440091341b4e4d05206a6f80
     internalID: 0
     vertices: []
     indices: 
@@ -97,5 +97,5 @@ TextureImporter:
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: 
+  assetBundleName: sprites
   assetBundleVariant: 

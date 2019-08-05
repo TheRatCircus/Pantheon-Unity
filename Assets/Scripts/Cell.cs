@@ -1,4 +1,5 @@
 ﻿// Cell data
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Cell
@@ -10,6 +11,7 @@ public class Cell
 
     private Vector2Int position;
 
+    TerrainData terrainData;
     bool blocked = true; // Can cell be moved through?
     bool opaque = true; // Can cell be seen through?
 
@@ -19,6 +21,7 @@ public class Cell
 
     // Contents of cell
     Actor actor = null;
+    List<Item> items = new List<Item>();
 
     // Properties
     public Vector2Int Position { get => position; set => position = value; }
@@ -35,12 +38,22 @@ public class Cell
         }
     }
     public bool Revealed { get => revealed; set => revealed = value; }
-    public Actor _Actor { get => actor; set => actor = value; }
+    public Actor _actor { get => actor; set => actor = value; }
+    public List<Item> Items { get => items; }
+    public TerrainData _terrainData { get => terrainData; }
 
     // Constructor
     public Cell(Vector2Int position)
     {
         this.position = position;
+    }
+
+    // Set this cell's terrain type and adjust its attributes accordingly
+    public void SetTerrainType(TerrainData terrainData)
+    {
+        this.terrainData = terrainData;
+        opaque = terrainData.Opaque;
+        blocked = terrainData.Blocked;
     }
 
     // Check if this cell can be walked into

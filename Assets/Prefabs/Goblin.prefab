@@ -94,9 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: {fileID: 0}
-  corpsePrefab: {fileID: 2203706204201016028, guid: 37c13c22e85bfe342b34170d9080fab9,
-    type: 3}
-  player: {fileID: 0}
+  corpse: 1
 --- !u!114 &7036817240498649621
 MonoBehaviour:
   m_ObjectHideFlags: 0

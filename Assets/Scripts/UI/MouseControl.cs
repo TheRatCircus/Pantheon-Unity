@@ -58,24 +58,18 @@ public class MouseControl : MonoBehaviour
         }
     }
 
-    // Gizmo vars
-    List<Cell> path;
-
     // Debug function to change a floor to a wall and vice-versa
     void DebugChangeCell(Cell cell)
     {
-        if (cell.Blocked)
-        {
-            cell.Blocked = false;
-            cell.Opaque = false;
-        }
-        else
-        {
-            cell.Blocked = true;
-            cell.Opaque = true;
-        }
+        if (cell._terrainData._terrainType == TerrainType.StoneWall)
+            cell.SetTerrainType(Database.GetTerrain(TerrainType.StoneFloor));
+        else if (cell._terrainData._terrainType == TerrainType.StoneFloor)
+            cell.SetTerrainType(Database.GetTerrain(TerrainType.StoneWall));
         level.RefreshFOV();
     }
+
+    // Gizmo vars
+    List<Cell> path;
 
     private void OnDrawGizmos()
     {

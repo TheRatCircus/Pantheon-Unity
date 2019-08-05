@@ -1,9 +1,12 @@
 ﻿// Base class for actors
-using UnityEngine;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class Actor : MonoBehaviour
 {
+    protected List<Item> inventory;
+
     // Locational
     public Level level;
     protected Cell cell;
@@ -21,7 +24,7 @@ public class Actor : MonoBehaviour
     protected int armour;
     protected int evasion;
 
-    public GameObject corpsePrefab;
+    public CorpseType corpse;
 
     // Properties
     public Cell _Cell { get => cell; }
@@ -40,6 +43,7 @@ public class Actor : MonoBehaviour
         }
     }
     public int MaxHealth { get => maxHealth; }
+    public List<Item> Inventory { get => inventory; }
 
     // Events
     public event Action<int, int> OnHealthChangeEvent;
@@ -56,7 +60,7 @@ public class Actor : MonoBehaviour
     {
         if (destinationCell != null && destinationCell.IsWalkable())
             MoveToCell(destinationCell);
-        else if (destinationCell._Actor != null)
+        else if (destinationCell._actor != null)
             Attack(destinationCell);
     }
 
@@ -67,19 +71,19 @@ public class Actor : MonoBehaviour
         Cell prevCell = this.cell;
         transform.position = Helpers.V2IToV3(cell.Position);
         // Reassign new cell
-        cell._Actor = this;
+        cell._actor = this;
         this.cell = cell;
         // Empty previous cell
         if (prevCell != null)
-            prevCell._Actor = null;
+            prevCell._actor = null;
         OnMoveEvent?.Invoke(cell);
     }
 
     // Make a melee attack on another cell
     public void Attack(Cell targetCell)
     {
-        if (targetCell._Actor != null)
-            TryToHit(targetCell._Actor);
+        if (targetCell._actor != null)
+            TryToHit(targetCell._actor);
     }
 
     // Try to hit a target actor
@@ -99,12 +103,23 @@ public class Actor : MonoBehaviour
         target.Health -= damageDealt;
     }
 
+    // Attempt to pick up an item off the current cell
+    protected virtual void TryPickup()
+    {
+    }
+
+    // Pick up an item
+    protected virtual void PickupItem(Item item)
+    {
+        inventory.Add(item);
+    }
+
     // Handle this actor's death
     protected virtual void OnDeath()
     {
         level.actors.Remove(this);
         Destroy(gameObject);
         GameLog.Send($"You kill the {actorName}!", MessageColour.White);
-        MakeEntity.instance.MakeCorpseAt(corpsePrefab, level, cell);
+        cell.Items.Add(new Item(Database.GetCorpse(corpse)));
     }
 }

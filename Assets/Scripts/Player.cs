@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class Player : Actor
 {
+    protected int inventorySize = 40;
+    public int InventorySize { get => inventorySize; }
     private int fovRadius = 7;
 
     // Properties
     public int FOVRadius { get => fovRadius; }
+
+    // Events
+    public event System.Action OnInventoryChangeEvent;
+    public event System.Action OnInventoryToggleEvent;
 
     // Awake is called when the script instance is being loaded
     protected override void Awake()
@@ -17,6 +23,7 @@ public class Player : Actor
         minDamage = 2;
         maxDamage = 4;
         base.Awake();
+        inventory = new List<Item>(inventorySize);
     }
 
     // Update is called once per frame
@@ -48,6 +55,10 @@ public class Player : Actor
                 PlayerTryMove(new Vector2Int(1, -1));
             else if (Input.GetButtonDown("Wait"))
                 TurnController.instance.ChangeTurn();
+            else if (Input.GetButtonDown("Inventory"))
+                OnInventoryToggleEvent?.Invoke();
+            else if (Input.GetButtonDown("Pickup"))
+                TryPickup();
         }
     }
 
@@ -74,7 +85,7 @@ public class Player : Actor
     {
         if (cell != null && cell.IsWalkable())
             PlayerMove(cell);
-        else if (cell._Actor != null)
+        else if (cell._actor != null)
             Attack(cell);
     }
 
@@ -84,7 +95,7 @@ public class Player : Actor
         Cell cell = level.GetCell(this.cell.Position + pos);
         if (cell != null && cell.IsWalkable())
             PlayerMove(cell);
-        else if (cell._Actor != null)
+        else if (cell._actor != null)
             Attack(cell);
     }
 
@@ -92,7 +103,70 @@ public class Player : Actor
     private void PlayerMove(Cell destinationCell)
     {
         MoveToCell(destinationCell);
+        PrintTileContents();
+        TurnController.instance.ChangeTurn();
         level.RefreshFOV();
+    }
+
+    // Send the items in a cell to the game log
+    private void PrintTileContents()
+    {
+        if (cell.Items.Count > 0)
+        {
+            string msg = $"You see here";
+            int i = 0;
+            for (; i < cell.Items.Count; i++)
+                msg += $" a {cell.Items[i].DisplayName};";
+            GameLog.Send(msg, MessageColour.Grey);
+        }
+    }
+
+    // Attempt to pick up an item off the current cell
+    protected override void TryPickup()
+    {
+        if (cell.Items.Count > 0)
+            PickupItem(cell.Items[0]);
+        else
+            GameLog.Send("There is nothing here to pickup.", MessageColour.Grey);
+    }
+
+    // Pick up an item
+    protected override void PickupItem(Item item)
+    {
+        GameLog.Send($"You picked up a {item.DisplayName}", MessageColour.White);
+        cell.Items.Remove(item);
+        inventory.Add(item);
+        item.Owner = this;
+        OnInventoryChangeEvent?.Invoke();
+        TurnController.instance.ChangeTurn();
+    }
+
+    // Try to use an item
+    public void TryUseItem(Item item)
+    {
+        if (item.Usable)
+            UseItem(item);
+        else
+            GameLog.Send("This item cannot be used.", MessageColour.Grey);
+    }
+
+    // Use an item
+    private void UseItem(Item item)
+    {
+        inventory.Remove(item);
+        item.OnUse();
+        OnInventoryChangeEvent?.Invoke();
+        TurnController.instance.ChangeTurn();
+    }
+
+    // Drop an item
+    public void DropItem(Item item)
+    {
+        inventory.Remove(item);
+        cell.Items.Add(item);
+        OnInventoryChangeEvent?.Invoke();
+        level.RefreshFOV();
+        GameLog.Send($"You drop the {item.DisplayName}", MessageColour.Grey);
         TurnController.instance.ChangeTurn();
     }
 

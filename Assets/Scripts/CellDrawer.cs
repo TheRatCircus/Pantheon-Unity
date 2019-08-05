@@ -29,12 +29,23 @@ public static class CellDrawer
     public static void DrawTile(Level level, Cell cell)
     {
         if (!cell.Revealed)
-            level.Tilemap.SetTile((Vector3Int)cell.Position, level.unknownTile);
+            level.terrainTilemap.SetTile((Vector3Int)cell.Position, level.unknownTile);
         else
         {
-            level.Tilemap.SetTile((Vector3Int)cell.Position,
-                cell.Blocked ? level.wallTile : level.groundTile);
-            level.Tilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
+            level.terrainTilemap.SetTile((Vector3Int)cell.Position, cell._terrainData._tile);
+            level.terrainTilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
+            if (cell.Visible && cell.Items.Count > 0)
+                if (cell._actor == null)
+                {
+                    Tile itemTile = ScriptableObject.CreateInstance<Tile>();
+                    itemTile.sprite = cell.Items[0]._sprite;
+                    if (itemTile.sprite != null)
+                        level.itemTilemap.SetTile((Vector3Int)cell.Position, itemTile);
+                    else
+                        throw new System.Exception("Attempted to draw an item with no sprite");
+                }
+                else
+                    level.itemTilemap.SetTile((Vector3Int)cell.Position, null);
         }
     }
 }
