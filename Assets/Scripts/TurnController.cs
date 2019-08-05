@@ -20,6 +20,7 @@ public class TurnController : MonoBehaviour
 
     // The game's state
     public GameState gameState = GameState.Player0Turn;
+    public Level activeLevel;
 
     // Events
     public event Action OnTurnChangeEvent;
@@ -29,7 +30,7 @@ public class TurnController : MonoBehaviour
     private void Awake()
     {
         if (instance != null)
-            Debug.LogWarning("Database singleton assigned in error");
+            Debug.LogWarning("TurnController singleton assigned in error");
         else
             instance = this;
     }
@@ -47,9 +48,10 @@ public class TurnController : MonoBehaviour
                 gameState = GameState.Player0Turn;
                 // End of round
                 turn++;
-                OnTurnChangeEvent?.Invoke();
                 break;
         }
+        activeLevel.RefreshFOV();
+        OnTurnChangeEvent?.Invoke();
     }
 
     // Check if player's turn to avoid unwieldy comparisons in other code

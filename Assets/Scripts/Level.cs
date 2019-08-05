@@ -50,6 +50,7 @@ public class Level : MonoBehaviour
         SpawnPlayer();
         SpawnEnemies();
         GetRandomWalkable().Items.Add(new Item(Database.GetPotion(PotionType.Health)));
+        RefreshFOV();
     }
 
     // Cell accessor, mostly for validation
@@ -81,7 +82,6 @@ public class Level : MonoBehaviour
     public void SpawnPlayer()
     {
         player.MoveToCell(GetCell(spawnPoint));
-        RefreshFOV();
     }
 
     // Spawn some enemies at random about the dungeon, but never too close to
@@ -101,7 +101,7 @@ public class Level : MonoBehaviour
             } while (Distance(cell, GetCell(spawnPoint)) <= 7
             || cell._actor != null);
             MakeEntity.MakeEnemyAt(enemyPrefab, this, cell);
-        } 
+        }
     }
 
     // Does this Level contain a point?
@@ -110,6 +110,12 @@ public class Level : MonoBehaviour
         if (pos.x < levelSize.x && pos.y < levelSize.y)
             return (pos.x >= 0 && pos.y >= 0);
         else return false;
+    }
+
+    // Check if one cell is adjacent to another
+    public bool AdjacentTo(Cell a, Cell b)
+    {
+        return Distance(a, b) <= 1;
     }
 
     #region FOV

@@ -13,6 +13,8 @@ public class Actor : MonoBehaviour
 
     // Actor's personal attributes
     protected string actorName;
+    public bool NameIsProper; // Whether or not to append name with "The"
+
     protected int health;
     protected int maxHealth;
 
@@ -27,7 +29,7 @@ public class Actor : MonoBehaviour
     public CorpseType corpse;
 
     // Properties
-    public Cell _Cell { get => cell; }
+    public Cell _cell { get => cell; }
     public Vector2Int Position { get => cell.Position; }
     public string ActorName { get => actorName; set => actorName = value; }
     public int Health
@@ -50,18 +52,14 @@ public class Actor : MonoBehaviour
     public event Action<Cell> OnMoveEvent;
 
     // Awake is called when the script instance is being loaded
-    protected virtual void Awake()
-    {
-        health = maxHealth;
-    }
+    protected virtual void Awake() => health = maxHealth;
 
     // Attempt to move to another given Cell
     protected virtual void TryMove(Cell destinationCell)
     {
+        Debug.DrawLine(Helpers.V2IToV3(Position), Helpers.V2IToV3(destinationCell.Position), Color.green, 10);
         if (destinationCell != null && destinationCell.IsWalkable())
             MoveToCell(destinationCell);
-        else if (destinationCell._actor != null)
-            Attack(destinationCell);
     }
 
     // Move this actor to a new cell
@@ -80,46 +78,59 @@ public class Actor : MonoBehaviour
     }
 
     // Make a melee attack on another cell
-    public void Attack(Cell targetCell)
+    protected virtual void Attack(Cell targetCell)
     {
-        if (targetCell._actor != null)
-            TryToHit(targetCell._actor);
+        if (level.AdjacentTo(cell, targetCell))
+            if (targetCell._actor != null)
+                TryToHit(targetCell._actor);
+            else
+                GameLog.Send($"{GameLog.GetSubject(this, true)} {(this is Player ? "swing" :  "swings")} at nothing.", MessageColour.Grey);
+        else
+            Debug.LogWarning($"{actorName} attempted to make a melee attack on a non-adjacent cell.");
     }
 
     // Try to hit a target actor
-    public void TryToHit(Actor target)
+    protected virtual void TryToHit(Actor target)
     {
         if (UnityEngine.Random.Range(0, 101) > 60)
             MeleeHit(target);
-        else if (target.health > 0)
-            GameLog.Send($"{(this is Player ? "You miss the goblin." : "The goblin misses you.")}", MessageColour.White);
+        else if (target.Health > 0) // Can't miss a dead target
+            GameLog.Send($"{GameLog.GetSubject(this, true)} {(this is Player ? "miss" : "misses")} {GameLog.GetSubject(target, false)}.", MessageColour.Grey);
     }
 
     // Deal damage to an actor with a successful melee hit
-    public void MeleeHit(Actor target)
+    protected virtual void MeleeHit(Actor target)
     {
         int damageDealt = UnityEngine.Random.Range(minDamage, maxDamage + 1);
-        GameLog.Send($"{(this is Player ? "You hit the goblin." : "The goblin hits you.")}", MessageColour.White);
+        GameLog.Send($"{GameLog.GetSubject(this, true)} {(this is Player ? "hit" : "hits")} {GameLog.GetSubject(target, false)}.", MessageColour.White);
         target.Health -= damageDealt;
     }
 
     // Attempt to pick up an item off the current cell
-    protected virtual void TryPickup()
-    {
-    }
+    protected virtual void TryPickup() { }
 
     // Pick up an item
-    protected virtual void PickupItem(Item item)
-    {
-        inventory.Add(item);
-    }
+    protected virtual void PickupItem(Item item) => inventory.Add(item);
 
     // Handle this actor's death
     protected virtual void OnDeath()
     {
         level.actors.Remove(this);
+        cell._actor = null;
         Destroy(gameObject);
-        GameLog.Send($"You kill the {actorName}!", MessageColour.White);
+        GameLog.Send($"You kill {GameLog.GetSubject(this, false)}!", MessageColour.White);
         cell.Items.Add(new Item(Database.GetCorpse(corpse)));
     }
+
+    // Check if another actor is hostile to this
+    public bool IsHostileToMe(Actor other)
+    {
+        if (this is Player) // Everything else is hostile to player (for now)
+            return true;
+        else // This is an enemy
+            return other is Player; // If other is Player, it's hostile
+    }
+
+    // ToString override
+    public override string ToString() => actorName;
 }

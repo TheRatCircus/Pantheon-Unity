@@ -39,16 +39,20 @@ public class Enemy : Actor
     // Evaluate the situation and decide what to do next
     void DecideAction()
     {
+        
         // Detect player if coming into player's view
         if (cell.Visible && target == null)
         {
             target = level._player;
-            GameLog.Send($"The {actorName} notices you!", MessageColour.Red);
+            GameLog.Send($"{GameLog.GetSubject(this, true)} notices you!", MessageColour.Red);
         }
 
         // Engage in combat
         if (target != null)
-            PathMoveToTarget();
+            if (!level.AdjacentTo(cell, target._cell))
+                PathMoveToTarget();
+            else
+                TryToHit(target);
     }
 
     // Make a single move along a path towards a target

@@ -80,4 +80,15 @@ public class GameLog : MonoBehaviour
 
         instance.logText.text = logStr;
     }
+
+    // Return a subject string
+    public static string GetSubject(Actor actor, bool sentenceStart)
+    {
+        string ret = "";
+        if (actor is Player)
+            ret = sentenceStart ? "You" : "you";
+        else
+            ret = $"{(actor.NameIsProper ? "" : (sentenceStart ? "The " : "the "))}{actor.ActorName}";
+        return ret;
+    }
 }

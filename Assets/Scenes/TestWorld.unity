@@ -1135,6 +1135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turn: 0
   gameState: 0
+  activeLevel: {fileID: 1137255356}
 --- !u!114 &600936738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1360,6 +1361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: {fileID: 1137255356}
+  NameIsProper: 0
   corpse: 0
 --- !u!114 &1056139897
 MonoBehaviour:

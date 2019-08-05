@@ -58,7 +58,6 @@ public class Player : Actor
             else if (Input.GetButtonDown("Wait"))
             {
                 TurnController.instance.ChangeTurn();
-                level.RefreshFOV();
             }
             else if (Input.GetButtonDown("Inventory"))
                 OnInventoryToggleEvent?.Invoke();
@@ -74,7 +73,7 @@ public class Player : Actor
         {
             bool nearbyEnemy = false;
             foreach (Actor actor in level.actors)
-                if (actor is Enemy && actor._Cell.Visible)
+                if (actor is Enemy && actor._cell.Visible)
                     nearbyEnemy = true;
             if (nearbyEnemy)
             {
@@ -110,7 +109,36 @@ public class Player : Actor
         MoveToCell(destinationCell);
         PrintTileContents();
         TurnController.instance.ChangeTurn();
-        level.RefreshFOV();
+    }
+
+    // Try to make a melee attack on a target cell
+    protected override void Attack(Cell targetCell)
+    {
+        if (level.AdjacentTo(cell, targetCell))
+            if (targetCell._actor != null)
+                TryToHit(targetCell._actor);
+            else
+                GameLog.Send($"{GameLog.GetSubject(this, true)} swing at nothing.", MessageColour.Grey);
+        else
+            Debug.LogWarning($"The player attempted to make a melee attack on a non-adjacent cell.");
+    }
+
+    // Try to hit a target actor
+    protected override void TryToHit(Actor target)
+    {
+        if (Random.Range(0, 101) > 80)
+            MeleeHit(target);
+        else if (target.Health > 0) // Can't miss a dead target
+            GameLog.Send($"You miss {GameLog.GetSubject(target, false)}.", MessageColour.Grey);
+        TurnController.instance.ChangeTurn();
+    }
+
+    // Deal damage to an actor with a successful melee hit
+    protected override void MeleeHit(Actor target)
+    {
+        int damageDealt = Random.Range(minDamage, maxDamage + 1);
+        GameLog.Send($"You hit {GameLog.GetSubject(target, false)}.", MessageColour.White);
+        target.Health -= damageDealt;
     }
 
     // Send the items in a cell to the game log
@@ -170,7 +198,6 @@ public class Player : Actor
         inventory.Remove(item);
         cell.Items.Add(item);
         OnInventoryChangeEvent?.Invoke();
-        level.RefreshFOV();
         GameLog.Send($"You drop the {item.DisplayName}", MessageColour.Grey);
         TurnController.instance.ChangeTurn();
     }
@@ -178,6 +205,8 @@ public class Player : Actor
     // Handle the player's death
     protected override void OnDeath()
     {
+        cell._actor = null;
+        level.actors.Remove(this);
         TurnController.instance.gameState = GameState.PlayersDead;
         GameLog.Send("You perish...", MessageColour.Purple);
     }
