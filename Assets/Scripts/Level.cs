@@ -98,7 +98,8 @@ public class Level : MonoBehaviour
                     throw new System.Exception("Attempt to generate new enemy position failed");
                 cell = GetRandomWalkable();
                 attempts++;
-            } while (Distance(cell, GetCell(spawnPoint)) <= 7);
+            } while (Distance(cell, GetCell(spawnPoint)) <= 7
+            || cell._actor != null);
             MakeEntity.MakeEnemyAt(enemyPrefab, this, cell);
         } 
     }
