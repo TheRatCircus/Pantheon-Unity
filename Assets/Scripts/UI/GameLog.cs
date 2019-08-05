@@ -17,7 +17,7 @@ public enum MessageColour
 public class GameLog : MonoBehaviour
 {
     // Singleton
-    public static GameLog gameLog;
+    public static GameLog instance;
 
     // The extended event list for the session
     public List<string> eventList = new List<string>();
@@ -29,7 +29,10 @@ public class GameLog : MonoBehaviour
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
-        gameLog = this;
+        if (instance != null)
+            Debug.LogWarning("Database singleton assigned in error");
+        else
+            instance = this;
     }
 
     // Append the eventList with a new message and add it to the log
@@ -64,17 +67,17 @@ public class GameLog : MonoBehaviour
         string styledStr = $"<color={colourStyleStr}>{msg}</color>";
 
         // Add event to both lists
-        gameLog.eventList.Add(styledStr);
-        gameLog.shortEventList.Add(styledStr);
+        instance.eventList.Add(styledStr);
+        instance.shortEventList.Add(styledStr);
 
         // Cull old messages from top of HUD log
-        if (gameLog.logText.cachedTextGenerator.lines.Count >= 6)
-            gameLog.shortEventList.RemoveAt(0);
+        if (instance.logText.cachedTextGenerator.lines.Count >= 6)
+            instance.shortEventList.RemoveAt(0);
             
         string logStr = "";
-        foreach (string s in gameLog.shortEventList)
+        foreach (string s in instance.shortEventList)
             logStr += $"{s}{Environment.NewLine}";
 
-        gameLog.logText.text = logStr;
+        instance.logText.text = logStr;
     }
 }

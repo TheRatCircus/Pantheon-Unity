@@ -28,7 +28,10 @@ public class TurnController : MonoBehaviour
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
-        instance = this;
+        if (instance != null)
+            Debug.LogWarning("Database singleton assigned in error");
+        else
+            instance = this;
     }
 
     // Change turn over to next state
