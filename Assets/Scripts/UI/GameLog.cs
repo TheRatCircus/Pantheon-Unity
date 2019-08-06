@@ -71,7 +71,7 @@ public class GameLog : MonoBehaviour
         instance.shortEventList.Add(styledStr);
 
         // Cull old messages from top of HUD log
-        if (instance.logText.cachedTextGenerator.lines.Count >= 6)
+        if (instance.logText.cachedTextGenerator.lines.Count >= 9)
             instance.shortEventList.RemoveAt(0);
             
         string logStr = "";
