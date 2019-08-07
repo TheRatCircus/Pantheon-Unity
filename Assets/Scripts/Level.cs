@@ -118,6 +118,20 @@ public class Level : MonoBehaviour
         return Distance(a, b) <= 1;
     }
 
+    // Get an adjacent cell given a direction
+    public Cell GetAdjacentCell(Cell origin, Vector2Int delta)
+    {
+        if (delta.x == 0 && delta.y == 0)
+            throw new System.ArgumentException("Level.GetAdjacentCell requires a non-zero delta");
+        else if (delta.x > 1 || delta.y > 1)
+            Debug.LogWarning("GetAdjacentCell was passed a delta with a value greater than one");
+
+        delta.Clamp(new Vector2Int(-1, -1), new Vector2Int(1, 1));
+
+        Vector2Int newCellPos = origin.Position + delta;
+        return GetCell(newCellPos);
+    }
+
     #region FOV
 
     // Change visibility and reveal new cells. Only call when a player spawns

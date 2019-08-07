@@ -13,7 +13,7 @@ public class Actor : MonoBehaviour
 
     // Actor's personal attributes
     protected string actorName;
-    public bool NameIsProper; // Whether or not to append name with "The"
+    public bool NameIsProper; // False if name should start with "The/the"
 
     protected int health;
     protected int maxHealth;
@@ -23,9 +23,10 @@ public class Actor : MonoBehaviour
     protected int maxDamage;
 
     // Defense attributes
-    protected int armour;
-    protected int evasion;
+    public int armour;
+    public int evasion;
 
+    // Per-actor-type data
     public CorpseType corpse;
 
     // Properties
@@ -57,7 +58,6 @@ public class Actor : MonoBehaviour
     // Attempt to move to another given Cell
     protected virtual void TryMove(Cell destinationCell)
     {
-        Debug.DrawLine(Helpers.V2IToV3(Position), Helpers.V2IToV3(destinationCell.Position), Color.green, 10);
         if (destinationCell != null && destinationCell.IsWalkable())
             MoveToCell(destinationCell);
     }
@@ -112,6 +112,15 @@ public class Actor : MonoBehaviour
     // Pick up an item
     protected virtual void PickupItem(Item item) => inventory.Add(item);
 
+    // Check if another actor is hostile to this
+    public bool IsHostileToMe(Actor other)
+    {
+        if (this is Player) // Everything else is hostile to player (for now)
+            return true;
+        else // This is an enemy
+            return other is Player; // If other is Player, it's hostile
+    }
+
     // Handle this actor's death
     protected virtual void OnDeath()
     {
@@ -120,15 +129,6 @@ public class Actor : MonoBehaviour
         Destroy(gameObject);
         GameLog.Send($"You kill {GameLog.GetSubject(this, false)}!", MessageColour.White);
         cell.Items.Add(new Item(Database.GetCorpse(corpse)));
-    }
-
-    // Check if another actor is hostile to this
-    public bool IsHostileToMe(Actor other)
-    {
-        if (this is Player) // Everything else is hostile to player (for now)
-            return true;
-        else // This is an enemy
-            return other is Player; // If other is Player, it's hostile
     }
 
     // ToString override

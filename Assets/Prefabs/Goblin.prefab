@@ -96,6 +96,11 @@ MonoBehaviour:
   level: {fileID: 0}
   NameIsProper: 0
   corpse: 1
+  head: 1
+  rightArms: 010000000000000000000000
+  rightLegs: 010000000000000000000000
+  leftArms: 010000000000000000000000
+  leftLegs: 010000000000000000000000
 --- !u!114 &-8335030903266508829
 MonoBehaviour:
   m_ObjectHideFlags: 0

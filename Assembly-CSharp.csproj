@@ -83,15 +83,16 @@
     <Compile Include="Assets\Scripts\Node.cs" />
     <Compile Include="Assets\Scripts\Pathfinder.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
+    <Compile Include="Assets\Scripts\PlayerInput.cs" />
     <Compile Include="Assets\Scripts\TerrainData.cs" />
     <Compile Include="Assets\Scripts\TurnController.cs" />
+    <Compile Include="Assets\Scripts\UI\AdvancedAttackUI.cs" />
     <Compile Include="Assets\Scripts\UI\GameLog.cs" />
     <Compile Include="Assets\Scripts\UI\GUIClickController.cs" />
     <Compile Include="Assets\Scripts\UI\HealthBar.cs" />
     <Compile Include="Assets\Scripts\UI\HUD.cs" />
     <Compile Include="Assets\Scripts\UI\InventorySlot.cs" />
     <Compile Include="Assets\Scripts\UI\InventoryUI.cs" />
-    <Compile Include="Assets\Scripts\UI\MouseControl.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/Misc/Development/unity/Pantheon/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

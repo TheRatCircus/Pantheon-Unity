@@ -11,7 +11,8 @@ public enum MessageColour
     Grey,
     Yellow,
     Red,
-    Purple
+    Purple,
+    Teal
 }
 
 public class GameLog : MonoBehaviour
@@ -57,6 +58,9 @@ public class GameLog : MonoBehaviour
                 break;
             case MessageColour.Purple:
                 colourStyleStr = "purple";
+                break;
+            case MessageColour.Teal:
+                colourStyleStr = "teal";
                 break;
             default:
                 colourStyleStr = "white";

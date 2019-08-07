@@ -1,9 +1,12 @@
 ﻿// Player controller
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : Actor
 {
+    private PlayerInput input;
+
     protected int inventorySize = 40;
     public int InventorySize { get => inventorySize; }
     // FOV radius not in cells but the floating-point distance between player
@@ -14,8 +17,11 @@ public class Player : Actor
     public int FOVRadius { get => fovRadius; }
 
     // Events
-    public event System.Action OnInventoryChangeEvent;
-    public event System.Action OnInventoryToggleEvent;
+    public event Action OnInventoryChangeEvent;
+    public event Action OnInventoryToggleEvent;
+    public event Action<Actor> OnAdvancedAttackEvent;
+    // Event invokers for PlayerInput
+    public void RaiseInventoryToggleEvent() => OnInventoryToggleEvent?.Invoke();
 
     // Awake is called when the script instance is being loaded
     protected override void Awake()
@@ -28,42 +34,10 @@ public class Player : Actor
         inventory = new List<Item>(inventorySize);
     }
 
-    // Update is called once per frame
-    private void Update()
+    // Start is called before the first frame update
+    private void Start()
     {
-        CatchInput();
-    }
-
-    // Receive input from the player on the player's turn
-    private void CatchInput()
-    {
-        if (TurnController.instance.gameState == GameState.Player0Turn)
-        {
-            if (Input.GetButtonDown("Up"))
-                PlayerTryMove(new Vector2Int(0, 1));
-            else if (Input.GetButtonDown("Down"))
-                PlayerTryMove(new Vector2Int(0, -1));
-            else if (Input.GetButtonDown("Left"))
-                PlayerTryMove(new Vector2Int(-1, 0));
-            else if (Input.GetButtonDown("Right"))
-                PlayerTryMove(new Vector2Int(1, 0));
-            else if (Input.GetButtonDown("Up Left"))
-                PlayerTryMove(new Vector2Int(-1, 1));
-            else if (Input.GetButtonDown("Up Right"))
-                PlayerTryMove(new Vector2Int(1, 1));
-            else if (Input.GetButtonDown("Down Left"))
-                PlayerTryMove(new Vector2Int(-1, -1));
-            else if (Input.GetButtonDown("Down Right"))
-                PlayerTryMove(new Vector2Int(1, -1));
-            else if (Input.GetButtonDown("Wait"))
-            {
-                TurnController.instance.ChangeTurn();
-            }
-            else if (Input.GetButtonDown("Inventory"))
-                OnInventoryToggleEvent?.Invoke();
-            else if (Input.GetButtonDown("Pickup"))
-                TryPickup();
-        }
+        input = GetComponent<PlayerInput>();
     }
 
     // Attempt to move along a given path
@@ -94,7 +68,7 @@ public class Player : Actor
     }
 
     // Attempt to move to another cell by delta Vector
-    private void PlayerTryMove(Vector2Int pos)
+    public void PlayerTryMove(Vector2Int pos)
     {
         Cell cell = level.GetCell(this.cell.Position + pos);
         if (cell != null && cell.IsWalkable())
@@ -108,6 +82,12 @@ public class Player : Actor
     {
         MoveToCell(destinationCell);
         PrintTileContents();
+        TurnController.instance.ChangeTurn();
+    }
+
+    // Wait a single turn
+    public void WaitOneTurn()
+    {
         TurnController.instance.ChangeTurn();
     }
 
@@ -126,7 +106,7 @@ public class Player : Actor
     // Try to hit a target actor
     protected override void TryToHit(Actor target)
     {
-        if (Random.Range(0, 101) > 80)
+        if (UnityEngine.Random.Range(0, 101) > 80)
             MeleeHit(target);
         else if (target.Health > 0) // Can't miss a dead target
             GameLog.Send($"You miss {GameLog.GetSubject(target, false)}.", MessageColour.Grey);
@@ -136,7 +116,7 @@ public class Player : Actor
     // Deal damage to an actor with a successful melee hit
     protected override void MeleeHit(Actor target)
     {
-        int damageDealt = Random.Range(minDamage, maxDamage + 1);
+        int damageDealt = UnityEngine.Random.Range(minDamage, maxDamage + 1);
         GameLog.Send($"You hit {GameLog.GetSubject(target, false)}.", MessageColour.White);
         target.Health -= damageDealt;
     }
@@ -154,8 +134,10 @@ public class Player : Actor
         }
     }
 
+    #region Items
+
     // Attempt to pick up an item off the current cell
-    protected override void TryPickup()
+    new public void TryPickup()
     {
         if (cell.Items.Count > 0)
             PickupItem(cell.Items[0]);
@@ -201,6 +183,36 @@ public class Player : Actor
         GameLog.Send($"You drop the {item.DisplayName}", MessageColour.Grey);
         TurnController.instance.ChangeTurn();
     }
+
+    #endregion
+
+    #region AdvancedAttack
+
+    public void StartAdvancedAttack()
+    {
+        input.OnTargetConfirmEvent += ConfirmAdvancedAttack;
+        input.OnTargetCancelEvent += CancelAdvancedAttack;
+    }
+
+    public void ConfirmAdvancedAttack(Cell target)
+    {
+        if (target._actor == null)
+            Attack(target);
+        else if (target._actor == this)
+            GameLog.Send("Why would you want to do that?", MessageColour.Teal);
+        else
+            OnAdvancedAttackEvent?.Invoke(target._actor);
+        input.OnTargetConfirmEvent -= ConfirmAdvancedAttack;
+        input.OnTargetCancelEvent -= CancelAdvancedAttack;
+    }
+
+    public void CancelAdvancedAttack()
+    {
+        input.OnTargetConfirmEvent -= ConfirmAdvancedAttack;
+        input.OnTargetCancelEvent -= CancelAdvancedAttack;
+    }
+
+    #endregion
 
     // Handle the player's death
     protected override void OnDeath()

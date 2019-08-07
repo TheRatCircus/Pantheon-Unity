@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
+    // Player
+    public Player player;
+
     // UI elements
     public Text turnCounter;
     public Text healthCounter;
@@ -12,10 +15,9 @@ public class HUD : MonoBehaviour
     private void Start()
     {
         TurnController.instance.OnTurnChangeEvent += UpdateTurnCounter;
-        Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         player.OnHealthChangeEvent += UpdateHealthCounter;
         UpdateTurnCounter();
-        healthCounter.text = $"Health: {player.Health} / {player.MaxHealth}";
+        UpdateHealthCounter(player.Health, player.MaxHealth);
     }
 
     // Update the turn counter
