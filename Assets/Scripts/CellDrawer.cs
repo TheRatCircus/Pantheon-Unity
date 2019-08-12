@@ -52,4 +52,21 @@ public static class CellDrawer
                     level.itemTilemap.SetTile((Vector3Int)cell.Position, null);
         }
     }
+
+    // Paint cells for targetting
+    public static void PaintCells(Level level, List<Cell> cells)
+    {
+        Tile lineTargetOverlay = ScriptableObject.CreateInstance<Tile>();
+        lineTargetOverlay.flags = TileFlags.None;
+        lineTargetOverlay.sprite = Database.instance.lineTargetOverlay;
+        level.targettingTilemap.ClearAllTiles();
+        foreach (Cell cell in cells)
+            level.targettingTilemap.SetTile((Vector3Int)cell.Position, lineTargetOverlay);
+    }
+
+    // Unpaint cells for targetting
+    public static void UnpaintCells(Level level)
+    {
+        level.targettingTilemap.ClearAllTiles();
+    }
 }

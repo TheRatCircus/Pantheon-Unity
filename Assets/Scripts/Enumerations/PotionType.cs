@@ -1,6 +1,6 @@
 ﻿// Enumeration for potion types
-public enum PotionType
+public enum FlaskType
 {
-    None = 0,
-    Health = 1
+    FlaskNone = 0,
+    FlaskHealing = 1
 }

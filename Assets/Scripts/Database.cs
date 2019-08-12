@@ -9,13 +9,18 @@ public class Database : MonoBehaviour
 
     // Database lists
     public List<Corpse> Corpses = new List<Corpse>();
-    public List<Potion> Potions = new List<Potion>();
+    public List<Scroll> Scrolls = new List<Scroll>();
+    public List<Flask> Flasks = new List<Flask>();
     public List<TerrainData> Terrain = new List<TerrainData>();
 
     // Dictionaries for lookup by enum
     public Dictionary<CorpseType, Corpse> CorpseDict = new Dictionary<CorpseType, Corpse>();
-    public Dictionary<PotionType, Potion> PotionDict = new Dictionary<PotionType, Potion>();
+    public Dictionary<ScrollType, Scroll> ScrollDict = new Dictionary<ScrollType, Scroll>();
+    public Dictionary<FlaskType, Flask> FlaskDict = new Dictionary<FlaskType, Flask>();
     public Dictionary<TerrainType, TerrainData> TerrainDict = new Dictionary<TerrainType, TerrainData>();
+
+    // Miscellaneous
+    public Sprite lineTargetOverlay;
     
     // Awake is called when the script instance is being loaded
     private void Awake()
@@ -26,7 +31,8 @@ public class Database : MonoBehaviour
             instance = this;
 
         InitCorpseDict();
-        InitPotionDict();
+        InitScrollDict();
+        InitFlaskDict();
         InitTerrainDict();
     }
 
@@ -39,11 +45,18 @@ public class Database : MonoBehaviour
             CorpseDict.Add((Corpses[i])._corpseType, Corpses[i]);
     }
 
-    // Initialize the potion dictionary
-    private void InitPotionDict()
+    // Initialize the scroll dictionary
+    private void InitScrollDict()
     {
-        for (int i = 0; i < Potions.Count; i++)
-            PotionDict.Add((Potions[i])._potionType, Potions[i]);
+        for (int i = 0; i < Scrolls.Count; i++)
+            ScrollDict.Add((Scrolls[i])._scrollType, Scrolls[i]);
+    }
+
+    // Initialize the potion dictionary
+    private void InitFlaskDict()
+    {
+        for (int i = 0; i < Flasks.Count; i++)
+            FlaskDict.Add((Flasks[i])._flaskType, Flasks[i]);
     }
 
     // Initialize the terrain tile dictionary
@@ -63,11 +76,18 @@ public class Database : MonoBehaviour
         instance.CorpseDict.TryGetValue(corpseType, out Corpse ret);
         return ret;
     }
+    
+    // Get scroll data by enum
+    public static Scroll GetScroll(ScrollType scrollType)
+    {
+        instance.ScrollDict.TryGetValue(scrollType, out Scroll ret);
+        return ret;
+    }
 
     // Get potion data by enum
-    public static Potion GetPotion(PotionType potionType)
+    public static Flask GetFlask(FlaskType flaskType)
     {
-        instance.PotionDict.TryGetValue(potionType, out Potion ret);
+        instance.FlaskDict.TryGetValue(flaskType, out Flask ret);
         return ret;
     }
 

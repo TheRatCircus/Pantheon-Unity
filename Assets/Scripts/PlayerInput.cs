@@ -1,9 +1,11 @@
 ﻿// Handler for player input to character
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// Result of input
 public enum InputState
 {
     Move,
@@ -17,14 +19,24 @@ public class PlayerInput : MonoBehaviour
     Player player;
     public Grid grid;
     public Image crosshair;
+
     Cell targetCell;
+    List<Cell> targetLine;
 
     // Status
     InputState inputState = InputState.Move;
 
+    // Properties
+    public InputState _inputState
+    {
+        get => inputState;
+        set => inputState = value;
+    }
+
     // Events
-    public event Action<Cell> OnTargetConfirmEvent;
-    public event Action OnTargetCancelEvent;
+    public event Action<Cell> PointTargetConfirmEvent;
+    public event Action TargetConfirmEvent;
+    public event Action TargetCancelEvent;
 
     // Start is called before the first frame update
     private void Start()
@@ -32,16 +44,14 @@ public class PlayerInput : MonoBehaviour
         player = GetComponent<Player>();
 
         if (player != null)
-        {
             if (player._cell != null)
-            {
                 MoveCrosshair(player._cell);
-            }
             else
                 Debug.LogException(new Exception("Player was initialized without a cell"));
-        }
         else
             Debug.LogException(new Exception("No player found"));
+
+        targetLine = new List<Cell>();
     }
 
     // Update is called once per frame
@@ -108,16 +118,70 @@ public class PlayerInput : MonoBehaviour
                 else if (Input.GetButtonDown("Down Right"))
                     MoveCrosshair(player.level.GetAdjacentCell(player._cell, new Vector2Int(1, -1)));
                 else if (Input.GetButtonDown("Submit"))
-                    OnTargetConfirmEvent?.Invoke(targetCell);
+                {
+                    PointTargetConfirmEvent?.Invoke(targetCell);
+                    inputState = InputState.Move;
+                }
                 else if (Input.GetButtonDown("Cancel"))
                 {
-                    OnTargetCancelEvent?.Invoke();
+                    TargetCancelEvent?.Invoke();
                     inputState = InputState.Move;
                     GameLog.Send("Targetting cancelled.", MessageColour.Teal);
                 }
             }
+            else if (inputState == InputState.LineTarget)
+            {
+                if (Input.GetButtonDown("Up"))
+                {
+                    MoveCrosshair(player.level.GetAdjacentCell(targetCell, Vector2Int.up));
+                    CellDrawer.PaintCells(player.level, targetLine);
+                }
+                else if (Input.GetButtonDown("Down"))
+                {
+                    MoveCrosshair(player.level.GetAdjacentCell(targetCell, Vector2Int.down));
+                    CellDrawer.PaintCells(player.level, targetLine);
+                }
+                else if (Input.GetButtonDown("Left"))
+                {
+                    MoveCrosshair(player.level.GetAdjacentCell(targetCell, Vector2Int.left));
+                    CellDrawer.PaintCells(player.level, targetLine);
+                }
+                else if (Input.GetButtonDown("Right"))
+                {
+                    MoveCrosshair(player.level.GetAdjacentCell(targetCell, Vector2Int.right));
+                    CellDrawer.PaintCells(player.level, targetLine);
+                }
+                else if (Input.GetButtonDown("Up Left"))
+                {
+                    MoveCrosshair(player.level.GetAdjacentCell(targetCell, new Vector2Int(-1, 1)));
+                    CellDrawer.PaintCells(player.level, targetLine);
+                }
+                else if (Input.GetButtonDown("Up Right"))
+                {
+                    MoveCrosshair(player.level.GetAdjacentCell(targetCell, new Vector2Int(1, 1)));
+                    CellDrawer.PaintCells(player.level, targetLine);
+                }
+                else if (Input.GetButtonDown("Down Left"))
+                {
+                    MoveCrosshair(player.level.GetAdjacentCell(targetCell, new Vector2Int(-1, -1)));
+                    CellDrawer.PaintCells(player.level, targetLine);
+                }
+                else if (Input.GetButtonDown("Down Right"))
+                {
+                    MoveCrosshair(player.level.GetAdjacentCell(targetCell, new Vector2Int(1, -1)));
+                    CellDrawer.PaintCells(player.level, targetLine);
+                }
+                else if (Input.GetButtonDown("Submit"))
+                {
+                    ConfirmLineTargetting();
+                }
+                else if (Input.GetButtonDown("Cancel"))
+                {
+                    CancelLineTargetting();
+                }
+            }
         }
-        
+
         // Actions feasible even if not this player's turn
         if (Input.GetButtonDown("Inventory"))
             player.RaiseInventoryToggleEvent();
@@ -135,9 +199,18 @@ public class PlayerInput : MonoBehaviour
         Vector3Int posInt = grid.LocalToCell(mousePos);
 
         if (player.level.Contains((Vector2Int)posInt))
+        {
             MoveCrosshair(player.level.GetCell((Vector2Int)posInt));
-        else
-            targetCell = null;
+            targetLine = Bresenhams.GetPath(player.level, player._cell, targetCell);
+            switch (inputState)
+            {
+                case InputState.Move:
+                    break;
+                case InputState.LineTarget:
+                    CellDrawer.PaintCells(player.level, Bresenhams.GetPath(player.level, player._cell, targetCell));
+                    break;
+            }
+        }
     }
 
     // Send mouse commands other than crosshair move
@@ -156,6 +229,12 @@ public class PlayerInput : MonoBehaviour
                 }
                 break;
             case InputState.PointTarget:
+                break;
+            case InputState.LineTarget:
+                if (Input.GetMouseButtonDown(0) && targetCell.Revealed)
+                {
+                    ConfirmLineTargetting();
+                }
                 break;
         }
 
@@ -182,10 +261,10 @@ public class PlayerInput : MonoBehaviour
     // Debug function to change a floor to a wall and vice-versa
     private void DebugChangeCell(Cell cell)
     {
-        if (cell._terrainData._terrainType == TerrainType.StoneWall)
-            cell.SetTerrainType(Database.GetTerrain(TerrainType.StoneFloor));
-        else if (cell._terrainData._terrainType == TerrainType.StoneFloor)
-            cell.SetTerrainType(Database.GetTerrain(TerrainType.StoneWall));
+        if (cell._terrainData._terrainType == TerrainType.TerrainStoneWall)
+            cell.SetTerrainType(Database.GetTerrain(TerrainType.TerrainStoneFloor));
+        else if (cell._terrainData._terrainType == TerrainType.TerrainStoneFloor)
+            cell.SetTerrainType(Database.GetTerrain(TerrainType.TerrainStoneWall));
         player.level.RefreshFOV();
     }
 
@@ -200,4 +279,39 @@ public class PlayerInput : MonoBehaviour
     }
 
     #endregion
+
+    // Perform a line-targetted action. Return true if confirmed; false if
+    // cancelled
+    public IEnumerator LineTarget(ActionResult ActionResult)
+    {
+        // Start the line targetting input state
+        inputState = InputState.LineTarget;
+        bool confirmed = false;
+
+        TargetConfirmEvent += () => confirmed = true;
+
+        // When user sends confirm/cancel input, continue coroutine
+        yield return new WaitUntil(() => inputState != InputState.LineTarget);
+        if (confirmed)
+            ActionResult.DoLineAction(targetLine);
+
+        TargetConfirmEvent -= () => confirmed = true;
+    }
+
+    // Confirm target line
+    private void ConfirmLineTargetting()
+    {
+        TargetConfirmEvent?.Invoke();
+        inputState = InputState.Move;
+        CellDrawer.UnpaintCells(player.level);
+    }
+
+    // Cancel line targetting process
+    private void CancelLineTargetting()
+    {
+        TargetCancelEvent?.Invoke();
+        inputState = InputState.Move;
+        GameLog.Send("Targetting cancelled.", MessageColour.Teal);
+        CellDrawer.UnpaintCells(player.level);
+    }
 }

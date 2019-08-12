@@ -1,5 +1,6 @@
 ﻿// Player controller
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,11 +16,13 @@ public class Player : Actor
 
     // Properties
     public int FOVRadius { get => fovRadius; }
+    public PlayerInput _input { get => input; }
 
     // Events
     public event Action OnInventoryChangeEvent;
     public event Action OnInventoryToggleEvent;
     public event Action<Actor> OnAdvancedAttackEvent;
+
     // Event invokers for PlayerInput
     public void RaiseInventoryToggleEvent() => OnInventoryToggleEvent?.Invoke();
 
@@ -82,13 +85,13 @@ public class Player : Actor
     {
         MoveToCell(destinationCell);
         PrintTileContents();
-        TurnController.instance.ChangeTurn();
+        TurnController.instance.EndTurn();
     }
 
     // Wait a single turn
     public void WaitOneTurn()
     {
-        TurnController.instance.ChangeTurn();
+        TurnController.instance.EndTurn();
     }
 
     // Try to make a melee attack on a target cell
@@ -106,11 +109,11 @@ public class Player : Actor
     // Try to hit a target actor
     protected override void TryToHit(Actor target)
     {
-        if (UnityEngine.Random.Range(0, 101) > 80)
+        if (UnityEngine.Random.Range(0, 101) > 40)
             MeleeHit(target);
         else if (target.Health > 0) // Can't miss a dead target
             GameLog.Send($"You miss {GameLog.GetSubject(target, false)}.", MessageColour.Grey);
-        TurnController.instance.ChangeTurn();
+        TurnController.instance.EndTurn();
     }
 
     // Deal damage to an actor with a successful melee hit
@@ -148,40 +151,36 @@ public class Player : Actor
     // Pick up an item
     protected override void PickupItem(Item item)
     {
-        GameLog.Send($"You pick up a {item.DisplayName}", MessageColour.White);
+        GameLog.Send($"You pick up a {item.DisplayName}.", MessageColour.White);
         cell.Items.Remove(item);
         inventory.Add(item);
         item.Owner = this;
         OnInventoryChangeEvent?.Invoke();
-        TurnController.instance.ChangeTurn();
+        TurnController.instance.EndTurn();
     }
 
     // Try to use an item
     public void TryUseItem(Item item)
     {
         if (item.Usable)
-            UseItem(item);
+            item.Use(this);
         else
             GameLog.Send("This item cannot be used.", MessageColour.Grey);
     }
 
-    // Use an item
-    private void UseItem(Item item)
+    // Remove item, but include inventory change event
+    public override void RemoveItem(Item item)
     {
-        inventory.Remove(item);
-        item.OnUse();
+        base.RemoveItem(item);
         OnInventoryChangeEvent?.Invoke();
-        TurnController.instance.ChangeTurn();
     }
 
     // Drop an item
     public void DropItem(Item item)
     {
-        inventory.Remove(item);
-        cell.Items.Add(item);
-        OnInventoryChangeEvent?.Invoke();
+        RemoveItem(item);
         GameLog.Send($"You drop the {item.DisplayName}", MessageColour.Grey);
-        TurnController.instance.ChangeTurn();
+        TurnController.instance.EndTurn();
     }
 
     #endregion
@@ -190,8 +189,8 @@ public class Player : Actor
 
     public void StartAdvancedAttack()
     {
-        input.OnTargetConfirmEvent += ConfirmAdvancedAttack;
-        input.OnTargetCancelEvent += CancelAdvancedAttack;
+        input.PointTargetConfirmEvent += ConfirmAdvancedAttack;
+        input.TargetCancelEvent += CancelAdvancedAttack;
     }
 
     public void ConfirmAdvancedAttack(Cell target)
@@ -202,14 +201,14 @@ public class Player : Actor
             GameLog.Send("Why would you want to do that?", MessageColour.Teal);
         else
             OnAdvancedAttackEvent?.Invoke(target._actor);
-        input.OnTargetConfirmEvent -= ConfirmAdvancedAttack;
-        input.OnTargetCancelEvent -= CancelAdvancedAttack;
+        input.PointTargetConfirmEvent -= ConfirmAdvancedAttack;
+        input.TargetCancelEvent -= CancelAdvancedAttack;
     }
 
     public void CancelAdvancedAttack()
     {
-        input.OnTargetConfirmEvent -= ConfirmAdvancedAttack;
-        input.OnTargetCancelEvent -= CancelAdvancedAttack;
+        input.PointTargetConfirmEvent -= ConfirmAdvancedAttack;
+        input.TargetCancelEvent -= CancelAdvancedAttack;
     }
 
     #endregion

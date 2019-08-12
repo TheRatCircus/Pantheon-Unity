@@ -12,7 +12,7 @@ public class LevelGen
             for (int y = 0; y < map.GetLength(1); y++)
             {
                 map[x, y] = new Cell(new Vector2Int(x, y));
-                map[x, y].SetTerrainType(Database.GetTerrain(TerrainType.StoneWall));
+                map[x, y].SetTerrainType(Database.GetTerrain(TerrainType.TerrainStoneWall));
             }
                 
 
@@ -76,7 +76,7 @@ public class LevelGen
         for (int x = rect.x1 + 1; x < rect.x2 - 1; x++)
             for (int y = rect.y1 + 1; y < rect.y2 - 1; y++)
             {
-                map[x, y].SetTerrainType(Database.GetTerrain(TerrainType.StoneFloor));
+                map[x, y].SetTerrainType(Database.GetTerrain(TerrainType.TerrainStoneFloor));
             }
     }
 
@@ -85,7 +85,7 @@ public class LevelGen
     {
         for (int x = Mathf.Min(x1, x2); x < Mathf.Max(x1, x2); x++)
         {
-            map[x, y].SetTerrainType(Database.GetTerrain(TerrainType.StoneFloor));
+            map[x, y].SetTerrainType(Database.GetTerrain(TerrainType.TerrainStoneFloor));
         }
     }
 
@@ -94,7 +94,7 @@ public class LevelGen
     {
         for (int y = Mathf.Min(y1, y2); y < Mathf.Max(y1, y2); y++)
         {
-            map[x, y].SetTerrainType(Database.GetTerrain(TerrainType.StoneFloor));
+            map[x, y].SetTerrainType(Database.GetTerrain(TerrainType.TerrainStoneFloor));
         }
     }
 

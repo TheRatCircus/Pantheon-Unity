@@ -112,6 +112,13 @@ public class Actor : MonoBehaviour
     // Pick up an item
     protected virtual void PickupItem(Item item) => inventory.Add(item);
 
+    // Remove an item from inventory
+    public virtual void RemoveItem(Item item)
+    {
+        inventory.Remove(item);
+        item.Owner = null;
+    }
+
     // Check if another actor is hostile to this
     public bool IsHostileToMe(Actor other)
     {

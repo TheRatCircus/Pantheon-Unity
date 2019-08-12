@@ -1,10 +1,9 @@
 ﻿// Class representing an actualized item in the game
+using System.Collections;
 using UnityEngine;
 
 public class Item
 {
-    #region ATTRIBUTES
-
     // Item's own attributes
     private Actor owner;
     private int quantity;
@@ -21,7 +20,8 @@ public class Item
     public Sprite _sprite { get => itemData.sprite; }
     public bool Usable { get => itemData.usable; }
 
-    #endregion
+    public string OnUseString { get => itemData.onUseString; }
+    public BaseAction OnUse { get => itemData.onUse; }
 
     // Constructor
     public Item(ItemData itemData)
@@ -30,8 +30,11 @@ public class Item
     }
 
     // Use this item
-    public void OnUse()
+    public void Use(Actor user)
     {
-        itemData.OnUse(owner);
+        if (user is Player)
+            itemData.OnUse((Player)user, this);
+        else
+            itemData.OnUse((Enemy)user, this);
     }
 }

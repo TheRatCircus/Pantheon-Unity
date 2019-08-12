@@ -10,6 +10,7 @@ public class Level : MonoBehaviour
 
     public Tilemap terrainTilemap;
     public Tilemap itemTilemap;
+    public Tilemap targettingTilemap;
 
     public Tile groundTile;
     public Tile wallTile;
@@ -49,7 +50,11 @@ public class Level : MonoBehaviour
         CellDrawer.DrawLevel(this);
         SpawnPlayer();
         SpawnEnemies();
-        GetRandomWalkable().Items.Add(new Item(Database.GetPotion(PotionType.Health)));
+        for (int i = 0; i < 10; i++)
+        {
+            GetRandomWalkable().Items.Add(new Item(Database.GetFlask(FlaskType.FlaskHealing)));
+            GetRandomWalkable().Items.Add(new Item(Database.GetScroll(ScrollType.ScrollMagicBullet)));
+        }  
         RefreshFOV();
     }
 

@@ -1,8 +1,8 @@
 ﻿// Enumeration for terrain types
 public enum TerrainType
 {
-    None = 0,
-    StoneWall = 1,
-    StoneFloor = 2
+    TerrainNone = 0,
+    TerrainStoneWall = 1,
+    TerrainStoneFloor = 2
 }
 

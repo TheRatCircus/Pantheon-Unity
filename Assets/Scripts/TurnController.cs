@@ -1,6 +1,8 @@
 ﻿// Main turn loop
-using UnityEngine;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 // Represents the list of states the game can be in
 public enum GameState
@@ -22,6 +24,8 @@ public class TurnController : MonoBehaviour
     public GameState gameState = GameState.Player0Turn;
     public Level activeLevel;
 
+    public List<EndTurnEffect> EndTurnEffects;
+
     // Events
     public event Action OnTurnChangeEvent;
     public event Action OnNPCTurnEvent;
@@ -33,6 +37,8 @@ public class TurnController : MonoBehaviour
             Debug.LogWarning("TurnController singleton assigned in error");
         else
             instance = this;
+
+        EndTurnEffects = new List<EndTurnEffect>();
     }
 
     // Change turn over to next state
@@ -54,6 +60,20 @@ public class TurnController : MonoBehaviour
         OnTurnChangeEvent?.Invoke();
     }
 
+    public void EndTurn()
+    {
+        StartCoroutine(ProcessEndTurnEffects());
+    }
+
+    public IEnumerator ProcessEndTurnEffects()
+    {
+        foreach (EndTurnEffect effect in EndTurnEffects)
+            yield return StartCoroutine(effect.DoEffect());
+            
+        EndTurnEffects.Clear();
+        ChangeTurn();
+    }
+
     // Check if player's turn to avoid unwieldy comparisons in other code
     public static bool IsPlayerTurn()
     {
@@ -65,6 +85,6 @@ public class TurnController : MonoBehaviour
     private void DoEnemyTurn()
     {
         OnNPCTurnEvent?.Invoke();
-        ChangeTurn();
+        EndTurn();
     }
 }

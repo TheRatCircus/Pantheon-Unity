@@ -1,12 +1,6 @@
 ﻿// A template holding the data by which items define themselves
 using UnityEngine;
 
-public enum ItemFamily
-{
-    Potion,
-    Corpse
-}
-
 public abstract class ItemData : ScriptableObject
 {
     public string displayName;
@@ -16,6 +10,10 @@ public abstract class ItemData : ScriptableObject
     public Sprite sprite;
     public bool usable;
 
+    public BaseAction onUse;
+    public string onUseString;
+
     // Effect activated when this item is used
-    public abstract void OnUse(Actor user);
+    public abstract void OnUse(Player user, Item item);
+    public abstract void OnUse(Enemy user, Item item);
 }
