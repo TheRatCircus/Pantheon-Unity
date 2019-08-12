@@ -10,7 +10,6 @@ public class Projectile : EndTurnEffect
     public void Awake()
     {
         TurnController.instance.EndTurnEffects.Add(this);
-        Debug.Log(TurnController.instance.EndTurnEffects.Count);
     }
 
     // Move this projectile along a line
