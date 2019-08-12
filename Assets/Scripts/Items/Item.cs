@@ -1,5 +1,4 @@
 ﻿// Class representing an actualized item in the game
-using System.Collections;
 using UnityEngine;
 
 public class Item

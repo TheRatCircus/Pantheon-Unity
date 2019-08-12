@@ -13,7 +13,6 @@ public class ActionResult
     {
         this.actor = actor;
         this.action = action;
-        TryAction();
     }
 
     // Attempt to carry out the action
@@ -22,7 +21,10 @@ public class ActionResult
         if (action.NeedsLineTaret)
             RequestLineTarget();
         else if (action.NeedsActor)
+        {
             action.DoAction(actor);
+            CompleteAction();
+        }
     }
 
     // If need be, request a line

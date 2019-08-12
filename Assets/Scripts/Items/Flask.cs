@@ -9,7 +9,7 @@ public class Flask : ItemData
     // Behaviour when used by a player
     public override void OnUse(Player user, Item item)
     {
-        new ItemUseResult(user, item, onUse);
+        new ItemUseResult(user, item, onUse).TryAction();
     }
 
     // Behaviour when used by an NPC

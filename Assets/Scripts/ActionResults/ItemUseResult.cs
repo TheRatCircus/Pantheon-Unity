@@ -12,13 +12,13 @@ public class ItemUseResult : ActionResult {
     // Finish this action's result
     protected override void CompleteAction()
     {
-        base.CompleteAction();
         GameLog.Send(item.OnUseString, MessageColour.White);
         ConsumeItem();
+        base.CompleteAction();
     }
 
     // Consume this item after successful use
-    void ConsumeItem()
+    private void ConsumeItem()
     {
         actor.RemoveItem(item);
     }
