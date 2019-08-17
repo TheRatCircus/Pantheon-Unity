@@ -13,7 +13,6 @@ public class Enemy : Actor
     protected override void Awake()
     {
         maxHealth = 3;
-        actorName = "Goblin";
         minDamage = 1;
         maxDamage = 2;
         base.Awake();

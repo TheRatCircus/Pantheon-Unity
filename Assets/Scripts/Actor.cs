@@ -12,7 +12,7 @@ public class Actor : MonoBehaviour
     protected Cell cell;
 
     // Actor's personal attributes
-    protected string actorName;
+    public string actorName;
     public bool NameIsProper; // False if name should start with "The/the"
 
     protected int health;
@@ -32,7 +32,6 @@ public class Actor : MonoBehaviour
     // Properties
     public Cell _cell { get => cell; }
     public Vector2Int Position { get => cell.Position; }
-    public string ActorName { get => actorName; set => actorName = value; }
     public int Health
     {
         get => health;

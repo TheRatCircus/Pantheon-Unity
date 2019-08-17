@@ -94,13 +94,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: {fileID: 0}
+  actorName: Goblin
   NameIsProper: 0
+  armour: 0
+  evasion: 0
   corpse: 1
-  head: 1
-  rightArms: 010000000000000000000000
-  rightLegs: 010000000000000000000000
-  leftArms: 010000000000000000000000
-  leftLegs: 010000000000000000000000
 --- !u!114 &-8335030903266508829
 MonoBehaviour:
   m_ObjectHideFlags: 0

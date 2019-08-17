@@ -92,7 +92,7 @@ public class GameLog : MonoBehaviour
         if (actor is Player)
             ret = sentenceStart ? "You" : "you";
         else
-            ret = $"{(actor.NameIsProper ? "" : (sentenceStart ? "The " : "the "))}{actor.ActorName}";
+            ret = $"{(actor.NameIsProper ? "" : (sentenceStart ? "The " : "the "))}{actor.actorName}";
         return ret;
     }
 }

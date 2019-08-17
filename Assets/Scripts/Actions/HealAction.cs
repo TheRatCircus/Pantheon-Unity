@@ -19,6 +19,6 @@ public class HealAction : BaseAction
         if (actor is Player)
             GameLog.Send("You are rejuvenated!", MessageColour.White);
         else
-            GameLog.Send($"The {actor.ActorName} appears rejuvenated.", MessageColour.White);
+            GameLog.Send($"The {actor.actorName} appears rejuvenated.", MessageColour.White);
     }
 }
