@@ -9,7 +9,7 @@ public class Projectile : EndTurnEffect
 
     public void Awake()
     {
-        TurnController.instance.EndTurnEffects.Add(this);
+        Game.instance.EndTurnEffects.Add(this);
     }
 
     // Move this projectile along a line

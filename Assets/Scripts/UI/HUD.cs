@@ -14,7 +14,7 @@ public class HUD : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        TurnController.instance.OnTurnChangeEvent += UpdateTurnCounter;
+        Game.instance.OnTurnChangeEvent += UpdateTurnCounter;
         player.OnHealthChangeEvent += UpdateHealthCounter;
         UpdateTurnCounter();
         UpdateHealthCounter(player.Health, player.MaxHealth);
@@ -23,7 +23,7 @@ public class HUD : MonoBehaviour
     // Update the turn counter
     private void UpdateTurnCounter()
     {
-        string turnCounterStr = $"Turn: {TurnController.instance.turn}";
+        string turnCounterStr = $"Turn: {Game.instance.turn}";
         turnCounter.text = turnCounterStr;
     }
 

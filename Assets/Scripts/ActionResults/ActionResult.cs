@@ -49,6 +49,6 @@ public class ActionResult
     protected virtual void CompleteAction()
     {
         if (actor is Player)
-            TurnController.instance.EndTurn();
+            Game.instance.EndTurn();
     }
 }

@@ -1,6 +1,5 @@
 ﻿// Player controller
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,7 +29,7 @@ public class Player : Actor
     protected override void Awake()
     {
         actorName = "Player";
-        maxHealth = 10;
+        maxHealth = 1000;
         minDamage = 2;
         maxDamage = 4;
         base.Awake();
@@ -85,13 +84,13 @@ public class Player : Actor
     {
         MoveToCell(destinationCell);
         PrintTileContents();
-        TurnController.instance.EndTurn();
+        Game.instance.EndTurn();
     }
 
     // Wait a single turn
     public void WaitOneTurn()
     {
-        TurnController.instance.EndTurn();
+        Game.instance.EndTurn();
     }
 
     // Try to make a melee attack on a target cell
@@ -113,7 +112,7 @@ public class Player : Actor
             MeleeHit(target);
         else if (target.Health > 0) // Can't miss a dead target
             GameLog.Send($"You miss {GameLog.GetSubject(target, false)}.", MessageColour.Grey);
-        TurnController.instance.EndTurn();
+        Game.instance.EndTurn();
     }
 
     // Deal damage to an actor with a successful melee hit
@@ -156,7 +155,7 @@ public class Player : Actor
         inventory.Add(item);
         item.Owner = this;
         OnInventoryChangeEvent?.Invoke();
-        TurnController.instance.EndTurn();
+        Game.instance.EndTurn();
     }
 
     // Try to use an item
@@ -180,7 +179,7 @@ public class Player : Actor
     {
         RemoveItem(item);
         GameLog.Send($"You drop the {item.DisplayName}", MessageColour.Grey);
-        TurnController.instance.EndTurn();
+        Game.instance.EndTurn();
     }
 
     #endregion
@@ -218,7 +217,7 @@ public class Player : Actor
     {
         cell._actor = null;
         level.actors.Remove(this);
-        TurnController.instance.gameState = GameState.PlayersDead;
+        Game.instance.gameState = GameState.PlayersDead;
         GameLog.Send("You perish...", MessageColour.Purple);
     }
 }

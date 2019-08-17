@@ -69,7 +69,7 @@ public class PlayerInput : MonoBehaviour
     // Handle keyboard input
     private void KeyInput()
     {
-        if (TurnController.instance.gameState == GameState.Player0Turn)
+        if (Game.instance.gameState == GameState.Player0Turn)
         {
             if (inputState == InputState.Move)
             {
@@ -97,6 +97,26 @@ public class PlayerInput : MonoBehaviour
                 {
                     GameLog.Send("Advanced attack: select a target.", MessageColour.Teal);
                     inputState = InputState.PointTarget;
+                }
+                else if (Input.GetButtonDown("Ascend"))
+                {
+                    if (player._cell._connection != null && player._cell._connection.upstairs)
+                    {
+                        player._cell._connection.GoToLevel(player);
+                        GameLog.Send("You ascend the stairs...", MessageColour.White);
+                    }
+                    else
+                        GameLog.Send("There is nothing to ascend here.", MessageColour.Grey);
+                }   
+                else if (Input.GetButtonDown("Descend"))
+                {
+                    if (player._cell._connection != null && !player._cell._connection.upstairs)
+                    {
+                        player._cell._connection.GoToLevel(player);
+                        GameLog.Send("You descend the stairs...", MessageColour.White);
+                    }
+                    else
+                        GameLog.Send("There is nothing to descend here.", MessageColour.Grey);
                 }
             }
             else if (inputState == InputState.PointTarget)
@@ -221,10 +241,10 @@ public class PlayerInput : MonoBehaviour
             // Left-click is contextual
             case InputState.Move:
                 if (Input.GetMouseButtonDown(0) &&
-                TurnController.IsPlayerTurn() &&
+                Game.IsPlayerTurn() &&
                 targetCell.Revealed)
                 {
-                    path = player.level.pf.GetCellPath(player.level._player.Position, targetCell.Position);
+                    path = player.level.pf.GetCellPath(Game.instance.player1.Position, targetCell.Position);
                     player.MoveAlongPath(path);
                 }
                 break;

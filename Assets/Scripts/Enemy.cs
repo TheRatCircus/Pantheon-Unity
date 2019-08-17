@@ -24,8 +24,8 @@ public class Enemy : Actor
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        TurnController.instance.OnNPCTurnEvent += DecideAction;
-        TurnController.instance.OnTurnChangeEvent += TurnUpdate;
+        Game.instance.OnNPCTurnEvent += DecideAction;
+        Game.instance.OnTurnChangeEvent += TurnUpdate;
 
         spriteRenderer.enabled = cell.Visible;
     }
@@ -39,11 +39,10 @@ public class Enemy : Actor
     // Evaluate the situation and decide what to do next
     void DecideAction()
     {
-        
         // Detect player if coming into player's view
         if (cell.Visible && target == null)
         {
-            target = level._player;
+            target = Game.instance.player1;
             GameLog.Send($"{GameLog.GetSubject(this, true)} notices you!", MessageColour.Red);
         }
 
@@ -67,7 +66,7 @@ public class Enemy : Actor
     protected override void OnDeath()
     {
         base.OnDeath();
-        TurnController.instance.OnNPCTurnEvent -= DecideAction;
-        TurnController.instance.OnTurnChangeEvent -= TurnUpdate;
+        Game.instance.OnNPCTurnEvent -= DecideAction;
+        Game.instance.OnTurnChangeEvent -= TurnUpdate;
     }
 }

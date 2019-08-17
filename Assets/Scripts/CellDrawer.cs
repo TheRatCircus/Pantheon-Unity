@@ -34,6 +34,12 @@ public static class CellDrawer
         {
             level.terrainTilemap.SetTile((Vector3Int)cell.Position, cell._terrainData._tile);
             level.terrainTilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
+            if (cell._connection != null)
+            {
+                level.featureTilemap.SetTile((Vector3Int)cell.Position,
+                    cell.Feature == FeatureType.StairsDown ? level.stairsDown : level.stairsUp);
+                level.featureTilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
+            }
             if (cell.Revealed && cell.Items.Count > 0)
                 if (cell._actor == null)
                 {

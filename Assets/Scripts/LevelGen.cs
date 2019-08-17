@@ -4,8 +4,7 @@ using UnityEngine;
 public class LevelGen
 {
     // Generate a 2D Cell array representing a map
-    public static Cell[,] GenerateLevel(ref Vector2Int spawnPoint,
-        Vector2Int levelSize, int maxRooms, int roomMinSize, int roomMaxSize)
+    public static Cell[,] GenerateLevel(Vector2Int levelSize, int maxRooms, int roomMinSize, int roomMaxSize)
     {
         Cell[,] map = new Cell[levelSize.x, levelSize.y];
         for (int x = 0; x < map.GetLength(0); x++)
@@ -15,9 +14,11 @@ public class LevelGen
                 map[x, y].SetTerrainType(Database.GetTerrain(TerrainType.TerrainStoneWall));
             }
                 
-
         Rectangle[] rooms = new Rectangle[maxRooms];
         int numRooms = 0;
+
+        // Center of last room for staircase
+        Vector2Int lastCenter = new Vector2Int();
 
         for (int r = 0; r < maxRooms; r++)
         {
@@ -42,11 +43,9 @@ public class LevelGen
                 GenerateRoom(ref map, newRoom);
                 Vector2Int newCenter = newRoom.Center();
 
-                if (numRooms == 0)
-                {
-                    spawnPoint = newCenter;
-                }
-                else
+                lastCenter = newCenter;
+
+                if (numRooms >= 1)
                 {
                     Vector2Int prevCenter = rooms[numRooms - 1].Center();
 
@@ -65,7 +64,7 @@ public class LevelGen
                 numRooms++;
             }
         }
-
+        map[lastCenter.x, lastCenter.y].SetConnection(false);
         return map;
     }
 

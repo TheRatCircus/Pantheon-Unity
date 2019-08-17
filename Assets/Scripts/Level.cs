@@ -8,12 +8,14 @@ public class Level : MonoBehaviour
     // Requisite objects
     public PathFinder pf;
 
+    // This level's tilemaps
     public Tilemap terrainTilemap;
+    public Tilemap featureTilemap;
     public Tilemap itemTilemap;
     public Tilemap targettingTilemap;
 
-    public Tile groundTile;
-    public Tile wallTile;
+    public Tile stairsDown;
+    public Tile stairsUp;
     public Tile unknownTile;
 
     public GameObject enemyPrefab;
@@ -23,39 +25,31 @@ public class Level : MonoBehaviour
 
     // Attributes of the level
     Vector2Int levelSize;
-    Vector2Int spawnPoint;
 
     // Contents
     public List<Actor> actors;
-    Player player;
-    public Player _player { get => player; }
 
     // Properties
     public Cell[,] Cells { get => cells; }
     public Vector2Int LevelSize { get => levelSize; }
 
-    // Awake is called when the script instance is being loaded
-    private void Awake()
+    // Initialize this level
+    public void Initialize(bool first)
     {
         levelSize = new Vector2Int(64, 64);
-        cells = LevelGen.GenerateLevel(ref spawnPoint, levelSize, 15, 5, 16);
-    }
+        cells = LevelGen.GenerateLevel(levelSize, 15, 5, 16);
+        CellDrawer.DrawLevel(this);
 
-    // Start is called before the first frame update
-    private void Start()
-    {
-        player = GameObject.Find("PlayerCharacter").GetComponent<Player>();
         pf = new PathFinder(this);
 
-        CellDrawer.DrawLevel(this);
-        SpawnPlayer();
+        if (first)
+            SpawnPlayer();
         SpawnEnemies();
         for (int i = 0; i < 10; i++)
         {
-            GetRandomWalkable().Items.Add(new Item(Database.GetFlask(FlaskType.FlaskHealing)));
-            GetRandomWalkable().Items.Add(new Item(Database.GetScroll(ScrollType.ScrollMagicBullet)));
-        }  
-        RefreshFOV();
+            RandomFloor().Items.Add(new Item(Database.GetFlask(FlaskType.FlaskHealing)));
+            RandomFloor().Items.Add(new Item(Database.GetScroll(ScrollType.ScrollMagicBullet)));
+        }
     }
 
     // Cell accessor, mostly for validation
@@ -67,26 +61,12 @@ public class Level : MonoBehaviour
             throw new System.Exception($"Attempt to access out-of-bounds cell {pos.x}, {pos.y}");
     }
 
-    // Find a random walkable cell in the level
-    public Cell GetRandomWalkable()
-    {
-        Cell cell;
-        do
-        {
-            Vector2Int randomPosition = new Vector2Int
-            {
-                x = Random.Range(0, LevelSize.x),
-                y = Random.Range(0, LevelSize.y)
-            };
-            cell = GetCell(randomPosition);
-        } while (!cell.IsWalkable());
-        return cell;
-    }
-
     // Put the player in their spawn position
     public void SpawnPlayer()
     {
-        player.MoveToCell(GetCell(spawnPoint));
+        actors.Add(Game.instance.player1);
+        Game.instance.player1.MoveToCell(RandomFloor());
+        RefreshFOV();
     }
 
     // Spawn some enemies at random about the dungeon, but never too close to
@@ -101,12 +81,55 @@ public class Level : MonoBehaviour
             {
                 if (attempts > 100)
                     throw new System.Exception("Attempt to generate new enemy position failed");
-                cell = GetRandomWalkable();
+                cell = RandomFloor();
                 attempts++;
-            } while (Distance(cell, GetCell(spawnPoint)) <= 7
+            } while (Distance(cell, Game.instance.player1._cell) <= 7
             || cell._actor != null);
             MakeEntity.MakeEnemyAt(enemyPrefab, this, cell);
         }
+    }
+
+    #region Helpers
+
+    // Find a random walkable cell in the level
+    public Cell RandomFloor()
+    {
+        Cell cell;
+        do
+        {
+            Vector2Int randomPosition = new Vector2Int
+            {
+                x = Random.Range(0, LevelSize.x),
+                y = Random.Range(0, LevelSize.y)
+            };
+            cell = GetCell(randomPosition);
+        } while (!cell.IsWalkable());
+        return cell;
+    }
+
+    // Get a random floor beyond a certain distance from another point
+    public Cell RandomFloorAwayFrom(Cell other, int distance)
+    {
+        Cell cell;
+        do
+        {
+            Vector2Int randomPosition = new Vector2Int
+            {
+                x = Random.Range(0, LevelSize.x),
+                y = Random.Range(0, LevelSize.y)
+            };
+            cell = GetCell(randomPosition);
+        } while (!cell.IsWalkable() || Distance(cell, other) <= distance);
+        return cell;
+    }
+
+    // Get the distance between two cells on this level
+    public int Distance(Cell a, Cell b)
+    {
+        int dx = b.Position.x - a.Position.x;
+        int dy = b.Position.y - a.Position.y;
+
+        return (int)Mathf.Sqrt(Mathf.Pow(dx, 2) + Mathf.Pow(dy, 2));
     }
 
     // Does this Level contain a point?
@@ -137,6 +160,8 @@ public class Level : MonoBehaviour
         return GetCell(newCellPos);
     }
 
+    #endregion
+
     #region FOV
 
     // Change visibility and reveal new cells. Only call when a player spawns
@@ -144,16 +169,7 @@ public class Level : MonoBehaviour
     public void RefreshFOV()
     {
         for (int octant = 0; octant < 8; octant++)
-            CellDrawer.DrawCells(this, ShadowOctant(player.Position, octant));
-    }
-
-    // Get the distance between two cells on this level
-    public int Distance(Cell a, Cell b)
-    {
-        int dx = b.Position.x - a.Position.x;
-        int dy = b.Position.y - a.Position.y;
-
-        return (int)Mathf.Sqrt(Mathf.Pow(dx, 2) + Mathf.Pow(dy, 2));
+            CellDrawer.DrawCells(this, ShadowOctant(Game.instance.player1.Position, octant));
     }
 
     // Coordinates used to transform a point in an octant
@@ -205,14 +221,14 @@ public class Level : MonoBehaviour
                 {
                     fallOff = 0;
                     float distance = Vector2.Distance(origin, pos);
-                    if (distance > player.FOVRadius)
+                    if (distance > Game.instance.player1.FOVRadius)
                     {
                         fallOff = 255;
                         pastMaxDistance = true;
                     }
                     else
                     {
-                        float normalized = distance / player.FOVRadius;
+                        float normalized = distance / Game.instance.player1.FOVRadius;
                         normalized = Mathf.Pow(normalized, 2);
                         fallOff = (int)(normalized * 255);
                     }

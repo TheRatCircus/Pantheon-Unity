@@ -10,18 +10,19 @@ public class MakeEntity : MonoBehaviour
         GameObject magicBulletObj = Instantiate(projPrefab,
             Helpers.V2IToV3(line[0].Position),
             new Quaternion(),
-            TurnController.instance.activeLevel.transform);
+            Game.instance.activeLevel.transform);
         Projectile magicBulletProj = magicBulletObj.GetComponent<Projectile>();
         magicBulletProj.projectileLine = line;
     }
 
     // Make an enemy at a cell
-    public static void MakeEnemyAt(GameObject enemyPrefab, Level level, Cell cell)
+    public static Enemy MakeEnemyAt(GameObject enemyPrefab, Level level, Cell cell)
     {
-        GameObject enemy = Instantiate(enemyPrefab, Helpers.V2IToV3(cell.Position), new Quaternion(), level.transform);
-        Enemy enemyScript = enemy.GetComponent<Enemy>();
-        enemyScript.level = level;
-        level.actors.Add(enemyScript);
-        enemyScript.MoveToCell(cell);
+        GameObject enemyObj = Instantiate(enemyPrefab, Helpers.V2IToV3(cell.Position), new Quaternion(), level.transform);
+        Enemy enemy = enemyObj.GetComponent<Enemy>();
+        enemy.level = level;
+        level.actors.Add(enemy);
+        enemy.MoveToCell(cell);
+        return enemy;
     }
 }

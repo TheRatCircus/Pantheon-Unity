@@ -71,7 +71,8 @@
     <Compile Include="Assets\Scripts\Bresenhams.cs" />
     <Compile Include="Assets\Scripts\Cell.cs" />
     <Compile Include="Assets\Scripts\CellDrawer.cs" />
-    <Compile Include="Assets\Scripts\Database.cs" />
+    <Compile Include="Assets\Scripts\Core\Database.cs" />
+    <Compile Include="Assets\Scripts\Core\Game.cs" />
     <Compile Include="Assets\Scripts\EndTurnEffects\EndTurnEffect.cs" />
     <Compile Include="Assets\Scripts\EndTurnEffects\Projectile.cs" />
     <Compile Include="Assets\Scripts\Enemy.cs" />
@@ -93,7 +94,6 @@
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\PlayerInput.cs" />
     <Compile Include="Assets\Scripts\TerrainData.cs" />
-    <Compile Include="Assets\Scripts\TurnController.cs" />
     <Compile Include="Assets\Scripts\UI\AdvancedAttackUI.cs" />
     <Compile Include="Assets\Scripts\UI\GameLog.cs" />
     <Compile Include="Assets\Scripts\UI\GUIClickController.cs" />
