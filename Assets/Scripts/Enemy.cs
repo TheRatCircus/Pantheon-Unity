@@ -12,9 +12,6 @@ public class Enemy : Actor
     // Awake is called when the first script instance is being loaded
     protected override void Awake()
     {
-        maxHealth = 3;
-        minDamage = 1;
-        maxDamage = 2;
         base.Awake();
     }
 
@@ -22,22 +19,15 @@ public class Enemy : Actor
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-
-        Game.instance.OnNPCTurnEvent += DecideAction;
-        Game.instance.OnTurnChangeEvent += TurnUpdate;
-
         spriteRenderer.enabled = cell.Visible;
     }
 
-    // Changes made to this actor on a per-turn basis
-    void TurnUpdate()
+    // Evaluate the situation and act
+    public override int Act()
     {
+        // Change visibility
         spriteRenderer.enabled = cell.Visible;
-    }
 
-    // Evaluate the situation and decide what to do next
-    void DecideAction()
-    {
         // Detect player if coming into player's view
         if (cell.Visible && target == null)
         {
@@ -48,9 +38,17 @@ public class Enemy : Actor
         // Engage in combat
         if (target != null)
             if (!level.AdjacentTo(cell, target._cell))
+            {
                 PathMoveToTarget();
+                return moveSpeed;
+            }
             else
+            {
                 TryToHit(target);
+                return attackSpeed;
+            }
+        else
+            return Game.TurnTime;
     }
 
     // Make a single move along a path towards a target
@@ -65,7 +63,5 @@ public class Enemy : Actor
     protected override void OnDeath()
     {
         base.OnDeath();
-        Game.instance.OnNPCTurnEvent -= DecideAction;
-        Game.instance.OnTurnChangeEvent -= TurnUpdate;
     }
 }

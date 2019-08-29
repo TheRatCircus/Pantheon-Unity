@@ -96,8 +96,15 @@ MonoBehaviour:
   level: {fileID: 0}
   actorName: Goblin
   NameIsProper: 0
-  armour: 0
-  evasion: 0
+  MaxHealth: 3
+  speed: 100
+  energy: 100
+  moveSpeed: 100
+  minDamage: 1
+  maxDamage: 2
+  attackSpeed: 100
+  armour: 1
+  evasion: 1
   corpse: 1
 --- !u!114 &-8335030903266508829
 MonoBehaviour:

@@ -1,7 +1,8 @@
 ﻿// Base class for a scroll
 using UnityEngine;
+using Pantheon.Actions;
 
-[CreateAssetMenu(fileName = "New Scroll", menuName = "Items/Scroll")]
+[CreateAssetMenu(fileName = "New Scroll", menuName = "Items/Scroll/BasicScroll")]
 public class Scroll : ItemData
 {
     public ScrollType _scrollType;
@@ -9,7 +10,7 @@ public class Scroll : ItemData
     // Behaviour when used by a player
     public override void OnUse(Player user, Item item)
     {
-        new ItemUseResult(user, item, onUse).TryAction();
+        ItemUseAction itemUse = new ItemUseAction(user, item);
     }
 
     // Behaviour when used by an NPC

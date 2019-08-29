@@ -32,6 +32,10 @@ public class PlayerInput : MonoBehaviour
         get => inputState;
         set => inputState = value;
     }
+    public List<Cell> TargetLine { get => targetLine; }
+
+    // Delegates
+    public delegate void LineTargetDelegate();
 
     // Events
     public event Action<Cell> PointTargetConfirmEvent;
@@ -66,143 +70,193 @@ public class PlayerInput : MonoBehaviour
         MouseInput();
     }
 
-    // Handle keyboard input
+    public int Act()
+    {
+        // If actively targetting, consume no energy
+        if (inputState != InputState.Move)
+            return -1;
+
+        if (player.MovePath.Count > 0)
+        {
+            return player.MoveAlongPath();
+        }
+
+        // Actions only available on player's turn, but consume no energy
+        if (inputState == InputState.Move)
+            if (Input.GetButtonDown("AdvancedAttack"))
+            {
+                GameLog.Send("Advanced attack: select a target.", MessageColour.Teal);
+                inputState = InputState.PointTarget;
+                return -1;
+            }
+
+        if (Input.GetButtonDown("Up"))
+        {
+            return player.PlayerTryMove(Vector2Int.up);
+        }
+        else if (Input.GetButtonDown("Down"))
+        {
+            return player.PlayerTryMove(Vector2Int.down);
+        }
+        else if (Input.GetButtonDown("Left"))
+        {
+            return player.PlayerTryMove(Vector2Int.left);
+        }
+        else if (Input.GetButtonDown("Right"))
+        {
+            return player.PlayerTryMove(Vector2Int.right);
+        }
+        else if (Input.GetButtonDown("Up Left"))
+        {
+            return player.PlayerTryMove(new Vector2Int(-1, 1));
+        }
+        else if (Input.GetButtonDown("Up Right"))
+        {
+            return player.PlayerTryMove(new Vector2Int(1, 1));
+        }
+        else if (Input.GetButtonDown("Down Left"))
+        {
+            return player.PlayerTryMove(new Vector2Int(-1, -1));
+        }
+        else if (Input.GetButtonDown("Down Right"))
+        {
+            return player.PlayerTryMove(new Vector2Int(1, -1));
+        }
+        else if (Input.GetButtonDown("Wait"))
+        {
+            return Game.TurnTime;
+        }
+        else if (Input.GetButtonDown("Pickup"))
+        {
+            player.TryPickup();
+            return Game.TurnTime;
+        }
+        else if (Input.GetButtonDown("Ascend"))
+        {
+            if (player._cell._connection != null && player._cell._connection.upstairs)
+            {
+                player._cell._connection.GoToLevel(player);
+                GameLog.Send("You ascend the stairs...", MessageColour.White);
+                return Game.TurnTime;
+            }
+            else
+            {
+                GameLog.Send("There is nothing to ascend here.", MessageColour.Grey);
+                return -1;
+            } 
+        }
+        else if (Input.GetButtonDown("Descend"))
+        {
+            if (player._cell._connection != null && !player._cell._connection.upstairs)
+            {
+                player._cell._connection.GoToLevel(player);
+                GameLog.Send("You descend the stairs...", MessageColour.White);
+                return Game.TurnTime;
+            }
+            else
+            {
+                GameLog.Send("There is nothing to descend here.", MessageColour.Grey);
+                return -1;
+            }  
+        }
+
+        else return -1; // Wait for input if none received
+    }
+
+    // Handle keyboard input feasible when not player's turn
     private void KeyInput()
     {
-        if (Game.instance.gameState == GameState.Player0Turn)
+        if (inputState == InputState.PointTarget)
         {
-            if (inputState == InputState.Move)
+            if (Input.GetButtonDown("Up"))
+                MoveCrosshair(player.level.GetAdjacentCell(player._cell, Vector2Int.up));
+            else if (Input.GetButtonDown("Down"))
+                MoveCrosshair(player.level.GetAdjacentCell(player._cell, Vector2Int.down));
+            else if (Input.GetButtonDown("Left"))
+                MoveCrosshair(player.level.GetAdjacentCell(player._cell, Vector2Int.left));
+            else if (Input.GetButtonDown("Right"))
+                MoveCrosshair(player.level.GetAdjacentCell(player._cell, Vector2Int.right));
+            else if (Input.GetButtonDown("Up Left"))
+                MoveCrosshair(player.level.GetAdjacentCell(player._cell, new Vector2Int(-1, 1)));
+            else if (Input.GetButtonDown("Up Right"))
+                MoveCrosshair(player.level.GetAdjacentCell(player._cell, new Vector2Int(1, 1)));
+            else if (Input.GetButtonDown("Down Left"))
+                MoveCrosshair(player.level.GetAdjacentCell(player._cell, new Vector2Int(-1, -1)));
+            else if (Input.GetButtonDown("Down Right"))
+                MoveCrosshair(player.level.GetAdjacentCell(player._cell, new Vector2Int(1, -1)));
+            else if (Input.GetButtonDown("Submit"))
             {
-                if (Input.GetButtonDown("Up"))
-                    player.PlayerTryMove(Vector2Int.up);
-                else if (Input.GetButtonDown("Down"))
-                    player.PlayerTryMove(Vector2Int.down);
-                else if (Input.GetButtonDown("Left"))
-                    player.PlayerTryMove(Vector2Int.left);
-                else if (Input.GetButtonDown("Right"))
-                    player.PlayerTryMove(Vector2Int.right);
-                else if (Input.GetButtonDown("Up Left"))
-                    player.PlayerTryMove(new Vector2Int(-1, 1));
-                else if (Input.GetButtonDown("Up Right"))
-                    player.PlayerTryMove(new Vector2Int(1, 1));
-                else if (Input.GetButtonDown("Down Left"))
-                    player.PlayerTryMove(new Vector2Int(-1, -1));
-                else if (Input.GetButtonDown("Down Right"))
-                    player.PlayerTryMove(new Vector2Int(1, -1));
-                else if (Input.GetButtonDown("Wait"))
-                    player.WaitOneTurn();
-                else if (Input.GetButtonDown("Pickup"))
-                    player.TryPickup();
-                else if (Input.GetButtonDown("AdvancedAttack"))
-                {
-                    GameLog.Send("Advanced attack: select a target.", MessageColour.Teal);
-                    inputState = InputState.PointTarget;
-                }
-                else if (Input.GetButtonDown("Ascend"))
-                {
-                    if (player._cell._connection != null && player._cell._connection.upstairs)
-                    {
-                        player._cell._connection.GoToLevel(player);
-                        GameLog.Send("You ascend the stairs...", MessageColour.White);
-                    }
-                    else
-                        GameLog.Send("There is nothing to ascend here.", MessageColour.Grey);
-                }   
-                else if (Input.GetButtonDown("Descend"))
-                {
-                    if (player._cell._connection != null && !player._cell._connection.upstairs)
-                    {
-                        player._cell._connection.GoToLevel(player);
-                        GameLog.Send("You descend the stairs...", MessageColour.White);
-                    }
-                    else
-                        GameLog.Send("There is nothing to descend here.", MessageColour.Grey);
-                }
+                PointTargetConfirmEvent?.Invoke(targetCell);
+                inputState = InputState.Move;
             }
-            else if (inputState == InputState.PointTarget)
+            else if (Input.GetButtonDown("Cancel"))
             {
-                if (Input.GetButtonDown("Up"))
-                    MoveCrosshair(player.level.GetAdjacentCell(player._cell, Vector2Int.up));
-                else if (Input.GetButtonDown("Down"))
-                    MoveCrosshair(player.level.GetAdjacentCell(player._cell, Vector2Int.down));
-                else if (Input.GetButtonDown("Left"))
-                    MoveCrosshair(player.level.GetAdjacentCell(player._cell, Vector2Int.left));
-                else if (Input.GetButtonDown("Right"))
-                    MoveCrosshair(player.level.GetAdjacentCell(player._cell, Vector2Int.right));
-                else if (Input.GetButtonDown("Up Left"))
-                    MoveCrosshair(player.level.GetAdjacentCell(player._cell, new Vector2Int(-1, 1)));
-                else if (Input.GetButtonDown("Up Right"))
-                    MoveCrosshair(player.level.GetAdjacentCell(player._cell, new Vector2Int(1, 1)));
-                else if (Input.GetButtonDown("Down Left"))
-                    MoveCrosshair(player.level.GetAdjacentCell(player._cell, new Vector2Int(-1, -1)));
-                else if (Input.GetButtonDown("Down Right"))
-                    MoveCrosshair(player.level.GetAdjacentCell(player._cell, new Vector2Int(1, -1)));
-                else if (Input.GetButtonDown("Submit"))
-                {
-                    PointTargetConfirmEvent?.Invoke(targetCell);
-                    inputState = InputState.Move;
-                }
-                else if (Input.GetButtonDown("Cancel"))
-                {
-                    TargetCancelEvent?.Invoke();
-                    inputState = InputState.Move;
-                    GameLog.Send("Targetting cancelled.", MessageColour.Teal);
-                }
+                TargetCancelEvent?.Invoke();
+                inputState = InputState.Move;
+                GameLog.Send("Targetting cancelled.", MessageColour.Teal);
             }
-            else if (inputState == InputState.LineTarget)
+        }
+        else if (inputState == InputState.LineTarget)
+        {
+            if (Input.GetButtonDown("Up"))
             {
-                if (Input.GetButtonDown("Up"))
-                {
-                    MoveCrosshair(player.level.GetAdjacentCell(targetCell, Vector2Int.up));
-                    CellDrawer.PaintCells(player.level, targetLine);
-                }
-                else if (Input.GetButtonDown("Down"))
-                {
-                    MoveCrosshair(player.level.GetAdjacentCell(targetCell, Vector2Int.down));
-                    CellDrawer.PaintCells(player.level, targetLine);
-                }
-                else if (Input.GetButtonDown("Left"))
-                {
-                    MoveCrosshair(player.level.GetAdjacentCell(targetCell, Vector2Int.left));
-                    CellDrawer.PaintCells(player.level, targetLine);
-                }
-                else if (Input.GetButtonDown("Right"))
-                {
-                    MoveCrosshair(player.level.GetAdjacentCell(targetCell, Vector2Int.right));
-                    CellDrawer.PaintCells(player.level, targetLine);
-                }
-                else if (Input.GetButtonDown("Up Left"))
-                {
-                    MoveCrosshair(player.level.GetAdjacentCell(targetCell, new Vector2Int(-1, 1)));
-                    CellDrawer.PaintCells(player.level, targetLine);
-                }
-                else if (Input.GetButtonDown("Up Right"))
-                {
-                    MoveCrosshair(player.level.GetAdjacentCell(targetCell, new Vector2Int(1, 1)));
-                    CellDrawer.PaintCells(player.level, targetLine);
-                }
-                else if (Input.GetButtonDown("Down Left"))
-                {
-                    MoveCrosshair(player.level.GetAdjacentCell(targetCell, new Vector2Int(-1, -1)));
-                    CellDrawer.PaintCells(player.level, targetLine);
-                }
-                else if (Input.GetButtonDown("Down Right"))
-                {
-                    MoveCrosshair(player.level.GetAdjacentCell(targetCell, new Vector2Int(1, -1)));
-                    CellDrawer.PaintCells(player.level, targetLine);
-                }
-                else if (Input.GetButtonDown("Submit"))
-                {
-                    ConfirmLineTargetting();
-                }
-                else if (Input.GetButtonDown("Cancel"))
-                {
-                    CancelLineTargetting();
-                }
+                MoveCrosshair(player.level.GetAdjacentCell(targetCell, Vector2Int.up));
+                targetLine = Bresenhams.GetPath(player.level, player._cell, targetCell);
+                CellDrawer.PaintCells(player.level, targetLine);
+            }
+            else if (Input.GetButtonDown("Down"))
+            {
+                MoveCrosshair(player.level.GetAdjacentCell(targetCell, Vector2Int.down));
+                targetLine = Bresenhams.GetPath(player.level, player._cell, targetCell);
+                CellDrawer.PaintCells(player.level, targetLine);
+            }
+            else if (Input.GetButtonDown("Left"))
+            {
+                MoveCrosshair(player.level.GetAdjacentCell(targetCell, Vector2Int.left));
+                targetLine = Bresenhams.GetPath(player.level, player._cell, targetCell);
+                CellDrawer.PaintCells(player.level, targetLine);
+            }
+            else if (Input.GetButtonDown("Right"))
+            {
+                MoveCrosshair(player.level.GetAdjacentCell(targetCell, Vector2Int.right));
+                targetLine = Bresenhams.GetPath(player.level, player._cell, targetCell);
+                CellDrawer.PaintCells(player.level, targetLine);
+            }
+            else if (Input.GetButtonDown("Up Left"))
+            {
+                MoveCrosshair(player.level.GetAdjacentCell(targetCell, new Vector2Int(-1, 1)));
+                targetLine = Bresenhams.GetPath(player.level, player._cell, targetCell);
+                CellDrawer.PaintCells(player.level, targetLine);
+            }
+            else if (Input.GetButtonDown("Up Right"))
+            {
+                MoveCrosshair(player.level.GetAdjacentCell(targetCell, new Vector2Int(1, 1)));
+                targetLine = Bresenhams.GetPath(player.level, player._cell, targetCell);
+                CellDrawer.PaintCells(player.level, targetLine);
+            }
+            else if (Input.GetButtonDown("Down Left"))
+            {
+                MoveCrosshair(player.level.GetAdjacentCell(targetCell, new Vector2Int(-1, -1)));
+                targetLine = Bresenhams.GetPath(player.level, player._cell, targetCell);
+                CellDrawer.PaintCells(player.level, targetLine);
+            }
+            else if (Input.GetButtonDown("Down Right"))
+            {
+                MoveCrosshair(player.level.GetAdjacentCell(targetCell, new Vector2Int(1, -1)));
+                targetLine = Bresenhams.GetPath(player.level, player._cell, targetCell);
+                CellDrawer.PaintCells(player.level, targetLine);
+            }
+            else if (Input.GetButtonDown("Submit"))
+            {
+                ConfirmLineTargetting();
+            }
+            else if (Input.GetButtonDown("Cancel"))
+            {
+                CancelLineTargetting();
             }
         }
 
-        // Actions feasible even if not this player's turn
+        // Actions which are always available
         if (Input.GetButtonDown("Inventory"))
             player.RaiseInventoryToggleEvent();
     }
@@ -226,6 +280,8 @@ public class PlayerInput : MonoBehaviour
             {
                 case InputState.Move:
                     break;
+                case InputState.PointTarget:
+                    break;
                 case InputState.LineTarget:
                     CellDrawer.PaintCells(player.level, Bresenhams.GetPath(player.level, player._cell, targetCell));
                     break;
@@ -240,21 +296,18 @@ public class PlayerInput : MonoBehaviour
         {
             // Left-click is contextual
             case InputState.Move:
-                if (Input.GetMouseButtonDown(0) &&
-                Game.IsPlayerTurn() &&
-                targetCell.Revealed)
+                if (Input.GetMouseButtonDown(0) && targetCell.Revealed)
                 {
                     path = player.level.pf.GetCellPath(Game.instance.player1.Position, targetCell.Position);
-                    player.MoveAlongPath(path);
+                    player.MovePath = path;
+                    //player.MoveAlongPath(path);
                 }
                 break;
             case InputState.PointTarget:
                 break;
             case InputState.LineTarget:
                 if (Input.GetMouseButtonDown(0) && targetCell.Revealed)
-                {
                     ConfirmLineTargetting();
-                }
                 break;
         }
 
@@ -265,12 +318,12 @@ public class PlayerInput : MonoBehaviour
             DebugChangeCell(targetCell);
     }
 
+    // Move crosshair and change its targetted cell
     private void MoveCrosshair(Cell newCell)
     {
         targetCell = newCell;
         if (targetCell != null)
         {
-            // Move crosshair
             Vector3 crosshairPos = new Vector3(newCell.Position.x, newCell.Position.y);
             crosshair.transform.position = crosshairPos;
         }
@@ -302,7 +355,7 @@ public class PlayerInput : MonoBehaviour
 
     // Perform a line-targetted action. Return true if confirmed; false if
     // cancelled
-    public IEnumerator LineTarget(ActionResult ActionResult)
+    public IEnumerator LineTarget(LineTargetDelegate onConfirm)
     {
         // Start the line targetting input state
         inputState = InputState.LineTarget;
@@ -313,7 +366,7 @@ public class PlayerInput : MonoBehaviour
         // When user sends confirm/cancel input, continue coroutine
         yield return new WaitUntil(() => inputState != InputState.LineTarget);
         if (confirmed)
-            ActionResult.DoLineAction(targetLine);
+            onConfirm?.Invoke();
 
         TargetConfirmEvent -= () => confirmed = true;
     }

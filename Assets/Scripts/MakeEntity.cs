@@ -13,6 +13,7 @@ public class MakeEntity : MonoBehaviour
             Game.instance.activeLevel.transform);
         Projectile magicBulletProj = magicBulletObj.GetComponent<Projectile>();
         magicBulletProj.projectileLine = line;
+        magicBulletProj.FireProjectile();
     }
 
     // Make an enemy at a cell
@@ -22,6 +23,7 @@ public class MakeEntity : MonoBehaviour
         Enemy enemy = enemyObj.GetComponent<Enemy>();
         enemy.level = level;
         level.actors.Add(enemy);
+        Game.instance.AddActor(enemy);
         enemy.MoveToCell(cell);
         return enemy;
     }

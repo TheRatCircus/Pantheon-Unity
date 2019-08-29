@@ -62,19 +62,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\ActionResults\ActionResult.cs" />
-    <Compile Include="Assets\Scripts\ActionResults\ItemUseResult.cs" />
     <Compile Include="Assets\Scripts\Actions\BaseAction.cs" />
     <Compile Include="Assets\Scripts\Actions\HealAction.cs" />
-    <Compile Include="Assets\Scripts\Actions\LineProjectileAction.cs" />
+    <Compile Include="Assets\Scripts\Actions\ItemUseAction.cs" />
+    <Compile Include="Assets\Scripts\Actions\LineProjAction.cs" />
     <Compile Include="Assets\Scripts\Actor.cs" />
     <Compile Include="Assets\Scripts\Bresenhams.cs" />
     <Compile Include="Assets\Scripts\Cell.cs" />
     <Compile Include="Assets\Scripts\CellDrawer.cs" />
     <Compile Include="Assets\Scripts\Core\Database.cs" />
     <Compile Include="Assets\Scripts\Core\Game.cs" />
-    <Compile Include="Assets\Scripts\EndTurnEffects\EndTurnEffect.cs" />
-    <Compile Include="Assets\Scripts\EndTurnEffects\Projectile.cs" />
     <Compile Include="Assets\Scripts\Enemy.cs" />
     <Compile Include="Assets\Scripts\Enumerations\CorpseType.cs" />
     <Compile Include="Assets\Scripts\Enumerations\PotionType.cs" />
@@ -85,6 +82,7 @@
     <Compile Include="Assets\Scripts\Items\Flask.cs" />
     <Compile Include="Assets\Scripts\Items\Item.cs" />
     <Compile Include="Assets\Scripts\Items\ItemData.cs" />
+    <Compile Include="Assets\Scripts\Items\ProjectileScroll.cs" />
     <Compile Include="Assets\Scripts\Items\Scroll.cs" />
     <Compile Include="Assets\Scripts\Level.cs" />
     <Compile Include="Assets\Scripts\LevelGen.cs" />
@@ -93,6 +91,7 @@
     <Compile Include="Assets\Scripts\Pathfinder.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\PlayerInput.cs" />
+    <Compile Include="Assets\Scripts\Projectile.cs" />
     <Compile Include="Assets\Scripts\TerrainData.cs" />
     <Compile Include="Assets\Scripts\UI\AdvancedAttackUI.cs" />
     <Compile Include="Assets\Scripts\UI\GameLog.cs" />

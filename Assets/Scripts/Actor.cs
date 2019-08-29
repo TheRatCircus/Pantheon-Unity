@@ -16,18 +16,22 @@ public class Actor : MonoBehaviour
     public bool NameIsProper; // False if name should start with "The/the"
 
     protected int health;
-    protected int maxHealth;
+    public int MaxHealth;
 
-    // Melee attributes
-    protected int minDamage;
-    protected int maxDamage;
-
-    // Defense attributes
+    // Attributes
+    public int speed; // Energy per turn
+    public int energy; // Energy remaining
+    public int moveSpeed; // Energy needed to walk one cell
+    public int minDamage;
+    public int maxDamage;
+    public int attackSpeed;
     public int armour;
     public int evasion;
 
     // Per-actor-type data
     public CorpseType corpse;
+
+    public Pantheon.Actions.BaseAction nextAction;
 
     // Properties
     public Cell _cell { get => cell; }
@@ -38,13 +42,12 @@ public class Actor : MonoBehaviour
         set
         {
             // TODO: Infinitely negative lower bound?
-            health = Mathf.Clamp(value, -255, maxHealth);
+            health = Mathf.Clamp(value, -255, MaxHealth);
             if (health <= 0)
                 OnDeath();
-            OnHealthChangeEvent?.Invoke(health, maxHealth);
+            OnHealthChangeEvent?.Invoke(health, MaxHealth);
         }
     }
-    public int MaxHealth { get => maxHealth; }
     public List<Item> Inventory { get => inventory; }
 
     // Events
@@ -52,7 +55,9 @@ public class Actor : MonoBehaviour
     public event Action<Cell> OnMoveEvent;
 
     // Awake is called when the script instance is being loaded
-    protected virtual void Awake() => health = maxHealth;
+    protected virtual void Awake() => health = MaxHealth;
+
+    public virtual int Act() { Debug.LogWarning("Attempted call of base Act()"); return -1; }
 
     // Attempt to move to another given Cell
     protected virtual void TryMove(Cell destinationCell)
@@ -131,6 +136,7 @@ public class Actor : MonoBehaviour
     protected virtual void OnDeath()
     {
         level.actors.Remove(this);
+        Game.instance.RemoveActor(this);
         cell._actor = null;
         Destroy(gameObject);
         GameLog.Send($"You kill {GameLog.GetSubject(this, false)}!", MessageColour.White);

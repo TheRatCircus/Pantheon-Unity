@@ -1,18 +1,9 @@
 ﻿// Main game loop handling
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Represents the list of states the game can be in
-public enum GameState
-{
-    Player0Turn = 0,
-    EnemyTurn = 1,
-    PlayersDead = 2
-}
-
-public class Game : MonoBehaviour
+public sealed class Game : MonoBehaviour
 {
     // Singleton
     public static Game instance;
@@ -20,11 +11,15 @@ public class Game : MonoBehaviour
     // Basic prefabs
     public GameObject levelPrefab;
 
-    // Current turn
-    public int turn = 0;
+    // Constants
+    public const int TurnTime = 100; // One turn: waiting, picking things up
+    public const int ActorsPerUpdate = 1000;
 
-    // The game's state
-    public GameState gameState = GameState.Player0Turn;
+    List<Actor> queue;
+    Actor currentActor;
+    bool currentActorRemoved;
+
+    int lockCount;
 
     // Keep a global list of all players
     public Player player1;
@@ -33,78 +28,101 @@ public class Game : MonoBehaviour
     public List<Level> levels;
     public Level activeLevel;
 
-    public List<EndTurnEffect> EndTurnEffects;
-
-    // Events
-    public event Action OnTurnChangeEvent;
-    public event Action OnNPCTurnEvent;
-
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
         if (instance != null)
-            Debug.LogWarning("TurnController singleton assigned in error");
+            Debug.LogWarning("Game singleton assigned in error");
         else
             instance = this;
 
-        EndTurnEffects = new List<EndTurnEffect>();
+        queue = new List<Actor>();
     }
 
     // Start is called before the first frame update
     private void Start()
     {
+        AddActor(player1);
         activeLevel.Initialize(true);
     }
 
-    // Announce the end of a player turn
-    public void EndTurn()
+    private void Update()
     {
-        StartCoroutine(ProcessEndTurnEffects());
+        for (int i = 0; i < queue.Count; i++)
+            if (!Tick())
+                break;
     }
 
-    // Process all end-of-turn effects
-    public IEnumerator ProcessEndTurnEffects()
+    public void AddActor(Actor actor) => queue.Add(actor);
+    public void RemoveActor(Actor actor)
     {
-        foreach (EndTurnEffect effect in EndTurnEffects)
-            yield return StartCoroutine(effect.DoEffect());
+        queue.Remove(actor);
 
-        EndTurnEffects.Clear();
-        ChangeTurn();
+        if (currentActor == actor)
+            currentActorRemoved = true;
     }
 
-    // Change turn over to next state
-    public void ChangeTurn()
+    public void Lock() => lockCount++;
+    public void Unlock()
     {
-        switch (gameState)
+        if (lockCount == 0)
+            throw new Exception("Cannot unlock turn scheduler when not locked");
+
+        lockCount--;
+    }
+
+    private bool Tick()
+    {
+        if (lockCount > 0)
+            return false;
+
+        if (queue.Count <= 0)
+            throw new Exception("Turn queue should not be empty");
+
+        Actor actor = queue[0];
+        if (actor == null)
+            return false;
+
+        if (currentActorRemoved)
         {
-            case GameState.Player0Turn:
-                gameState = GameState.EnemyTurn;
-                DoEnemyTurn();
-                break;
-            case GameState.EnemyTurn:
-                gameState = GameState.Player0Turn;
-                // End of round
-                turn++;
-                break;
+            currentActorRemoved = false;
+            return true;
         }
+
+        while (actor.energy > 0)
+        {
+            currentActor = actor;
+            int actionCost = actor.Act();
+            currentActor = null;
+
+            if (currentActorRemoved)
+            {
+                currentActorRemoved = false;
+                return true;
+            }
+
+            // Handle asynchronous input by returning -1
+            if (actionCost < 0)
+                return false;
+
+            actor.energy -= actionCost;
+
+            // Action may have added a lock
+            if (lockCount > 0)
+                return false;
+        }
+
+        // Give the actor their speed value's worth of energy back
+        actor.energy += actor.speed;
+        Actor dequeued = queue[0];
+        queue.RemoveAt(0);
+        queue.Add(dequeued);
+
         activeLevel.RefreshFOV();
-        OnTurnChangeEvent?.Invoke();
+
+        return true;
     }
 
-    // Check if player's turn to avoid unwieldy comparisons in other code
-    public static bool IsPlayerTurn()
-    {
-        return instance.gameState == GameState.Player0Turn;
-    }
-
-    // Send event to all enemies allowing them to carry out their turn,
-    // and then change back to players
-    private void DoEnemyTurn()
-    {
-        OnNPCTurnEvent?.Invoke();
-        EndTurn();
-    }
-    
     // Load a level into the scene
     public void LoadLevel(Level level)
     {
@@ -112,7 +130,6 @@ public class Game : MonoBehaviour
         lastLevel.gameObject.SetActive(false);
         activeLevel = level;
         level.gameObject.SetActive(true);
-        EndTurn();
     }
 
     // Construct a new level

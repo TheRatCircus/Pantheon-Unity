@@ -1,24 +1,24 @@
-﻿// Healing action
-using UnityEngine;
-
-[CreateAssetMenu(fileName = "New HealAction", menuName = "Actions/Heal Action")]
-public class HealAction : BaseAction
+﻿// 
+namespace Pantheon.Actions
 {
-    public bool percentBased;
-    public int healAmount;
-    public float healPercent;
-
-    // Carry out the healing action
-    public override void DoAction(Actor actor)
+    public class HealAction : BaseAction
     {
-        if (percentBased)
-            actor.Health += (int)(actor.MaxHealth * healPercent);
-        else
-            actor.Health += healAmount;
+        public int HealAmount;
+        public float HealPercent;
 
-        if (actor is Player)
-            GameLog.Send("You are rejuvenated!", MessageColour.White);
-        else
-            GameLog.Send($"The {actor.actorName} appears rejuvenated.", MessageColour.White);
+        public HealAction(Actor actor, int healAmount, float healPercent)
+            : base(actor)
+        {
+            ActionCost = -1; // Real cost is from casting spell, using item, etc.
+            HealAmount = healAmount;
+            HealPercent = healPercent;
+        }
+
+        public override int DoAction()
+        {
+            actor.Health += HealAmount;
+            actor.Health += (int)(actor.MaxHealth * HealPercent);
+            return ActionCost;
+        }
     }
 }

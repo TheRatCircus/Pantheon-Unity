@@ -1,15 +1,17 @@
-﻿// Prescribes behaviours carried out ingame
-using System.Collections.Generic;
-using UnityEngine;
-
-public abstract class BaseAction : ScriptableObject
+﻿// 
+namespace Pantheon.Actions
 {
-    public ActionResult Result;
-    public bool NeedsLineTaret;
-    public bool NeedsActor;
+    public abstract class BaseAction
+    {
+        public Actor actor;
+        public int ActionCost;
 
-    // Different overloads of DoAction for different needed parameters
-    public virtual void DoAction() { }
-    public virtual void DoAction(Actor actor) { }
-    public virtual void DoAction(List<Cell> line) { }
+        public BaseAction(Actor actor)
+        {
+            this.actor = actor;
+        }
+
+        public virtual void AssignAction() => actor.nextAction = this;
+        public abstract int DoAction();
+    }
 }

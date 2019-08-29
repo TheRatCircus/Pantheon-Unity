@@ -1,5 +1,6 @@
 ﻿// Class representing an actualized item in the game
 using UnityEngine;
+using Pantheon.Actions;
 
 public class Item
 {

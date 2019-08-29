@@ -168,8 +168,14 @@ public class Level : MonoBehaviour
     // or moves/is moved
     public void RefreshFOV()
     {
+        List<Cell> allRefreshed = new List<Cell>();
         for (int octant = 0; octant < 8; octant++)
-            CellDrawer.DrawCells(this, ShadowOctant(Game.instance.player1.Position, octant));
+        {
+            List<Cell> refreshed = ShadowOctant(Game.instance.player1.Position, octant);
+            CellDrawer.DrawCells(this, refreshed);
+            allRefreshed.AddRange(refreshed);
+        }
+        Game.instance.player1.UpdateVisibleCells(allRefreshed);
     }
 
     // Coordinates used to transform a point in an octant

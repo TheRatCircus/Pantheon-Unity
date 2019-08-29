@@ -13,9 +13,13 @@ public class Player : Actor
     // and point in grid
     private int fovRadius = 15;
 
+    private List<Cell> visibleCells;
+    private List<Cell> movePath;
+
     // Properties
     public int FOVRadius { get => fovRadius; }
     public PlayerInput _input { get => input; }
+    public List<Cell> MovePath { get => movePath; set => movePath = value; }
 
     // Events
     public event Action OnInventoryChangeEvent;
@@ -28,55 +32,86 @@ public class Player : Actor
     // Awake is called when the script instance is being loaded
     protected override void Awake()
     {
-        actorName = "Player";
-        maxHealth = 1000;
-        minDamage = 2;
-        maxDamage = 4;
         base.Awake();
         inventory = new List<Item>(inventorySize);
+        visibleCells = new List<Cell>();
+        movePath = new List<Cell>();
     }
 
     // Start is called before the first frame update
-    private void Start()
+    private void Start() => input = GetComponent<PlayerInput>();
+
+    public override int Act()
     {
-        input = GetComponent<PlayerInput>();
+        if (nextAction != null)
+        {
+            Pantheon.Actions.BaseAction ret = nextAction;
+            nextAction = null;
+            return ret.DoAction();
+        }
+        else return input.Act();
     }
 
     // Attempt to move along a given path
-    public void MoveAlongPath(List<Cell> path)
+    public int MoveAlongPath()
     {
-        foreach (Cell cell in path)
-        {
-            bool nearbyEnemy = false;
-            foreach (Actor actor in level.actors)
-                if (actor is Enemy && actor._cell.Visible)
-                    nearbyEnemy = true;
-            if (nearbyEnemy)
+        if (movePath.Count <= 0)
+            return -1;
+
+        foreach (Cell c in visibleCells)
+            if (c._actor is Enemy)
             {
                 GameLog.Send($"An enemy is nearby!", MessageColour.Red);
-                break;
+                movePath.Clear();
+                return -1;
             }
-            PlayerTryMove(cell);
-        }
+
+        int ret = PlayerTryMove(movePath[0]);
+        movePath.RemoveAt(0);
+        return ret;
+    }
+
+    // Update the list of cells visible to this player
+    public void UpdateVisibleCells(List<Cell> refreshed)
+    {
+        if (visibleCells != null)
+            visibleCells.Clear();
+
+        foreach (Cell c in refreshed)
+            if (c.Visible) visibleCells.Add(c);
     }
 
     // Attempt to move to another given Cell
-    private void PlayerTryMove(Cell cell)
+    private int PlayerTryMove(Cell cell)
     {
         if (cell != null && cell.IsWalkable())
+        {
             PlayerMove(cell);
+            return moveSpeed;
+        }
         else if (cell._actor != null)
+        {
             Attack(cell);
+            return attackSpeed;
+        }
+        else return -1;
     }
 
     // Attempt to move to another cell by delta Vector
-    public void PlayerTryMove(Vector2Int pos)
+    public int PlayerTryMove(Vector2Int pos)
     {
         Cell cell = level.GetCell(this.cell.Position + pos);
         if (cell != null && cell.IsWalkable())
+        {
             PlayerMove(cell);
+            return moveSpeed;
+        }
         else if (cell._actor != null)
+        {
             Attack(cell);
+            return attackSpeed;
+        }
+        else return -1;
     }
 
     // Actually make the move to another cell
@@ -84,13 +119,6 @@ public class Player : Actor
     {
         MoveToCell(destinationCell);
         PrintTileContents();
-        Game.instance.EndTurn();
-    }
-
-    // Wait a single turn
-    public void WaitOneTurn()
-    {
-        Game.instance.EndTurn();
     }
 
     // Try to make a melee attack on a target cell
@@ -112,7 +140,6 @@ public class Player : Actor
             MeleeHit(target);
         else if (target.Health > 0) // Can't miss a dead target
             GameLog.Send($"You miss {GameLog.GetSubject(target, false)}.", MessageColour.Grey);
-        Game.instance.EndTurn();
     }
 
     // Deal damage to an actor with a successful melee hit
@@ -155,7 +182,6 @@ public class Player : Actor
         inventory.Add(item);
         item.Owner = this;
         OnInventoryChangeEvent?.Invoke();
-        Game.instance.EndTurn();
     }
 
     // Try to use an item
@@ -179,7 +205,6 @@ public class Player : Actor
     {
         RemoveItem(item);
         GameLog.Send($"You drop the {item.DisplayName}", MessageColour.Grey);
-        Game.instance.EndTurn();
     }
 
     #endregion
@@ -217,7 +242,6 @@ public class Player : Actor
     {
         cell._actor = null;
         level.actors.Remove(this);
-        Game.instance.gameState = GameState.PlayersDead;
         GameLog.Send("You perish...", MessageColour.Purple);
     }
 }

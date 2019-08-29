@@ -1,5 +1,6 @@
 ﻿// Base class for flasks
 using UnityEngine;
+using Pantheon.Actions;
 
 [CreateAssetMenu(fileName = "New Flask", menuName = "Items/Flask")]
 public class Flask : ItemData
@@ -9,7 +10,8 @@ public class Flask : ItemData
     // Behaviour when used by a player
     public override void OnUse(Player user, Item item)
     {
-        new ItemUseResult(user, item, onUse).TryAction();
+        ItemUseAction itemUse = new ItemUseAction(user, item, new HealAction(user, 0, .25f));
+        itemUse.DoAction();
     }
 
     // Behaviour when used by an NPC
