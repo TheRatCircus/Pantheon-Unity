@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: ScrollMagicBulletAction
   m_EditorClassIdentifier: 
   LineProjAction:
-    projPrefab: {fileID: 0}
+    projPrefab: {fileID: 4500302018802187881, guid: 3c442203e89a2b348a7ff44c3a3b4d94,
+      type: 3}

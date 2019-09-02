@@ -64,7 +64,7 @@ public static class CellDrawer
     {
         Tile lineTargetOverlay = ScriptableObject.CreateInstance<Tile>();
         lineTargetOverlay.flags = TileFlags.None;
-        lineTargetOverlay.sprite = Database.instance.lineTargetOverlay;
+        lineTargetOverlay.sprite = Database.LineTargetOverlay;
         level.targettingTilemap.ClearAllTiles();
         foreach (Cell cell in cells)
             level.targettingTilemap.SetTile((Vector3Int)cell.Position, lineTargetOverlay);

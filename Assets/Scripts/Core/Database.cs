@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class Database : MonoBehaviour
 {
-    // Singleton
-    public static Database instance;
-
     // Database lists
     public List<Corpse> Corpses = new List<Corpse>();
     public List<ScrollData> Scrolls = new List<ScrollData>();
@@ -21,20 +18,19 @@ public class Database : MonoBehaviour
 
     // Miscellaneous
     public Sprite lineTargetOverlay;
-    
+    public static Sprite LineTargetOverlay
+        => GetDatabase().lineTargetOverlay;
+
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
-        if (instance != null)
-            Debug.LogWarning("Database singleton assigned in error");
-        else
-            instance = this;
-
         InitCorpseDict();
         InitScrollDict();
         InitFlaskDict();
         InitTerrainDict();
     }
+
+    public static Database GetDatabase() => Game.instance.database;
 
     #region Init
 
@@ -73,28 +69,28 @@ public class Database : MonoBehaviour
     // Get corpse data by enum
     public static Corpse GetCorpse(CorpseType corpseType)
     {
-        instance.CorpseDict.TryGetValue(corpseType, out Corpse ret);
+        GetDatabase().CorpseDict.TryGetValue(corpseType, out Corpse ret);
         return ret;
     }
     
     // Get scroll data by enum
     public static ScrollData GetScroll(ScrollType scrollType)
     {
-        instance.ScrollDict.TryGetValue(scrollType, out ScrollData ret);
+        GetDatabase().ScrollDict.TryGetValue(scrollType, out ScrollData ret);
         return ret;
     }
 
     // Get potion data by enum
     public static FlaskData GetFlask(FlaskType flaskType)
     {
-        instance.FlaskDict.TryGetValue(flaskType, out FlaskData ret);
+        GetDatabase().FlaskDict.TryGetValue(flaskType, out FlaskData ret);
         return ret;
     }
 
     // Get a terrain data by enum
     public static TerrainData GetTerrain(TerrainType terrainType)
     {
-        instance.TerrainDict.TryGetValue(terrainType, out TerrainData ret);
+        GetDatabase().TerrainDict.TryGetValue(terrainType, out TerrainData ret);
         return ret;
     }
 

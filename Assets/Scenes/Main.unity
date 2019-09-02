@@ -507,7 +507,6 @@ GameObject:
   - component: {fileID: 297659949}
   - component: {fileID: 297659948}
   - component: {fileID: 297659950}
-  - component: {fileID: 297659951}
   m_Layer: 5
   m_Name: Log
   m_TagString: Untagged
@@ -586,21 +585,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 0
---- !u!114 &297659951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 297659946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae0b864e5fc9c544f9256f2fceda8a0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventList: []
-  shortEventList: []
-  logText: {fileID: 2022245629}
 --- !u!1 &392357401
 GameObject:
   m_ObjectHideFlags: 0
@@ -914,6 +898,7 @@ GameObject:
   - component: {fileID: 600936734}
   - component: {fileID: 600936736}
   - component: {fileID: 600936738}
+  - component: {fileID: 600936735}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -935,6 +920,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &600936735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600936733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae0b864e5fc9c544f9256f2fceda8a0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventList: []
+  shortEventList: []
+  logText: {fileID: 2022245629}
 --- !u!114 &600936736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -947,6 +947,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c48933ea410921448b29cc99fc11b788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  database: {fileID: 600936738}
+  gameLog: {fileID: 600936735}
   levelPrefab: {fileID: 5417036770917020103, guid: f63f320659e23cc438d26e527a171180,
     type: 3}
   player1: {fileID: 277744510518784713}
@@ -2340,7 +2342,7 @@ MonoBehaviour:
   unknownTile: {fileID: 11400000, guid: 200c77702078a4e4d90e808bf9898762, type: 2}
   enemyPrefab: {fileID: 7036817240498649617, guid: f493254ab9863e143ad8ffe1c6d37180,
     type: 3}
-  actors: []
+  enemies: []
 --- !u!156049354 &3733966089556454699
 Grid:
   m_ObjectHideFlags: 0

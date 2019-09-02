@@ -8,6 +8,10 @@ public sealed class Game : MonoBehaviour
     // Singleton
     public static Game instance;
 
+    // Other components of GameController
+    public Database database;
+    public GameLog gameLog;
+
     // Basic prefabs
     public GameObject levelPrefab;
 
