@@ -88,19 +88,6 @@ public class Player : Actor
             if (c.Visible) visibleCells.Add(c);
     }
 
-    // Send the items in a cell to the game log
-    private void LogCellItems()
-    {
-        if (cell.Items.Count > 0)
-        {
-            string msg = $"You see here";
-            int i = 0;
-            for (; i < cell.Items.Count; i++)
-                msg += $" a {cell.Items[i].DisplayName};";
-            GameLog.Send(msg, MessageColour.Grey);
-        }
-    }
-
     #region AdvancedAttack
 
     public void StartAdvancedAttack()

@@ -24,10 +24,7 @@ public class GameLog : MonoBehaviour
 
     public Text logText;
 
-    public static GameLog GetLog()
-    {
-        return Game.instance.gameLog;
-    }
+    public static GameLog GetLog() => Game.instance.gameLog;
 
     // Append the eventList with a new message and add it to the log
     public static void Send(string msg, MessageColour colour)
@@ -103,5 +100,18 @@ public class GameLog : MonoBehaviour
             ret = $"{attackerSubject} {(attacker is Player ? "hit" : "hits")} {defenderSubject} for {hit.Damage} damage!";
 
         return ret;
+    }
+
+    // Send the items in a cell to the game log
+    public static void LogCellItems(Cell cell)
+    {
+        if (cell.Items.Count > 0)
+        {
+            string msg = $"You see here";
+            int i = 0;
+            for (; i < cell.Items.Count; i++)
+                msg += $" a {cell.Items[i].DisplayName};";
+            GameLog.Send(msg, MessageColour.Grey);
+        }
     }
 }
