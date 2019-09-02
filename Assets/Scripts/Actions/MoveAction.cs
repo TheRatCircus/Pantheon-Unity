@@ -47,10 +47,7 @@ namespace Pantheon.Actions
                 return -1;
             }
 
-            Actor.RaiseOnMoveEvent(Destination);
-            Actor.transform.position = Helpers.V2IToV3(Destination.Position);
-            Destination._actor = Actor;
-            Actor.Cell = Destination;
+            Actor.MoveTo(Actor, Destination);
 
             // Empty previous cell if one exists
             if (Previous != null)
@@ -61,8 +58,6 @@ namespace Pantheon.Actions
 
         // DoAction() with a callback
         public override int DoAction(OnConfirm onConfirm)
-        {
-            throw new System.NotImplementedException();
-        }
+            => throw new System.NotImplementedException();
     }
 }

@@ -76,6 +76,9 @@ public class Actor : MonoBehaviour
         // Empty previous cell if one exists
         if (previous != null)
             previous._actor = null;
+
+        if (actor is Player)
+            GameLog.LogCellItems(cell);
     }
 
     // Awake is called when the script instance is being loaded
