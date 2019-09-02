@@ -1,30 +1,34 @@
-﻿// 
+﻿// Use an item
 namespace Pantheon.Actions
 {
-    [System.Serializable]
     public class ItemUseAction : BaseAction
     {
-        public Item item;
-        public BaseAction onUse;
+        public Item Item;
+        public BaseAction OnUse;
 
-        public ItemUseAction(Actor actor, Item item) : base(actor)
-        {
-            this.item = item;
-            ActionCost = Game.TurnTime;
-        }
+        public int UseTime;
 
+        // Constructor
         public ItemUseAction(Actor actor, Item item, BaseAction onUse) : base(actor)
         {
-            this.item = item;
-            this.onUse = onUse;
-            ActionCost = Game.TurnTime;
-        }
+            Item = item;
+            OnUse = onUse;
+            UseTime = Game.TurnTime;
 
+            onUse.DoAction(AssignAction);
+        }
+        
+        // Finish using the item
         public override int DoAction()
         {
-            onUse.DoAction();
-            actor.RemoveItem(item);
-            return ActionCost;
+            Actor.RemoveItem(Item);
+            return UseTime;
+        }
+
+        // DoAction() with a callback
+        public override int DoAction(OnConfirm onConfirm)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

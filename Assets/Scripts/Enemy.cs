@@ -1,6 +1,7 @@
 ﻿// Enemy behaviour handling
 using UnityEngine;
 using System.Collections.Generic;
+using Pantheon.Actions;
 
 public class Enemy : Actor
 {
@@ -22,12 +23,15 @@ public class Enemy : Actor
         spriteRenderer.enabled = cell.Visible;
     }
 
+    // Every time something happens, this NPC must refresh its visibility
+    public void UpdateVisibility()
+    {
+        spriteRenderer.enabled = cell.Visible;
+    }
+
     // Evaluate the situation and act
     public override int Act()
     {
-        // Change visibility
-        spriteRenderer.enabled = cell.Visible;
-
         // Detect player if coming into player's view
         if (cell.Visible && target == null)
         {
@@ -37,18 +41,17 @@ public class Enemy : Actor
 
         // Engage in combat
         if (target != null)
-            if (!level.AdjacentTo(cell, target._cell))
-            {
+            if (!level.AdjacentTo(cell, target.Cell))
                 PathMoveToTarget();
-                return moveSpeed;
-            }
             else
-            {
-                TryToHit(target);
-                return attackSpeed;
-            }
+                nextAction = new MeleeAction(this, attackTime, target);
         else
-            return Game.TurnTime;
+            nextAction = new WaitAction(this);
+
+        BaseAction ret = nextAction;
+        // Clear action buffer
+        nextAction = null;
+        return ret.DoAction();
     }
 
     // Make a single move along a path towards a target
@@ -56,12 +59,13 @@ public class Enemy : Actor
     {
         List<Cell> path = level.pf.GetCellPath(Position, target.Position);
         if (path.Count > 0)
-            TryMove(path[0]);
+            nextAction = new MoveAction(this, moveSpeed, path[0]);
     }
 
     // Handle enemy death
     protected override void OnDeath()
     {
         base.OnDeath();
+        level.enemies.Remove(this);
     }
 }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class Level : MonoBehaviour
 {
     // Requisite objects
-    public PathFinder pf;
+    public Pathfinder pf;
 
     // This level's tilemaps
     public Tilemap terrainTilemap;
@@ -27,7 +27,7 @@ public class Level : MonoBehaviour
     Vector2Int levelSize;
 
     // Contents
-    public List<Actor> actors;
+    public List<Enemy> enemies;
 
     // Properties
     public Cell[,] Cells { get => cells; }
@@ -38,18 +38,20 @@ public class Level : MonoBehaviour
     {
         levelSize = new Vector2Int(64, 64);
         cells = LevelGen.GenerateLevel(levelSize, 15, 5, 16);
-        CellDrawer.DrawLevel(this);
-
-        pf = new PathFinder(this);
+        pf = new Pathfinder(this);
 
         if (first)
             SpawnPlayer();
+
         SpawnEnemies();
+
         for (int i = 0; i < 10; i++)
         {
             RandomFloor().Items.Add(new Item(Database.GetFlask(FlaskType.FlaskHealing)));
             RandomFloor().Items.Add(new Item(Database.GetScroll(ScrollType.ScrollMagicBullet)));
         }
+
+        CellDrawer.DrawLevel(this);
     }
 
     // Cell accessor, mostly for validation
@@ -64,8 +66,7 @@ public class Level : MonoBehaviour
     // Put the player in their spawn position
     public void SpawnPlayer()
     {
-        actors.Add(Game.instance.player1);
-        Game.instance.player1.MoveToCell(RandomFloor());
+        Actor.MoveTo(Game.instance.player1, RandomFloor());
         RefreshFOV();
     }
 
@@ -83,7 +84,7 @@ public class Level : MonoBehaviour
                     throw new System.Exception("Attempt to generate new enemy position failed");
                 cell = RandomFloor();
                 attempts++;
-            } while (Distance(cell, Game.instance.player1._cell) <= 7
+            } while (Distance(cell, Game.instance.player1.Cell) <= 7
             || cell._actor != null);
             MakeEntity.MakeEnemyAt(enemyPrefab, this, cell);
         }
@@ -103,7 +104,7 @@ public class Level : MonoBehaviour
                 y = Random.Range(0, LevelSize.y)
             };
             cell = GetCell(randomPosition);
-        } while (!cell.IsWalkable());
+        } while (!cell.IsWalkableTerrain());
         return cell;
     }
 
@@ -119,7 +120,7 @@ public class Level : MonoBehaviour
                 y = Random.Range(0, LevelSize.y)
             };
             cell = GetCell(randomPosition);
-        } while (!cell.IsWalkable() || Distance(cell, other) <= distance);
+        } while (!cell.IsWalkableTerrain() || Distance(cell, other) <= distance);
         return cell;
     }
 
@@ -176,6 +177,9 @@ public class Level : MonoBehaviour
             allRefreshed.AddRange(refreshed);
         }
         Game.instance.player1.UpdateVisibleCells(allRefreshed);
+
+        foreach (Enemy e in enemies)
+            e.UpdateVisibility();
     }
 
     // Coordinates used to transform a point in an octant

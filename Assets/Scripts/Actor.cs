@@ -15,18 +15,21 @@ public class Actor : MonoBehaviour
     public string actorName;
     public bool NameIsProper; // False if name should start with "The/the"
 
+    // Attributes
     protected int health;
     public int MaxHealth;
 
-    // Attributes
     public int speed; // Energy per turn
     public int energy; // Energy remaining
+
     public int moveSpeed; // Energy needed to walk one cell
-    public int minDamage;
-    public int maxDamage;
-    public int attackSpeed;
     public int armour;
     public int evasion;
+
+    public int minDamage;
+    public int maxDamage;
+    public int accuracy; // % chance out of 100
+    public int attackTime;
 
     // Per-actor-type data
     public CorpseType corpse;
@@ -34,89 +37,75 @@ public class Actor : MonoBehaviour
     public Pantheon.Actions.BaseAction nextAction;
 
     // Properties
-    public Cell _cell { get => cell; }
+    public Cell Cell { get => cell; set => cell = value; }
     public Vector2Int Position { get => cell.Position; }
-    public int Health
-    {
-        get => health;
-        set
-        {
-            // TODO: Infinitely negative lower bound?
-            health = Mathf.Clamp(value, -255, MaxHealth);
-            if (health <= 0)
-                OnDeath();
-            OnHealthChangeEvent?.Invoke(health, MaxHealth);
-        }
-    }
+    public int Health { get => health; }
     public List<Item> Inventory { get => inventory; }
 
     // Events
     public event Action<int, int> OnHealthChangeEvent;
     public event Action<Cell> OnMoveEvent;
 
+    // Event invokers
+    public void RaiseOnMoveEvent(Cell cell) => OnMoveEvent?.Invoke(cell);
+
+    // Arbitrarily move an actor to a cell
+    public static void MoveTo(Actor actor, Cell cell)
+    {
+        Cell previous = null;
+        if (actor.cell != null)
+            previous = actor.cell;
+
+        if (!cell.IsWalkableTerrain())
+        {
+            Debug.LogException(new Exception("MoveTo destination is not walkable"));
+            return;
+        }
+
+        if (cell._actor != null)
+        {
+            Debug.LogException(new Exception("MoveTo destination has an actor in it"));
+            return;
+        }
+
+        actor.RaiseOnMoveEvent(cell);
+        actor.transform.position = Helpers.V2IToV3(cell.Position);
+        cell._actor = actor;
+        actor.Cell = cell;
+
+        // Empty previous cell if one exists
+        if (previous != null)
+            previous._actor = null;
+    }
+
     // Awake is called when the script instance is being loaded
     protected virtual void Awake() => health = MaxHealth;
 
-    public virtual int Act() { Debug.LogWarning("Attempted call of base Act()"); return -1; }
+    // Called by scheduler to carry out and process this actor's action
+    public virtual int Act()
+    { Debug.LogWarning("Attempted call of base Act()"); return -1; }
 
-    // Attempt to move to another given Cell
-    protected virtual void TryMove(Cell destinationCell)
+    // Take a damaging hit from something
+    public void TakeHit(Hit hit) => TakeDamage(hit.Damage);
+
+    // Receive damage
+    public void TakeDamage(int damage)
     {
-        if (destinationCell != null && destinationCell.IsWalkable())
-            MoveToCell(destinationCell);
+        // TODO: Infinitely negative lower bound?
+        health = Mathf.Clamp(health - damage, -255, MaxHealth);
+        if (health <= 0)
+            OnDeath();
+        OnHealthChangeEvent?.Invoke(health, MaxHealth);
     }
 
-    // Move this actor to a new cell
-    public void MoveToCell(Cell cell)
+    // Recover health
+    public void Heal(int healing)
     {
-        // Save previous cell temporarily
-        Cell prevCell = this.cell;
-        transform.position = Helpers.V2IToV3(cell.Position);
-        // Reassign new cell
-        cell._actor = this;
-        this.cell = cell;
-        // Empty previous cell
-        if (prevCell != null)
-            prevCell._actor = null;
-        OnMoveEvent?.Invoke(cell);
+        health = Mathf.Clamp(health + healing, -255, MaxHealth);
+        OnHealthChangeEvent?.Invoke(health, MaxHealth);
     }
 
-    // Make a melee attack on another cell
-    protected virtual void Attack(Cell targetCell)
-    {
-        if (level.AdjacentTo(cell, targetCell))
-            if (targetCell._actor != null)
-                TryToHit(targetCell._actor);
-            else
-                GameLog.Send($"{GameLog.GetSubject(this, true)} {(this is Player ? "swing" :  "swings")} at nothing.", MessageColour.Grey);
-        else
-            Debug.LogWarning($"{actorName} attempted to make a melee attack on a non-adjacent cell.");
-    }
-
-    // Try to hit a target actor
-    protected virtual void TryToHit(Actor target)
-    {
-        if (UnityEngine.Random.Range(0, 101) > 60)
-            MeleeHit(target);
-        else if (target.Health > 0) // Can't miss a dead target
-            GameLog.Send($"{GameLog.GetSubject(this, true)} {(this is Player ? "miss" : "misses")} {GameLog.GetSubject(target, false)}.", MessageColour.Grey);
-    }
-
-    // Deal damage to an actor with a successful melee hit
-    protected virtual void MeleeHit(Actor target)
-    {
-        int damageDealt = UnityEngine.Random.Range(minDamage, maxDamage + 1);
-        GameLog.Send($"{GameLog.GetSubject(this, true)} {(this is Player ? "hit" : "hits")} {GameLog.GetSubject(target, false)}.", MessageColour.White);
-        target.Health -= damageDealt;
-    }
-
-    // Attempt to pick up an item off the current cell
-    protected virtual void TryPickup() { }
-
-    // Pick up an item
-    protected virtual void PickupItem(Item item) => inventory.Add(item);
-
-    // Remove an item from inventory
+    // Remove an item from this actor's inventory
     public virtual void RemoveItem(Item item)
     {
         inventory.Remove(item);
@@ -124,7 +113,7 @@ public class Actor : MonoBehaviour
     }
 
     // Check if another actor is hostile to this
-    public bool IsHostileToMe(Actor other)
+    public bool HostileToMe(Actor other)
     {
         if (this is Player) // Everything else is hostile to player (for now)
             return true;
@@ -135,7 +124,6 @@ public class Actor : MonoBehaviour
     // Handle this actor's death
     protected virtual void OnDeath()
     {
-        level.actors.Remove(this);
         Game.instance.RemoveActor(this);
         cell._actor = null;
         Destroy(gameObject);

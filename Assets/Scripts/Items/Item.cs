@@ -5,36 +5,46 @@ using Pantheon.Actions;
 public class Item
 {
     // Item's own attributes
+    private string displayName;
+    private Sprite sprite;
     private Actor owner;
+    private bool stackable;
     private int quantity;
-    private ItemData itemData;
+    private int weight;
 
-    // Properties of self
+    private ActionWrapper onUse;
+
+    // Properties
     public Actor Owner { get => owner; set => owner = value; }
-
-    // Properties for accessing ItemData
-    public string DisplayName { get => itemData.displayName; }
-    public string RefName { get => itemData.refName; }
-    public int MaxStack { get => itemData.maxStack; }
-    public bool Stackable { get => itemData.stackable; }
-    public Sprite _sprite { get => itemData.sprite; }
-    public bool Usable { get => itemData.usable; }
-
-    public string OnUseString { get => itemData.onUseString; }
-    public BaseAction OnUse { get => itemData.onUse; }
+    public string DisplayName { get => displayName; }
+    public Sprite _sprite { get => sprite; }
+    public ActionWrapper OnUse { get => onUse; }
 
     // Constructor
     public Item(ItemData itemData)
     {
-        this.itemData = itemData;
+        displayName = itemData.displayName;
+        sprite = itemData.sprite;
+        stackable = itemData.stackable;
+
+        onUse = itemData.onUse;
+
+        owner = null;
     }
 
     // Use this item
     public void Use(Actor user)
     {
-        if (user is Player)
-            itemData.OnUse((Player)user, this);
-        else
-            itemData.OnUse((Enemy)user, this);
+        if (onUse == null)
+        {
+            if (user is Player)
+                GameLog.Send("This item cannot be used.", MessageColour.Grey);
+            else
+                Debug.LogWarning("An NPC tried to use an unusable item.");
+
+            return;
+        }
+        
+        ItemUseAction use = new ItemUseAction(user, this, onUse.GetAction(user));
     }
 }

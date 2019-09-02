@@ -12,12 +12,17 @@ public sealed class Game : MonoBehaviour
     public GameObject levelPrefab;
 
     // Constants
-    public const int TurnTime = 100; // One turn: waiting, picking things up
+    public const int TurnTime = 100; // One standard turn
     public const int ActorsPerUpdate = 1000;
 
     List<Actor> queue;
     Actor currentActor;
     bool currentActorRemoved;
+
+    // Once 100 energy has been spent by the player,
+    //  a turn is considered to have passed
+    int turnProgress;
+    int turns;
 
     int lockCount;
 
@@ -27,6 +32,10 @@ public sealed class Game : MonoBehaviour
     // Levels
     public List<Level> levels;
     public Level activeLevel;
+
+    // Events
+    public event Action<int> OnTurnChangeEvent;
+    public event Action<int> OnPlayerActionEvent;
 
     // Awake is called when the script instance is being loaded
     private void Awake()
@@ -46,6 +55,7 @@ public sealed class Game : MonoBehaviour
         activeLevel.Initialize(true);
     }
 
+    // Update is called once per frame
     private void Update()
     {
         for (int i = 0; i < queue.Count; i++)
@@ -53,6 +63,7 @@ public sealed class Game : MonoBehaviour
                 break;
     }
 
+    // Add and remove actors from the queue
     public void AddActor(Actor actor) => queue.Add(actor);
     public void RemoveActor(Actor actor)
     {
@@ -61,7 +72,9 @@ public sealed class Game : MonoBehaviour
         if (currentActor == actor)
             currentActorRemoved = true;
     }
-
+    
+    // Temporarily lock and then unlock the scheduler recursively to allow
+    // things to happen between ticks
     public void Lock() => lockCount++;
     public void Unlock()
     {
@@ -71,6 +84,8 @@ public sealed class Game : MonoBehaviour
         lockCount--;
     }
 
+    // Iterate through each actor in the queue, and take its actions until its
+    // energy is spent
     private bool Tick()
     {
         if (lockCount > 0)
@@ -101,11 +116,29 @@ public sealed class Game : MonoBehaviour
                 return true;
             }
 
+            if (actionCost == 0)
+                Debug.LogWarning("An action with 0 energy cost was scheduled");
+
             // Handle asynchronous input by returning -1
             if (actionCost < 0)
                 return false;
 
             actor.energy -= actionCost;
+            activeLevel.RefreshFOV();
+
+            if (actor is Player)
+            {
+                turnProgress += actionCost;
+                if (turnProgress >= TurnTime)
+                {
+                    turns++;
+                    turnProgress %= TurnTime;
+                    OnTurnChangeEvent?.Invoke(turns);
+                }
+                
+                // Signals a successful player action to HUD
+                OnPlayerActionEvent?.Invoke(actor.energy);
+            }
 
             // Action may have added a lock
             if (lockCount > 0)
@@ -114,12 +147,15 @@ public sealed class Game : MonoBehaviour
 
         // Give the actor their speed value's worth of energy back
         actor.energy += actor.speed;
+
+        // Update HUD again to reflect refill
+        if (actor is Player)
+            OnPlayerActionEvent?.Invoke(actor.energy);
+
         Actor dequeued = queue[0];
         queue.RemoveAt(0);
         queue.Add(dequeued);
-
-        activeLevel.RefreshFOV();
-
+        
         return true;
     }
 

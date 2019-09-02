@@ -63,9 +63,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Actions\BaseAction.cs" />
+    <Compile Include="Assets\Scripts\Actions\DropAction.cs" />
     <Compile Include="Assets\Scripts\Actions\HealAction.cs" />
     <Compile Include="Assets\Scripts\Actions\ItemUseAction.cs" />
     <Compile Include="Assets\Scripts\Actions\LineProjAction.cs" />
+    <Compile Include="Assets\Scripts\Actions\MeleeAction.cs" />
+    <Compile Include="Assets\Scripts\Actions\MoveAction.cs" />
+    <Compile Include="Assets\Scripts\Actions\PickupAction.cs" />
+    <Compile Include="Assets\Scripts\Actions\WaitAction.cs" />
+    <Compile Include="Assets\Scripts\ActionWrappers\HealActionWrapper.cs" />
+    <Compile Include="Assets\Scripts\ActionWrappers\LineProjActionWrapper.cs" />
     <Compile Include="Assets\Scripts\Actor.cs" />
     <Compile Include="Assets\Scripts\Bresenhams.cs" />
     <Compile Include="Assets\Scripts\Cell.cs" />
@@ -74,16 +81,17 @@
     <Compile Include="Assets\Scripts\Core\Game.cs" />
     <Compile Include="Assets\Scripts\Enemy.cs" />
     <Compile Include="Assets\Scripts\Enumerations\CorpseType.cs" />
-    <Compile Include="Assets\Scripts\Enumerations\PotionType.cs" />
+    <Compile Include="Assets\Scripts\Enumerations\FlaskType.cs" />
     <Compile Include="Assets\Scripts\Enumerations\ScrollType.cs" />
     <Compile Include="Assets\Scripts\Enumerations\TerrainType.cs" />
     <Compile Include="Assets\Scripts\Helpers.cs" />
+    <Compile Include="Assets\Scripts\Hit.cs" />
     <Compile Include="Assets\Scripts\Items\Corpse.cs" />
-    <Compile Include="Assets\Scripts\Items\Flask.cs" />
+    <Compile Include="Assets\Scripts\Items\FlaskData.cs" />
     <Compile Include="Assets\Scripts\Items\Item.cs" />
     <Compile Include="Assets\Scripts\Items\ItemData.cs" />
-    <Compile Include="Assets\Scripts\Items\ProjectileScroll.cs" />
-    <Compile Include="Assets\Scripts\Items\Scroll.cs" />
+    <Compile Include="Assets\Scripts\Items\Melee.cs" />
+    <Compile Include="Assets\Scripts\Items\ScrollData.cs" />
     <Compile Include="Assets\Scripts\Level.cs" />
     <Compile Include="Assets\Scripts\LevelGen.cs" />
     <Compile Include="Assets\Scripts\MakeEntity.cs" />

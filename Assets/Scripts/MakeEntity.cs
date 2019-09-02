@@ -12,7 +12,7 @@ public class MakeEntity : MonoBehaviour
             new Quaternion(),
             Game.instance.activeLevel.transform);
         Projectile magicBulletProj = magicBulletObj.GetComponent<Projectile>();
-        magicBulletProj.projectileLine = line;
+        magicBulletProj.ProjectileLine = line;
         magicBulletProj.FireProjectile();
     }
 
@@ -22,9 +22,9 @@ public class MakeEntity : MonoBehaviour
         GameObject enemyObj = Instantiate(enemyPrefab, Helpers.V2IToV3(cell.Position), new Quaternion(), level.transform);
         Enemy enemy = enemyObj.GetComponent<Enemy>();
         enemy.level = level;
-        level.actors.Add(enemy);
+        level.enemies.Add(enemy);
         Game.instance.AddActor(enemy);
-        enemy.MoveToCell(cell);
+        Actor.MoveTo(enemy, cell);
         return enemy;
     }
 }

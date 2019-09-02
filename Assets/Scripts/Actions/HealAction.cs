@@ -1,24 +1,35 @@
-﻿// 
+﻿// Action which heals an actor
 namespace Pantheon.Actions
 {
+    [System.Serializable]
     public class HealAction : BaseAction
     {
         public int HealAmount;
         public float HealPercent;
 
+        // Constructor
         public HealAction(Actor actor, int healAmount, float healPercent)
             : base(actor)
         {
-            ActionCost = -1; // Real cost is from casting spell, using item, etc.
             HealAmount = healAmount;
             HealPercent = healPercent;
         }
 
+        // Attempt to heal the actor
         public override int DoAction()
         {
-            actor.Health += HealAmount;
-            actor.Health += (int)(actor.MaxHealth * HealPercent);
-            return ActionCost;
+            Actor.Heal(HealAmount);
+            Actor.Heal((int)(Actor.MaxHealth * HealPercent));
+            return -1;
+        }
+
+        // DoAction() with a callback
+        public override int DoAction(OnConfirm onConfirm)
+        {
+            Actor.Heal(HealAmount);
+            Actor.Heal((int)(Actor.MaxHealth * HealPercent));
+            onConfirm?.Invoke();
+            return -1;
         }
     }
 }

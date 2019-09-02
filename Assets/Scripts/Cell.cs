@@ -93,9 +93,9 @@ public class Cell
     }
 
     // Check if this cell can be walked into
-    public bool IsWalkable()
+    public bool IsWalkableTerrain()
     {
-        return (!blocked && actor == null);
+        return !blocked;
     }
 
     // toString override: returns name of tile, position, contained actor
@@ -127,7 +127,7 @@ public class Connection
         }
         player.transform.SetParent(DestinationLevel.transform);
         player.level = DestinationLevel;
-        player.MoveToCell(DestinationCell);
+        Actor.MoveTo(player, DestinationCell);
         Game.instance.LoadLevel(DestinationLevel);
         DestinationLevel.RefreshFOV();
     }

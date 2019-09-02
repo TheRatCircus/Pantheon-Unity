@@ -1,39 +1,56 @@
-﻿// 
+﻿// Fire a projectile in a line
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Pantheon.Actions
 {
+    [System.Serializable]
     public class LineProjAction : BaseAction
     {
-        GameObject projPrefab;
-        public delegate void OnConfirmDelegate();
-        public OnConfirmDelegate onConfirm;
+        public GameObject projPrefab;
 
         List<Cell> line;
 
-        public LineProjAction(Actor actor, GameObject projPrefab, OnConfirmDelegate onConfirm) : base(actor)
+        // Constructor
+        public LineProjAction(Actor actor, GameObject projPrefab) : base(actor)
         {
-            ActionCost = -1; // Real cost is from casting spell, using item, etc.
             this.projPrefab = projPrefab;
-            this.onConfirm = onConfirm;
-
-            if (actor is Player)
-                ((Player)actor)._input.StartCoroutine(((Player)actor)._input.LineTarget(AssignAction));
-            else
-                throw new System.NotImplementedException("An NPC should not be able to do this");
         }
 
-        public override void AssignAction()
-        {
-            line = ((Player)actor)._input.TargetLine;
-            onConfirm();
-        }
-
+        // Request a line, and fire a projectile by callback
         public override int DoAction()
         {
+            if (Actor is Player)
+                ((Player)Actor)._input.StartCoroutine(
+                    ((Player)Actor)._input.LineTarget(FireProjectile));
+            else
+                throw new System.NotImplementedException("An NPC should not be able to do this");
+
+            return -1;
+        }
+
+        // DoAction() with a callback
+        public override int DoAction(OnConfirm onConfirm)
+        {
+            if (Actor is Player)
+                ((Player)Actor)._input.StartCoroutine(
+                    ((Player)Actor)._input.LineTarget(FireProjectile));
+            else
+                throw new System.NotImplementedException("An NPC should not be able to do this");
+
+            this.onConfirm = onConfirm;
+
+            return -1;
+        }
+
+        // Fire the projectile
+        public void FireProjectile()
+        {
+            if (Actor is Player)
+                line = ((Player)Actor)._input.TargetLine;
+
             MakeEntity.MakeLineProjectile(projPrefab, line);
-            return ActionCost;
+            onConfirm?.Invoke();
         }
     }
 }

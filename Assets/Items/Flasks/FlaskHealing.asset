@@ -18,6 +18,6 @@ MonoBehaviour:
   stackable: 1
   sprite: {fileID: 21300000, guid: 5cdbeba5f45d3334ea9d0b5e4633b68c, type: 3}
   usable: 1
-  onUse: {fileID: 11400000, guid: 73f49aeda5d9f3e41b85b6482175aca5, type: 2}
+  onUse: {fileID: 11400000, guid: a29a50cf79579774da3886b92d6ddc5a, type: 2}
   onUseString: You drink the flask of healing.
   _flaskType: 1

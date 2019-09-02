@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Pantheon.Actions;
 
 public class InventoryUI : MonoBehaviour
 {
@@ -35,9 +36,7 @@ public class InventoryUI : MonoBehaviour
 
     // Open and close the inventory
     private void ToggleInventory()
-    {
-        inventoryUI.SetActive(!inventoryUI.activeInHierarchy);
-    }
+        => inventoryUI.SetActive(!inventoryUI.activeInHierarchy);
 
     // Update slots to reflect inventory
     private void UpdateInventory()
@@ -53,19 +52,13 @@ public class InventoryUI : MonoBehaviour
 
     // Update the displayed name of the hovered item
     private void UpdateItemName(string itemName)
-    {
-        itemNameText.text = itemName;
-    }
+        => itemNameText.text = itemName;
 
     // Send item usage call to the player
     private void UseItem(Item item)
-    {
-        player.TryUseItem(item);
-    }
+        => item.Use(player);
 
     // Send item drop call to the player
     private void DropItem(Item item)
-    {
-        player.DropItem(item);
-    }
+        => player.nextAction = new DropAction(player, item);
 }

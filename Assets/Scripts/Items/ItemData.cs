@@ -11,10 +11,6 @@ public abstract class ItemData : ScriptableObject
     public Sprite sprite;
     public bool usable;
 
-    public BaseAction onUse;
+    public ActionWrapper onUse;
     public string onUseString;
-
-    // Effect activated when this item is used
-    public abstract void OnUse(Player user, Item item);
-    public abstract void OnUse(Enemy user, Item item);
 }

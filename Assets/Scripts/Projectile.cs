@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public List<Cell> projectileLine;
+    public string ProjectileName;
+    public List<Cell> ProjectileLine;
 
     public void FireProjectile()
     {
@@ -17,11 +18,11 @@ public class Projectile : MonoBehaviour
     {
         Game.instance.Lock();
         int i = 0;
-        if (projectileLine.Count == 1)
+        if (ProjectileLine.Count == 1)
         {
             // Proj was instantiated at its destination, do nothing here
         }
-        else if (projectileLine.Count <= 0)
+        else if (ProjectileLine.Count <= 0)
         {
             Debug.LogException(
                 new System.Exception(
@@ -30,23 +31,24 @@ public class Projectile : MonoBehaviour
         else
         {
             // Iterate through every cell in path except last
-            for (; i < projectileLine.Count - 1; i++)
+            for (; i < ProjectileLine.Count - 1; i++)
             {
                 yield return new WaitForSeconds(.02f);
-                if (!projectileLine[i + 1].IsWalkable())
+                if (!ProjectileLine[i + 1].IsWalkableTerrain()
+                    || ProjectileLine[i + 1]._actor != null)
                 {
                     i++;
                     break;
                 }
                 else
-                    transform.position = Helpers.V2IToV3(projectileLine[i + 1].Position);
+                    transform.position = Helpers.V2IToV3(ProjectileLine[i + 1].Position);
             }
         }
 
-        if (projectileLine[i]._actor != null)
+        if (ProjectileLine[i]._actor != null)
         {
-            GameLog.Send($"The magic bullet hits {GameLog.GetSubject(projectileLine[i]._actor, false)}!", MessageColour.White);
-            projectileLine[i]._actor.Health -= 3;
+            GameLog.Send($"The magic bullet hits {GameLog.GetSubject(ProjectileLine[i]._actor, false)}!", MessageColour.White);
+            ProjectileLine[i]._actor.TakeDamage(3);
         }
         Destroy(gameObject);
         Game.instance.Unlock();

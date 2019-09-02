@@ -17,6 +17,4 @@ public class AdvancedAttackUI : MonoBehaviour
     private void AdvancedAttack(Actor target)
     {
     }
-
-
 }

@@ -95,4 +95,20 @@ public class GameLog : MonoBehaviour
             ret = $"{(actor.NameIsProper ? "" : (sentenceStart ? "The " : "the "))}{actor.actorName}";
         return ret;
     }
+
+    // Compute a melee attack's game log entry
+    public static string GetAttackString(Actor attacker, Actor defender, Hit hit)
+    {
+        string ret;
+
+        string attackerSubject = GetSubject(attacker, true);
+        string defenderSubject = GetSubject(defender, false);
+
+        if (hit == null) // Miss
+            ret = $"{attackerSubject} {(attacker is Player ? "miss" : "misses")} {defenderSubject}.";
+        else
+            ret = $"{attackerSubject} {(attacker is Player ? "hit" : "hits")} {defenderSubject} for {hit.Damage} damage!";
+
+        return ret;
+    }
 }

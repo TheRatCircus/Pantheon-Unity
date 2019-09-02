@@ -3,13 +3,13 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class PathFinder
+public class Pathfinder
 {
     Level level;
     Node[,] map;
 
     // Constructor
-    public PathFinder(Level level)
+    public Pathfinder(Level level)
     {
         this.level = level;
         map = new Node[level.LevelSize.x, level.LevelSize.y];

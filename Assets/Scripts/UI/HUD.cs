@@ -8,21 +8,20 @@ public class HUD : MonoBehaviour
     public Player player;
 
     // UI elements
-    public Text turnCounter;
     public Text healthCounter;
+    public Text energyCounter;
+    public Text turnCounter;
 
     // Start is called before the first frame update
     private void Start()
     {
         player.OnHealthChangeEvent += UpdateHealthCounter;
-        UpdateTurnCounter();
-        UpdateHealthCounter(player.Health, player.MaxHealth);
-    }
+        Game.instance.OnPlayerActionEvent += UpdateEnergyCounter;
+        Game.instance.OnTurnChangeEvent += UpdateTurnCounter;
 
-    // Update the turn counter
-    private void UpdateTurnCounter()
-    {
-        // TODO: Support for new turn system
+        UpdateTurnCounter(0);
+        UpdateHealthCounter(player.Health, player.MaxHealth);
+        UpdateEnergyCounter(player.energy);
     }
 
     // Update the health counter
@@ -30,5 +29,19 @@ public class HUD : MonoBehaviour
     {
         string healthCounterStr = $"Health: {health} / {maxHealth}";
         healthCounter.text = healthCounterStr;
+    }
+
+    // Update the energy counter
+    private void UpdateEnergyCounter(int energy)
+    {
+        string energyCounterStr = $"Energy: {energy}";
+        energyCounter.text = energyCounterStr;
+    }
+
+    // Update the turn counter
+    private void UpdateTurnCounter(int turn)
+    {
+        string turnCounterStr = $"Time: {turn}";
+        turnCounter.text = turnCounterStr;
     }
 }

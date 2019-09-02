@@ -9,14 +9,14 @@ public class Database : MonoBehaviour
 
     // Database lists
     public List<Corpse> Corpses = new List<Corpse>();
-    public List<Scroll> Scrolls = new List<Scroll>();
-    public List<Flask> Flasks = new List<Flask>();
+    public List<ScrollData> Scrolls = new List<ScrollData>();
+    public List<FlaskData> Flasks = new List<FlaskData>();
     public List<TerrainData> Terrain = new List<TerrainData>();
 
     // Dictionaries for lookup by enum
     public Dictionary<CorpseType, Corpse> CorpseDict = new Dictionary<CorpseType, Corpse>();
-    public Dictionary<ScrollType, Scroll> ScrollDict = new Dictionary<ScrollType, Scroll>();
-    public Dictionary<FlaskType, Flask> FlaskDict = new Dictionary<FlaskType, Flask>();
+    public Dictionary<ScrollType, ScrollData> ScrollDict = new Dictionary<ScrollType, ScrollData>();
+    public Dictionary<FlaskType, FlaskData> FlaskDict = new Dictionary<FlaskType, FlaskData>();
     public Dictionary<TerrainType, TerrainData> TerrainDict = new Dictionary<TerrainType, TerrainData>();
 
     // Miscellaneous
@@ -78,16 +78,16 @@ public class Database : MonoBehaviour
     }
     
     // Get scroll data by enum
-    public static Scroll GetScroll(ScrollType scrollType)
+    public static ScrollData GetScroll(ScrollType scrollType)
     {
-        instance.ScrollDict.TryGetValue(scrollType, out Scroll ret);
+        instance.ScrollDict.TryGetValue(scrollType, out ScrollData ret);
         return ret;
     }
 
     // Get potion data by enum
-    public static Flask GetFlask(FlaskType flaskType)
+    public static FlaskData GetFlask(FlaskType flaskType)
     {
-        instance.FlaskDict.TryGetValue(flaskType, out Flask ret);
+        instance.FlaskDict.TryGetValue(flaskType, out FlaskData ret);
         return ret;
     }
 

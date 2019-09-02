@@ -1,7 +1,7 @@
 ﻿// Player controller
 using System;
 using System.Collections.Generic;
-using UnityEngine;
+using Pantheon.Actions;
 
 public class Player : Actor
 {
@@ -28,6 +28,7 @@ public class Player : Actor
 
     // Event invokers for PlayerInput
     public void RaiseInventoryToggleEvent() => OnInventoryToggleEvent?.Invoke();
+    public void RaiseInventoryChangeEvent() => OnInventoryChangeEvent?.Invoke();
 
     // Awake is called when the script instance is being loaded
     protected override void Awake()
@@ -41,34 +42,40 @@ public class Player : Actor
     // Start is called before the first frame update
     private void Start() => input = GetComponent<PlayerInput>();
 
+    // Request this actor's action and carry it out
     public override int Act()
     {
+        if (movePath.Count > 0)
+        {
+            foreach (Cell c in visibleCells)
+                if (c._actor is Enemy)
+                {
+                    GameLog.Send($"An enemy is nearby!", MessageColour.Red);
+                    movePath.Clear();
+                    return -1;
+                }
+
+            Cell destination = movePath[0];
+            movePath.RemoveAt(0);
+            return new MoveAction(this, moveSpeed, destination).DoAction();
+        }
+
         if (nextAction != null)
         {
-            Pantheon.Actions.BaseAction ret = nextAction;
+            BaseAction ret = nextAction;
+            // Clear action buffer
             nextAction = null;
             return ret.DoAction();
         }
-        else return input.Act();
+
+        else return -1;
     }
 
-    // Attempt to move along a given path
-    public int MoveAlongPath()
+    // Remove an item from this actor's inventory
+    public override void RemoveItem(Item item)
     {
-        if (movePath.Count <= 0)
-            return -1;
-
-        foreach (Cell c in visibleCells)
-            if (c._actor is Enemy)
-            {
-                GameLog.Send($"An enemy is nearby!", MessageColour.Red);
-                movePath.Clear();
-                return -1;
-            }
-
-        int ret = PlayerTryMove(movePath[0]);
-        movePath.RemoveAt(0);
-        return ret;
+        base.RemoveItem(item);
+        OnInventoryChangeEvent?.Invoke();
     }
 
     // Update the list of cells visible to this player
@@ -81,77 +88,8 @@ public class Player : Actor
             if (c.Visible) visibleCells.Add(c);
     }
 
-    // Attempt to move to another given Cell
-    private int PlayerTryMove(Cell cell)
-    {
-        if (cell != null && cell.IsWalkable())
-        {
-            PlayerMove(cell);
-            return moveSpeed;
-        }
-        else if (cell._actor != null)
-        {
-            Attack(cell);
-            return attackSpeed;
-        }
-        else return -1;
-    }
-
-    // Attempt to move to another cell by delta Vector
-    public int PlayerTryMove(Vector2Int pos)
-    {
-        Cell cell = level.GetCell(this.cell.Position + pos);
-        if (cell != null && cell.IsWalkable())
-        {
-            PlayerMove(cell);
-            return moveSpeed;
-        }
-        else if (cell._actor != null)
-        {
-            Attack(cell);
-            return attackSpeed;
-        }
-        else return -1;
-    }
-
-    // Actually make the move to another cell
-    private void PlayerMove(Cell destinationCell)
-    {
-        MoveToCell(destinationCell);
-        PrintTileContents();
-    }
-
-    // Try to make a melee attack on a target cell
-    protected override void Attack(Cell targetCell)
-    {
-        if (level.AdjacentTo(cell, targetCell))
-            if (targetCell._actor != null)
-                TryToHit(targetCell._actor);
-            else
-                GameLog.Send($"{GameLog.GetSubject(this, true)} swing at nothing.", MessageColour.Grey);
-        else
-            Debug.LogWarning($"The player attempted to make a melee attack on a non-adjacent cell.");
-    }
-
-    // Try to hit a target actor
-    protected override void TryToHit(Actor target)
-    {
-        if (UnityEngine.Random.Range(0, 101) > 40)
-            MeleeHit(target);
-        else if (target.Health > 0) // Can't miss a dead target
-            GameLog.Send($"You miss {GameLog.GetSubject(target, false)}.", MessageColour.Grey);
-    }
-
-    // Deal damage to an actor with a successful melee hit
-    protected override void MeleeHit(Actor target)
-    {
-        int damageDealt = UnityEngine.Random.Range(minDamage, maxDamage + 1);
-        GameLog.Send($"You hit {GameLog.GetSubject(target, false)}.", MessageColour.White);
-        target.Health -= damageDealt;
-    }
-
     // Send the items in a cell to the game log
-    private void PrintTileContents()
+    private void LogCellItems()
     {
         if (cell.Items.Count > 0)
         {
@@ -162,52 +100,6 @@ public class Player : Actor
             GameLog.Send(msg, MessageColour.Grey);
         }
     }
-
-    #region Items
-
-    // Attempt to pick up an item off the current cell
-    new public void TryPickup()
-    {
-        if (cell.Items.Count > 0)
-            PickupItem(cell.Items[0]);
-        else
-            GameLog.Send("There is nothing here to pick up.", MessageColour.Grey);
-    }
-
-    // Pick up an item
-    protected override void PickupItem(Item item)
-    {
-        GameLog.Send($"You pick up a {item.DisplayName}.", MessageColour.White);
-        cell.Items.Remove(item);
-        inventory.Add(item);
-        item.Owner = this;
-        OnInventoryChangeEvent?.Invoke();
-    }
-
-    // Try to use an item
-    public void TryUseItem(Item item)
-    {
-        if (item.Usable)
-            item.Use(this);
-        else
-            GameLog.Send("This item cannot be used.", MessageColour.Grey);
-    }
-
-    // Remove item, but include inventory change event
-    public override void RemoveItem(Item item)
-    {
-        base.RemoveItem(item);
-        OnInventoryChangeEvent?.Invoke();
-    }
-
-    // Drop an item
-    public void DropItem(Item item)
-    {
-        RemoveItem(item);
-        GameLog.Send($"You drop the {item.DisplayName}", MessageColour.Grey);
-    }
-
-    #endregion
 
     #region AdvancedAttack
 
@@ -220,7 +112,7 @@ public class Player : Actor
     public void ConfirmAdvancedAttack(Cell target)
     {
         if (target._actor == null)
-            Attack(target);
+            GameLog.Send("This feature isn't implemented...", MessageColour.Teal);
         else if (target._actor == this)
             GameLog.Send("Why would you want to do that?", MessageColour.Teal);
         else
@@ -241,7 +133,6 @@ public class Player : Actor
     protected override void OnDeath()
     {
         cell._actor = null;
-        level.actors.Remove(this);
         GameLog.Send("You perish...", MessageColour.Purple);
     }
 }
