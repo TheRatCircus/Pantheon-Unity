@@ -49,7 +49,7 @@ namespace Pantheon.Actions
             if (Actor is Player)
                 line = ((Player)Actor)._input.TargetLine;
 
-            MakeEntity.MakeLineProjectile(projPrefab, line);
+            Spawn.MakeLineProjectile(projPrefab, line);
             onConfirm?.Invoke();
         }
     }

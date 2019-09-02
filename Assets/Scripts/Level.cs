@@ -86,7 +86,7 @@ public class Level : MonoBehaviour
                 attempts++;
             } while (Distance(cell, Game.instance.player1.Cell) <= 7
             || cell._actor != null);
-            MakeEntity.MakeEnemyAt(enemyPrefab, this, cell);
+            Spawn.MakeEnemyAt(enemyPrefab, this, cell);
         }
     }
 

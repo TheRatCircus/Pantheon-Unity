@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MakeEntity : MonoBehaviour
+public class Spawn : MonoBehaviour
 {
     // Create a new projectile following a line
     public static void MakeLineProjectile(GameObject projPrefab, List<Cell> line)
