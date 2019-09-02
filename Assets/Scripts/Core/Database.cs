@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Database : MonoBehaviour
+public sealed class Database : MonoBehaviour
 {
     // Database lists
     public List<Corpse> Corpses = new List<Corpse>();
