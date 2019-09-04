@@ -43,8 +43,8 @@ namespace Pantheon.Actions
             {
                 if (Actor.HostileToMe(Destination._actor))
                     Actor.nextAction = new MeleeAction(Actor, Actor.attackTime, Destination._actor);
-
-                return -1;
+                else
+                    Actor.nextAction = new WaitAction(Actor);
             }
 
             Actor.MoveTo(Actor, Destination);
