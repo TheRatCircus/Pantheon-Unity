@@ -13,7 +13,8 @@ public class Player : Actor
     // and point in grid
     private int fovRadius = 15;
 
-    private List<Cell> visibleCells;
+    private List<Cell> visibleCells = new List<Cell>();
+    private List<Enemy> visibleEnemies = new List<Enemy>();
     private List<Cell> movePath;
 
     // Properties
@@ -35,7 +36,6 @@ public class Player : Actor
     {
         base.Awake();
         inventory = new List<Item>(inventorySize);
-        visibleCells = new List<Cell>();
         movePath = new List<Cell>();
     }
 
@@ -47,13 +47,12 @@ public class Player : Actor
     {
         if (movePath.Count > 0)
         {
-            foreach (Cell c in visibleCells)
-                if (c._actor is Enemy)
-                {
-                    GameLog.Send($"An enemy is nearby!", MessageColour.Red);
-                    movePath.Clear();
-                    return -1;
-                }
+            if (visibleEnemies.Count > 0)
+            {
+                GameLog.Send($"An enemy is nearby!", MessageColour.Red);
+                movePath.Clear();
+                return -1;
+            }  
 
             Cell destination = movePath[0];
             movePath.RemoveAt(0);
@@ -81,11 +80,16 @@ public class Player : Actor
     // Update the list of cells visible to this player
     public void UpdateVisibleCells(List<Cell> refreshed)
     {
-        if (visibleCells != null)
-            visibleCells.Clear();
+        visibleCells.Clear();
+        visibleEnemies.Clear();
 
         foreach (Cell c in refreshed)
             if (c.Visible) visibleCells.Add(c);
+
+        // Also refresh list of visible enemies
+        foreach (Cell c in visibleCells)
+            if (c._actor is Enemy)
+                visibleEnemies.Add((Enemy)c._actor);
     }
 
     #region AdvancedAttack
