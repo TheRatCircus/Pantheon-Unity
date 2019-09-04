@@ -45,6 +45,8 @@ namespace Pantheon.Actions
                     Actor.nextAction = new MeleeAction(Actor, Actor.attackTime, Destination._actor);
                 else
                     Actor.nextAction = new WaitAction(Actor);
+
+                return -1;
             }
 
             Actor.MoveTo(Actor, Destination);
