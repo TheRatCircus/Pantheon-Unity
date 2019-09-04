@@ -1,8 +1,9 @@
-﻿// Enumeration for terrain types
+﻿/// <summary>
+/// Enumeration holding all the terrain types.
+/// </summary>
 public enum TerrainType
 {
-    TerrainNone = 0,
-    TerrainStoneWall = 1,
-    TerrainStoneFloor = 2
+    None = 0,
+    StoneWall = 1,
+    StoneFloor = 2
 }
-

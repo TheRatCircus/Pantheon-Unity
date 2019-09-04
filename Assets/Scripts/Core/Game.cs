@@ -1,8 +1,13 @@
-﻿// Main game loop handling
+﻿// Game.cs
+// Jerome Martina
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Pantheon.WorldGen;
 
+/// <summary>
+/// Central game controller. Handles turn scheduling and holds other core game behaviour.
+/// </summary>
 public sealed class Game : MonoBehaviour
 {
     // Singleton
@@ -11,6 +16,10 @@ public sealed class Game : MonoBehaviour
     // Other components of GameController
     public Database database;
     public GameLog gameLog;
+    public Transform grid;
+    
+    // Pseudo RNG
+    public System.Random prng = new System.Random(131198);
 
     // Basic prefabs
     public GameObject levelPrefab;
@@ -41,7 +50,13 @@ public sealed class Game : MonoBehaviour
     public event Action<int> OnTurnChangeEvent;
     public event Action<int> OnPlayerActionEvent;
 
-    // Awake is called when the script instance is being loaded
+    // Accessors
+    public static Player GetPlayer(int i = 0) => instance.player1;
+    public static System.Random PRNG() => instance.prng;
+
+    /// <summary>
+    /// Awake is called when the script instance is being loaded
+    /// </summary>
     private void Awake()
     {
         if (instance != null)
@@ -52,14 +67,24 @@ public sealed class Game : MonoBehaviour
         queue = new List<Actor>();
     }
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Start is called before the first frame update.
+    /// </summary>
     private void Start()
     {
         AddActor(player1);
-        activeLevel.Initialize(true);
+
+        Level firstLevel = MakeNewLevel();
+        LevelZones.GenerateValley(ref firstLevel, CardinalDirection.Centre);
+        LoadLevel(firstLevel);
+
+        player1.level = activeLevel;
+        player1.transform.SetParent(activeLevel.transform);
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Update is called once per frame.
+    /// </summary>
     private void Update()
     {
         for (int i = 0; i < queue.Count; i++)
@@ -163,19 +188,31 @@ public sealed class Game : MonoBehaviour
         return true;
     }
 
-    // Load a level into the scene
+    /// <summary>
+    /// Load a level into the game scene, make it active in the hierarchy, and
+    /// make it the active level.
+    /// </summary>
+    /// <param name="level">The level to be loaded.</param>
     public void LoadLevel(Level level)
     {
-        Level lastLevel = activeLevel;
-        lastLevel.gameObject.SetActive(false);
+        Level lastLevel;
+        if (activeLevel != null)
+        {
+            lastLevel = activeLevel;
+            lastLevel.gameObject.SetActive(false);
+        }
+            
         activeLevel = level;
         level.gameObject.SetActive(true);
     }
 
-    // Construct a new level
+    /// <summary>
+    /// Instantiates a new level from a prefab.
+    /// </summary>
+    /// <returns>The Level script component of the new level GameObject.</returns>
     public Level MakeNewLevel()
     {
-        GameObject newLevelObj = Instantiate(levelPrefab);
+        GameObject newLevelObj = Instantiate(levelPrefab, grid);
         Level newLevel = newLevelObj.GetComponent<Level>();
         levels.Add(newLevel);
         return newLevel;

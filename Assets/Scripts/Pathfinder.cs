@@ -21,7 +21,7 @@ public class Pathfinder
     {
         for (int x = 0; x < level.LevelSize.x; x++)
             for (int y = 0; y < level.LevelSize.y; y++)
-                map[x, y] = new Node(level.Cells[x, y].Blocked, new Vector2Int(x, y));
+                map[x, y] = new Node(level.Map[x, y].Blocked, new Vector2Int(x, y));
     }
 
     // Get a Node's neighbours if they are valid

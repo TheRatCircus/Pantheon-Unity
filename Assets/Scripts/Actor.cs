@@ -1,7 +1,9 @@
 ﻿// Base class for actors
+
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Pantheon.Utils;
 
 public class Actor : MonoBehaviour
 {
@@ -9,7 +11,7 @@ public class Actor : MonoBehaviour
 
     // Locational
     public Level level;
-    protected Cell cell;
+    [SerializeField] protected Cell cell;
 
     // Actor's personal attributes
     public string actorName;

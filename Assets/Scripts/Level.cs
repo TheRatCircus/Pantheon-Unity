@@ -8,6 +8,8 @@ public class Level : MonoBehaviour
     // Requisite objects
     public Pathfinder pf;
 
+    private string displayName = "NO_NAME";
+
     // This level's tilemaps
     public Tilemap terrainTilemap;
     public Tilemap featureTilemap;
@@ -18,47 +20,31 @@ public class Level : MonoBehaviour
     public Tile stairsUp;
     public Tile unknownTile;
 
-    public GameObject enemyPrefab;
-
     // Map data
-    private Cell[,] cells;
+    private Cell[,] map;
 
     // Attributes of the level
-    Vector2Int levelSize;
+    private Vector2Int levelSize;
 
     // Contents
-    public List<Enemy> enemies;
+    private List<Enemy> enemies = new List<Enemy>();
 
     // Properties
-    public Cell[,] Cells { get => cells; }
-    public Vector2Int LevelSize { get => levelSize; }
+    public string DisplayName { get => displayName; set => displayName = value; }
+    public Cell[,] Map { get => map; set => map = value; }
+    public Vector2Int LevelSize { get => levelSize; set => levelSize = value; }
+    public List<Enemy> Enemies { get => enemies; set => enemies = value; }
 
-    // Initialize this level
-    public void Initialize(bool first)
+
+    private void Awake()
     {
-        levelSize = new Vector2Int(64, 64);
-        cells = LevelGen.GenerateLevel(levelSize, 15, 5, 16);
         pf = new Pathfinder(this);
-
-        if (first)
-            SpawnPlayer();
-
-        SpawnEnemies();
-
-        for (int i = 0; i < 10; i++)
-        {
-            RandomFloor().Items.Add(new Item(Database.GetFlask(FlaskType.FlaskHealing)));
-            RandomFloor().Items.Add(new Item(Database.GetScroll(ScrollType.ScrollMagicBullet)));
-        }
-
-        CellDrawer.DrawLevel(this);
     }
-
     // Cell accessor, mostly for validation
     public Cell GetCell(Vector2Int pos)
     {
         if (Contains(pos))
-            return cells[pos.x, pos.y];
+            return map[pos.x, pos.y];
         else
             throw new System.Exception($"Attempt to access out-of-bounds cell {pos.x}, {pos.y}");
     }
@@ -66,28 +52,8 @@ public class Level : MonoBehaviour
     // Put the player in their spawn position
     public void SpawnPlayer()
     {
-        Actor.MoveTo(Game.instance.player1, RandomFloor());
+        Actor.MoveTo(Game.GetPlayer(), RandomFloor());
         RefreshFOV();
-    }
-
-    // Spawn some enemies at random about the dungeon, but never too close to
-    // the player spawn point
-    public void SpawnEnemies()
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            Cell cell;
-            int attempts = 0;
-            do
-            {
-                if (attempts > 100)
-                    throw new System.Exception("Attempt to generate new enemy position failed");
-                cell = RandomFloor();
-                attempts++;
-            } while (Distance(cell, Game.instance.player1.Cell) <= 7
-            || cell._actor != null);
-            Spawn.MakeEnemyAt(enemyPrefab, this, cell);
-        }
     }
 
     #region Helpers
@@ -96,14 +62,19 @@ public class Level : MonoBehaviour
     public Cell RandomFloor()
     {
         Cell cell;
+        int attempts = 0;
         do
         {
+            if (attempts > 1000)
+                throw new System.Exception("Could not find a random floor.");
+
             Vector2Int randomPosition = new Vector2Int
             {
                 x = Random.Range(0, LevelSize.x),
                 y = Random.Range(0, LevelSize.y)
             };
             cell = GetCell(randomPosition);
+            attempts++;
         } while (!cell.IsWalkableTerrain());
         return cell;
     }
@@ -142,10 +113,7 @@ public class Level : MonoBehaviour
     }
 
     // Check if one cell is adjacent to another
-    public bool AdjacentTo(Cell a, Cell b)
-    {
-        return Distance(a, b) <= 1;
-    }
+    public bool AdjacentTo(Cell a, Cell b) => Distance(a, b) <= 1;
 
     // Get an adjacent cell given a direction
     public Cell GetAdjacentCell(Cell origin, Vector2Int delta)
@@ -172,11 +140,11 @@ public class Level : MonoBehaviour
         List<Cell> allRefreshed = new List<Cell>();
         for (int octant = 0; octant < 8; octant++)
         {
-            List<Cell> refreshed = ShadowOctant(Game.instance.player1.Position, octant);
+            List<Cell> refreshed = ShadowOctant(Game.GetPlayer().Position, octant);
             CellDrawer.DrawCells(this, refreshed);
             allRefreshed.AddRange(refreshed);
         }
-        Game.instance.player1.UpdateVisibleCells(allRefreshed);
+        Game.GetPlayer().UpdateVisibleCells(allRefreshed);
 
         foreach (Enemy e in enemies)
             e.UpdateVisibility();
@@ -219,26 +187,26 @@ public class Level : MonoBehaviour
                 // Break on this row if going out of bounds
                 if (!Contains(pos)) break;
                 // Add new cells to list of updated cells
-                ret.Add(cells[pos.x, pos.y]);
+                ret.Add(map[pos.x, pos.y]);
                 // Visibility fall off over distance
                 int fallOff = 255;
 
                 // If entire row is known to be in shadow, set this cell to be 
                 // in shadow
                 if (fullShadow || pastMaxDistance)
-                    cells[pos.x, pos.y].SetVisibility(false, fallOff);
+                    map[pos.x, pos.y].SetVisibility(false, fallOff);
                 else
                 {
                     fallOff = 0;
                     float distance = Vector2.Distance(origin, pos);
-                    if (distance > Game.instance.player1.FOVRadius)
+                    if (distance > Game.GetPlayer().FOVRadius)
                     {
                         fallOff = 255;
                         pastMaxDistance = true;
                     }
                     else
                     {
-                        float normalized = distance / Game.instance.player1.FOVRadius;
+                        float normalized = distance / Game.GetPlayer().FOVRadius;
                         normalized = Mathf.Pow(normalized, 2);
                         fallOff = (int)(normalized * 255);
                     }
@@ -246,10 +214,10 @@ public class Level : MonoBehaviour
                     
                     // Set the visibility of this tile
                     bool visible = !line.IsInShadow(projection);
-                    cells[pos.x, pos.y].SetVisibility(visible, fallOff);
+                    map[pos.x, pos.y].SetVisibility(visible, fallOff);
                     
                     // Add any opaque tiles to the shadow map
-                    if (visible && cells[pos.x, pos.y].Opaque)
+                    if (visible && map[pos.x, pos.y].Opaque)
                     {
                         line.AddShadow(projection);
                         fullShadow = line.IsFullShadow();

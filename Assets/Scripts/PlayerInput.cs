@@ -1,10 +1,12 @@
 ﻿// Handler for player input to character
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Pantheon.Actions;
+using Pantheon.Utils;
 
 // Result of input
 public enum InputState
@@ -262,7 +264,7 @@ public class PlayerInput : MonoBehaviour
                     if (targetCell._actor is Player)
                         break;
 
-                    path = player.level.pf.GetCellPath(Game.instance.player1.Position, targetCell.Position);
+                    path = player.level.pf.GetCellPath(Game.GetPlayer().Position, targetCell.Position);
                     player.MovePath = path;
                     //player.MoveAlongPath(path);
                 }
@@ -298,10 +300,10 @@ public class PlayerInput : MonoBehaviour
     // Debug function to change a floor to a wall and vice-versa
     private void DebugChangeCell(Cell cell)
     {
-        if (cell._terrainData._terrainType == TerrainType.TerrainStoneWall)
-            cell.SetTerrainType(Database.GetTerrain(TerrainType.TerrainStoneFloor));
-        else if (cell._terrainData._terrainType == TerrainType.TerrainStoneFloor)
-            cell.SetTerrainType(Database.GetTerrain(TerrainType.TerrainStoneWall));
+        if (cell.TerrainData._terrainType == TerrainType.StoneWall)
+            cell.SetTerrainType(Database.GetTerrain(TerrainType.StoneFloor));
+        else if (cell.TerrainData._terrainType == TerrainType.StoneFloor)
+            cell.SetTerrainType(Database.GetTerrain(TerrainType.StoneWall));
         player.level.RefreshFOV();
     }
 

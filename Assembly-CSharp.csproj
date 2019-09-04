@@ -74,18 +74,18 @@
     <Compile Include="Assets\Scripts\ActionWrappers\HealActionWrapper.cs" />
     <Compile Include="Assets\Scripts\ActionWrappers\LineProjActionWrapper.cs" />
     <Compile Include="Assets\Scripts\Actor.cs" />
-    <Compile Include="Assets\Scripts\Bresenhams.cs" />
     <Compile Include="Assets\Scripts\Cell.cs" />
     <Compile Include="Assets\Scripts\CellDrawer.cs" />
     <Compile Include="Assets\Scripts\Core\Database.cs" />
     <Compile Include="Assets\Scripts\Core\Game.cs" />
     <Compile Include="Assets\Scripts\Core\Spawn.cs" />
     <Compile Include="Assets\Scripts\Enemy.cs" />
+    <Compile Include="Assets\Scripts\Enumerations\CardinalDirection.cs" />
     <Compile Include="Assets\Scripts\Enumerations\CorpseType.cs" />
     <Compile Include="Assets\Scripts\Enumerations\FlaskType.cs" />
+    <Compile Include="Assets\Scripts\Enumerations\NPCType.cs" />
     <Compile Include="Assets\Scripts\Enumerations\ScrollType.cs" />
     <Compile Include="Assets\Scripts\Enumerations\TerrainType.cs" />
-    <Compile Include="Assets\Scripts\Helpers.cs" />
     <Compile Include="Assets\Scripts\Hit.cs" />
     <Compile Include="Assets\Scripts\Items\Corpse.cs" />
     <Compile Include="Assets\Scripts\Items\FlaskData.cs" />
@@ -93,9 +93,11 @@
     <Compile Include="Assets\Scripts\Items\ItemData.cs" />
     <Compile Include="Assets\Scripts\Items\Melee.cs" />
     <Compile Include="Assets\Scripts\Items\ScrollData.cs" />
+    <Compile Include="Assets\Scripts\ItemWeights.cs" />
     <Compile Include="Assets\Scripts\Level.cs" />
-    <Compile Include="Assets\Scripts\LevelGen.cs" />
     <Compile Include="Assets\Scripts\Node.cs" />
+    <Compile Include="Assets\Scripts\NPCPops.cs" />
+    <Compile Include="Assets\Scripts\NPCWrapper.cs" />
     <Compile Include="Assets\Scripts\Pathfinder.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\PlayerInput.cs" />
@@ -109,6 +111,13 @@
     <Compile Include="Assets\Scripts\UI\InventorySlot.cs" />
     <Compile Include="Assets\Scripts\UI\InventoryUI.cs" />
     <Compile Include="Assets\Scripts\UI\MainMenu.cs" />
+    <Compile Include="Assets\Scripts\Utils\Bresenhams.cs" />
+    <Compile Include="Assets\Scripts\Utils\Helpers.cs" />
+    <Compile Include="Assets\Scripts\Utils\RandomUtils.cs" />
+    <Compile Include="Assets\Scripts\WorldGen\LevelEnemies.cs" />
+    <Compile Include="Assets\Scripts\WorldGen\LevelItems.cs" />
+    <Compile Include="Assets\Scripts\WorldGen\LevelLayout.cs" />
+    <Compile Include="Assets\Scripts\WorldGen\LevelZones.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/Misc/Development/unity/Pantheon/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

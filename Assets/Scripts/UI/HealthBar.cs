@@ -1,7 +1,13 @@
-﻿// Handles on-map health bars
+﻿// HealthBar.cs
+// Jerome Martina
+
 using UnityEngine;
 using UnityEngine.UI;
+using Pantheon.Utils;
 
+/// <summary>
+/// Handles health bar overlays.
+/// </summary>
 public class HealthBar : MonoBehaviour
 {
     // Requisite objects

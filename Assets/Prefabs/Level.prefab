@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5417036770917020098}
-  - component: {fileID: 5417036770917020101}
   - component: {fileID: 5417036770917020100}
   m_Layer: 0
   m_Name: Level
@@ -36,18 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!156049354 &5417036770917020101
-Grid:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5417036770917020103}
-  m_Enabled: 1
-  m_CellSize: {x: 1, y: 1, z: 0}
-  m_CellGap: {x: 0, y: 0, z: 0}
-  m_CellLayout: 0
-  m_CellSwizzle: 0
 --- !u!114 &5417036770917020100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,7 +56,6 @@ MonoBehaviour:
   unknownTile: {fileID: 11400000, guid: 200c77702078a4e4d90e808bf9898762, type: 2}
   enemyPrefab: {fileID: 7036817240498649617, guid: f493254ab9863e143ad8ffe1c6d37180,
     type: 3}
-  actors: []
 --- !u!1 &5417036771127889788
 GameObject:
   m_ObjectHideFlags: 0

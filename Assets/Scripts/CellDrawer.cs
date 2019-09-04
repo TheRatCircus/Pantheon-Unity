@@ -21,7 +21,7 @@ public static class CellDrawer
     // Draw the whole level
     public static void DrawLevel(Level level)
     {
-        foreach (Cell cell in level.Cells)
+        foreach (Cell cell in level.Map)
             DrawTile(level, cell);
     }
 
@@ -32,9 +32,9 @@ public static class CellDrawer
             level.terrainTilemap.SetTile((Vector3Int)cell.Position, level.unknownTile);
         else
         {
-            level.terrainTilemap.SetTile((Vector3Int)cell.Position, cell._terrainData._tile);
+            level.terrainTilemap.SetTile((Vector3Int)cell.Position, cell.TerrainData._tile);
             level.terrainTilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
-            if (cell._connection != null)
+            if (cell.Connection != null)
             {
                 level.featureTilemap.SetTile((Vector3Int)cell.Position,
                     cell.Feature == FeatureType.StairsDown ? level.stairsDown : level.stairsUp);
@@ -72,7 +72,5 @@ public static class CellDrawer
 
     // Unpaint cells for targetting
     public static void UnpaintCells(Level level)
-    {
-        level.targettingTilemap.ClearAllTiles();
-    }
+        => level.targettingTilemap.ClearAllTiles();
 }

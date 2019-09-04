@@ -1,0 +1,20 @@
+﻿// ItemWeights.cs
+// Jerome Martina
+
+using static Pantheon.Utils.RandomUtils;
+
+/// <summary>
+/// Assigning weighting to items for random picking during level gen.
+/// </summary>
+public static class ItemWeights
+{
+    public static RandomPickEntry<ScrollType>[] ScrollWeights =
+    {
+        new RandomPickEntry<ScrollType>(512, ScrollType.ScrollMagicBullet)
+    };
+
+    public static RandomPickEntry<FlaskType>[] FlaskWeights =
+    {
+        new RandomPickEntry<FlaskType>(512, FlaskType.FlaskHealing)
+    };
+}

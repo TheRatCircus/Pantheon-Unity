@@ -10,6 +10,7 @@ public enum FeatureType
     StairsDown = 2
 }
 
+[System.Serializable]
 public class Cell
 {
     // Statics
@@ -17,7 +18,7 @@ public class Cell
     public const float TileOffsetX = .5f;
     public const float TileOffsetY = .5f;
 
-    private Vector2Int position;
+    [SerializeField] private Vector2Int position;
 
     TerrainData terrainData;
     bool blocked = true; // Can cell be moved through?
@@ -37,22 +38,16 @@ public class Cell
     public Vector2Int Position { get => position; set => position = value; }
     public bool Blocked { get => blocked; set => blocked = value; }
     public bool Opaque { get => opaque; set => opaque = value; }
-    public bool Visible
-    {
-        get => visible;
-    }
+    public bool Visible => visible;
     public bool Revealed { get => revealed; set => revealed = value; }
     public Actor _actor { get => actor; set => actor = value; }
-    public List<Item> Items { get => items; }
-    public TerrainData _terrainData { get => terrainData; }
+    public List<Item> Items => items;
+    public TerrainData TerrainData { get => terrainData; }
     public FeatureType Feature { get => feature; set => feature = value; }
-    public Connection _connection { get => connection; set => connection = value; }
+    public Connection Connection { get => connection; set => connection = value; }
 
     // Constructor
-    public Cell(Vector2Int position)
-    {
-        this.position = position;
-    }
+    public Cell(Vector2Int position) => this.position = position;
 
     // Set this cell's visibility
     public void SetVisibility(bool visible, int fallOff)
@@ -93,10 +88,7 @@ public class Cell
     }
 
     // Check if this cell can be walked into
-    public bool IsWalkableTerrain()
-    {
-        return !blocked;
-    }
+    public bool IsWalkableTerrain() => !blocked;
 
     // toString override: returns name of tile, position, contained actor
     public override string ToString()
@@ -121,7 +113,6 @@ public class Connection
         if (DestinationLevel == null)
         {
             DestinationLevel = Game.instance.MakeNewLevel();
-            DestinationLevel.Initialize(false);
             Cell cell = DestinationLevel.RandomFloor();
             DestinationCell = cell;
         }

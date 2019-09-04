@@ -24,10 +24,7 @@ public class Enemy : Actor
     }
 
     // Every time something happens, this NPC must refresh its visibility
-    public void UpdateVisibility()
-    {
-        spriteRenderer.enabled = cell.Visible;
-    }
+    public void UpdateVisibility() => spriteRenderer.enabled = cell.Visible;
 
     // Evaluate the situation and act
     public override int Act()
@@ -35,7 +32,7 @@ public class Enemy : Actor
         // Detect player if coming into player's view
         if (cell.Visible && target == null)
         {
-            target = Game.instance.player1;
+            target = Game.GetPlayer();
             GameLog.Send($"{GameLog.GetSubject(this, true)} notices you!", MessageColour.Red);
         }
 
@@ -66,6 +63,6 @@ public class Enemy : Actor
     protected override void OnDeath()
     {
         base.OnDeath();
-        level.enemies.Remove(this);
+        level.Enemies.Remove(this);
     }
 }

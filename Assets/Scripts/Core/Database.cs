@@ -9,12 +9,14 @@ public sealed class Database : MonoBehaviour
     public List<ScrollData> Scrolls = new List<ScrollData>();
     public List<FlaskData> Flasks = new List<FlaskData>();
     public List<TerrainData> Terrain = new List<TerrainData>();
+    public List<NPCWrapper> NPC = new List<NPCWrapper>();
 
     // Dictionaries for lookup by enum
     public Dictionary<CorpseType, Corpse> CorpseDict = new Dictionary<CorpseType, Corpse>();
     public Dictionary<ScrollType, ScrollData> ScrollDict = new Dictionary<ScrollType, ScrollData>();
     public Dictionary<FlaskType, FlaskData> FlaskDict = new Dictionary<FlaskType, FlaskData>();
     public Dictionary<TerrainType, TerrainData> TerrainDict = new Dictionary<TerrainType, TerrainData>();
+    public Dictionary<NPCType, NPCWrapper> NPCDict = new Dictionary<NPCType, NPCWrapper>();
 
     // Miscellaneous
     public Sprite lineTargetOverlay;
@@ -23,46 +25,26 @@ public sealed class Database : MonoBehaviour
 
     // Awake is called when the script instance is being loaded
     private void Awake()
-    {
-        InitCorpseDict();
-        InitScrollDict();
-        InitFlaskDict();
-        InitTerrainDict();
-    }
+        => InitDatabaseDicts();
 
-    public static Database GetDatabase() => Game.instance.database;
+    private static Database GetDatabase() => Game.instance.database;
 
-    #region Init
-
-    // Initialize the corpse dictionary
-    private void InitCorpseDict()
+    /// <summary>
+    /// Initialize each of the database's dictionaries.
+    /// </summary>
+    private void InitDatabaseDicts()
     {
         for (int i = 0; i < Corpses.Count; i++)
             CorpseDict.Add((Corpses[i])._corpseType, Corpses[i]);
-    }
-
-    // Initialize the scroll dictionary
-    private void InitScrollDict()
-    {
         for (int i = 0; i < Scrolls.Count; i++)
             ScrollDict.Add((Scrolls[i])._scrollType, Scrolls[i]);
-    }
-
-    // Initialize the potion dictionary
-    private void InitFlaskDict()
-    {
         for (int i = 0; i < Flasks.Count; i++)
-            FlaskDict.Add((Flasks[i])._flaskType, Flasks[i]);
-    }
-
-    // Initialize the terrain tile dictionary
-    private void InitTerrainDict()
-    {
+            FlaskDict.Add(Flasks[i]._flaskType, Flasks[i]);
         for (int i = 0; i < Terrain.Count; i++)
             TerrainDict.Add(Terrain[i]._terrainType, Terrain[i]);
+        for (int i = 0; i < NPC.Count; i++)
+            NPCDict.Add(NPC[i].Type, NPC[i]);
     }
-
-    #endregion
 
     #region StaticAccessors
 
@@ -87,10 +69,21 @@ public sealed class Database : MonoBehaviour
         return ret;
     }
 
-    // Get a terrain data by enum
+    // Get terrain data by enum
     public static TerrainData GetTerrain(TerrainType terrainType)
     {
         GetDatabase().TerrainDict.TryGetValue(terrainType, out TerrainData ret);
+        return ret;
+    }
+
+    /// <summary>
+    /// Get an NPC prefab by NPCType.
+    /// </summary>
+    /// <param name="npcType">The enumerated type of the NPC.</param>
+    /// <returns>The prefab corresponding to npcType.</returns>
+    public static NPCWrapper GetNPC(NPCType npcType)
+    {
+        GetDatabase().NPCDict.TryGetValue(npcType, out NPCWrapper ret);
         return ret;
     }
 
