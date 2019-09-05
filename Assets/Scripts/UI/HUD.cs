@@ -11,6 +11,7 @@ public class HUD : MonoBehaviour
     public Text healthCounter;
     public Text energyCounter;
     public Text turnCounter;
+    public Text locationDisplay;
 
     // Start is called before the first frame update
     private void Start()
@@ -18,6 +19,7 @@ public class HUD : MonoBehaviour
         player.OnHealthChangeEvent += UpdateHealthCounter;
         Game.instance.OnPlayerActionEvent += UpdateEnergyCounter;
         Game.instance.OnTurnChangeEvent += UpdateTurnCounter;
+        Game.instance.OnLevelChangeEvent += UpdateLocationDisplay;
 
         UpdateTurnCounter(0);
         UpdateHealthCounter(player.Health, player.MaxHealth);
@@ -43,5 +45,12 @@ public class HUD : MonoBehaviour
     {
         string turnCounterStr = $"Time: {turn}";
         turnCounter.text = turnCounterStr;
+    }
+    
+    // Update the location display
+    private void UpdateLocationDisplay(Level level)
+    {
+        string locationDisplayStr = $"Location: {level.DisplayName}";
+        locationDisplay.text = locationDisplayStr;
     }
 }

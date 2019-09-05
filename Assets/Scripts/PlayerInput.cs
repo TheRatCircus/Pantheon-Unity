@@ -75,31 +75,6 @@ public class PlayerInput : MonoBehaviour
                 GameLog.Send("Advanced attack: select a target.", MessageColour.Teal);
                 inputState = InputState.PointTarget;
             }
-
-        //else if (Input.GetButtonDown("Ascend"))
-        //{
-        //    if (player.Cell._connection != null && player.Cell._connection.upstairs)
-        //    {
-        //        player.Cell._connection.GoToLevel(player);
-        //        GameLog.Send("You ascend the stairs...", MessageColour.White);
-        //    }
-        //    else
-        //    {
-        //        GameLog.Send("There is nothing to ascend here.", MessageColour.Grey);
-        //    } 
-        //}
-        //else if (Input.GetButtonDown("Descend"))
-        //{
-        //    if (player.Cell._connection != null && !player.Cell._connection.upstairs)
-        //    {
-        //        player.Cell._connection.GoToLevel(player);
-        //        GameLog.Send("You descend the stairs...", MessageColour.White);
-        //    }
-        //    else
-        //    {
-        //        GameLog.Send("There is nothing to descend here.", MessageColour.Grey);
-        //    }  
-        //}
     }
 
     // Handle keyboard input feasible when not player's turn
@@ -127,6 +102,12 @@ public class PlayerInput : MonoBehaviour
                 player.nextAction = new WaitAction(player);
             else if (Input.GetButtonDown("Pickup"))
                 player.nextAction = new PickupAction(player, player.Cell);
+            else if (Input.GetButtonDown("Interact"))
+            {
+                if (player.Cell.Connection != null)
+                    player.Cell.Connection.Use(player);
+                player.nextAction = new WaitAction(player);
+            }
         }
         else if (inputState == InputState.PointTarget)
         {

@@ -54,8 +54,6 @@ MonoBehaviour:
   stairsDown: {fileID: 11400000, guid: 678f8437c0c02d34bb91bed0ee681fa9, type: 2}
   stairsUp: {fileID: 11400000, guid: b04f727a3f2e64e4aaead662f979de77, type: 2}
   unknownTile: {fileID: 11400000, guid: 200c77702078a4e4d90e808bf9898762, type: 2}
-  enemyPrefab: {fileID: 7036817240498649617, guid: f493254ab9863e143ad8ffe1c6d37180,
-    type: 3}
 --- !u!1 &5417036771127889788
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,7 +196,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: -3
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -426,7 +424,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -540,7 +538,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16

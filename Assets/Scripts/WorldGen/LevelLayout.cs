@@ -13,7 +13,7 @@ namespace Pantheon.WorldGen
     public static class LevelLayout
     {
         /// <summary>
-        /// Generate a blank cell map.
+        /// Generate a blank cell map; levels do not work without a call to this.
         /// </summary>
         /// <param name="size">The size of the new cell map.</param>
         /// <returns>The new cell map.</returns>
@@ -144,7 +144,6 @@ namespace Pantheon.WorldGen
                     numRooms++;
                 }
             }
-            level.Map[lastCenter.x, lastCenter.y].SetConnection(false);
         }
 
         /// <summary>

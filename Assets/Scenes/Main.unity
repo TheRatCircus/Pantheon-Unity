@@ -155,7 +155,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 193.25, y: 24}
+  m_SizeDelta: {x: 209.25, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &79670554
 MonoBehaviour:
@@ -619,6 +619,7 @@ RectTransform:
   - {fileID: 79670553}
   - {fileID: 1517369206}
   - {fileID: 1749549057}
+  - {fileID: 1858473453}
   m_Father: {fileID: 1299990570}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -979,6 +980,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e25cedeeb2c79dd4cb8ca0568549e6ce, type: 2}
   NPC:
   - {fileID: 11400000, guid: c242fefd7786d774b863f8185ed10807, type: 2}
+  Features:
+  - {fileID: 11400000, guid: f3245e7cfcd95494391cb0467d2e7af4, type: 2}
+  - {fileID: 11400000, guid: d5454cfdf80e1db44aedb29d6bb28557, type: 2}
   lineTargetOverlay: {fileID: 21300000, guid: a5ea99f1f7b062b4d809ff0899851c17, type: 3}
 --- !u!1 &737357386
 GameObject:
@@ -1446,6 +1450,7 @@ MonoBehaviour:
   healthCounter: {fileID: 79670554}
   energyCounter: {fileID: 1517369207}
   turnCounter: {fileID: 1749549058}
+  locationDisplay: {fileID: 1858473454}
 --- !u!114 &1299990572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1768,7 +1773,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 193.25, y: 24}
+  m_SizeDelta: {x: 209.25, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1517369207
 MonoBehaviour:
@@ -1964,7 +1969,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 193.25, y: 24}
+  m_SizeDelta: {x: 209.25, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1749549058
 MonoBehaviour:
@@ -2051,6 +2056,85 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1858473452
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1858473453}
+  - component: {fileID: 1858473455}
+  - component: {fileID: 1858473454}
+  m_Layer: 5
+  m_Name: LocationDisplay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1858473453
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1858473452}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 392357402}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 209.25, y: 24}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1858473454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1858473452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 18
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 1
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Location: Central Valley'
+--- !u!222 &1858473455
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1858473452}
+  m_CullTransparentMesh: 0
 --- !u!1 &2022245627
 GameObject:
   m_ObjectHideFlags: 0

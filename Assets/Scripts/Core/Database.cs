@@ -10,6 +10,7 @@ public sealed class Database : MonoBehaviour
     public List<FlaskData> Flasks = new List<FlaskData>();
     public List<TerrainData> Terrain = new List<TerrainData>();
     public List<NPCWrapper> NPC = new List<NPCWrapper>();
+    public List<Feature> Features = new List<Feature>();
 
     // Dictionaries for lookup by enum
     public Dictionary<CorpseType, Corpse> CorpseDict = new Dictionary<CorpseType, Corpse>();
@@ -17,6 +18,7 @@ public sealed class Database : MonoBehaviour
     public Dictionary<FlaskType, FlaskData> FlaskDict = new Dictionary<FlaskType, FlaskData>();
     public Dictionary<TerrainType, TerrainData> TerrainDict = new Dictionary<TerrainType, TerrainData>();
     public Dictionary<NPCType, NPCWrapper> NPCDict = new Dictionary<NPCType, NPCWrapper>();
+    public Dictionary<FeatureType, Feature> FeatureDict = new Dictionary<FeatureType, Feature>();
 
     // Miscellaneous
     public Sprite lineTargetOverlay;
@@ -44,6 +46,8 @@ public sealed class Database : MonoBehaviour
             TerrainDict.Add(Terrain[i]._terrainType, Terrain[i]);
         for (int i = 0; i < NPC.Count; i++)
             NPCDict.Add(NPC[i].Type, NPC[i]);
+        for (int i = 0; i < Features.Count; i++)
+            FeatureDict.Add(Features[i].Type, Features[i]);
     }
 
     #region StaticAccessors
@@ -84,6 +88,13 @@ public sealed class Database : MonoBehaviour
     public static NPCWrapper GetNPC(NPCType npcType)
     {
         GetDatabase().NPCDict.TryGetValue(npcType, out NPCWrapper ret);
+        return ret;
+    }
+
+    // Get feature data by enum
+    public static Feature GetFeature(FeatureType featureType)
+    {
+        GetDatabase().FeatureDict.TryGetValue(featureType, out Feature ret);
         return ret;
     }
 

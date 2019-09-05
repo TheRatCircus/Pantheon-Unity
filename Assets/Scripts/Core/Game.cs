@@ -49,6 +49,7 @@ public sealed class Game : MonoBehaviour
     // Events
     public event Action<int> OnTurnChangeEvent;
     public event Action<int> OnPlayerActionEvent;
+    public event Action<Level> OnLevelChangeEvent;
 
     // Accessors
     public static Player GetPlayer(int i = 0) => instance.player1;
@@ -204,6 +205,19 @@ public sealed class Game : MonoBehaviour
             
         activeLevel = level;
         level.gameObject.SetActive(true);
+    }
+
+    /// <summary>
+    /// Move a player to a different level.
+    /// </summary>
+    public void MoveToLevel(Player player, Level level, Cell cell)
+    {
+        player.transform.SetParent(level.transform);
+        player.level = level;
+        Actor.MoveTo(player, cell);
+        instance.LoadLevel(level);
+        level.RefreshFOV();
+        OnLevelChangeEvent?.Invoke(level);
     }
 
     /// <summary>
