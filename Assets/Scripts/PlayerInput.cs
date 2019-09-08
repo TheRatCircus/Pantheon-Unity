@@ -87,17 +87,6 @@ public class PlayerInput : MonoBehaviour
         MouseInput();
     }
 
-    public void Act()
-    {
-        // Actions only available on player's turn, but consume no energy
-        if (InputState == InputState.Move)
-            if (Input.GetButtonDown("AdvancedAttack"))
-            {
-                GameLog.Send("Advanced attack: select a target.", MessageColour.Teal);
-                InputState = InputState.PointTarget;
-            }
-    }
-
     // Handle keyboard input feasible when not player's turn
     private void KeyInput()
     {

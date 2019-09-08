@@ -30,7 +30,6 @@ namespace Pantheon.Actors
         // Events
         public event Action OnInventoryChangeEvent;
         public event Action OnInventoryToggleEvent;
-        public event Action<Actor> OnAdvancedAttackEvent;
 
         // Event invokers for PlayerInput
         public void RaiseInventoryToggleEvent() => OnInventoryToggleEvent?.Invoke();
@@ -96,34 +95,6 @@ namespace Pantheon.Actors
                 if (c.Actor is NPC)
                     visibleEnemies.Add((NPC)c.Actor);
         }
-
-        #region AdvancedAttack
-
-        public void StartAdvancedAttack()
-        {
-            input.PointTargetConfirmEvent += ConfirmAdvancedAttack;
-            input.TargetCancelEvent += CancelAdvancedAttack;
-        }
-
-        public void ConfirmAdvancedAttack(Cell target)
-        {
-            if (target.Actor == null)
-                GameLog.Send("This feature isn't implemented...", MessageColour.Teal);
-            else if (target.Actor == this)
-                GameLog.Send("Why would you want to do that?", MessageColour.Teal);
-            else
-                OnAdvancedAttackEvent?.Invoke(target.Actor);
-            input.PointTargetConfirmEvent -= ConfirmAdvancedAttack;
-            input.TargetCancelEvent -= CancelAdvancedAttack;
-        }
-
-        public void CancelAdvancedAttack()
-        {
-            input.PointTargetConfirmEvent -= ConfirmAdvancedAttack;
-            input.TargetCancelEvent -= CancelAdvancedAttack;
-        }
-
-        #endregion
 
         // Handle the player's death
         protected override void OnDeath()
