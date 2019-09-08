@@ -1,6 +1,6 @@
 ﻿// Enumeration for corpse types
 public enum CorpseType
 {
-    CorpseNone = 0,
-    CorpseGoblin = 1
+    None = 0,
+    Goblin = 1
 }

@@ -13,11 +13,11 @@ public static class ItemWeights
 
     public static RandomPickEntry<ScrollType>[] ScrollWeights =
     {
-        new RandomPickEntry<ScrollType>(512, ScrollType.ScrollMagicBullet)
+        new RandomPickEntry<ScrollType>(512, ScrollType.MagicBullet)
     };
 
     public static RandomPickEntry<FlaskType>[] FlaskWeights =
     {
-        new RandomPickEntry<FlaskType>(512, FlaskType.FlaskHealing)
+        new RandomPickEntry<FlaskType>(512, FlaskType.Healing)
     };
 }
