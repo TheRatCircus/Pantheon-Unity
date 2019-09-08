@@ -91,6 +91,7 @@
     <Compile Include="Assets\Scripts\Core\Database.cs" />
     <Compile Include="Assets\Scripts\Core\Game.cs" />
     <Compile Include="Assets\Scripts\Core\GameLog.cs" />
+    <Compile Include="Assets\Scripts\Core\ItemFactory.cs" />
     <Compile Include="Assets\Scripts\Core\Spawn.cs" />
     <Compile Include="Assets\Scripts\Enemy.cs" />
     <Compile Include="Assets\Scripts\Enumerations\BodyPartType.cs" />

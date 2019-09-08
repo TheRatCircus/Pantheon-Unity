@@ -4,6 +4,8 @@
 using Pantheon.Core;
 using Pantheon.World;
 using static Pantheon.Utils.RandomUtils;
+using static Pantheon.Utils.ItemFactory;
+using static ItemWeights;
 
 namespace Pantheon.WorldGen
 {
@@ -19,18 +21,14 @@ namespace Pantheon.WorldGen
         {
             SpawnFlasks(ref level);
             SpawnScrolls(ref level);
-            level.RandomFloor().Items.Add(new Item(Database.GetWeapon(WeaponType.Hatchet)));
+            level.RandomFloor().Items.Add(NewWeapon(WeaponType.Hatchet));
         }
 
         public static void SpawnFlasks(ref Level level)
         {
             for (int i = 0; i < 10; i++)
             {
-                // TODO: This is verbose
-                Item item = new Item(
-                    Database.GetFlask
-                    (ItemWeights.FlaskWeights[RandomPick
-                    (ItemWeights.FlaskWeights)].Value));
+                Item item = NewFlask(RandomWeighted(FlaskWeights));
                 level.RandomFloor().Items.Add(item);
             }
         }
@@ -39,10 +37,7 @@ namespace Pantheon.WorldGen
         {
             for (int i = 0; i < 10; i++)
             {
-                Item item = new Item(
-                    Database.GetScroll
-                    (ItemWeights.ScrollWeights[RandomPick
-                    (ItemWeights.ScrollWeights)].Value));
+                Item item = NewScroll(RandomWeighted(ScrollWeights));
                 level.RandomFloor().Items.Add(item);
             }
         }

@@ -8,6 +8,9 @@ using static Pantheon.Utils.RandomUtils;
 /// </summary>
 public static class ItemWeights
 {
+    public static T RandomWeighted<T>(RandomPickEntry<T>[] set)
+        => set[RandomPick(set)].Value;
+
     public static RandomPickEntry<ScrollType>[] ScrollWeights =
     {
         new RandomPickEntry<ScrollType>(512, ScrollType.ScrollMagicBullet)
