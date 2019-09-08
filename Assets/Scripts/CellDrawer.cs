@@ -1,5 +1,6 @@
 ﻿// Draws tilemaps based on cell data
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -60,15 +61,14 @@ public static class CellDrawer
     {
         Tile featureTile = ScriptableObject.CreateInstance<Tile>();
         featureTile.flags = TileFlags.None;
-        featureTile.sprite = cell.Feature.Sprite;
 
-        if (featureTile.sprite != null)
-        {
-            level.featureTilemap.SetTile((Vector3Int)cell.Position, featureTile);
-            level.featureTilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
-        }
+        if (cell.Feature.Sprite != null)
+            featureTile.sprite = cell.Feature.Sprite;
         else
-            throw new System.Exception("Attempted to draw a feature with no sprite.");
+            throw new NullReferenceException($"Feature {cell.Feature.name} has no sprite.");
+
+        level.featureTilemap.SetTile((Vector3Int)cell.Position, featureTile);
+        level.featureTilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
     }
 
     // Draw a cell's item tile
@@ -76,14 +76,15 @@ public static class CellDrawer
     {
         Tile itemTile = ScriptableObject.CreateInstance<Tile>();
         itemTile.flags = TileFlags.None;
-        itemTile.sprite = cell.Items[0]._sprite;
-        if (itemTile.sprite != null)
-        {
-            level.itemTilemap.SetTile((Vector3Int)cell.Position, itemTile);
-            level.itemTilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
-        }
+        
+
+        if (cell.Items[0]._sprite != null)
+            itemTile.sprite = cell.Items[0]._sprite;
         else
-            throw new System.Exception("Attempted to draw an item with no sprite");
+            throw new NullReferenceException($"Item {cell.Items[0].DisplayName} has no sprite.");
+
+        level.itemTilemap.SetTile((Vector3Int)cell.Position, itemTile);
+        level.itemTilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
     }
 
     // Paint cells for targetting
