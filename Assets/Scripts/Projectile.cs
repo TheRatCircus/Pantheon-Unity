@@ -1,4 +1,5 @@
-﻿// Generic projectile behaviour, played out at the end of a turn
+﻿// Projectile.cs
+// Jerome Martina
 
 using System.Collections;
 using System.Collections.Generic;

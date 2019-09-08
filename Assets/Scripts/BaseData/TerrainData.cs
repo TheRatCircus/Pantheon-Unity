@@ -1,7 +1,12 @@
-﻿// Template for terrain type data
+﻿// TerrainData.cs
+// Jerome Martina
+
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+/// <summary>
+/// Attributes of a terrain type.
+/// </summary>
 [CreateAssetMenu(fileName = "New Terrain", menuName = "Terrain")]
 public class TerrainData : ScriptableObject
 {

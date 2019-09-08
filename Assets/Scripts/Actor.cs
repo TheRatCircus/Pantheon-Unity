@@ -1,4 +1,5 @@
-﻿// Base class for actors
+﻿// Actor.cs
+// Jerome Martina
 
 using System;
 using System.Collections.Generic;

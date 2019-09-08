@@ -1,4 +1,5 @@
-﻿// Base class for all actions in Pantheon's system of commands
+﻿// BaseAction.cs
+// Jerome Martina
 
 using UnityEngine;
 using Pantheon.Actors;
@@ -6,6 +7,9 @@ using Pantheon.Actions;
 
 namespace Pantheon.Actions
 {
+    /// <summary>
+    /// Base class for all actions in Pantheon's system of commands.
+    /// </summary>
     public abstract class BaseAction
     {
         // Callback which can be run after completion of an action
@@ -35,7 +39,9 @@ namespace Pantheon.Actions
     }
 }
 
-// ActionWrapper holds an action in a ScriptableObject for serialization
+/// <summary>
+/// ActionWrappers hold actions in ScriptableObjects for serialization.
+/// </summary>
 public abstract class ActionWrapper : ScriptableObject
 {
     public abstract BaseAction GetAction(Actor actor);

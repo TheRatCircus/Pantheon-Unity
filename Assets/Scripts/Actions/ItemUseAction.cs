@@ -1,9 +1,13 @@
-﻿// Use an item
+﻿// ItemUseAction.cs
+// Jerome Martina
 
 using Pantheon.Actors;
 
 namespace Pantheon.Actions
 {
+    /// <summary>
+    /// Attempt to use an item.
+    /// </summary>
     public class ItemUseAction : BaseAction
     {
         private readonly Item item;
@@ -11,7 +15,6 @@ namespace Pantheon.Actions
 
         private readonly int useTime;
 
-        // Constructor
         public ItemUseAction(Actor actor, Item item, BaseAction onUse) : base(actor)
         {
             this.item = item;
@@ -21,7 +24,10 @@ namespace Pantheon.Actions
             onUse.DoAction(AssignAction);
         }
         
-        // Finish using the item
+        /// <summary>
+        /// Finish using the item and consume it if appropriate.
+        /// </summary>
+        /// <returns>The item's use time.</returns>
         public override int DoAction()
         {
             Actor.RemoveItem(item);
@@ -30,8 +36,6 @@ namespace Pantheon.Actions
 
         // DoAction() with a callback
         public override int DoAction(OnConfirm onConfirm)
-        {
-            throw new System.NotImplementedException();
-        }
+            => throw new System.NotImplementedException();
     }
 }

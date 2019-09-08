@@ -1,17 +1,20 @@
-﻿// Action which heals an actor
+﻿// HealAction.cs
+// Jerome Martina
 
 using UnityEngine;
 using Pantheon.Actors;
 
 namespace Pantheon.Actions
 {
+    /// <summary>
+    /// Heal an actor.
+    /// </summary>
     [System.Serializable]
     public class HealAction : BaseAction
     {
         [SerializeField] private int healAmount;
         [SerializeField] private float healPercent;
 
-        // Constructor
         public HealAction(Actor actor, int healAmount, float healPercent)
             : base(actor)
         {
@@ -19,7 +22,10 @@ namespace Pantheon.Actions
             this.healPercent = healPercent;
         }
 
-        // Attempt to heal the actor
+        /// <summary>
+        /// Attempt to heal the actor.
+        /// </summary>
+        /// <returns>Negative action cost.</returns>
         public override int DoAction()
         {
             Actor.Heal(healAmount);

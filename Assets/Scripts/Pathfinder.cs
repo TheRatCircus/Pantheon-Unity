@@ -1,16 +1,18 @@
-﻿// Pathfinding data and functions for a level
+﻿// Pathfinder.cs
 // Credit to Sebastian Lague
 
 using System.Collections.Generic;
 using UnityEngine;
 using Pantheon.World;
 
+/// <summary>
+/// Pathfinding data and functions for a level.
+/// </summary>
 public class Pathfinder
 {
     private Level level;
     private Node[,] map;
 
-    // Constructor
     public Pathfinder(Level level)
     {
         this.level = level;

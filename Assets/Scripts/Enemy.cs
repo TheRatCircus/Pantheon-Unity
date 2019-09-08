@@ -1,4 +1,5 @@
-﻿// Enemy behaviour handling
+﻿// NPC.cs
+// Jerome Martina
 
 using System.Collections.Generic;
 using UnityEngine;

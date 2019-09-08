@@ -45,12 +45,6 @@ namespace Pantheon.Utils
 
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="set"></param>
-        /// <returns></returns>
         public static int RandomPick<T>(RandomPickEntry<T>[] set)
         {
             int weightSum = RandomPickEntry<T>.WeightSum(set);

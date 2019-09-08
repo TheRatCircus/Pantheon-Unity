@@ -18,7 +18,7 @@ namespace Pantheon.UI
 
         public void Initialize(BodyPart part, OnClickDelegate onClick)
         {
-            this.Part = part;
+            Part = part;
             icon.sprite = part.Sprite;
 
             string optionText = $"{part.Name}";

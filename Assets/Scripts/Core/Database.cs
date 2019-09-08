@@ -1,4 +1,5 @@
-﻿// In-game database holding all base data
+﻿// Database.cs
+// Jerome Martina
 
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,9 @@ using Pantheon.World;
 
 namespace Pantheon.Core
 {
+    /// <summary>
+    /// In-game database holding all template data.
+    /// </summary>
     public sealed class Database : MonoBehaviour
     {
         // Database lists

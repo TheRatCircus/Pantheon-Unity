@@ -1,4 +1,6 @@
-﻿// Enumeration for scroll types
+﻿// ScrollType.cs
+// Jerome Martina
+
 public enum ScrollType
 {
     None = 0,

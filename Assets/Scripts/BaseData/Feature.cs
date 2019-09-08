@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Pantheon.World
 {
+    /// <summary>
+    /// The attributes of a cell feature, e.g. a tree or door.
+    /// </summary>
     [CreateAssetMenu(fileName = "New Feature", menuName = "Feature")]
     public class Feature : ScriptableObject
     {

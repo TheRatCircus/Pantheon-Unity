@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 namespace Pantheon.UI
 {
+    /// <summary>
+    /// A list of selectable options which pops up for the player.
+    /// </summary>
     public class ModalList : MonoBehaviour
     {
         [SerializeField] protected GameObject optionPrefab;
@@ -17,7 +20,9 @@ namespace Pantheon.UI
         // Parameters
         protected int maxOptions;
 
-        // Clean this modal list of all options
+        /// <summary>
+        /// Clean this list of all options.
+        /// </summary>
         public void Clean()
         {
             foreach (Transform t in listTransform)

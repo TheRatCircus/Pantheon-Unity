@@ -1,4 +1,5 @@
-﻿// Handler for Heads-Up-Display
+﻿// HUD.cs
+// Jerome Martina
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,28 +41,24 @@ namespace Pantheon.UI
             UpdateEnergyCounter(player.Energy);
         }
 
-        // Update the health counter
         private void UpdateHealthCounter(int health, int maxHealth)
         {
             string healthCounterStr = $"Health: {health} / {maxHealth}";
             healthCounter.text = healthCounterStr;
         }
 
-        // Update the energy counter
         private void UpdateEnergyCounter(int energy)
         {
             string energyCounterStr = $"Energy: {energy}";
             energyCounter.text = energyCounterStr;
         }
 
-        // Update the turn counter
         private void UpdateTurnCounter(int turn)
         {
             string turnCounterStr = $"Time: {turn}";
             turnCounter.text = turnCounterStr;
         }
 
-        // Update the location display
         private void UpdateLocationDisplay(Level level)
         {
             string locationDisplayStr = $"Location: {level.DisplayName}";

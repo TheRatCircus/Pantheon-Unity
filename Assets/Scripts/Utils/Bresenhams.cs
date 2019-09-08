@@ -1,4 +1,5 @@
-﻿// Credit to Jason Morley
+﻿// Bresenham.cs
+// Credit to Jason Morley
 
 using System.Collections.Generic;
 using UnityEngine;

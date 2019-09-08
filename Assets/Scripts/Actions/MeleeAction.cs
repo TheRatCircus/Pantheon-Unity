@@ -1,16 +1,19 @@
-﻿// Attack an actor in melee combat
+﻿// MeleeAction.cs
+// Jerome Martina
 
 using Pantheon.Actors;
 using Pantheon.Core;
 
 namespace Pantheon.Actions
 {
+    /// <summary>
+    /// Try to land a melee hit on an actor.
+    /// </summary>
     public class MeleeAction : BaseAction
     {
         private Actor target;
         private readonly int attackTime;
 
-        // Constructor
         public MeleeAction(Actor actor, int attackTime, Actor target)
             : base(actor)
         {
@@ -18,7 +21,10 @@ namespace Pantheon.Actions
             this.target = target;
         }
 
-        // Attempt to hit the target actor with a melee attack
+        /// <summary>
+        /// Attack an actor; if the hit lands, cause the target to take a hit.
+        /// </summary>
+        /// <returns>The time taken by the attack.</returns>
         public override int DoAction()
         {
             // Did the attack hit?
@@ -37,8 +43,6 @@ namespace Pantheon.Actions
 
         // DoAction() with a callback
         public override int DoAction(OnConfirm onConfirm)
-        {
-            throw new System.NotImplementedException();
-        }
+            => throw new System.NotImplementedException();
     }
 }

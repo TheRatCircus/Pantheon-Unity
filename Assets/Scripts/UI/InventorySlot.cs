@@ -1,4 +1,6 @@
-﻿// A slot in the inventory GUI
+﻿// InventorySlot.cs
+// Jerome Martina
+
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,9 +9,9 @@ namespace Pantheon.UI
 {
     public class InventorySlot : MonoBehaviour
     {
-        public Image icon; // Image displaying the item's sprite
+        [SerializeField] private Image icon = null; // Image displaying the item's sprite
 
-        private Item item; // Item referred to by this slot
+        [ReadOnly] private Item item; // Item referred to by this slot
 
         // Events
         public event Action<string> OnHoverEvent;
@@ -34,7 +36,6 @@ namespace Pantheon.UI
             icon.enabled = false;
         }
 
-        // Use this item by pressing button
         public void UseItem()
         {
             if (item != null)
@@ -47,14 +48,12 @@ namespace Pantheon.UI
                 OnDropEvent?.Invoke(item);
         }
 
-        // Action to take when pointer enters button
         public void OnPointerEnter()
         {
             if (item != null)
                 OnHoverEvent?.Invoke(item.DisplayName);
         }
 
-        // Action to take when pointer exits button
         public void OnPointerExit()
         {
             OnHoverEvent?.Invoke("");

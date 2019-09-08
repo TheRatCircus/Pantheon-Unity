@@ -1,4 +1,6 @@
-﻿// Enumeration for potion types
+﻿// FlaskType.cs
+// Jerome Martina
+
 public enum FlaskType
 {
     None = 0,

@@ -1,4 +1,5 @@
-﻿// Cell data
+﻿// Cell.cs
+// Jerome Martina
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,10 @@ using Pantheon.Actors;
 
 namespace Pantheon.World
 {
+    /// <summary>
+    /// The fundamental component of levels, containing terrain, items, and up
+    /// to one actor.
+    /// </summary>
     [System.Serializable]
     public class Cell
     {
@@ -54,10 +59,8 @@ namespace Pantheon.World
 
         #endregion
 
-        // Constructor
         public Cell(Vector2Int position) => this.position = position;
 
-        // Set this cell's visibility
         public void SetVisibility(bool visible, int fallOff)
         {
             if (!visible)
@@ -77,7 +80,11 @@ namespace Pantheon.World
             }
         }
 
-        // Set this cell's terrain type and adjust its attributes accordingly
+        /// <summary>
+        /// Set this cell's terrain type and adjust its attributes accordingly.
+        /// </summary>
+        /// <param name="terrainData">The TerrainData which should define this
+        /// cell's new terrain.</param>
         public void SetTerrainType(TerrainData terrainData)
         {
             this.terrainData = terrainData;

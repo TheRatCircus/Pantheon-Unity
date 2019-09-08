@@ -1,4 +1,5 @@
-﻿// Fire a projectile in a line
+﻿// LineProjAction.cs
+// Jerome Martina
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,9 @@ using Pantheon.World;
 
 namespace Pantheon.Actions
 {
+    /// <summary>
+    /// Prepare and fire a projectile in a line.
+    /// </summary>
     [System.Serializable]
     public class LineProjAction : BaseAction
     {
@@ -15,13 +19,14 @@ namespace Pantheon.Actions
 
         List<Cell> line;
 
-        // Constructor
         public LineProjAction(Actor actor, GameObject projPrefab) : base(actor)
         {
             this.projPrefab = projPrefab;
         }
 
-        // Request a line, and fire a projectile by callback
+        /// <summary>
+        /// Request a line, and fire a projectile by callback.
+        /// </summary>
         public override int DoAction()
         {
             if (Actor is Player)
@@ -47,7 +52,6 @@ namespace Pantheon.Actions
             return -1;
         }
 
-        // Fire the projectile
         public void FireProjectile()
         {
             if (Actor is Player)

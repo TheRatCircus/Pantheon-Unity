@@ -6,9 +6,6 @@ using Pantheon.Core;
 using Pantheon.Actors;
 using Pantheon.Actions;
 
-/// <summary>
-/// An actualized item.
-/// </summary>
 public class Item
 {
     private bool stackable;

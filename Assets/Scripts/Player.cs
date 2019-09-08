@@ -1,4 +1,5 @@
-﻿// Player controller
+﻿// Player.cs
+// Jerome Martina
 
 using System;
 using System.Collections.Generic;

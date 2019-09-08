@@ -1,4 +1,5 @@
-﻿// ScriptableObject wrapper for a HealAction
+﻿// HealActionWrapper.cs
+// Jerome Martina
 
 using UnityEngine;
 using Pantheon.Actors;
@@ -9,7 +10,6 @@ public class HealActionWrapper : ActionWrapper
 {
     [SerializeField] private HealAction HealAction = null;
 
-    // Get wrapped action
     public override BaseAction GetAction(Actor actor)
     {
         HealAction.Actor = actor;

@@ -1,6 +1,6 @@
-﻿/// <summary>
-/// Enumeration holding all the terrain types.
-/// </summary>
+﻿// TerrainType.cs
+// Jerome Martina
+
 public enum TerrainType
 {
     None = 0,

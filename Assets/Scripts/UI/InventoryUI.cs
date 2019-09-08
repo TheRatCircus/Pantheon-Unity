@@ -1,4 +1,6 @@
-﻿// Inventory GUI controller
+﻿// InventoryUI.cs
+// Jerome Martina
+// Credit to Asbjørn "Brackeys" Thorslund
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,11 +39,9 @@ namespace Pantheon.UI
             player.OnInventoryToggleEvent += ToggleInventory;
         }
 
-        // Open and close the inventory
         private void ToggleInventory()
             => inventoryUI.SetActive(!inventoryUI.activeInHierarchy);
 
-        // Update slots to reflect inventory
         private void UpdateInventory()
         {
             for (int i = 0; i < player.InventorySize; i++)

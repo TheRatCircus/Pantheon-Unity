@@ -1,4 +1,6 @@
-﻿// Main menu handler
+﻿// MainMenu.cs
+// Jerome Martina
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

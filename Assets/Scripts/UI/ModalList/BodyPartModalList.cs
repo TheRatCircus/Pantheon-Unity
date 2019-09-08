@@ -67,6 +67,9 @@ namespace Pantheon.UI
             }
         }
 
+        /// <summary>
+        /// Send the selected options to the passer of the callback.
+        /// </summary>
         public void Submit()
         {
             List<BodyPart> selectedParts = new List<BodyPart>();

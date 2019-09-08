@@ -7,6 +7,9 @@ using Pantheon.Actors;
 
 namespace Pantheon.Actions
 {
+    /// <summary>
+    /// An actor attempts to wield an item in one or more prehensile parts.
+    /// </summary>
     public class WieldAction : BaseAction
     {
         private readonly Item item;
@@ -19,6 +22,7 @@ namespace Pantheon.Actions
             this.parts = parts;
         }
 
+        // Alternate constructor for lists
         public WieldAction(Actor actor, Item item, List<BodyPart> parts)
             : base(actor)
         {

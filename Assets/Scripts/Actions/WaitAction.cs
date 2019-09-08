@@ -1,15 +1,21 @@
-﻿// Do nothing for the time of a standard turn
+﻿
 
 using Pantheon.Actors;
 
 namespace Pantheon.Actions
 {
+    /// <summary>
+    /// An actor does nothing for a standard turn time.
+    /// </summary>
     public class WaitAction : BaseAction
     {
         // Constructor
         public WaitAction(Actor actor) : base(actor) { }
 
-        // Wait for the time of a standard turn
+        /// <summary>
+        /// Just do nothing.
+        /// </summary>
+        /// <returns>Game.TurnTime</returns>
         public override int DoAction() => Core.Game.TurnTime;
 
         // DoAction with callback

@@ -1,4 +1,5 @@
-﻿// Handler for game event log
+﻿// GameLog.cs
+// Jerome Martina
 
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,9 @@ public enum MessageColour
 
 namespace Pantheon.Core
 {
+    /// <summary>
+    /// Handler for in-game event log.
+    /// </summary>
     public class GameLog : MonoBehaviour
     {
         // The extended event list for the session

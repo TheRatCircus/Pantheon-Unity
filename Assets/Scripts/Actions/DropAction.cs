@@ -1,9 +1,13 @@
-﻿// Drop an item from an inventory
+﻿// DropAction.cs
+// Jerome Martina
 
 using Pantheon.Actors;
 
 namespace Pantheon.Actions
 {
+    /// <summary>
+    /// Drop an item from an inventory.
+    /// </summary>
     public class DropAction : BaseAction
     {
         private Item item;
@@ -12,7 +16,10 @@ namespace Pantheon.Actions
             : base(actor)
             => this.item = item;
 
-        // Drop the item
+        /// <summary>
+        /// Drop the item to the cell below the actor.
+        /// </summary>
+        /// <returns>Time taken to drop the item.</returns>
         public override int DoAction()
         {
             if (item == null)

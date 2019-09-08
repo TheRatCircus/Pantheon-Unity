@@ -9,27 +9,23 @@ using Pantheon.World;
 
 public static class CellDrawer
 {
-    // Draw a single cell
     public static void DrawCell(Level level, Cell cell)
     {
         DrawTile(level, cell);
     }
 
-    // Draw a list of cells
     public static void DrawCells(Level level, List<Cell> cells)
     {
         foreach (Cell cell in cells)
             DrawTile(level, cell);
     }
 
-    // Draw the whole level
     public static void DrawLevel(Level level)
     {
         foreach (Cell cell in level.Map)
             DrawTile(level, cell);
     }
 
-    // Draw a cell's tiles
     public static void DrawTile(Level level, Cell cell)
     {
         if (!cell.Revealed)
@@ -49,14 +45,12 @@ public static class CellDrawer
         }
     }
 
-    // Draw a cell's terrain tile
     public static void DrawTerrain(Level level, Cell cell)
     {
         level.TerrainTilemap.SetTile((Vector3Int)cell.Position, cell.TerrainData._tile);
         level.TerrainTilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
     }
 
-    // Draw a cell's feature tile
     public static void DrawFeature(Level level, Cell cell)
     {
         Tile featureTile = ScriptableObject.CreateInstance<Tile>();
@@ -71,7 +65,6 @@ public static class CellDrawer
         level.FeatureTilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
     }
 
-    // Draw a cell's item tile
     public static void DrawItem(Level level, Cell cell)
     {
         Tile itemTile = ScriptableObject.CreateInstance<Tile>();

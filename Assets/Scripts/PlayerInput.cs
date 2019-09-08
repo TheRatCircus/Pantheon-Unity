@@ -1,4 +1,5 @@
-﻿// Handler for player input to character
+﻿// PlayerInput.cs
+// Jerome Martina
 
 using System;
 using System.Collections;
@@ -11,7 +12,9 @@ using Pantheon.World;
 using Pantheon.Actions;
 using Pantheon.Utils;
 
-// Result of input
+/// <summary>
+/// The current input strategy.
+/// </summary>
 public enum InputState
 {
     Move,
@@ -20,6 +23,9 @@ public enum InputState
     Modal
 }
 
+/// <summary>
+/// What modal list to open and what it should do.
+/// </summary>
 public enum ModalListOperation
 {
     Wield

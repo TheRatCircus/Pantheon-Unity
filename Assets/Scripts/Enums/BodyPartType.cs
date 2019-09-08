@@ -1,6 +1,9 @@
 ﻿// BodyPartType.cs
 // Jerome Martina
 
+/// <summary>
+/// Arm, leg, etc...
+/// </summary>
 public enum BodyPartType
 {
     None = 0,

@@ -1,10 +1,15 @@
-﻿// Custom event script handling different mouse clicks
+﻿// GUIClickController.cs
+// Credit to braur on the Unity Forums
+
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 namespace Pantheon.UI
 {
+    /// <summary>
+    /// Custom event script handling different mouse clicks.
+    /// </summary>
     public class GUIClickController : MonoBehaviour, IPointerClickHandler
     {
         [SerializeField] private UnityEvent onLeft = null;

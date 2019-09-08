@@ -1,6 +1,11 @@
-﻿// Base class for flasks
+﻿// FlaskData.cs
+// Jerome Martina
+
 using UnityEngine;
 
+/// <summary>
+/// Template for a flask.
+/// </summary>
 [CreateAssetMenu(fileName = "New Flask", menuName = "Items/Flask")]
 public class FlaskData : ItemData
 {

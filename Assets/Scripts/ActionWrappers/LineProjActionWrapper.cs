@@ -1,4 +1,5 @@
-﻿// ScriptableObject wrapper for a LineProjAction
+﻿// LineProjActionWrapper.cs
+// Jerome Martina
 
 using UnityEngine;
 using Pantheon.Actors;
@@ -9,7 +10,6 @@ public class LineProjActionWrapper : ActionWrapper
 {
     [SerializeField] private LineProjAction LineProjAction = null;
 
-    // Get wrapped action
     public override BaseAction GetAction(Actor actor)
     {
         LineProjAction.Actor = actor;

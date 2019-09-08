@@ -4,8 +4,7 @@
 using static Pantheon.Utils.RandomUtils;
 
 /// <summary>
-/// Defines the NPC populations of any given zone, and functions to pick from
-/// them.
+/// Defines the NPC populations of any given zone.
 /// </summary>
 public static class NPCPops
 {

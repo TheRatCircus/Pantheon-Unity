@@ -1,6 +1,11 @@
-﻿// Pathfinding node corresponding to a cell
+﻿// Node.cs
+// Jerome Martina
+
 using UnityEngine;
 
+/// <summary>
+/// A pathfinding node corresponding to a cell.
+/// </summary>
 public class Node
 {
     // Properties
@@ -12,7 +17,6 @@ public class Node
     public bool Blocked { get; set; }
     public Node Parent { get; set; }
 
-    // Constructor
     public Node(bool blocked, Vector2Int position)
     {
         Blocked = blocked;

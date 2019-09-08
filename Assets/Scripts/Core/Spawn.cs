@@ -10,7 +10,7 @@ using Pantheon.Utils;
 namespace Pantheon.Core
 {
     /// <summary>
-    /// Functions for spawning 
+    /// Functions for spawning GameObject-based entities.
     /// </summary>
     public static class Spawn
     {

@@ -16,7 +16,6 @@ namespace Pantheon.UI
         [SerializeField] protected Image icon;
         [SerializeField] protected Text text;
 
-        // Highlight this option as selected
         public void SetSelected(bool selected)
         {
             background.color =

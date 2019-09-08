@@ -1,6 +1,11 @@
-﻿// Base class for a scroll
+﻿// ScrollData.cs
+// Jerome Martina
+
 using UnityEngine;
 
+/// <summary>
+/// Template for a scroll.
+/// </summary>
 [CreateAssetMenu(fileName = "New Scroll", menuName = "Items/Scroll/Scroll")]
 public class ScrollData : ItemData
 {

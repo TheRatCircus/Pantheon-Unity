@@ -1,4 +1,5 @@
-﻿// Level data
+﻿// Level.cs
+// Jerome Martina
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,9 @@ using Pantheon.Actors;
 
 namespace Pantheon.World
 {
+    /// <summary>
+    /// A floor of a dungeon, or wing of a flat zone.
+    /// </summary>
     public class Level : MonoBehaviour
     {
         // Requisite objects

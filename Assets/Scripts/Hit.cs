@@ -1,4 +1,9 @@
-﻿// Data passed to an actor's TakeHit() when it receives an incoming hit
+﻿// Hit.cs
+// Jerome Martina
+
+/// <summary>
+/// Data passed to an actor's TakeHit() when it receives an incoming hit.
+/// </summary>
 public class Hit
 {
     private readonly int damage;

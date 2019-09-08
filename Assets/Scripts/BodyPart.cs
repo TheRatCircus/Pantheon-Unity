@@ -5,9 +5,6 @@ using UnityEngine;
 
 namespace Pantheon.Actors
 {
-    /// <summary>
-    /// An actualized body part.
-    /// </summary>
     [System.Serializable]
     public class BodyPart
     {
@@ -25,22 +22,22 @@ namespace Pantheon.Actors
         public bool CanMelee { get => partData.CanMelee; }
 
         // Instance-specific
-        public bool Dominant;
-        public int Strength;
-        public int Dexterity;
+        [SerializeField] private bool dominant;
+        [SerializeField] private int strength;
+        [SerializeField] private int dexterity;
 
         public Melee melee;
-        Item item; // Wielded item
 
         // Own properties
-        public Item Item { get => item; set => item = value; }
+        public Item Item { get; set; } // Wielded item
+        public int Strength { get => strength; set => strength = value; }
 
         public BodyPart(BodyPartData partData)
         {
             this.partData = partData;
 
             Strength = partData.Strength;
-            Dexterity = partData.Dexterity;
+            dexterity = partData.Dexterity;
             melee = partData.Melee;
         }
     }
