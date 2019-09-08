@@ -11,57 +11,47 @@ using Pantheon.Actions;
 /// </summary>
 public class Item
 {
-    // Item's own attributes
-    private string displayName;
-    private Sprite sprite;
-    private Actor owner;
     private bool stackable;
     private int quantity;
     private int weight;
-
-    private ActionWrapper onUse;
     private Melee melee;
-    private int strengthReq;
-    private int maxWieldParts;
-
-    // Items save the last parts they were wielded in, and are wielded there
-    // again next time they are equipped
-    private BodyPart[] wieldProfile;
 
     // Properties
-    public Actor Owner { get => owner; set => owner = value; }
-    public string DisplayName { get => displayName; }
-    public Sprite _sprite { get => sprite; }
-    public ActionWrapper OnUse { get => onUse; }
-    public int StrengthReq { get => strengthReq; }
-    public int MaxWieldParts { get => maxWieldParts; }
-    public BodyPart[] WieldProfile { get => wieldProfile; set => wieldProfile = value; }
+    public Actor Owner { get; set; }
+    public string DisplayName { get; }
+    public Sprite Sprite { get; }
+    public ActionWrapper OnUse { get; }
+    public int StrengthReq { get; }
+    public int MaxWieldParts { get; }
+    // Items save the last parts they were wielded in, and are wielded there
+    // again next time they are equipped
+    public BodyPart[] WieldProfile { get; set; }
 
     // Constructor
     public Item(ItemData itemData)
     {
-        displayName = itemData.displayName;
-        sprite = itemData.sprite;
-        stackable = itemData.stackable;
+        DisplayName = itemData.DisplayName;
+        Sprite = itemData.Sprite;
+        stackable = itemData.Stackable;
 
-        onUse = itemData.onUse;
+        OnUse = itemData.OnUse;
         melee = itemData.Melee;
-        strengthReq = itemData.strengthReq;
-        maxWieldParts = itemData.maxWieldParts;
+        StrengthReq = itemData.StrengthReq;
+        MaxWieldParts = itemData.MaxWieldParts;
 
-        owner = null;
+        Owner = null;
     }
 
     // Use this item
     public void Use(Actor user)
     {
-        if (onUse == null)
+        if (OnUse == null)
         {
             TryEquip(user);
             return;
         }
 
-        ItemUseAction use = new ItemUseAction(user, this, onUse.GetAction(user));
+        ItemUseAction use = new ItemUseAction(user, this, OnUse.GetAction(user));
     }
 
     public void TryEquip(Actor user)

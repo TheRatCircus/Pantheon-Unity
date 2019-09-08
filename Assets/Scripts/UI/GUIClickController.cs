@@ -7,9 +7,9 @@ namespace Pantheon.UI
 {
     public class GUIClickController : MonoBehaviour, IPointerClickHandler
     {
-        public UnityEvent onLeft;
-        public UnityEvent onRight;
-        public UnityEvent onMiddle;
+        [SerializeField] private UnityEvent onLeft = null;
+        [SerializeField] private UnityEvent onRight = null;
+        [SerializeField] private UnityEvent onMiddle = null;
 
         public void OnPointerClick(PointerEventData eventData)
         {

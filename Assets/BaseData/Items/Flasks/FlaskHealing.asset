@@ -22,9 +22,9 @@ MonoBehaviour:
   onUseString: You drink the flask of healing.
   strengthReq: 1
   maxWieldParts: 1
-  Melee:
+  melee:
     minDamage: 0
     maxDamage: 0
     accuracy: 0
     attackTime: 0
-  _flaskType: 1
+  flaskType: 1

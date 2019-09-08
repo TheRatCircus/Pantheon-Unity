@@ -7,7 +7,7 @@ using Pantheon.Actions;
 [CreateAssetMenu(fileName = "LineProjAction", menuName = "ActionWrappers/LineProjAction")]
 public class LineProjActionWrapper : ActionWrapper
 {
-    public LineProjAction LineProjAction;
+    [SerializeField] private LineProjAction LineProjAction = null;
 
     // Get wrapped action
     public override BaseAction GetAction(Actor actor)

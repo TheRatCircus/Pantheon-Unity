@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Pantheon.Core;
 using Pantheon.World;
 using Pantheon.Actions;
@@ -12,19 +13,17 @@ namespace Pantheon.Actors
     {
         private PlayerInput input;
 
-        protected int inventorySize = 40;
-        public int InventorySize { get => inventorySize; }
-        // FOV radius not in cells but the floating-point distance between player
-        // and point in grid
-        private int fovRadius = 15;
+        [SerializeField] protected int inventorySize = 40;
+        [SerializeField] private int fovRadius = 15; // Not in cells
 
-        private List<Cell> visibleCells = new List<Cell>();
-        private List<Enemy> visibleEnemies = new List<Enemy>();
-        private List<Cell> movePath;
+        [ReadOnly] private List<Cell> visibleCells = new List<Cell>();
+        [ReadOnly] private List<Enemy> visibleEnemies = new List<Enemy>();
+        [ReadOnly] private List<Cell> movePath;
 
         // Properties
+        public int InventorySize { get => inventorySize; }
         public int FOVRadius { get => fovRadius; }
-        public PlayerInput _input { get => input; }
+        public PlayerInput Input { get => input; }
         public List<Cell> MovePath { get => movePath; set => movePath = value; }
 
         // Events
@@ -61,14 +60,14 @@ namespace Pantheon.Actors
 
                 Cell destination = movePath[0];
                 movePath.RemoveAt(0);
-                return new MoveAction(this, moveSpeed, destination).DoAction();
+                return new MoveAction(this, MoveSpeed, destination).DoAction();
             }
 
-            if (nextAction != null)
+            if (NextAction != null)
             {
-                BaseAction ret = nextAction;
+                BaseAction ret = NextAction;
                 // Clear action buffer
-                nextAction = null;
+                NextAction = null;
                 return ret.DoAction();
             }
 
@@ -93,8 +92,8 @@ namespace Pantheon.Actors
 
             // Also refresh list of visible enemies
             foreach (Cell c in visibleCells)
-                if (c._actor is Enemy)
-                    visibleEnemies.Add((Enemy)c._actor);
+                if (c.Actor is Enemy)
+                    visibleEnemies.Add((Enemy)c.Actor);
         }
 
         #region AdvancedAttack
@@ -107,12 +106,12 @@ namespace Pantheon.Actors
 
         public void ConfirmAdvancedAttack(Cell target)
         {
-            if (target._actor == null)
+            if (target.Actor == null)
                 GameLog.Send("This feature isn't implemented...", MessageColour.Teal);
-            else if (target._actor == this)
+            else if (target.Actor == this)
                 GameLog.Send("Why would you want to do that?", MessageColour.Teal);
             else
-                OnAdvancedAttackEvent?.Invoke(target._actor);
+                OnAdvancedAttackEvent?.Invoke(target.Actor);
             input.PointTargetConfirmEvent -= ConfirmAdvancedAttack;
             input.TargetCancelEvent -= CancelAdvancedAttack;
         }
@@ -128,7 +127,7 @@ namespace Pantheon.Actors
         // Handle the player's death
         protected override void OnDeath()
         {
-            cell._actor = null;
+            cell.Actor = null;
             GameLog.Send("You perish...", MessageColour.Purple);
         }
     }

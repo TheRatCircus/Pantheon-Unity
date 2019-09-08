@@ -6,17 +6,17 @@ namespace Pantheon.Actions
 {
     public class ItemUseAction : BaseAction
     {
-        public Item Item;
-        public BaseAction OnUse;
+        private readonly Item item;
+        private readonly BaseAction onUse;
 
-        public int UseTime;
+        private readonly int useTime;
 
         // Constructor
         public ItemUseAction(Actor actor, Item item, BaseAction onUse) : base(actor)
         {
-            Item = item;
-            OnUse = onUse;
-            UseTime = Core.Game.TurnTime;
+            this.item = item;
+            this.onUse = onUse;
+            useTime = Core.Game.TurnTime;
 
             onUse.DoAction(AssignAction);
         }
@@ -24,8 +24,8 @@ namespace Pantheon.Actions
         // Finish using the item
         public override int DoAction()
         {
-            Actor.RemoveItem(Item);
-            return UseTime;
+            Actor.RemoveItem(item);
+            return useTime;
         }
 
         // DoAction() with a callback

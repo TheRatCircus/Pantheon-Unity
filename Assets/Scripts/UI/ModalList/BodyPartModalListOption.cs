@@ -10,14 +10,15 @@ namespace Pantheon.UI
     /// </summary>
     public class BodyPartModalListOption : ModalListOption
     {
-        public BodyPart part;
+        [ReadOnly] private BodyPart part;
+        public BodyPart Part { get => part; set => part = value; }
 
         public delegate void OnClickDelegate(BodyPartModalListOption option);
         OnClickDelegate onClick;
 
         public void Initialize(BodyPart part, OnClickDelegate onClick)
         {
-            this.part = part;
+            this.Part = part;
             icon.sprite = part.Sprite;
 
             string optionText = $"{part.Name}";

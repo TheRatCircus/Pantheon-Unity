@@ -11,18 +11,16 @@ namespace Pantheon.World
     public class Level : MonoBehaviour
     {
         // Requisite objects
-        public Pathfinder pf;
+        [SerializeField] private Pathfinder pathfinder = null;
 
         private string displayName = "NO_NAME";
 
         // This level's tilemaps
-        public Tilemap terrainTilemap;
-        public Tilemap featureTilemap;
-        public Tilemap itemTilemap;
-        public Tilemap targettingTilemap;
+        [SerializeField] private Tilemap terrainTilemap = null;
+        [SerializeField] private Tilemap featureTilemap = null;
+        [SerializeField] private Tilemap itemTilemap = null;
+        [SerializeField] private Tilemap targettingTilemap = null;
 
-        public Tile stairsDown;
-        public Tile stairsUp;
         public Tile unknownTile;
 
         // Map data
@@ -35,16 +33,18 @@ namespace Pantheon.World
         private List<Enemy> enemies = new List<Enemy>();
 
         // Properties
+        public Tilemap TerrainTilemap { get => terrainTilemap; }
+        public Tilemap FeatureTilemap { get => featureTilemap; }
+        public Tilemap ItemTilemap { get => itemTilemap; }
+        public Tilemap TargettingTilemap { get => targettingTilemap;}
         public string DisplayName { get => displayName; set => displayName = value; }
         public Cell[,] Map { get => map; set => map = value; }
         public Vector2Int LevelSize { get => levelSize; set => levelSize = value; }
-        public List<Enemy> Enemies { get => enemies; set => enemies = value; }
+        public List<Enemy> Enemies { get => enemies; }
+        public Pathfinder Pathfinder { get => pathfinder; }
 
+        private void Awake() => pathfinder = new Pathfinder(this);
 
-        private void Awake()
-        {
-            pf = new Pathfinder(this);
-        }
         // Cell accessor, mostly for validation
         public Cell GetCell(Vector2Int pos)
         {

@@ -3,23 +3,19 @@ using UnityEngine;
 
 public class Node
 {
-    // Previous node from which costs are derived
-    public Node parent;
-
-    public bool blocked;
-    public Vector2Int position;
-
-    // Pathfinding costs
-    public int GCost;
-    public int HCost;
-
     // Properties
+    public int GCost { get; set; }
+    public int HCost { get; set; }
     public int FCost => GCost + HCost;
+
+    public Vector2Int Position { get; }
+    public bool Blocked { get; set; }
+    public Node Parent { get; set; }
 
     // Constructor
     public Node(bool blocked, Vector2Int position)
     {
-        this.blocked = blocked;
-        this.position = position;
+        Blocked = blocked;
+        Position = position;
     }
 }

@@ -62,6 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\ReadOnlyAttribute.cs" />
     <Compile Include="Assets\Scripts\Actions\BaseAction.cs" />
     <Compile Include="Assets\Scripts\Actions\DropAction.cs" />
     <Compile Include="Assets\Scripts\Actions\HealAction.cs" />
@@ -117,7 +118,6 @@
     <Compile Include="Assets\Scripts\Projectile.cs" />
     <Compile Include="Assets\Scripts\UI\AdvancedAttackUI.cs" />
     <Compile Include="Assets\Scripts\UI\GUIClickController.cs" />
-    <Compile Include="Assets\Scripts\UI\HealthBar.cs" />
     <Compile Include="Assets\Scripts\UI\HUD.cs" />
     <Compile Include="Assets\Scripts\UI\InventorySlot.cs" />
     <Compile Include="Assets\Scripts\UI\InventoryUI.cs" />
@@ -128,6 +128,7 @@
     <Compile Include="Assets\Scripts\UI\ModalList\ItemModalListOption.cs" />
     <Compile Include="Assets\Scripts\UI\ModalList\ModalList.cs" />
     <Compile Include="Assets\Scripts\UI\ModalList\ModalListOption.cs" />
+    <Compile Include="Assets\Scripts\UI\OnScreenHealthBar.cs" />
     <Compile Include="Assets\Scripts\Utils\Bresenhams.cs" />
     <Compile Include="Assets\Scripts\Utils\Colours.cs" />
     <Compile Include="Assets\Scripts\Utils\Helpers.cs" />

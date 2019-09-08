@@ -8,33 +8,33 @@ namespace Pantheon.Actions
 {
     public class PickupAction : BaseAction
     {
-        public Cell Cell;
-        public Item Item;
+        private Cell cell;
+        private Item item;
 
         // Constructor
         public PickupAction(Actor actor, Cell cell)
             : base(actor)
-            => Cell = cell;
+            => this.cell = cell;
 
         // Try to pick up the first item in the cell's stack of items
         public override int DoAction()
         {
-            if (Cell.Items.Count == 0)
+            if (cell.Items.Count == 0)
             {
                 GameLog.Send("There is nothing here to pick up.", MessageColour.Grey);
                 return -1;
             }
             else
             {
-                Item = Cell.Items[0];
-                Cell.Items.RemoveAt(0);
-                Actor.Inventory.Add(Item);
-                Item.Owner = Actor;
+                item = cell.Items[0];
+                cell.Items.RemoveAt(0);
+                Actor.Inventory.Add(item);
+                item.Owner = Actor;
 
                 if (Actor is Player)
                 {
                     ((Player)Actor).RaiseInventoryChangeEvent();
-                    GameLog.Send($"You pick up a {Item.DisplayName}.", MessageColour.White);
+                    GameLog.Send($"You pick up a {item.DisplayName}.", MessageColour.White);
                 }
                 
                 return Game.TurnTime;

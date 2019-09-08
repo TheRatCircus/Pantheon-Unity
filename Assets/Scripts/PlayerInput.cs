@@ -28,15 +28,15 @@ public enum ModalListOperation
 public class PlayerInput : MonoBehaviour
 {
     // Requisite objects
-    Player player;
-    public Grid grid;
-    public Image crosshair;
+    [SerializeField] private Player player = null;
+    [SerializeField] private Grid grid = null;
+    [SerializeField] private Image crosshair = null;
 
-    Cell targetCell;
-    List<Cell> targetLine;
+    [ReadOnly] private Cell targetCell;
+    [ReadOnly] private List<Cell> targetLine;
 
     // Status
-    InputState inputState = InputState.Move;
+    [ReadOnly] private InputState inputState = InputState.Move;
 
     public List<Cell> TargetLine { get => targetLine; }
     public InputState InputState { get => inputState; set => inputState = value; }
@@ -98,30 +98,30 @@ public class PlayerInput : MonoBehaviour
         if (InputState == InputState.Move)
         {
             if (Input.GetButtonDown("Up"))
-                player.nextAction = new MoveAction(player, player.moveSpeed, Vector2Int.up);
+                player.NextAction = new MoveAction(player, player.MoveSpeed, Vector2Int.up);
             else if (Input.GetButtonDown("Down"))
-                player.nextAction = new MoveAction(player, player.moveSpeed, Vector2Int.down);
+                player.NextAction = new MoveAction(player, player.MoveSpeed, Vector2Int.down);
             else if (Input.GetButtonDown("Left"))
-                player.nextAction = new MoveAction(player, player.moveSpeed, Vector2Int.left);
+                player.NextAction = new MoveAction(player, player.MoveSpeed, Vector2Int.left);
             else if (Input.GetButtonDown("Right"))
-                player.nextAction = new MoveAction(player, player.moveSpeed, Vector2Int.right);
+                player.NextAction = new MoveAction(player, player.MoveSpeed, Vector2Int.right);
             else if (Input.GetButtonDown("Up Left"))
-                player.nextAction = new MoveAction(player, player.moveSpeed, new Vector2Int(-1, 1));
+                player.NextAction = new MoveAction(player, player.MoveSpeed, new Vector2Int(-1, 1));
             else if (Input.GetButtonDown("Up Right"))
-                player.nextAction = new MoveAction(player, player.moveSpeed, new Vector2Int(1, 1));
+                player.NextAction = new MoveAction(player, player.MoveSpeed, new Vector2Int(1, 1));
             else if (Input.GetButtonDown("Down Left"))
-                player.nextAction = new MoveAction(player, player.moveSpeed, new Vector2Int(-1, -1));
+                player.NextAction = new MoveAction(player, player.MoveSpeed, new Vector2Int(-1, -1));
             else if (Input.GetButtonDown("Down Right"))
-                player.nextAction = new MoveAction(player, player.moveSpeed, new Vector2Int(1, -1));
+                player.NextAction = new MoveAction(player, player.MoveSpeed, new Vector2Int(1, -1));
             else if (Input.GetButtonDown("Wait"))
-                player.nextAction = new WaitAction(player);
+                player.NextAction = new WaitAction(player);
             else if (Input.GetButtonDown("Pickup"))
-                player.nextAction = new PickupAction(player, player.Cell);
+                player.NextAction = new PickupAction(player, player.Cell);
             else if (Input.GetButtonDown("Interact"))
             {
                 if (player.Cell.Connection != null)
                     player.Cell.Connection.Use(player);
-                player.nextAction = new WaitAction(player);
+                player.NextAction = new WaitAction(player);
             }
             else if (Input.GetButtonDown("Wield"))
             {
@@ -278,12 +278,11 @@ public class PlayerInput : MonoBehaviour
                 if (Input.GetMouseButtonDown(0) && targetCell.Revealed)
                 {
                     // Don't do anything if player clicks on themselves
-                    if (targetCell._actor is Player)
+                    if (targetCell.Actor is Player)
                         break;
 
-                    path = player.level.pf.GetCellPath(Game.GetPlayer().Position, targetCell.Position);
+                    path = player.level.Pathfinder.GetCellPath(Game.GetPlayer().Position, targetCell.Position);
                     player.MovePath = path;
-                    //player.MoveAlongPath(path);
                 }
                 break;
             case InputState.PointTarget:

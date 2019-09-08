@@ -12,9 +12,6 @@ namespace Pantheon.UI
     /// </summary>
     public class ItemModalList : ModalList
     {
-        // Parameters
-        public Actor Actor; // Can be null
-
         // Status
         List<ItemModalListOption> selected = new List<ItemModalListOption>();
 

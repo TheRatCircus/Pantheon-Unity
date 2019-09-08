@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce3570ee172318438340a60ea35cb8e, type: 3}
   m_Name: StoneFloor
   m_EditorClassIdentifier: 
-  DisplayName: Stone Floor
+  DisplayName: stone floor
   RefName: StoneFloor
   _terrainType: 2
   Opaque: 0

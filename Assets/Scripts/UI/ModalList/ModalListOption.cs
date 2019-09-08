@@ -12,9 +12,9 @@ namespace Pantheon.UI
     /// </summary>
     public class ModalListOption : MonoBehaviour
     {
-        public Image background;
-        public Image icon;
-        public Text text;
+        [SerializeField] protected Image background;
+        [SerializeField] protected Image icon;
+        [SerializeField] protected Text text;
 
         // Highlight this option as selected
         public void SetSelected(bool selected)

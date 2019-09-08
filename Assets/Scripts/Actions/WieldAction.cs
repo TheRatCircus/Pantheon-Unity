@@ -9,8 +9,8 @@ namespace Pantheon.Actions
 {
     public class WieldAction : BaseAction
     {
-        Item item;
-        BodyPart[] parts;
+        private readonly Item item;
+        private readonly BodyPart[] parts;
 
         public WieldAction(Actor actor, Item item, BodyPart[] parts)
             : base(actor)

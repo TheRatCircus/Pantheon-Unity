@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: FlaskHealingAction
   m_EditorClassIdentifier: 
   HealAction:
-    HealAmount: 0
-    HealPercent: 0.2
+    healAmount: 0
+    healPercent: 0.15

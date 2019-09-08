@@ -37,7 +37,7 @@ namespace Pantheon.WorldGen
                     cell = level.RandomFloor();
                     attempts++;
                 } while (level.Distance(cell, Game.GetPlayer().Cell) <= 7
-                || cell._actor != null);
+                || cell.Actor != null);
                 Spawn.SpawnEnemy(prefab, level, cell);
             }
         }

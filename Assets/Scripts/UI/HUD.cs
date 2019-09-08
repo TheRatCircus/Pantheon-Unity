@@ -29,15 +29,15 @@ namespace Pantheon.UI
         private void Start()
         {
             player.OnHealthChangeEvent += UpdateHealthCounter;
-            player._input.ModalListOpenEvent += OpenModalList;
-            player._input.ModalCancelEvent += ClearModals;
+            player.Input.ModalListOpenEvent += OpenModalList;
+            player.Input.ModalCancelEvent += ClearModals;
             Game.instance.OnPlayerActionEvent += UpdateEnergyCounter;
             Game.instance.OnTurnChangeEvent += UpdateTurnCounter;
             Game.instance.OnLevelChangeEvent += UpdateLocationDisplay;
 
             UpdateTurnCounter(0);
             UpdateHealthCounter(player.Health, player.MaxHealth);
-            UpdateEnergyCounter(player.energy);
+            UpdateEnergyCounter(player.Energy);
         }
 
         // Update the health counter
@@ -104,10 +104,10 @@ namespace Pantheon.UI
                 (List<BodyPart> parts) =>
                 {
                     ClearModals();
-                    player._input.InputState = InputState.Move;
-                    player.nextAction = new WieldAction(player, item, parts);
+                    player.Input.InputState = InputState.Move;
+                    player.NextAction = new WieldAction(player, item, parts);
                 });
-            player._input.ModalConfirmEvent += bodyPartModalList.Submit;
+            player.Input.ModalConfirmEvent += bodyPartModalList.Submit;
         }
     }
 }

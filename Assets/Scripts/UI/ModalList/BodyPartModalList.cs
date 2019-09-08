@@ -13,10 +13,12 @@ namespace Pantheon.UI
     public class BodyPartModalList : ModalList
     {
         // Parameters
-        public Actor actor;
+        [ReadOnly] private Actor actor;
 
         // Status
-        List<BodyPartModalListOption> selected = new List<BodyPartModalListOption>();
+        [ReadOnly]
+        private List<BodyPartModalListOption> selected =
+            new List<BodyPartModalListOption>();
 
         // Callback
         public delegate void SubmitPartsDelegate(List<BodyPart> parts);
@@ -69,7 +71,7 @@ namespace Pantheon.UI
         {
             List<BodyPart> selectedParts = new List<BodyPart>();
             foreach (BodyPartModalListOption option in selected)
-                selectedParts.Add(option.part);
+                selectedParts.Add(option.Part);
 
             onSubmit?.Invoke(selectedParts);
             selected.Clear();

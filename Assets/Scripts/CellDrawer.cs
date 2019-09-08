@@ -33,7 +33,7 @@ public static class CellDrawer
     public static void DrawTile(Level level, Cell cell)
     {
         if (!cell.Revealed)
-            level.terrainTilemap.SetTile((Vector3Int)cell.Position, level.unknownTile);
+            level.TerrainTilemap.SetTile((Vector3Int)cell.Position, level.unknownTile);
         else
         {
             DrawTerrain(level, cell);
@@ -42,18 +42,18 @@ public static class CellDrawer
                 DrawFeature(level, cell);
 
             if (cell.Revealed && cell.Items.Count > 0)
-                if (cell._actor == null)
+                if (cell.Actor == null)
                     DrawItem(level, cell);
                 else
-                    level.itemTilemap.SetTile((Vector3Int)cell.Position, null);
+                    level.ItemTilemap.SetTile((Vector3Int)cell.Position, null);
         }
     }
 
     // Draw a cell's terrain tile
     public static void DrawTerrain(Level level, Cell cell)
     {
-        level.terrainTilemap.SetTile((Vector3Int)cell.Position, cell.TerrainData._tile);
-        level.terrainTilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
+        level.TerrainTilemap.SetTile((Vector3Int)cell.Position, cell.TerrainData._tile);
+        level.TerrainTilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
     }
 
     // Draw a cell's feature tile
@@ -67,8 +67,8 @@ public static class CellDrawer
         else
             throw new NullReferenceException($"Feature {cell.Feature.name} has no sprite.");
 
-        level.featureTilemap.SetTile((Vector3Int)cell.Position, featureTile);
-        level.featureTilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
+        level.FeatureTilemap.SetTile((Vector3Int)cell.Position, featureTile);
+        level.FeatureTilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
     }
 
     // Draw a cell's item tile
@@ -78,13 +78,13 @@ public static class CellDrawer
         itemTile.flags = TileFlags.None;
         
 
-        if (cell.Items[0]._sprite != null)
-            itemTile.sprite = cell.Items[0]._sprite;
+        if (cell.Items[0].Sprite != null)
+            itemTile.sprite = cell.Items[0].Sprite;
         else
             throw new NullReferenceException($"Item {cell.Items[0].DisplayName} has no sprite.");
 
-        level.itemTilemap.SetTile((Vector3Int)cell.Position, itemTile);
-        level.itemTilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
+        level.ItemTilemap.SetTile((Vector3Int)cell.Position, itemTile);
+        level.ItemTilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
     }
 
     // Paint cells for targetting
@@ -93,12 +93,12 @@ public static class CellDrawer
         Tile lineTargetOverlay = ScriptableObject.CreateInstance<Tile>();
         lineTargetOverlay.flags = TileFlags.None;
         lineTargetOverlay.sprite = Database.LineTargetOverlay;
-        level.targettingTilemap.ClearAllTiles();
+        level.TargettingTilemap.ClearAllTiles();
         foreach (Cell cell in cells)
-            level.targettingTilemap.SetTile((Vector3Int)cell.Position, lineTargetOverlay);
+            level.TargettingTilemap.SetTile((Vector3Int)cell.Position, lineTargetOverlay);
     }
 
     // Unpaint cells for targetting
     public static void UnpaintCells(Level level)
-        => level.targettingTilemap.ClearAllTiles();
+        => level.TargettingTilemap.ClearAllTiles();
 }

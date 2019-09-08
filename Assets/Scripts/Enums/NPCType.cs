@@ -6,5 +6,6 @@
 /// </summary>
 public enum NPCType
 {
-    Goblin = 0
+    None = 0,
+    Goblin = 1
 }

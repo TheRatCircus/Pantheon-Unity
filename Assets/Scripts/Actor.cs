@@ -6,6 +6,7 @@ using UnityEngine;
 using Pantheon.Core;
 using Pantheon.World;
 using Pantheon.Utils;
+using Pantheon.Actions;
 
 namespace Pantheon.Actors
 {
@@ -18,36 +19,50 @@ namespace Pantheon.Actors
         [SerializeField] protected Cell cell;
 
         // Actor's personal attributes
-        public string actorName;
-        public bool NameIsProper; // False if name should start with "The/the"
+        [SerializeField] protected string actorName;
+        [SerializeField] protected bool nameIsProper; // False if name should start with "The/the"
 
-        protected int health;
-        public int MaxHealth;
+        [ReadOnly] protected int health;
+        [SerializeField] protected int maxHealth;
 
-        public int speed; // Energy per turn
-        public int energy; // Energy remaining
+        [SerializeField] protected int speed; // Energy per turn
+        [ReadOnly] protected int energy; // Energy remaining
 
-        public int moveSpeed; // Energy needed to walk one cell
-        public int armour;
-        public int evasion;
+        [SerializeField] protected int moveSpeed; // Energy needed to walk one cell
+        [SerializeField] protected int armour;
+        [SerializeField] protected int evasion;
 
-        public int minDamage;
-        public int maxDamage;
-        public int accuracy; // % chance out of 100
-        public int attackTime;
+        [SerializeField] protected int minDamage;
+        [SerializeField] protected int maxDamage;
+        [SerializeField] protected int accuracy; // % chance out of 100
+        [SerializeField] protected int attackTime;
 
         // Per-actor-type data
-        public CorpseType corpse;
-        public List<BodyPart> parts;
+        [SerializeField] protected CorpseType corpse;
+        [SerializeField] protected List<BodyPart> parts;
 
         // Action status
-        public Pantheon.Actions.BaseAction nextAction;
+        [ReadOnly] protected BaseAction nextAction;
 
-        // Properties
+        #region Properties
+
+        public string ActorName { get => actorName; set => actorName = value; }
+        public bool NameIsProper { get => nameIsProper; set => nameIsProper = value; }
+        public int Health { get => health; }
+        public int MaxHealth { get => maxHealth; }
+        public int Speed { get => speed; }
+        public int Energy { get => energy; set => energy = value; }
         public Cell Cell { get => cell; set => cell = value; }
         public Vector2Int Position { get => cell.Position; }
-        public int Health { get => health; }
         public List<Item> Inventory { get => inventory; }
+        public BaseAction NextAction { get => nextAction; set => nextAction = value; }
+        public int MoveSpeed { get => moveSpeed; }
+        public int MinDamage { get => minDamage; }
+        public int MaxDamage { get => maxDamage; }
+        public int Accuracy { get => accuracy; }
+        public int AttackTime { get => attackTime; }
+
+        #endregion
 
         // Events
         public event Action<int, int> OnHealthChangeEvent;
@@ -69,7 +84,7 @@ namespace Pantheon.Actors
                 return;
             }
 
-            if (cell._actor != null)
+            if (cell.Actor != null)
             {
                 Debug.LogException(new Exception("MoveTo destination has an actor in it"));
                 return;
@@ -77,12 +92,12 @@ namespace Pantheon.Actors
 
             actor.RaiseOnMoveEvent(cell);
             actor.transform.position = Helpers.V2IToV3(cell.Position);
-            cell._actor = actor;
+            cell.Actor = actor;
             actor.Cell = cell;
 
             // Empty previous cell if one exists
             if (previous != null)
-                previous._actor = null;
+                previous.Actor = null;
 
             if (actor is Player)
                 GameLog.LogCellItems(cell);
@@ -179,13 +194,13 @@ namespace Pantheon.Actors
         protected virtual void OnDeath()
         {
             Game.instance.RemoveActor(this);
-            cell._actor = null;
+            cell.Actor = null;
             Destroy(gameObject);
             GameLog.Send($"You kill {GameLog.GetSubject(this, false)}!", MessageColour.White);
             cell.Items.Add(new Item(Database.GetCorpse(corpse)));
         }
 
         // ToString override
-        public override string ToString() => actorName;
+        public override string ToString() => ActorName;
     }
 }

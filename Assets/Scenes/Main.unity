@@ -782,8 +782,6 @@ MonoBehaviour:
     type: 3}
   promptText: {fileID: 247685960}
   listTransform: {fileID: 172474793}
-  maxOptions: 0
-  actor: {fileID: 0}
 --- !u!114 &383188874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1415,8 +1413,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae0b864e5fc9c544f9256f2fceda8a0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventList: []
-  shortEventList: []
   logText: {fileID: 2022245629}
 --- !u!114 &600936736
 MonoBehaviour:
@@ -1436,8 +1432,7 @@ MonoBehaviour:
   levelPrefab: {fileID: 5417036770917020103, guid: f63f320659e23cc438d26e527a171180,
     type: 3}
   player1: {fileID: 277744510518784713}
-  levels:
-  - {fileID: 0}
+  levels: []
   activeLevel: {fileID: 0}
 --- !u!114 &600936738
 MonoBehaviour:
@@ -1451,22 +1446,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b31fb9a69d8130044b78946568b8a117, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Weapons:
+  weaponList:
   - {fileID: 11400000, guid: 179a0e11ef0272440af4cbed69018e73, type: 2}
-  Corpses:
+  corpseList:
   - {fileID: 11400000, guid: 98843def2b5f32c4aab68f9d608078e5, type: 2}
-  Scrolls:
+  scrollList:
   - {fileID: 11400000, guid: 5b7d939e3dd5a0b44a354dbfe8781bbf, type: 2}
-  Flasks:
+  flaskList:
   - {fileID: 11400000, guid: fb5b223ecdd00c847b10085e9a00dd81, type: 2}
-  Terrain:
-  - {fileID: 11400000, guid: 1a37e81f764ad184dad399d3ad1149c2, type: 2}
-  - {fileID: 11400000, guid: e25cedeeb2c79dd4cb8ca0568549e6ce, type: 2}
-  NPC:
+  terrainList:
+  - {fileID: 0}
+  - {fileID: 0}
+  NPCList:
   - {fileID: 11400000, guid: c242fefd7786d774b863f8185ed10807, type: 2}
-  Features:
-  - {fileID: 11400000, guid: f3245e7cfcd95494391cb0467d2e7af4, type: 2}
-  - {fileID: 11400000, guid: d5454cfdf80e1db44aedb29d6bb28557, type: 2}
+  features: []
   lineTargetOverlay: {fileID: 21300000, guid: a5ea99f1f7b062b4d809ff0899851c17, type: 3}
 --- !u!1 &737357386
 GameObject:
@@ -1705,8 +1698,6 @@ MonoBehaviour:
     type: 3}
   promptText: {fileID: 462040496}
   listTransform: {fileID: 407978409}
-  maxOptions: 0
-  Actor: {fileID: 0}
 --- !u!1 &910007823
 GameObject:
   m_ObjectHideFlags: 0
@@ -3642,12 +3633,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: {fileID: 0}
   cell:
-    position: {x: 0, y: 0}
+    visible: 0
+    revealed: 0
   actorName: You
-  NameIsProper: 0
-  MaxHealth: 100
+  nameIsProper: 0
+  maxHealth: 0
   speed: 100
-  energy: 100
   moveSpeed: 50
   armour: 5
   evasion: 5
@@ -3702,6 +3693,8 @@ MonoBehaviour:
       maxDamage: 0
       accuracy: 0
       attackTime: 0
+  inventorySize: 40
+  fovRadius: 15
 --- !u!114 &277744510518784715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3714,6 +3707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8367818f8e85f2f4eb7ae43926d8a532, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   grid: {fileID: 1781780697}
   crosshair: {fileID: 599566651}
 --- !u!4 &277744511847656785

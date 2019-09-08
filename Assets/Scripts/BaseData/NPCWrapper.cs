@@ -10,6 +10,9 @@ using UnityEngine;
 public class NPCWrapper : ScriptableObject
 {
     // Prefabs cannot be enumerated for the Database without this
-    public NPCType Type;
-    public GameObject Prefab;
+    [SerializeField] private NPCType type = NPCType.None;
+    [SerializeField] private GameObject prefab = null;
+
+    public NPCType Type { get => type;}
+    public GameObject Prefab { get => prefab; }
 }

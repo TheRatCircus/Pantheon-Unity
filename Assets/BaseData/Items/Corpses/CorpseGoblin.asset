@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 359e15f53ac5fc148a858d757a99e581, type: 3}
   m_Name: CorpseGoblin
   m_EditorClassIdentifier: 
-  displayName: Goblin Corpse
+  displayName: goblin corpse
   refName: CorpseGoblin
   maxStack: 1
   stackable: 0
@@ -22,9 +22,9 @@ MonoBehaviour:
   onUseString: NO_USE_STRING
   strengthReq: 10
   maxWieldParts: 2
-  Melee:
+  melee:
     minDamage: 0
     maxDamage: 0
     accuracy: 0
     attackTime: 0
-  _corpseType: 1
+  corpseType: 1

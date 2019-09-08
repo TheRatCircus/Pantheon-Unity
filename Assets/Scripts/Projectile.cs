@@ -39,7 +39,7 @@ public class Projectile : MonoBehaviour
             {
                 yield return new WaitForSeconds(.02f);
                 if (!ProjectileLine[i + 1].IsWalkableTerrain()
-                    || ProjectileLine[i + 1]._actor != null)
+                    || ProjectileLine[i + 1].Actor != null)
                 {
                     i++;
                     break;
@@ -49,10 +49,10 @@ public class Projectile : MonoBehaviour
             }
         }
 
-        if (ProjectileLine[i]._actor != null)
+        if (ProjectileLine[i].Actor != null)
         {
-            GameLog.Send($"The magic bullet hits {GameLog.GetSubject(ProjectileLine[i]._actor, false)}!", MessageColour.White);
-            ProjectileLine[i]._actor.TakeDamage(3);
+            GameLog.Send($"The magic bullet hits {GameLog.GetSubject(ProjectileLine[i].Actor, false)}!", MessageColour.White);
+            ProjectileLine[i].Actor.TakeDamage(3);
         }
         Destroy(gameObject);
         Game.instance.Unlock();

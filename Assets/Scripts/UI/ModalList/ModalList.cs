@@ -8,14 +8,14 @@ namespace Pantheon.UI
 {
     public class ModalList : MonoBehaviour
     {
-        public GameObject optionPrefab;
+        [SerializeField] protected GameObject optionPrefab;
 
         // UI elements
-        public Text promptText;
-        public Transform listTransform;
+        [SerializeField] protected Text promptText;
+        [SerializeField] protected Transform listTransform;
 
         // Parameters
-        public int maxOptions;
+        protected int maxOptions;
 
         // Clean this modal list of all options
         public void Clean()

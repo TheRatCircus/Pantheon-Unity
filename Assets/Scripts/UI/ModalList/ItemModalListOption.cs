@@ -16,7 +16,7 @@ namespace Pantheon.UI
         public void Initialize(Item item, OnClickDelegate onClick)
         {
             Item = item;
-            icon.sprite = item._sprite;
+            icon.sprite = item.Sprite;
             text.text = item.DisplayName;
             this.onClick = onClick;
         }

@@ -4,5 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Scroll", menuName = "Items/Scroll/Scroll")]
 public class ScrollData : ItemData
 {
-    public ScrollType _scrollType;
+    [SerializeField] private ScrollType scrollType = ScrollType.None;
+
+    public ScrollType ScrollType { get => scrollType; }
 }

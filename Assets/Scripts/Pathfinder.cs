@@ -7,8 +7,8 @@ using Pantheon.World;
 
 public class Pathfinder
 {
-    Level level;
-    Node[,] map;
+    private Level level;
+    private Node[,] map;
 
     // Constructor
     public Pathfinder(Level level)
@@ -37,8 +37,8 @@ public class Pathfinder
                     continue;
                 else
                 {
-                    int checkX = node.position.x + x;
-                    int checkY = node.position.y + y;
+                    int checkX = node.Position.x + x;
+                    int checkY = node.Position.y + y;
 
                     if (checkX >= 0 && checkX < map.GetLength(0) &&
                         checkY >= 0 && checkY <= map.GetLength(1))
@@ -92,7 +92,7 @@ public class Pathfinder
 
             foreach (Node neighbour in GetNeighbours(currentNode))
             {
-                if (neighbour.blocked || closedSet.Contains(neighbour))
+                if (neighbour.Blocked || closedSet.Contains(neighbour))
                     continue;
 
                 int newMoveCostToNeighbour = currentNode.GCost + GetDistance(currentNode, neighbour);
@@ -100,7 +100,7 @@ public class Pathfinder
                 {
                     neighbour.GCost = newMoveCostToNeighbour;
                     neighbour.HCost = GetDistance(neighbour, targetNode);
-                    neighbour.parent = currentNode;
+                    neighbour.Parent = currentNode;
 
                     if (!openSet.Contains(neighbour))
                         openSet.Add(neighbour);
@@ -119,23 +119,20 @@ public class Pathfinder
         while (currentNode != startNode)
         {
             path.Add(currentNode);
-            currentNode = currentNode.parent;
+            currentNode = currentNode.Parent;
         }
         path.Reverse();
         return path;
     }
 
     // Get a cell given a pathfinding node
-    Cell NodeToCell(Node node)
-    {
-        return level.GetCell(node.position);
-    }
+    Cell NodeToCell(Node node) => level.GetCell(node.Position);
 
     // Get equivalent distance between two nodes
     int GetDistance(Node a, Node b)
     {
-        int dX = Mathf.Abs(a.position.x - b.position.x);
-        int dY = Mathf.Abs(a.position.y - b.position.y);
+        int dX = Mathf.Abs(a.Position.x - b.Position.x);
+        int dY = Mathf.Abs(a.Position.y - b.Position.y);
 
         if (dX > dY)
             return 14 * dY + 10 * (dX - dY);

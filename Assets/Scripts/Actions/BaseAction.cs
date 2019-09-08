@@ -10,22 +10,27 @@ namespace Pantheon.Actions
     {
         // Callback which can be run after completion of an action
         public delegate void OnConfirm();
-        public OnConfirm onConfirm;
+        public OnConfirm onConfirm = null;
 
-        [System.NonSerialized]
-        public Actor Actor; // Can be null
+        public Actor Actor { get; set; } = null;
 
-        // Constructor
-        public BaseAction(Actor actor) => this.Actor = actor;
+        public BaseAction(Actor actor) => Actor = actor;
 
         // Assign this action to an actor, causing it to be called by
         // scheduler. Use for async actions; else just construct
-        public virtual void AssignAction() => Actor.nextAction = this;
+        public virtual void AssignAction() => Actor.NextAction = this;
 
-        // Carry out the effect of this action
+        /// <summary>
+        /// Carry out this action's effects; only let scheduler call this.
+        /// </summary>
+        /// <returns>The action cost of this action.</returns>
         public abstract int DoAction();
 
-        // DoAction with a callback
+        /// <summary>
+        /// DoAction with a callback, invoked at an arbitrary point.
+        /// </summary>
+        /// <param name="onConfirm">Delegate invoked when this action is done.</param>
+        /// <returns>The action cost of this action.</returns>
         public abstract int DoAction(OnConfirm onConfirm);
     }
 }

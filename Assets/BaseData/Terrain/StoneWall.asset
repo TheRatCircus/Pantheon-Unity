@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce3570ee172318438340a60ea35cb8e, type: 3}
   m_Name: StoneWall
   m_EditorClassIdentifier: 
-  DisplayName: Stone Wall
+  DisplayName: stone wall
   RefName: StoneWall
   _terrainType: 1
   Opaque: 1

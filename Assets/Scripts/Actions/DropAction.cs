@@ -6,29 +6,27 @@ namespace Pantheon.Actions
 {
     public class DropAction : BaseAction
     {
-        public Item Item;
+        private Item item;
 
-        // Constructor
-        public DropAction(Actor actor, Item item) : base(actor)
-        {
-            Item = item;
-        }
+        public DropAction(Actor actor, Item item)
+            : base(actor)
+            => this.item = item;
 
         // Drop the item
         public override int DoAction()
         {
-            if (Item == null)
+            if (item == null)
                 throw new System.Exception("Attempt to drop a null item");
 
-            if (!Actor.Inventory.Contains(Item))
+            if (!Actor.Inventory.Contains(item))
                 throw new System.Exception("Attempt to drop item from outside inventory");
 
-            Actor.RemoveItem(Item);
-            Actor.Cell.Items.Add(Item);
+            Actor.RemoveItem(item);
+            Actor.Cell.Items.Add(item);
 
             if (Actor is Player)
             {
-                Core.GameLog.Send($"You drop the {Item.DisplayName}.", MessageColour.Grey);
+                Core.GameLog.Send($"You drop the {item.DisplayName}.", MessageColour.Grey);
                 ((Player)Actor).RaiseInventoryChangeEvent();
             }
 
@@ -37,8 +35,6 @@ namespace Pantheon.Actions
 
         // DoAction() with a callback
         public override int DoAction(OnConfirm onConfirm)
-        {
-            throw new System.NotImplementedException();
-        }
+            => throw new System.NotImplementedException();
     }
 }

@@ -22,9 +22,9 @@ MonoBehaviour:
   onUseString: You read the scroll of Magic Bullet.
   strengthReq: -1
   maxWieldParts: 1
-  Melee:
+  melee:
     minDamage: 0
     maxDamage: 0
     accuracy: 0
     attackTime: 0
-  _scrollType: 1
+  scrollType: 1

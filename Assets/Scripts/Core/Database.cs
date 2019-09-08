@@ -1,5 +1,6 @@
 ﻿// In-game database holding all base data
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Pantheon.World;
@@ -9,53 +10,59 @@ namespace Pantheon.Core
     public sealed class Database : MonoBehaviour
     {
         // Database lists
-        public List<WeaponData> Weapons = new List<WeaponData>();
-        public List<Corpse> Corpses = new List<Corpse>();
-        public List<ScrollData> Scrolls = new List<ScrollData>();
-        public List<FlaskData> Flasks = new List<FlaskData>();
-        public List<TerrainData> Terrain = new List<TerrainData>();
-        public List<NPCWrapper> NPC = new List<NPCWrapper>();
-        public List<Feature> Features = new List<Feature>();
-
-        // Dictionaries for lookup by enum
-        public Dictionary<WeaponType, WeaponData> WeaponDict = new Dictionary<WeaponType, WeaponData>();
-        public Dictionary<CorpseType, Corpse> CorpseDict = new Dictionary<CorpseType, Corpse>();
-        public Dictionary<ScrollType, ScrollData> ScrollDict = new Dictionary<ScrollType, ScrollData>();
-        public Dictionary<FlaskType, FlaskData> FlaskDict = new Dictionary<FlaskType, FlaskData>();
-        public Dictionary<TerrainType, TerrainData> TerrainDict = new Dictionary<TerrainType, TerrainData>();
-        public Dictionary<NPCType, NPCWrapper> NPCDict = new Dictionary<NPCType, NPCWrapper>();
-        public Dictionary<FeatureType, Feature> FeatureDict = new Dictionary<FeatureType, Feature>();
+        [SerializeField] private List<WeaponData> weaponList = new List<WeaponData>();
+        [SerializeField] private List<Corpse> corpseList = new List<Corpse>();
+        [SerializeField] private List<ScrollData> scrollList = new List<ScrollData>();
+        [SerializeField] private List<FlaskData> flaskList = new List<FlaskData>();
+        [SerializeField] private List<TerrainData> terrainList = new List<TerrainData>();
+        [SerializeField] private List<NPCWrapper> NPCList = new List<NPCWrapper>();
+        [SerializeField] private List<Feature> features = new List<Feature>();
 
         // Miscellaneous
         public Sprite lineTargetOverlay;
         public static Sprite LineTargetOverlay
             => GetDatabase().lineTargetOverlay;
 
-        // Awake is called when the script instance is being loaded
-        private void Awake()
-            => InitDatabaseDicts();
+        // Dictionaries for lookup by enum
+        public Dictionary<WeaponType, WeaponData> WeaponDict { get; }
+            = new Dictionary<WeaponType, WeaponData>();
+        public Dictionary<CorpseType, Corpse> CorpseDict { get; }
+            = new Dictionary<CorpseType, Corpse>();
+        public Dictionary<ScrollType, ScrollData> ScrollDict { get; }
+            = new Dictionary<ScrollType, ScrollData>();
+        public Dictionary<FlaskType, FlaskData> FlaskDict { get; }
+            = new Dictionary<FlaskType, FlaskData>();
+        public Dictionary<TerrainType, TerrainData> TerrainDict { get; }
+            = new Dictionary<TerrainType, TerrainData>();
+        public Dictionary<NPCType, NPCWrapper> NPCDict { get; }
+            = new Dictionary<NPCType, NPCWrapper>();
+        public Dictionary<FeatureType, Feature> FeatureDict { get; }
+            = new Dictionary<FeatureType, Feature>();
 
-        private static Database GetDatabase() => Game.instance.database;
+        // Awake is called when the script instance is being loaded
+        private void Awake() => InitDatabaseDicts();
+
+        private static Database GetDatabase() => Game.instance.Database;
 
         /// <summary>
         /// Initialize each of the database's dictionaries.
         /// </summary>
         private void InitDatabaseDicts()
         {
-            for (int i = 0; i < Weapons.Count; i++)
-                WeaponDict.Add(Weapons[i].Type, Weapons[i]);
-            for (int i = 0; i < Corpses.Count; i++)
-                CorpseDict.Add(Corpses[i]._corpseType, Corpses[i]);
-            for (int i = 0; i < Scrolls.Count; i++)
-                ScrollDict.Add(Scrolls[i]._scrollType, Scrolls[i]);
-            for (int i = 0; i < Flasks.Count; i++)
-                FlaskDict.Add(Flasks[i]._flaskType, Flasks[i]);
-            for (int i = 0; i < Terrain.Count; i++)
-                TerrainDict.Add(Terrain[i]._terrainType, Terrain[i]);
-            for (int i = 0; i < NPC.Count; i++)
-                NPCDict.Add(NPC[i].Type, NPC[i]);
-            for (int i = 0; i < Features.Count; i++)
-                FeatureDict.Add(Features[i].Type, Features[i]);
+            for (int i = 0; i < weaponList.Count; i++)
+                WeaponDict.Add(weaponList[i].Type, weaponList[i]);
+            for (int i = 0; i < corpseList.Count; i++)
+                CorpseDict.Add(corpseList[i].CorpseType, corpseList[i]);
+            for (int i = 0; i < scrollList.Count; i++)
+                ScrollDict.Add(scrollList[i].ScrollType, scrollList[i]);
+            for (int i = 0; i < flaskList.Count; i++)
+                FlaskDict.Add(flaskList[i].FlaskType, flaskList[i]);
+            for (int i = 0; i < terrainList.Count; i++)
+                TerrainDict.Add(terrainList[i]._terrainType, terrainList[i]);
+            for (int i = 0; i < NPCList.Count; i++)
+                NPCDict.Add(NPCList[i].Type, NPCList[i]);
+            for (int i = 0; i < features.Count; i++)
+                FeatureDict.Add(features[i].Type, features[i]);
         }
 
         #region Accessors
@@ -64,6 +71,10 @@ namespace Pantheon.Core
         public static WeaponData GetWeapon(WeaponType type)
         {
             GetDatabase().WeaponDict.TryGetValue(type, out WeaponData ret);
+
+            if (ret == null)
+                throw new Exception("Failed to get specified weapon data.");
+
             return ret;
         }
 
@@ -71,6 +82,10 @@ namespace Pantheon.Core
         public static Corpse GetCorpse(CorpseType corpseType)
         {
             GetDatabase().CorpseDict.TryGetValue(corpseType, out Corpse ret);
+
+            if (ret == null)
+                throw new Exception("Failed to get specified corpse data.");
+
             return ret;
         }
 
@@ -78,6 +93,10 @@ namespace Pantheon.Core
         public static ScrollData GetScroll(ScrollType scrollType)
         {
             GetDatabase().ScrollDict.TryGetValue(scrollType, out ScrollData ret);
+
+            if (ret == null)
+                throw new Exception("Failed to get specified scroll data.");
+
             return ret;
         }
 
@@ -85,6 +104,10 @@ namespace Pantheon.Core
         public static FlaskData GetFlask(FlaskType flaskType)
         {
             GetDatabase().FlaskDict.TryGetValue(flaskType, out FlaskData ret);
+
+            if (ret == null)
+                throw new Exception("Failed to get specified flask data.");
+
             return ret;
         }
 
@@ -92,6 +115,10 @@ namespace Pantheon.Core
         public static TerrainData GetTerrain(TerrainType terrainType)
         {
             GetDatabase().TerrainDict.TryGetValue(terrainType, out TerrainData ret);
+
+            if (ret == null)
+                throw new Exception("Failed to get specified terrain data.");
+
             return ret;
         }
 
@@ -103,6 +130,10 @@ namespace Pantheon.Core
         public static NPCWrapper GetNPC(NPCType npcType)
         {
             GetDatabase().NPCDict.TryGetValue(npcType, out NPCWrapper ret);
+
+            if (ret == null)
+                throw new Exception("Failed to get specified NPC.");
+
             return ret;
         }
 
@@ -110,6 +141,10 @@ namespace Pantheon.Core
         public static Feature GetFeature(FeatureType featureType)
         {
             GetDatabase().FeatureDict.TryGetValue(featureType, out Feature ret);
+
+            if (ret == null)
+                throw new Exception("Failed to get specified feature.");
+
             return ret;
         }
 

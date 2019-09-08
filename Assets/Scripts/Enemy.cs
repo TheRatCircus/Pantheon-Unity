@@ -13,13 +13,10 @@ namespace Pantheon.Actors
         // Requisite objects
         private SpriteRenderer spriteRenderer;
 
-        Actor target;
+        [ReadOnly] private Actor target;
 
         // Awake is called when the first script instance is being loaded
-        protected override void Awake()
-        {
-            base.Awake();
-        }
+        protected override void Awake() => base.Awake();
 
         // Start is called before the first frame update
         void Start()
@@ -46,22 +43,22 @@ namespace Pantheon.Actors
                 if (!level.AdjacentTo(cell, target.Cell))
                     PathMoveToTarget();
                 else
-                    nextAction = new MeleeAction(this, attackTime, target);
+                    NextAction = new MeleeAction(this, AttackTime, target);
             else
-                nextAction = new WaitAction(this);
+                NextAction = new WaitAction(this);
 
-            BaseAction ret = nextAction;
+            BaseAction ret = NextAction;
             // Clear action buffer
-            nextAction = null;
+            NextAction = null;
             return ret.DoAction();
         }
 
         // Make a single move along a path towards a target
         void PathMoveToTarget()
         {
-            List<Cell> path = level.pf.GetCellPath(Position, target.Position);
+            List<Cell> path = level.Pathfinder.GetCellPath(Position, target.Position);
             if (path.Count > 0)
-                nextAction = new MoveAction(this, moveSpeed, path[0]);
+                NextAction = new MoveAction(this, MoveSpeed, path[0]);
         }
 
         // Handle enemy death

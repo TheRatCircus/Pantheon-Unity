@@ -7,8 +7,8 @@ namespace Pantheon.Actions
 {
     public class MeleeAction : BaseAction
     {
-        public Actor target;
-        public int attackTime;
+        private Actor target;
+        private readonly int attackTime;
 
         // Constructor
         public MeleeAction(Actor actor, int attackTime, Actor target)
@@ -22,11 +22,11 @@ namespace Pantheon.Actions
         public override int DoAction()
         {
             // Did the attack hit?
-            bool hitLanded = UnityEngine.Random.Range(0, 101) <= Actor.accuracy;
+            bool hitLanded = UnityEngine.Random.Range(0, 101) <= Actor.Accuracy;
 
             if (hitLanded)
             {
-                Hit hit = new Hit(Actor.minDamage, Actor.maxDamage);
+                Hit hit = new Hit(Actor.MinDamage, Actor.MaxDamage);
                 target.TakeHit(hit);
                 GameLog.Send(GameLog.GetAttackString(Actor, target, hit), MessageColour.White);
             }

@@ -24,13 +24,13 @@ namespace Pantheon.Core
     public class GameLog : MonoBehaviour
     {
         // The extended event list for the session
-        public List<string> eventList = new List<string>();
+        [ReadOnly] private List<string> eventList = new List<string>();
         // Short list of event strings for HUD log
-        public List<string> shortEventList = new List<string>();
+        [ReadOnly] private List<string> shortEventList = new List<string>();
 
-        public Text logText;
+        [SerializeField] private Text logText = null;
 
-        public static GameLog GetLog() => Game.instance.gameLog;
+        public static GameLog GetLog() => Game.instance.GameLog;
 
         // Append the eventList with a new message and add it to the log
         public static void Send(string msg, MessageColour colour)
@@ -91,7 +91,7 @@ namespace Pantheon.Core
             if (actor is Player)
                 ret = sentenceStart ? "You" : "you";
             else
-                ret = $"{(actor.NameIsProper ? "" : (sentenceStart ? "The " : "the "))}{actor.actorName}";
+                ret = $"{(actor.NameIsProper ? "" : (sentenceStart ? "The " : "the "))}{actor.ActorName}";
             return ret;
         }
 

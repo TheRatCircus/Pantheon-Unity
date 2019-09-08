@@ -3,8 +3,9 @@
 
 public enum BodyPartType
 {
-    Misc = 0,
-    Head = 1,
-    Arm = 2,
-    Leg = 3
+    None = 0,
+    Misc = 1,
+    Head = 2,
+    Arm = 3,
+    Leg = 4
 }

@@ -12,7 +12,8 @@ using Pantheon.WorldGen;
 namespace Pantheon.Core
 {
     /// <summary>
-    /// Central game controller. Handles turn scheduling and holds other core game behaviour.
+    /// Central game controller. Handles turn scheduling and holds other core 
+    /// game behaviour.
     /// </summary>
     public sealed class Game : MonoBehaviour
     {
@@ -20,30 +21,29 @@ namespace Pantheon.Core
         public static Game instance;
 
         // Other components of GameController
-        public Database database;
-        public GameLog gameLog;
-        public Transform grid;
+        [SerializeField] private Database database;
+        [SerializeField] private GameLog gameLog;
+        [SerializeField] private Transform grid = null;
 
         // Pseudo RNG
         public System.Random prng = new System.Random(131198);
 
         // Basic prefabs
-        public GameObject levelPrefab;
+        [SerializeField] private GameObject levelPrefab = null;
 
         // Constants
         public const int TurnTime = 100; // One standard turn
-        public const int ActorsPerUpdate = 1000;
 
-        List<Actor> queue;
-        Actor currentActor;
-        bool currentActorRemoved;
+        private List<Actor> queue;
+        private Actor currentActor;
+        private bool currentActorRemoved;
 
         // Once 100 energy has been spent by the player,
         //  a turn is considered to have passed
-        int turnProgress;
-        int turns;
+        [ReadOnly] private int turnProgress;
+        [ReadOnly] private int turns;
 
-        int lockCount;
+        [ReadOnly] private int lockCount;
 
         // Keep a global list of all players
         public Player player1;
@@ -56,6 +56,10 @@ namespace Pantheon.Core
         public event Action<int> OnTurnChangeEvent;
         public event Action<int> OnPlayerActionEvent;
         public event Action<Level> OnLevelChangeEvent;
+
+        // Properties
+        public Database Database { get => database; set => database = value; }
+        public GameLog GameLog { get => gameLog; set => gameLog = value; }
 
         // Accessors
         public static Player GetPlayer(int i = 0) => instance.player1;
@@ -140,7 +144,7 @@ namespace Pantheon.Core
                 return true;
             }
 
-            while (actor.energy > 0)
+            while (actor.Energy > 0)
             {
                 currentActor = actor;
                 int actionCost = actor.Act();
@@ -159,7 +163,7 @@ namespace Pantheon.Core
                 if (actionCost < 0)
                     return false;
 
-                actor.energy -= actionCost;
+                actor.Energy -= actionCost;
                 activeLevel.RefreshFOV();
 
                 if (actor is Player)
@@ -173,7 +177,7 @@ namespace Pantheon.Core
                     }
 
                     // Signals a successful player action to HUD
-                    OnPlayerActionEvent?.Invoke(actor.energy);
+                    OnPlayerActionEvent?.Invoke(actor.Energy);
                 }
 
                 // Action may have added a lock
@@ -182,11 +186,11 @@ namespace Pantheon.Core
             }
 
             // Give the actor their speed value's worth of energy back
-            actor.energy += actor.speed;
+            actor.Energy += actor.Speed;
 
             // Update HUD again to reflect refill
             if (actor is Player)
-                OnPlayerActionEvent?.Invoke(actor.energy);
+                OnPlayerActionEvent?.Invoke(actor.Energy);
 
             Actor dequeued = queue[0];
             queue.RemoveAt(0);

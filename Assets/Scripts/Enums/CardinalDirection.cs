@@ -2,8 +2,8 @@
 // Jerome Martina
 
 /// <summary>
-/// The eight cardinal directions, as well as centre. Horizontal regions are
-/// divided into these rather than floors.
+/// The eight cardinal directions, as well as centre, for lateral regions
+/// without depth.
 /// </summary>
 public enum CardinalDirection
 {

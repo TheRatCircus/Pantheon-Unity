@@ -8,18 +8,34 @@ using UnityEngine;
 /// </summary>
 public abstract class ItemData : ScriptableObject
 {
-    public string displayName = "NO_NAME";
-    public string refName = "NO_REF";
-    public int maxStack;
-    public bool stackable;
-    public Sprite sprite;
-    public bool usable;
+    [SerializeField] private string displayName = "NO_NAME";
+    [SerializeField] private string refName = "NO_REF";
+    [SerializeField] private int maxStack = -1;
+    [SerializeField] private bool stackable = false;
+    [SerializeField] private Sprite sprite = null;
+    [SerializeField] private bool usable = false;
 
-    public ActionWrapper onUse;
-    public string onUseString = "NO_USE_STRING";
+    [SerializeField] private ActionWrapper onUse = null;
+    [SerializeField] private string onUseString = "NO_USE_STRING";
 
-    public int strengthReq = -1; // Cumulative strength needed to equip
-    public int maxWieldParts; // In how many parts maximum can this be wielded?
+    [SerializeField] private int strengthReq = -1; // Cumulative strength needed to equip
+    [SerializeField] private int maxWieldParts = -1; // In how many parts maximum can this be wielded?
 
-    public Melee Melee = null;
+    [SerializeField] private Melee melee = null;
+
+    #region Properties
+
+    public string DisplayName { get => displayName; }
+    public string RefName { get => refName; }
+    public int MaxStack { get => maxStack; }
+    public bool Stackable { get => stackable; }
+    public Sprite Sprite { get => sprite; }
+    public bool Usable { get => usable; }
+    public ActionWrapper OnUse { get => onUse; }
+    public string OnUseString { get => onUseString; }
+    public int StrengthReq { get => strengthReq; }
+    public int MaxWieldParts { get => maxWieldParts; }
+    public Melee Melee { get => melee; }
+
+    #endregion
 }

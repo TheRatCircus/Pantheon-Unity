@@ -11,20 +11,19 @@ namespace Pantheon.UI
     public class InventoryUI : MonoBehaviour
     {
         // Requisite objects
-        public Transform inventoryGrid;
-        public GameObject inventoryUI;
-        public Player player;
-        public GameObject slotPrefab;
-        public Text itemNameText;
+        [SerializeField] private Transform inventoryGrid = null;
+        [SerializeField] private GameObject inventoryUI = null;
+        [SerializeField] private Player player = null;
+        [SerializeField] private GameObject slotPrefab = null;
+        [SerializeField] private Text itemNameText = null;
 
         // The inventory slots the GUI holds
-        private List<InventorySlot> inventorySlots;
+        [ReadOnly] private List<InventorySlot> inventorySlots = new List<InventorySlot>();
 
         // Start is called before the first frame update
         private void Start()
         {
             // Instantiate slot prefabs and add their scripts to inventorySlots
-            inventorySlots = new List<InventorySlot>();
             for (int i = 0; i < player.InventorySize; i++)
             {
                 GameObject newSlotObj = Instantiate(slotPrefab, inventoryGrid, false);
@@ -64,6 +63,6 @@ namespace Pantheon.UI
 
         // Send item drop call to the player
         private void DropItem(Item item)
-            => player.nextAction = new DropAction(player, item);
+            => player.NextAction = new DropAction(player, item);
     }
 }

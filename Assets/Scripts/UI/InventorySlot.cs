@@ -21,7 +21,7 @@ namespace Pantheon.UI
         {
             this.item = item;
 
-            icon.sprite = item._sprite;
+            icon.sprite = item.Sprite;
             icon.enabled = true;
         }
 

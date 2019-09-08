@@ -11,7 +11,7 @@ namespace Pantheon.Actions
     [System.Serializable]
     public class LineProjAction : BaseAction
     {
-        public GameObject projPrefab;
+        [SerializeField] private GameObject projPrefab;
 
         List<Cell> line;
 
@@ -25,8 +25,8 @@ namespace Pantheon.Actions
         public override int DoAction()
         {
             if (Actor is Player)
-                ((Player)Actor)._input.StartCoroutine(
-                    ((Player)Actor)._input.LineTarget(FireProjectile));
+                ((Player)Actor).Input.StartCoroutine(
+                    ((Player)Actor).Input.LineTarget(FireProjectile));
             else
                 throw new System.NotImplementedException("An NPC should not be able to do this");
 
@@ -37,8 +37,8 @@ namespace Pantheon.Actions
         public override int DoAction(OnConfirm onConfirm)
         {
             if (Actor is Player)
-                ((Player)Actor)._input.StartCoroutine(
-                    ((Player)Actor)._input.LineTarget(FireProjectile));
+                ((Player)Actor).Input.StartCoroutine(
+                    ((Player)Actor).Input.LineTarget(FireProjectile));
             else
                 throw new System.NotImplementedException("An NPC should not be able to do this");
 
@@ -51,7 +51,7 @@ namespace Pantheon.Actions
         public void FireProjectile()
         {
             if (Actor is Player)
-                line = ((Player)Actor)._input.TargetLine;
+                line = ((Player)Actor).Input.TargetLine;
 
             Spawn.MakeLineProjectile(projPrefab, line);
             onConfirm?.Invoke();

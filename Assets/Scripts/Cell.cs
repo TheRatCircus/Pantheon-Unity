@@ -14,22 +14,23 @@ namespace Pantheon.World
         public const float TileOffsetX = .5f;
         public const float TileOffsetY = .5f;
 
-        [SerializeField] private Vector2Int position;
+        [ReadOnly] private Vector2Int position;
 
-        TerrainData terrainData;
-        bool blocked = true; // Can cell be moved through?
-        bool opaque = true; // Can cell be seen through?
-        Connection connection;
+        [ReadOnly] private TerrainData terrainData;
+        [ReadOnly] private bool blocked = true; // Can cell be moved through?
+        [ReadOnly] private bool opaque = true; // Can cell be seen through?
+        [ReadOnly] private Connection connection;
 
         // Status
-        bool visible = false; // Is this cell within view?
-        bool revealed = false; // Is this cell known?
+        [SerializeField] private bool visible = false; // Is this cell within view?
+        [SerializeField] private bool revealed = false; // Is this cell known?
 
         // Contents of cell
-        Actor actor = null;
-        List<Item> items = new List<Item>();
+        [ReadOnly] private Actor actor = null;
+        [ReadOnly] List<Item> items = new List<Item>();
 
-        // Properties
+        #region Properties
+
         public Vector2Int Position { get => position; set => position = value; }
         public bool Blocked { get => blocked; set => blocked = value; }
         public bool Opaque
@@ -45,11 +46,13 @@ namespace Pantheon.World
         }
         public bool Visible => visible;
         public bool Revealed { get => revealed; set => revealed = value; }
-        public Actor _actor { get => actor; set => actor = value; }
+        public Actor Actor { get => actor; set => actor = value; }
         public List<Item> Items => items;
         public TerrainData TerrainData { get => terrainData; }
         public Feature Feature { get; set; } = null;
         public Connection Connection { get => connection; set => connection = value; }
+
+        #endregion
 
         // Constructor
         public Cell(Vector2Int position) => this.position = position;

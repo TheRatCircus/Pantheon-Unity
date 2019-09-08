@@ -15,14 +15,14 @@ namespace Pantheon.Actors
         private BodyPartData partData;
 
         // Properties for getting partData
-        public Species Species { get => partData.species; }
-        public BodyPartType Type { get => partData.type; }
-        public string Name { get => partData.displayName; }
-        public Sprite Sprite { get => partData.sprite; }
+        public Species Species { get => partData.Species; }
+        public BodyPartType Type { get => partData.Type; }
+        public string Name { get => partData.DisplayName; }
+        public Sprite Sprite { get => partData.Sprite; }
 
-        public int RunBonus { get => partData.runBonus; }
-        public bool Prehensile { get => partData.prehensile; }
-        public bool CanMelee { get => partData.canMelee; }
+        public int RunBonus { get => partData.RunBonus; }
+        public bool Prehensile { get => partData.Prehensile; }
+        public bool CanMelee { get => partData.CanMelee; }
 
         // Instance-specific
         public bool Dominant;
@@ -39,9 +39,9 @@ namespace Pantheon.Actors
         {
             this.partData = partData;
 
-            Strength = partData.strength;
-            Dexterity = partData.dexterity;
-            melee = partData.melee;
+            Strength = partData.Strength;
+            Dexterity = partData.Dexterity;
+            melee = partData.Melee;
         }
     }
 

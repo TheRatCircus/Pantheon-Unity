@@ -8,57 +8,57 @@ namespace Pantheon.Actions
 {
     public class MoveAction : BaseAction
     {
-        public Cell Destination;
-        public Cell Previous;
+        private Cell destination;
+        private Cell previous;
 
-        public int MoveTime;
+        private readonly int moveTime;
 
         // Cell-based constructor
         public MoveAction(Actor actor, int moveTime, Cell destination)
             : base(actor)
         {
-            MoveTime = moveTime;
+            this.moveTime = moveTime;
 
-            Previous = actor.Cell;
-            Destination = destination;
+            previous = actor.Cell;
+            this.destination = destination;
         }
 
         // Direction-based constructor
         public MoveAction(Actor actor, int moveTime, Vector2Int dir)
             : base(actor)
         {
-            MoveTime = moveTime;
+            this.moveTime = moveTime;
 
-            Previous = actor.Cell;
-            Destination = actor.level.GetCell(actor.Cell.Position + dir);
+            previous = actor.Cell;
+            destination = actor.level.GetCell(actor.Cell.Position + dir);
         }
 
         // Try to move to the destination cell
         public override int DoAction()
         {
-            if (Destination == null)
+            if (destination == null)
                 Debug.LogException(new System.Exception("A MoveAction was initialized with a null cell"));
 
-            if (!Destination.IsWalkableTerrain())
+            if (!destination.IsWalkableTerrain())
                 return -1;
 
-            if (Destination._actor != null)
+            if (destination.Actor != null)
             {
-                if (Actor.HostileToMe(Destination._actor))
-                    Actor.nextAction = new MeleeAction(Actor, Actor.attackTime, Destination._actor);
+                if (Actor.HostileToMe(destination.Actor))
+                    Actor.NextAction = new MeleeAction(Actor, Actor.AttackTime, destination.Actor);
                 else
-                    Actor.nextAction = new WaitAction(Actor);
+                    Actor.NextAction = new WaitAction(Actor);
 
                 return -1;
             }
 
-            Actor.MoveTo(Actor, Destination);
+            Actor.MoveTo(Actor, destination);
 
             // Empty previous cell if one exists
-            if (Previous != null)
-                Previous._actor = null;
+            if (previous != null)
+                previous.Actor = null;
 
-            return MoveTime;
+            return moveTime;
         }
 
         // DoAction() with a callback
