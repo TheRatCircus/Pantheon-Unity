@@ -106,9 +106,11 @@ namespace Pantheon.WorldGen
             for (int r = 0; r < maxRooms; r++)
             {
                 Vector2Int pos = new Vector2Int();
-                Vector2Int dims = new Vector2Int();
-                dims.x = Random.Range(roomMinSize, roomMaxSize);
-                dims.y = Random.Range(roomMinSize, roomMaxSize);
+                Vector2Int dims = new Vector2Int
+                {
+                    x = Random.Range(roomMinSize, roomMaxSize),
+                    y = Random.Range(roomMinSize, roomMaxSize)
+                };
                 pos.x = Random.Range(0, level.LevelSize.x - dims.x - 1);
                 pos.y = Random.Range(0, level.LevelSize.y - dims.y - 1);
 
