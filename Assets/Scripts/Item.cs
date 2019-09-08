@@ -53,7 +53,7 @@ public class Item
 
     public void TryEquip(Actor user)
     {
-        if (user is Enemy)
+        if (user is NPC)
             throw new System.NotImplementedException("NPC attempted to wield.");
 
         if (!user.HasPrehensile())

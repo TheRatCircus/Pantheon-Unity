@@ -18,7 +18,7 @@ namespace Pantheon.Actors
         [SerializeField] private int fovRadius = 15; // Not in cells
 
         [ReadOnly] private List<Cell> visibleCells = new List<Cell>();
-        [ReadOnly] private List<Enemy> visibleEnemies = new List<Enemy>();
+        [ReadOnly] private List<NPC> visibleEnemies = new List<NPC>();
         [ReadOnly] private List<Cell> movePath;
 
         // Properties
@@ -93,8 +93,8 @@ namespace Pantheon.Actors
 
             // Also refresh list of visible enemies
             foreach (Cell c in visibleCells)
-                if (c.Actor is Enemy)
-                    visibleEnemies.Add((Enemy)c.Actor);
+                if (c.Actor is NPC)
+                    visibleEnemies.Add((NPC)c.Actor);
         }
 
         #region AdvancedAttack

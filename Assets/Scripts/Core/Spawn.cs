@@ -29,26 +29,26 @@ namespace Pantheon.Core
         }
 
         /// <summary>
-        /// Instantiate an enemy GameObject at a cell.
+        /// Instantiate an NPC GameObject at a cell.
         /// </summary>
-        /// <param name="enemyPrefab">The prefab of the enemy to spawn.</param>
-        /// <param name="level">The level on which the enemy should be spawned.</param>
+        /// <param name="npcPrefab">The prefab of the NPC to spawn.</param>
+        /// <param name="level">The level on which the NPC should be spawned.</param>
         /// <param name="cell"></param>
-        /// <returns>The Enemy script component of the new enemy.</returns>
-        public static Enemy SpawnEnemy(GameObject enemyPrefab, Level level, Cell cell)
+        /// <returns>The NPC script component of the new NPC.</returns>
+        public static NPC SpawnNPC(GameObject npcPrefab, Level level, Cell cell)
         {
-            GameObject enemyObj = Object.Instantiate(
-                enemyPrefab,
+            GameObject npcObj = Object.Instantiate(
+                npcPrefab,
                 Helpers.V2IToV3(cell.Position),
                 new Quaternion(),
                 level.transform
                 );
-            Enemy enemy = enemyObj.GetComponent<Enemy>();
-            enemy.level = level;
-            level.Enemies.Add(enemy);
-            Game.instance.AddActor(enemy);
-            Actor.MoveTo(enemy, cell);
-            return enemy;
+            NPC npc = npcObj.GetComponent<NPC>();
+            npc.level = level;
+            level.NPCs.Add(npc);
+            Game.instance.AddActor(npc);
+            Actor.MoveTo(npc, cell);
+            return npc;
         }
     }
 

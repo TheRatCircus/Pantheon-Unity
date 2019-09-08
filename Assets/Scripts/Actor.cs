@@ -187,7 +187,7 @@ namespace Pantheon.Actors
         {
             if (this is Player) // Everything else is hostile to player (for now)
                 return true;
-            else // This is an enemy
+            else // This is an NPC
                 return other is Player; // If other is Player, it's hostile
         }
 

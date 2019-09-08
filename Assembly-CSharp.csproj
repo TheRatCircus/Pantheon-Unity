@@ -94,7 +94,6 @@
     <Compile Include="Assets\Scripts\Core\GameLog.cs" />
     <Compile Include="Assets\Scripts\Core\ItemFactory.cs" />
     <Compile Include="Assets\Scripts\Core\Spawn.cs" />
-    <Compile Include="Assets\Scripts\Enemy.cs" />
     <Compile Include="Assets\Scripts\Enums\BodyPartType.cs" />
     <Compile Include="Assets\Scripts\Enums\CardinalDirection.cs" />
     <Compile Include="Assets\Scripts\Enums\CorpseType.cs" />
@@ -111,6 +110,7 @@
     <Compile Include="Assets\Scripts\Level.cs" />
     <Compile Include="Assets\Scripts\Melee.cs" />
     <Compile Include="Assets\Scripts\Node.cs" />
+    <Compile Include="Assets\Scripts\NPC.cs" />
     <Compile Include="Assets\Scripts\NPCPops.cs" />
     <Compile Include="Assets\Scripts\Pathfinder.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />

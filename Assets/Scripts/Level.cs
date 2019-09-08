@@ -34,7 +34,7 @@ namespace Pantheon.World
         private Vector2Int levelSize;
 
         // Contents
-        private List<Enemy> enemies = new List<Enemy>();
+        private List<NPC> enemies = new List<NPC>();
 
         // Properties
         public Tilemap TerrainTilemap { get => terrainTilemap; }
@@ -44,7 +44,7 @@ namespace Pantheon.World
         public string DisplayName { get => displayName; set => displayName = value; }
         public Cell[,] Map { get => map; set => map = value; }
         public Vector2Int LevelSize { get => levelSize; set => levelSize = value; }
-        public List<Enemy> Enemies { get => enemies; }
+        public List<NPC> NPCs { get => enemies; }
         public Pathfinder Pathfinder { get => pathfinder; }
 
         private void Awake() => pathfinder = new Pathfinder(this);
@@ -155,7 +155,7 @@ namespace Pantheon.World
             }
             Game.GetPlayer().UpdateVisibleCells(allRefreshed);
 
-            foreach (Enemy e in enemies)
+            foreach (NPC e in enemies)
                 e.UpdateVisibility();
         }
 

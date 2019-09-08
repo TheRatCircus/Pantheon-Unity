@@ -9,7 +9,7 @@ using Pantheon.Actions;
 
 namespace Pantheon.Actors
 {
-    public class Enemy : Actor
+    public class NPC : Actor
     {
         // Requisite objects
         private SpriteRenderer spriteRenderer;
@@ -62,11 +62,11 @@ namespace Pantheon.Actors
                 NextAction = new MoveAction(this, MoveSpeed, path[0]);
         }
 
-        // Handle enemy death
+        // Handle NPC death
         protected override void OnDeath()
         {
             base.OnDeath();
-            level.Enemies.Remove(this);
+            level.NPCs.Remove(this);
         }
     }
 
