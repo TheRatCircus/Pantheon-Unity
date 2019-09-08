@@ -1,6 +1,8 @@
 ﻿// LevelItems.cs
 // Jerome Martina
 
+using Pantheon.Core;
+using Pantheon.World;
 using static Pantheon.Utils.RandomUtils;
 
 namespace Pantheon.WorldGen

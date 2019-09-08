@@ -2,15 +2,18 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenu : MonoBehaviour
+namespace Pantheon.UI
 {
-    public void NewGame()
+    public class MainMenu : MonoBehaviour
     {
-        SceneManager.LoadScene("Dungeon 1");
-    }
+        public void NewGame()
+        {
+            SceneManager.LoadScene("Dungeon 1");
+        }
 
-    public void Quit()
-    {
-        Application.Quit();
+        public void Quit()
+        {
+            Application.Quit();
+        }
     }
 }

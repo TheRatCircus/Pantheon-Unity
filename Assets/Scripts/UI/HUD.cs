@@ -3,104 +3,111 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Pantheon.Core;
+using Pantheon.Actors;
+using Pantheon.World;
+using Pantheon.Actions;
 
-public class HUD : MonoBehaviour
+namespace Pantheon.UI
 {
-    // Player
-    public Player player;
-
-    // UI elements
-    public Text healthCounter;
-    public Text energyCounter;
-    public Text turnCounter;
-    public Text locationDisplay;
-
-    // Modals
-    public ItemModalList itemModalList;
-    public BodyPartModalList bodyPartModalList;
-
-    // Start is called before the first frame update
-    private void Start()
+    public class HUD : MonoBehaviour
     {
-        player.OnHealthChangeEvent += UpdateHealthCounter;
-        player._input.ModalListOpenEvent += OpenModalList;
-        player._input.ModalCancelEvent += ClearModals;
-        Game.instance.OnPlayerActionEvent += UpdateEnergyCounter;
-        Game.instance.OnTurnChangeEvent += UpdateTurnCounter;
-        Game.instance.OnLevelChangeEvent += UpdateLocationDisplay;
+        // Player
+        public Player player;
 
-        UpdateTurnCounter(0);
-        UpdateHealthCounter(player.Health, player.MaxHealth);
-        UpdateEnergyCounter(player.energy);
-    }
+        // UI elements
+        public Text healthCounter;
+        public Text energyCounter;
+        public Text turnCounter;
+        public Text locationDisplay;
 
-    // Update the health counter
-    private void UpdateHealthCounter(int health, int maxHealth)
-    {
-        string healthCounterStr = $"Health: {health} / {maxHealth}";
-        healthCounter.text = healthCounterStr;
-    }
+        // Modals
+        public ItemModalList itemModalList;
+        public BodyPartModalList bodyPartModalList;
 
-    // Update the energy counter
-    private void UpdateEnergyCounter(int energy)
-    {
-        string energyCounterStr = $"Energy: {energy}";
-        energyCounter.text = energyCounterStr;
-    }
-
-    // Update the turn counter
-    private void UpdateTurnCounter(int turn)
-    {
-        string turnCounterStr = $"Time: {turn}";
-        turnCounter.text = turnCounterStr;
-    }
-    
-    // Update the location display
-    private void UpdateLocationDisplay(Level level)
-    {
-        string locationDisplayStr = $"Location: {level.DisplayName}";
-        locationDisplay.text = locationDisplayStr;
-    }
-
-    private void ClearModals()
-    {
-        itemModalList.gameObject.SetActive(false);
-        bodyPartModalList.gameObject.SetActive(false);
-    }
-
-    private void OpenModalList(ModalListOperation op)
-    {
-        switch (op)
+        // Start is called before the first frame update
+        private void Start()
         {
-            case ModalListOperation.Wield:
-                ItemWieldModalList();
-                break;
-            default:
-                throw new System.Exception("No modal list operation given.");
+            player.OnHealthChangeEvent += UpdateHealthCounter;
+            player._input.ModalListOpenEvent += OpenModalList;
+            player._input.ModalCancelEvent += ClearModals;
+            Game.instance.OnPlayerActionEvent += UpdateEnergyCounter;
+            Game.instance.OnTurnChangeEvent += UpdateTurnCounter;
+            Game.instance.OnLevelChangeEvent += UpdateLocationDisplay;
+
+            UpdateTurnCounter(0);
+            UpdateHealthCounter(player.Health, player.MaxHealth);
+            UpdateEnergyCounter(player.energy);
         }
-    }
 
-    private void ItemWieldModalList()
-    {
-        ClearModals();
-        itemModalList.gameObject.SetActive(true);
-        itemModalList.Initialize("Wield which item?", player, 1, 
-            WieldPartsModalList);
-    }
+        // Update the health counter
+        private void UpdateHealthCounter(int health, int maxHealth)
+        {
+            string healthCounterStr = $"Health: {health} / {maxHealth}";
+            healthCounter.text = healthCounterStr;
+        }
 
-    private void WieldPartsModalList(Item item)
-    {
-        ClearModals();
-        bodyPartModalList.gameObject.SetActive(true);
-        bodyPartModalList.Initialize(
-            $"Wield where? Select up to {item.MaxWieldParts}.",
-            player, item.MaxWieldParts,
-            (List<BodyPart> parts) => 
+        // Update the energy counter
+        private void UpdateEnergyCounter(int energy)
+        {
+            string energyCounterStr = $"Energy: {energy}";
+            energyCounter.text = energyCounterStr;
+        }
+
+        // Update the turn counter
+        private void UpdateTurnCounter(int turn)
+        {
+            string turnCounterStr = $"Time: {turn}";
+            turnCounter.text = turnCounterStr;
+        }
+
+        // Update the location display
+        private void UpdateLocationDisplay(Level level)
+        {
+            string locationDisplayStr = $"Location: {level.DisplayName}";
+            locationDisplay.text = locationDisplayStr;
+        }
+
+        private void ClearModals()
+        {
+            itemModalList.gameObject.SetActive(false);
+            bodyPartModalList.gameObject.SetActive(false);
+        }
+
+        private void OpenModalList(ModalListOperation op)
+        {
+            switch (op)
             {
-                ClearModals();
-                player._input.InputState = InputState.Move;
-                player.nextAction = new WieldAction(player, item, parts);
-            });
-        player._input.ModalConfirmEvent += bodyPartModalList.Submit;
+                case ModalListOperation.Wield:
+                    ItemWieldModalList();
+                    break;
+                default:
+                    throw new System.Exception("No modal list operation given.");
+            }
+        }
+
+        private void ItemWieldModalList()
+        {
+            ClearModals();
+            itemModalList.gameObject.SetActive(true);
+            itemModalList.Initialize("Wield which item?", player, 1,
+                WieldPartsModalList);
+        }
+
+        private void WieldPartsModalList(Item item)
+        {
+            ClearModals();
+            bodyPartModalList.gameObject.SetActive(true);
+            bodyPartModalList.Initialize(
+                $"Wield where? Select up to {item.MaxWieldParts}.",
+                player, item.MaxWieldParts,
+                (List<BodyPart> parts) =>
+                {
+                    ClearModals();
+                    player._input.InputState = InputState.Move;
+                    player.nextAction = new WieldAction(player, item, parts);
+                });
+            player._input.ModalConfirmEvent += bodyPartModalList.Submit;
+        }
     }
 }

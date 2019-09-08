@@ -1,5 +1,7 @@
 ﻿// Base class for all actions in Pantheon's system of commands
+
 using UnityEngine;
+using Pantheon.Actors;
 using Pantheon.Actions;
 
 namespace Pantheon.Actions

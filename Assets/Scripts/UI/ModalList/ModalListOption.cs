@@ -5,21 +5,25 @@ using UnityEngine;
 using UnityEngine.UI;
 using Pantheon.Utils;
 
-/// <summary>
-/// Base class for all modal list options.
-/// </summary>
-public class ModalListOption : MonoBehaviour
+namespace Pantheon.UI
 {
-    public Image background;
-    public Image icon;
-    public Text text;
-
-    // Highlight this option as selected
-    public void SetSelected(bool selected)
+    /// <summary>
+    /// Base class for all modal list options.
+    /// </summary>
+    public class ModalListOption : MonoBehaviour
     {
-        background.color =
-            (selected ?
-            background.color = Colours.UISelected :
-            background.color = Colours.UIBackground);
+        public Image background;
+        public Image icon;
+        public Text text;
+
+        // Highlight this option as selected
+        public void SetSelected(bool selected)
+        {
+            background.color =
+                (selected ?
+                background.color = Colours.UISelected :
+                background.color = Colours.UIBackground);
+        }
     }
+
 }

@@ -5,6 +5,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Pantheon.Core;
+using Pantheon.Actors;
+using Pantheon.World;
 using Pantheon.Actions;
 using Pantheon.Utils;
 

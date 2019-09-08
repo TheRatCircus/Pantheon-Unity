@@ -3,19 +3,22 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class GUIClickController : MonoBehaviour, IPointerClickHandler
+namespace Pantheon.UI
 {
-    public UnityEvent onLeft;
-    public UnityEvent onRight;
-    public UnityEvent onMiddle;
-
-    public void OnPointerClick(PointerEventData eventData)
+    public class GUIClickController : MonoBehaviour, IPointerClickHandler
     {
-        if (eventData.pointerId == -1)
-            onLeft.Invoke();
-        else if (eventData.pointerId == -2)
-            onRight.Invoke();
-        else if (eventData.pointerId == -3)
-            onMiddle.Invoke();
+        public UnityEvent onLeft;
+        public UnityEvent onRight;
+        public UnityEvent onMiddle;
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (eventData.pointerId == -1)
+                onLeft.Invoke();
+            else if (eventData.pointerId == -2)
+                onRight.Invoke();
+            else if (eventData.pointerId == -3)
+                onMiddle.Invoke();
+        }
     }
 }

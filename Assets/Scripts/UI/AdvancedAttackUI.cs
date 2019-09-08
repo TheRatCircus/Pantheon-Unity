@@ -1,20 +1,25 @@
 ﻿// Handler for advanced attack GUI
+
 using UnityEngine;
 using UnityEngine.UI;
+using Pantheon.Actors;
 
-public class AdvancedAttackUI : MonoBehaviour
+namespace Pantheon.UI
 {
-    public Player player;
-    public GameObject advancedAttackUI;
-
-    public Text targetText;
-
-    private void Start()
+    public class AdvancedAttackUI : MonoBehaviour
     {
-        player.OnAdvancedAttackEvent += AdvancedAttack;
-    }
+        public Player player;
+        public GameObject advancedAttackUI;
 
-    private void AdvancedAttack(Actor target)
-    {
+        public Text targetText;
+
+        private void Start()
+        {
+            player.OnAdvancedAttackEvent += AdvancedAttack;
+        }
+
+        private void AdvancedAttack(Actor target)
+        {
+        }
     }
 }

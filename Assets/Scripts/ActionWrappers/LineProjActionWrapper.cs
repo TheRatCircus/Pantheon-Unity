@@ -1,5 +1,7 @@
 ﻿// ScriptableObject wrapper for a LineProjAction
+
 using UnityEngine;
+using Pantheon.Actors;
 using Pantheon.Actions;
 
 [CreateAssetMenu(fileName = "LineProjAction", menuName = "ActionWrappers/LineProjAction")]

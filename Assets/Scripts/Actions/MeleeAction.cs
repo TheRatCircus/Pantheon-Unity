@@ -1,4 +1,8 @@
 ﻿// Attack an actor in melee combat
+
+using Pantheon.Actors;
+using Pantheon.Core;
+
 namespace Pantheon.Actions
 {
     public class MeleeAction : BaseAction

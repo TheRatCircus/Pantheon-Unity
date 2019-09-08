@@ -3,58 +3,61 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventorySlot : MonoBehaviour
+namespace Pantheon.UI
 {
-    public Image icon; // Image displaying the item's sprite
-    
-    private Item item; // Item referred to by this slot
-
-    // Events
-    public event Action<string> OnHoverEvent;
-    public event Action<Item> OnUseEvent;
-    public event Action<Item> OnDropEvent;
-
-    // Add item to slot on inventory UI update
-    public void AddItem(Item item)
+    public class InventorySlot : MonoBehaviour
     {
-        this.item = item;
+        public Image icon; // Image displaying the item's sprite
 
-        icon.sprite = item._sprite;
-        icon.enabled = true;
-    }
+        private Item item; // Item referred to by this slot
 
-    // Clear slot on inventory UI update
-    public void ClearSlot()
-    {
-        item = null;
+        // Events
+        public event Action<string> OnHoverEvent;
+        public event Action<Item> OnUseEvent;
+        public event Action<Item> OnDropEvent;
 
-        icon.sprite = null;
-        icon.enabled = false;
-    }
+        // Add item to slot on inventory UI update
+        public void AddItem(Item item)
+        {
+            this.item = item;
 
-    // Use this item by pressing button
-    public void UseItem()
-    {
-        if (item != null)
-            OnUseEvent?.Invoke(item);
-    }
+            icon.sprite = item._sprite;
+            icon.enabled = true;
+        }
 
-    public void DropItem()
-    {
-        if (item != null)
-            OnDropEvent?.Invoke(item);
-    }
+        // Clear slot on inventory UI update
+        public void ClearSlot()
+        {
+            item = null;
 
-    // Action to take when pointer enters button
-    public void OnPointerEnter()
-    {
-        if (item != null)
-            OnHoverEvent?.Invoke(item.DisplayName);
-    }
+            icon.sprite = null;
+            icon.enabled = false;
+        }
 
-    // Action to take when pointer exits button
-    public void OnPointerExit()
-    {
-        OnHoverEvent?.Invoke("");
+        // Use this item by pressing button
+        public void UseItem()
+        {
+            if (item != null)
+                OnUseEvent?.Invoke(item);
+        }
+
+        public void DropItem()
+        {
+            if (item != null)
+                OnDropEvent?.Invoke(item);
+        }
+
+        // Action to take when pointer enters button
+        public void OnPointerEnter()
+        {
+            if (item != null)
+                OnHoverEvent?.Invoke(item.DisplayName);
+        }
+
+        // Action to take when pointer exits button
+        public void OnPointerExit()
+        {
+            OnHoverEvent?.Invoke("");
+        }
     }
 }

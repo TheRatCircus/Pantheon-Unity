@@ -1,5 +1,7 @@
 ﻿// ScriptableObject wrapper for a HealAction
+
 using UnityEngine;
+using Pantheon.Actors;
 using Pantheon.Actions;
 
 [CreateAssetMenu(fileName = "HealAction", menuName = "ActionWrappers/HealAction")]

@@ -2,6 +2,8 @@
 // Jerome Maratina
 
 using UnityEngine;
+using Pantheon.Core;
+using Pantheon.World;
 using static Pantheon.Utils.RandomUtils;
 
 namespace Pantheon.WorldGen

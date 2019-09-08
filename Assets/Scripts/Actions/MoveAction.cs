@@ -1,5 +1,8 @@
 ﻿// Move a creature to a new cell
+
 using UnityEngine;
+using Pantheon.Actors;
+using Pantheon.World;
 
 namespace Pantheon.Actions
 {

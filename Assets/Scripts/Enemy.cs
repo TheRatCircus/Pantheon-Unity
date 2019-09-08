@@ -1,68 +1,75 @@
 ﻿// Enemy behaviour handling
-using UnityEngine;
+
 using System.Collections.Generic;
+using UnityEngine;
+using Pantheon.Core;
+using Pantheon.World;
 using Pantheon.Actions;
 
-public class Enemy : Actor
+namespace Pantheon.Actors
 {
-    // Requisite objects
-    private SpriteRenderer spriteRenderer;
-
-    Actor target;
-
-    // Awake is called when the first script instance is being loaded
-    protected override void Awake()
+    public class Enemy : Actor
     {
-        base.Awake();
-    }
+        // Requisite objects
+        private SpriteRenderer spriteRenderer;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.enabled = cell.Visible;
-    }
+        Actor target;
 
-    // Every time something happens, this NPC must refresh its visibility
-    public void UpdateVisibility() => spriteRenderer.enabled = cell.Visible;
-
-    // Evaluate the situation and act
-    public override int Act()
-    {
-        // Detect player if coming into player's view
-        if (cell.Visible && target == null)
+        // Awake is called when the first script instance is being loaded
+        protected override void Awake()
         {
-            target = Game.GetPlayer();
-            GameLog.Send($"{GameLog.GetSubject(this, true)} notices you!", MessageColour.Red);
+            base.Awake();
         }
 
-        // Engage in combat
-        if (target != null)
-            if (!level.AdjacentTo(cell, target.Cell))
-                PathMoveToTarget();
+        // Start is called before the first frame update
+        void Start()
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            spriteRenderer.enabled = cell.Visible;
+        }
+
+        // Every time something happens, this NPC must refresh its visibility
+        public void UpdateVisibility() => spriteRenderer.enabled = cell.Visible;
+
+        // Evaluate the situation and act
+        public override int Act()
+        {
+            // Detect player if coming into player's view
+            if (cell.Visible && target == null)
+            {
+                target = Game.GetPlayer();
+                GameLog.Send($"{GameLog.GetSubject(this, true)} notices you!", MessageColour.Red);
+            }
+
+            // Engage in combat
+            if (target != null)
+                if (!level.AdjacentTo(cell, target.Cell))
+                    PathMoveToTarget();
+                else
+                    nextAction = new MeleeAction(this, attackTime, target);
             else
-                nextAction = new MeleeAction(this, attackTime, target);
-        else
-            nextAction = new WaitAction(this);
+                nextAction = new WaitAction(this);
 
-        BaseAction ret = nextAction;
-        // Clear action buffer
-        nextAction = null;
-        return ret.DoAction();
+            BaseAction ret = nextAction;
+            // Clear action buffer
+            nextAction = null;
+            return ret.DoAction();
+        }
+
+        // Make a single move along a path towards a target
+        void PathMoveToTarget()
+        {
+            List<Cell> path = level.pf.GetCellPath(Position, target.Position);
+            if (path.Count > 0)
+                nextAction = new MoveAction(this, moveSpeed, path[0]);
+        }
+
+        // Handle enemy death
+        protected override void OnDeath()
+        {
+            base.OnDeath();
+            level.Enemies.Remove(this);
+        }
     }
 
-    // Make a single move along a path towards a target
-    void PathMoveToTarget()
-    {
-        List<Cell> path = level.pf.GetCellPath(Position, target.Position);
-        if (path.Count > 0)
-            nextAction = new MoveAction(this, moveSpeed, path[0]);
-    }
-
-    // Handle enemy death
-    protected override void OnDeath()
-    {
-        base.OnDeath();
-        level.Enemies.Remove(this);
-    }
 }

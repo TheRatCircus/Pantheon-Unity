@@ -1,23 +1,27 @@
 ﻿// ItemModalListOption.cs
 // Jerome Martina
 
-/// <summary>
-/// An option representing an item in a modal list.
-/// </summary>
-public class ItemModalListOption : ModalListOption
+namespace Pantheon.UI
 {
-    public Item Item;
-
-    public delegate void OnClickDelegate(ItemModalListOption option);
-    OnClickDelegate onClick;
-
-    public void Initialize(Item item, OnClickDelegate onClick)
+    /// <summary>
+    /// An option representing an item in a modal list.
+    /// </summary>
+    public class ItemModalListOption : ModalListOption
     {
-        Item = item;
-        icon.sprite = item._sprite;
-        text.text = item.DisplayName;
-        this.onClick = onClick;
+        public Item Item;
+
+        public delegate void OnClickDelegate(ItemModalListOption option);
+        OnClickDelegate onClick;
+
+        public void Initialize(Item item, OnClickDelegate onClick)
+        {
+            Item = item;
+            icon.sprite = item._sprite;
+            text.text = item.DisplayName;
+            this.onClick = onClick;
+        }
+
+        public void OnClick() => onClick?.Invoke(this);
     }
 
-    public void OnClick() => onClick?.Invoke(this);
 }

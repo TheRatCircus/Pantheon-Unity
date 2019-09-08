@@ -1,4 +1,7 @@
 ﻿// Drop an item from an inventory
+
+using Pantheon.Actors;
+
 namespace Pantheon.Actions
 {
     public class DropAction : BaseAction
@@ -25,11 +28,11 @@ namespace Pantheon.Actions
 
             if (Actor is Player)
             {
-                GameLog.Send($"You drop the {Item.DisplayName}.", MessageColour.Grey);
+                Core.GameLog.Send($"You drop the {Item.DisplayName}.", MessageColour.Grey);
                 ((Player)Actor).RaiseInventoryChangeEvent();
             }
 
-            return Game.TurnTime;
+            return Core.Game.TurnTime;
         }
 
         // DoAction() with a callback

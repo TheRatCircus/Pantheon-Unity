@@ -1,7 +1,9 @@
 ﻿// Pathfinding data and functions for a level
 // Credit to Sebastian Lague
-using UnityEngine;
+
 using System.Collections.Generic;
+using UnityEngine;
+using Pantheon.World;
 
 public class Pathfinder
 {

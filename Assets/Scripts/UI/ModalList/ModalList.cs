@@ -4,21 +4,25 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ModalList : MonoBehaviour
+namespace Pantheon.UI
 {
-    public GameObject optionPrefab;
-
-    // UI elements
-    public Text promptText;
-    public Transform listTransform;
-
-    // Parameters
-    public int maxOptions;
-
-    // Clean this modal list of all options
-    public void Clean()
+    public class ModalList : MonoBehaviour
     {
-        foreach (Transform t in listTransform)
-            Destroy(t.gameObject);
+        public GameObject optionPrefab;
+
+        // UI elements
+        public Text promptText;
+        public Transform listTransform;
+
+        // Parameters
+        public int maxOptions;
+
+        // Clean this modal list of all options
+        public void Clean()
+        {
+            foreach (Transform t in listTransform)
+                Destroy(t.gameObject);
+        }
     }
+
 }

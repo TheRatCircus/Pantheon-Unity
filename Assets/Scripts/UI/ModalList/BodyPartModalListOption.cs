@@ -1,28 +1,34 @@
 ﻿// BodyPartModalListOption.cs
 // Jerome Martina
 
-/// <summary>
-/// An option representing a body part in a modal list.
-/// </summary>
-public class BodyPartModalListOption : ModalListOption
+using Pantheon.Actors;
+
+namespace Pantheon.UI
 {
-    public BodyPart part;
-
-    public delegate void OnClickDelegate(BodyPartModalListOption option);
-    OnClickDelegate onClick;
-
-    public void Initialize(BodyPart part, OnClickDelegate onClick)
+    /// <summary>
+    /// An option representing a body part in a modal list.
+    /// </summary>
+    public class BodyPartModalListOption : ModalListOption
     {
-        this.part = part;
-        icon.sprite = part.Sprite;
+        public BodyPart part;
 
-        string optionText = $"{part.Name}";
-        if (part.Item != null)
-            optionText += $" ({part.Item.DisplayName})";
-        text.text = optionText;
+        public delegate void OnClickDelegate(BodyPartModalListOption option);
+        OnClickDelegate onClick;
 
-        this.onClick = onClick;
+        public void Initialize(BodyPart part, OnClickDelegate onClick)
+        {
+            this.part = part;
+            icon.sprite = part.Sprite;
+
+            string optionText = $"{part.Name}";
+            if (part.Item != null)
+                optionText += $" ({part.Item.DisplayName})";
+            text.text = optionText;
+
+            this.onClick = onClick;
+        }
+
+        public void OnClick() => onClick?.Invoke(this);
     }
 
-    public void OnClick() => onClick?.Invoke(this);
 }

@@ -1,6 +1,10 @@
 ﻿// Fire a projectile in a line
+
 using System.Collections.Generic;
 using UnityEngine;
+using Pantheon.Core;
+using Pantheon.Actors;
+using Pantheon.World;
 
 namespace Pantheon.Actions
 {

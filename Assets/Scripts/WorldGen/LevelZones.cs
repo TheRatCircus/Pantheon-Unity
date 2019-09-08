@@ -2,6 +2,8 @@
 // Jerome Martina
 
 using UnityEngine;
+using Pantheon.Core;
+using Pantheon.World;
 
 namespace Pantheon.WorldGen
 {

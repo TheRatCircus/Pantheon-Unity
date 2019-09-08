@@ -55,7 +55,7 @@ namespace Pantheon.Utils
         {
             int weightSum = RandomPickEntry<T>.WeightSum(set);
 
-            int chance = Game.PRNG().Next(1, weightSum);
+            int chance = Core.Game.PRNG().Next(1, weightSum);
             int runningSum = 0;
             int choice = 0;
 

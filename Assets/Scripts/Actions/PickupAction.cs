@@ -1,4 +1,9 @@
 ﻿// Pick up an item and add it to inventory
+
+using Pantheon.Core;
+using Pantheon.Actors;
+using Pantheon.World;
+
 namespace Pantheon.Actions
 {
     public class PickupAction : BaseAction

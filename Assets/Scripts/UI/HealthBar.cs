@@ -3,60 +3,65 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using Pantheon.Actors;
+using Pantheon.World;
 using Pantheon.Utils;
 
-/// <summary>
-/// Handles health bar overlays.
-/// </summary>
-public class HealthBar : MonoBehaviour
+namespace Pantheon.UI
 {
-    // Requisite objects
-    public GameObject prefab;
-
-    // UI elements
-    Transform ui;
-    Image healthSlider;
-
-    // Start is called before the first frame update
-    void Start()
+    /// <summary>
+    /// Handles health bar overlays.
+    /// </summary>
+    public class HealthBar : MonoBehaviour
     {
-        foreach (Canvas c in FindObjectsOfType<Canvas>())
-            if (c.renderMode == RenderMode.WorldSpace)
-            {
-                ui = Instantiate(prefab, c.transform).transform;
-                healthSlider = ui.GetChild(0).GetComponent<Image>();
-                ui.gameObject.SetActive(false);
-                break;
-            }
+        // Requisite objects
+        public GameObject prefab;
 
-        Actor targetActor = GetComponent<Actor>();
-        targetActor.OnHealthChangeEvent += OnHealthChange;
-        targetActor.OnMoveEvent += OnMove;
-    }
+        // UI elements
+        Transform ui;
+        Image healthSlider;
 
-    // Handle OnHealthChange event
-    void OnHealthChange(int health, int maxHealth)
-    {
-        if (ui != null)
+        // Start is called before the first frame update
+        void Start()
         {
-            ui.gameObject.SetActive(true);
-            healthSlider.fillAmount = (float)health / maxHealth;
-            if (health <= 0)
-                Destroy(ui.gameObject);
+            foreach (Canvas c in FindObjectsOfType<Canvas>())
+                if (c.renderMode == RenderMode.WorldSpace)
+                {
+                    ui = Instantiate(prefab, c.transform).transform;
+                    healthSlider = ui.GetChild(0).GetComponent<Image>();
+                    ui.gameObject.SetActive(false);
+                    break;
+                }
+
+            Actor targetActor = GetComponent<Actor>();
+            targetActor.OnHealthChangeEvent += OnHealthChange;
+            targetActor.OnMoveEvent += OnMove;
         }
-    }
 
-    // Handle OnMove event
-    private void OnMove(Cell cell)
-    {
-        Reposition(cell);
-    }
+        // Handle OnHealthChange event
+        void OnHealthChange(int health, int maxHealth)
+        {
+            if (ui != null)
+            {
+                ui.gameObject.SetActive(true);
+                healthSlider.fillAmount = (float)health / maxHealth;
+                if (health <= 0)
+                    Destroy(ui.gameObject);
+            }
+        }
 
-    // Reposition this health bar to a new cell
-    private void Reposition(Cell cell)
-    {
-        Vector3 newPosition = Helpers.V2IToV3(cell.Position);
-        newPosition.y -= .35f;
-        ui.position = newPosition;
+        // Handle OnMove event
+        private void OnMove(Cell cell)
+        {
+            Reposition(cell);
+        }
+
+        // Reposition this health bar to a new cell
+        private void Reposition(Cell cell)
+        {
+            Vector3 newPosition = Helpers.V2IToV3(cell.Position);
+            newPosition.y -= .35f;
+            ui.position = newPosition;
+        }
     }
 }

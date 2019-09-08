@@ -1,4 +1,7 @@
 ﻿// Use an item
+
+using Pantheon.Actors;
+
 namespace Pantheon.Actions
 {
     public class ItemUseAction : BaseAction
@@ -13,7 +16,7 @@ namespace Pantheon.Actions
         {
             Item = item;
             OnUse = onUse;
-            UseTime = Game.TurnTime;
+            UseTime = Core.Game.TurnTime;
 
             onUse.DoAction(AssignAction);
         }

@@ -3,184 +3,189 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Pantheon.Core;
+using Pantheon.World;
 using Pantheon.Utils;
 
-public class Actor : MonoBehaviour
+namespace Pantheon.Actors
 {
-    protected List<Item> inventory;
-
-    // Locational
-    public Level level;
-    [SerializeField] protected Cell cell;
-
-    // Actor's personal attributes
-    public string actorName;
-    public bool NameIsProper; // False if name should start with "The/the"
-
-    protected int health;
-    public int MaxHealth;
-
-    public int speed; // Energy per turn
-    public int energy; // Energy remaining
-
-    public int moveSpeed; // Energy needed to walk one cell
-    public int armour;
-    public int evasion;
-
-    public int minDamage;
-    public int maxDamage;
-    public int accuracy; // % chance out of 100
-    public int attackTime;
-
-    // Per-actor-type data
-    public CorpseType corpse;
-    public List<BodyPart> parts;
-
-    // Action status
-    public Pantheon.Actions.BaseAction nextAction;
-
-    // Properties
-    public Cell Cell { get => cell; set => cell = value; }
-    public Vector2Int Position { get => cell.Position; }
-    public int Health { get => health; }
-    public List<Item> Inventory { get => inventory; }
-
-    // Events
-    public event Action<int, int> OnHealthChangeEvent;
-    public event Action<Cell> OnMoveEvent;
-
-    // Event invokers
-    public void RaiseOnMoveEvent(Cell cell) => OnMoveEvent?.Invoke(cell);
-
-    // Arbitrarily move an actor to a cell
-    public static void MoveTo(Actor actor, Cell cell)
+    public class Actor : MonoBehaviour
     {
-        Cell previous = null;
-        if (actor.cell != null)
-            previous = actor.cell;
+        protected List<Item> inventory;
 
-        if (!cell.IsWalkableTerrain())
+        // Locational
+        public Level level;
+        [SerializeField] protected Cell cell;
+
+        // Actor's personal attributes
+        public string actorName;
+        public bool NameIsProper; // False if name should start with "The/the"
+
+        protected int health;
+        public int MaxHealth;
+
+        public int speed; // Energy per turn
+        public int energy; // Energy remaining
+
+        public int moveSpeed; // Energy needed to walk one cell
+        public int armour;
+        public int evasion;
+
+        public int minDamage;
+        public int maxDamage;
+        public int accuracy; // % chance out of 100
+        public int attackTime;
+
+        // Per-actor-type data
+        public CorpseType corpse;
+        public List<BodyPart> parts;
+
+        // Action status
+        public Pantheon.Actions.BaseAction nextAction;
+
+        // Properties
+        public Cell Cell { get => cell; set => cell = value; }
+        public Vector2Int Position { get => cell.Position; }
+        public int Health { get => health; }
+        public List<Item> Inventory { get => inventory; }
+
+        // Events
+        public event Action<int, int> OnHealthChangeEvent;
+        public event Action<Cell> OnMoveEvent;
+
+        // Event invokers
+        public void RaiseOnMoveEvent(Cell cell) => OnMoveEvent?.Invoke(cell);
+
+        // Arbitrarily move an actor to a cell
+        public static void MoveTo(Actor actor, Cell cell)
         {
-            Debug.LogException(new Exception("MoveTo destination is not walkable"));
-            return;
+            Cell previous = null;
+            if (actor.cell != null)
+                previous = actor.cell;
+
+            if (!cell.IsWalkableTerrain())
+            {
+                Debug.LogException(new Exception("MoveTo destination is not walkable"));
+                return;
+            }
+
+            if (cell._actor != null)
+            {
+                Debug.LogException(new Exception("MoveTo destination has an actor in it"));
+                return;
+            }
+
+            actor.RaiseOnMoveEvent(cell);
+            actor.transform.position = Helpers.V2IToV3(cell.Position);
+            cell._actor = actor;
+            actor.Cell = cell;
+
+            // Empty previous cell if one exists
+            if (previous != null)
+                previous._actor = null;
+
+            if (actor is Player)
+                GameLog.LogCellItems(cell);
         }
 
-        if (cell._actor != null)
+        // Awake is called when the script instance is being loaded
+        protected virtual void Awake() => health = MaxHealth;
+
+        // Called by scheduler to carry out and process this actor's action
+        public virtual int Act()
+        { Debug.LogWarning("Attempted call of base Act()"); return -1; }
+
+        // Take a damaging hit from something
+        public void TakeHit(Hit hit) => TakeDamage(hit.Damage);
+
+        // Receive damage
+        public void TakeDamage(int damage)
         {
-            Debug.LogException(new Exception("MoveTo destination has an actor in it"));
-            return;
+            // TODO: Infinitely negative lower bound?
+            health = Mathf.Clamp(health - damage, -255, MaxHealth);
+            if (health <= 0)
+                OnDeath();
+            OnHealthChangeEvent?.Invoke(health, MaxHealth);
         }
 
-        actor.RaiseOnMoveEvent(cell);
-        actor.transform.position = Helpers.V2IToV3(cell.Position);
-        cell._actor = actor;
-        actor.Cell = cell;
+        // Recover health
+        public void Heal(int healing)
+        {
+            health = Mathf.Clamp(health + healing, -255, MaxHealth);
+            OnHealthChangeEvent?.Invoke(health, MaxHealth);
+        }
 
-        // Empty previous cell if one exists
-        if (previous != null)
-            previous._actor = null;
+        // Remove an item from this actor's inventory
+        public virtual void RemoveItem(Item item)
+        {
+            inventory.Remove(item);
+            item.Owner = null;
+        }
 
-        if (actor is Player)
-            GameLog.LogCellItems(cell);
-    }
+        // Check if this actor has a prehensile body part
+        public bool HasPrehensile()
+        {
+            foreach (BodyPart part in parts)
+                if (part.Prehensile) return true;
 
-    // Awake is called when the script instance is being loaded
-    protected virtual void Awake() => health = MaxHealth;
-
-    // Called by scheduler to carry out and process this actor's action
-    public virtual int Act()
-    { Debug.LogWarning("Attempted call of base Act()"); return -1; }
-
-    // Take a damaging hit from something
-    public void TakeHit(Hit hit) => TakeDamage(hit.Damage);
-
-    // Receive damage
-    public void TakeDamage(int damage)
-    {
-        // TODO: Infinitely negative lower bound?
-        health = Mathf.Clamp(health - damage, -255, MaxHealth);
-        if (health <= 0)
-            OnDeath();
-        OnHealthChangeEvent?.Invoke(health, MaxHealth);
-    }
-
-    // Recover health
-    public void Heal(int healing)
-    {
-        health = Mathf.Clamp(health + healing, -255, MaxHealth);
-        OnHealthChangeEvent?.Invoke(health, MaxHealth);
-    }
-
-    // Remove an item from this actor's inventory
-    public virtual void RemoveItem(Item item)
-    {
-        inventory.Remove(item);
-        item.Owner = null;
-    }
-
-    // Check if this actor has a prehensile body part
-    public bool HasPrehensile()
-    {
-        foreach (BodyPart part in parts)
-            if (part.Prehensile) return true;
-
-        return false;
-    }
-
-    public List<BodyPart> GetPrehensiles()
-    {
-        List<BodyPart> prehensiles = new List<BodyPart>();
-
-        foreach (BodyPart part in parts)
-            if (part.Prehensile)
-                prehensiles.Add(part);
-
-        return prehensiles;
-    }
-
-    /// <summary>
-    ///  Check if the cumulative strength of the actor's prehensiles used to
-    ///  wield an item meet that item's strength requirement.
-    /// </summary>
-    /// <param name="req">The strength requirement checked against.</param>
-    /// <returns>True if the actor has enough strength over all its prehensiles.</returns>
-    public bool MeetsStrengthReq(Item item)
-    {
-        if (item.StrengthReq == 0)
-            return true;
-
-        int wieldStrength = 0;
-
-        List<BodyPart> prehensiles = GetPrehensiles();
-        foreach (BodyPart prehensile in prehensiles)
-            if (prehensile.Item == item)
-                wieldStrength += prehensile.Strength;
-
-        if (wieldStrength >= item.StrengthReq)
-            return true;
-        else
             return false;
-    }
+        }
 
-    // Check if another actor is hostile to this
-    public bool HostileToMe(Actor other)
-    {
-        if (this is Player) // Everything else is hostile to player (for now)
-            return true;
-        else // This is an enemy
-            return other is Player; // If other is Player, it's hostile
-    }
+        public List<BodyPart> GetPrehensiles()
+        {
+            List<BodyPart> prehensiles = new List<BodyPart>();
 
-    // Handle this actor's death
-    protected virtual void OnDeath()
-    {
-        Game.instance.RemoveActor(this);
-        cell._actor = null;
-        Destroy(gameObject);
-        GameLog.Send($"You kill {GameLog.GetSubject(this, false)}!", MessageColour.White);
-        cell.Items.Add(new Item(Database.GetCorpse(corpse)));
-    }
+            foreach (BodyPart part in parts)
+                if (part.Prehensile)
+                    prehensiles.Add(part);
 
-    // ToString override
-    public override string ToString() => actorName;
+            return prehensiles;
+        }
+
+        /// <summary>
+        ///  Check if the cumulative strength of the actor's prehensiles used to
+        ///  wield an item meet that item's strength requirement.
+        /// </summary>
+        /// <param name="req">The strength requirement checked against.</param>
+        /// <returns>True if the actor has enough strength over all its prehensiles.</returns>
+        public bool MeetsStrengthReq(Item item)
+        {
+            if (item.StrengthReq == 0)
+                return true;
+
+            int wieldStrength = 0;
+
+            List<BodyPart> prehensiles = GetPrehensiles();
+            foreach (BodyPart prehensile in prehensiles)
+                if (prehensile.Item == item)
+                    wieldStrength += prehensile.Strength;
+
+            if (wieldStrength >= item.StrengthReq)
+                return true;
+            else
+                return false;
+        }
+
+        // Check if another actor is hostile to this
+        public bool HostileToMe(Actor other)
+        {
+            if (this is Player) // Everything else is hostile to player (for now)
+                return true;
+            else // This is an enemy
+                return other is Player; // If other is Player, it's hostile
+        }
+
+        // Handle this actor's death
+        protected virtual void OnDeath()
+        {
+            Game.instance.RemoveActor(this);
+            cell._actor = null;
+            Destroy(gameObject);
+            GameLog.Send($"You kill {GameLog.GetSubject(this, false)}!", MessageColour.White);
+            cell.Items.Add(new Item(Database.GetCorpse(corpse)));
+        }
+
+        // ToString override
+        public override string ToString() => actorName;
+    }
 }

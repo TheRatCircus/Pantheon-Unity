@@ -1,4 +1,7 @@
 ﻿// Action which heals an actor
+
+using Pantheon.Actors;
+
 namespace Pantheon.Actions
 {
     [System.Serializable]
