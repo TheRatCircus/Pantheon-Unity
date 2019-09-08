@@ -45,9 +45,9 @@ namespace Pantheon.Core
             for (int i = 0; i < Weapons.Count; i++)
                 WeaponDict.Add(Weapons[i].Type, Weapons[i]);
             for (int i = 0; i < Corpses.Count; i++)
-                CorpseDict.Add((Corpses[i])._corpseType, Corpses[i]);
+                CorpseDict.Add(Corpses[i]._corpseType, Corpses[i]);
             for (int i = 0; i < Scrolls.Count; i++)
-                ScrollDict.Add((Scrolls[i])._scrollType, Scrolls[i]);
+                ScrollDict.Add(Scrolls[i]._scrollType, Scrolls[i]);
             for (int i = 0; i < Flasks.Count; i++)
                 FlaskDict.Add(Flasks[i]._flaskType, Flasks[i]);
             for (int i = 0; i < Terrain.Count; i++)
