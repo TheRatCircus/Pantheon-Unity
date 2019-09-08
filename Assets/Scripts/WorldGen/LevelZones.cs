@@ -55,7 +55,7 @@ namespace Pantheon.WorldGen
                     return;
             }
 
-            LevelEnemies.SpawnNPCs(ref level, ValleyEnemies, NPCPops.ValleyPop);
+            //LevelEnemies.SpawnNPCs(ref level, ValleyEnemies, NPCPops.ValleyPop);
             LevelItems.SpawnItems(ref level);
 
             CellDrawer.DrawLevel(level);

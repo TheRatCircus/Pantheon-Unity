@@ -17,7 +17,6 @@ public class Actor : MonoBehaviour
     public string actorName;
     public bool NameIsProper; // False if name should start with "The/the"
 
-    // Attributes
     protected int health;
     public int MaxHealth;
 
@@ -35,7 +34,9 @@ public class Actor : MonoBehaviour
 
     // Per-actor-type data
     public CorpseType corpse;
+    public List<BodyPart> parts;
 
+    // Action status
     public Pantheon.Actions.BaseAction nextAction;
 
     // Properties
@@ -115,6 +116,50 @@ public class Actor : MonoBehaviour
     {
         inventory.Remove(item);
         item.Owner = null;
+    }
+
+    // Check if this actor has a prehensile body part
+    public bool HasPrehensile()
+    {
+        foreach (BodyPart part in parts)
+            if (part.Prehensile) return true;
+
+        return false;
+    }
+
+    public List<BodyPart> GetPrehensiles()
+    {
+        List<BodyPart> prehensiles = new List<BodyPart>();
+
+        foreach (BodyPart part in parts)
+            if (part.Prehensile)
+                prehensiles.Add(part);
+
+        return prehensiles;
+    }
+
+    /// <summary>
+    ///  Check if the cumulative strength of the actor's prehensiles used to
+    ///  wield an item meet that item's strength requirement.
+    /// </summary>
+    /// <param name="req">The strength requirement checked against.</param>
+    /// <returns>True if the actor has enough strength over all its prehensiles.</returns>
+    public bool MeetsStrengthReq(Item item)
+    {
+        if (item.StrengthReq == 0)
+            return true;
+
+        int wieldStrength = 0;
+
+        List<BodyPart> prehensiles = GetPrehensiles();
+        foreach (BodyPart prehensile in prehensiles)
+            if (prehensile.Item == item)
+                wieldStrength += prehensile.Strength;
+
+        if (wieldStrength >= item.StrengthReq)
+            return true;
+        else
+            return false;
     }
 
     // Check if another actor is hostile to this

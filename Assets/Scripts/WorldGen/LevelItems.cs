@@ -17,6 +17,7 @@ namespace Pantheon.WorldGen
         {
             SpawnFlasks(ref level);
             SpawnScrolls(ref level);
+            level.RandomFloor().Items.Add(new Item(Database.GetWeapon(WeaponType.Hatchet)));
         }
 
         public static void SpawnFlasks(ref Level level)

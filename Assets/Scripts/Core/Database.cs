@@ -5,6 +5,7 @@ using UnityEngine;
 public sealed class Database : MonoBehaviour
 {
     // Database lists
+    public List<WeaponData> Weapons = new List<WeaponData>();
     public List<Corpse> Corpses = new List<Corpse>();
     public List<ScrollData> Scrolls = new List<ScrollData>();
     public List<FlaskData> Flasks = new List<FlaskData>();
@@ -13,6 +14,7 @@ public sealed class Database : MonoBehaviour
     public List<Feature> Features = new List<Feature>();
 
     // Dictionaries for lookup by enum
+    public Dictionary<WeaponType, WeaponData> WeaponDict = new Dictionary<WeaponType, WeaponData>();
     public Dictionary<CorpseType, Corpse> CorpseDict = new Dictionary<CorpseType, Corpse>();
     public Dictionary<ScrollType, ScrollData> ScrollDict = new Dictionary<ScrollType, ScrollData>();
     public Dictionary<FlaskType, FlaskData> FlaskDict = new Dictionary<FlaskType, FlaskData>();
@@ -36,6 +38,8 @@ public sealed class Database : MonoBehaviour
     /// </summary>
     private void InitDatabaseDicts()
     {
+        for (int i = 0; i < Weapons.Count; i++)
+            WeaponDict.Add(Weapons[i].Type, Weapons[i]);
         for (int i = 0; i < Corpses.Count; i++)
             CorpseDict.Add((Corpses[i])._corpseType, Corpses[i]);
         for (int i = 0; i < Scrolls.Count; i++)
@@ -50,7 +54,14 @@ public sealed class Database : MonoBehaviour
             FeatureDict.Add(Features[i].Type, Features[i]);
     }
 
-    #region StaticAccessors
+    #region Accessors
+
+    // Get weapon data by enum
+    public static WeaponData GetWeapon(WeaponType type)
+    {
+        GetDatabase().WeaponDict.TryGetValue(type, out WeaponData ret);
+        return ret;
+    }
 
     // Get corpse data by enum
     public static Corpse GetCorpse(CorpseType corpseType)

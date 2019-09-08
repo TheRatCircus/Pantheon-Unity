@@ -20,4 +20,11 @@ MonoBehaviour:
   usable: 1
   onUse: {fileID: 11400000, guid: a29a50cf79579774da3886b92d6ddc5a, type: 2}
   onUseString: You drink the flask of healing.
+  strengthReq: 1
+  maxWieldParts: 1
+  Melee:
+    minDamage: 0
+    maxDamage: 0
+    accuracy: 0
+    attackTime: 0
   _flaskType: 1

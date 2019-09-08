@@ -28,7 +28,17 @@ public class Cell
     // Properties
     public Vector2Int Position { get => position; set => position = value; }
     public bool Blocked { get => blocked; set => blocked = value; }
-    public bool Opaque { get => opaque && Feature.Opaque; set => opaque = value; }
+    public bool Opaque
+    {
+        get
+        {
+            if (Feature != null)
+                return (opaque && Feature.Opaque);
+            else
+                return opaque;
+        }
+        set => opaque = value;
+    }
     public bool Visible => visible;
     public bool Revealed { get => revealed; set => revealed = value; }
     public Actor _actor { get => actor; set => actor = value; }
@@ -69,7 +79,13 @@ public class Cell
     }
 
     // Check if this cell can be walked into
-    public bool IsWalkableTerrain() => !blocked && !Feature.Blocked;
+    public bool IsWalkableTerrain()
+    {
+        if (Feature != null)
+            return (!blocked && !Feature.Blocked);
+        else
+            return !blocked;
+    }
 
     // toString override: returns name of tile, position, contained actor
     public override string ToString()

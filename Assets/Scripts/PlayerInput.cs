@@ -13,7 +13,13 @@ public enum InputState
 {
     Move,
     PointTarget,
-    LineTarget
+    LineTarget,
+    Modal
+}
+
+public enum ModalListOperation
+{
+    Wield
 }
 
 public class PlayerInput : MonoBehaviour
@@ -30,6 +36,7 @@ public class PlayerInput : MonoBehaviour
     InputState inputState = InputState.Move;
 
     public List<Cell> TargetLine { get => targetLine; }
+    public InputState InputState { get => inputState; set => inputState = value; }
 
     // Delegates
     public delegate void LineTargetDelegate();
@@ -38,6 +45,11 @@ public class PlayerInput : MonoBehaviour
     public event Action<Cell> PointTargetConfirmEvent;
     public event Action TargetConfirmEvent;
     public event Action TargetCancelEvent;
+
+    public event Action ModalConfirmEvent;
+    public event Action ModalCancelEvent;
+
+    public event Action<ModalListOperation> ModalListOpenEvent;
 
     // Start is called before the first frame update
     private void Start()
@@ -69,18 +81,18 @@ public class PlayerInput : MonoBehaviour
     public void Act()
     {
         // Actions only available on player's turn, but consume no energy
-        if (inputState == InputState.Move)
+        if (InputState == InputState.Move)
             if (Input.GetButtonDown("AdvancedAttack"))
             {
                 GameLog.Send("Advanced attack: select a target.", MessageColour.Teal);
-                inputState = InputState.PointTarget;
+                InputState = InputState.PointTarget;
             }
     }
 
     // Handle keyboard input feasible when not player's turn
     private void KeyInput()
     {
-        if (inputState == InputState.Move)
+        if (InputState == InputState.Move)
         {
             if (Input.GetButtonDown("Up"))
                 player.nextAction = new MoveAction(player, player.moveSpeed, Vector2Int.up);
@@ -108,8 +120,14 @@ public class PlayerInput : MonoBehaviour
                     player.Cell.Connection.Use(player);
                 player.nextAction = new WaitAction(player);
             }
+            else if (Input.GetButtonDown("Wield"))
+            {
+                ModalListOpenEvent?.Invoke(ModalListOperation.Wield);
+                InputState = InputState.Modal;
+            }
+                
         }
-        else if (inputState == InputState.PointTarget)
+        else if (InputState == InputState.PointTarget)
         {
             if (Input.GetButtonDown("Up"))
                 MoveCrosshair(player.level.GetAdjacentCell(player.Cell, Vector2Int.up));
@@ -130,16 +148,16 @@ public class PlayerInput : MonoBehaviour
             else if (Input.GetButtonDown("Submit"))
             {
                 PointTargetConfirmEvent?.Invoke(targetCell);
-                inputState = InputState.Move;
+                InputState = InputState.Move;
             }
             else if (Input.GetButtonDown("Cancel"))
             {
                 TargetCancelEvent?.Invoke();
-                inputState = InputState.Move;
+                InputState = InputState.Move;
                 GameLog.Send("Targetting cancelled.", MessageColour.Teal);
             }
         }
-        else if (inputState == InputState.LineTarget)
+        else if (InputState == InputState.LineTarget)
         {
             if (Input.GetButtonDown("Up"))
             {
@@ -198,6 +216,20 @@ public class PlayerInput : MonoBehaviour
                 CancelLineTargetting();
             }
         }
+        else if (InputState == InputState.Modal)
+        {
+            if (Input.GetButtonDown("Submit"))
+            {
+                ModalConfirmEvent?.Invoke();
+                ModalConfirmEvent = null;
+            }
+            else if (Input.GetButtonDown("Cancel"))
+            {
+                ModalCancelEvent?.Invoke();
+                ModalCancelEvent = null;
+                InputState = InputState.Move;
+            }
+        }
 
         // Actions which are always available
         if (Input.GetButtonDown("Inventory"))
@@ -219,7 +251,7 @@ public class PlayerInput : MonoBehaviour
         {
             MoveCrosshair(player.level.GetCell((Vector2Int)posInt));
             targetLine = Bresenhams.GetPath(player.level, player.Cell, targetCell);
-            switch (inputState)
+            switch (InputState)
             {
                 case InputState.Move:
                     break;
@@ -235,7 +267,7 @@ public class PlayerInput : MonoBehaviour
     // Send mouse commands other than crosshair move
     private void MouseInput()
     {
-        switch (inputState)
+        switch (InputState)
         {
             // Left-click is contextual
             case InputState.Move:
@@ -305,13 +337,13 @@ public class PlayerInput : MonoBehaviour
     public IEnumerator LineTarget(LineTargetDelegate onConfirm)
     {
         // Start the line targetting input state
-        inputState = InputState.LineTarget;
+        InputState = InputState.LineTarget;
         bool confirmed = false;
 
         TargetConfirmEvent += () => confirmed = true;
 
         // When user sends confirm/cancel input, continue
-        yield return new WaitUntil(() => inputState != InputState.LineTarget);
+        yield return new WaitUntil(() => InputState != InputState.LineTarget);
         if (confirmed)
             onConfirm?.Invoke();
 
@@ -322,7 +354,7 @@ public class PlayerInput : MonoBehaviour
     private void ConfirmLineTargetting()
     {
         TargetConfirmEvent?.Invoke();
-        inputState = InputState.Move;
+        InputState = InputState.Move;
         CellDrawer.UnpaintCells(player.level);
     }
 
@@ -330,7 +362,7 @@ public class PlayerInput : MonoBehaviour
     private void CancelLineTargetting()
     {
         TargetCancelEvent?.Invoke();
-        inputState = InputState.Move;
+        InputState = InputState.Move;
         GameLog.Send("Targetting cancelled.", MessageColour.Teal);
         CellDrawer.UnpaintCells(player.level);
     }

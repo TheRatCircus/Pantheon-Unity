@@ -208,3 +208,4 @@ D:\Misc\Development\unity\Pantheon\Temp\bin\Debug\nunit.framework.xml
 D:\Misc\Development\unity\Pantheon\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 D:\Misc\Development\unity\Pantheon\obj\Debug\Assembly-CSharp.dll
 D:\Misc\Development\unity\Pantheon\obj\Debug\Assembly-CSharp.pdb
+D:\Misc\Development\unity\Pantheon\Temp\bin\Debug\Assembly-CSharp.dll.CodeAnalysisLog.xml

@@ -20,4 +20,11 @@ MonoBehaviour:
   usable: 1
   onUse: {fileID: 11400000, guid: 88fbd915319d7164d9f3ad60ebec6b28, type: 2}
   onUseString: You read the scroll of Magic Bullet.
+  strengthReq: -1
+  maxWieldParts: 1
+  Melee:
+    minDamage: 0
+    maxDamage: 0
+    accuracy: 0
+    attackTime: 0
   _scrollType: 1

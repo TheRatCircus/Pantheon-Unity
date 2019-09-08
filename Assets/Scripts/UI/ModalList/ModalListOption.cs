@@ -1,0 +1,25 @@
+﻿// ModalListOption.cs
+// Jerome Martina
+
+using UnityEngine;
+using UnityEngine.UI;
+using Pantheon.Utils;
+
+/// <summary>
+/// Base class for all modal list options.
+/// </summary>
+public class ModalListOption : MonoBehaviour
+{
+    public Image background;
+    public Image icon;
+    public Text text;
+
+    // Highlight this option as selected
+    public void SetSelected(bool selected)
+    {
+        background.color =
+            (selected ?
+            background.color = Colours.UISelected :
+            background.color = Colours.UIBackground);
+    }
+}

@@ -19,5 +19,12 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 0d047209e32634c4cb6ff78ed5fe9767, type: 3}
   usable: 0
   onUse: {fileID: 0}
-  onUseString: You shouldn't be seeing this message.
+  onUseString: NO_USE_STRING
+  strengthReq: 10
+  maxWieldParts: 2
+  Melee:
+    minDamage: 0
+    maxDamage: 0
+    accuracy: 0
+    attackTime: 0
   _corpseType: 1
