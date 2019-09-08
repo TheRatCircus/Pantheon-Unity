@@ -112,8 +112,7 @@ namespace Pantheon.World
             {
                 DestinationLevel = Game.instance.MakeNewLevel();
                 onFirstUse?.Invoke(ref destinationLevel, destinationDepth);
-                Cell cell = DestinationLevel.RandomFloor();
-                DestinationCell = cell;
+                DestinationCell = DestinationLevel.RandomFloor();
             }
 
             Game.instance.MoveToLevel(player, destinationLevel, DestinationCell);
