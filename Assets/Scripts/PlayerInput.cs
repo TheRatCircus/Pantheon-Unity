@@ -128,7 +128,8 @@ public class PlayerInput : MonoBehaviour
                 ModalListOpenEvent?.Invoke(ModalListOperation.Wield);
                 InputState = InputState.Modal;
             }
-                
+            else if (Input.GetButtonDown("Cancel"))
+                Game.QuitGame();
         }
         else if (InputState == InputState.PointTarget)
         {

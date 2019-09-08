@@ -6,14 +6,21 @@ namespace Pantheon.UI
 {
     public class MainMenu : MonoBehaviour
     {
-        public void NewGame()
+        // Skip main menu if in editor
+        private void Awake()
         {
-            SceneManager.LoadScene("Dungeon 1");
+#if UNITY_EDITOR
+            SceneManager.LoadScene("Main");
+#endif
         }
 
-        public void Quit()
-        {
+        public void NewGame() => SceneManager.LoadScene("Main");
+
+        public void Quit() =>
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
             Application.Quit();
-        }
+#endif
     }
 }

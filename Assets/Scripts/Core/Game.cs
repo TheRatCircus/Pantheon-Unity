@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Pantheon.Actors;
 using Pantheon.World;
 using Pantheon.WorldGen;
@@ -236,5 +237,7 @@ namespace Pantheon.Core
             levels.Add(newLevel);
             return newLevel;
         }
+
+        public static void QuitGame() => SceneManager.LoadScene("Title");
     }
 }
