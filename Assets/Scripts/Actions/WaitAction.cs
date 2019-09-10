@@ -1,4 +1,5 @@
-﻿
+﻿// WaitAction.cs
+// Jerome Martina
 
 using Pantheon.Actors;
 
@@ -9,7 +10,6 @@ namespace Pantheon.Actions
     /// </summary>
     public class WaitAction : BaseAction
     {
-        // Constructor
         public WaitAction(Actor actor) : base(actor) { }
 
         /// <summary>
