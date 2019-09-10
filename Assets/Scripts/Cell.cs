@@ -80,6 +80,8 @@ namespace Pantheon.World
             }
         }
 
+        public void Reveal() => revealed = true;
+
         /// <summary>
         /// Set this cell's terrain type and adjust its attributes accordingly.
         /// </summary>

@@ -62,8 +62,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\DebugInfo.cs" />
-    <Compile Include="Assets\ReadOnlyAttribute.cs" />
     <Compile Include="Assets\Scripts\Actions\BaseAction.cs" />
     <Compile Include="Assets\Scripts\Actions\DropAction.cs" />
     <Compile Include="Assets\Scripts\Actions\HealAction.cs" />
@@ -90,11 +88,13 @@
     <Compile Include="Assets\Scripts\Cell.cs" />
     <Compile Include="Assets\Scripts\CellDrawer.cs" />
     <Compile Include="Assets\Scripts\Connection.cs" />
+    <Compile Include="Assets\Scripts\Console.cs" />
     <Compile Include="Assets\Scripts\Core\Database.cs" />
     <Compile Include="Assets\Scripts\Core\Game.cs" />
     <Compile Include="Assets\Scripts\Core\GameLog.cs" />
     <Compile Include="Assets\Scripts\Core\ItemFactory.cs" />
     <Compile Include="Assets\Scripts\Core\Spawn.cs" />
+    <Compile Include="Assets\Scripts\DebugInfo.cs" />
     <Compile Include="Assets\Scripts\Enums\BodyPartType.cs" />
     <Compile Include="Assets\Scripts\Enums\CardinalDirection.cs" />
     <Compile Include="Assets\Scripts\Enums\CorpseType.cs" />
@@ -117,6 +117,7 @@
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\PlayerInput.cs" />
     <Compile Include="Assets\Scripts\Projectile.cs" />
+    <Compile Include="Assets\Scripts\ReadOnlyAttribute.cs" />
     <Compile Include="Assets\Scripts\UI\GUIClickController.cs" />
     <Compile Include="Assets\Scripts\UI\HUD.cs" />
     <Compile Include="Assets\Scripts\UI\InventorySlot.cs" />

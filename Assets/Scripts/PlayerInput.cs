@@ -24,7 +24,8 @@ public enum InputState
     Move,
     PointTarget,
     LineTarget,
-    Modal
+    Modal,
+    Console
 }
 
 /// <summary>
@@ -105,7 +106,8 @@ public class PlayerInput : MonoBehaviour
     // Handle keyboard input feasible when not player's turn
     private void KeyInput()
     {
-        if (InputState == InputState.Move)
+        if (inputState == InputState.Console) { }
+        else if (inputState == InputState.Move)
         {
             if (Input.GetButtonDown("Up"))
                 player.NextAction = new MoveAction(player, player.MoveSpeed, Vector2Int.up);
@@ -141,7 +143,7 @@ public class PlayerInput : MonoBehaviour
             else if (Input.GetButtonDown("Cancel"))
                 Game.QuitGame();
         }
-        else if (InputState == InputState.PointTarget)
+        else if (inputState == InputState.PointTarget)
         {
             if (Input.GetButtonDown("Up"))
                 MoveCrosshair(player.level.GetAdjacentCell(player.Cell, Vector2Int.up));
@@ -171,7 +173,7 @@ public class PlayerInput : MonoBehaviour
                 GameLog.Send("Targetting cancelled.", MessageColour.Teal);
             }
         }
-        else if (InputState == InputState.LineTarget)
+        else if (inputState == InputState.LineTarget)
         {
             if (Input.GetButtonDown("Up"))
             {
@@ -230,7 +232,7 @@ public class PlayerInput : MonoBehaviour
                 CancelLineTargetting();
             }
         }
-        else if (InputState == InputState.Modal)
+        else if (inputState == InputState.Modal)
         {
             if (Input.GetButtonDown("Submit"))
             {
@@ -265,7 +267,7 @@ public class PlayerInput : MonoBehaviour
         {
             MoveCrosshair(player.level.GetCell((Vector2Int)posInt));
             targetLine = Bresenhams.GetPath(player.level, player.Cell, targetCell);
-            switch (InputState)
+            switch (inputState)
             {
                 case InputState.Move:
                     break;
@@ -281,7 +283,7 @@ public class PlayerInput : MonoBehaviour
     // Send mouse commands other than crosshair move
     private void MouseInput()
     {
-        switch (InputState)
+        switch (inputState)
         {
             // Left-click is contextual
             case InputState.Move:
