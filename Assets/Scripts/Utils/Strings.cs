@@ -63,6 +63,12 @@ namespace Pantheon.Utils
                 case BodyPartType.Head:
                     ret = HeadButt.Get(isPlayer);
                     break;
+                case BodyPartType.Teeth:
+                    ret = RandomUtils.ArrayRandom(BiteVerbs).Get(isPlayer);
+                    break;
+                case BodyPartType.Claws:
+                    ret = RandomUtils.ArrayRandom(ClawVerbs).Get(isPlayer);
+                    break;
                 default:
                     throw new System.Exception
                         ($"Case missing for {part.Type.ToString()}-based attack.");
@@ -70,6 +76,17 @@ namespace Pantheon.Utils
 
             return ret;
         }
+
+        public static Verb[] BiteVerbs =
+        {
+            new Verb("bite", "bites")
+        };
+
+        public static Verb[] ClawVerbs =
+        {
+            new Verb("claw", "claws"),
+            new Verb("rend", "rends")
+        };
 
         public static Verb[] PunchVerbs =
         {

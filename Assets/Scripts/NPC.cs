@@ -20,8 +20,7 @@ namespace Pantheon.Actors
         // Awake is called when the first script instance is being loaded
         protected override void Awake() => base.Awake();
 
-        // Start is called before the first frame update
-        void Start()
+        private void OnEnable()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
             spriteRenderer.enabled = cell.Visible;

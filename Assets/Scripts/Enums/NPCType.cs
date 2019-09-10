@@ -7,5 +7,6 @@
 public enum NPCType
 {
     None = 0,
-    Goblin = 1
+    Goblin = 1,
+    DreadHamster = 2
 }

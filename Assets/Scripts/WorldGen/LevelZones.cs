@@ -37,7 +37,7 @@ namespace Pantheon.WorldGen
                 level.SpawnPlayer();
             }
 
-            // Generate display name and connections
+            // Generate wing specifics
             switch (wing)
             {
                 case CardinalDirection.Centre:
@@ -48,16 +48,17 @@ namespace Pantheon.WorldGen
                         connectionCell,
                         Database.GetFeature(FeatureType.StairsDown),
                         GenerateValley, CardinalDirection.North);
+                    LevelEnemies.SpawnNPCs(ref level, ValleyEnemies, NPCPops.ValleyCentre);
                     break;
                 case CardinalDirection.North:
                     level.DisplayName = "Northern Valley";
+                    LevelEnemies.SpawnNPCs(ref level, ValleyEnemies, NPCPops.ValleyNorth);
                     break;
                 default:
-                    Debug.LogException(new System.Exception("No section passed to GenerateValley()."));
+                    Debug.LogException(new System.Exception("No wing passed to GenerateValley()."));
                     return;
             }
-
-            LevelEnemies.SpawnNPCs(ref level, ValleyEnemies, NPCPops.ValleyPop);
+            
             LevelItems.SpawnItems(ref level);
 
             CellDrawer.DrawLevel(level);

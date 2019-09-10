@@ -1,0 +1,196 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4639256923051668772
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4639256923051668775}
+  - component: {fileID: 4639256923051668774}
+  - component: {fileID: 4639256923051668769}
+  - component: {fileID: 2228376977434281826}
+  m_Layer: 0
+  m_Name: DreadHamster
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4639256923051668775
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4639256923051668772}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &4639256923051668774
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4639256923051668772}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 2a57613533e96d54a874f588c375f5f0, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &4639256923051668769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4639256923051668772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3455431d232fd442a62460dd28b3961, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: {fileID: 0}
+  cell:
+    visible: 0
+    revealed: 0
+  actorName: dread hamster
+  nameIsProper: 0
+  maxHealth: 60
+  speed: 130
+  moveSpeed: 100
+  corpse: 1
+  parts:
+  - partData: {fileID: 11400000, guid: a0953f3048b68ac46b3c00da5ca36970, type: 2}
+    dominant: 0
+    strength: 0
+    dexterity: 0
+    melee:
+      minDamage: 0
+      maxDamage: 0
+      accuracy: 0
+      attackTime: 0
+      damageType: 0
+    canMelee: 0
+  - partData: {fileID: 11400000, guid: d32d6490d4f2b0f4a9900cceca154eba, type: 2}
+    dominant: 0
+    strength: 0
+    dexterity: 0
+    melee:
+      minDamage: 0
+      maxDamage: 0
+      accuracy: 0
+      attackTime: 0
+      damageType: 0
+    canMelee: 0
+  - partData: {fileID: 11400000, guid: d32d6490d4f2b0f4a9900cceca154eba, type: 2}
+    dominant: 0
+    strength: 0
+    dexterity: 0
+    melee:
+      minDamage: 0
+      maxDamage: 0
+      accuracy: 0
+      attackTime: 0
+      damageType: 0
+    canMelee: 0
+  - partData: {fileID: 11400000, guid: 1e42844d54403e242abae67b27f62c9d, type: 2}
+    dominant: 0
+    strength: 0
+    dexterity: 0
+    melee:
+      minDamage: 0
+      maxDamage: 0
+      accuracy: 0
+      attackTime: 0
+      damageType: 0
+    canMelee: 0
+  - partData: {fileID: 11400000, guid: 1e42844d54403e242abae67b27f62c9d, type: 2}
+    dominant: 0
+    strength: 0
+    dexterity: 0
+    melee:
+      minDamage: 0
+      maxDamage: 0
+      accuracy: 0
+      attackTime: 0
+      damageType: 0
+    canMelee: 0
+  - partData: {fileID: 11400000, guid: 556bac5bc944209409b8e8425077c05e, type: 2}
+    dominant: 0
+    strength: 0
+    dexterity: 0
+    melee:
+      minDamage: 0
+      maxDamage: 0
+      accuracy: 0
+      attackTime: 0
+      damageType: 0
+    canMelee: 0
+  - partData: {fileID: 11400000, guid: 5b70a63a971588f44b7b3a96f92c91b3, type: 2}
+    dominant: 0
+    strength: 0
+    dexterity: 0
+    melee:
+      minDamage: 0
+      maxDamage: 0
+      accuracy: 0
+      attackTime: 0
+      damageType: 0
+    canMelee: 0
+--- !u!114 &2228376977434281826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4639256923051668772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4564d8b13644750498ab0589c2e10517, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 76116226387992997, guid: 200f7e1c897048e4f96d52e81a3f2c5d, type: 3}
