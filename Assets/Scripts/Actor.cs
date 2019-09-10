@@ -29,8 +29,11 @@ namespace Pantheon.Actors
 
         [SerializeField] [ReadOnly] protected int health;
         [SerializeField] protected int maxHealth = -1;
+        // Game time before regenerating 1 HP
+        [SerializeField] protected int regenRate = -1;
+        [SerializeField] [ReadOnly] protected int regenProgress = 0;
 
-        [SerializeField] protected int speed; // Energy per turn
+        [SerializeField] protected int speed = -1; // Energy per turn
         [SerializeField] [ReadOnly] protected int energy; // Energy remaining
 
         [SerializeField] protected int moveSpeed; // Energy needed to walk one cell
@@ -103,11 +106,18 @@ namespace Pantheon.Actors
         {
             if (maxHealth < 0)
                 throw new Exception("Actor has negative health.");
+            if (speed < 0)
+                throw new Exception("Actor has negative speed.");
 
             health = MaxHealth;
+            energy = speed;
+            
             foreach (BodyPart part in parts)
                 part.Initialize();
         }
+
+        protected virtual void Start()
+            => Game.instance.OnTurnChangeEvent += RegenHealth;
 
         // Called by scheduler to carry out and process this actor's action
         public virtual int Act()
@@ -131,6 +141,17 @@ namespace Pantheon.Actors
             OnHealthChangeEvent?.Invoke(health, MaxHealth);
         }
 
+        public void RegenHealth()
+        {
+            regenProgress += Game.TurnTime;
+
+            if (regenProgress >= regenRate)
+            {
+                Heal(regenProgress / regenRate);
+                regenProgress %= regenRate;
+            }
+        }
+
         // Remove an item from this actor's inventory
         public virtual void RemoveItem(Item item)
         {
@@ -138,7 +159,7 @@ namespace Pantheon.Actors
             item.Owner = null;
         }
 
-        // Check if this actor has a prehensile body part
+        // Check if this actor has any prehensile body parts
         public bool HasPrehensile()
         {
             foreach (BodyPart part in parts)

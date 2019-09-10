@@ -3348,6 +3348,8 @@ MonoBehaviour:
   nameIsProper: 1
   health: 0
   maxHealth: 50
+  regenRate: 300
+  regenProgress: 0
   speed: 100
   energy: 0
   moveSpeed: 10

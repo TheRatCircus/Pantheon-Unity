@@ -7,6 +7,7 @@ using UnityEngine;
 using Pantheon.Core;
 using Pantheon.World;
 using Pantheon.Actions;
+using Pantheon.Utils;
 
 namespace Pantheon.Actors
 {
@@ -16,6 +17,7 @@ namespace Pantheon.Actors
 
         [SerializeField] protected int inventorySize = 40;
         [SerializeField] private int fovRadius = 15; // Not in cells
+        private bool longResting = false;
 
         [SerializeField] [ReadOnly] private List<Cell> visibleCells
             = new List<Cell>();
@@ -46,11 +48,33 @@ namespace Pantheon.Actors
         }
 
         // Start is called before the first frame update
-        private void Start() => input = GetComponent<PlayerInput>();
+        protected override void Start()
+        {
+            base.Start();
+            input = GetComponent<PlayerInput>();
+        }
 
         // Request this actor's action and carry it out
         public override int Act()
         {
+            if (longResting)
+            {
+                if (visibleEnemies.Count > 0)
+                {
+                    GameLog.Send($"An enemy is nearby!", MessageColour.Red);
+                    longResting = false;
+                    return -1;
+                }
+
+                if (health >= maxHealth)
+                {
+                    StopLongRest();
+                    return -1;
+                }
+
+                return new WaitAction(this).DoAction();
+            }
+
             if (movePath.Count > 0)
             {
                 if (visibleEnemies.Count > 0)
@@ -74,6 +98,25 @@ namespace Pantheon.Actors
             }
 
             else return -1;
+        }
+
+        public void LongRest()
+        {
+            if (visibleEnemies.Count > 0)
+            {
+                GameLog.Send($"An enemy is nearby!", MessageColour.Red);
+                return;
+            }
+
+            string restMsg = RandomUtils.ArrayRandom(Strings.RestMessages);
+            GameLog.Send($"You stop to {restMsg}", MessageColour.Grey);
+            longResting = true;
+        }
+
+        public void StopLongRest()
+        {
+            GameLog.Send("You finish your rest.", MessageColour.Grey);
+            longResting = false;
         }
 
         // Remove an item from this actor's inventory

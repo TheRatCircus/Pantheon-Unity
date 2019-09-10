@@ -33,7 +33,7 @@ namespace Pantheon.UI
             player.Input.ModalListOpenEvent += OpenModalList;
             player.Input.ModalCancelEvent += ClearModals;
             Game.instance.OnPlayerActionEvent += UpdateEnergyCounter;
-            Game.instance.OnTurnChangeEvent += UpdateTurnCounter;
+            Game.instance.OnClockTickEvent += UpdateTurnCounter;
             Game.instance.OnLevelChangeEvent += UpdateLocationDisplay;
 
             UpdateTurnCounter(0);

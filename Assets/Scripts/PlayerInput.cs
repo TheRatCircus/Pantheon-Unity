@@ -142,6 +142,8 @@ public class PlayerInput : MonoBehaviour
             }
             else if (Input.GetButtonDown("Cancel"))
                 Game.QuitGame();
+            else if (Input.GetButtonDown("Long Rest"))
+                player.LongRest();
         }
         else if (inputState == InputState.PointTarget)
         {

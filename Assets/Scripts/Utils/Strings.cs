@@ -77,6 +77,13 @@ namespace Pantheon.Utils
             return ret;
         }
 
+        public static string[] RestMessages =
+        {
+            "to rest a while.",
+            "to take a breather.",
+            "to relax a moment."
+        };
+
         public static Verb[] BiteVerbs =
         {
             new Verb("bite", "bites")

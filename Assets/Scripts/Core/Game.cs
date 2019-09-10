@@ -54,7 +54,8 @@ namespace Pantheon.Core
         public Level activeLevel;
 
         // Events
-        public event Action<int> OnTurnChangeEvent;
+        public event Action OnTurnChangeEvent;
+        public event Action<int> OnClockTickEvent;
         public event Action<int> OnPlayerActionEvent;
         public event Action<Level> OnLevelChangeEvent;
         public event Action<Actor> ActorDebugEvent;
@@ -175,9 +176,13 @@ namespace Pantheon.Core
                     turnProgress += actionCost;
                     if (turnProgress >= TurnTime)
                     {
-                        turns += turnProgress / TurnTime;
+                        int turnsPassed = turnProgress / TurnTime;
+                        turns += turnsPassed;
                         turnProgress %= TurnTime;
-                        OnTurnChangeEvent?.Invoke(turns);
+
+                        for (int i = 0; i < turnsPassed; i++)
+                            OnTurnChangeEvent?.Invoke();
+                        OnClockTickEvent?.Invoke(turns);
                     }
 
                     // Signals a successful player action to HUD
