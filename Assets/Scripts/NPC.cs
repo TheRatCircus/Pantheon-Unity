@@ -17,6 +17,9 @@ namespace Pantheon.Actors
 
         [SerializeField] [ReadOnly] private Actor target;
 
+        // Events
+        public event System.Action<bool> OnVisibilityChangeEvent;
+
         // Awake is called when the first script instance is being loaded
         protected override void Awake() => base.Awake();
 
@@ -28,7 +31,10 @@ namespace Pantheon.Actors
 
         // Every time something happens, this NPC must refresh its visibility
         public void UpdateVisibility()
-            => spriteRenderer.enabled = cell.Visible;
+        {
+            spriteRenderer.enabled = cell.Visible;
+            OnVisibilityChangeEvent?.Invoke(cell.Visible);
+        }
 
         // Evaluate the situation and act
         public override int Act()

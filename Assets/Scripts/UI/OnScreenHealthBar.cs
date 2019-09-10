@@ -18,8 +18,9 @@ namespace Pantheon.UI
         [SerializeField] private GameObject prefab = null;
 
         // UI elements
-        Transform ui;
-        Image healthSlider;
+        private Actor actor;
+        private Transform ui;
+        private Image healthSlider;
 
         // Start is called before the first frame update
         void Start()
@@ -33,28 +34,35 @@ namespace Pantheon.UI
                     break;
                 }
 
-            Actor targetActor = GetComponent<Actor>();
-            targetActor.OnHealthChangeEvent += OnHealthChange;
-            targetActor.OnMoveEvent += OnMove;
+            actor = GetComponent<Actor>();
+            actor.OnHealthChangeEvent += OnHealthChange;
+            actor.OnMoveEvent += OnMove;
+
+            if (actor is NPC)
+                ((NPC)actor).OnVisibilityChangeEvent += SetVisibility;
+
+            Reposition(actor.Cell);
         }
 
         // Handle OnHealthChange event
-        void OnHealthChange(int health, int maxHealth)
+        private void OnHealthChange(int health, int maxHealth)
         {
             if (ui != null)
             {
-                ui.gameObject.SetActive(true);
+                if (health >= maxHealth)
+                    ui.gameObject.SetActive(false);
+                else
+                    ui.gameObject.SetActive(true);
+
                 healthSlider.fillAmount = (float)health / maxHealth;
+
                 if (health <= 0)
                     Destroy(ui.gameObject);
             }
         }
 
         // Handle OnMove event
-        private void OnMove(Cell cell)
-        {
-            Reposition(cell);
-        }
+        private void OnMove(Cell cell) => Reposition(cell);
 
         // Reposition this health bar to a new cell
         private void Reposition(Cell cell)
@@ -62,6 +70,12 @@ namespace Pantheon.UI
             Vector3 newPosition = Helpers.V2IToV3(cell.Position);
             newPosition.y -= .35f;
             ui.position = newPosition;
+        }
+
+        private void SetVisibility(bool visible)
+        {
+            if (actor.Health < actor.MaxHealth)
+                ui.gameObject.SetActive(visible);
         }
     }
 }
