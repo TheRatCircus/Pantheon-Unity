@@ -19,20 +19,20 @@ namespace Pantheon.World
         public const float TileOffsetX = .5f;
         public const float TileOffsetY = .5f;
 
-        [ReadOnly] private Vector2Int position;
+        [SerializeField] [ReadOnly] private Vector2Int position;
 
-        [ReadOnly] private TerrainData terrainData;
-        [ReadOnly] private bool blocked = true; // Can cell be moved through?
-        [ReadOnly] private bool opaque = true; // Can cell be seen through?
-        [ReadOnly] private Connection connection;
+        [SerializeField] [ReadOnly] private TerrainData terrainData;
+        [SerializeField] [ReadOnly] private bool blocked = true; // Can cell be moved through?
+        [SerializeField] [ReadOnly] private bool opaque = true; // Can cell be seen through?
+        [SerializeField] [ReadOnly] private Connection connection;
 
         // Status
         [SerializeField] private bool visible = false; // Is this cell within view?
         [SerializeField] private bool revealed = false; // Is this cell known?
 
         // Contents of cell
-        [ReadOnly] private Actor actor = null;
-        [ReadOnly] List<Item> items = new List<Item>();
+        [SerializeField] [ReadOnly] private Actor actor = null;
+        [SerializeField] [ReadOnly] List<Item> items = new List<Item>();
 
         #region Properties
 

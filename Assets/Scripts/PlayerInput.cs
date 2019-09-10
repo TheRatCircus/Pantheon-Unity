@@ -42,11 +42,11 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private Grid grid = null;
     [SerializeField] private Image crosshair = null;
 
-    [ReadOnly] private Cell targetCell;
-    [ReadOnly] private List<Cell> targetLine;
+    [SerializeField] [ReadOnly] private Cell targetCell;
+    [SerializeField] [ReadOnly] private List<Cell> targetLine;
 
     // Status
-    [ReadOnly] private InputState inputState = InputState.Move;
+    [SerializeField] [ReadOnly] private InputState inputState = InputState.Move;
 
     public List<Cell> TargetLine { get => targetLine; }
     public InputState InputState { get => inputState; }

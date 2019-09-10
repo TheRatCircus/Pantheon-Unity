@@ -17,9 +17,11 @@ namespace Pantheon.Actors
         [SerializeField] protected int inventorySize = 40;
         [SerializeField] private int fovRadius = 15; // Not in cells
 
-        [ReadOnly] private List<Cell> visibleCells = new List<Cell>();
-        [ReadOnly] private List<NPC> visibleEnemies = new List<NPC>();
-        [ReadOnly] private List<Cell> movePath;
+        [SerializeField] [ReadOnly] private List<Cell> visibleCells
+            = new List<Cell>();
+        [SerializeField] [ReadOnly] private List<NPC> visibleEnemies
+            = new List<NPC>();
+        [SerializeField] [ReadOnly] private List<Cell> movePath;
 
         // Properties
         public int InventorySize { get => inventorySize; }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GoblinArm
   m_EditorClassIdentifier: 
   species: 2
-  type: 3
+  type: 2
   displayName: goblin arm
   sprite: {fileID: 0}
   strength: 0

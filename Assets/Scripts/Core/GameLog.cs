@@ -28,9 +28,11 @@ namespace Pantheon.Core
     public class GameLog : MonoBehaviour
     {
         // The extended event list for the session
-        [SerializeField] private List<string> eventList = new List<string>();
+        [SerializeField] [ReadOnly]
+        private List<string> eventList = new List<string>();
         // Short list of event strings for HUD log
-        [SerializeField] private List<string> shortEventList = new List<string>();
+        [SerializeField] [ReadOnly]
+        private List<string> shortEventList = new List<string>();
 
         [SerializeField] private Text logText = null;
 

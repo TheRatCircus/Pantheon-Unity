@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f722665428e7474bb25c60fc2f0e67e, type: 3}
   m_Name: DreadHamsterClaw
   m_EditorClassIdentifier: 
-  species: 0
-  type: 0
-  displayName: 
+  species: 3
+  type: 5
+  displayName: dread hamster claw
   sprite: {fileID: 0}
   strength: 0
   dexterity: 0
   runBonus: 0
   prehensile: 0
-  inherentMelee: 0
+  inherentMelee: 1
   melee:
-    minDamage: -1
-    maxDamage: -1
-    accuracy: -1
-    attackTime: -1
-    damageType: 0
+    minDamage: 9
+    maxDamage: 15
+    accuracy: 80
+    attackTime: 95
+    damageType: 1

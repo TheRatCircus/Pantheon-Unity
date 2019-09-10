@@ -15,7 +15,7 @@ namespace Pantheon.Actors
         // Requisite objects
         private SpriteRenderer spriteRenderer;
 
-        [ReadOnly] private Actor target;
+        [SerializeField] [ReadOnly] private Actor target;
 
         // Awake is called when the first script instance is being loaded
         protected override void Awake() => base.Awake();

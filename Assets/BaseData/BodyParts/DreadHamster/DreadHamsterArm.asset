@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f722665428e7474bb25c60fc2f0e67e, type: 3}
   m_Name: DreadHamsterArm
   m_EditorClassIdentifier: 
-  species: 0
-  type: 0
-  displayName: 
+  species: 3
+  type: 2
+  displayName: dread hamster arm
   sprite: {fileID: 0}
   strength: 0
   dexterity: 0

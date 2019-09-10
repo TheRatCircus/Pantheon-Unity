@@ -20,7 +20,8 @@ namespace Pantheon.UI
         [SerializeField] private Text itemNameText = null;
 
         // The inventory slots the GUI holds
-        [ReadOnly] private List<InventorySlot> inventorySlots = new List<InventorySlot>();
+        [SerializeField] [ReadOnly] private List<InventorySlot> inventorySlots
+            = new List<InventorySlot>();
 
         // Start is called before the first frame update
         private void Start()

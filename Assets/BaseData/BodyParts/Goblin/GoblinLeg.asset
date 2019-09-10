@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GoblinLeg
   m_EditorClassIdentifier: 
   species: 2
-  type: 4
+  type: 3
   displayName: goblin leg
   sprite: {fileID: 0}
   strength: 0

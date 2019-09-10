@@ -1,6 +1,7 @@
 ﻿// BodyPartModalListOption.cs
 // Jerome Martina
 
+using UnityEngine;
 using Pantheon.Actors;
 
 namespace Pantheon.UI
@@ -10,7 +11,7 @@ namespace Pantheon.UI
     /// </summary>
     public class BodyPartModalListOption : ModalListOption
     {
-        [ReadOnly] private BodyPart part;
+        [SerializeField] [ReadOnly] private BodyPart part;
         public BodyPart Part { get => part; set => part = value; }
 
         public delegate void OnClickDelegate(BodyPartModalListOption option);

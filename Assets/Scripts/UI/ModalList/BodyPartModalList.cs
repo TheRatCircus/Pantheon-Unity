@@ -13,10 +13,10 @@ namespace Pantheon.UI
     public class BodyPartModalList : ModalList
     {
         // Parameters
-        [ReadOnly] private Actor actor;
+        [SerializeField] [ReadOnly] private Actor actor;
 
         // Status
-        [ReadOnly]
+        [SerializeField] [ReadOnly]
         private List<BodyPartModalListOption> selected =
             new List<BodyPartModalListOption>();
 

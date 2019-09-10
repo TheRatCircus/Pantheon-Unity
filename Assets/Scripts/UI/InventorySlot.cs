@@ -11,7 +11,7 @@ namespace Pantheon.UI
     {
         [SerializeField] private Image icon = null; // Image displaying the item's sprite
 
-        [ReadOnly] private Item item; // Item referred to by this slot
+        [SerializeField] [ReadOnly] private Item item; // Item referred to by this slot
 
         // Events
         public event Action<string> OnHoverEvent;

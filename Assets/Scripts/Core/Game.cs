@@ -41,10 +41,10 @@ namespace Pantheon.Core
 
         // Once 100 energy has been spent by the player,
         //  a turn is considered to have passed
-        [ReadOnly] private int turnProgress;
-        [ReadOnly] private int turns;
+        [ReadOnly] [SerializeField] private int turnProgress;
+        [ReadOnly] [SerializeField] private int turns;
 
-        [ReadOnly] private int lockCount;
+        [ReadOnly] [SerializeField] private int lockCount;
 
         // Keep a global list of all players
         public Player player1;

@@ -13,16 +13,17 @@ MonoBehaviour:
   m_Name: HumanHead
   m_EditorClassIdentifier: 
   species: 1
-  type: 2
+  type: 1
   displayName: human head
   sprite: {fileID: 0}
   strength: 0
   dexterity: 0
   runBonus: 0
   prehensile: 0
-  canMelee: 0
+  inherentMelee: 0
   melee:
     minDamage: 0
     maxDamage: 0
     accuracy: 0
     attackTime: 0
+    damageType: 0

@@ -1367,6 +1367,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1a37e81f764ad184dad399d3ad1149c2, type: 2}
   NPCList:
   - {fileID: 11400000, guid: c242fefd7786d774b863f8185ed10807, type: 2}
+  - {fileID: 11400000, guid: 15b4abeb03b176141b12e90cf5adf76c, type: 2}
   features:
   - {fileID: 11400000, guid: d5454cfdf80e1db44aedb29d6bb28557, type: 2}
   - {fileID: 11400000, guid: f3245e7cfcd95494391cb0467d2e7af4, type: 2}

@@ -27,11 +27,11 @@ namespace Pantheon.Actors
         [SerializeField] protected string actorName;
         [SerializeField] protected bool nameIsProper; // False if name should start with "The/the"
 
-        [ReadOnly] protected int health;
+        [SerializeField] [ReadOnly] protected int health;
         [SerializeField] protected int maxHealth = -1;
 
         [SerializeField] protected int speed; // Energy per turn
-        [ReadOnly] protected int energy; // Energy remaining
+        [SerializeField] [ReadOnly] protected int energy; // Energy remaining
 
         [SerializeField] protected int moveSpeed; // Energy needed to walk one cell
 
@@ -40,7 +40,7 @@ namespace Pantheon.Actors
         [SerializeField] protected List<BodyPart> parts;
 
         // Action status
-        [ReadOnly] protected BaseAction nextAction;
+        [SerializeField] [ReadOnly] protected BaseAction nextAction;
 
         #region Properties
 

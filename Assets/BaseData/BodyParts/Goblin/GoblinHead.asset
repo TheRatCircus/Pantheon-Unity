@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GoblinHead
   m_EditorClassIdentifier: 
   species: 2
-  type: 2
+  type: 1
   displayName: goblin head
   sprite: {fileID: 0}
   strength: 0
