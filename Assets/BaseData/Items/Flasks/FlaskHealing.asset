@@ -23,8 +23,9 @@ MonoBehaviour:
   strengthReq: 1
   maxWieldParts: 1
   melee:
-    minDamage: 0
-    maxDamage: 0
-    accuracy: 0
-    attackTime: 0
+    minDamage: 1
+    maxDamage: 3
+    accuracy: 65
+    attackTime: 100
+    damageType: 3
   flaskType: 1

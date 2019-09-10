@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e449d2cf694dce047be4261b61515a5c, type: 3}
   m_Name: Goblin
   m_EditorClassIdentifier: 
-  Type: 0
-  Prefab: {fileID: 7036817240498649617, guid: f493254ab9863e143ad8ffe1c6d37180, type: 3}
+  type: 1
+  prefab: {fileID: 7036817240498649617, guid: f493254ab9863e143ad8ffe1c6d37180, type: 3}

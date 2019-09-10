@@ -19,7 +19,7 @@ public class BodyPartData : ScriptableObject
     [SerializeField] private int runBonus = 0;
 
     [SerializeField] private bool prehensile = false;
-    [SerializeField] private bool canMelee = false;
+    [SerializeField] private bool inherentMelee = false;
 
     [SerializeField] private Melee melee = null;
 
@@ -33,8 +33,9 @@ public class BodyPartData : ScriptableObject
     public int Dexterity { get => dexterity; }
     public int RunBonus { get => runBonus; }
     public bool Prehensile { get => prehensile; }
-    public bool CanMelee { get => canMelee; }
+    public bool CanMelee { get => inherentMelee; }
     public Melee Melee { get => melee; }
+    public bool InherentMelee { get => inherentMelee; }
 
     #endregion
 }

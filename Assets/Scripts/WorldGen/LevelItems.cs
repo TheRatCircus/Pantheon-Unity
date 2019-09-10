@@ -1,9 +1,7 @@
 ﻿// LevelItems.cs
 // Jerome Martina
 
-using Pantheon.Core;
 using Pantheon.World;
-using static Pantheon.Utils.RandomUtils;
 using static Pantheon.Utils.ItemFactory;
 using static ItemWeights;
 
@@ -22,6 +20,9 @@ namespace Pantheon.WorldGen
             SpawnFlasks(ref level);
             SpawnScrolls(ref level);
             level.RandomFloor().Items.Add(NewWeapon(WeaponType.Hatchet));
+            level.RandomFloor().Items.Add(NewWeapon(WeaponType.Prejudice));
+            for (int i = 0; i < 2; i++)
+                level.RandomFloor().Items.Add(NewWeapon(WeaponType.Dagger));
         }
 
         public static void SpawnFlasks(ref Level level)

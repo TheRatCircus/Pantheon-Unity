@@ -4,5 +4,7 @@
 public enum WeaponType
 {
     None = 0,
-    Hatchet = 1
+    Dagger = 1,
+    Hatchet = 2,
+    Prejudice = 3
 }

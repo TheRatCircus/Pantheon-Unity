@@ -9,23 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 359e15f53ac5fc148a858d757a99e581, type: 3}
-  m_Name: CorpseGoblin
+  m_Script: {fileID: 11500000, guid: 43391ef01433564489267dfaaea48458, type: 3}
+  m_Name: Prejudice
   m_EditorClassIdentifier: 
-  displayName: goblin corpse
-  refName: CorpseGoblin
+  displayName: Prejudice
+  refName: Prejudice
   maxStack: 1
   stackable: 0
-  sprite: {fileID: 21300000, guid: 0d047209e32634c4cb6ff78ed5fe9767, type: 3}
+  sprite: {fileID: 21300000, guid: ac3c374c18b3d3b4b83af8e69d9ee3d0, type: 3}
   usable: 0
   onUse: {fileID: 0}
   onUseString: NO_USE_STRING
-  strengthReq: 10
-  maxWieldParts: 2
+  strengthReq: 30
+  maxWieldParts: 4
   melee:
-    minDamage: 1
-    maxDamage: 5
-    accuracy: 50
-    attackTime: 120
+    minDamage: 30
+    maxDamage: 45
+    accuracy: 95
+    attackTime: 200
     damageType: 3
-  corpseType: 1
+  type: 3

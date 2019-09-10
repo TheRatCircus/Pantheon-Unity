@@ -6,6 +6,7 @@ using UnityEngine;
 using Pantheon.Core;
 using Pantheon.World;
 using Pantheon.Actions;
+using Pantheon.Utils;
 
 namespace Pantheon.Actors
 {
@@ -27,7 +28,8 @@ namespace Pantheon.Actors
         }
 
         // Every time something happens, this NPC must refresh its visibility
-        public void UpdateVisibility() => spriteRenderer.enabled = cell.Visible;
+        public void UpdateVisibility()
+            => spriteRenderer.enabled = cell.Visible;
 
         // Evaluate the situation and act
         public override int Act()
@@ -36,7 +38,7 @@ namespace Pantheon.Actors
             if (cell.Visible && target == null)
             {
                 target = Game.GetPlayer();
-                GameLog.Send($"{GameLog.GetSubject(this, true)} notices you!", MessageColour.Red);
+                GameLog.Send($"{Strings.GetSubject(this, true)} notices you!", MessageColour.Red);
             }
 
             // Engage in combat
@@ -44,7 +46,7 @@ namespace Pantheon.Actors
                 if (!level.AdjacentTo(cell, target.Cell))
                     PathMoveToTarget();
                 else
-                    NextAction = new MeleeAction(this, AttackTime, target);
+                    NextAction = new MeleeAction(this, target);
             else
                 NextAction = new WaitAction(this);
 
@@ -69,5 +71,4 @@ namespace Pantheon.Actors
             level.NPCs.Remove(this);
         }
     }
-
 }

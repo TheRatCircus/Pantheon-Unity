@@ -23,8 +23,9 @@ MonoBehaviour:
   strengthReq: -1
   maxWieldParts: 1
   melee:
-    minDamage: 0
-    maxDamage: 0
-    accuracy: 0
-    attackTime: 0
+    minDamage: 1
+    maxDamage: 1
+    accuracy: 70
+    attackTime: 100
+    damageType: 3
   scrollType: 1

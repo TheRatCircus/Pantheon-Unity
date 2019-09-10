@@ -13,15 +13,17 @@ MonoBehaviour:
   m_Name: GoblinArm
   m_EditorClassIdentifier: 
   species: 2
-  type: 2
-  displayName: Goblin Arm
+  type: 3
+  displayName: goblin arm
+  sprite: {fileID: 0}
   strength: 0
   dexterity: 0
   runBonus: 0
   prehensile: 1
-  canMelee: 1
+  inherentMelee: 0
   melee:
     minDamage: 2
     maxDamage: 4
     accuracy: 60
-    speed: 100
+    attackTime: 100
+    damageType: 3

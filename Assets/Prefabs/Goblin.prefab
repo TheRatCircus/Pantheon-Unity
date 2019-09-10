@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7036817240498649618}
   - component: {fileID: 7036817240498649619}
   - component: {fileID: 7036817240498649620}
-  - component: {fileID: -8335030903266508829}
+  - component: {fileID: 4551715793475274839}
   m_Layer: 0
   m_Name: Goblin
   m_TagString: Untagged
@@ -95,27 +95,71 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: {fileID: 0}
   cell:
-    position: {x: 0, y: 0}
-  actorName: Goblin
-  NameIsProper: 0
-  MaxHealth: 3
+    visible: 0
+    revealed: 0
+  actorName: goblin
+  nameIsProper: 0
+  maxHealth: 10
   speed: 100
-  energy: 100
   moveSpeed: 100
-  armour: 1
-  evasion: 1
-  minDamage: 1
-  maxDamage: 2
-  accuracy: 40
-  attackTime: 100
   corpse: 1
   parts:
-  - {fileID: 11400000, guid: 97e43ca3be56cf141a7805b1bf95547f, type: 2}
-  - {fileID: 11400000, guid: 871d22acc6bcf6948bb5bffb81685f62, type: 2}
-  - {fileID: 11400000, guid: 871d22acc6bcf6948bb5bffb81685f62, type: 2}
-  - {fileID: 11400000, guid: dba65067352e60e499698eff1db82787, type: 2}
-  - {fileID: 11400000, guid: dba65067352e60e499698eff1db82787, type: 2}
---- !u!114 &-8335030903266508829
+  - partData: {fileID: 11400000, guid: 97e43ca3be56cf141a7805b1bf95547f, type: 2}
+    dominant: 0
+    strength: 0
+    dexterity: 0
+    melee:
+      minDamage: -1
+      maxDamage: -1
+      accuracy: -1
+      attackTime: -1
+      damageType: 0
+    canMelee: 0
+  - partData: {fileID: 11400000, guid: 871d22acc6bcf6948bb5bffb81685f62, type: 2}
+    dominant: 0
+    strength: 0
+    dexterity: 0
+    melee:
+      minDamage: -1
+      maxDamage: -1
+      accuracy: -1
+      attackTime: -1
+      damageType: 0
+    canMelee: 1
+  - partData: {fileID: 11400000, guid: 871d22acc6bcf6948bb5bffb81685f62, type: 2}
+    dominant: 0
+    strength: 0
+    dexterity: 0
+    melee:
+      minDamage: -1
+      maxDamage: -1
+      accuracy: -1
+      attackTime: -1
+      damageType: 0
+    canMelee: 0
+  - partData: {fileID: 11400000, guid: dba65067352e60e499698eff1db82787, type: 2}
+    dominant: 0
+    strength: 0
+    dexterity: 0
+    melee:
+      minDamage: -1
+      maxDamage: -1
+      accuracy: -1
+      attackTime: -1
+      damageType: 0
+    canMelee: 0
+  - partData: {fileID: 11400000, guid: dba65067352e60e499698eff1db82787, type: 2}
+    dominant: 0
+    strength: 0
+    dexterity: 0
+    melee:
+      minDamage: -1
+      maxDamage: -1
+      accuracy: -1
+      attackTime: -1
+      damageType: 0
+    canMelee: 0
+--- !u!114 &4551715793475274839
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

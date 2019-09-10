@@ -67,7 +67,9 @@ namespace Pantheon.UI
 
         private void ClearModals()
         {
+            itemModalList.Clean();
             itemModalList.gameObject.SetActive(false);
+            bodyPartModalList.Clean();
             bodyPartModalList.gameObject.SetActive(false);
         }
 
@@ -101,7 +103,7 @@ namespace Pantheon.UI
                 (List<BodyPart> parts) =>
                 {
                     ClearModals();
-                    player.Input.InputState = InputState.Move;
+                    player.Input.SetInputState(InputState.Move);
                     player.NextAction = new WieldAction(player, item, parts);
                 });
             player.Input.ModalConfirmEvent += bodyPartModalList.Submit;

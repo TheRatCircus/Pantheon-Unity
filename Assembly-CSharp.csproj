@@ -62,6 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\DebugInfo.cs" />
     <Compile Include="Assets\ReadOnlyAttribute.cs" />
     <Compile Include="Assets\Scripts\Actions\BaseAction.cs" />
     <Compile Include="Assets\Scripts\Actions\DropAction.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Assets\Scripts\Utils\Colours.cs" />
     <Compile Include="Assets\Scripts\Utils\Helpers.cs" />
     <Compile Include="Assets\Scripts\Utils\RandomUtils.cs" />
+    <Compile Include="Assets\Scripts\Utils\Strings.cs" />
     <Compile Include="Assets\Scripts\WorldGen\LevelEnemies.cs" />
     <Compile Include="Assets\Scripts\WorldGen\LevelItems.cs" />
     <Compile Include="Assets\Scripts\WorldGen\LevelLayout.cs" />

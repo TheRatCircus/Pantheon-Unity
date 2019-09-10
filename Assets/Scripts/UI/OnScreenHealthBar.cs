@@ -12,7 +12,7 @@ namespace Pantheon.UI
     /// <summary>
     /// Handles health bar overlays.
     /// </summary>
-    public class OnscreenHealthBar : MonoBehaviour
+    public class OnScreenHealthBar : MonoBehaviour
     {
         // Requisite objects
         [SerializeField] private GameObject prefab = null;

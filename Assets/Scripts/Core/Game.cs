@@ -1,5 +1,6 @@
 ﻿// Game.cs
 // Jerome Martina
+// Credit to Dan Korostelev
 
 using System;
 using System.Collections.Generic;
@@ -56,6 +57,7 @@ namespace Pantheon.Core
         public event Action<int> OnTurnChangeEvent;
         public event Action<int> OnPlayerActionEvent;
         public event Action<Level> OnLevelChangeEvent;
+        public event Action<Actor> ActorDebugEvent;
 
         // Properties
         public Database Database { get => database; set => database = value; }
@@ -159,6 +161,8 @@ namespace Pantheon.Core
                 if (actionCost == 0)
                     Debug.LogWarning("An action with 0 energy cost was scheduled");
 
+                ActorDebugEvent?.Invoke(actor);
+
                 // Handle asynchronous input by returning -1
                 if (actionCost < 0)
                     return false;
@@ -171,7 +175,7 @@ namespace Pantheon.Core
                     turnProgress += actionCost;
                     if (turnProgress >= TurnTime)
                     {
-                        turns++;
+                        turns += turnProgress / TurnTime;
                         turnProgress %= TurnTime;
                         OnTurnChangeEvent?.Invoke(turns);
                     }

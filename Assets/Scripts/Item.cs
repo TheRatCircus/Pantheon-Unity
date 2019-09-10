@@ -11,7 +11,6 @@ public class Item
     private bool stackable;
     private int quantity;
     private int weight;
-    private Melee melee;
 
     // Properties
     public Actor Owner { get; set; }
@@ -23,6 +22,7 @@ public class Item
     // Items save the last parts they were wielded in, and are wielded there
     // again next time they are equipped
     public BodyPart[] WieldProfile { get; set; }
+    public Melee Melee { get; set; }
 
     // Constructor
     public Item(ItemData itemData)
@@ -32,7 +32,7 @@ public class Item
         stackable = itemData.Stackable;
 
         OnUse = itemData.OnUse;
-        melee = itemData.Melee;
+        Melee = itemData.Melee;
         StrengthReq = itemData.StrengthReq;
         MaxWieldParts = itemData.MaxWieldParts;
 

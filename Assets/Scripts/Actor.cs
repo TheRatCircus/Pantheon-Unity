@@ -11,6 +11,10 @@ using Pantheon.Actions;
 
 namespace Pantheon.Actors
 {
+    /// <summary>
+    /// Any entity which acts with any degree of agency.
+    /// </summary>
+    [Serializable]
     public class Actor : MonoBehaviour
     {
         protected List<Item> inventory;
@@ -24,19 +28,12 @@ namespace Pantheon.Actors
         [SerializeField] protected bool nameIsProper; // False if name should start with "The/the"
 
         [ReadOnly] protected int health;
-        [SerializeField] protected int maxHealth;
+        [SerializeField] protected int maxHealth = -1;
 
         [SerializeField] protected int speed; // Energy per turn
         [ReadOnly] protected int energy; // Energy remaining
 
         [SerializeField] protected int moveSpeed; // Energy needed to walk one cell
-        [SerializeField] protected int armour;
-        [SerializeField] protected int evasion;
-
-        [SerializeField] protected int minDamage;
-        [SerializeField] protected int maxDamage;
-        [SerializeField] protected int accuracy; // % chance out of 100
-        [SerializeField] protected int attackTime;
 
         // Per-actor-type data
         [SerializeField] protected CorpseType corpse;
@@ -57,11 +54,8 @@ namespace Pantheon.Actors
         public Vector2Int Position { get => cell.Position; }
         public List<Item> Inventory { get => inventory; }
         public BaseAction NextAction { get => nextAction; set => nextAction = value; }
+        public List<BodyPart> Parts { get => parts; }
         public int MoveSpeed { get => moveSpeed; }
-        public int MinDamage { get => minDamage; }
-        public int MaxDamage { get => maxDamage; }
-        public int Accuracy { get => accuracy; }
-        public int AttackTime { get => attackTime; }
 
         #endregion
 
@@ -105,7 +99,15 @@ namespace Pantheon.Actors
         }
 
         // Awake is called when the script instance is being loaded
-        protected virtual void Awake() => health = MaxHealth;
+        protected virtual void Awake()
+        {
+            if (maxHealth < 0)
+                throw new Exception("Actor has negative health.");
+
+            health = MaxHealth;
+            foreach (BodyPart part in parts)
+                part.Initialize();
+        }
 
         // Called by scheduler to carry out and process this actor's action
         public virtual int Act()
@@ -114,7 +116,6 @@ namespace Pantheon.Actors
         // Take a damaging hit from something
         public void TakeHit(Hit hit) => TakeDamage(hit.Damage);
 
-        // Receive damage
         public void TakeDamage(int damage)
         {
             // TODO: Infinitely negative lower bound?
@@ -124,7 +125,6 @@ namespace Pantheon.Actors
             OnHealthChangeEvent?.Invoke(health, MaxHealth);
         }
 
-        // Recover health
         public void Heal(int healing)
         {
             health = Mathf.Clamp(health + healing, -255, MaxHealth);
@@ -156,6 +156,32 @@ namespace Pantheon.Actors
                     prehensiles.Add(part);
 
             return prehensiles;
+        }
+
+        public bool IsDead() => health < 0;
+
+        /// <summary>
+        /// Get all the melee attacks this actor can possibly perform.
+        /// </summary>
+        /// <returns></returns>
+        public List<Melee> GetMelees()
+        {
+            List<Melee> melees = new List<Melee>();
+
+            foreach (BodyPart part in parts)
+            {
+                if (part.Item != null)
+                    melees.Add(part.Item.Melee);
+                else if (part.CanMelee)
+                    melees.Add(part.Melee);
+                else
+                    continue;
+            }
+
+            if (melees.Count == 0)
+                return null;
+            else
+                return melees;
         }
 
         /// <summary>
@@ -197,7 +223,7 @@ namespace Pantheon.Actors
             Game.instance.RemoveActor(this);
             cell.Actor = null;
             Destroy(gameObject);
-            GameLog.Send($"You kill {GameLog.GetSubject(this, false)}!", MessageColour.White);
+            GameLog.Send($"You kill {Strings.GetSubject(this, false)}!", MessageColour.White);
             cell.Items.Add(new Item(Database.GetCorpse(corpse)));
         }
 

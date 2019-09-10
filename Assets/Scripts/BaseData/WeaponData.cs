@@ -10,7 +10,7 @@ using UnityEngine;
     order = -1)]
 public class WeaponData : ItemData
 {
-    [SerializeField] private WeaponType type;
+    [SerializeField] private WeaponType type = WeaponType.None;
 
-    public WeaponType Type { get => Type; }
+    public WeaponType Type { get => type; }
 }

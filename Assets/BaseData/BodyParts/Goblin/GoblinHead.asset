@@ -13,15 +13,17 @@ MonoBehaviour:
   m_Name: GoblinHead
   m_EditorClassIdentifier: 
   species: 2
-  type: 1
-  displayName: Goblin Head
+  type: 2
+  displayName: goblin head
+  sprite: {fileID: 0}
   strength: 0
   dexterity: 0
   runBonus: 0
   prehensile: 0
-  canMelee: 0
+  inherentMelee: 0
   melee:
-    minDamage: 0
-    maxDamage: 0
-    accuracy: 0
-    speed: 0
+    minDamage: 2
+    maxDamage: 4
+    accuracy: 75
+    attackTime: 100
+    damageType: 3

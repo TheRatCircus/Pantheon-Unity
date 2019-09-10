@@ -1,6 +1,8 @@
 ﻿// RandomPick.cs
 // Jerome Martina
 
+using UnityEngine;
+
 namespace Pantheon.Utils
 {
     /// <summary>
@@ -64,6 +66,11 @@ namespace Pantheon.Utils
             }
 
             throw new System.Exception("RandomPick() returned nothing; set is likely empty.");
+        }
+
+        public static T ArrayRandom<T>(T[] array)
+        {
+            return array[Random.Range(0, array.Length - 1)];
         }
     }
 }

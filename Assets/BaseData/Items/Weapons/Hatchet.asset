@@ -22,9 +22,10 @@ MonoBehaviour:
   onUseString: NO_USE_STRING
   strengthReq: 7
   maxWieldParts: 2
-  Melee:
-    minDamage: 4
-    maxDamage: 7
-    accuracy: 80
+  melee:
+    minDamage: 7
+    maxDamage: 10
+    accuracy: 75
     attackTime: 100
-  Type: 1
+    damageType: 1
+  type: 2

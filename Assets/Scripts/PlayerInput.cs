@@ -1,9 +1,13 @@
 ﻿// PlayerInput.cs
 // Jerome Martina
 
+#define DEBUG_INPUT
+#undef DEBUG_INPUT
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
 using Pantheon.Core;
@@ -45,7 +49,7 @@ public class PlayerInput : MonoBehaviour
     [ReadOnly] private InputState inputState = InputState.Move;
 
     public List<Cell> TargetLine { get => targetLine; }
-    public InputState InputState { get => inputState; set => inputState = value; }
+    public InputState InputState { get => inputState; }
 
     // Delegates
     public delegate void LineTargetDelegate();
@@ -69,9 +73,10 @@ public class PlayerInput : MonoBehaviour
             if (player.Cell != null)
                 MoveCrosshair(player.Cell);
             else
-                Debug.LogException(new Exception("Player was initialized without a cell"));
+                UnityEngine.Debug.LogException
+                    (new Exception("Player was initialized without a cell"));
         else
-            Debug.LogException(new Exception("No player found"));
+            UnityEngine.Debug.LogException(new Exception("No player found"));
 
         targetLine = new List<Cell>();
     }
@@ -86,6 +91,16 @@ public class PlayerInput : MonoBehaviour
 
         MouseInput();
     }
+
+    public void SetInputState(InputState state)
+    {
+        inputState = state;
+        LogInputState(state);
+    }
+
+    [Conditional("DEBUG_INPUT")]
+    private void LogInputState(InputState state)
+        => UnityEngine.Debug.Log($"Input state is now {state.ToString()}.");
 
     // Handle keyboard input feasible when not player's turn
     private void KeyInput()
@@ -121,7 +136,7 @@ public class PlayerInput : MonoBehaviour
             else if (Input.GetButtonDown("Wield"))
             {
                 ModalListOpenEvent?.Invoke(ModalListOperation.Wield);
-                InputState = InputState.Modal;
+                SetInputState(InputState.Modal);
             }
             else if (Input.GetButtonDown("Cancel"))
                 Game.QuitGame();
@@ -147,12 +162,12 @@ public class PlayerInput : MonoBehaviour
             else if (Input.GetButtonDown("Submit"))
             {
                 PointTargetConfirmEvent?.Invoke(targetCell);
-                InputState = InputState.Move;
+                SetInputState(InputState.Move);
             }
             else if (Input.GetButtonDown("Cancel"))
             {
                 TargetCancelEvent?.Invoke();
-                InputState = InputState.Move;
+                SetInputState(InputState.Move);
                 GameLog.Send("Targetting cancelled.", MessageColour.Teal);
             }
         }
@@ -226,7 +241,7 @@ public class PlayerInput : MonoBehaviour
             {
                 ModalCancelEvent?.Invoke();
                 ModalCancelEvent = null;
-                InputState = InputState.Move;
+                SetInputState(InputState.Move);
             }
         }
 
@@ -305,7 +320,8 @@ public class PlayerInput : MonoBehaviour
             crosshair.transform.position = crosshairPos;
         }
         else
-            Debug.LogWarning("Attempted to move crosshair to null cell");
+            UnityEngine.Debug.LogWarning
+                ("Attempted to move crosshair to null cell");
     }
 
     // Debug function to change a floor to a wall and vice-versa
@@ -335,7 +351,7 @@ public class PlayerInput : MonoBehaviour
     public IEnumerator LineTarget(LineTargetDelegate onConfirm)
     {
         // Start the line targetting input state
-        InputState = InputState.LineTarget;
+        SetInputState(InputState.LineTarget);
         bool confirmed = false;
 
         TargetConfirmEvent += () => confirmed = true;
@@ -352,7 +368,7 @@ public class PlayerInput : MonoBehaviour
     private void ConfirmLineTargetting()
     {
         TargetConfirmEvent?.Invoke();
-        InputState = InputState.Move;
+        SetInputState(InputState.Move);
         CellDrawer.UnpaintCells(player.level);
     }
 
@@ -360,7 +376,7 @@ public class PlayerInput : MonoBehaviour
     private void CancelLineTargetting()
     {
         TargetCancelEvent?.Invoke();
-        InputState = InputState.Move;
+        SetInputState(InputState.Move);
         GameLog.Send("Targetting cancelled.", MessageColour.Teal);
         CellDrawer.UnpaintCells(player.level);
     }
