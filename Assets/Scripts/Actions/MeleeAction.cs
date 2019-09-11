@@ -105,13 +105,13 @@ namespace Pantheon.Actions
                     if (!hitLanded)
                     {
                         attackMsg += ".";
-                        GameLog.Send(attackMsg, MessageColour.Grey);
+                        GameLog.Send(attackMsg, Strings.TextColour.Grey);
                     }
                     else
                     {
                         Hit hit = new Hit(attack.MinDamage, attack.MaxDamage);
                         attackMsg += $" for {hit.Damage} damage!";
-                        GameLog.Send(attackMsg, MessageColour.Grey);
+                        GameLog.Send(attackMsg, Strings.TextColour.Grey);
                         target.TakeHit(hit);
                     }
 #if DEBUG_MELEE

@@ -8,6 +8,7 @@ using Pantheon.Core;
 using Pantheon.Actors;
 using Pantheon.World;
 using Pantheon.Actions;
+using Pantheon.Utils;
 
 namespace Pantheon.UI
 {
@@ -21,6 +22,10 @@ namespace Pantheon.UI
         public Text energyCounter;
         public Text turnCounter;
         public Text locationDisplay;
+        public Text statusDisplay;
+
+        // UI element backends
+        public List<string> statusNames;
 
         // Modals
         public ItemModalList itemModalList;
@@ -32,6 +37,7 @@ namespace Pantheon.UI
             player.OnHealthChangeEvent += UpdateHealthCounter;
             player.Input.ModalListOpenEvent += OpenModalList;
             player.Input.ModalCancelEvent += ClearModals;
+            player.StatusChangeEvent += UpdateStatuses;
             Game.instance.OnPlayerActionEvent += UpdateEnergyCounter;
             Game.instance.OnClockTickEvent += UpdateTurnCounter;
             Game.instance.OnLevelChangeEvent += UpdateLocationDisplay;
@@ -63,6 +69,18 @@ namespace Pantheon.UI
         {
             string locationDisplayStr = $"Location: {level.DisplayName}";
             locationDisplay.text = locationDisplayStr;
+        }
+
+        private void UpdateStatuses(List<StatusEffect> statuses)
+        {
+            statusDisplay.text = "";
+
+            foreach (StatusEffect status in statuses)
+            {
+                string displayName = Strings.ColourString(status.DisplayName,
+                    status.LabelColour);
+                statusDisplay.text += $"{displayName} ";
+            }
         }
 
         private void ClearModals()

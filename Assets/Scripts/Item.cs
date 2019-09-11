@@ -5,6 +5,7 @@ using UnityEngine;
 using Pantheon.Core;
 using Pantheon.Actors;
 using Pantheon.Actions;
+using Pantheon.Utils;
 
 public class Item
 {
@@ -58,7 +59,8 @@ public class Item
 
         if (!user.HasPrehensile())
         {
-            GameLog.Send("You have no way of grasping this.", MessageColour.Orange);
+            GameLog.Send("You have no way of grasping this.",
+                Strings.TextColour.Orange);
             return;
         }
 

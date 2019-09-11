@@ -53,7 +53,7 @@ public class Projectile : MonoBehaviour
         if (ProjectileLine[i].Actor != null)
         {
             GameLog.Send($"The magic bullet hits {Strings.GetSubject(ProjectileLine[i].Actor, false)}!",
-                MessageColour.White);
+                Strings.TextColour.White);
             ProjectileLine[i].Actor.TakeDamage(3);
         }
         Destroy(gameObject);

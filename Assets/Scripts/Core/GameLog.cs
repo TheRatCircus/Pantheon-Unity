@@ -8,18 +8,6 @@ using UnityEngine.UI;
 using Pantheon.Utils;
 using Pantheon.World;
 
-// Colours with which to style rich text
-public enum MessageColour
-{
-    White,
-    Grey,
-    Yellow,
-    Red,
-    Purple,
-    Teal,
-    Orange
-}
-
 namespace Pantheon.Core
 {
     /// <summary>
@@ -39,10 +27,27 @@ namespace Pantheon.Core
         public static GameLog GetLog() => Game.instance.GameLog;
 
         // Append the eventList with a new message and add it to the log
-        public static void Send(string msg, MessageColour colour)
+        public static void Send(string msg, Strings.TextColour colour)
         {
             msg = Strings.ColourString(msg, colour);
 
+            // Add event to both lists
+            GetLog().eventList.Add(msg);
+            GetLog().shortEventList.Add(msg);
+
+            // Cull old messages from top of HUD log
+            if (GetLog().logText.cachedTextGenerator.lines.Count >= 8)
+                GetLog().shortEventList.RemoveAt(0);
+
+            string logStr = "";
+            foreach (string s in GetLog().shortEventList)
+                logStr += $"{s}{Environment.NewLine}";
+
+            GetLog().logText.text = logStr;
+        }
+
+        public static void Send(string msg)
+        {
             // Add event to both lists
             GetLog().eventList.Add(msg);
             GetLog().shortEventList.Add(msg);
@@ -67,7 +72,7 @@ namespace Pantheon.Core
                 int i = 0;
                 for (; i < cell.Items.Count; i++)
                     msg += $" a {cell.Items[i].DisplayName};";
-                Send(msg, MessageColour.Grey);
+                Send(msg, Strings.TextColour.Grey);
             }
         }
     }

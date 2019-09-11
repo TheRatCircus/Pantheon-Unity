@@ -4,6 +4,7 @@
 using System.Collections.Generic;
 using Pantheon.Core;
 using Pantheon.Actors;
+using Pantheon.Utils;
 
 namespace Pantheon.Actions
 {
@@ -44,7 +45,7 @@ namespace Pantheon.Actions
 
             item.WieldProfile = parts;
 
-            GameLog.Send($"You wield the {item.DisplayName}.", MessageColour.White);
+            GameLog.Send($"You wield the {item.DisplayName}.", Strings.TextColour.White);
 
             return Game.TurnTime;
         }

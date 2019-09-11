@@ -4,6 +4,7 @@
 using Pantheon.Core;
 using Pantheon.Actors;
 using Pantheon.World;
+using Pantheon.Utils;
 
 namespace Pantheon.Actions
 {
@@ -26,7 +27,8 @@ namespace Pantheon.Actions
         {
             if (cell.Items.Count == 0)
             {
-                GameLog.Send("There is nothing here to pick up.", MessageColour.Grey);
+                GameLog.Send("There is nothing here to pick up.",
+                    Strings.TextColour.Grey);
                 return -1;
             }
             else
@@ -39,7 +41,8 @@ namespace Pantheon.Actions
                 if (Actor is Player)
                 {
                     ((Player)Actor).RaiseInventoryChangeEvent();
-                    GameLog.Send($"You pick up a {item.DisplayName}.", MessageColour.White);
+                    GameLog.Send($"You pick up a {item.DisplayName}.",
+                        Strings.TextColour.White);
                 }
                 
                 return Game.TurnTime;

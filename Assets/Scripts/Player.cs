@@ -8,6 +8,7 @@ using Pantheon.Core;
 using Pantheon.World;
 using Pantheon.Actions;
 using Pantheon.Utils;
+using static Pantheon.Utils.Strings;
 
 namespace Pantheon.Actors
 {
@@ -34,6 +35,7 @@ namespace Pantheon.Actors
         // Events
         public event Action OnInventoryChangeEvent;
         public event Action OnInventoryToggleEvent;
+        public event Action<List<StatusEffect>> StatusChangeEvent;
 
         // Event invokers for PlayerInput
         public void RaiseInventoryToggleEvent() => OnInventoryToggleEvent?.Invoke();
@@ -61,7 +63,7 @@ namespace Pantheon.Actors
             {
                 if (visibleEnemies.Count > 0)
                 {
-                    GameLog.Send($"An enemy is nearby!", MessageColour.Red);
+                    GameLog.Send($"An enemy is nearby!", TextColour.Red);
                     longResting = false;
                     return -1;
                 }
@@ -79,7 +81,7 @@ namespace Pantheon.Actors
             {
                 if (visibleEnemies.Count > 0)
                 {
-                    GameLog.Send($"An enemy is nearby!", MessageColour.Red);
+                    GameLog.Send($"An enemy is nearby!", TextColour.Red);
                     movePath.Clear();
                     return -1;
                 }
@@ -104,19 +106,31 @@ namespace Pantheon.Actors
         {
             if (visibleEnemies.Count > 0)
             {
-                GameLog.Send($"An enemy is nearby!", MessageColour.Red);
+                GameLog.Send($"An enemy is nearby!", TextColour.Red);
                 return;
             }
 
             string restMsg = RandomUtils.ArrayRandom(Strings.RestMessages);
-            GameLog.Send($"You stop to {restMsg}", MessageColour.Grey);
+            GameLog.Send($"You stop to {restMsg}", TextColour.Grey);
             longResting = true;
         }
 
         public void StopLongRest()
         {
-            GameLog.Send("You finish your rest.", MessageColour.Grey);
+            GameLog.Send("You finish your rest.", TextColour.Grey);
             longResting = false;
+        }
+
+        public override void ApplyStatus(StatusEffect status)
+        {
+            base.ApplyStatus(status);
+            StatusChangeEvent?.Invoke(statuses);
+        }
+
+        protected override void TickStatuses()
+        {
+            base.TickStatuses();
+            StatusChangeEvent?.Invoke(statuses);
         }
 
         // Remove an item from this actor's inventory
@@ -145,7 +159,7 @@ namespace Pantheon.Actors
         protected override void OnDeath()
         {
             cell.Actor = null;
-            GameLog.Send("You perish...", MessageColour.Purple);
+            GameLog.Send("You perish...", TextColour.Purple);
         }
     }
 }

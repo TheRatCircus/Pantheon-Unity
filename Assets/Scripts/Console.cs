@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Pantheon.Core;
+using Pantheon.Actors;
 using Pantheon.World;
 
 /// <summary>
@@ -25,7 +26,8 @@ public class Console : MonoBehaviour
     {
         consoleCommands = new Dictionary<string, ConsoleCommand>()
         {
-            { "reveal_level", new ConsoleCommand(RevealLevel) }
+            { "reveal_level", new ConsoleCommand(RevealLevel) },
+            { "apply_status", new ConsoleCommand(ApplyStatus) }
         };
     }
 
@@ -90,6 +92,21 @@ public class Console : MonoBehaviour
         Game.instance.activeLevel.RefreshFOV();
 
         return "Revealing level...";
+    }
+
+    string ApplyStatus(string[] args)
+    {
+        if (args.Length != 1)
+            return "Please only pass 1 argument.";
+
+        StatusType statusType
+            = (StatusType)Enum.Parse(typeof(StatusType), args[0]);
+
+        StatusEffect status = StatusFactory.GetStatus(statusType);
+
+        Game.GetPlayer().ApplyStatus(status);
+
+        return $"Status effect {status.DisplayName} applied to player.";
     }
 }
 

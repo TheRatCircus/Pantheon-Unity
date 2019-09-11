@@ -172,7 +172,7 @@ public class PlayerInput : MonoBehaviour
             {
                 TargetCancelEvent?.Invoke();
                 SetInputState(InputState.Move);
-                GameLog.Send("Targetting cancelled.", MessageColour.Teal);
+                GameLog.Send("Targetting cancelled.", Strings.TextColour.Teal);
             }
         }
         else if (inputState == InputState.LineTarget)
@@ -309,7 +309,7 @@ public class PlayerInput : MonoBehaviour
 
         // Finally, examine is always available
         if (Input.GetMouseButtonDown(1))
-            GameLog.Send(targetCell.ToString(), MessageColour.White);
+            GameLog.Send(targetCell.ToString(), Strings.TextColour.White);
         else if (Input.GetMouseButtonDown(2))
             DebugChangeCell(targetCell);
     }
@@ -381,7 +381,7 @@ public class PlayerInput : MonoBehaviour
     {
         TargetCancelEvent?.Invoke();
         SetInputState(InputState.Move);
-        GameLog.Send("Targetting cancelled.", MessageColour.Teal);
+        GameLog.Send("Targetting cancelled.", Strings.TextColour.Teal);
         CellDrawer.UnpaintCells(player.level);
     }
 }

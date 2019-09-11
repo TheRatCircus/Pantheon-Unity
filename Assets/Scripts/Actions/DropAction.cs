@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Pantheon.Actors;
+using Pantheon.Utils;
 
 namespace Pantheon.Actions
 {
@@ -33,7 +34,8 @@ namespace Pantheon.Actions
 
             if (Actor is Player)
             {
-                Core.GameLog.Send($"You drop the {item.DisplayName}.", MessageColour.Grey);
+                Core.GameLog.Send($"You drop the {item.DisplayName}.",
+                    Strings.TextColour.Grey);
                 ((Player)Actor).RaiseInventoryChangeEvent();
             }
 

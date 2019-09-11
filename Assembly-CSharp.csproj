@@ -103,6 +103,7 @@
     <Compile Include="Assets\Scripts\Enums\NPCType.cs" />
     <Compile Include="Assets\Scripts\Enums\ScrollType.cs" />
     <Compile Include="Assets\Scripts\Enums\Species.cs" />
+    <Compile Include="Assets\Scripts\Enums\StatusType.cs" />
     <Compile Include="Assets\Scripts\Enums\TerrainType.cs" />
     <Compile Include="Assets\Scripts\Enums\WeaponType.cs" />
     <Compile Include="Assets\Scripts\Hit.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Assets\Scripts\PlayerInput.cs" />
     <Compile Include="Assets\Scripts\Projectile.cs" />
     <Compile Include="Assets\Scripts\ReadOnlyAttribute.cs" />
+    <Compile Include="Assets\Scripts\StatusEffect.cs" />
     <Compile Include="Assets\Scripts\UI\GUIClickController.cs" />
     <Compile Include="Assets\Scripts\UI\HUD.cs" />
     <Compile Include="Assets\Scripts\UI\InventorySlot.cs" />
@@ -134,6 +136,7 @@
     <Compile Include="Assets\Scripts\Utils\Colours.cs" />
     <Compile Include="Assets\Scripts\Utils\Helpers.cs" />
     <Compile Include="Assets\Scripts\Utils\RandomUtils.cs" />
+    <Compile Include="Assets\Scripts\Utils\StatusFactory.cs" />
     <Compile Include="Assets\Scripts\Utils\Strings.cs" />
     <Compile Include="Assets\Scripts\WorldGen\LevelEnemies.cs" />
     <Compile Include="Assets\Scripts\WorldGen\LevelItems.cs" />

@@ -14,7 +14,6 @@ namespace Pantheon.Actors
     /// <summary>
     /// Any entity which acts with any degree of agency.
     /// </summary>
-    [Serializable]
     public class Actor : MonoBehaviour
     {
         protected List<Item> inventory;
@@ -25,18 +24,18 @@ namespace Pantheon.Actors
 
         // Actor's personal attributes
         [SerializeField] protected string actorName;
-        [SerializeField] protected bool nameIsProper; // False if name should start with "The/the"
-
+        [SerializeField] protected bool nameIsProper; // TODO: Unique mobs
         [SerializeField] [ReadOnly] protected int health;
         [SerializeField] protected int maxHealth = -1;
-        // Game time before regenerating 1 HP
-        [SerializeField] protected int regenRate = -1;
+        [SerializeField] protected int regenRate = -1; // Time to regen 1 HP
         [SerializeField] [ReadOnly] protected int regenProgress = 0;
-
         [SerializeField] protected int speed = -1; // Energy per turn
         [SerializeField] [ReadOnly] protected int energy; // Energy remaining
-
         [SerializeField] protected int moveSpeed; // Energy needed to walk one cell
+
+        [SerializeField]
+        [ReadOnly]
+        protected List<StatusEffect> statuses = new List<StatusEffect>();
 
         // Per-actor-type data
         [SerializeField] protected CorpseType corpse;
@@ -51,7 +50,7 @@ namespace Pantheon.Actors
         public bool NameIsProper { get => nameIsProper; set => nameIsProper = value; }
         public int Health { get => health; }
         public int MaxHealth { get => maxHealth; }
-        public int Speed { get => speed; }
+        public int Speed { get => speed; set => speed = value; }
         public int Energy { get => energy; set => energy = value; }
         public Cell Cell { get => cell; set => cell = value; }
         public Vector2Int Position { get => cell.Position; }
@@ -117,7 +116,10 @@ namespace Pantheon.Actors
         }
 
         protected virtual void Start()
-            => Game.instance.OnTurnChangeEvent += RegenHealth;
+        {
+            Game.instance.OnTurnChangeEvent += RegenHealth;
+            Game.instance.OnTurnChangeEvent += TickStatuses;
+        }
 
         // Called by scheduler to carry out and process this actor's action
         public virtual int Act()
@@ -149,6 +151,31 @@ namespace Pantheon.Actors
             {
                 Heal(regenProgress / regenRate);
                 regenProgress %= regenRate;
+            }
+        }
+
+        public virtual void ApplyStatus(StatusEffect status)
+        {
+            foreach (StatusEffect s in statuses)
+                if (s.Type == status.Type)
+                    return;
+
+            statuses.Add(status);
+            string onApplyMsg = status.OnApply?.Invoke(this);
+            GameLog.Send(onApplyMsg);
+        }
+
+        protected virtual void TickStatuses()
+        {
+            for (int i = statuses.Count - 1; i >= 0; i--)
+            {
+                statuses[i].TurnsRemaining--;
+                if (statuses[i].TurnsRemaining == 0)
+                {
+                    string onExpireMsg = statuses[i].OnExpire?.Invoke(this);
+                    statuses.RemoveAt(i);
+                    GameLog.Send(onExpireMsg);
+                }
             }
         }
 
@@ -244,7 +271,8 @@ namespace Pantheon.Actors
             Game.instance.RemoveActor(this);
             cell.Actor = null;
             Destroy(gameObject);
-            GameLog.Send($"You kill {Strings.GetSubject(this, false)}!", MessageColour.White);
+            GameLog.Send($"You kill {Strings.GetSubject(this, false)}!",
+                Strings.TextColour.White);
             cell.Items.Add(new Item(Database.GetCorpse(corpse)));
         }
 

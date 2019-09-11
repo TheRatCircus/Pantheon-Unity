@@ -128,37 +128,46 @@ namespace Pantheon.Utils
         /// Apply rich text colour to a string.
         /// </summary>
         /// <param name="str">String to be coloured.</param>
-        /// <param name="colour">Possible rich text colour, enumerated.</param>
+        /// <param name="colour">Rich text colour, enumerated.</param>
         /// <returns>str, coloured using colour.</returns>
-        public static string ColourString(string str, MessageColour colour)
+        public static string ColourString(string str, TextColour colour)
         {
             // Unity's Color class can't be translated to rich text styling, so
             // an enum is used
             string colourStyleStr;
             switch (colour)
             {
-                case MessageColour.White:
+                case TextColour.White:
                     colourStyleStr = "white";
                     break;
-                case MessageColour.Grey:
+                case TextColour.Grey:
                     colourStyleStr = "grey";
                     break;
-                case MessageColour.Yellow:
+                case TextColour.Yellow:
                     colourStyleStr = "yellow";
                     break;
-                case MessageColour.Red:
+                case TextColour.Red:
                     colourStyleStr = "red";
                     break;
-                case MessageColour.Purple:
+                case TextColour.Purple:
                     colourStyleStr = "purple";
                     break;
-                case MessageColour.Teal:
+                case TextColour.Teal:
                     colourStyleStr = "teal";
                     break;
-                case MessageColour.Orange:
+                case TextColour.Orange:
                     colourStyleStr = "orange";
                     break;
+                case TextColour.Green:
+                    colourStyleStr = "green";
+                    break;
+                case TextColour.Blue: // Actual blue is ugly on dark background
+                    colourStyleStr = "lightblue"; 
+                    break;
                 default:
+                    UnityEngine.Debug.LogWarning
+                        ($"Colour {colour.ToString()} not found:" +
+                        $" defaulting to white.");
                     colourStyleStr = "white";
                     break;
             }
@@ -166,6 +175,20 @@ namespace Pantheon.Utils
             // Apply HTML colour styling to string
             string styledStr = $"<color={colourStyleStr}>{str}</color>";
             return styledStr;
+        }
+
+        // Colours with which to style rich text
+        public enum TextColour
+        {
+            White,
+            Grey,
+            Yellow,
+            Red,
+            Purple,
+            Teal,
+            Orange,
+            Green,
+            Blue
         }
     }
 

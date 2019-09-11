@@ -43,7 +43,8 @@ namespace Pantheon.Actors
             if (cell.Visible && target == null)
             {
                 target = Game.GetPlayer();
-                GameLog.Send($"{Strings.GetSubject(this, true)} notices you!", MessageColour.Red);
+                GameLog.Send($"{Strings.GetSubject(this, true)} notices you!",
+                    Strings.TextColour.Red);
             }
 
             // Engage in combat
