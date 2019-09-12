@@ -47,6 +47,8 @@ public class Console : MonoBehaviour
             else
             {
                 console.SetActive(true);
+                input.Select();
+                input.ActivateInputField();
                 Game.GetPlayer().Input.SetInputState(InputState.Console);
             }
         }
