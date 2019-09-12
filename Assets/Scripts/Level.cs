@@ -401,6 +401,9 @@ namespace Pantheon.World
         }
 
         #endregion
+
+        public override string ToString()
+            => refName;
     }
 }
 

@@ -37,5 +37,8 @@ namespace Pantheon.Actions
         // DoAction() with a callback
         public override int DoAction(OnConfirm onConfirm)
             => throw new System.NotImplementedException();
+
+        public override string ToString()
+            => $"{Actor.ActorName} is using {item.DisplayName}.";
     }
 }

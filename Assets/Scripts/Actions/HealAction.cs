@@ -41,5 +41,9 @@ namespace Pantheon.Actions
             onConfirm?.Invoke();
             return -1;
         }
+
+        public override string ToString()
+            => $"{Actor.ActorName} is being healed for " +
+            $"{healAmount}/{healPercent * 100}%.";
     }
 }

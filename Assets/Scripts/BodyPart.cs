@@ -58,5 +58,8 @@ namespace Pantheon.Actors
             if (partData.InherentMelee)
                 canMelee = true;
         }
+
+        public override string ToString()
+            => Name;
     }
 }

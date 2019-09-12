@@ -60,5 +60,8 @@ namespace Pantheon.Actions
             Spawn.MakeLineProjectile(projPrefab, line);
             onConfirm?.Invoke();
         }
+
+        public override string ToString()
+            => $"{Actor.ActorName} is firing a {projPrefab.name}.";
     }
 }

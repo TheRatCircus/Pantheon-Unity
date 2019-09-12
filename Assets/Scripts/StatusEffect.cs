@@ -37,5 +37,7 @@ namespace Pantheon.Actors
             OnApply = onApply;
             OnExpire = onExpire;
         }
+
+        public override string ToString() => Type.ToString();
     }
 }

@@ -128,8 +128,22 @@ namespace Pantheon.World
         // toString override: returns name of tile, position, contained actor
         public override string ToString()
         {
-            string ret = $"{(visible ? "Visible" : "Unseen")} {(revealed ? terrainData.DisplayName : "Unknown terrain")} at {position}";
-            //string ret = $"{(revealed ? terrainData.DisplayName : "Unknown terrain")} at {position}";
+            string ret;
+
+            if (revealed)
+                ret = "Unknown terrain";
+            else
+            {
+                if (actor != null)
+                    ret = actor.ActorName;
+                else if (Feature != null)
+                    ret = Feature.name;
+                else if (Items.Count > 0)
+                    ret = Items[0].DisplayName;
+                else
+                    ret = terrainData.DisplayName;
+            }
+
             return ret;
         }
     }

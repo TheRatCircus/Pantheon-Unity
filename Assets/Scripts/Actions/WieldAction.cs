@@ -52,5 +52,8 @@ namespace Pantheon.Actions
 
         public override int DoAction(OnConfirm onConfirm)
             => throw new System.NotImplementedException();
+
+        public override string ToString()
+            => $"{Actor.ActorName} is wielding {item.DisplayName}";
     }
 }

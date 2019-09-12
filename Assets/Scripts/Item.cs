@@ -66,4 +66,7 @@ public class Item
 
         // Present modal dialog, let user choose parts to hold item
     }
+
+    public override string ToString()
+        => DisplayName;
 }
