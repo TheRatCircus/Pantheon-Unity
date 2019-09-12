@@ -114,7 +114,7 @@ namespace Pantheon.Actions
                     {
                         Hit hit = new Hit(attack.MinDamage, attack.MaxDamage);
                         attackMsg += $" for {hit.Damage} damage!";
-                        GameLog.Send(attackMsg, Strings.TextColour.Grey);
+                        GameLog.Send(attackMsg, Strings.TextColour.White);
                         target.TakeHit(hit);
                     }
 #if DEBUG_MELEE
