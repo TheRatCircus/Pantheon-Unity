@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using Pantheon.Core;
 using Pantheon.Actors;
 using Pantheon.World;
+using Pantheon.Utils;
 
 /// <summary>
 /// Takes commands for in-game debugging.
@@ -27,7 +28,8 @@ public class Console : MonoBehaviour
         consoleCommands = new Dictionary<string, ConsoleCommand>()
         {
             { "reveal_level", new ConsoleCommand(RevealLevel) },
-            { "apply_status", new ConsoleCommand(ApplyStatus) }
+            { "apply_status", new ConsoleCommand(ApplyStatus) },
+            { "give_item", new ConsoleCommand(GiveItem) }
         };
     }
 
@@ -107,6 +109,39 @@ public class Console : MonoBehaviour
         Game.GetPlayer().ApplyStatus(status);
 
         return $"Status effect {status.DisplayName} applied to player.";
+    }
+
+    string GiveItem(string[] args)
+    {
+        if (args.Length != 1)
+            return "Please pass only 1 argument.";
+
+        if (Enum.TryParse(args[0], out WeaponType weaponType))
+        {
+            Game.GetPlayer().Inventory.Add(ItemFactory.NewWeapon(weaponType));
+            Game.GetPlayer().RaiseInventoryChangeEvent();
+            return $"Giving {weaponType.ToString()}";
+        }
+        else if (Enum.TryParse(args[0], out FlaskType flaskType))
+        {
+            Game.GetPlayer().Inventory.Add(ItemFactory.NewFlask(flaskType));
+            Game.GetPlayer().RaiseInventoryChangeEvent();
+            return $"Giving {flaskType.ToString()}";
+        }
+        else if (Enum.TryParse(args[0], out ScrollType scrollType))
+        {
+            Game.GetPlayer().Inventory.Add(ItemFactory.NewScroll(scrollType));
+            Game.GetPlayer().RaiseInventoryChangeEvent();
+            return $"Giving {scrollType.ToString()}";
+        }
+        else if (Enum.TryParse(args[0], out CorpseType corpseType))
+        {
+            Game.GetPlayer().Inventory.Add(ItemFactory.NewCorpse(corpseType));
+            Game.GetPlayer().RaiseInventoryChangeEvent();
+            return $"Giving {corpseType.ToString()}";
+        }
+        else
+            return $"Item of type {args[0]} could not be found";
     }
 }
 

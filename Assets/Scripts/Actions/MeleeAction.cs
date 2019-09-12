@@ -46,6 +46,9 @@ namespace Pantheon.Actions
             if (actionTime < 0)
                 throw new System.Exception("A MeleeAction has no attack time.");
 
+            // Track already-used weapons to prevent re-use by a different limb
+            HashSet<Item> weaponStatuses = new HashSet<Item>();
+
             /*  
              *  Now iterate directly through parts in order to send relevant
              *  data to string processing for game log.
@@ -62,7 +65,7 @@ namespace Pantheon.Actions
                 Melee attack;
                 int swings;
 
-                if (part.Item != null)
+                if (part.Item != null && !weaponStatuses.Contains(part.Item))
                 {
                     weapon = true;
                     attack = part.Item.Melee;
@@ -124,6 +127,9 @@ namespace Pantheon.Actions
                         Debug.Log($"{actorName} has killed {targetName}");
 #endif
                 }
+
+                if (weapon)
+                    weaponStatuses.Add(part.Item);
             }
             return actionTime;
         }
