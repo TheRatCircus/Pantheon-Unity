@@ -1,6 +1,9 @@
 ﻿// Connection.cs
 // Jerome Martina
 
+#define DEBUG_CONNECTIONS
+#undef DEBUG_CONNECTIONS
+
 using Pantheon.Core;
 using Pantheon.Actors;
 
@@ -11,38 +14,45 @@ namespace Pantheon.World
     /// </summary>
     public abstract class Connection
     {
-        protected Level destinationLevel;
+        public Level Level { get; }
+        public Cell Cell { get; }
+        public Connection Partner { get; private set; }
 
-        public Level OriginLevel { get; }
-        public Level DestinationLevel
-        { get => destinationLevel; protected set => destinationLevel = value; }
-
-        public Cell OriginCell { get; }
-        public Cell DestinationCell { get; protected set; }
-
-        public Connection(Level originLevel, Cell originCell, Feature feature)
+        public Connection(Level level, Cell cell, Feature feature)
         {
-            OriginLevel = originLevel;
-            OriginCell = originCell;
-            OriginCell.Feature = feature;
+            Level = level;
+            Cell = cell;
+            Cell.SetFeature(feature);
         }
 
         /// <summary>
-        /// Used to generate partner connections on first travel.
+        /// Generate a connection with a pre-existing partner in another level.
         /// </summary>
-        /// <param name="connection"></param>
-        protected Connection(Connection connection, Feature feature)
+        /// <param name="level">Level housing this connection.</param>
+        /// <param name="cell">Cell housing this connection.</param>
+        /// <param name="feature">Feature representing this connection.</param>
+        /// <param name="partner">This connection's partner.</param>
+        public Connection(Level level, Cell cell, Feature feature,
+            Connection partner)
         {
-            DestinationLevel = connection.OriginLevel;
-            DestinationCell = connection.OriginCell;
-
-            OriginLevel = connection.destinationLevel;
-            OriginCell = connection.DestinationCell;
-
-            OriginCell.Feature = feature;
+            Level = level;
+            Cell = cell;
+            Cell.SetFeature(feature);
+            // Partnership is mutual
+            Partner = partner;
+            partner.Partner = this;
         }
 
         public abstract void Use(Player player);
+
+        [System.Diagnostics.Conditional("DEBUG_CONNECTIONS")]
+        protected void LogTravel(Actor actor, Level level, Cell cell)
+        {
+            UnityEngine.Debug.Log
+                ($"{actor.ActorName} is travelling to " +
+                $"{cell.ToString()} in " +
+                $"{level.RefName}.");
+        }
     }
 
     /// <summary>
@@ -56,30 +66,29 @@ namespace Pantheon.World
         private CardinalDirection destinationWing;
 
         public LateralConnection(
-            Level originLevel, Cell originCell, Feature feature,
+            Level level, Cell cell, Feature feature,
             FirstUseDelegate onFirstUse, CardinalDirection destinationWing)
-            : base(originLevel, originCell, feature)
+            : base(level, cell, feature)
         {
             this.onFirstUse = onFirstUse;
             this.destinationWing = destinationWing;
         }
 
-        protected LateralConnection(Connection connection, Feature feature)
-            : base(connection, feature) { }
+        public LateralConnection(
+            Level level, Cell cell, Feature feature, Connection partner)
+            : base(level, cell, feature, partner) { }
 
         // Travel by way of this connection
         public override void Use(Player player)
         {
-            if (DestinationLevel == null)
+            if (Partner == null)
             {
-                DestinationLevel = Game.instance.MakeNewLevel();
+                Level destinationLevel = Game.instance.MakeNewLevel();
                 onFirstUse?.Invoke(ref destinationLevel, destinationWing);
-                DestinationCell = DestinationLevel.RandomFloor();
-                DestinationCell.Connection = new LateralConnection
-                    (this, Database.GetFeature(FeatureType.StairsUp));
             }
-
-            Game.instance.MoveToLevel(player, destinationLevel, DestinationCell);
+            
+            LogTravel(player, Partner.Level, Partner.Cell);
+            Game.instance.MoveToLevel(player, Partner.Level, Partner.Cell);
         }
     }
 
@@ -94,28 +103,25 @@ namespace Pantheon.World
         private int destinationDepth;
 
         public VerticalConnection(
-            Level originLevel, Cell originCell, Feature feature,
+            Level level, Cell cell, Feature feature,
             FirstUseDelegate onFirstUse, int destinationDepth)
-            : base(originLevel, originCell, feature)
+            : base(level, cell, feature)
         {
             this.onFirstUse = onFirstUse;
             this.destinationDepth = destinationDepth;
         }
 
-        protected VerticalConnection(Connection connection, Feature feature)
-            : base(connection, feature) { }
-
         // Travel by way of this connection
         public override void Use(Player player)
         {
-            if (DestinationLevel == null)
+            if (Partner == null)
             {
-                DestinationLevel = Game.instance.MakeNewLevel();
+                Level destinationLevel = Game.instance.MakeNewLevel();
                 onFirstUse?.Invoke(ref destinationLevel, destinationDepth);
-                DestinationCell = DestinationLevel.RandomFloor();
             }
 
-            Game.instance.MoveToLevel(player, destinationLevel, DestinationCell);
+            LogTravel(player, Partner.Level, Partner.Cell);
+            Game.instance.MoveToLevel(player, Partner.Level, Partner.Cell);
         }
     }
 }

@@ -54,7 +54,7 @@ namespace Pantheon.World
         public Actor Actor { get => actor; set => actor = value; }
         public List<Item> Items => items;
         public TerrainData TerrainData { get => terrainData; }
-        public Feature Feature { get; set; } = null;
+        public Feature Feature { get; private set; } = null;
         public Connection Connection { get => connection; set => connection = value; }
 
         #endregion
@@ -87,11 +87,33 @@ namespace Pantheon.World
         /// </summary>
         /// <param name="terrainData">The TerrainData which should define this
         /// cell's new terrain.</param>
-        public void SetTerrainType(TerrainData terrainData)
+        public void SetTerrain(TerrainData terrainData)
         {
+            if (Feature != null)
+                SetFeature(null);
+
             this.terrainData = terrainData;
             opaque = terrainData.Opaque;
             blocked = terrainData.Blocked;
+        }
+
+        /// <summary>
+        /// Set this cell's feature type and adjust its attributes accordingly.
+        /// </summary>
+        /// <param name="feature">This cell's new Feature.</param>
+        public void SetFeature(Feature feature)
+        {
+            if (feature == null)
+            {
+                Feature = null;
+                opaque = false;
+                blocked = false;
+                return;
+            }
+
+            Feature = feature;
+            opaque = feature.Opaque;
+            blocked = feature.Blocked;
         }
 
         // Check if this cell can be walked into

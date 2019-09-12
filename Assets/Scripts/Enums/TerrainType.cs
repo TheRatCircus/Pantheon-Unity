@@ -3,7 +3,8 @@
 
 public enum TerrainType
 {
-    None = 0,
-    StoneWall = 1,
-    StoneFloor = 2
+    None,
+    StoneWall,
+    StoneFloor,
+    Grass
 }

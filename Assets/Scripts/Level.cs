@@ -18,6 +18,7 @@ namespace Pantheon.World
         [SerializeField] private Pathfinder pathfinder = null;
 
         private string displayName = "NO_NAME";
+        private string refName = "NO_REF";
 
         // This level's tilemaps
         [SerializeField] private Tilemap terrainTilemap = null;
@@ -46,6 +47,8 @@ namespace Pantheon.World
         public Vector2Int LevelSize { get => levelSize; set => levelSize = value; }
         public List<NPC> NPCs { get => enemies; }
         public Pathfinder Pathfinder { get => pathfinder; }
+        public Dictionary<string, Connection> Connections { get; set; }
+        public string RefName { get => refName; set => refName = value; }
 
         private void Awake() => pathfinder = new Pathfinder(this);
 
@@ -67,7 +70,7 @@ namespace Pantheon.World
 
         #region Helpers
 
-        // Find a random walkable cell in the level
+        // Find a random walkable cell in the level, no fixing
         public Cell RandomFloor()
         {
             Cell cell;
@@ -75,15 +78,51 @@ namespace Pantheon.World
             do
             {
                 if (attempts > 1000)
-                    throw new System.Exception("Could not find a random floor.");
+                    throw new System.Exception
+                        ("Could not find a random floor.");
 
                 Vector2Int randomPosition = new Vector2Int
                 {
                     x = Random.Range(0, LevelSize.x),
                     y = Random.Range(0, LevelSize.y)
                 };
+
                 cell = GetCell(randomPosition);
                 attempts++;
+
+            } while (!cell.IsWalkableTerrain());
+            return cell;
+        }
+
+        /// <summary>
+        /// Find a random walkable cell; pass a positive int to one arg to fix
+        /// the selection.
+        /// </summary>
+        /// <param name="x">Fix the selection by an x coordinate.</param>
+        /// <param name="y">Fix the selection by a y coordinate.</param>
+        /// <returns></returns>
+        public Cell RandomFloor(int x, int y)
+        {
+            if (x > 0 && y > 0)
+                Debug.LogWarning("Result is fixed for both x and y.");
+
+            Cell cell;
+            int attempts = 0;
+            do
+            {
+                if (attempts > 1000)
+                    throw new System.Exception
+                        ($"Could not find a random floor at {x}, {y}.");
+
+                Vector2Int randomPosition = new Vector2Int
+                {
+                    x = x < 0 ? Random.Range(0, LevelSize.x) : x,
+                    y = y < 0 ? Random.Range(0, LevelSize.y) : y
+                };
+
+                cell = GetCell(randomPosition);
+                attempts++;
+
             } while (!cell.IsWalkableTerrain());
             return cell;
         }

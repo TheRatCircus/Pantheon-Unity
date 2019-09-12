@@ -50,7 +50,7 @@ namespace Pantheon.Core
         public Player player1;
 
         // Levels
-        public List<Level> levels;
+        public Dictionary<string, Level> levels = new Dictionary<string, Level>();
         public Level activeLevel;
 
         // Events
@@ -247,9 +247,14 @@ namespace Pantheon.Core
         {
             GameObject newLevelObj = Instantiate(levelPrefab, grid);
             Level newLevel = newLevelObj.GetComponent<Level>();
-            levels.Add(newLevel);
             return newLevel;
         }
+
+        /// <summary>
+        /// After level generation, pass it here to add it to the world map.
+        /// </summary>
+        public void RegisterLevel(Level level)
+            => levels.Add(level.RefName, level);
 
         public static void QuitGame() => SceneManager.LoadScene("Title");
     }

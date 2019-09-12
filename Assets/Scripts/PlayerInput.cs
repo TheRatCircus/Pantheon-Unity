@@ -332,9 +332,9 @@ public class PlayerInput : MonoBehaviour
     private void DebugChangeCell(Cell cell)
     {
         if (cell.TerrainData._terrainType == TerrainType.StoneWall)
-            cell.SetTerrainType(Database.GetTerrain(TerrainType.StoneFloor));
+            cell.SetTerrain(Database.GetTerrain(TerrainType.StoneFloor));
         else if (cell.TerrainData._terrainType == TerrainType.StoneFloor)
-            cell.SetTerrainType(Database.GetTerrain(TerrainType.StoneWall));
+            cell.SetTerrain(Database.GetTerrain(TerrainType.StoneWall));
         player.level.RefreshFOV();
     }
 

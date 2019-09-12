@@ -1,6 +1,9 @@
 ﻿// NPC.cs
 // Jerome Martina
 
+#define DEBUG_NPC
+#undef DEBUG_NPC
+
 using System.Collections.Generic;
 using UnityEngine;
 using Pantheon.Core;
@@ -56,6 +59,8 @@ namespace Pantheon.Actors
             else
                 NextAction = new WaitAction(this);
 
+            LogNPCAction();
+
             BaseAction ret = NextAction;
             // Clear action buffer
             NextAction = null;
@@ -75,6 +80,12 @@ namespace Pantheon.Actors
         {
             base.OnDeath();
             level.NPCs.Remove(this);
+        }
+
+        [System.Diagnostics.Conditional("DEBUG_NPC")]
+        private void LogNPCAction()
+        {
+            Debug.Log($"{actorName} next action: {nextAction}");
         }
     }
 }

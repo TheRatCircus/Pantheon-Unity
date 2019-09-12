@@ -16,18 +16,19 @@ namespace Pantheon.WorldGen
     public static class LevelLayout
     {
         /// <summary>
-        /// Generate a blank cell map; levels do not work without a call to this.
+        /// Initializes a blank cell map and fills it with a terrain type.
         /// </summary>
         /// <param name="size">The size of the new cell map.</param>
+        /// <param name="terrain">The terrain to fill the new map with.</param>
         /// <returns>The new cell map.</returns>
-        public static Cell[,] BlankMap(Vector2Int size)
+        public static Cell[,] BlankMap(Vector2Int size, TerrainType terrain)
         {
             Cell[,] map = new Cell[size.x, size.y];
             for (int x = 0; x < map.GetLength(0); x++)
                 for (int y = 0; y < map.GetLength(1); y++)
                 {
                     map[x, y] = new Cell(new Vector2Int(x, y));
-                    map[x, y].SetTerrainType(Database.GetTerrain(TerrainType.StoneWall));
+                    map[x, y].SetTerrain(Database.GetTerrain(terrain));
                 }
 
             return map;
@@ -45,24 +46,24 @@ namespace Pantheon.WorldGen
                 {
                     if (x == 0)
                     {
-                        level.Map[x, y].SetTerrainType(Database.GetTerrain(terrain));
+                        level.Map[x, y].SetTerrain(Database.GetTerrain(terrain));
                         continue;
                     }
                     else if (x == level.LevelSize.x - 1)
                     {
-                        level.Map[x, y].SetTerrainType(Database.GetTerrain(terrain));
+                        level.Map[x, y].SetTerrain(Database.GetTerrain(terrain));
                         continue;
                     }
                     else
                     {
                         if (y == 0)
                         {
-                            level.Map[x, y].SetTerrainType(Database.GetTerrain(terrain));
+                            level.Map[x, y].SetTerrain(Database.GetTerrain(terrain));
                             continue;
                         }
                         else if (y == level.LevelSize.y - 1)
                         {
-                            level.Map[x, y].SetTerrainType(Database.GetTerrain(terrain));
+                            level.Map[x, y].SetTerrain(Database.GetTerrain(terrain));
                             continue;
                         }
                     }
@@ -73,6 +74,7 @@ namespace Pantheon.WorldGen
         /// Fill a level's cells with terrain at a random percentage.
         /// </summary>
         /// <param name="level">Level to modify by reference.</param>
+        /// <param name="percent">Likelihood that a cell gets filled.</param>
         /// <param name="terrain">Terrain type to fill the level with.</param>
         public static void RandomFill(ref Level level, int percent, TerrainType terrain)
         {
@@ -80,9 +82,24 @@ namespace Pantheon.WorldGen
                 for (int y = 0; y < level.LevelSize.y; y++)
                 {
                     if (Game.PRNG().Next(0, 100) < percent)
-                        level.Map[x, y].SetTerrainType(Database.GetTerrain(terrain));
-                    else
-                        level.Map[x, y].SetTerrainType(Database.GetTerrain(TerrainType.StoneFloor));
+                        level.Map[x, y].SetTerrain(Database.GetTerrain(terrain));
+                }
+        }
+
+        /// <summary>
+        /// Fill a level's cells with terrain at a random percentage.
+        /// </summary>
+        /// <param name="level">Level to modify by reference.</param>
+        /// <param name="percent">Likelihood that a cell gets filled.</param>
+        /// <param name="feature">Feature type to fill the level with.</param>
+        public static void RandomFill(ref Level level, int percent, FeatureType feature)
+        {
+            for (int x = 0; x < level.LevelSize.x; x++)
+                for (int y = 0; y < level.LevelSize.y; y++)
+                {
+                    if (Game.PRNG().Next(0, 100) < percent)
+                        if (!level.Map[x, y].Blocked)
+                            level.Map[x, y].SetFeature(Database.GetFeature(feature));
                 }
         }
 
@@ -161,7 +178,7 @@ namespace Pantheon.WorldGen
             //Debug.Log($"Generating room {rect.x2 - rect.x1} tiles wide and {rect.y2 - rect.y1} tiles long");
             for (int x = rect.x1 + 1; x < rect.x2 - 1; x++)
                 for (int y = rect.y1 + 1; y < rect.y2 - 1; y++)
-                    level.Map[x, y].SetTerrainType(Database.GetTerrain(TerrainType.StoneFloor));
+                    level.Map[x, y].SetTerrain(Database.GetTerrain(TerrainType.StoneFloor));
         }
 
         /// <summary>
@@ -174,7 +191,7 @@ namespace Pantheon.WorldGen
         private static void CreateHorizontalTunnel(ref Level level, int x1, int x2, int y)
         {
             for (int x = Mathf.Min(x1, x2); x < Mathf.Max(x1, x2); x++)
-                level.Map[x, y].SetTerrainType(Database.GetTerrain(TerrainType.StoneFloor));
+                level.Map[x, y].SetTerrain(Database.GetTerrain(TerrainType.StoneFloor));
         }
 
         /// <summary>
@@ -187,7 +204,7 @@ namespace Pantheon.WorldGen
         private static void CreateVerticalTunnel(ref Level level, int y1, int y2, int x)
         {
             for (int y = Mathf.Min(y1, y2); y < Mathf.Max(y1, y2); y++)
-                level.Map[x, y].SetTerrainType(Database.GetTerrain(TerrainType.StoneFloor));
+                level.Map[x, y].SetTerrain(Database.GetTerrain(TerrainType.StoneFloor));
         }
 
         /// <summary>

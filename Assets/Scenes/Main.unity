@@ -1371,12 +1371,18 @@ MonoBehaviour:
   terrainList:
   - {fileID: 11400000, guid: e25cedeeb2c79dd4cb8ca0568549e6ce, type: 2}
   - {fileID: 11400000, guid: 1a37e81f764ad184dad399d3ad1149c2, type: 2}
+  - {fileID: 11400000, guid: 84549a9c33ea36f4facb96d7d9f5a6f8, type: 2}
   NPCList:
   - {fileID: 11400000, guid: c242fefd7786d774b863f8185ed10807, type: 2}
   - {fileID: 11400000, guid: 15b4abeb03b176141b12e90cf5adf76c, type: 2}
   features:
   - {fileID: 11400000, guid: d5454cfdf80e1db44aedb29d6bb28557, type: 2}
   - {fileID: 11400000, guid: f3245e7cfcd95494391cb0467d2e7af4, type: 2}
+  - {fileID: 11400000, guid: d05cb2309e3293a4f8887310501e330e, type: 2}
+  - {fileID: 11400000, guid: 59beebf41b076cf499637c102725e9ac, type: 2}
+  - {fileID: 11400000, guid: 6d63bac4ec1f4334da2be5e58438aa72, type: 2}
+  - {fileID: 11400000, guid: dacc81366437ed6418a9ff00b2d5cd24, type: 2}
+  - {fileID: 11400000, guid: df00290421552af4788371e68d02790a, type: 2}
   lineTargetOverlay: {fileID: 21300000, guid: a5ea99f1f7b062b4d809ff0899851c17, type: 3}
 --- !u!1 &737357386
 GameObject:

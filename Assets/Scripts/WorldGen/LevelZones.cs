@@ -1,6 +1,7 @@
 ﻿// LevelZones.cs
 // Jerome Martina
 
+using System.Collections.Generic;
 using UnityEngine;
 using Pantheon.Core;
 using Pantheon.World;
@@ -25,9 +26,11 @@ namespace Pantheon.WorldGen
             level.LevelSize = new Vector2Int(ValleySize, ValleySize);
 
             Debug.Log($"Initializing cells...");
-            level.Map = LevelLayout.BlankMap(level.LevelSize);
+            level.Map = LevelLayout.BlankMap(level.LevelSize, TerrainType.Grass);
 
-            LevelLayout.RandomFill(ref level, 15, TerrainType.StoneWall);
+            if (wing == CardinalDirection.Centre)
+                LevelLayout.RandomFill(ref level, 15, FeatureType.Tree);
+
             LevelLayout.Enclose(ref level, TerrainType.StoneWall);
 
             // If generating the Central Valley, then spawn the player there
@@ -37,31 +40,173 @@ namespace Pantheon.WorldGen
                 level.SpawnPlayer();
             }
 
-            // Generate wing specifics
+            GenerateValleyWing(ref level, wing);
+            LevelItems.SpawnItems(ref level);
+
+            Game.instance.RegisterLevel(level);
+            CellDrawer.DrawLevel(level);
+        }
+
+        /// <summary>
+        /// Generate wing specifics for a valley zone.
+        /// </summary>
+        /// <param name="level">Level to modify by reference.</param>
+        /// <param name="wing">Whether to generate Northern, Eastern, etc.</param>
+        public static void GenerateValleyWing(ref Level level, CardinalDirection wing)
+        {
             switch (wing)
             {
                 case CardinalDirection.Centre:
-                    level.DisplayName = "Central Valley";
-                    Cell connectionCell = level.RandomFloor();
-                    connectionCell.Connection = new LateralConnection(
-                        level,
-                        connectionCell,
-                        Database.GetFeature(FeatureType.StairsDown),
-                        GenerateValley, CardinalDirection.North);
-                    LevelEnemies.SpawnNPCs(ref level, ValleyEnemies, NPCPops.ValleyCentre);
-                    break;
-                case CardinalDirection.North:
-                    level.DisplayName = "Northern Valley";
-                    LevelEnemies.SpawnNPCs(ref level, ValleyEnemies, NPCPops.ValleyNorth);
-                    break;
-                default:
-                    Debug.LogException(new System.Exception("No wing passed to GenerateValley()."));
-                    return;
-            }
-            
-            LevelItems.SpawnItems(ref level);
+                    {
+                        level.DisplayName = "Central Valley";
+                        level.RefName = "valleyCentre";
 
-            CellDrawer.DrawLevel(level);
+                        level.Connections = new Dictionary<string, Connection>(4);
+
+                        Cell trailNorthCell = level.RandomFloor(-1, level.LevelSize.y - 2);
+                        Connection trailNorth = new LateralConnection(
+                            level, trailNorthCell,
+                            Database.GetFeature(FeatureType.TrailNorth),
+                            GenerateValley, CardinalDirection.North);
+                        trailNorthCell.Connection = trailNorth;
+                        level.Connections.Add("trailNorth", trailNorth);
+
+                        Cell trailEastCell = level.RandomFloor(level.LevelSize.x - 2, -1);
+                        Connection trailEast = new LateralConnection(
+                            level, trailEastCell,
+                            Database.GetFeature(FeatureType.TrailEast),
+                            GenerateValley, CardinalDirection.East);
+                        trailEastCell.Connection = trailEast;
+                        level.Connections.Add("trailEast", trailEast);
+
+                        Cell trailSouthCell = level.RandomFloor(-1, 1);
+                        Connection trailSouth = new LateralConnection(
+                            level, trailSouthCell,
+                            Database.GetFeature(FeatureType.TrailSouth),
+                            GenerateValley, CardinalDirection.South);
+                        trailSouthCell.Connection = trailSouth;
+                        level.Connections.Add("trailSouth", trailSouth);
+
+                        Cell trailWestCell = level.RandomFloor(1, -1);
+                        Connection trailWest = new LateralConnection(
+                            level, trailWestCell,
+                            Database.GetFeature(FeatureType.TrailWest),
+                            GenerateValley, CardinalDirection.West);
+                        trailWestCell.Connection = trailWest;
+                        level.Connections.Add("trailWest", trailWest);
+
+                        LevelEnemies.SpawnNPCs(ref level, ValleyEnemies, NPCPops.ValleyCentre);
+
+                        break;
+                    }
+                case CardinalDirection.North:
+                    {
+                        level.DisplayName = "Northern Valley";
+                        level.RefName = "valleyNorth";
+
+                        LevelEnemies.SpawnNPCs(ref level, ValleyEnemies, NPCPops.ValleyNorth);
+
+                        level.Connections = new Dictionary<string, Connection>(1);
+
+                        if (!Game.instance.levels.TryGetValue("valleyCentre", out Level centralValley))
+                            throw new System.Exception
+                                ("Central valley was not generated, or has bad ref.");
+
+                        if (!centralValley.Connections.TryGetValue("trailNorth", out Connection trailNorth))
+                            throw new System.Exception("Central Valley has no trail north.");
+
+                        Cell trailSouthCell = level.RandomFloor(-1, 1);
+                        Connection trailSouth = new LateralConnection(
+                            level, trailSouthCell,
+                            Database.GetFeature(FeatureType.TrailSouth),
+                            trailNorth);
+                        trailSouthCell.Connection = trailSouth;
+                        level.Connections.Add("trailSouth", trailSouth);
+
+                        break;
+                    }
+                case CardinalDirection.East:
+                    {
+                        level.DisplayName = "Eastern Valley";
+                        level.RefName = "valleyEast";
+
+                        LevelEnemies.SpawnNPCs(ref level, ValleyEnemies, NPCPops.ValleyNorth);
+
+                        level.Connections = new Dictionary<string, Connection>(1);
+
+                        if (!Game.instance.levels.TryGetValue("valleyCentre", out Level centralValley))
+                            throw new System.Exception
+                                ("Central valley was not generated, or has bad ref.");
+
+                        if (!centralValley.Connections.TryGetValue("trailEast", out Connection trailEast))
+                            throw new System.Exception("Central Valley has no trail east.");
+
+                        Cell trailWestCell = level.RandomFloor(1, -1);
+                        Connection trailWest = new LateralConnection(
+                            level, trailWestCell,
+                            Database.GetFeature(FeatureType.TrailWest),
+                            trailEast);
+                        trailWestCell.Connection = trailWest;
+                        level.Connections.Add("trailWest", trailWest);
+
+                        break;
+                    }
+                case CardinalDirection.South:
+                    {
+                        level.DisplayName = "Southern Valley";
+                        level.RefName = "valleySouth";
+
+                        LevelEnemies.SpawnNPCs(ref level, ValleyEnemies, NPCPops.ValleyNorth);
+
+                        level.Connections = new Dictionary<string, Connection>(1);
+
+                        if (!Game.instance.levels.TryGetValue("valleyCentre", out Level centralValley))
+                            throw new System.Exception
+                                ("Central valley was not generated, or has bad ref.");
+
+                        if (!centralValley.Connections.TryGetValue("trailSouth", out Connection trailSouth))
+                            throw new System.Exception("Central Valley has no trail south.");
+
+                        Cell trailNorthCell = level.RandomFloor(-1, level.LevelSize.y - 2);
+                        Connection trailNorth = new LateralConnection(
+                            level, trailNorthCell,
+                            Database.GetFeature(FeatureType.TrailNorth),
+                            trailSouth);
+                        trailNorthCell.Connection = trailNorth;
+                        level.Connections.Add("trailNorth", trailNorth);
+
+                        break;
+                    }
+                case CardinalDirection.West:
+                    {
+                        level.DisplayName = "Western Valley";
+                        level.RefName = "valleyWest";
+
+                        LevelEnemies.SpawnNPCs(ref level, ValleyEnemies, NPCPops.ValleyNorth);
+
+                        level.Connections = new Dictionary<string, Connection>(1);
+
+                        if (!Game.instance.levels.TryGetValue("valleyCentre", out Level centralValley))
+                            throw new System.Exception
+                                ("Central valley was not generated, or has bad ref.");
+
+                        if (!centralValley.Connections.TryGetValue("trailWest", out Connection trailWest))
+                            throw new System.Exception("Central Valley has no trail west.");
+
+                        Cell trailEastCell = level.RandomFloor(level.LevelSize.x - 2, -1);
+                        Connection trailEast = new LateralConnection(
+                            level, trailEastCell,
+                            Database.GetFeature(FeatureType.TrailEast),
+                            trailWest);
+                        trailEastCell.Connection = trailEast;
+                        level.Connections.Add("trailEast", trailEast);
+
+                        break;
+                    }
+                default:
+                    throw new System.Exception
+                        ("No wing passed to GenerateValleyConnections().");
+            }
         }
     }
 }

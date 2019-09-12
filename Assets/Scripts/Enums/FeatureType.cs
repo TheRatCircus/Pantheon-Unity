@@ -3,7 +3,12 @@
 
 public enum FeatureType
 {
-    None = 0,
-    StairsUp = 1,
-    StairsDown = 2
+    None,
+    StairsUp,
+    StairsDown,
+    Tree,
+    TrailNorth,
+    TrailEast,
+    TrailSouth,
+    TrailWest
 }
