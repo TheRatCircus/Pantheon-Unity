@@ -10,5 +10,11 @@ public struct Hit
 
     // Constructor
     public Hit(int minDamage, int maxDamage)
-        => Damage = UnityEngine.Random.Range(minDamage, maxDamage + 1);
+    {
+        if (minDamage > maxDamage)
+            throw new System.Exception
+                ("A Hit has a higher min than max damage.");
+
+        Damage = UnityEngine.Random.Range(minDamage, maxDamage + 1);
+    }
 }

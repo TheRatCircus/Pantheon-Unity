@@ -13,5 +13,9 @@ MonoBehaviour:
   m_Name: ScrollMagicBulletAction
   m_EditorClassIdentifier: 
   LineProjAction:
-    projPrefab: {fileID: 4500302018802187881, guid: 3c442203e89a2b348a7ff44c3a3b4d94,
+    fxPrefab: {fileID: 3843464375304575577, guid: a7358d2300337354fbb5a641004ace8e,
       type: 3}
+    minDamage: 10
+    maxDamage: 20
+    accuracy: 100
+    pierces: 1

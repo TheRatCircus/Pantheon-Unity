@@ -1344,7 +1344,6 @@ MonoBehaviour:
   turns: 0
   lockCount: 0
   player1: {fileID: 277744510518784713}
-  levels: []
   activeLevel: {fileID: 0}
 --- !u!114 &600936738
 MonoBehaviour:
@@ -3440,7 +3439,7 @@ MonoBehaviour:
   regenProgress: 0
   speed: 100
   energy: 0
-  moveSpeed: 10
+  moveSpeed: 100
   statuses: []
   corpse: 0
   parts:

@@ -82,6 +82,7 @@
     <Compile Include="Assets\Scripts\BaseData\ItemData.cs" />
     <Compile Include="Assets\Scripts\BaseData\NPCWrapper.cs" />
     <Compile Include="Assets\Scripts\BaseData\ScrollData.cs" />
+    <Compile Include="Assets\Scripts\BaseData\Spell.cs" />
     <Compile Include="Assets\Scripts\BaseData\TerrainData.cs" />
     <Compile Include="Assets\Scripts\BaseData\WeaponData.cs" />
     <Compile Include="Assets\Scripts\BodyPart.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Assets\Scripts\Enums\NPCType.cs" />
     <Compile Include="Assets\Scripts\Enums\ScrollType.cs" />
     <Compile Include="Assets\Scripts\Enums\Species.cs" />
+    <Compile Include="Assets\Scripts\Enums\SpellType.cs" />
     <Compile Include="Assets\Scripts\Enums\StatusType.cs" />
     <Compile Include="Assets\Scripts\Enums\TerrainType.cs" />
     <Compile Include="Assets\Scripts\Enums\WeaponType.cs" />
@@ -117,7 +119,6 @@
     <Compile Include="Assets\Scripts\Pathfinder.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\PlayerInput.cs" />
-    <Compile Include="Assets\Scripts\Projectile.cs" />
     <Compile Include="Assets\Scripts\ReadOnlyAttribute.cs" />
     <Compile Include="Assets\Scripts\StatusEffect.cs" />
     <Compile Include="Assets\Scripts\UI\GUIClickController.cs" />

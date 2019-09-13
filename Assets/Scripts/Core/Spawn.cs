@@ -14,20 +14,6 @@ namespace Pantheon.Core
     /// </summary>
     public static class Spawn
     {
-        // Create a new projectile following a line
-        public static void MakeLineProjectile(GameObject projPrefab, List<Cell> line)
-        {
-            GameObject magicBulletObj = Object.Instantiate(
-                projPrefab,
-                Helpers.V2IToV3(line[0].Position),
-                new Quaternion(),
-                Game.instance.activeLevel.transform
-                );
-            Projectile magicBulletProj = magicBulletObj.GetComponent<Projectile>();
-            magicBulletProj.ProjectileLine = line;
-            magicBulletProj.FireProjectile();
-        }
-
         /// <summary>
         /// Instantiate an NPC GameObject at a cell.
         /// </summary>
