@@ -16,9 +16,6 @@ namespace Pantheon.Utils
         public static Item NewScroll(ScrollType type)
             => new Item(GetScroll(type));
 
-        public static Item NewCorpse(CorpseType type)
-            => new Item(GetCorpse(type));
-
         public static Item NewWeapon(WeaponType type)
             => new Item(GetWeapon(type));
     }

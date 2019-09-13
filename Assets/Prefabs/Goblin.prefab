@@ -111,7 +111,10 @@ MonoBehaviour:
   speed: 100
   energy: 0
   moveSpeed: 100
-  corpse: 1
+  statuses: []
+  spells: []
+  species: 0
+  corpseSprite: {fileID: 21300000, guid: 0d047209e32634c4cb6ff78ed5fe9767, type: 3}
   parts:
   - partData: {fileID: 11400000, guid: 97e43ca3be56cf141a7805b1bf95547f, type: 2}
     dominant: 0

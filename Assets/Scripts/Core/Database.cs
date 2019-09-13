@@ -15,7 +15,6 @@ namespace Pantheon.Core
     {
         // Database lists
         [SerializeField] private List<WeaponData> weaponList = new List<WeaponData>();
-        [SerializeField] private List<Corpse> corpseList = new List<Corpse>();
         [SerializeField] private List<ScrollData> scrollList = new List<ScrollData>();
         [SerializeField] private List<FlaskData> flaskList = new List<FlaskData>();
         [SerializeField] private List<TerrainData> terrainList = new List<TerrainData>();
@@ -31,8 +30,6 @@ namespace Pantheon.Core
         // Dictionaries for lookup by enum
         public Dictionary<WeaponType, WeaponData> WeaponDict { get; }
             = new Dictionary<WeaponType, WeaponData>();
-        public Dictionary<CorpseType, Corpse> CorpseDict { get; }
-            = new Dictionary<CorpseType, Corpse>();
         public Dictionary<ScrollType, ScrollData> ScrollDict { get; }
             = new Dictionary<ScrollType, ScrollData>();
         public Dictionary<FlaskType, FlaskData> FlaskDict { get; }
@@ -58,8 +55,6 @@ namespace Pantheon.Core
         {
             for (int i = 0; i < weaponList.Count; i++)
                 WeaponDict.Add(weaponList[i].Type, weaponList[i]);
-            for (int i = 0; i < corpseList.Count; i++)
-                CorpseDict.Add(corpseList[i].CorpseType, corpseList[i]);
             for (int i = 0; i < scrollList.Count; i++)
                 ScrollDict.Add(scrollList[i].ScrollType, scrollList[i]);
             for (int i = 0; i < flaskList.Count; i++)
@@ -83,17 +78,6 @@ namespace Pantheon.Core
 
             if (ret == null)
                 throw new Exception("Failed to get specified weapon data.");
-
-            return ret;
-        }
-
-        // Get corpse data by enum
-        public static Corpse GetCorpse(CorpseType corpseType)
-        {
-            GetDatabase().CorpseDict.TryGetValue(corpseType, out Corpse ret);
-
-            if (ret == null)
-                throw new Exception("Failed to get specified corpse data.");
 
             return ret;
         }

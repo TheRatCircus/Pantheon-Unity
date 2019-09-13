@@ -77,7 +77,6 @@
     <Compile Include="Assets\Scripts\ActionWrappers\LineProjActionWrapper.cs" />
     <Compile Include="Assets\Scripts\Actor.cs" />
     <Compile Include="Assets\Scripts\BaseData\BodyPartData.cs" />
-    <Compile Include="Assets\Scripts\BaseData\Corpse.cs" />
     <Compile Include="Assets\Scripts\BaseData\Feature.cs" />
     <Compile Include="Assets\Scripts\BaseData\FlaskData.cs" />
     <Compile Include="Assets\Scripts\BaseData\ItemData.cs" />
@@ -99,7 +98,6 @@
     <Compile Include="Assets\Scripts\DebugInfo.cs" />
     <Compile Include="Assets\Scripts\Enums\BodyPartType.cs" />
     <Compile Include="Assets\Scripts\Enums\CardinalDirection.cs" />
-    <Compile Include="Assets\Scripts\Enums\CorpseType.cs" />
     <Compile Include="Assets\Scripts\Enums\FeatureType.cs" />
     <Compile Include="Assets\Scripts\Enums\FlaskType.cs" />
     <Compile Include="Assets\Scripts\Enums\NPCType.cs" />

@@ -137,12 +137,6 @@ public class Console : MonoBehaviour
             Game.GetPlayer().RaiseInventoryChangeEvent();
             return $"Giving {scrollType.ToString()}";
         }
-        else if (Enum.TryParse(args[0], out CorpseType corpseType))
-        {
-            Game.GetPlayer().Inventory.Add(ItemFactory.NewCorpse(corpseType));
-            Game.GetPlayer().RaiseInventoryChangeEvent();
-            return $"Giving {corpseType.ToString()}";
-        }
         else
             return $"Item of type {args[0]} could not be found";
     }

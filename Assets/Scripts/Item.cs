@@ -40,6 +40,17 @@ public class Item
         Owner = null;
     }
 
+    /// <summary>
+    /// Corpse constructor.
+    /// </summary>
+    /// <param name="actor">Actor off which to base the new corpse.</param>
+    public Item(Actor actor)
+    {
+        DisplayName = $"{actor.ActorName} corpse";
+        Sprite = actor.CorpseSprite;
+        // TODO: Derive stats from actor weight
+    }
+
     // Use this item
     public void Use(Actor user)
     {

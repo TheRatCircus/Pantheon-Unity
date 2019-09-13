@@ -40,7 +40,8 @@ namespace Pantheon.Actors
         [SerializeField] protected List<Spell> spells = new List<Spell>();
 
         // Per-actor-type data
-        [SerializeField] protected CorpseType corpse;
+        [SerializeField] protected Species species;
+        [SerializeField] protected Sprite corpseSprite;
         [SerializeField] protected List<BodyPart> parts;
 
         // Action status
@@ -61,6 +62,7 @@ namespace Pantheon.Actors
         public List<BodyPart> Parts { get => parts; }
         public int MoveSpeed { get => moveSpeed; }
         public List<Spell> Spells { get => spells; set => spells = value; }
+        public Sprite CorpseSprite { get => corpseSprite; private set => corpseSprite = value; }
 
         #endregion
 
@@ -278,7 +280,7 @@ namespace Pantheon.Actors
             Destroy(gameObject);
             GameLog.Send($"You kill {Strings.GetSubject(this, false)}!",
                 Strings.TextColour.White);
-            cell.Items.Add(new Item(Database.GetCorpse(corpse)));
+            cell.Items.Add(new Item(this));
         }
 
         // ToString override
