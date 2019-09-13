@@ -36,6 +36,7 @@ namespace Pantheon.Actors
         public event Action OnInventoryChangeEvent;
         public event Action OnInventoryToggleEvent;
         public event Action<List<StatusEffect>> StatusChangeEvent;
+        public event Action OnPlayerDeathEvent;
 
         // Event invokers for PlayerInput
         public void RaiseInventoryToggleEvent() => OnInventoryToggleEvent?.Invoke();
@@ -160,6 +161,7 @@ namespace Pantheon.Actors
         {
             cell.Actor = null;
             GameLog.Send("You perish...", TextColour.Purple);
+            OnPlayerDeathEvent?.Invoke();
         }
     }
 }

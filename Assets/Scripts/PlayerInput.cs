@@ -24,7 +24,8 @@ public enum InputState
     PointTarget,
     LineTarget,
     Modal,
-    Console
+    Console,
+    PlayerDead
 }
 
 /// <summary>
@@ -69,6 +70,10 @@ public class PlayerInput : MonoBehaviour
     private void Start()
     {
         player = GetComponent<Player>();
+        player.OnPlayerDeathEvent += () =>
+        {
+            SetInputState(InputState.PlayerDead);
+        };
 
         if (player != null)
             if (player.Cell != null)
@@ -260,8 +265,14 @@ public class PlayerInput : MonoBehaviour
                 SetInputState(InputState.Move);
             }
         }
-
-
+        else if (inputState == InputState.PlayerDead)
+        {
+            if (Input.GetButtonDown("Cancel"))
+            {
+                Debug.Log($"Exiting game...");
+                Game.QuitGame();
+            }
+        }
     }
 
     #region Mouse

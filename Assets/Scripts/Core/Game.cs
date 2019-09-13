@@ -94,6 +94,8 @@ namespace Pantheon.Core
 
             player1.level = activeLevel;
             player1.transform.SetParent(activeLevel.transform);
+
+            player1.OnPlayerDeathEvent += Lock;
         }
 
         /// <summary>
