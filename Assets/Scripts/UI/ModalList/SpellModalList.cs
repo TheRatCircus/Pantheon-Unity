@@ -1,8 +1,6 @@
 ﻿// SpellModalList.cs
 // Jerome Martina
 
-#define DEBUG_MODAL
-
 using System.Collections.Generic;
 using UnityEngine;
 using Pantheon.Actors;

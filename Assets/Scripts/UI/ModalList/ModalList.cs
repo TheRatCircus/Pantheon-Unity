@@ -1,6 +1,9 @@
 ﻿// ModalList.cs
 // Jerome Martina
 
+#define DEBUG_MODAL
+#undef DEBUG_MODAL
+
 using UnityEngine;
 using UnityEngine.UI;
 

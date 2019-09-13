@@ -7,7 +7,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
 using Pantheon.Core;
@@ -75,10 +74,10 @@ public class PlayerInput : MonoBehaviour
             if (player.Cell != null)
                 MoveCrosshair(player.Cell);
             else
-                UnityEngine.Debug.LogException
+                Debug.LogException
                     (new Exception("Player was initialized without a cell"));
         else
-            UnityEngine.Debug.LogException(new Exception("No player found"));
+            Debug.LogException(new Exception("No player found"));
 
         targetLine = new List<Cell>();
     }
@@ -100,9 +99,9 @@ public class PlayerInput : MonoBehaviour
         LogInputState(state);
     }
 
-    [Conditional("DEBUG_INPUT")]
+    [System.Diagnostics.Conditional("DEBUG_INPUT")]
     private void LogInputState(InputState state)
-        => UnityEngine.Debug.Log($"Input state is now {state.ToString()}.");
+        => Debug.Log($"Input state is now {state.ToString()}.");
 
     // Handle keyboard input feasible when not player's turn
     private void KeyInput()
@@ -146,8 +145,13 @@ public class PlayerInput : MonoBehaviour
                 ModalListOpenEvent?.Invoke(ModalListOperation.Spell);
                 SetInputState(InputState.Modal);
             }
+            else if (Input.GetButtonDown("Inventory"))
+                player.RaiseInventoryToggleEvent();
             else if (Input.GetButtonDown("Cancel"))
+            {
+                Debug.Log($"Exiting game...");
                 Game.QuitGame();
+            }
             else if (Input.GetButtonDown("Long Rest"))
                 player.LongRest();
         }
@@ -246,6 +250,8 @@ public class PlayerInput : MonoBehaviour
             {
                 ModalConfirmEvent?.Invoke();
                 ModalConfirmEvent = null;
+                //  Nullify after firing to clear subscriptions and prevent bad
+                //  repeats of subscribed functions
             }
             else if (Input.GetButtonDown("Cancel"))
             {
@@ -255,9 +261,7 @@ public class PlayerInput : MonoBehaviour
             }
         }
 
-        // Actions which are always available
-        if (Input.GetButtonDown("Inventory"))
-            player.RaiseInventoryToggleEvent();
+
     }
 
     #region Mouse

@@ -1,6 +1,9 @@
 ﻿// HUD.cs
 // Jerome Martina
 
+#define DEBUG_MODAL
+#undef DEBUG_MODAL
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -86,12 +89,20 @@ namespace Pantheon.UI
 
         private void ClearModals()
         {
+            LogClearModals();
             itemModalList.Clean();
             itemModalList.gameObject.SetActive(false);
             bodyPartModalList.Clean();
             bodyPartModalList.gameObject.SetActive(false);
             spellModalList.Clean();
             spellModalList.gameObject.SetActive(false);
+            player.Input.ModalCancelEvent += ClearModals;
+        }
+
+        [System.Diagnostics.Conditional("DEBUG_MODAL")]
+        private void LogClearModals()
+        {
+            Debug.Log("Clearing modal dialogs...");
         }
 
         private void OpenModalList(ModalListOperation op)
