@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Actions\BaseAction.cs" />
+    <Compile Include="Assets\Scripts\Actions\CastAction.cs" />
     <Compile Include="Assets\Scripts\Actions\DropAction.cs" />
     <Compile Include="Assets\Scripts\Actions\HealAction.cs" />
     <Compile Include="Assets\Scripts\Actions\ItemUseAction.cs" />
@@ -132,6 +133,8 @@
     <Compile Include="Assets\Scripts\UI\ModalList\ItemModalListOption.cs" />
     <Compile Include="Assets\Scripts\UI\ModalList\ModalList.cs" />
     <Compile Include="Assets\Scripts\UI\ModalList\ModalListOption.cs" />
+    <Compile Include="Assets\Scripts\UI\ModalList\SpellModalList.cs" />
+    <Compile Include="Assets\Scripts\UI\ModalList\SpellModalListOption.cs" />
     <Compile Include="Assets\Scripts\UI\OnScreenHealthBar.cs" />
     <Compile Include="Assets\Scripts\Utils\Bresenhams.cs" />
     <Compile Include="Assets\Scripts\Utils\Colours.cs" />

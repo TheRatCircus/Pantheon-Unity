@@ -21,6 +21,7 @@ namespace Pantheon.Core
         [SerializeField] private List<TerrainData> terrainList = new List<TerrainData>();
         [SerializeField] private List<NPCWrapper> NPCList = new List<NPCWrapper>();
         [SerializeField] private List<Feature> features = new List<Feature>();
+        [SerializeField] private List<Spell> spells = new List<Spell>();
 
         // Miscellaneous
         public Sprite lineTargetOverlay;
@@ -42,6 +43,8 @@ namespace Pantheon.Core
             = new Dictionary<NPCType, NPCWrapper>();
         public Dictionary<FeatureType, Feature> FeatureDict { get; }
             = new Dictionary<FeatureType, Feature>();
+        public Dictionary<SpellType, Spell> SpellDict { get; }
+            = new Dictionary<SpellType, Spell>();
 
         // Awake is called when the script instance is being loaded
         private void Awake() => InitDatabaseDicts();
@@ -67,6 +70,8 @@ namespace Pantheon.Core
                 NPCDict.Add(NPCList[i].Type, NPCList[i]);
             for (int i = 0; i < features.Count; i++)
                 FeatureDict.Add(features[i].Type, features[i]);
+            for (int i = 0; i < spells.Count; i++)
+                SpellDict.Add(spells[i].Type, spells[i]);
         }
 
         #region Accessors
@@ -148,6 +153,17 @@ namespace Pantheon.Core
 
             if (ret == null)
                 throw new Exception("Failed to get specified feature.");
+
+            return ret;
+        }
+
+        // Get spell data by enum
+        public static Spell GetSpell(SpellType spellType)
+        {
+            GetDatabase().SpellDict.TryGetValue(spellType, out Spell ret);
+
+            if (ret == null)
+                throw new Exception("Failed to get specified spell.");
 
             return ret;
         }

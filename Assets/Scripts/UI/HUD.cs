@@ -30,6 +30,7 @@ namespace Pantheon.UI
         // Modals
         public ItemModalList itemModalList;
         public BodyPartModalList bodyPartModalList;
+        public SpellModalList spellModalList;
 
         // Start is called before the first frame update
         private void Start()
@@ -89,6 +90,8 @@ namespace Pantheon.UI
             itemModalList.gameObject.SetActive(false);
             bodyPartModalList.Clean();
             bodyPartModalList.gameObject.SetActive(false);
+            spellModalList.Clean();
+            spellModalList.gameObject.SetActive(false);
         }
 
         private void OpenModalList(ModalListOperation op)
@@ -98,9 +101,26 @@ namespace Pantheon.UI
                 case ModalListOperation.Wield:
                     ItemWieldModalList();
                     break;
+                case ModalListOperation.Spell:
+                    SpellModalList();
+                    break;
                 default:
                     throw new System.Exception("No modal list operation given.");
             }
+        }
+
+        private void SpellModalList()
+        {
+            ClearModals();
+            spellModalList.gameObject.SetActive(true);
+            spellModalList.Initialize("Cast which spell?", player, 1,
+                (Spell spell) =>
+                {
+                    ClearModals();
+                    player.Input.SetInputState(InputState.Move);
+                    player.NextAction = new CastAction(player, spell);
+                }
+                );
         }
 
         private void ItemWieldModalList()

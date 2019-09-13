@@ -15,9 +15,6 @@ namespace Pantheon.Actors
 {
     public class NPC : Actor
     {
-        // Requisite objects
-        private SpriteRenderer spriteRenderer;
-
         [SerializeField] [ReadOnly] private Actor target;
 
         // Events
@@ -28,7 +25,8 @@ namespace Pantheon.Actors
 
         private void OnEnable()
         {
-            spriteRenderer = GetComponent<SpriteRenderer>();
+            if (spriteRenderer == null)
+                spriteRenderer = GetComponent<SpriteRenderer>();
             spriteRenderer.enabled = cell.Visible;
         }
 

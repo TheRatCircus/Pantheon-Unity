@@ -33,7 +33,8 @@ public enum InputState
 /// </summary>
 public enum ModalListOperation
 {
-    Wield
+    Wield,
+    Spell
 }
 
 public class PlayerInput : MonoBehaviour
@@ -138,6 +139,11 @@ public class PlayerInput : MonoBehaviour
             else if (Input.GetButtonDown("Wield"))
             {
                 ModalListOpenEvent?.Invoke(ModalListOperation.Wield);
+                SetInputState(InputState.Modal);
+            }
+            else if (Input.GetButtonDown("Spells"))
+            {
+                ModalListOpenEvent?.Invoke(ModalListOperation.Spell);
                 SetInputState(InputState.Modal);
             }
             else if (Input.GetButtonDown("Cancel"))

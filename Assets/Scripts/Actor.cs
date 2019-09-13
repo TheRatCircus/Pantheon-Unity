@@ -16,7 +16,7 @@ namespace Pantheon.Actors
     /// </summary>
     public class Actor : MonoBehaviour
     {
-        protected List<Item> inventory;
+        protected SpriteRenderer spriteRenderer;
 
         // Locational
         public Level level;
@@ -36,6 +36,8 @@ namespace Pantheon.Actors
         [SerializeField]
         [ReadOnly]
         protected List<StatusEffect> statuses = new List<StatusEffect>();
+        protected List<Item> inventory;
+        [SerializeField] protected List<Spell> spells = new List<Spell>();
 
         // Per-actor-type data
         [SerializeField] protected CorpseType corpse;
@@ -58,6 +60,7 @@ namespace Pantheon.Actors
         public BaseAction NextAction { get => nextAction; set => nextAction = value; }
         public List<BodyPart> Parts { get => parts; }
         public int MoveSpeed { get => moveSpeed; }
+        public List<Spell> Spells { get => spells; set => spells = value; }
 
         #endregion
 
@@ -117,6 +120,8 @@ namespace Pantheon.Actors
 
         protected virtual void Start()
         {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+
             Game.instance.OnTurnChangeEvent += RegenHealth;
             Game.instance.OnTurnChangeEvent += TickStatuses;
         }

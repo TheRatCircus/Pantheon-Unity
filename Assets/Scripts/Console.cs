@@ -29,7 +29,8 @@ public class Console : MonoBehaviour
         {
             { "reveal_level", new ConsoleCommand(RevealLevel) },
             { "apply_status", new ConsoleCommand(ApplyStatus) },
-            { "give_item", new ConsoleCommand(GiveItem) }
+            { "give_item", new ConsoleCommand(GiveItem) },
+            { "learn_spell", new ConsoleCommand(LearnSpell) }
         };
     }
 
@@ -144,6 +145,20 @@ public class Console : MonoBehaviour
         }
         else
             return $"Item of type {args[0]} could not be found";
+    }
+
+    string LearnSpell(string[] args)
+    {
+        if (args.Length != 1)
+            return "Please pass only 1 argument.";
+
+        if (Enum.TryParse(args[0], out SpellType spellType))
+        {
+            Game.GetPlayer().Spells.Add(Database.GetSpell(spellType));
+            return $"You have learned {spellType.ToString()}";
+        }
+        else
+            return $"Spell of type {args[0]} could not be found";
     }
 }
 

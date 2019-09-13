@@ -1,7 +1,6 @@
 ﻿// Spawn.cs
 // Jerome Martina
 
-using System.Collections.Generic;
 using UnityEngine;
 using Pantheon.Actors;
 using Pantheon.World;
@@ -27,8 +26,7 @@ namespace Pantheon.Core
                 npcPrefab,
                 Helpers.V2IToV3(cell.Position),
                 new Quaternion(),
-                level.transform
-                );
+                level.transform);
             NPC npc = npcObj.GetComponent<NPC>();
             npc.level = level;
             level.NPCs.Add(npc);

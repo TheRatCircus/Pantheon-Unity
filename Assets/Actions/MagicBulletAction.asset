@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00a20839822b7f143a1f9c6856439562, type: 3}
-  m_Name: ScrollMagicBulletAction
+  m_Name: MagicBulletAction
   m_EditorClassIdentifier: 
   LineProjAction:
     fxPrefab: {fileID: 3843464375304575577, guid: a7358d2300337354fbb5a641004ace8e,

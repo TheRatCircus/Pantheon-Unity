@@ -1,5 +1,7 @@
-﻿// ItemModalList.cs
+﻿// SpellModalList.cs
 // Jerome Martina
+
+#define DEBUG_MODAL
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,39 +9,32 @@ using Pantheon.Actors;
 
 namespace Pantheon.UI
 {
-    /// <summary>
-    /// A modal list showing a set of items.
-    /// </summary>
-    public class ItemModalList : ModalList
+    public class SpellModalList : ModalList
     {
         // Status
-        private List<ItemModalListOption> selected
-            = new List<ItemModalListOption>();
+        private List<SpellModalListOption> selected
+            = new List<SpellModalListOption>();
 
         // Callback
-        public delegate void SubmitItemDelegate(Item item);
-        SubmitItemDelegate onSubmit;
+        public delegate void SubmitSpellDelegate(Spell spell);
+        SubmitSpellDelegate onSubmit;
 
-        /// <summary>
-        /// Initialize this list with an actor's inventory.
-        /// </summary>
-        /// <param name="actor"></param>
         public void Initialize(string prompt, Actor actor, int maxOptions,
-            SubmitItemDelegate onSubmit)
+            SubmitSpellDelegate onSubmit)
         {
             promptText.text = prompt;
             this.maxOptions = maxOptions;
             this.onSubmit = onSubmit;
 
-            for (int i = 0; i < actor.Inventory.Count; i++)
+            for (int i = 0; i < actor.Spells.Count; i++)
             {
                 GameObject optionObj = Instantiate(optionPrefab, listTransform);
-                ItemModalListOption option = optionObj.GetComponent<ItemModalListOption>();
-                option.Initialize(actor.Inventory[i], SelectItem);
+                SpellModalListOption option = optionObj.GetComponent<SpellModalListOption>();
+                option.Initialize(actor.Spells[i], SelectSpell);
             }
         }
 
-        public void SelectItem(ItemModalListOption option)
+        public void SelectSpell(SpellModalListOption option)
         {
             if (selected.Count == maxOptions)
                 return;
@@ -64,15 +59,18 @@ namespace Pantheon.UI
             }
         }
 
-        /// <summary>
-        /// Send the selected options to the passer of the callback.
-        /// </summary>
         public void Submit()
         {
-            onSubmit?.Invoke(selected[0].Item);
+            LogModal("Spell modal list submitting...");
+            onSubmit?.Invoke(selected[0].Spell);
             selected.Clear();
             Clean();
         }
-    }
 
+        [System.Diagnostics.Conditional("DEBUG_MODAL")]
+        public void LogModal(string logMsg)
+        {
+            Debug.Log(logMsg);
+        }
+    }
 }
