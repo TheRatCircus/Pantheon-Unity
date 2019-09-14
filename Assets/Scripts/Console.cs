@@ -96,6 +96,7 @@ public class Console : MonoBehaviour
             cell.Reveal();
 
         Game.instance.activeLevel.RefreshFOV();
+        CellDrawer.DrawLevel(Game.instance.activeLevel);
 
         return "Revealing level...";
     }
