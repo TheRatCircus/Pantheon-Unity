@@ -93,13 +93,15 @@ namespace Pantheon.Actors
 
             if (!cell.IsWalkableTerrain())
             {
-                Debug.LogException(new Exception("MoveTo destination is not walkable"));
+                UnityEngine.Debug.LogException(new Exception
+                    ("MoveTo destination is not walkable"));
                 return;
             }
 
             if (cell.Actor != null)
             {
-                Debug.LogException(new Exception("MoveTo destination has an actor in it"));
+                UnityEngine.Debug.LogException(
+                    new Exception("MoveTo destination has an actor in it"));
                 return;
             }
 
@@ -149,7 +151,10 @@ namespace Pantheon.Actors
 
         // Called by scheduler to carry out and process this actor's action
         public virtual int Act()
-        { Debug.LogWarning("Attempted call of base Act()"); return -1; }
+        {
+            UnityEngine.Debug.LogWarning("Attempted call of base Act()");
+            return -1;
+        }
 
         // Take a damaging hit from something
         public void TakeHit(Hit hit) => TakeDamage(hit.Damage);
@@ -312,7 +317,7 @@ namespace Pantheon.Actors
         }
 
         // Handle this actor's death
-        protected virtual void OnDeath()
+        public virtual void OnDeath()
         {
             Game.instance.RemoveActor(this);
             cell.Actor = null;

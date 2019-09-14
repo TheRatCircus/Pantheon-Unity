@@ -157,7 +157,7 @@ namespace Pantheon.Actors
         }
 
         // Handle the player's death
-        protected override void OnDeath()
+        public override void OnDeath()
         {
             cell.Actor = null;
             GameLog.Send("You perish...", TextColour.Purple);

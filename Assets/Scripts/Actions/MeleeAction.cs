@@ -34,7 +34,7 @@ namespace Pantheon.Actions
             List<Melee> attacks = Actor.GetMelees();
             if (attacks == null)
             {
-                Debug.LogWarning("An actor has no melee attacks.");
+                UnityEngine.Debug.LogWarning("An actor has no melee attacks.");
                 return Game.TurnTime;
             }
             

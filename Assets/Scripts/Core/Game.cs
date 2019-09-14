@@ -74,7 +74,7 @@ namespace Pantheon.Core
         private void Awake()
         {
             if (instance != null)
-                Debug.LogWarning("Game singleton assigned in error");
+                UnityEngine.Debug.LogWarning("Game singleton assigned in error");
             else
                 instance = this;
 
@@ -162,7 +162,8 @@ namespace Pantheon.Core
                 }
 
                 if (actionCost == 0)
-                    Debug.LogWarning("An action with 0 energy cost was scheduled");
+                    UnityEngine.Debug.LogWarning
+                        ("An action with 0 energy cost was scheduled");
 
                 ActorDebugEvent?.Invoke(actor);
 

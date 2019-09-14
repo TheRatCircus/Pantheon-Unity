@@ -37,7 +37,7 @@ namespace Pantheon.World
         private Vector2Int levelSize;
 
         // Contents
-        private List<NPC> enemies = new List<NPC>();
+        private List<NPC> npcs = new List<NPC>();
 
         // Properties
         public Tilemap TerrainTilemap { get => terrainTilemap; }
@@ -47,7 +47,7 @@ namespace Pantheon.World
         public string DisplayName { get => displayName; set => displayName = value; }
         public Cell[,] Map { get => map; set => map = value; }
         public Vector2Int LevelSize { get => levelSize; set => levelSize = value; }
-        public List<NPC> NPCs { get => enemies; }
+        public List<NPC> NPCs { get => npcs; }
         public Pathfinder Pathfinder { get => pathfinder; }
         public Dictionary<string, Connection> Connections { get; set; }
         public string RefName { get => refName; set => refName = value; }
@@ -106,7 +106,7 @@ namespace Pantheon.World
         public Cell RandomFloor(int x, int y)
         {
             if (x > 0 && y > 0)
-                Debug.LogWarning("Result is fixed for both x and y.");
+                UnityEngine.Debug.LogWarning("Result is fixed for both x and y.");
 
             Cell cell;
             int attempts = 0;
@@ -169,9 +169,11 @@ namespace Pantheon.World
         public Cell GetAdjacentCell(Cell origin, Vector2Int delta)
         {
             if (delta.x == 0 && delta.y == 0)
-                throw new System.ArgumentException("Level.GetAdjacentCell requires a non-zero delta");
+                throw new System.ArgumentException
+                    ("Level.GetAdjacentCell requires a non-zero delta");
             else if (delta.x > 1 || delta.y > 1)
-                Debug.LogWarning("GetAdjacentCell was passed a delta with a value greater than one");
+                UnityEngine.Debug.LogWarning
+                    ("GetAdjacentCell was passed a delta with a value greater than one");
 
             delta.Clamp(new Vector2Int(-1, -1), new Vector2Int(1, 1));
 
@@ -196,7 +198,7 @@ namespace Pantheon.World
             }
             Game.GetPlayer().UpdateVisibleCells(allRefreshed);
 
-            foreach (NPC e in enemies)
+            foreach (NPC e in npcs)
                 e.UpdateVisibility();
         }
 

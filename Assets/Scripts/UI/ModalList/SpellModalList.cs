@@ -68,7 +68,7 @@ namespace Pantheon.UI
         [System.Diagnostics.Conditional("DEBUG_MODAL")]
         public void LogModal(string logMsg)
         {
-            Debug.Log(logMsg);
+            UnityEngine.Debug.Log(logMsg);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Pantheon.WorldGen
         {
             level.LevelSize = new Vector2Int(ValleySize, ValleySize);
 
-            Debug.Log($"Initializing cells...");
+            UnityEngine.Debug.Log($"Initializing cells...");
             level.Map = LevelLayout.BlankMap(level.LevelSize, TerrainType.Grass);
 
             if (wing == CardinalDirection.Centre)
@@ -36,15 +36,15 @@ namespace Pantheon.WorldGen
             // If generating the Central Valley, then spawn the player there
             if (wing == CardinalDirection.Centre)
             {
-                Debug.Log("Spawning the player...");
+                UnityEngine.Debug.Log("Spawning the player...");
                 level.SpawnPlayer();
             }
 
-            Debug.Log("Generating wing specifics for new valley level...");
+            UnityEngine.Debug.Log("Generating wing specifics for new valley level...");
             GenerateValleyWing(ref level, wing);
             LevelItems.SpawnItems(ref level);
 
-            Debug.Log($"Registering level {level.RefName} in dictionary...");
+            UnityEngine.Debug.Log($"Registering level {level.RefName} in dictionary...");
             Game.instance.RegisterLevel(level);
             CellDrawer.DrawLevel(level);
         }

@@ -41,7 +41,8 @@ namespace Pantheon.Actions
         public override int DoAction()
         {
             if (destination == null)
-                Debug.LogException(new System.Exception("A MoveAction was initialized with a null cell"));
+                UnityEngine.Debug.LogException(new System.Exception
+                    ("A MoveAction was initialized with a null cell"));
 
             if (!destination.IsWalkableTerrain())
                 return -1;

@@ -90,6 +90,7 @@
     <Compile Include="Assets\Scripts\CellDrawer.cs" />
     <Compile Include="Assets\Scripts\Connection.cs" />
     <Compile Include="Assets\Scripts\Console.cs" />
+    <Compile Include="Assets\Scripts\ConsoleCommandFunctions.cs" />
     <Compile Include="Assets\Scripts\Core\Database.cs" />
     <Compile Include="Assets\Scripts\Core\Game.cs" />
     <Compile Include="Assets\Scripts\Core\GameLog.cs" />

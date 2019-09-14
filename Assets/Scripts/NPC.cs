@@ -74,7 +74,7 @@ namespace Pantheon.Actors
         }
 
         // Handle NPC death
-        protected override void OnDeath()
+        public override void OnDeath()
         {
             base.OnDeath();
             level.NPCs.Remove(this);
@@ -83,7 +83,7 @@ namespace Pantheon.Actors
         [System.Diagnostics.Conditional("DEBUG_NPC")]
         private void LogNPCAction()
         {
-            Debug.Log($"{actorName} next action: {nextAction}");
+            UnityEngine.Debug.Log($"{actorName} next action: {nextAction}");
         }
     }
 }

@@ -102,7 +102,7 @@ namespace Pantheon.UI
         [System.Diagnostics.Conditional("DEBUG_MODAL")]
         private void LogClearModals()
         {
-            Debug.Log("Clearing modal dialogs...");
+            UnityEngine.Debug.Log("Clearing modal dialogs...");
         }
 
         private void OpenModalList(ModalListOperation op)
