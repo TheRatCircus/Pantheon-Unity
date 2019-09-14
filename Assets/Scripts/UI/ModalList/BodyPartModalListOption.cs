@@ -22,7 +22,7 @@ namespace Pantheon.UI
             Part = part;
             icon.sprite = part.Sprite;
 
-            string optionText = $"{part.Name}";
+            string optionText = $"{part.DisplayName}";
             if (part.Item != null)
                 optionText += $" ({part.Item.DisplayName})";
             text.text = optionText;

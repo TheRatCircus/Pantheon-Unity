@@ -66,7 +66,7 @@ namespace Pantheon.Utils
                 case BodyPartType.Teeth:
                     ret = RandomUtils.ArrayRandom(BiteVerbs).Get(isPlayer);
                     break;
-                case BodyPartType.Claws:
+                case BodyPartType.Claw:
                     ret = RandomUtils.ArrayRandom(ClawVerbs).Get(isPlayer);
                     break;
                 default:

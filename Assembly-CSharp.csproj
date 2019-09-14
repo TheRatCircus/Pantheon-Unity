@@ -120,6 +120,9 @@
     <Compile Include="Assets\Scripts\PlayerInput.cs" />
     <Compile Include="Assets\Scripts\ReadOnlyAttribute.cs" />
     <Compile Include="Assets\Scripts\StatusEffect.cs" />
+    <Compile Include="Assets\Scripts\Trait.cs" />
+    <Compile Include="Assets\Scripts\TraitEffects.cs" />
+    <Compile Include="Assets\Scripts\Traits.cs" />
     <Compile Include="Assets\Scripts\UI\GUIClickController.cs" />
     <Compile Include="Assets\Scripts\UI\HUD.cs" />
     <Compile Include="Assets\Scripts\UI\InventorySlot.cs" />

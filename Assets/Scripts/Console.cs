@@ -30,7 +30,8 @@ public class Console : MonoBehaviour
             { "reveal_level", new ConsoleCommand(RevealLevel) },
             { "apply_status", new ConsoleCommand(ApplyStatus) },
             { "give_item", new ConsoleCommand(GiveItem) },
-            { "learn_spell", new ConsoleCommand(LearnSpell) }
+            { "learn_spell", new ConsoleCommand(LearnSpell) },
+            { "add_trait", new ConsoleCommand(AddTrait) }
         };
     }
 
@@ -153,6 +154,20 @@ public class Console : MonoBehaviour
         }
         else
             return $"Spell of type {args[0]} could not be found";
+    }
+
+    string AddTrait(string[] args)
+    {
+        if (args.Length != 1)
+            return "Please pass only 1 argument.";
+
+        if (Traits.traitsLookup.TryGetValue(args[0], out Trait trait))
+        {
+            Game.GetPlayer().AddTrait(trait);
+            return $"Added trait {trait}";
+        }
+        else
+            return $"Could not find trait {args[0]}";
     }
 }
 

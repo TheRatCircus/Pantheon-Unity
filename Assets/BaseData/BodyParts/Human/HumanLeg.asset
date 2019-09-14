@@ -17,13 +17,12 @@ MonoBehaviour:
   displayName: human leg
   sprite: {fileID: 0}
   strength: 0
-  dexterity: 0
   runBonus: 0
   prehensile: 0
-  inherentMelee: 0
+  inherentlyDexterous: 0
   melee:
-    minDamage: 0
-    maxDamage: 0
-    accuracy: 0
-    attackTime: 0
+    minDamage: -1
+    maxDamage: -1
+    accuracy: -1
+    attackTime: -1
     damageType: 0

@@ -11,5 +11,5 @@ public enum BodyPartType
     Arm,
     Leg,
     Teeth,
-    Claws
+    Claw
 }

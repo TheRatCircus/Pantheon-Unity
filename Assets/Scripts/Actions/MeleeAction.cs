@@ -71,7 +71,7 @@ namespace Pantheon.Actions
                     attack = part.Item.Melee;
                     swings = actionTime / attack.AttackTime;
                 }
-                else if (part.CanMelee)
+                else if (part.CanMelee && part.Dexterous)
                 {
                     attack = part.Melee;
                     swings = actionTime / attack.AttackTime;

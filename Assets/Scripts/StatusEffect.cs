@@ -1,7 +1,6 @@
 ﻿// StatusEffect.cs
 // Jerome Martina
 
-using System;
 using UnityEngine;
 using Pantheon.Utils;
 

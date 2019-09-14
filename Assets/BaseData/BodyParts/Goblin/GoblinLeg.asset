@@ -17,13 +17,12 @@ MonoBehaviour:
   displayName: goblin leg
   sprite: {fileID: 0}
   strength: 0
-  dexterity: 0
   runBonus: 0
   prehensile: 0
-  inherentMelee: 0
+  inherentlyDexterous: 0
   melee:
-    minDamage: 2
-    maxDamage: 4
-    accuracy: 75
-    attackTime: 100
-    damageType: 3
+    minDamage: -1
+    maxDamage: -1
+    accuracy: -1
+    attackTime: -1
+    damageType: 0

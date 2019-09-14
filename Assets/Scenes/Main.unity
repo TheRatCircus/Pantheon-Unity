@@ -1603,8 +1603,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 179a0e11ef0272440af4cbed69018e73, type: 2}
   - {fileID: 11400000, guid: f2adb3aa355150b469f477952950197e, type: 2}
   - {fileID: 11400000, guid: f53cae12bef511145b20e4f54601a414, type: 2}
-  corpseList:
-  - {fileID: 11400000, guid: 98843def2b5f32c4aab68f9d608078e5, type: 2}
   scrollList:
   - {fileID: 11400000, guid: 5b7d939e3dd5a0b44a354dbfe8781bbf, type: 2}
   flaskList:
@@ -4098,66 +4096,57 @@ MonoBehaviour:
   speed: 100
   energy: 0
   moveSpeed: 100
+  parts:
+  - partData: {fileID: 11400000, guid: b45b693eac9d9894aa96e7cf57719198, type: 2}
+    dexterous: 0
+    strength: 0
+    melee:
+      minDamage: 2
+      maxDamage: 4
+      accuracy: 75
+      attackTime: 100
+      damageType: 3
+  - partData: {fileID: 11400000, guid: 7a61efd1c0afc55448d03782579e4ac0, type: 2}
+    dexterous: 1
+    strength: 0
+    melee:
+      minDamage: 2
+      maxDamage: 4
+      accuracy: 75
+      attackTime: 100
+      damageType: 3
+  - partData: {fileID: 11400000, guid: 7a61efd1c0afc55448d03782579e4ac0, type: 2}
+    dexterous: 0
+    strength: 0
+    melee:
+      minDamage: 2
+      maxDamage: 4
+      accuracy: 75
+      attackTime: 100
+      damageType: 3
+  - partData: {fileID: 11400000, guid: 1fc1b38fe6493b044ac0e2cedec965b3, type: 2}
+    dexterous: 0
+    strength: 0
+    melee:
+      minDamage: 2
+      maxDamage: 4
+      accuracy: 75
+      attackTime: 100
+      damageType: 3
+  - partData: {fileID: 11400000, guid: 1fc1b38fe6493b044ac0e2cedec965b3, type: 2}
+    dexterous: 0
+    strength: 0
+    melee:
+      minDamage: 2
+      maxDamage: 4
+      accuracy: 75
+      attackTime: 100
+      damageType: 3
   statuses: []
   spells:
   - {fileID: 11400000, guid: 6d385a899d22ce9409b3f8854e50640b, type: 2}
-  corpse: 0
-  parts:
-  - partData: {fileID: 11400000, guid: b45b693eac9d9894aa96e7cf57719198, type: 2}
-    dominant: 0
-    strength: 0
-    dexterity: 0
-    melee:
-      minDamage: 2
-      maxDamage: 4
-      accuracy: 75
-      attackTime: 100
-      damageType: 3
-    canMelee: 0
-  - partData: {fileID: 11400000, guid: 7a61efd1c0afc55448d03782579e4ac0, type: 2}
-    dominant: 0
-    strength: 0
-    dexterity: 0
-    melee:
-      minDamage: 2
-      maxDamage: 4
-      accuracy: 75
-      attackTime: 100
-      damageType: 3
-    canMelee: 1
-  - partData: {fileID: 11400000, guid: 7a61efd1c0afc55448d03782579e4ac0, type: 2}
-    dominant: 0
-    strength: 0
-    dexterity: 0
-    melee:
-      minDamage: 2
-      maxDamage: 4
-      accuracy: 75
-      attackTime: 100
-      damageType: 3
-    canMelee: 0
-  - partData: {fileID: 11400000, guid: 1fc1b38fe6493b044ac0e2cedec965b3, type: 2}
-    dominant: 0
-    strength: 0
-    dexterity: 0
-    melee:
-      minDamage: 2
-      maxDamage: 4
-      accuracy: 75
-      attackTime: 100
-      damageType: 3
-    canMelee: 0
-  - partData: {fileID: 11400000, guid: 1fc1b38fe6493b044ac0e2cedec965b3, type: 2}
-    dominant: 0
-    strength: 0
-    dexterity: 0
-    melee:
-      minDamage: 2
-      maxDamage: 4
-      accuracy: 75
-      attackTime: 100
-      damageType: 3
-    canMelee: 0
+  species: 0
+  corpseSprite: {fileID: 0}
   inventorySize: 40
   fovRadius: 15
   visibleCells: []

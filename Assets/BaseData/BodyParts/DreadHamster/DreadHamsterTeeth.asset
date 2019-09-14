@@ -17,10 +17,9 @@ MonoBehaviour:
   displayName: dread hamster teeth
   sprite: {fileID: 0}
   strength: 0
-  dexterity: 0
   runBonus: 0
   prehensile: 0
-  inherentMelee: 1
+  inherentlyDexterous: 1
   melee:
     minDamage: 13
     maxDamage: 8

@@ -11,6 +11,15 @@ using Pantheon.Actions;
 
 namespace Pantheon.Actors
 {
+    [Flags]
+    public enum TraitType
+    {
+        Adrenaline = 1 << 0,
+        Ambidextrous = 1 << 1,
+        SkilledSwimmer = 1 << 2,
+        Charge = 1 << 3
+    }
+
     /// <summary>
     /// Any entity which acts with any degree of agency.
     /// </summary>
@@ -33,6 +42,8 @@ namespace Pantheon.Actors
         [SerializeField] [ReadOnly] protected int energy; // Energy remaining
         [SerializeField] protected int moveSpeed; // Energy needed to walk one cell
 
+        [SerializeField] protected List<Trait> traits;
+        [SerializeField] protected List<BodyPart> parts;
         [SerializeField]
         [ReadOnly]
         protected List<StatusEffect> statuses = new List<StatusEffect>();
@@ -42,7 +53,7 @@ namespace Pantheon.Actors
         // Per-actor-type data
         [SerializeField] protected Species species;
         [SerializeField] protected Sprite corpseSprite;
-        [SerializeField] protected List<BodyPart> parts;
+        
 
         // Action status
         [SerializeField] [ReadOnly] protected BaseAction nextAction;
@@ -115,7 +126,15 @@ namespace Pantheon.Actors
 
             health = MaxHealth;
             energy = speed;
-            
+
+            if (traits == null)
+                traits = new List<Trait>();
+             // Some actors start with traits, so these need to fire their
+             // callback now
+            if (traits.Count > 0)
+                foreach (Trait trait in traits)
+                    trait.OnGetTrait?.Invoke(this);
+
             foreach (BodyPart part in parts)
                 part.Initialize();
         }
@@ -186,6 +205,26 @@ namespace Pantheon.Actors
             }
         }
 
+        public virtual void AddTrait(Trait trait)
+        {
+            if (traits.Contains(trait))
+                throw new Exception($"Actor already has trait {trait}.");
+
+            traits.Add(trait);
+            trait.OnGetTrait?.Invoke(this);
+        }
+
+        public virtual void RemoveTrait(Trait trait)
+        {
+            if (!traits.Contains(trait))
+                throw new Exception($"Actor does not have trait {trait}.");
+            else
+            {
+                traits.Remove(trait);
+                trait.OnLoseTrait?.Invoke(this);
+            }
+        }
+
         // Remove an item from this actor's inventory
         public virtual void RemoveItem(Item item)
         {
@@ -227,7 +266,7 @@ namespace Pantheon.Actors
             {
                 if (part.Item != null)
                     melees.Add(part.Item.Melee);
-                else if (part.CanMelee)
+                else if (part.CanMelee && part.Dexterous)
                     melees.Add(part.Melee);
                 else
                     continue;
