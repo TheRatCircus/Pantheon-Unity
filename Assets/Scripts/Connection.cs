@@ -60,17 +60,17 @@ namespace Pantheon.World
     /// </summary>
     public class LateralConnection : Connection
     {
-        public delegate void FirstUseDelegate(ref Level level, CardinalDirection wing);
+        public delegate void FirstTravelDelegate(ref Level level, CardinalDirection wing);
 
-        public FirstUseDelegate onFirstUse;
+        public FirstTravelDelegate onFirstTravel;
         private CardinalDirection destinationWing;
 
         public LateralConnection(
             Level level, Cell cell, Feature feature,
-            FirstUseDelegate onFirstUse, CardinalDirection destinationWing)
+            FirstTravelDelegate onFirstTravel, CardinalDirection destinationWing)
             : base(level, cell, feature)
         {
-            this.onFirstUse = onFirstUse;
+            this.onFirstTravel = onFirstTravel;
             this.destinationWing = destinationWing;
         }
 
@@ -84,7 +84,7 @@ namespace Pantheon.World
             if (Partner == null)
             {
                 Level destinationLevel = Game.instance.MakeNewLevel();
-                onFirstUse?.Invoke(ref destinationLevel, destinationWing);
+                onFirstTravel?.Invoke(ref destinationLevel, destinationWing);
             }
             
             LogTravel(player, Partner.Level, Partner.Cell);
@@ -97,17 +97,17 @@ namespace Pantheon.World
     /// </summary>
     public class VerticalConnection : Connection
     {
-        public delegate void FirstUseDelegate(ref Level level, int depth);
+        public delegate void FirstTravelDelegate(ref Level level, int depth);
 
-        public FirstUseDelegate onFirstUse;
+        public FirstTravelDelegate onFirstTravel;
         private int destinationDepth;
 
         public VerticalConnection(
             Level level, Cell cell, Feature feature,
-            FirstUseDelegate onFirstUse, int destinationDepth)
+            FirstTravelDelegate onFirstUse, int destinationDepth)
             : base(level, cell, feature)
         {
-            this.onFirstUse = onFirstUse;
+            this.onFirstTravel = onFirstUse;
             this.destinationDepth = destinationDepth;
         }
 
@@ -117,7 +117,7 @@ namespace Pantheon.World
             if (Partner == null)
             {
                 Level destinationLevel = Game.instance.MakeNewLevel();
-                onFirstUse?.Invoke(ref destinationLevel, destinationDepth);
+                onFirstTravel?.Invoke(ref destinationLevel, destinationDepth);
             }
 
             LogTravel(player, Partner.Level, Partner.Cell);

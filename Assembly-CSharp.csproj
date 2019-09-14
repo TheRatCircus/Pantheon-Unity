@@ -143,6 +143,7 @@
     <Compile Include="Assets\Scripts\Utils\RandomUtils.cs" />
     <Compile Include="Assets\Scripts\Utils\StatusFactory.cs" />
     <Compile Include="Assets\Scripts\Utils\Strings.cs" />
+    <Compile Include="Assets\Scripts\WorldGen\LevelConnections.cs" />
     <Compile Include="Assets\Scripts\WorldGen\LevelEnemies.cs" />
     <Compile Include="Assets\Scripts\WorldGen\LevelItems.cs" />
     <Compile Include="Assets\Scripts\WorldGen\LevelLayout.cs" />

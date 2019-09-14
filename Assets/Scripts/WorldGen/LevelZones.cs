@@ -40,9 +40,11 @@ namespace Pantheon.WorldGen
                 level.SpawnPlayer();
             }
 
+            Debug.Log("Generating wing specifics for new valley level...");
             GenerateValleyWing(ref level, wing);
             LevelItems.SpawnItems(ref level);
 
+            Debug.Log($"Registering level {level.RefName} in dictionary...");
             Game.instance.RegisterLevel(level);
             CellDrawer.DrawLevel(level);
         }
@@ -63,36 +65,24 @@ namespace Pantheon.WorldGen
 
                         level.Connections = new Dictionary<string, Connection>(4);
 
-                        Cell trailNorthCell = level.RandomFloor(-1, level.LevelSize.y - 2);
-                        Connection trailNorth = new LateralConnection(
-                            level, trailNorthCell,
-                            Database.GetFeature(FeatureType.TrailNorth),
-                            GenerateValley, CardinalDirection.North);
-                        trailNorthCell.Connection = trailNorth;
+                        Connection trailNorth = LevelConnections.MapEdgeConnection(
+                            level, CardinalDirection.North,
+                            FeatureType.TrailNorth, GenerateValley);
                         level.Connections.Add("trailNorth", trailNorth);
 
-                        Cell trailEastCell = level.RandomFloor(level.LevelSize.x - 2, -1);
-                        Connection trailEast = new LateralConnection(
-                            level, trailEastCell,
-                            Database.GetFeature(FeatureType.TrailEast),
-                            GenerateValley, CardinalDirection.East);
-                        trailEastCell.Connection = trailEast;
+                        Connection trailEast = LevelConnections.MapEdgeConnection(
+                            level, CardinalDirection.East,
+                            FeatureType.TrailEast, GenerateValley);
                         level.Connections.Add("trailEast", trailEast);
 
-                        Cell trailSouthCell = level.RandomFloor(-1, 1);
-                        Connection trailSouth = new LateralConnection(
-                            level, trailSouthCell,
-                            Database.GetFeature(FeatureType.TrailSouth),
-                            GenerateValley, CardinalDirection.South);
-                        trailSouthCell.Connection = trailSouth;
+                        Connection trailSouth = LevelConnections.MapEdgeConnection(
+                            level, CardinalDirection.South,
+                            FeatureType.TrailSouth, GenerateValley);
                         level.Connections.Add("trailSouth", trailSouth);
 
-                        Cell trailWestCell = level.RandomFloor(1, -1);
-                        Connection trailWest = new LateralConnection(
-                            level, trailWestCell,
-                            Database.GetFeature(FeatureType.TrailWest),
-                            GenerateValley, CardinalDirection.West);
-                        trailWestCell.Connection = trailWest;
+                        Connection trailWest = LevelConnections.MapEdgeConnection(
+                            level, CardinalDirection.West,
+                            FeatureType.TrailWest, GenerateValley);
                         level.Connections.Add("trailWest", trailWest);
 
                         LevelEnemies.SpawnNPCs(ref level, ValleyEnemies, NPCPops.ValleyCentre);
@@ -108,19 +98,11 @@ namespace Pantheon.WorldGen
 
                         level.Connections = new Dictionary<string, Connection>(1);
 
-                        if (!Game.instance.levels.TryGetValue("valleyCentre", out Level centralValley))
-                            throw new System.Exception
-                                ("Central valley was not generated, or has bad ref.");
-
-                        if (!centralValley.Connections.TryGetValue("trailNorth", out Connection trailNorth))
-                            throw new System.Exception("Central Valley has no trail north.");
-
                         Cell trailSouthCell = level.RandomFloor(-1, 1);
-                        Connection trailSouth = new LateralConnection(
-                            level, trailSouthCell,
-                            Database.GetFeature(FeatureType.TrailSouth),
-                            trailNorth);
-                        trailSouthCell.Connection = trailSouth;
+                        Connection trailSouth = LevelConnections.ConnectZones(
+                            level, trailSouthCell, "valleyCentre", "trailNorth",
+                            FeatureType.TrailSouth);
+
                         level.Connections.Add("trailSouth", trailSouth);
 
                         break;
@@ -134,19 +116,11 @@ namespace Pantheon.WorldGen
 
                         level.Connections = new Dictionary<string, Connection>(1);
 
-                        if (!Game.instance.levels.TryGetValue("valleyCentre", out Level centralValley))
-                            throw new System.Exception
-                                ("Central valley was not generated, or has bad ref.");
-
-                        if (!centralValley.Connections.TryGetValue("trailEast", out Connection trailEast))
-                            throw new System.Exception("Central Valley has no trail east.");
-
                         Cell trailWestCell = level.RandomFloor(1, -1);
-                        Connection trailWest = new LateralConnection(
-                            level, trailWestCell,
-                            Database.GetFeature(FeatureType.TrailWest),
-                            trailEast);
-                        trailWestCell.Connection = trailWest;
+                        Connection trailWest = LevelConnections.ConnectZones(
+                            level, trailWestCell, "valleyCentre", "trailEast",
+                            FeatureType.TrailWest);
+
                         level.Connections.Add("trailWest", trailWest);
 
                         break;
@@ -160,19 +134,11 @@ namespace Pantheon.WorldGen
 
                         level.Connections = new Dictionary<string, Connection>(1);
 
-                        if (!Game.instance.levels.TryGetValue("valleyCentre", out Level centralValley))
-                            throw new System.Exception
-                                ("Central valley was not generated, or has bad ref.");
-
-                        if (!centralValley.Connections.TryGetValue("trailSouth", out Connection trailSouth))
-                            throw new System.Exception("Central Valley has no trail south.");
-
                         Cell trailNorthCell = level.RandomFloor(-1, level.LevelSize.y - 2);
-                        Connection trailNorth = new LateralConnection(
-                            level, trailNorthCell,
-                            Database.GetFeature(FeatureType.TrailNorth),
-                            trailSouth);
-                        trailNorthCell.Connection = trailNorth;
+                        Connection trailNorth = LevelConnections.ConnectZones(
+                            level, trailNorthCell, "valleyCentre", "trailSouth",
+                            FeatureType.TrailNorth);
+
                         level.Connections.Add("trailNorth", trailNorth);
 
                         break;
@@ -186,19 +152,11 @@ namespace Pantheon.WorldGen
 
                         level.Connections = new Dictionary<string, Connection>(1);
 
-                        if (!Game.instance.levels.TryGetValue("valleyCentre", out Level centralValley))
-                            throw new System.Exception
-                                ("Central valley was not generated, or has bad ref.");
-
-                        if (!centralValley.Connections.TryGetValue("trailWest", out Connection trailWest))
-                            throw new System.Exception("Central Valley has no trail west.");
-
                         Cell trailEastCell = level.RandomFloor(level.LevelSize.x - 2, -1);
-                        Connection trailEast = new LateralConnection(
-                            level, trailEastCell,
-                            Database.GetFeature(FeatureType.TrailEast),
-                            trailWest);
-                        trailEastCell.Connection = trailEast;
+                        Connection trailEast = LevelConnections.ConnectZones(
+                            level, trailEastCell, "valleyCentre", "trailWest",
+                            FeatureType.TrailEast);
+
                         level.Connections.Add("trailEast", trailEast);
 
                         break;
