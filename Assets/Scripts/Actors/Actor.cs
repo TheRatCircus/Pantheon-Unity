@@ -42,18 +42,27 @@ namespace Pantheon.Actors
         [SerializeField] [ReadOnly] protected int energy; // Energy remaining
         [SerializeField] protected int moveSpeed; // Energy needed to walk one cell
 
-        [SerializeField] protected List<Trait> traits;
         [SerializeField] protected List<BodyPart> parts;
+        [SerializeField] protected List<Trait> traits;
         [SerializeField]
         [ReadOnly]
-        protected List<StatusEffect> statuses = new List<StatusEffect>();
+        protected List<StatusEffect> statuses
+            = new List<StatusEffect>();
         protected List<Item> inventory;
         [SerializeField] protected List<Spell> spells = new List<Spell>();
+
+        // Equipment
+        [SerializeField] [ReadOnly] Item bodyWear;
+        [SerializeField] [ReadOnly] Item shoulderWear;
+        [SerializeField] [ReadOnly] Item amulet;
+        [SerializeField] [ReadOnly] Item belt;
+        [SerializeField] [ReadOnly] Item gloves;
+        [SerializeField] [ReadOnly] Item boots;
 
         // Per-actor-type data
         [SerializeField] protected Species species;
         [SerializeField] protected Sprite corpseSprite;
-        
+
 
         // Action status
         [SerializeField] [ReadOnly] protected BaseAction nextAction;
@@ -139,8 +148,8 @@ namespace Pantheon.Actors
 
             if (traits == null)
                 traits = new List<Trait>();
-             // Some actors start with traits, so these need to fire their
-             // callback now
+            // Some actors start with traits, so these need to fire their
+            // callback now
             if (traits.Count > 0)
                 foreach (Trait trait in traits)
                     trait.OnGetTrait?.Invoke(this);

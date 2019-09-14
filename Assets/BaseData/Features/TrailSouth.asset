@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19db15d3e688f0642a47fee936bc080d, type: 3}
   m_Name: TrailSouth
   m_EditorClassIdentifier: 
+  displayName: a trail leading south
   opaque: 0
   blocked: 0
   sprite: {fileID: 21300000, guid: 0379d113cefb3724bb1e3726132b6f54, type: 3}

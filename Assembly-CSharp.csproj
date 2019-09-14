@@ -104,6 +104,7 @@
     <Compile Include="Assets\Scripts\Debug\DebugInfo.cs" />
     <Compile Include="Assets\Scripts\Enums\BodyPartType.cs" />
     <Compile Include="Assets\Scripts\Enums\CardinalDirection.cs" />
+    <Compile Include="Assets\Scripts\Enums\EquipType.cs" />
     <Compile Include="Assets\Scripts\Enums\FeatureType.cs" />
     <Compile Include="Assets\Scripts\Enums\FlaskType.cs" />
     <Compile Include="Assets\Scripts\Enums\NPCType.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Assets\Scripts\Enums\StatusType.cs" />
     <Compile Include="Assets\Scripts\Enums\TerrainType.cs" />
     <Compile Include="Assets\Scripts\Enums\WeaponType.cs" />
+    <Compile Include="Assets\Scripts\Equipment.cs" />
     <Compile Include="Assets\Scripts\Hit.cs" />
     <Compile Include="Assets\Scripts\Item.cs" />
     <Compile Include="Assets\Scripts\ItemWeights.cs" />

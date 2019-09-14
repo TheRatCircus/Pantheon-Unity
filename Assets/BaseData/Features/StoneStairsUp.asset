@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19db15d3e688f0642a47fee936bc080d, type: 3}
   m_Name: StoneStairsUp
   m_EditorClassIdentifier: 
+  displayName: an ascending flight of stone stairs
   opaque: 0
   blocked: 0
   sprite: {fileID: 21300000, guid: a48aafb9ddb458a4ea75d08acac979d9, type: 3}

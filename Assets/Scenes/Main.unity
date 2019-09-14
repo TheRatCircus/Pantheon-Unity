@@ -4142,7 +4142,13 @@ MonoBehaviour:
       accuracy: 75
       attackTime: 100
       damageType: 3
-  statuses: []
+  statuses:
+  - displayName: 
+    turnsRemaining: 0
+  - displayName: 
+    turnsRemaining: 0
+  - displayName: 
+    turnsRemaining: 0
   spells:
   - {fileID: 11400000, guid: 6d385a899d22ce9409b3f8854e50640b, type: 2}
   species: 0
