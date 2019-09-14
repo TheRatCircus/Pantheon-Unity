@@ -16,10 +16,12 @@ namespace Pantheon.Core
     public class GameLog : MonoBehaviour
     {
         // The extended event list for the session
-        [SerializeField] [ReadOnly]
+        [SerializeField]
+        [ReadOnly]
         private List<string> eventList = new List<string>();
         // Short list of event strings for HUD log
-        [SerializeField] [ReadOnly]
+        [SerializeField]
+        [ReadOnly]
         private List<string> shortEventList = new List<string>();
 
         [SerializeField] private Text logText = null;
@@ -63,17 +65,33 @@ namespace Pantheon.Core
             GetLog().logText.text = logStr;
         }
 
-        // Send the items in a cell to the game log
         public static void LogCellItems(Cell cell)
         {
-            if (cell.Items.Count > 0)
+            string msg = $"You see here";
+
+            if (cell.Items.Count == 1)
+                msg += $" a {cell.Items[0].DisplayName}.";
+            else
             {
-                string msg = $"You see here";
                 int i = 0;
-                for (; i < cell.Items.Count; i++)
-                    msg += $" a {cell.Items[i].DisplayName};";
-                Send(msg, Strings.TextColour.Grey);
+                for (; i < cell.Items.Count - 1; i++)
+                    msg += $" a {cell.Items[i].DisplayName},";
+                msg += $" and a {cell.Items[i].DisplayName}.";
             }
+
+            Send(msg, Strings.TextColour.Grey);
+        }
+
+        public static void LogCellFeature(Cell cell)
+        {
+            string msg = $"There is {cell.Feature.DisplayName} here.";
+            Send(msg, Strings.TextColour.Grey);
+        }
+
+        public static void LogCellConnection(Cell cell)
+        {
+            string msg = $"There is {cell.Connection.DisplayName} here.";
+            Send(msg, Strings.TextColour.Grey);
         }
     }
 }

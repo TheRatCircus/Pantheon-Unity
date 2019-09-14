@@ -17,6 +17,7 @@ namespace Pantheon.World
         public Level Level { get; }
         public Cell Cell { get; }
         public Connection Partner { get; private set; }
+        public string DisplayName { get; set; }
 
         public Connection(Level level, Cell cell, Feature feature)
         {

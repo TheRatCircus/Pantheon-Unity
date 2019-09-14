@@ -68,21 +68,25 @@ namespace Pantheon.WorldGen
                         Connection trailNorth = LevelConnections.MapEdgeConnection(
                             level, CardinalDirection.North,
                             FeatureType.TrailNorth, GenerateValley);
+                        trailNorth.DisplayName = "a trail to the Northern Valley";
                         level.Connections.Add("trailNorth", trailNorth);
 
                         Connection trailEast = LevelConnections.MapEdgeConnection(
                             level, CardinalDirection.East,
                             FeatureType.TrailEast, GenerateValley);
+                        trailEast.DisplayName = "a trail to the Eastern Valley";
                         level.Connections.Add("trailEast", trailEast);
 
                         Connection trailSouth = LevelConnections.MapEdgeConnection(
                             level, CardinalDirection.South,
                             FeatureType.TrailSouth, GenerateValley);
+                        trailSouth.DisplayName = "a trail to the Southern Valley";
                         level.Connections.Add("trailSouth", trailSouth);
 
                         Connection trailWest = LevelConnections.MapEdgeConnection(
                             level, CardinalDirection.West,
                             FeatureType.TrailWest, GenerateValley);
+                        trailWest.DisplayName = "a trail to the Western Valley";
                         level.Connections.Add("trailWest", trailWest);
 
                         LevelEnemies.SpawnNPCs(ref level, ValleyEnemies, NPCPops.ValleyCentre);
@@ -102,6 +106,7 @@ namespace Pantheon.WorldGen
                         Connection trailSouth = LevelConnections.ConnectZones(
                             level, trailSouthCell, "valleyCentre", "trailNorth",
                             FeatureType.TrailSouth);
+                        trailSouth.DisplayName = "a trail to the Central Valley";
 
                         level.Connections.Add("trailSouth", trailSouth);
 
@@ -120,6 +125,7 @@ namespace Pantheon.WorldGen
                         Connection trailWest = LevelConnections.ConnectZones(
                             level, trailWestCell, "valleyCentre", "trailEast",
                             FeatureType.TrailWest);
+                        trailWest.DisplayName = "a trail to the Central Valley";
 
                         level.Connections.Add("trailWest", trailWest);
 
@@ -138,6 +144,7 @@ namespace Pantheon.WorldGen
                         Connection trailNorth = LevelConnections.ConnectZones(
                             level, trailNorthCell, "valleyCentre", "trailSouth",
                             FeatureType.TrailNorth);
+                        trailNorth.DisplayName = "a trail to the Central Valley";
 
                         level.Connections.Add("trailNorth", trailNorth);
 
@@ -156,6 +163,7 @@ namespace Pantheon.WorldGen
                         Connection trailEast = LevelConnections.ConnectZones(
                             level, trailEastCell, "valleyCentre", "trailWest",
                             FeatureType.TrailEast);
+                        trailEast.DisplayName = "trail to the Central Valley";
 
                         level.Connections.Add("trailEast", trailEast);
 

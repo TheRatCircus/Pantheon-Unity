@@ -115,7 +115,15 @@ namespace Pantheon.Actors
                 previous.Actor = null;
 
             if (actor is Player)
-                GameLog.LogCellItems(cell);
+            {
+                if (cell.Items.Count > 0)
+                    GameLog.LogCellItems(cell);
+
+                if (cell.Connection != null)
+                    GameLog.LogCellConnection(cell);
+                else if (cell.Feature != null)
+                    GameLog.LogCellFeature(cell);
+            }
         }
 
         // Awake is called when the script instance is being loaded
