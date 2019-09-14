@@ -1,6 +1,8 @@
 ﻿// Level.cs
 // Jerome Martina
 
+#define DEBUG_FOV
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -222,7 +224,7 @@ namespace Pantheon.World
             bool fullShadow = false;
             List<Cell> ret = new List<Cell>();
 
-            for (int row = 0; row < 30; row++)
+            for (int row = 0; row < Game.GetPlayer().FOVRadius - 4; row++)
             {
                 // Record position
                 Vector2Int pos = origin + (rowInc * row);

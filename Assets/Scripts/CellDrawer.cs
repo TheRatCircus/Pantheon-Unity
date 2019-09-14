@@ -1,11 +1,15 @@
 ﻿// Draws tilemaps based on cell data
 
+#define DEBUG_CELLDRAW
+#undef DEBUG_CELLDRAW
+
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Pantheon.Core;
 using Pantheon.World;
+using Pantheon.Utils;
 
 public static class CellDrawer
 {
@@ -16,8 +20,20 @@ public static class CellDrawer
 
     public static void DrawCells(Level level, List<Cell> cells)
     {
+        LogCellDrawing(cells.Count);
         foreach (Cell cell in cells)
+        {
             DrawTile(level, cell);
+            Vector3 start = Helpers.V2IToV3(cell.Position);
+            Vector3 end = new Vector3(start.x + .2f, start.y + .2f);
+            Debug.DrawLine(start, end, Color.cyan, 5);
+        }
+    }
+
+    [System.Diagnostics.Conditional("DEBUG_CELLDRAW")]
+    public static void LogCellDrawing(int cellsDrawn)
+    {
+        Debug.Log($"Drawing {cellsDrawn} cells...");
     }
 
     public static void DrawLevel(Level level)
