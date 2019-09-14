@@ -107,5 +107,18 @@ namespace Pantheon.Debug
 
             return $"Killed {npcsKilled} NPCs.";
         }
+
+        public static string IdolMode(string[] args)
+        {
+            if (args.Length != 0)
+                return "This command takes no arguments.";
+
+            Game.instance.IdolMode = !Game.instance.IdolMode;
+
+            if (Game.instance.IdolMode)
+                return "Idolmode enabled.";
+            else
+                return "Idolmode disabled.";
+        }
     }
 }

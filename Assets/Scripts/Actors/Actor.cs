@@ -174,9 +174,9 @@ namespace Pantheon.Actors
         }
 
         // Take a damaging hit from something
-        public void TakeHit(Hit hit) => TakeDamage(hit.Damage);
+        public virtual void TakeHit(Hit hit) => TakeDamage(hit.Damage);
 
-        public void TakeDamage(int damage)
+        public virtual void TakeDamage(int damage)
         {
             // TODO: Infinitely negative lower bound?
             health = Mathf.Clamp(health - damage, -255, MaxHealth);

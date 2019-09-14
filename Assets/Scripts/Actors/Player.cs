@@ -103,6 +103,12 @@ namespace Pantheon.Actors
             else return -1;
         }
 
+        public override void TakeHit(Hit hit)
+        {
+            if (!Game.instance.IdolMode)
+                TakeDamage(hit.Damage);
+        }
+
         public void LongRest()
         {
             if (visibleEnemies.Count > 0)

@@ -53,6 +53,8 @@ namespace Pantheon.Core
         public Dictionary<string, Level> levels = new Dictionary<string, Level>();
         public Level activeLevel;
 
+        public bool IdolMode { get; set; }
+
         // Events
         public event Action OnTurnChangeEvent;
         public event Action<int> OnClockTickEvent;
