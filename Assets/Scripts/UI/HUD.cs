@@ -129,7 +129,7 @@ namespace Pantheon.UI
                 {
                     ClearModals();
                     player.Input.SetInputState(InputState.Move);
-                    player.NextAction = new CastAction(player, spell);
+                    CastAction cast = new CastAction(player, spell);
                 }
                 );
         }
