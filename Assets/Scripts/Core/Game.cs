@@ -9,9 +9,17 @@ using UnityEngine.SceneManagement;
 using Pantheon.Actors;
 using Pantheon.World;
 using Pantheon.WorldGen;
+using Pantheon.Utils;
 
 namespace Pantheon.Core
 {
+    public enum FactionType
+    {
+        None,
+        Nature,
+        Religion
+    }
+
     /// <summary>
     /// Central game controller. Handles turn scheduling and holds other core 
     /// game behaviour.
@@ -25,6 +33,7 @@ namespace Pantheon.Core
         [SerializeField] private Database database;
         [SerializeField] private GameLog gameLog;
         [SerializeField] private Transform grid = null;
+        private Pantheon pantheon;
 
         // Pseudo RNG
         public System.Random prng = new System.Random(131198);
@@ -53,6 +62,10 @@ namespace Pantheon.Core
         public Dictionary<string, Level> levels = new Dictionary<string, Level>();
         public Level activeLevel;
 
+        public Faction Nature { get; set; }
+        public Dictionary<string, Faction> Religions { get; set; }
+            = new Dictionary<string, Faction>();
+
         public bool IdolMode { get; set; }
 
         // Events
@@ -78,7 +91,7 @@ namespace Pantheon.Core
             if (instance != null)
                 UnityEngine.Debug.LogWarning("Game singleton assigned in error");
             else
-                instance = this;
+                instance = this;      
 
             queue = new List<Actor>();
         }
@@ -88,6 +101,9 @@ namespace Pantheon.Core
         /// </summary>
         private void Start()
         {
+            pantheon = new Pantheon();
+            InitializeFactions();
+
             AddActor(player1);
 
             Level firstLevel = MakeNewLevel();
@@ -108,6 +124,18 @@ namespace Pantheon.Core
             for (int i = 0; i < queue.Count; i++)
                 if (!Tick())
                     break;
+        }
+
+        public void InitializeFactions()
+        {
+            Nature = new Faction("Nature", "nature", FactionType.Nature, null);
+            foreach (KeyValuePair<string, Idol> pair in pantheon.Idols)
+            {
+                Idol idol = pair.Value;
+                string displayName = $"The Church of {idol.DisplayName}";
+                string refName = $"religion{idol.DisplayName}";
+                Religions.Add(refName, new Faction(displayName, refName, FactionType.Religion, idol));
+            }
         }
 
         // Add and remove actors from the queue

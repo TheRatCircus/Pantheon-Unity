@@ -26,17 +26,19 @@ namespace Pantheon.Debug
         private void Awake()
         {
             consoleCommands = new Dictionary<string, ConsoleCommand>()
-        {
-            { "reveal_level", new ConsoleCommand(RevealLevel) },
-            { "reveal_map", new ConsoleCommand(RevealLevel) },
-            { "apply_status", new ConsoleCommand(ApplyStatus) },
-            { "give_item", new ConsoleCommand(GiveItem) },
-            { "learn_spell", new ConsoleCommand(LearnSpell) },
-            { "add_trait", new ConsoleCommand(AddTrait) },
-            { "kill_level", new ConsoleCommand(KillLevel) },
-            { "idolmode", new ConsoleCommand(IdolMode) },
-            { "open_domain", new ConsoleCommand(OpenDomain) }
-        };
+            {
+                { "reveal_level", new ConsoleCommand(RevealLevel) },
+                { "reveal_map", new ConsoleCommand(RevealLevel) },
+                { "apply_status", new ConsoleCommand(ApplyStatus) },
+                { "give_item", new ConsoleCommand(GiveItem) },
+                { "learn_spell", new ConsoleCommand(LearnSpell) },
+                { "add_trait", new ConsoleCommand(AddTrait) },
+                { "kill_level", new ConsoleCommand(KillLevel) },
+                { "idolmode", new ConsoleCommand(IdolMode) },
+                { "open_domain", new ConsoleCommand(OpenDomain) },
+                { "list_religions", new ConsoleCommand(ListReligions) },
+                { "join_religion", new ConsoleCommand(JoinReligion) }
+            };
         }
 
         // Update is called once per frame

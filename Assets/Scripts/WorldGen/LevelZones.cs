@@ -163,7 +163,7 @@ namespace Pantheon.WorldGen
                         Connection trailEast = LevelConnections.ConnectZones(
                             level, trailEastCell, "valleyCentre", "trailWest",
                             FeatureType.TrailEast);
-                        trailEast.DisplayName = "trail to the Central Valley";
+                        trailEast.DisplayName = "a trail to the Central Valley";
 
                         level.Connections.Add("trailEast", trailEast);
 
@@ -175,15 +175,81 @@ namespace Pantheon.WorldGen
             }
         }
 
-        public static void GenerateDomain(Level level)
+        public static void GenerateDomainAtrium(Level level)
         {
+            level.DisplayName = "IDOL_NAME's Domain: Atrium";
+            level.RefName = "IDOL_NAMEAtrium";
+
             level.LevelSize = new Vector2Int(128, 128);
+            level.Connections = new Dictionary<string, Connection>(1);
 
             level.Map = LevelLayout.BlankMap(level.LevelSize, TerrainType.StoneWall);
             BinarySpacePartition.BSP(level, TerrainType.MarbleTile, 12);
 
+            Cell stairsUpCell = level.RandomFloor();
+            Connection stairsUp = new VerticalConnection(
+                level, stairsUpCell,
+                Database.GetFeature(FeatureType.StairsUp),
+                GenerateDomainLevel, 2);
+            stairsUpCell.Connection = stairsUp;
+             
+            stairsUp.DisplayName = "a flight of stairs to IDOL_NAME's Centrum";
+            level.Connections.Add("stairsUp", stairsUp);
+
             Game.instance.RegisterLevel(level);
             CellDrawer.DrawLevel(level);
+        }
+
+        public static void GenerateDomainLevel(Level level, int floor)
+        {
+            level.LevelSize = new Vector2Int(128, 128);
+            if (floor == 2)
+            {
+                level.DisplayName = "IDOL_NAME's Domain: Centrum";
+                level.RefName = "IDOL_NAMECentrum";
+
+                level.Connections = new Dictionary<string, Connection>(2);
+
+                level.Map = LevelLayout.BlankMap(level.LevelSize, TerrainType.StoneWall);
+                BinarySpacePartition.BSP(level, TerrainType.MarbleTile, 12);
+
+                Cell stairsDownCell = level.RandomFloor();
+                Connection stairsDown = LevelConnections.ConnectZones(
+                    level, stairsDownCell, "IDOL_NAMEAtrium", "stairsUp",
+                    FeatureType.StairsDown);
+                stairsDownCell.Connection = stairsDown;
+                stairsDown.DisplayName = "a flight of stairs to IDOL_NAME's Atrium";
+                level.Connections.Add("stairsDown", stairsDown);
+
+                Cell stairsUpCell = level.RandomFloor();
+                Connection stairsUp = new VerticalConnection(
+                    level, stairsUpCell,
+                    Database.GetFeature(FeatureType.StairsUp),
+                    GenerateDomainLevel, 3);
+                stairsUpCell.Connection = stairsUp;
+                stairsUp.DisplayName = "a flight of stairs to IDOL_NAME's Sanctorum";
+                level.Connections.Add("stairsUp", stairsUp);
+            }
+            else if (floor == 3)
+            {
+                level.DisplayName = "IDOL_NAME's Sanctorum";
+                level.RefName = "IDOL_NAMESanctorum";
+
+                level.Connections = new Dictionary<string, Connection>(1);
+
+                level.Map = LevelLayout.BlankMap(level.LevelSize, TerrainType.StoneWall);
+                BinarySpacePartition.BSP(level, TerrainType.MarbleTile, 12);
+
+                Cell stairsDownCell = level.RandomFloor();
+                Connection stairsDown = LevelConnections.ConnectZones(
+                    level, stairsDownCell, "IDOL_NAMECentrum", "stairsUp",
+                    FeatureType.StairsDown);
+                stairsDownCell.Connection = stairsDown;
+                stairsDown.DisplayName = "a flight of stairs to IDOL_NAME's Centrum";
+                level.Connections.Add("stairsDown", stairsDown);
+            }
+            else throw new System.ArgumentException
+                ("Floor can only be 2 or 3.");
         }
     }
 }

@@ -77,6 +77,7 @@
     <Compile Include="Assets\Scripts\ActionWrappers\LineProjActionWrapper.cs" />
     <Compile Include="Assets\Scripts\Actors\Actor.cs" />
     <Compile Include="Assets\Scripts\Actors\BodyPart.cs" />
+    <Compile Include="Assets\Scripts\Actors\Idol.cs" />
     <Compile Include="Assets\Scripts\Actors\NPC.cs" />
     <Compile Include="Assets\Scripts\Actors\Player.cs" />
     <Compile Include="Assets\Scripts\Actors\StatusEffect.cs" />
@@ -93,11 +94,14 @@
     <Compile Include="Assets\Scripts\BaseData\TerrainData.cs" />
     <Compile Include="Assets\Scripts\BaseData\WeaponData.cs" />
     <Compile Include="Assets\Scripts\Cell.cs" />
+    <Compile Include="Assets\Scripts\CharacterNames.cs" />
     <Compile Include="Assets\Scripts\Connection.cs" />
     <Compile Include="Assets\Scripts\Core\CellDrawer.cs" />
     <Compile Include="Assets\Scripts\Core\Database.cs" />
+    <Compile Include="Assets\Scripts\Core\Faction.cs" />
     <Compile Include="Assets\Scripts\Core\Game.cs" />
     <Compile Include="Assets\Scripts\Core\GameLog.cs" />
+    <Compile Include="Assets\Scripts\Core\Pantheon.cs" />
     <Compile Include="Assets\Scripts\Core\Spawn.cs" />
     <Compile Include="Assets\Scripts\Debug\Console.cs" />
     <Compile Include="Assets\Scripts\Debug\ConsoleCommandFunctions.cs" />

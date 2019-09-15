@@ -131,7 +131,7 @@ namespace Pantheon.Debug
                 Game.instance.activeLevel,
                 Game.GetPlayer().Cell,
                 Database.GetFeature(FeatureType.Portal),
-                LevelZones.GenerateDomain);
+                LevelZones.GenerateDomainAtrium);
             domainPortal.DisplayName = "a portal to IDOL_NAME's Domain";
             domainPortal.OneWay = true;
 
@@ -140,6 +140,34 @@ namespace Pantheon.Debug
                 domainPortal);
 
             return "Opened a portal to IDOL_NAME's Domain.";
+        }
+
+        public static string ListReligions(string[] args)
+        {
+            if (args.Length != 0)
+                return "This command takes no arguments.";
+
+            string ret = "";
+
+            foreach (System.Collections.Generic.KeyValuePair<string, Faction>
+                pair in Game.instance.Religions)
+            {
+                Faction faction = pair.Value;
+                ret += $"{faction.RefName} ({faction.DisplayName}){Environment.NewLine}";
+            }
+
+            return ret;
+        }
+
+        public static string JoinReligion(string[] args)
+        {
+            if (args.Length != 1)
+                return "Please pass only 1 argument.";
+
+            Game.instance.Religions.TryGetValue(args[0], out Faction religion);
+            Game.GetPlayer().Faction = religion;
+
+            return $"You are now a member of {religion.DisplayName}.";
         }
     }
 }

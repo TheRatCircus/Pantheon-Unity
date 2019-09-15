@@ -144,19 +144,23 @@ namespace Pantheon.World
     /// </summary>
     public class VerticalConnection : Connection
     {
-        public delegate void FirstTravelDelegate(ref Level level, int depth);
+        public delegate void FirstTravelDelegate(Level level, int depth);
 
         public FirstTravelDelegate onFirstTravel;
         private int destinationDepth;
 
         public VerticalConnection(
             Level level, Cell cell, Feature feature,
-            FirstTravelDelegate onFirstUse, int destinationDepth)
+            FirstTravelDelegate onFirstTravel, int destinationDepth)
             : base(level, cell, feature)
         {
-            this.onFirstTravel = onFirstUse;
+            this.onFirstTravel = onFirstTravel;
             this.destinationDepth = destinationDepth;
         }
+
+        public VerticalConnection(
+            Level level, Cell cell, Feature feature, Connection partner)
+            : base(level, cell, feature, partner) { }
 
         // Travel by way of this connection
         public override void Use(Player player)
@@ -164,7 +168,7 @@ namespace Pantheon.World
             if (Partner == null)
             {
                 Level destinationLevel = Game.instance.MakeNewLevel();
-                onFirstTravel?.Invoke(ref destinationLevel, destinationDepth);
+                onFirstTravel?.Invoke(destinationLevel, destinationDepth);
             }
 
             LogTravel(player, Partner.Level, Partner.Cell);

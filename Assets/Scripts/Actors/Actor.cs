@@ -50,6 +50,7 @@ namespace Pantheon.Actors
             = new List<StatusEffect>();
         protected List<Item> inventory;
         [SerializeField] protected List<Spell> spells = new List<Spell>();
+        public Faction Faction { get; set; }
 
         // Equipment
         [SerializeField] [ReadOnly] Item bodyWear;
@@ -62,7 +63,6 @@ namespace Pantheon.Actors
         // Per-actor-type data
         [SerializeField] protected Species species;
         [SerializeField] protected Sprite corpseSprite;
-
 
         // Action status
         [SerializeField] [ReadOnly] protected BaseAction nextAction;

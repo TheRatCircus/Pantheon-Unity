@@ -133,14 +133,23 @@ namespace Pantheon.World
         public Cell RandomFloorAwayFrom(Cell other, int distance)
         {
             Cell cell;
+            int attempts = 0;
             do
             {
+                if (attempts > 1000)
+                    throw new System.Exception
+                        ($"Could not find a random floor at a distance of " +
+                        $"{distance} to {other.Position}.");
+
                 Vector2Int randomPosition = new Vector2Int
                 {
                     x = Random.Range(0, LevelSize.x),
                     y = Random.Range(0, LevelSize.y)
                 };
+
                 cell = GetCell(randomPosition);
+                attempts++;
+
             } while (!cell.IsWalkableTerrain() || Distance(cell, other) <= distance);
             return cell;
         }
