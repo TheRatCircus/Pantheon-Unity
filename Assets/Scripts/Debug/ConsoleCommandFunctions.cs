@@ -84,10 +84,14 @@ namespace Pantheon.Debug
             if (args.Length != 1)
                 return "Please pass only 1 argument.";
 
-            if (Traits.traitsLookup.TryGetValue(args[0], out Trait trait))
+            if (Enum.TryParse(args[0], out TraitRef traitRef))
             {
-                Game.GetPlayer().AddTrait(trait);
-                return $"Added trait {trait}";
+                if (Traits._traits.TryGetValue(traitRef, out Trait trait))
+                {
+                    Game.GetPlayer().AddTrait(trait);
+                    return $"Added trait {trait}";
+                }
+                else return $"ERROR: Trait {traitRef.ToString()} is null.";
             }
             else
                 return $"Could not find trait {args[0]}";

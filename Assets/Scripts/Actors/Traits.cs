@@ -10,22 +10,20 @@ using static TraitEffects;
 /// </summary>
 public static class Traits
 {
-    public static Trait Ambidextrous = new Trait(
-        "Ambidextrous",
-        ApplyAmbidextrous,
-        LoseAmibdextrous);
-    public static Trait Adrenaline = new Trait(
-        "Adrenaline",
-        null,
-        null);
-
-    /// <summary>
-    /// Used for lookup via console.
-    /// </summary>
-    public static Dictionary<string, Trait> traitsLookup
-        = new Dictionary<string, Trait>()
+    public static Dictionary<TraitRef, Trait> _traits = new Dictionary<TraitRef, Trait>()
     {
-            { "ambidextrous", Ambidextrous },
-            { "adrenaline", Adrenaline }
+        { TraitRef.Ambidexterous, new Trait("Ambidextrous", ApplyAmbidextrous, LoseAmbidextrous) },
+        { TraitRef.Adrenaline, new Trait("Adrenaline", null, null) },
+        { TraitRef.Endemic, new Trait("Endemic", null, null) }
     };
+}
+
+/// <summary>
+/// Provides constants for retrieval from Traits._traits.
+/// </summary>
+public enum TraitRef
+{
+    Ambidexterous,
+    Adrenaline,
+    Endemic
 }

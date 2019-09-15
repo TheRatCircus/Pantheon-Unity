@@ -15,6 +15,6 @@ public static class TraitEffects
                 part.Dexterous = true;
     }
 
-    public static void LoseAmibdextrous(Actor actor)
+    public static void LoseAmbidextrous(Actor actor)
         => throw new System.NotImplementedException();
 }
