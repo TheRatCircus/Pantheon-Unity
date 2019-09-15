@@ -94,6 +94,8 @@ namespace Pantheon.Debug
                 newLog += $"{s}{Environment.NewLine}";
 
             consoleLog.text = newLog;
+            this.input.Select();
+            this.input.ActivateInputField();
         }
     }
 
