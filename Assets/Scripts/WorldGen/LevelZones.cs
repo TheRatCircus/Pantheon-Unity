@@ -174,5 +174,16 @@ namespace Pantheon.WorldGen
                         ("No wing passed to GenerateValleyConnections().");
             }
         }
+
+        public static void GenerateDomain(Level level)
+        {
+            level.LevelSize = new Vector2Int(128, 128);
+
+            level.Map = LevelLayout.BlankMap(level.LevelSize, TerrainType.StoneWall);
+            BinarySpacePartition.BSP(level, TerrainType.MarbleTile, 12);
+
+            Game.instance.RegisterLevel(level);
+            CellDrawer.DrawLevel(level);
+        }
     }
 }

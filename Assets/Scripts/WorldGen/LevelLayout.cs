@@ -1,8 +1,5 @@
-﻿/*
- * LevelLayout.cs
- * 
- * Jerome Martina
- */
+﻿// LevelLayout.cs
+// Jerome Martina
 
 using UnityEngine;
 using Pantheon.Core;
@@ -142,7 +139,7 @@ namespace Pantheon.WorldGen
 
                 if (!overlaps)
                 {
-                    GenerateRoom(ref level, newRoom);
+                    GenerateRoom(ref level, newRoom, TerrainType.StoneFloor);
                     Vector2Int newCenter = newRoom.Center();
 
                     lastCenter = newCenter;
@@ -173,12 +170,22 @@ namespace Pantheon.WorldGen
         /// </summary>
         /// <param name="level">Level to modify by reference.</param>
         /// <param name="rect">The rectangle used to make the room.</param>
-        private static void GenerateRoom(ref Level level, Rectangle rect)
+        public static void GenerateRoom(ref Level level, Rectangle rect, TerrainType terrain)
         {
             //Debug.Log($"Generating room {rect.x2 - rect.x1} tiles wide and {rect.y2 - rect.y1} tiles long");
             for (int x = rect.x1 + 1; x < rect.x2 - 1; x++)
                 for (int y = rect.y1 + 1; y < rect.y2 - 1; y++)
-                    level.Map[x, y].SetTerrain(Database.GetTerrain(TerrainType.StoneFloor));
+                    level.Map[x, y].SetTerrain(Database.GetTerrain(terrain));
+        }
+
+        public static void FillRect(Level level, Rectangle rect, TerrainType terrain)
+        {
+            for (int x = rect.x1; x < rect.x2; x++)
+                for (int y = rect.y1; y < rect.y2; y++)
+                {
+                    if (level.Contains(new Vector2Int(x, y)))
+                        level.Map[x, y].SetTerrain(Database.GetTerrain(terrain));
+                }   
         }
 
         /// <summary>
@@ -210,12 +217,12 @@ namespace Pantheon.WorldGen
         /// <summary>
         /// An abstract rectangle in world space.
         /// </summary>
-        public struct Rectangle
+        public class Rectangle
         {
             public int x1, x2, y1, y2;
 
             /// <summary>
-            /// Constructor.
+            /// Construct using Vector2Ints for position and dimensions.
             /// </summary>
             /// <param name="pos">The position of the upper-left corner.</param>
             /// <param name="dims">The size of the rectangle.</param>

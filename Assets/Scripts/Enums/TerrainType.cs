@@ -6,5 +6,6 @@ public enum TerrainType
     None,
     StoneWall,
     StoneFloor,
-    Grass
+    Grass,
+    MarbleTile
 }

@@ -65,12 +65,24 @@ namespace Pantheon.Utils
                 choice++;
             }
 
-            throw new System.Exception("RandomPick() returned nothing; set is likely empty.");
+            throw new System.Exception
+                ("RandomPick() returned nothing; set is likely empty.");
         }
 
         public static T ArrayRandom<T>(T[] array)
-        {
-            return array[Random.Range(0, array.Length - 1)];
-        }
+            => array[Random.Range(0, array.Length - 1)];
+
+        public static bool CoinFlip() => RangeInclusive(0, 1) == 0;
+
+        public static bool OneChanceIn(int x) => RangeInclusive(0, x) == x;
+
+        /// <summary>
+        /// UnityEngine.Random.Range, but inclusive, and thus more readable.
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
+        public static int RangeInclusive(int min, int max)
+            => Random.Range(min, max + 1);
     }
 }

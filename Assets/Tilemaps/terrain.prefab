@@ -48,7 +48,7 @@ Tilemap:
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
-      m_TileFlags: 1
+      m_TileFlags: 2
       m_ColliderType: 0
   - first: {x: 0, y: 0, z: 0}
     second:
@@ -57,7 +57,16 @@ Tilemap:
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
-      m_TileFlags: 1
+      m_TileFlags: 2
+      m_ColliderType: 0
+  - first: {x: -1, y: 1, z: 0}
+    second:
+      m_TileIndex: 2
+      m_TileSpriteIndex: 2
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_ObjectToInstantiate: {fileID: 0}
+      m_TileFlags: 2
       m_ColliderType: 0
   m_AnimatedTiles: {}
   m_TileAssetArray:
@@ -65,13 +74,17 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: f182eaa5644255f469402b41bc90904b, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 54c2dae89fae3a64ca6e01921078e1da, type: 2}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: 4f2592083945a4645a3d422f5da6c2a4, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 27240bd89da8dd64f819a10c16d76ecf, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 38043a878283692468804984826f251b, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: e09caacf65875bb42aaeef92fef13cfb, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 2
+  - m_RefCount: 3
     m_Data:
       e00: 1
       e01: 0
@@ -90,12 +103,12 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 2
+  - m_RefCount: 3
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -1, y: 0, z: 0}
-  m_Size: {x: 2, y: 1, z: 1}
+  m_Size: {x: 2, y: 2, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -171,7 +184,7 @@ GameObject:
   - component: {fileID: 4327866220474212680}
   - component: {fileID: 7921582652927784786}
   m_Layer: 31
-  m_Name: terrain
+  m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

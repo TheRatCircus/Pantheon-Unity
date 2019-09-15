@@ -10,5 +10,6 @@ public enum FeatureType
     TrailNorth,
     TrailEast,
     TrailSouth,
-    TrailWest
+    TrailWest,
+    Portal
 }

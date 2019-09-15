@@ -18,6 +18,7 @@ namespace Pantheon.World
         public Cell Cell { get; }
         public Connection Partner { get; private set; }
         public string DisplayName { get; set; }
+        public bool OneWay { get; set; }
 
         public Connection(Level level, Cell cell, Feature feature)
         {
@@ -53,6 +54,51 @@ namespace Pantheon.World
                 ($"{actor.ActorName} is travelling to " +
                 $"{cell.ToString()} in " +
                 $"{level.RefName}.");
+        }
+    }
+
+    /// <summary>
+    /// A connection based on a portal with no lateral or vertical component.
+    /// </summary>
+    public class PortalConnection : Connection
+    {
+        public delegate void FirstTravelDelegate(Level level);
+
+        public FirstTravelDelegate onFirstTravel;
+
+        public PortalConnection(Level level, Cell cell, Feature feature,
+            FirstTravelDelegate onFirstTravel)
+            : base(level, cell, feature)
+            => this.onFirstTravel = onFirstTravel;
+
+        public PortalConnection(Level level, Cell cell,
+            Feature feature, Connection partner)
+            : base(level, cell, feature, partner) { }
+
+        public override void Use(Player player)
+        {
+            Level destinationLevel;
+            if (Partner == null)
+            {
+                destinationLevel = Game.instance.MakeNewLevel();
+                onFirstTravel?.Invoke(destinationLevel);
+            }
+            else destinationLevel = Partner.Level;
+
+            if (OneWay)
+                OneWayUse(player, destinationLevel);
+            else
+            {
+                LogTravel(player, Partner.Level, Partner.Cell);
+                Game.instance.MoveToLevel(player, Partner.Level, Partner.Cell);
+            }
+        }
+
+        private void OneWayUse(Player player, Level level)
+        {
+            Cell destinationCell = level.RandomFloor();
+            LogTravel(player, level, destinationCell);
+            Game.instance.MoveToLevel(player, level, destinationCell);
         }
     }
 

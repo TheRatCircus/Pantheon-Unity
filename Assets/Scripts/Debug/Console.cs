@@ -33,7 +33,8 @@ namespace Pantheon.Debug
             { "learn_spell", new ConsoleCommand(LearnSpell) },
             { "add_trait", new ConsoleCommand(AddTrait) },
             { "kill_level", new ConsoleCommand(KillLevel) },
-            { "idolmode", new ConsoleCommand(IdolMode) }
+            { "idolmode", new ConsoleCommand(IdolMode) },
+            { "open_domain", new ConsoleCommand(OpenDomain) }
         };
         }
 

@@ -6,6 +6,7 @@ using Pantheon.Core;
 using Pantheon.Actors;
 using Pantheon.World;
 using Pantheon.Utils;
+using Pantheon.WorldGen;
 
 namespace Pantheon.Debug
 {
@@ -119,6 +120,26 @@ namespace Pantheon.Debug
                 return "Idolmode enabled.";
             else
                 return "Idolmode disabled.";
+        }
+
+        public static string OpenDomain(string[] args)
+        {
+            if (args.Length != 1)
+                return "Please pass only 1 argument.";
+
+            Connection domainPortal = new PortalConnection(
+                Game.instance.activeLevel,
+                Game.GetPlayer().Cell,
+                Database.GetFeature(FeatureType.Portal),
+                LevelZones.GenerateDomain);
+            domainPortal.DisplayName = "a portal to IDOL_NAME's Domain";
+            domainPortal.OneWay = true;
+
+            Game.GetPlayer().Cell.Connection = domainPortal;
+            Game.instance.activeLevel.Connections.Add("IDOL_NAMEDomainPortal",
+                domainPortal);
+
+            return "Opened a portal to IDOL_NAME's Domain.";
         }
     }
 }
