@@ -115,9 +115,25 @@ namespace Pantheon.UI
                 case ModalListOperation.Spell:
                     SpellModalList();
                     break;
+                case ModalListOperation.Toss:
+                    TossModalList();
+                    break;
                 default:
                     throw new System.Exception("No modal list operation given.");
             }
+        }
+
+        private void TossModalList()
+        {
+            ClearModals();
+            itemModalList.gameObject.SetActive(true);
+            itemModalList.Initialize("Toss which item?", player, 1,
+                (Item item) =>
+                {
+                    ClearModals();
+                    player.Input.SetInputState(InputState.Move);
+                    TossAction toss = new TossAction(player, item);
+                });
         }
 
         private void SpellModalList()

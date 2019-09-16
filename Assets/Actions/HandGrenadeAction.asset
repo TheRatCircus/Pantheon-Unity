@@ -9,14 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00a20839822b7f143a1f9c6856439562, type: 3}
-  m_Name: MagicBulletAction
+  m_Script: {fileID: 11500000, guid: 9291f1055459d8247a3d172318c8c678, type: 3}
+  m_Name: HandGrenadeAction
   m_EditorClassIdentifier: 
-  LineProjAction:
-    fxPrefab: {fileID: 3843464375304575577, guid: a7358d2300337354fbb5a641004ace8e,
+  explodeAction:
+    fxPrefab: {fileID: 2927215069722470620, guid: a12c41e5ae0e3aa4b94992cdb145d387,
       type: 3}
-    projBehaviour: 1
-    minDamage: 10
-    maxDamage: 20
-    accuracy: 100
-    pierces: 1
+    radius: 2
+    minDamage: 7
+    maxDamage: 14

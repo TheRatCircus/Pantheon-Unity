@@ -65,14 +65,17 @@
     <Compile Include="Assets\Scripts\Actions\BaseAction.cs" />
     <Compile Include="Assets\Scripts\Actions\CastAction.cs" />
     <Compile Include="Assets\Scripts\Actions\DropAction.cs" />
+    <Compile Include="Assets\Scripts\Actions\ExplodeAction.cs" />
     <Compile Include="Assets\Scripts\Actions\HealAction.cs" />
     <Compile Include="Assets\Scripts\Actions\ItemUseAction.cs" />
     <Compile Include="Assets\Scripts\Actions\LineProjAction.cs" />
     <Compile Include="Assets\Scripts\Actions\MeleeAction.cs" />
     <Compile Include="Assets\Scripts\Actions\MoveAction.cs" />
     <Compile Include="Assets\Scripts\Actions\PickupAction.cs" />
+    <Compile Include="Assets\Scripts\Actions\TossAction.cs" />
     <Compile Include="Assets\Scripts\Actions\WaitAction.cs" />
     <Compile Include="Assets\Scripts\Actions\WieldAction.cs" />
+    <Compile Include="Assets\Scripts\ActionWrappers\ExplodeActionWrapper.cs" />
     <Compile Include="Assets\Scripts\ActionWrappers\HealActionWrapper.cs" />
     <Compile Include="Assets\Scripts\ActionWrappers\LineProjActionWrapper.cs" />
     <Compile Include="Assets\Scripts\Actors\Actor.cs" />
@@ -119,6 +122,7 @@
     <Compile Include="Assets\Scripts\Enums\TerrainType.cs" />
     <Compile Include="Assets\Scripts\Enums\WeaponType.cs" />
     <Compile Include="Assets\Scripts\Equipment.cs" />
+    <Compile Include="Assets\Scripts\FlyingProjectile.cs" />
     <Compile Include="Assets\Scripts\Hit.cs" />
     <Compile Include="Assets\Scripts\Item.cs" />
     <Compile Include="Assets\Scripts\ItemWeights.cs" />

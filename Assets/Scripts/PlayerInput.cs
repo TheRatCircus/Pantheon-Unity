@@ -34,7 +34,8 @@ public enum InputState
 public enum ModalListOperation
 {
     Wield,
-    Spell
+    Spell,
+    Toss
 }
 
 public class PlayerInput : MonoBehaviour
@@ -159,6 +160,8 @@ public class PlayerInput : MonoBehaviour
             }
             else if (Input.GetButtonDown("Long Rest"))
                 player.LongRest();
+            else if (Input.GetButtonDown("Toss"))
+                ModalListOpenEvent?.Invoke(ModalListOperation.Toss);
         }
         else if (inputState == InputState.PointTarget)
         {

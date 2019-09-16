@@ -1603,6 +1603,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 179a0e11ef0272440af4cbed69018e73, type: 2}
   - {fileID: 11400000, guid: f2adb3aa355150b469f477952950197e, type: 2}
   - {fileID: 11400000, guid: f53cae12bef511145b20e4f54601a414, type: 2}
+  - {fileID: 11400000, guid: 737b12c58416caa4ba6341341f9bbfd9, type: 2}
   scrollList:
   - {fileID: 11400000, guid: 5b7d939e3dd5a0b44a354dbfe8781bbf, type: 2}
   flaskList:
@@ -1627,6 +1628,8 @@ MonoBehaviour:
   spells:
   - {fileID: 11400000, guid: 6d385a899d22ce9409b3f8854e50640b, type: 2}
   lineTargetOverlay: {fileID: 21300000, guid: a5ea99f1f7b062b4d809ff0899851c17, type: 3}
+  tossFXPrefab: {fileID: 5407183414458642120, guid: 437dcd7e1b1a3134598973c85967abda,
+    type: 3}
 --- !u!1 &737357386
 GameObject:
   m_ObjectHideFlags: 0

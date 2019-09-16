@@ -26,6 +26,9 @@ namespace Pantheon.Core
         public Sprite lineTargetOverlay;
         public static Sprite LineTargetOverlay
             => GetDatabase().lineTargetOverlay;
+        public GameObject tossFXPrefab;
+        public static GameObject TossFXPrefab
+            => GetDatabase().tossFXPrefab;
 
         // Dictionaries for lookup by enum
         public Dictionary<WeaponType, WeaponData> WeaponDict { get; }

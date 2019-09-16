@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 43391ef01433564489267dfaaea48458, type: 3}
-  m_Name: Hatchet
+  m_Name: Hand Grenade
   m_EditorClassIdentifier: 
-  displayName: hatchet
-  refName: Hatchet
+  displayName: hand grenade
+  refName: HandGrenade
   maxStack: 1
   stackable: 0
-  sprite: {fileID: 21300000, guid: c2a64b95f8e96a44891d801af2988db3, type: 3}
+  sprite: {fileID: 21300000, guid: 19f2ac40514406f4398aa1a227fbe8a1, type: 3}
   usable: 0
   onUse: {fileID: 0}
   onUseString: NO_USE_STRING
-  infiniteThrow: 0
-  onThrow: {fileID: 0}
-  strengthReq: 7
-  maxWieldParts: 2
+  infiniteThrow: 1
+  onThrow: {fileID: 11400000, guid: 97f49a8ae142c964b94577a67c68341a, type: 2}
+  strengthReq: 2
+  maxWieldParts: 1
   melee:
-    minDamage: 7
-    maxDamage: 10
-    accuracy: 75
+    minDamage: 3
+    maxDamage: 6
+    accuracy: 70
     attackTime: 100
-    damageType: 1
-  type: 2
+    damageType: 3
+  type: 4

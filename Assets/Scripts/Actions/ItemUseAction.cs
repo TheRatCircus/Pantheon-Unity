@@ -15,7 +15,8 @@ namespace Pantheon.Actions
 
         private readonly int useTime;
 
-        public ItemUseAction(Actor actor, Item item, BaseAction onUse) : base(actor)
+        public ItemUseAction(Actor actor, Item item, BaseAction onUse)
+            : base(actor)
         {
             this.item = item;
             this.onUse = onUse;

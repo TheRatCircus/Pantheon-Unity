@@ -18,6 +18,9 @@ public abstract class ItemData : ScriptableObject
     [SerializeField] private ActionWrapper onUse = null;
     [SerializeField] private string onUseString = "NO_USE_STRING";
 
+    [SerializeField] private bool infiniteThrow = false;
+    [SerializeField] private ActionWrapper onThrow = null;
+
     [SerializeField] private int strengthReq = -1; // Cumulative strength needed to equip
     [SerializeField] private int maxWieldParts = -1; // In how many parts maximum can this be wielded?
 
@@ -36,6 +39,8 @@ public abstract class ItemData : ScriptableObject
     public int StrengthReq { get => strengthReq; }
     public int MaxWieldParts { get => maxWieldParts; }
     public Melee Melee { get => melee; }
+    public bool InfiniteThrow { get => infiniteThrow; }
+    public ActionWrapper OnThrow { get => onThrow; }
 
     #endregion
 }

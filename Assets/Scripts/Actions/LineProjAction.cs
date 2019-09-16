@@ -10,6 +10,12 @@ using Pantheon.Utils;
 
 namespace Pantheon.Actions
 {
+    public enum ProjBehaviour
+    {
+        Fly,
+        Instant
+    }
+
     /// <summary>
     /// Prepare and fire a projectile in a line.
     /// </summary>
@@ -17,6 +23,8 @@ namespace Pantheon.Actions
     public class LineProjAction : BaseAction
     {
         [SerializeField] private GameObject fxPrefab;
+        [SerializeField] private ProjBehaviour projBehaviour;
+        private BaseAction OnLandAction;
 
         [SerializeField] private int minDamage = -1;
         [SerializeField] private int maxDamage = -1;
@@ -25,8 +33,22 @@ namespace Pantheon.Actions
 
         private List<Cell> line;
 
-        public LineProjAction(Actor actor, GameObject fxPrefab) : base(actor)
-            => this.fxPrefab = fxPrefab;
+        public LineProjAction(Actor actor, GameObject fxPrefab,
+            ProjBehaviour projBehaviour)
+            : base(actor)
+        {
+            this.fxPrefab = fxPrefab;
+            this.projBehaviour = projBehaviour;
+        }
+
+        public LineProjAction(Actor actor, GameObject fxPrefab,
+            ProjBehaviour projBehaviour, BaseAction onLand)
+            : base(actor)
+        {
+            this.fxPrefab = fxPrefab;
+            this.projBehaviour = projBehaviour;
+            OnLandAction = onLand;
+        }
 
         /// <summary>
         /// Request a line, and fire a projectile by callback.
@@ -62,21 +84,16 @@ namespace Pantheon.Actions
                 line = ((Player)Actor).Input.TargetLine;
 
             Cell startCell = Actor.Cell;
-            Cell endCell;
+            Cell endCell = null;
 
+            // See if anything stops the projectile
             foreach (Cell cell in line)
             {
                 if (cell.Actor != null && cell.Actor != Actor)
                 {
-                    int hitRoll = Random.Range(0, 101);
-                    if (hitRoll > accuracy)
-                        continue;
+                    if (projBehaviour == ProjBehaviour.Instant)
+                        HitActor(cell);
 
-                    Hit hit = new Hit(minDamage, maxDamage);
-                    GameLog.Send($"The magic bullet punches through " +
-                        $"{Strings.GetSubject(cell.Actor, false)}, " +
-                        $"dealing {hit.Damage} damage!");
-                    cell.Actor.TakeHit(hit);
                     if (!pierces)
                     {
                         endCell = cell;
@@ -84,29 +101,68 @@ namespace Pantheon.Actions
                     }
                 }
                 // Stopped by terrain or features
-                if (cell.Blocked || (cell.Feature != null && cell.Feature.Blocked))
+                if (cell.Blocked)
                 {
                     endCell = cell;
                     break;
                 }
             }
 
-            // End of target line reached
-            endCell = line[line.Count - 1];
+            if (endCell == null)
+            {
+                // End of target line reached
+                endCell = line[line.Count - 1];
+            }
 
-            Vector3 startPoint = Helpers.V2IToV3(startCell.Position);
-            Vector3 endPoint = Helpers.V2IToV3(endCell.Position);
+            switch (projBehaviour)
+            {
+                case ProjBehaviour.Fly:
+                    {
+                        Vector3 startPoint = Helpers.V2IToV3(startCell.Position);
 
-            Vector3 midPoint = (startPoint + endPoint) / 2;
-            Quaternion rotation = new Quaternion();
-            Vector3 projDirection = (startPoint - endPoint).normalized;
-            rotation = Quaternion.FromToRotation(Vector3.right, projDirection);
+                        GameObject projObj = Object.Instantiate(
+                            fxPrefab, startPoint, new Quaternion())
+                            as GameObject;
+                        FlyingProjectile proj = projObj.GetComponent<FlyingProjectile>();
+                        proj.TargetCell = endCell;
+                        proj.OnLandAction = OnLandAction;
+                    }
+                    break;
+                case ProjBehaviour.Instant:
+                    {
+                        Vector3 startPoint = Helpers.V2IToV3(startCell.Position);
+                        Vector3 endPoint = Helpers.V2IToV3(endCell.Position);
 
-            Object.Destroy(
-                Object.Instantiate(
-                    fxPrefab, midPoint, rotation) as GameObject, 10);
+                        Vector3 midPoint = (startPoint + endPoint) / 2;
+                        Quaternion rotation = new Quaternion();
+                        Vector3 projDirection = (startPoint - endPoint).normalized;
+                        rotation = Quaternion.FromToRotation(Vector3.right, projDirection);
 
+                        Object.Destroy(Object.Instantiate(
+                            fxPrefab, midPoint, rotation) as GameObject, 10);
+
+                        break;
+                    }
+                default:
+                    throw new System.Exception("No projectile behaviour given.");
+            }
             onConfirm?.Invoke();
+        }
+
+        private void HitActor(Cell cell)
+        {
+            int hitRoll = RandomUtils.RangeInclusive(0, 100);
+            if (hitRoll < accuracy)
+            {
+                Hit hit = new Hit(minDamage, maxDamage);
+                GameLog.Send($"The magic bullet punches through " +
+                    $"{Strings.GetSubject(cell.Actor, false)}, " +
+                    $"dealing {hit.Damage} damage!");
+                cell.Actor.TakeHit(hit);
+            }
+            else
+                GameLog.Send($"The magic bullet misses " +
+                    $"{Strings.GetSubject(cell.Actor, false)}.");
         }
 
         public override string ToString()

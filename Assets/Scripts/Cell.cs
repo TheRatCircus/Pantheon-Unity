@@ -37,13 +37,24 @@ namespace Pantheon.World
         #region Properties
 
         public Vector2Int Position { get => position; set => position = value; }
-        public bool Blocked { get => blocked; set => blocked = value; }
+        public bool Blocked
+        {
+            get
+            {
+                if (Feature != null)
+                    return (blocked || Feature.Blocked);
+                else
+                    return blocked;
+            }
+            set => blocked = value;
+
+        }
         public bool Opaque
         {
             get
             {
                 if (Feature != null)
-                    return (opaque && Feature.Opaque);
+                    return (opaque || Feature.Opaque);
                 else
                     return opaque;
             }

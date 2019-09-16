@@ -25,6 +25,9 @@ public class Item
     public BodyPart[] WieldProfile { get; set; }
     public Melee Melee { get; set; }
 
+    public ActionWrapper OnToss { get; }
+    public bool InfiniteThrow { get; set; }
+
     // Constructor
     public Item(ItemData itemData)
     {
@@ -36,6 +39,9 @@ public class Item
         Melee = itemData.Melee;
         StrengthReq = itemData.StrengthReq;
         MaxWieldParts = itemData.MaxWieldParts;
+
+        OnToss = itemData.OnThrow;
+        InfiniteThrow = itemData.InfiniteThrow;
 
         Owner = null;
     }

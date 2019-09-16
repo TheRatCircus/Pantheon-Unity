@@ -20,6 +20,8 @@ MonoBehaviour:
   usable: 0
   onUse: {fileID: 0}
   onUseString: NO_USE_STRING
+  infiniteThrow: 0
+  onThrow: {fileID: 0}
   strengthReq: 30
   maxWieldParts: 4
   melee:
