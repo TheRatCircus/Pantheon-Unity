@@ -3,7 +3,7 @@
 
 using Pantheon.World;
 using static Pantheon.Utils.ItemFactory;
-using static ItemWeights;
+using static Pantheon.WorldGen.ItemWeights;
 
 namespace Pantheon.WorldGen
 {

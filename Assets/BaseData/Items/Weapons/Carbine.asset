@@ -12,24 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43391ef01433564489267dfaaea48458, type: 3}
   m_Name: Carbine
   m_EditorClassIdentifier: 
-  displayName: NO_NAME
-  refName: NO_REF
-  maxStack: -1
+  displayName: carbine
+  refName: Carbine
+  maxStack: 1
   stackable: 0
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 0680187b3eb92414686b4f23f85e10c8, type: 3}
   usable: 0
   onUse: {fileID: 0}
   onUseString: NO_USE_STRING
   infiniteThrow: 0
   onThrow: {fileID: 0}
-  strengthReq: -1
-  maxWieldParts: -1
+  strengthReq: 4
+  maxWieldParts: 1
+  ranged:
+    minDamage: 4
+    maxDamage: 7
+    accuracy: 80
+    ammoFamily: 3
   melee:
-    minDamage: -1
-    maxDamage: -1
-    accuracy: -1
-    attackTime: -1
-    damageType: 0
+    minDamage: 2
+    maxDamage: 4
+    accuracy: 75
+    attackTime: 100
+    damageType: 3
   ammo:
     minDamage: -1
     maxDamage: -1

@@ -322,7 +322,8 @@ public class PlayerInput : MonoBehaviour
                     if (targetCell.Actor is Player)
                         break;
 
-                    if (targetCell.Actor is NPC && player.WieldingRangedWeapon())
+                    if (targetCell.Actor is NPC
+                        && player.Inventory.WieldingRangedWeapon())
                     {
                         List<Cell> l = Bresenhams.GetLine(player.level, player.Cell, targetCell);
                         player.NextAction = new ShootAction(player, l);

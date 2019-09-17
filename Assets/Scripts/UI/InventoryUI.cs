@@ -47,8 +47,8 @@ namespace Pantheon.UI
         {
             for (int i = 0; i < player.InventorySize; i++)
             {
-                if (i < player.Inventory.Count)
-                    inventorySlots[i].AddItem(player.Inventory[i]);
+                if (i < player.Inventory.All.Count)
+                    inventorySlots[i].AddItem(player.Inventory.All[i]);
                 else
                     inventorySlots[i].ClearSlot();
             }

@@ -35,5 +35,4 @@ namespace Pantheon.Core
             return npc;
         }
     }
-
 }

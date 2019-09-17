@@ -20,7 +20,7 @@ namespace Pantheon.Actions
 
             List<Item> rangedWeapons = new List<Item>();
 
-            foreach (Item item in Actor.Wielded)
+            foreach (Item item in Actor.Inventory.Wielded)
                 if (item.IsRanged)
                     rangedWeapons.Add(item);
 
@@ -30,10 +30,10 @@ namespace Pantheon.Actions
 
             foreach (Item weapon in rangedWeapons)
             {
-                if (Actor.HasAmmoFor(weapon))
+                if (Actor.Inventory.HasAmmoFor(weapon))
                 {
                     Ammo ammo = null;
-                    foreach (Item item in Actor.Inventory)
+                    foreach (Item item in Actor.Inventory.All)
                     {
                         if (item.Ammo.AmmoFamily == weapon.Ranged.AmmoFamily)
                         {

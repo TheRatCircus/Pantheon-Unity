@@ -24,6 +24,11 @@ MonoBehaviour:
   onThrow: {fileID: 0}
   strengthReq: -1
   maxWieldParts: -1
+  ranged:
+    minDamage: -1
+    maxDamage: -1
+    accuracy: -1
+    ammoFamily: 0
   melee:
     minDamage: -1
     maxDamage: -1
@@ -33,10 +38,10 @@ MonoBehaviour:
   ammo:
     minDamage: 5
     maxDamage: 8
-    accuracy: -1
+    accuracy: 80
     damageType: 2
     pierces: 0
     fxPrefab: {fileID: 3843464375304575577, guid: a7358d2300337354fbb5a641004ace8e,
       type: 3}
-    ammoFamily: 0
+    ammoFamily: 3
   ammoType: 1

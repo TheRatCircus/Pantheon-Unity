@@ -32,12 +32,13 @@ namespace Pantheon.UI
             this.maxOptions = maxOptions;
             this.onSubmit = onSubmit;
 
-            List<BodyPart> prehensiles = actor.GetPrehensiles();
+            List<BodyPart> prehensiles = actor.Body.GetPrehensiles();
 
             for (int i = 0; i < prehensiles.Count; i++)
             {
                 GameObject optionObj = Instantiate(optionPrefab, listTransform);
-                BodyPartModalListOption option = optionObj.GetComponent<BodyPartModalListOption>();
+                BodyPartModalListOption option
+                    = optionObj.GetComponent<BodyPartModalListOption>();
                 option.Initialize(prehensiles[i], SelectPart);
             }
         }

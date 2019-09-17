@@ -26,7 +26,7 @@ namespace Pantheon.Actions
             if (item == null)
                 throw new System.Exception("Attempt to drop a null item");
 
-            if (!Actor.Inventory.Contains(item))
+            if (!Actor.Inventory.All.Contains(item))
                 throw new System.Exception("Attempt to drop item from outside inventory");
 
             Actor.RemoveItem(item);
@@ -36,7 +36,6 @@ namespace Pantheon.Actions
             {
                 Core.GameLog.Send($"You drop the {item.DisplayName}.",
                     Strings.TextColour.Grey);
-                ((Player)Actor).RaiseInventoryChangeEvent();
             }
 
             return Core.Game.TurnTime;

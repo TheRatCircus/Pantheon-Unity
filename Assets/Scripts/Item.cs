@@ -87,7 +87,7 @@ public class Item
         if (user is NPC)
             throw new System.NotImplementedException("NPC attempted to wield.");
 
-        if (!user.HasPrehensile())
+        if (!user.Body.HasPrehensile())
         {
             GameLog.Send("You have no way of grasping this.",
                 Strings.TextColour.Orange);

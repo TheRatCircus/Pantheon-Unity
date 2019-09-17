@@ -80,8 +80,12 @@
     <Compile Include="Assets\Scripts\ActionWrappers\HealActionWrapper.cs" />
     <Compile Include="Assets\Scripts\ActionWrappers\LineProjActionWrapper.cs" />
     <Compile Include="Assets\Scripts\Actors\Actor.cs" />
+    <Compile Include="Assets\Scripts\Actors\Attributes.cs" />
+    <Compile Include="Assets\Scripts\Actors\Body.cs" />
     <Compile Include="Assets\Scripts\Actors\BodyPart.cs" />
+    <Compile Include="Assets\Scripts\Actors\Equipment.cs" />
     <Compile Include="Assets\Scripts\Actors\Idol.cs" />
+    <Compile Include="Assets\Scripts\Actors\Inventory.cs" />
     <Compile Include="Assets\Scripts\Actors\NPC.cs" />
     <Compile Include="Assets\Scripts\Actors\Player.cs" />
     <Compile Include="Assets\Scripts\Actors\StatusEffect.cs" />
@@ -126,13 +130,12 @@
     <Compile Include="Assets\Scripts\Enums\WeaponType.cs" />
     <Compile Include="Assets\Scripts\Equipment.cs" />
     <Compile Include="Assets\Scripts\FlyingProjectile.cs" />
+    <Compile Include="Assets\Scripts\FOV.cs" />
     <Compile Include="Assets\Scripts\Hit.cs" />
     <Compile Include="Assets\Scripts\Item.cs" />
-    <Compile Include="Assets\Scripts\ItemWeights.cs" />
     <Compile Include="Assets\Scripts\Level.cs" />
     <Compile Include="Assets\Scripts\Melee.cs" />
     <Compile Include="Assets\Scripts\Node.cs" />
-    <Compile Include="Assets\Scripts\NPCPops.cs" />
     <Compile Include="Assets\Scripts\Pathfinder.cs" />
     <Compile Include="Assets\Scripts\PlayerInput.cs" />
     <Compile Include="Assets\Scripts\Ranged.cs" />
@@ -159,11 +162,13 @@
     <Compile Include="Assets\Scripts\Utils\StatusFactory.cs" />
     <Compile Include="Assets\Scripts\Utils\Strings.cs" />
     <Compile Include="Assets\Scripts\WorldGen\BinarySpacePartition.cs" />
+    <Compile Include="Assets\Scripts\WorldGen\ItemWeights.cs" />
     <Compile Include="Assets\Scripts\WorldGen\LevelConnections.cs" />
     <Compile Include="Assets\Scripts\WorldGen\LevelEnemies.cs" />
     <Compile Include="Assets\Scripts\WorldGen\LevelItems.cs" />
     <Compile Include="Assets\Scripts\WorldGen\LevelLayout.cs" />
     <Compile Include="Assets\Scripts\WorldGen\LevelZones.cs" />
+    <Compile Include="Assets\Scripts\WorldGen\NPCPops.cs" />
     <None Include="Assets\ScriptCalculator\Readme.txt" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/Misc/Development/unity/Pantheon/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using Pantheon.World;
 
 namespace Pantheon.Core
@@ -13,6 +14,8 @@ namespace Pantheon.Core
     /// </summary>
     public sealed class Database : MonoBehaviour
     {
+        private static Database GetDatabase() => Game.instance.Database;
+
         // Database lists
         [SerializeField] private List<WeaponData> weaponList = new List<WeaponData>();
         [SerializeField] private List<ScrollData> scrollList = new List<ScrollData>();
@@ -24,10 +27,13 @@ namespace Pantheon.Core
         [SerializeField] private List<AmmoData> ammoList = new List<AmmoData>();
 
         // Miscellaneous
-        public Sprite lineTargetOverlay;
+        [SerializeField] private Tile unknownTerrain = null;
+        public static Tile UnknownTerrain
+            => GetDatabase().unknownTerrain;
+        [SerializeField] private Sprite lineTargetOverlay = null;
         public static Sprite LineTargetOverlay
             => GetDatabase().lineTargetOverlay;
-        public GameObject tossFXPrefab;
+        [SerializeField] private GameObject tossFXPrefab = null;
         public static GameObject TossFXPrefab
             => GetDatabase().tossFXPrefab;
 
@@ -51,8 +57,6 @@ namespace Pantheon.Core
 
         // Awake is called when the script instance is being loaded
         private void Awake() => InitDatabaseDicts();
-
-        private static Database GetDatabase() => Game.instance.Database;
 
         /// <summary>
         /// Initialize each of the database's dictionaries.
@@ -79,7 +83,6 @@ namespace Pantheon.Core
 
         #region Accessors
 
-        // Get weapon data by enum
         public static WeaponData GetWeapon(WeaponType type)
         {
             GetDatabase().WeaponDict.TryGetValue(type, out WeaponData ret);
@@ -90,7 +93,6 @@ namespace Pantheon.Core
             return ret;
         }
 
-        // Get scroll data by enum
         public static ScrollData GetScroll(ScrollType scrollType)
         {
             GetDatabase().ScrollDict.TryGetValue(scrollType, out ScrollData ret);
@@ -101,7 +103,6 @@ namespace Pantheon.Core
             return ret;
         }
 
-        // Get potion data by enum
         public static FlaskData GetFlask(FlaskType flaskType)
         {
             GetDatabase().FlaskDict.TryGetValue(flaskType, out FlaskData ret);
@@ -112,7 +113,6 @@ namespace Pantheon.Core
             return ret;
         }
 
-        // Get terrain data by enum
         public static TerrainData GetTerrain(TerrainType terrainType)
         {
             GetDatabase().TerrainDict.TryGetValue(terrainType, out TerrainData ret);
@@ -123,11 +123,6 @@ namespace Pantheon.Core
             return ret;
         }
 
-        /// <summary>
-        /// Get an NPC prefab by NPCType.
-        /// </summary>
-        /// <param name="npcType">The enumerated type of the NPC.</param>
-        /// <returns>The prefab corresponding to npcType.</returns>
         public static NPCWrapper GetNPC(NPCType npcType)
         {
             GetDatabase().NPCDict.TryGetValue(npcType, out NPCWrapper ret);
@@ -138,7 +133,6 @@ namespace Pantheon.Core
             return ret;
         }
 
-        // Get feature data by enum
         public static Feature GetFeature(FeatureType featureType)
         {
             GetDatabase().FeatureDict.TryGetValue(featureType, out Feature ret);
@@ -149,7 +143,6 @@ namespace Pantheon.Core
             return ret;
         }
 
-        // Get spell data by enum
         public static Spell GetSpell(SpellType spellType)
         {
             GetDatabase().SpellDict.TryGetValue(spellType, out Spell ret);

@@ -45,7 +45,8 @@ public static class CellDrawer
     public static void DrawTile(Level level, Cell cell)
     {
         if (!cell.Revealed)
-            level.TerrainTilemap.SetTile((Vector3Int)cell.Position, level.unknownTile);
+            level.TerrainTilemap.SetTile((Vector3Int)cell.Position,
+                Database.UnknownTerrain);
         else
         {
             DrawTerrain(level, cell);
