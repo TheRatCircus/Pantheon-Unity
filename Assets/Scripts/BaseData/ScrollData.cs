@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// Template for a scroll.
 /// </summary>
-[CreateAssetMenu(fileName = "New Scroll", menuName = "Items/Scroll/Scroll")]
+[CreateAssetMenu(fileName = "New Scroll", menuName = "Items/Scroll")]
 public class ScrollData : ItemData
 {
     [SerializeField] private ScrollType scrollType = ScrollType.None;
