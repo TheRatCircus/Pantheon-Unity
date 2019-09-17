@@ -45,26 +45,22 @@ namespace Pantheon.Debug
 
             if (Enum.TryParse(args[0], out WeaponType weaponType))
             {
-                Game.GetPlayer().Inventory.Add(ItemFactory.NewWeapon(weaponType));
-                Game.GetPlayer().RaiseInventoryChangeEvent();
+                Game.GetPlayer().AddItem(ItemFactory.NewWeapon(weaponType));
                 return $"Giving {weaponType.ToString()}";
             }
             else if (Enum.TryParse(args[0], out FlaskType flaskType))
             {
-                Game.GetPlayer().Inventory.Add(ItemFactory.NewFlask(flaskType));
-                Game.GetPlayer().RaiseInventoryChangeEvent();
+                Game.GetPlayer().AddItem(ItemFactory.NewFlask(flaskType));
                 return $"Giving {flaskType.ToString()}";
             }
             else if (Enum.TryParse(args[0], out ScrollType scrollType))
             {
-                Game.GetPlayer().Inventory.Add(ItemFactory.NewScroll(scrollType));
-                Game.GetPlayer().RaiseInventoryChangeEvent();
+                Game.GetPlayer().AddItem(ItemFactory.NewScroll(scrollType));
                 return $"Giving {scrollType.ToString()}";
             }
             else if (Enum.TryParse(args[0], out AmmoType ammoType))
             {
-                Game.GetPlayer().Inventory.Add(ItemFactory.NewAmmo(ammoType));
-                Game.GetPlayer().RaiseInventoryChangeEvent();
+                Game.GetPlayer().AddItem(ItemFactory.NewAmmo(ammoType));
                 return $"Giving {ammoType.ToString()}";
             }
             else

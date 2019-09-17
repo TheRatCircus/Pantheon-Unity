@@ -10,7 +10,7 @@ public static class TraitEffects
 {
     public static void ApplyAmbidextrous(Actor actor)
     {
-        foreach (BodyPart part in actor.Parts)
+        foreach (BodyPart part in actor.Body.Parts)
             if ((part.Prehensile || part.CanMelee) && !part.Dexterous)
                 part.Dexterous = true;
     }

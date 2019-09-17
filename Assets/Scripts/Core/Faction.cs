@@ -23,4 +23,11 @@ namespace Pantheon.Core
             Idol = idol;
         }
     }
+
+    public enum FactionType
+    {
+        None,
+        Nature,
+        Religion
+    }
 }

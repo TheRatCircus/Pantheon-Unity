@@ -35,12 +35,10 @@ namespace Pantheon.Actions
             {
                 item = cell.Items[0];
                 cell.Items.RemoveAt(0);
-                Actor.Inventory.Add(item);
-                item.Owner = Actor;
+                Actor.AddItem(item);
 
                 if (Actor is Player)
                 {
-                    ((Player)Actor).RaiseInventoryChangeEvent();
                     GameLog.Send($"You pick up a {item.DisplayName}.",
                         Strings.TextColour.White);
                 }

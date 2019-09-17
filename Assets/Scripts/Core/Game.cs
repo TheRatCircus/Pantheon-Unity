@@ -13,13 +13,6 @@ using Pantheon.Utils;
 
 namespace Pantheon.Core
 {
-    public enum FactionType
-    {
-        None,
-        Nature,
-        Religion
-    }
-
     /// <summary>
     /// Central game controller. Handles turn scheduling and holds other core 
     /// game behaviour.

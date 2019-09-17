@@ -16,49 +16,44 @@ namespace Pantheon.World
     /// </summary>
     public class Level : MonoBehaviour
     {
-        // Requisite objects
-        [SerializeField] private Pathfinder pathfinder = null;
-
-        private string displayName = "NO_NAME";
-        private string refName = "NO_REF";
-
         // This level's tilemaps
-        [SerializeField] private Tilemap terrainTilemap = null;
-        [SerializeField] private Tilemap featureTilemap = null;
-        [SerializeField] private Tilemap itemTilemap = null;
-        [SerializeField] private Tilemap targettingTilemap = null;
+        [SerializeField] private Tilemap terrainTilemap;
+        [SerializeField] private Tilemap featureTilemap;
+        [SerializeField] private Tilemap itemTilemap;
+        [SerializeField] private Tilemap targettingTilemap;
 
-        public Tile unknownTile;
+        public string DisplayName { get; set; } = "NO_NAME";
+        public string RefName { get; set; } = "NO_REF";
 
-        // Map data
-        private Cell[,] map;
+        public Cell[,] Map { get; set; }
+        public Vector2Int LevelSize { get; set; }
+        public List<NPC> NPCs { get; } = new List<NPC>();
+        public Dictionary<string, Connection> Connections { get; set; }
 
-        // Attributes of the level
-        private Vector2Int levelSize;
-
-        // Contents
-        private List<NPC> npcs = new List<NPC>();
+        private FOV fov;
+        public void RefreshFOV() => fov.RefreshFOV(this);
+        public Pathfinder Pathfinder { get; private set; }
 
         // Properties
-        public Tilemap TerrainTilemap { get => terrainTilemap; }
-        public Tilemap FeatureTilemap { get => featureTilemap; }
-        public Tilemap ItemTilemap { get => itemTilemap; }
-        public Tilemap TargettingTilemap { get => targettingTilemap;}
-        public string DisplayName { get => displayName; set => displayName = value; }
-        public Cell[,] Map { get => map; set => map = value; }
-        public Vector2Int LevelSize { get => levelSize; set => levelSize = value; }
-        public List<NPC> NPCs { get => npcs; }
-        public Pathfinder Pathfinder { get => pathfinder; }
-        public Dictionary<string, Connection> Connections { get; set; }
-        public string RefName { get => refName; set => refName = value; }
-
-        private void Awake() => pathfinder = new Pathfinder(this);
+        public Tilemap TerrainTilemap
+        { get => terrainTilemap; private set => terrainTilemap = value; }
+        public Tilemap FeatureTilemap
+        { get => featureTilemap; private set => featureTilemap = value; }
+        public Tilemap ItemTilemap
+        { get => itemTilemap; private set => itemTilemap = value; }
+        public Tilemap TargettingTilemap
+        { get => targettingTilemap; private set => targettingTilemap = value; }
+        
+        private void Awake()
+        {
+            Pathfinder = new Pathfinder(this);
+        }
 
         // Cell accessor, mostly for validation
         public Cell GetCell(Vector2Int pos)
         {
             if (Contains(pos))
-                return map[pos.x, pos.y];
+                return Map[pos.x, pos.y];
             else
                 throw new System.Exception($"Attempt to access out-of-bounds cell {pos.x}, {pos.y}");
         }
@@ -67,10 +62,9 @@ namespace Pantheon.World
         public void SpawnPlayer()
         {
             Actor.MoveTo(Game.GetPlayer(), RandomFloor());
-            RefreshFOV();
+            fov = new FOV();
+            fov.RefreshFOV(this);
         }
-
-        #region Helpers
 
         // Find a random walkable cell in the level, no fixing
         public Cell RandomFloor()
@@ -166,7 +160,7 @@ namespace Pantheon.World
         // Does this Level contain a point?
         public bool Contains(Vector2Int pos)
         {
-            if (pos.x < levelSize.x && pos.y < levelSize.y)
+            if (pos.x < LevelSize.x && pos.y < LevelSize.y)
                 return (pos.x >= 0 && pos.y >= 0);
             else return false;
         }
@@ -190,233 +184,8 @@ namespace Pantheon.World
             return GetCell(newCellPos);
         }
 
-        #endregion
-
-        #region FOV
-
-        // Change visibility and reveal new cells. Only call when a player spawns
-        // or moves/is moved
-        public void RefreshFOV()
-        {
-            List<Cell> allRefreshed = new List<Cell>();
-            for (int octant = 0; octant < 8; octant++)
-            {
-                List<Cell> refreshed = ShadowOctant(Game.GetPlayer().Position, octant);
-                CellDrawer.DrawCells(this, refreshed);
-                allRefreshed.AddRange(refreshed);
-            }
-            Game.GetPlayer().UpdateVisibleCells(allRefreshed);
-
-            foreach (NPC e in npcs)
-                e.UpdateVisibility();
-        }
-
-        // Coordinates used to transform a point in an octant
-        static Vector2Int[,] octantCoordinates = new Vector2Int[,]
-        {
-        { new Vector2Int(0, -1), new Vector2Int(1, 0) },
-        { new Vector2Int(1, 0), new Vector2Int(0, -1) },
-        { new Vector2Int(1, 0), new Vector2Int(0, 1) },
-        { new Vector2Int(0, 1), new Vector2Int(1, 0) },
-        { new Vector2Int(0, 1), new Vector2Int(-1, 0) },
-        { new Vector2Int(-1, 0), new Vector2Int(0, 1) },
-        { new Vector2Int(-1, 0), new Vector2Int(0, -1) },
-        { new Vector2Int(0, -1), new Vector2Int(-1, 0) }
-        };
-
-        // Generate an octant of shadows, and return the FOV area to be redrawn
-        public List<Cell> ShadowOctant(Vector2Int origin, int octant)
-        {
-            // Increments based off of octantCoordinates
-            var rowInc = octantCoordinates[octant, 0];
-            var colInc = octantCoordinates[octant, 1];
-
-            ShadowLine line = new ShadowLine();
-            bool fullShadow = false;
-            List<Cell> ret = new List<Cell>();
-
-            for (int row = 0; row < Game.GetPlayer().FOVRadius - 4; row++)
-            {
-                // Record position
-                Vector2Int pos = origin + (rowInc * row);
-                // Stop once going out of bounds
-                if (!Contains(pos)) break;
-
-                bool pastMaxDistance = false;
-                for (int col = 0; col <= row; col++)
-                {
-                    // Break on this row if going out of bounds
-                    if (!Contains(pos)) break;
-                    // Add new cells to list of updated cells
-                    ret.Add(map[pos.x, pos.y]);
-                    // Visibility fall off over distance
-                    int fallOff = 255;
-
-                    // If entire row is known to be in shadow, set this cell to be 
-                    // in shadow
-                    if (fullShadow || pastMaxDistance)
-                        map[pos.x, pos.y].SetVisibility(false, fallOff);
-                    else
-                    {
-                        fallOff = 0;
-                        float distance = Vector2.Distance(origin, pos);
-                        if (distance > Game.GetPlayer().FOVRadius)
-                        {
-                            fallOff = 255;
-                            pastMaxDistance = true;
-                        }
-                        else
-                        {
-                            float normalized = distance / Game.GetPlayer().FOVRadius;
-                            normalized = Mathf.Pow(normalized, 2);
-                            fallOff = (int)(normalized * 255);
-                        }
-                        Shadow projection = ProjectTile(row, col);
-
-                        // Set the visibility of this tile
-                        bool visible = !line.IsInShadow(projection);
-                        map[pos.x, pos.y].SetVisibility(visible, fallOff);
-
-                        // Add any opaque tiles to the shadow map
-                        if (visible && map[pos.x, pos.y].Opaque)
-                        {
-                            line.AddShadow(projection);
-                            fullShadow = line.IsFullShadow();
-                        }
-                    }
-                    pos += colInc;
-                    if (!Contains(pos)) break;
-                }
-            }
-            return ret;
-        }
-
-        // Creates a Shadow that corresponds to the projected silhouette of the
-        // tile at row, col
-        Shadow ProjectTile(float row, float col)
-        {
-            float rowF = row;
-            float colF = col;
-
-            float topLeft = colF / (rowF + 2);
-            float bottomRight = (colF + 1) / (rowF + 1);
-
-            return new Shadow(topLeft, bottomRight,
-                new Vector2(col, row + 2),
-                new Vector2(col + 1, row + 1));
-        }
-
-        // Generate a line of shadows
-        public class ShadowLine
-        {
-            public readonly List<Shadow> Shadows = new List<Shadow>();
-
-            // Is this projection within shadow?
-            public bool IsInShadow(Shadow projection)
-            {
-                foreach (Shadow shadow in Shadows)
-                {
-                    if (shadow.Contains(projection))
-                        return true;
-                }
-                return false;
-            }
-
-            // Is this line in full shadow?
-            public bool IsFullShadow()
-            {
-                return
-                    Shadows.Count == 1 &&
-                    Shadows[0].Start == 0 &&
-                    Shadows[0].End == 1;
-            }
-
-            // Determine where to add a new shadow to the list
-            public void AddShadow(Shadow shadow)
-            {
-                int index = 0;
-
-                for (; index < Shadows.Count; index++)
-                    // Stop when hitting the insertion point
-                    if (Shadows[index].Start >= shadow.Start) break;
-
-                // Check if new shadow overlaps previous or next
-                Shadow overlappingPrevious = null;
-                if (index > 0 && Shadows[index - 1].End > shadow.Start)
-                    overlappingPrevious = Shadows[index - 1];
-
-                Shadow overlappingNext = null;
-                if (index < Shadows.Count && Shadows[index].Start < shadow.End)
-                    overlappingNext = Shadows[index];
-
-                // Insert and unify with overlapping shadows
-                if (overlappingNext != null)
-                {
-                    if (overlappingPrevious != null)
-                    {
-                        // Overlaps both, so unify one and delete the other
-                        overlappingPrevious.End = overlappingNext.End;
-                        overlappingPrevious.EndPos = overlappingNext.EndPos;
-                        Shadows.RemoveAt(index);
-                    }
-                    else
-                    {
-                        // Only overlaps the next shadow, so unify it with that
-                        overlappingNext.Start = shadow.Start;
-                        overlappingNext.StartPos = shadow.StartPos;
-                    }
-                }
-                else
-                {
-                    if (overlappingPrevious != null)
-                    {
-                        // Overlaps the previous one, so unify it with that
-                        overlappingPrevious.End = shadow.End;
-                        overlappingPrevious.EndPos = shadow.EndPos;
-                    }
-                    else
-                    {
-                        // Does not overlap with anything, so insert
-                        Shadows.Insert(index, shadow);
-                    }
-                }
-            }
-        }
-
-        // Represents the 1D projection of a 2D shadow onto a normalized line. In
-        // other words, a range from 0.0 to 1.0
-        public class Shadow
-        {
-            float start;
-            float end;
-            Vector2 startPos;
-            Vector2 endPos;
-
-            public float Start { get => start; set => start = value; }
-            public float End { get => end; set => end = value; }
-            public Vector2 EndPos { get => endPos; set => endPos = value; }
-            public Vector2 StartPos { get => startPos; set => startPos = value; }
-
-            public Shadow(float start, float end, Vector2 startPos, Vector2 endPos)
-            {
-                this.start = start;
-                this.end = end;
-                this.startPos = startPos;
-                this.endPos = endPos;
-            }
-
-            public override string ToString() => $"{start}-{end}";
-
-            public bool Contains(Shadow other)
-            {
-                return start <= other.Start && end >= other.End;
-            }
-        }
-
-        #endregion
-
         public override string ToString()
-            => refName;
+            => RefName;
     }
 }
 

@@ -1,6 +1,7 @@
 ﻿// LineProjAction.cs
 // Jerome Martina
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Pantheon.Core;
@@ -19,7 +20,7 @@ namespace Pantheon.Actions
     /// <summary>
     /// Prepare and fire a projectile in a line.
     /// </summary>
-    [System.Serializable]
+    [Serializable]
     public class LineProjAction : BaseAction
     {
         [SerializeField] private GameObject fxPrefab;
@@ -31,7 +32,7 @@ namespace Pantheon.Actions
         [SerializeField] private int accuracy = -1;
         [SerializeField] private bool pierces = false; // Pierces actors
 
-        private List<Cell> line;
+        [NonSerialized] private List<Cell> line;
 
         public LineProjAction(Actor actor, GameObject fxPrefab,
             ProjBehaviour projBehaviour)
@@ -51,7 +52,7 @@ namespace Pantheon.Actions
         }
 
         /// <summary>
-        /// Request a line, and fire a projectile by callback.
+        /// Request a line, and fire a projectile.
         /// </summary>
         public override int DoAction()
         {
@@ -65,7 +66,7 @@ namespace Pantheon.Actions
                 ((Player)Actor).Input.StartCoroutine(
                     ((Player)Actor).Input.LineTarget(FireProjectile));
             else
-                throw new System.NotImplementedException("An NPC should not be able to do this");
+                throw new NotImplementedException("An NPC should not be able to do this");
 
             return -1;
         }
@@ -76,17 +77,18 @@ namespace Pantheon.Actions
             if (line != null)
             {
                 FireProjectile();
+                this.onConfirm = onConfirm;
                 return -1;
             }
-                
+
             if (Actor is Player)
                 ((Player)Actor).Input.StartCoroutine(
                     ((Player)Actor).Input.LineTarget(FireProjectile));
             else
-                throw new System.NotImplementedException("An NPC should not be able to do this");
+                throw new NotImplementedException("An NPC should not be able to do this");
 
             this.onConfirm = onConfirm;
-
+            
             return -1;
         }
 
@@ -107,7 +109,7 @@ namespace Pantheon.Actions
             pierces = ammo.Pierces;
         }
 
-        public void SetLine(List<Cell> line) => this.line = line;
+        public void SetLine(List<Cell> line) => this.line = new List<Cell>(line);
 
         public void FireProjectile()
         {
@@ -151,7 +153,7 @@ namespace Pantheon.Actions
                     {
                         Vector3 startPoint = Helpers.V2IToV3(startCell.Position);
 
-                        GameObject projObj = Object.Instantiate(
+                        GameObject projObj = UnityEngine.Object.Instantiate(
                             fxPrefab, startPoint, new Quaternion())
                             as GameObject;
                         FlyingProjectile proj = projObj.GetComponent<FlyingProjectile>();
@@ -169,14 +171,15 @@ namespace Pantheon.Actions
                         Vector3 projDirection = (startPoint - endPoint).normalized;
                         rotation = Quaternion.FromToRotation(Vector3.right, projDirection);
 
-                        Object.Destroy(Object.Instantiate(
+                        UnityEngine.Object.Destroy(UnityEngine.Object.Instantiate(
                             fxPrefab, midPoint, rotation) as GameObject, 10);
 
                         break;
                     }
                 default:
-                    throw new System.Exception("No projectile behaviour given.");
+                    throw new Exception("No projectile behaviour given.");
             }
+            line = null;
             onConfirm?.Invoke();
         }
 

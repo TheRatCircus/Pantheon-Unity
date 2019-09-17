@@ -11,15 +11,6 @@ using Pantheon.Actions;
 
 namespace Pantheon.Actors
 {
-    [Flags]
-    public enum TraitType
-    {
-        Adrenaline = 1 << 0,
-        Ambidextrous = 1 << 1,
-        SkilledSwimmer = 1 << 2,
-        Charge = 1 << 3
-    }
-
     /// <summary>
     /// Any entity which acts with any degree of agency.
     /// </summary>
@@ -42,24 +33,16 @@ namespace Pantheon.Actors
         [SerializeField] [ReadOnly] protected int energy; // Energy remaining
         [SerializeField] protected int moveSpeed; // Energy needed to walk one cell
 
-        [SerializeField] protected List<BodyPart> parts;
+        [SerializeField] protected Attributes attributes;
+        [SerializeField] protected Body body;
         [SerializeField] protected List<Trait> traits;
         [SerializeField]
         [ReadOnly]
         protected List<StatusEffect> statuses
             = new List<StatusEffect>();
-        protected List<Item> inventory;
-        protected List<Item> wielded = new List<Item>();
+        [SerializeField] protected Inventory inventory;
         [SerializeField] protected List<Spell> spells = new List<Spell>();
         public Faction Faction { get; set; }
-
-        // Equipment
-        [SerializeField] [ReadOnly] Item bodyWear;
-        [SerializeField] [ReadOnly] Item shoulderWear;
-        [SerializeField] [ReadOnly] Item amulet;
-        [SerializeField] [ReadOnly] Item belt;
-        [SerializeField] [ReadOnly] Item gloves;
-        [SerializeField] [ReadOnly] Item boots;
 
         // Per-actor-type data
         [SerializeField] protected Species species;
@@ -78,13 +61,12 @@ namespace Pantheon.Actors
         public int Energy { get => energy; set => energy = value; }
         public Cell Cell { get => cell; set => cell = value; }
         public Vector2Int Position { get => cell.Position; }
-        public List<Item> Inventory { get => inventory; }
-        public List<Item> Wielded { get => wielded; }
         public BaseAction NextAction { get => nextAction; set => nextAction = value; }
-        public List<BodyPart> Parts { get => parts; }
         public int MoveSpeed { get => moveSpeed; }
         public List<Spell> Spells { get => spells; set => spells = value; }
         public Sprite CorpseSprite { get => corpseSprite; private set => corpseSprite = value; }
+        public Body Body { get => body; }
+        public Inventory Inventory { get => inventory; }
 
         #endregion
 
@@ -156,8 +138,7 @@ namespace Pantheon.Actors
                 foreach (Trait trait in traits)
                     trait.OnGetTrait?.Invoke(this);
 
-            foreach (BodyPart part in parts)
-                part.Initialize();
+            body.Initialize();
         }
 
         protected virtual void Start()
@@ -202,6 +183,18 @@ namespace Pantheon.Actors
                 Heal(regenProgress / regenRate);
                 regenProgress %= regenRate;
             }
+        }
+
+        public virtual void AddItem(Item item)
+        {
+            item.Owner = this;
+            inventory.AddItem(item);
+        }
+
+        public virtual void RemoveItem(Item item)
+        {
+            item.Owner = null;
+            inventory.RemoveItem(item);
         }
 
         public virtual void ApplyStatus(StatusEffect status)
@@ -249,129 +242,7 @@ namespace Pantheon.Actors
             }
         }
 
-        // Remove an item from this actor's inventory
-        public virtual void RemoveItem(Item item)
-        {
-            inventory.Remove(item);
-            item.Owner = null;
-        }
-
-        // Check if this actor has any prehensile body parts
-        public bool HasPrehensile()
-        {
-            foreach (BodyPart part in parts)
-                if (part.Prehensile) return true;
-
-            return false;
-        }
-
-        public List<BodyPart> GetPrehensiles()
-        {
-            List<BodyPart> prehensiles = new List<BodyPart>();
-
-            foreach (BodyPart part in parts)
-                if (part.Prehensile)
-                    prehensiles.Add(part);
-
-            return prehensiles;
-        }
-
         public bool IsDead() => health < 0;
-
-        /// <summary>
-        /// Get all the melee attacks this actor can possibly perform.
-        /// </summary>
-        /// <returns></returns>
-        public List<Melee> GetMelees()
-        {
-            List<Melee> melees = new List<Melee>();
-
-            foreach (BodyPart part in parts)
-            {
-                if (part.Item != null)
-                    melees.Add(part.Item.Melee);
-                else if (part.CanMelee && part.Dexterous)
-                    melees.Add(part.Melee);
-                else
-                    continue;
-            }
-
-            if (melees.Count == 0)
-                return null;
-            else
-                return melees;
-        }
-
-        /// <summary>
-        ///  Check if the cumulative strength of the actor's prehensiles used to
-        ///  wield an item meet that item's strength requirement.
-        /// </summary>
-        /// <param name="req">The strength requirement checked against.</param>
-        /// <returns>True if the actor has enough strength over all its prehensiles.</returns>
-        public bool MeetsStrengthReq(Item item)
-        {
-            if (item.StrengthReq == 0)
-                return true;
-
-            int wieldStrength = 0;
-
-            List<BodyPart> prehensiles = GetPrehensiles();
-            foreach (BodyPart prehensile in prehensiles)
-                if (prehensile.Item == item)
-                    wieldStrength += prehensile.Strength;
-
-            if (wieldStrength >= item.StrengthReq)
-                return true;
-            else
-                return false;
-        }
-
-        public bool WieldingRangedWeapon()
-        {
-            foreach (Item item in wielded)
-                if (item.IsRanged)
-                    return true;
-
-            return false;
-        }
-
-        /// <summary>
-        /// Does this actor have any ammunition for any of its weapons?
-        /// </summary>
-        /// <returns></returns>
-        public bool HasAmmo()
-        {
-            List<Item> rangedWeapons = new List<Item>();
-            List<Item> ammoTypes = new List<Item>();
-
-            foreach (Item item in Inventory)
-                if (item.IsRanged)
-                    rangedWeapons.Add(item);
-                else if (item.IsAmmo)
-                    ammoTypes.Add(item);
-            
-            foreach (Item ammo in ammoTypes)
-            {
-                foreach (Item weapon in rangedWeapons)
-                    if (ammo.Ammo.AmmoFamily == weapon.Ranged.AmmoFamily)
-                        return true;
-            }
-
-            return false;
-        }
-
-        public bool HasAmmoFor(Item rangedWeapon)
-        {
-            if (!rangedWeapon.IsRanged)
-                throw new ArgumentException("Argument item must be a ranged weapon.");
-
-            foreach (Item item in Inventory)
-                if (item.IsAmmo && item.Ammo.AmmoFamily
-                    == rangedWeapon.Ranged.AmmoFamily)
-                    return true;
-
-            return false;
-        }
 
         // Check if another actor is hostile to this
         public bool HostileToMe(Actor other)

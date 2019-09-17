@@ -14,8 +14,7 @@ namespace Pantheon.Actors
 {
     public class Player : Actor
     {
-        private PlayerInput input;
-
+        public PlayerInput Input { get; private set; }
         [SerializeField] protected int inventorySize = 40;
         [SerializeField] private int fovRadius = 15; // Not in cells
         private bool longResting = false;
@@ -29,7 +28,6 @@ namespace Pantheon.Actors
         // Properties
         public int InventorySize { get => inventorySize; }
         public int FOVRadius { get => fovRadius; }
-        public PlayerInput Input { get => input; }
         public List<Cell> MovePath { get => movePath; set => movePath = value; }
 
         // Events
@@ -40,13 +38,12 @@ namespace Pantheon.Actors
 
         // Event invokers for PlayerInput
         public void RaiseInventoryToggleEvent() => OnInventoryToggleEvent?.Invoke();
-        public void RaiseInventoryChangeEvent() => OnInventoryChangeEvent?.Invoke();
 
         // Awake is called when the script instance is being loaded
         protected override void Awake()
         {
             base.Awake();
-            inventory = new List<Item>(inventorySize);
+            inventory = new Inventory(inventorySize);
             movePath = new List<Cell>();
         }
 
@@ -54,7 +51,7 @@ namespace Pantheon.Actors
         protected override void Start()
         {
             base.Start();
-            input = GetComponent<PlayerInput>();
+            Input = GetComponent<PlayerInput>();
         }
 
         // Request this actor's action and carry it out
@@ -140,7 +137,12 @@ namespace Pantheon.Actors
             StatusChangeEvent?.Invoke(statuses);
         }
 
-        // Remove an item from this actor's inventory
+        public override void AddItem(Item item)
+        {
+            base.AddItem(item);
+            OnInventoryChangeEvent?.Invoke();
+        }
+
         public override void RemoveItem(Item item)
         {
             base.RemoveItem(item);

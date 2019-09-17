@@ -31,11 +31,11 @@ namespace Pantheon.UI
             this.maxOptions = maxOptions;
             this.onSubmit = onSubmit;
 
-            for (int i = 0; i < actor.Inventory.Count; i++)
+            for (int i = 0; i < actor.Inventory.All.Count; i++)
             {
                 GameObject optionObj = Instantiate(optionPrefab, listTransform);
                 ItemModalListOption option = optionObj.GetComponent<ItemModalListOption>();
-                option.Initialize(actor.Inventory[i], SelectItem);
+                option.Initialize(actor.Inventory.All[i], SelectItem);
             }
         }
 

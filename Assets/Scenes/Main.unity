@@ -1630,8 +1630,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6d385a899d22ce9409b3f8854e50640b, type: 2}
   ammoList:
   - {fileID: 11400000, guid: c3d137edb1ca14e4e8e9a9494f3f1ad9, type: 2}
+  unknownTerrain: {fileID: 11400000, guid: 200c77702078a4e4d90e808bf9898762, type: 2}
   lineTargetOverlay: {fileID: 21300000, guid: a5ea99f1f7b062b4d809ff0899851c17, type: 3}
-  tossFXPrefab: {fileID: 5407183414458642120, guid: 437dcd7e1b1a3134598973c85967abda,
+  tossFXPrefab: {fileID: 5407183414458642120, guid: afaa1a7d98184d744886ffc72bd5164d,
     type: 3}
 --- !u!1 &737357386
 GameObject:
@@ -4159,8 +4160,8 @@ MonoBehaviour:
     turnsRemaining: 0
   spells:
   - {fileID: 11400000, guid: 6d385a899d22ce9409b3f8854e50640b, type: 2}
-  species: 0
-  corpseSprite: {fileID: 0}
+  species: 1
+  corpseSprite: {fileID: 21300000, guid: 0d047209e32634c4cb6ff78ed5fe9767, type: 3}
   inventorySize: 40
   fovRadius: 15
   visibleCells: []

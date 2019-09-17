@@ -31,7 +31,7 @@ namespace Pantheon.Actions
         {
             int actionTime = -1;
 
-            List<Melee> attacks = Actor.GetMelees();
+            List<Melee> attacks = Actor.Body.GetMelees();
             if (attacks == null)
             {
                 UnityEngine.Debug.LogWarning("An actor has no melee attacks.");
@@ -56,7 +56,7 @@ namespace Pantheon.Actions
              *  e.g. if attack takes 200 and another takes 50, one attack of
              *  200 and four of 50 are carried out in the action
              */
-            foreach (BodyPart part in Actor.Parts)
+            foreach (BodyPart part in Actor.Body.Parts)
             {
                 if (target.IsDead())
                     break;

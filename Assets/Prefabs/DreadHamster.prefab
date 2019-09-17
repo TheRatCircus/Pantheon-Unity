@@ -111,88 +111,81 @@ MonoBehaviour:
   speed: 130
   energy: 0
   moveSpeed: 100
+  attributes:
+    strength: 0
+    dexterity: 0
+    intellect: 0
+    constitution: 0
+    willpower: 0
+  body:
+    parts:
+    - partData: {fileID: 11400000, guid: a0953f3048b68ac46b3c00da5ca36970, type: 2}
+      dexterous: 0
+      strength: 0
+      melee:
+        minDamage: 0
+        maxDamage: 0
+        accuracy: 0
+        attackTime: 0
+        damageType: 0
+    - partData: {fileID: 11400000, guid: 1e42844d54403e242abae67b27f62c9d, type: 2}
+      dexterous: 0
+      strength: 0
+      melee:
+        minDamage: 0
+        maxDamage: 0
+        accuracy: 0
+        attackTime: 0
+        damageType: 0
+    - partData: {fileID: 11400000, guid: 1e42844d54403e242abae67b27f62c9d, type: 2}
+      dexterous: 0
+      strength: 0
+      melee:
+        minDamage: 0
+        maxDamage: 0
+        accuracy: 0
+        attackTime: 0
+        damageType: 0
+    - partData: {fileID: 11400000, guid: 556bac5bc944209409b8e8425077c05e, type: 2}
+      dexterous: 1
+      strength: 0
+      melee:
+        minDamage: 0
+        maxDamage: 0
+        accuracy: 0
+        attackTime: 0
+        damageType: 0
+    - partData: {fileID: 11400000, guid: 5b70a63a971588f44b7b3a96f92c91b3, type: 2}
+      dexterous: 1
+      strength: 0
+      melee:
+        minDamage: 0
+        maxDamage: 0
+        accuracy: 0
+        attackTime: 0
+        damageType: 0
+    - partData: {fileID: 11400000, guid: d32d6490d4f2b0f4a9900cceca154eba, type: 2}
+      dexterous: 0
+      strength: 0
+      melee:
+        minDamage: 0
+        maxDamage: 0
+        accuracy: 0
+        attackTime: 0
+        damageType: 0
+    - partData: {fileID: 11400000, guid: d32d6490d4f2b0f4a9900cceca154eba, type: 2}
+      dexterous: 0
+      strength: 0
+      melee:
+        minDamage: 0
+        maxDamage: 0
+        accuracy: 0
+        attackTime: 0
+        damageType: 0
   statuses: []
   spells: []
   species: 0
   corpseSprite: {fileID: 21300000, guid: 0d047209e32634c4cb6ff78ed5fe9767, type: 3}
-  parts:
-  - partData: {fileID: 11400000, guid: a0953f3048b68ac46b3c00da5ca36970, type: 2}
-    dominant: 0
-    strength: 0
-    dexterity: 0
-    melee:
-      minDamage: 0
-      maxDamage: 0
-      accuracy: 0
-      attackTime: 0
-      damageType: 0
-    canMelee: 0
-  - partData: {fileID: 11400000, guid: d32d6490d4f2b0f4a9900cceca154eba, type: 2}
-    dominant: 0
-    strength: 0
-    dexterity: 0
-    melee:
-      minDamage: 0
-      maxDamage: 0
-      accuracy: 0
-      attackTime: 0
-      damageType: 0
-    canMelee: 0
-  - partData: {fileID: 11400000, guid: d32d6490d4f2b0f4a9900cceca154eba, type: 2}
-    dominant: 0
-    strength: 0
-    dexterity: 0
-    melee:
-      minDamage: 0
-      maxDamage: 0
-      accuracy: 0
-      attackTime: 0
-      damageType: 0
-    canMelee: 0
-  - partData: {fileID: 11400000, guid: 1e42844d54403e242abae67b27f62c9d, type: 2}
-    dominant: 0
-    strength: 0
-    dexterity: 0
-    melee:
-      minDamage: 0
-      maxDamage: 0
-      accuracy: 0
-      attackTime: 0
-      damageType: 0
-    canMelee: 0
-  - partData: {fileID: 11400000, guid: 1e42844d54403e242abae67b27f62c9d, type: 2}
-    dominant: 0
-    strength: 0
-    dexterity: 0
-    melee:
-      minDamage: 0
-      maxDamage: 0
-      accuracy: 0
-      attackTime: 0
-      damageType: 0
-    canMelee: 0
-  - partData: {fileID: 11400000, guid: 556bac5bc944209409b8e8425077c05e, type: 2}
-    dominant: 0
-    strength: 0
-    dexterity: 0
-    melee:
-      minDamage: 0
-      maxDamage: 0
-      accuracy: 0
-      attackTime: 0
-      damageType: 0
-    canMelee: 0
-  - partData: {fileID: 11400000, guid: 5b70a63a971588f44b7b3a96f92c91b3, type: 2}
-    dominant: 0
-    strength: 0
-    dexterity: 0
-    melee:
-      minDamage: 0
-      maxDamage: 0
-      accuracy: 0
-      attackTime: 0
-      damageType: 0
-    canMelee: 0
   target: {fileID: 0}
 --- !u!114 &2228376977434281826
 MonoBehaviour:

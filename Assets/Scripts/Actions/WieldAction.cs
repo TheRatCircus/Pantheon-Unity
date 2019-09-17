@@ -33,8 +33,9 @@ namespace Pantheon.Actions
 
         public override int DoAction()
         {
+            Actor.Inventory.Wielded.Remove(item);
             // Unwield item from all previous parts
-            foreach (BodyPart part in Actor.GetPrehensiles())
+            foreach (BodyPart part in Actor.Body.GetPrehensiles())
             {
                 if (part.Item == item)
                     part.Item = null;
@@ -43,7 +44,7 @@ namespace Pantheon.Actions
             foreach (BodyPart part in parts)
                 part.Item = item;
 
-            Actor.Wielded.Add(item);
+            Actor.Inventory.Wielded.Add(item);
 
             item.WieldProfile = parts;
 
