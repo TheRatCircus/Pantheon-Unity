@@ -43,6 +43,8 @@ namespace Pantheon.Actions
             foreach (BodyPart part in parts)
                 part.Item = item;
 
+            Actor.Wielded.Add(item);
+
             item.WieldProfile = parts;
 
             GameLog.Send($"You wield the {item.DisplayName}.", Strings.TextColour.White);

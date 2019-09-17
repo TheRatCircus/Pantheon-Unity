@@ -1604,6 +1604,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f2adb3aa355150b469f477952950197e, type: 2}
   - {fileID: 11400000, guid: f53cae12bef511145b20e4f54601a414, type: 2}
   - {fileID: 11400000, guid: 737b12c58416caa4ba6341341f9bbfd9, type: 2}
+  - {fileID: 11400000, guid: 5231b9861d27b6b44a895d30f1e9226e, type: 2}
   scrollList:
   - {fileID: 11400000, guid: 5b7d939e3dd5a0b44a354dbfe8781bbf, type: 2}
   flaskList:
@@ -1627,6 +1628,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bf77dab20b179e24392e60e96ea0d416, type: 2}
   spells:
   - {fileID: 11400000, guid: 6d385a899d22ce9409b3f8854e50640b, type: 2}
+  ammoList:
+  - {fileID: 11400000, guid: c3d137edb1ca14e4e8e9a9494f3f1ad9, type: 2}
   lineTargetOverlay: {fileID: 21300000, guid: a5ea99f1f7b062b4d809ff0899851c17, type: 3}
   tossFXPrefab: {fileID: 5407183414458642120, guid: 437dcd7e1b1a3134598973c85967abda,
     type: 3}

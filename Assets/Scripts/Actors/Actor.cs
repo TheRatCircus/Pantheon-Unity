@@ -49,6 +49,7 @@ namespace Pantheon.Actors
         protected List<StatusEffect> statuses
             = new List<StatusEffect>();
         protected List<Item> inventory;
+        protected List<Item> wielded = new List<Item>();
         [SerializeField] protected List<Spell> spells = new List<Spell>();
         public Faction Faction { get; set; }
 
@@ -78,6 +79,7 @@ namespace Pantheon.Actors
         public Cell Cell { get => cell; set => cell = value; }
         public Vector2Int Position { get => cell.Position; }
         public List<Item> Inventory { get => inventory; }
+        public List<Item> Wielded { get => wielded; }
         public BaseAction NextAction { get => nextAction; set => nextAction = value; }
         public List<BodyPart> Parts { get => parts; }
         public int MoveSpeed { get => moveSpeed; }
@@ -322,6 +324,53 @@ namespace Pantheon.Actors
                 return true;
             else
                 return false;
+        }
+
+        public bool WieldingRangedWeapon()
+        {
+            foreach (Item item in wielded)
+                if (item.IsRanged)
+                    return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// Does this actor have any ammunition for any of its weapons?
+        /// </summary>
+        /// <returns></returns>
+        public bool HasAmmo()
+        {
+            List<Item> rangedWeapons = new List<Item>();
+            List<Item> ammoTypes = new List<Item>();
+
+            foreach (Item item in Inventory)
+                if (item.IsRanged)
+                    rangedWeapons.Add(item);
+                else if (item.IsAmmo)
+                    ammoTypes.Add(item);
+            
+            foreach (Item ammo in ammoTypes)
+            {
+                foreach (Item weapon in rangedWeapons)
+                    if (ammo.Ammo.AmmoFamily == weapon.Ranged.AmmoFamily)
+                        return true;
+            }
+
+            return false;
+        }
+
+        public bool HasAmmoFor(Item rangedWeapon)
+        {
+            if (!rangedWeapon.IsRanged)
+                throw new ArgumentException("Argument item must be a ranged weapon.");
+
+            foreach (Item item in Inventory)
+                if (item.IsAmmo && item.Ammo.AmmoFamily
+                    == rangedWeapon.Ranged.AmmoFamily)
+                    return true;
+
+            return false;
         }
 
         // Check if another actor is hostile to this

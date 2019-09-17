@@ -18,5 +18,8 @@ namespace Pantheon.Utils
 
         public static Item NewWeapon(WeaponType type)
             => new Item(GetWeapon(type));
+
+        public static Item NewAmmo(AmmoType type)
+            => new Item(GetAmmo(type));
     }
 }

@@ -10,26 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 43391ef01433564489267dfaaea48458, type: 3}
-  m_Name: Hand Grenade
+  m_Name: Carbine
   m_EditorClassIdentifier: 
-  displayName: hand grenade
-  refName: HandGrenade
-  maxStack: 1
+  displayName: NO_NAME
+  refName: NO_REF
+  maxStack: -1
   stackable: 0
-  sprite: {fileID: 21300000, guid: 19f2ac40514406f4398aa1a227fbe8a1, type: 3}
+  sprite: {fileID: 0}
   usable: 0
   onUse: {fileID: 0}
   onUseString: NO_USE_STRING
-  infiniteThrow: 1
-  onThrow: {fileID: 11400000, guid: 97f49a8ae142c964b94577a67c68341a, type: 2}
-  strengthReq: 2
-  maxWieldParts: 1
+  infiniteThrow: 0
+  onThrow: {fileID: 0}
+  strengthReq: -1
+  maxWieldParts: -1
   melee:
-    minDamage: 3
-    maxDamage: 6
-    accuracy: 70
-    attackTime: 100
-    damageType: 3
+    minDamage: -1
+    maxDamage: -1
+    accuracy: -1
+    attackTime: -1
+    damageType: 0
   ammo:
     minDamage: -1
     maxDamage: -1
@@ -38,4 +38,4 @@ MonoBehaviour:
     pierces: 0
     fxPrefab: {fileID: 0}
     ammoFamily: 0
-  type: 4
+  type: 5

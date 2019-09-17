@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc33e6c0c654a8c4ca7a54f3eaed6f3e, type: 3}
+  m_Name: Cartridges
+  m_EditorClassIdentifier: 
+  displayName: cartridges
+  refName: Cartridges
+  maxStack: 1
+  stackable: 0
+  sprite: {fileID: 21300000, guid: 0700bc0dbea42a247b5ae7d4dc58180d, type: 3}
+  usable: 0
+  onUse: {fileID: 0}
+  onUseString: NO_USE_STRING
+  infiniteThrow: 0
+  onThrow: {fileID: 0}
+  strengthReq: -1
+  maxWieldParts: -1
+  melee:
+    minDamage: -1
+    maxDamage: -1
+    accuracy: -1
+    attackTime: -1
+    damageType: 0
+  ammo:
+    minDamage: 5
+    maxDamage: 8
+    accuracy: -1
+    damageType: 2
+    pierces: 0
+    fxPrefab: {fileID: 3843464375304575577, guid: a7358d2300337354fbb5a641004ace8e,
+      type: 3}
+    ammoFamily: 0
+  ammoType: 1

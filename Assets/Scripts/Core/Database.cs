@@ -21,6 +21,7 @@ namespace Pantheon.Core
         [SerializeField] private List<NPCWrapper> NPCList = new List<NPCWrapper>();
         [SerializeField] private List<Feature> features = new List<Feature>();
         [SerializeField] private List<Spell> spells = new List<Spell>();
+        [SerializeField] private List<AmmoData> ammoList = new List<AmmoData>();
 
         // Miscellaneous
         public Sprite lineTargetOverlay;
@@ -45,6 +46,8 @@ namespace Pantheon.Core
             = new Dictionary<FeatureType, Feature>();
         public Dictionary<SpellType, Spell> SpellDict { get; }
             = new Dictionary<SpellType, Spell>();
+        public Dictionary<AmmoType, AmmoData> AmmoDict { get; }
+            = new Dictionary<AmmoType, AmmoData>();
 
         // Awake is called when the script instance is being loaded
         private void Awake() => InitDatabaseDicts();
@@ -70,6 +73,8 @@ namespace Pantheon.Core
                 FeatureDict.Add(features[i].Type, features[i]);
             for (int i = 0; i < spells.Count; i++)
                 SpellDict.Add(spells[i].Type, spells[i]);
+            for (int i = 0; i < ammoList.Count; i++)
+                AmmoDict.Add(ammoList[i].AmmoType, ammoList[i]);
         }
 
         #region Accessors
@@ -151,6 +156,16 @@ namespace Pantheon.Core
 
             if (ret == null)
                 throw new Exception("Failed to get specified spell.");
+
+            return ret;
+        }
+
+        public static AmmoData GetAmmo(AmmoType ammoType)
+        {
+            GetDatabase().AmmoDict.TryGetValue(ammoType, out AmmoData ret);
+
+            if (ret == null)
+                throw new Exception("Failed to get specified ammo.");
 
             return ret;
         }

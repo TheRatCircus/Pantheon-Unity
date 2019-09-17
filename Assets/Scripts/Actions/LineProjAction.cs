@@ -55,6 +55,12 @@ namespace Pantheon.Actions
         /// </summary>
         public override int DoAction()
         {
+            if (line != null)
+            {
+                FireProjectile();
+                return -1;
+            }
+
             if (Actor is Player)
                 ((Player)Actor).Input.StartCoroutine(
                     ((Player)Actor).Input.LineTarget(FireProjectile));
@@ -67,6 +73,12 @@ namespace Pantheon.Actions
         // DoAction() with a callback
         public override int DoAction(OnConfirm onConfirm)
         {
+            if (line != null)
+            {
+                FireProjectile();
+                return -1;
+            }
+                
             if (Actor is Player)
                 ((Player)Actor).Input.StartCoroutine(
                     ((Player)Actor).Input.LineTarget(FireProjectile));
@@ -77,6 +89,25 @@ namespace Pantheon.Actions
 
             return -1;
         }
+
+        public void SetValues(int minDamage, int maxDamage, int accuracy,
+            bool pierces)
+        {
+            this.minDamage = minDamage;
+            this.maxDamage = maxDamage;
+            this.accuracy = accuracy;
+            this.pierces = pierces;
+        }
+
+        public void SetValues(Ammo ammo)
+        {
+            minDamage = ammo.MinDamage;
+            maxDamage = ammo.MaxDamage;
+            accuracy = ammo.Accuracy;
+            pierces = ammo.Pierces;
+        }
+
+        public void SetLine(List<Cell> line) => this.line = line;
 
         public void FireProjectile()
         {

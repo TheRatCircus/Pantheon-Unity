@@ -61,6 +61,12 @@ namespace Pantheon.Debug
                 Game.GetPlayer().RaiseInventoryChangeEvent();
                 return $"Giving {scrollType.ToString()}";
             }
+            else if (Enum.TryParse(args[0], out AmmoType ammoType))
+            {
+                Game.GetPlayer().Inventory.Add(ItemFactory.NewAmmo(ammoType));
+                Game.GetPlayer().RaiseInventoryChangeEvent();
+                return $"Giving {ammoType.ToString()}";
+            }
             else
                 return $"Item of type {args[0]} could not be found";
         }

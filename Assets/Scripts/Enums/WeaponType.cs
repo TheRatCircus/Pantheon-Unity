@@ -7,5 +7,6 @@ public enum WeaponType
     Dagger,
     Hatchet,
     Prejudice,
-    HandGrenade
+    HandGrenade,
+    Carbine,
 }

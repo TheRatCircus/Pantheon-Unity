@@ -198,49 +198,49 @@ public class PlayerInput : MonoBehaviour
             if (Input.GetButtonDown("Up"))
             {
                 MoveCrosshair(player.level.GetAdjacentCell(targetCell, Vector2Int.up));
-                targetLine = Bresenhams.GetPath(player.level, player.Cell, targetCell);
+                targetLine = Bresenhams.GetLine(player.level, player.Cell, targetCell);
                 CellDrawer.PaintCells(player.level, targetLine);
             }
             else if (Input.GetButtonDown("Down"))
             {
                 MoveCrosshair(player.level.GetAdjacentCell(targetCell, Vector2Int.down));
-                targetLine = Bresenhams.GetPath(player.level, player.Cell, targetCell);
+                targetLine = Bresenhams.GetLine(player.level, player.Cell, targetCell);
                 CellDrawer.PaintCells(player.level, targetLine);
             }
             else if (Input.GetButtonDown("Left"))
             {
                 MoveCrosshair(player.level.GetAdjacentCell(targetCell, Vector2Int.left));
-                targetLine = Bresenhams.GetPath(player.level, player.Cell, targetCell);
+                targetLine = Bresenhams.GetLine(player.level, player.Cell, targetCell);
                 CellDrawer.PaintCells(player.level, targetLine);
             }
             else if (Input.GetButtonDown("Right"))
             {
                 MoveCrosshair(player.level.GetAdjacentCell(targetCell, Vector2Int.right));
-                targetLine = Bresenhams.GetPath(player.level, player.Cell, targetCell);
+                targetLine = Bresenhams.GetLine(player.level, player.Cell, targetCell);
                 CellDrawer.PaintCells(player.level, targetLine);
             }
             else if (Input.GetButtonDown("Up Left"))
             {
                 MoveCrosshair(player.level.GetAdjacentCell(targetCell, new Vector2Int(-1, 1)));
-                targetLine = Bresenhams.GetPath(player.level, player.Cell, targetCell);
+                targetLine = Bresenhams.GetLine(player.level, player.Cell, targetCell);
                 CellDrawer.PaintCells(player.level, targetLine);
             }
             else if (Input.GetButtonDown("Up Right"))
             {
                 MoveCrosshair(player.level.GetAdjacentCell(targetCell, new Vector2Int(1, 1)));
-                targetLine = Bresenhams.GetPath(player.level, player.Cell, targetCell);
+                targetLine = Bresenhams.GetLine(player.level, player.Cell, targetCell);
                 CellDrawer.PaintCells(player.level, targetLine);
             }
             else if (Input.GetButtonDown("Down Left"))
             {
                 MoveCrosshair(player.level.GetAdjacentCell(targetCell, new Vector2Int(-1, -1)));
-                targetLine = Bresenhams.GetPath(player.level, player.Cell, targetCell);
+                targetLine = Bresenhams.GetLine(player.level, player.Cell, targetCell);
                 CellDrawer.PaintCells(player.level, targetLine);
             }
             else if (Input.GetButtonDown("Down Right"))
             {
                 MoveCrosshair(player.level.GetAdjacentCell(targetCell, new Vector2Int(1, -1)));
-                targetLine = Bresenhams.GetPath(player.level, player.Cell, targetCell);
+                targetLine = Bresenhams.GetLine(player.level, player.Cell, targetCell);
                 CellDrawer.PaintCells(player.level, targetLine);
             }
             else if (Input.GetButtonDown("Submit"))
@@ -292,7 +292,7 @@ public class PlayerInput : MonoBehaviour
         if (player.level.Contains((Vector2Int)posInt))
         {
             MoveCrosshair(player.level.GetCell((Vector2Int)posInt));
-            targetLine = Bresenhams.GetPath(player.level, player.Cell, targetCell);
+            targetLine = Bresenhams.GetLine(player.level, player.Cell, targetCell);
             switch (inputState)
             {
                 case InputState.Move:
@@ -300,7 +300,7 @@ public class PlayerInput : MonoBehaviour
                 case InputState.PointTarget:
                     break;
                 case InputState.LineTarget:
-                    CellDrawer.PaintCells(player.level, Bresenhams.GetPath(player.level, player.Cell, targetCell));
+                    CellDrawer.PaintCells(player.level, Bresenhams.GetLine(player.level, player.Cell, targetCell));
                     break;
             }
         }
@@ -318,6 +318,13 @@ public class PlayerInput : MonoBehaviour
                     // Don't do anything if player clicks on themselves
                     if (targetCell.Actor is Player)
                         break;
+
+                    if (targetCell.Actor is NPC && player.WieldingRangedWeapon())
+                    {
+                        List<Cell> l = Bresenhams.GetLine(player.level, player.Cell, targetCell);
+                        player.NextAction = new ShootAction(player, l);
+                        break;
+                    }
 
                     path = player.level.Pathfinder.GetCellPath(Game.GetPlayer().Position, targetCell.Position);
                     player.MovePath = path;

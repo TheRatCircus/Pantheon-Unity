@@ -18,15 +18,23 @@ public class Item
     public string DisplayName { get; }
     public Sprite Sprite { get; }
     public ActionWrapper OnUse { get; }
+
     public int StrengthReq { get; }
     public int MaxWieldParts { get; }
+
     // Items save the last parts they were wielded in, and are wielded there
     // again next time they are equipped
     public BodyPart[] WieldProfile { get; set; }
+
     public Melee Melee { get; set; }
+    public Ranged Ranged { get; set; }
+    public bool IsRanged => Ranged.MaxDamage >= 0;
 
     public ActionWrapper OnToss { get; }
     public bool InfiniteThrow { get; set; }
+
+    public Ammo Ammo { get; set; }
+    public bool IsAmmo => Ammo.MaxDamage >= 0;
 
     // Constructor
     public Item(ItemData itemData)
@@ -36,12 +44,17 @@ public class Item
         stackable = itemData.Stackable;
 
         OnUse = itemData.OnUse;
+
         Melee = itemData.Melee;
+        Ranged = itemData.Ranged;
+
         StrengthReq = itemData.StrengthReq;
         MaxWieldParts = itemData.MaxWieldParts;
 
         OnToss = itemData.OnThrow;
         InfiniteThrow = itemData.InfiniteThrow;
+
+        Ammo = itemData.Ammo;
 
         Owner = null;
     }

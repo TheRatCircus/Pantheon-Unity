@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\Actions\MeleeAction.cs" />
     <Compile Include="Assets\Scripts\Actions\MoveAction.cs" />
     <Compile Include="Assets\Scripts\Actions\PickupAction.cs" />
+    <Compile Include="Assets\Scripts\Actions\ShootAction.cs" />
     <Compile Include="Assets\Scripts\Actions\TossAction.cs" />
     <Compile Include="Assets\Scripts\Actions\WaitAction.cs" />
     <Compile Include="Assets\Scripts\Actions\WieldAction.cs" />
@@ -87,6 +88,8 @@
     <Compile Include="Assets\Scripts\Actors\Trait.cs" />
     <Compile Include="Assets\Scripts\Actors\TraitEffects.cs" />
     <Compile Include="Assets\Scripts\Actors\Traits.cs" />
+    <Compile Include="Assets\Scripts\Ammo.cs" />
+    <Compile Include="Assets\Scripts\BaseData\AmmoData.cs" />
     <Compile Include="Assets\Scripts\BaseData\BodyPartData.cs" />
     <Compile Include="Assets\Scripts\BaseData\Feature.cs" />
     <Compile Include="Assets\Scripts\BaseData\FlaskData.cs" />
@@ -132,6 +135,7 @@
     <Compile Include="Assets\Scripts\NPCPops.cs" />
     <Compile Include="Assets\Scripts\Pathfinder.cs" />
     <Compile Include="Assets\Scripts\PlayerInput.cs" />
+    <Compile Include="Assets\Scripts\Ranged.cs" />
     <Compile Include="Assets\Scripts\ReadOnlyAttribute.cs" />
     <Compile Include="Assets\Scripts\UI\GUIClickController.cs" />
     <Compile Include="Assets\Scripts\UI\HUD.cs" />
