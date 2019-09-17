@@ -44,4 +44,10 @@ public static class CharacterNames
         ret.Used = true;
         return ret.Name;
     }
+
+    public static void ClearUsed()
+    {
+        foreach (CharacterName name in _characterNames)
+            name.Used = false;
+    }
 }

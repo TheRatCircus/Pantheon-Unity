@@ -289,6 +289,10 @@ namespace Pantheon.Core
         public void RegisterLevel(Level level)
             => levels.Add(level.RefName, level);
 
-        public static void QuitGame() => SceneManager.LoadScene("Title");
+        public static void QuitGame()
+        {
+            CharacterNames.ClearUsed();
+            SceneManager.LoadScene("Title");
+        }
     }
 }

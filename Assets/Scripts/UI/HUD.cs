@@ -146,8 +146,7 @@ namespace Pantheon.UI
                     ClearModals();
                     player.Input.SetInputState(InputState.Move);
                     CastAction cast = new CastAction(player, spell);
-                }
-                );
+                });
         }
 
         private void ItemWieldModalList()

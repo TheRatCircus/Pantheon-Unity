@@ -161,7 +161,10 @@ public class PlayerInput : MonoBehaviour
             else if (Input.GetButtonDown("Long Rest"))
                 player.LongRest();
             else if (Input.GetButtonDown("Toss"))
+            {
                 ModalListOpenEvent?.Invoke(ModalListOperation.Toss);
+                SetInputState(InputState.Modal);
+            }
         }
         else if (inputState == InputState.PointTarget)
         {
@@ -272,7 +275,7 @@ public class PlayerInput : MonoBehaviour
         {
             if (Input.GetButtonDown("Cancel"))
             {
-                Debug.Log($"Exiting game...");
+                Debug.Log($"Player dead. Exiting game...");
                 Game.QuitGame();
             }
         }
@@ -355,7 +358,7 @@ public class PlayerInput : MonoBehaviour
             crosshair.transform.position = crosshairPos;
         }
         else
-            UnityEngine.Debug.LogWarning
+            Debug.LogWarning
                 ("Attempted to move crosshair to null cell");
     }
 
