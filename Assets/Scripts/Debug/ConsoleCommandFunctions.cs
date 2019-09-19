@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using System;
+using System.Collections.Generic;
 using Pantheon.Core;
 using Pantheon.Actors;
 using Pantheon.World;
@@ -130,22 +131,25 @@ namespace Pantheon.Debug
 
         public static string OpenDomain(string[] args)
         {
+            //return "This command is currently non-functional.";
             if (args.Length != 1)
                 return "Please pass only 1 argument.";
 
-            Connection domainPortal = new PortalConnection(
+            string idolRef = args[0].ToLower();
+
+            if (!Game.instance.Pantheon.Idols.TryGetValue(idolRef, out Idol idol))
+                return "That idol was not found.";
+
+            Connection domainPortal = new Connection(
                 Game.instance.activeLevel,
                 Game.GetPlayer().Cell,
-                Database.GetFeature(FeatureType.Portal),
-                LevelZones.GenerateDomainAtrium);
-            domainPortal.DisplayName = "a portal to IDOL_NAME's Domain";
-            domainPortal.OneWay = true;
+                FeatureType.Portal,
+                new LevelRef(idol, 1));
+            domainPortal.DisplayName = $"a portal to {idol.DisplayName}'s Domain";
 
             Game.GetPlayer().Cell.Connection = domainPortal;
-            Game.instance.activeLevel.Connections.Add("IDOL_NAMEDomainPortal",
-                domainPortal);
 
-            return "Opened a portal to IDOL_NAME's Domain.";
+            return $"Opened a portal to {idol.DisplayName}'s Domain.";
         }
 
         public static string ListReligions(string[] args)
@@ -155,7 +159,7 @@ namespace Pantheon.Debug
 
             string ret = "";
 
-            foreach (System.Collections.Generic.KeyValuePair<string, Faction>
+            foreach (KeyValuePair<string, Faction>
                 pair in Game.instance.Religions)
             {
                 Faction faction = pair.Value;
@@ -174,6 +178,23 @@ namespace Pantheon.Debug
             Game.GetPlayer().Faction = religion;
 
             return $"You are now a member of {religion.DisplayName}.";
+        }
+
+        public static string ListLevels(string[] args)
+        {
+            if (args.Length != 0)
+                return "This command takes no arguments.";
+
+            string ret = "";
+
+            foreach (KeyValuePair<LevelRef, Level>
+                pair in Game.instance.Levels)
+            {
+                Level level = pair.Value;
+                ret += $"{level.RefName} ({level.DisplayName}){Environment.NewLine}";
+            }
+
+            return ret;
         }
     }
 }

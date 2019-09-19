@@ -7,10 +7,7 @@ using Pantheon.World;
 
 namespace Pantheon.WorldGen
 {
-    /// <summary>
-    /// Functions for procedurally generating level layouts.
-    /// </summary>
-    public static class LevelLayout
+    public static class Layout
     {
         /// <summary>
         /// Initializes a blank cell map and fills it with a terrain type.
@@ -36,7 +33,7 @@ namespace Pantheon.WorldGen
         /// </summary>
         /// <param name="level">Level to modify by reference.</param>
         /// <param name="terrain">Terrain type with which to enclose the level.</param>
-        public static void Enclose(ref Level level, TerrainType terrain)
+        public static void Enclose(Level level, TerrainType terrain)
         {
             for (int x = 0; x < level.LevelSize.x; x++)
                 for (int y = 0; y < level.LevelSize.y; y++)
@@ -73,7 +70,7 @@ namespace Pantheon.WorldGen
         /// <param name="level">Level to modify by reference.</param>
         /// <param name="percent">Likelihood that a cell gets filled.</param>
         /// <param name="terrain">Terrain type to fill the level with.</param>
-        public static void RandomFill(ref Level level, int percent, TerrainType terrain)
+        public static void RandomFill(Level level, int percent, TerrainType terrain)
         {
             for (int x = 0; x < level.LevelSize.x; x++)
                 for (int y = 0; y < level.LevelSize.y; y++)
@@ -89,7 +86,7 @@ namespace Pantheon.WorldGen
         /// <param name="level">Level to modify by reference.</param>
         /// <param name="percent">Likelihood that a cell gets filled.</param>
         /// <param name="feature">Feature type to fill the level with.</param>
-        public static void RandomFill(ref Level level, int percent, FeatureType feature)
+        public static void RandomFill(Level level, int percent, FeatureType feature)
         {
             for (int x = 0; x < level.LevelSize.x; x++)
                 for (int y = 0; y < level.LevelSize.y; y++)
@@ -109,7 +106,7 @@ namespace Pantheon.WorldGen
         /// <param name="roomMinSize">The minimum size of any given room.</param>
         /// <param name="roomMaxSize">The maximum size of any given room.</param>
         /// <returns></returns>
-        public static void ConnectedRooms(ref Level level, int maxRooms, int roomMinSize, int roomMaxSize)
+        public static void ConnectedRooms(Level level, int maxRooms, int roomMinSize, int roomMaxSize)
         {
             Rectangle[] rooms = new Rectangle[maxRooms];
             int numRooms = 0;
@@ -139,7 +136,7 @@ namespace Pantheon.WorldGen
 
                 if (!overlaps)
                 {
-                    GenerateRoom(ref level, newRoom, TerrainType.StoneFloor);
+                    GenerateRoom(level, newRoom, TerrainType.StoneFloor);
                     Vector2Int newCenter = newRoom.Center();
 
                     lastCenter = newCenter;
@@ -150,13 +147,13 @@ namespace Pantheon.WorldGen
 
                         if (Random.Range(0, 2) == 1)
                         {
-                            CreateHorizontalTunnel(ref level, prevCenter.x, newCenter.x, prevCenter.y);
-                            CreateVerticalTunnel(ref level, prevCenter.y, newCenter.y, newCenter.x);
+                            CreateHorizontalTunnel(level, prevCenter.x, newCenter.x, prevCenter.y);
+                            CreateVerticalTunnel(level, prevCenter.y, newCenter.y, newCenter.x);
                         }
                         else
                         {
-                            CreateVerticalTunnel(ref level, prevCenter.y, newCenter.y, prevCenter.x);
-                            CreateHorizontalTunnel(ref level, prevCenter.x, newCenter.x, newCenter.y);
+                            CreateVerticalTunnel(level, prevCenter.y, newCenter.y, prevCenter.x);
+                            CreateHorizontalTunnel(level, prevCenter.x, newCenter.x, newCenter.y);
                         }
                     }
                     rooms[numRooms] = newRoom;
@@ -170,7 +167,7 @@ namespace Pantheon.WorldGen
         /// </summary>
         /// <param name="level">Level to modify by reference.</param>
         /// <param name="rect">The rectangle used to make the room.</param>
-        public static void GenerateRoom(ref Level level, Rectangle rect, TerrainType terrain)
+        public static void GenerateRoom(Level level, Rectangle rect, TerrainType terrain)
         {
             //Debug.Log($"Generating room {rect.x2 - rect.x1} tiles wide and {rect.y2 - rect.y1} tiles long");
             for (int x = rect.x1 + 1; x < rect.x2 - 1; x++)
@@ -195,7 +192,7 @@ namespace Pantheon.WorldGen
         /// <param name="x1">Horizontal start of tunnel.</param>
         /// <param name="x2">Horizontal end of tunnel.</param>
         /// <param name="y">Y-position of tunnel.</param>
-        private static void CreateHorizontalTunnel(ref Level level, int x1, int x2, int y)
+        private static void CreateHorizontalTunnel(Level level, int x1, int x2, int y)
         {
             for (int x = Mathf.Min(x1, x2); x < Mathf.Max(x1, x2); x++)
                 level.Map[x, y].SetTerrain(Database.GetTerrain(TerrainType.StoneFloor));
@@ -208,7 +205,7 @@ namespace Pantheon.WorldGen
         /// <param name="y1">Vertical start of tunnel.</param>
         /// <param name="y2">Vertical end of tunnel.</param>
         /// <param name="x">X-position of tunnel.</param>
-        private static void CreateVerticalTunnel(ref Level level, int y1, int y2, int x)
+        private static void CreateVerticalTunnel(Level level, int y1, int y2, int x)
         {
             for (int y = Mathf.Min(y1, y2); y < Mathf.Max(y1, y2); y++)
                 level.Map[x, y].SetTerrain(Database.GetTerrain(TerrainType.StoneFloor));

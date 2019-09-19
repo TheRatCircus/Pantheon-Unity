@@ -104,7 +104,6 @@
     <Compile Include="Assets\Scripts\BaseData\TerrainData.cs" />
     <Compile Include="Assets\Scripts\BaseData\WeaponData.cs" />
     <Compile Include="Assets\Scripts\Cell.cs" />
-    <Compile Include="Assets\Scripts\CharacterNames.cs" />
     <Compile Include="Assets\Scripts\Connection.cs" />
     <Compile Include="Assets\Scripts\Core\CellDrawer.cs" />
     <Compile Include="Assets\Scripts\Core\Database.cs" />
@@ -133,6 +132,7 @@
     <Compile Include="Assets\Scripts\FOV.cs" />
     <Compile Include="Assets\Scripts\Hit.cs" />
     <Compile Include="Assets\Scripts\Item.cs" />
+    <Compile Include="Assets\Scripts\Layer.cs" />
     <Compile Include="Assets\Scripts\Level.cs" />
     <Compile Include="Assets\Scripts\Melee.cs" />
     <Compile Include="Assets\Scripts\Node.cs" />
@@ -162,13 +162,14 @@
     <Compile Include="Assets\Scripts\Utils\StatusFactory.cs" />
     <Compile Include="Assets\Scripts\Utils\Strings.cs" />
     <Compile Include="Assets\Scripts\WorldGen\BinarySpacePartition.cs" />
+    <Compile Include="Assets\Scripts\WorldGen\CharacterNames.cs" />
+    <Compile Include="Assets\Scripts\WorldGen\Connect.cs" />
+    <Compile Include="Assets\Scripts\WorldGen\Items.cs" />
     <Compile Include="Assets\Scripts\WorldGen\ItemWeights.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\LevelConnections.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\LevelEnemies.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\LevelItems.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\LevelLayout.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\LevelZones.cs" />
+    <Compile Include="Assets\Scripts\WorldGen\Layout.cs" />
     <Compile Include="Assets\Scripts\WorldGen\NPCPops.cs" />
+    <Compile Include="Assets\Scripts\WorldGen\NPCs.cs" />
+    <Compile Include="Assets\Scripts\WorldGen\Zones.cs" />
     <None Include="Assets\ScriptCalculator\Readme.txt" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/Misc/Development/unity/Pantheon/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

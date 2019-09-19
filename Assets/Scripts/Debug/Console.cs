@@ -37,7 +37,8 @@ namespace Pantheon.Debug
                 { "idolmode", new ConsoleCommand(IdolMode) },
                 { "open_domain", new ConsoleCommand(OpenDomain) },
                 { "list_religions", new ConsoleCommand(ListReligions) },
-                { "join_religion", new ConsoleCommand(JoinReligion) }
+                { "join_religion", new ConsoleCommand(JoinReligion) },
+                { "list_levels", new ConsoleCommand(ListLevels) }
             };
         }
 

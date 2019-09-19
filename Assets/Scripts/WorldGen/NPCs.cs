@@ -11,7 +11,7 @@ namespace Pantheon.WorldGen
     /// <summary>
     /// Functions for distributing enemies in a level.
     /// </summary>
-    public static class LevelEnemies
+    public static class NPCs
     {
         /// <summary>
         /// Spawn NPCs at random throughout a level.
@@ -19,7 +19,7 @@ namespace Pantheon.WorldGen
         /// <param name="level">Level to modify by reference.</param>
         /// <param name="numNPCs">Number of NPCs to spawn.</param>
         /// <param name="pop">NPC pop set to pick from.</param>
-        public static void SpawnNPCs(ref Level level, int numNPCs, RandomPickEntry<NPCType>[] pop)
+        public static void SpawnNPCs(Level level, int numNPCs, RandomPickEntry<NPCType>[] pop)
         {
             if (numNPCs <= 0)
                 throw new System.Exception("Number of NPCs to spawn must be non-zero.");

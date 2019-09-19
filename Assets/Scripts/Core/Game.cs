@@ -9,33 +9,28 @@ using UnityEngine.SceneManagement;
 using Pantheon.Actors;
 using Pantheon.World;
 using Pantheon.WorldGen;
-using Pantheon.Utils;
 
 namespace Pantheon.Core
 {
     /// <summary>
-    /// Central game controller. Handles turn scheduling and holds other core 
-    /// game behaviour.
+    /// Central game controller. Turn scheduling and other core game behaviour.
     /// </summary>
     public sealed class Game : MonoBehaviour
     {
+        public const int TurnTime = 100; // One standard turn
+
         // Singleton
         public static Game instance;
 
         // Other components of GameController
+        public System.Random prng = new System.Random(131198);
         [SerializeField] private Database database;
         [SerializeField] private GameLog gameLog;
         [SerializeField] private Transform grid = null;
-        private Pantheon pantheon;
-
-        // Pseudo RNG
-        public System.Random prng = new System.Random(131198);
+        public Pantheon Pantheon { get; private set; }
 
         // Basic prefabs
         [SerializeField] private GameObject levelPrefab = null;
-
-        // Constants
-        public const int TurnTime = 100; // One standard turn
 
         private List<Actor> queue;
         private Actor currentActor;
@@ -51,10 +46,19 @@ namespace Pantheon.Core
         // Keep a global list of all players
         public Player player1;
 
-        // Levels
-        public Dictionary<string, Level> levels = new Dictionary<string, Level>();
+        // Game world
         public Level activeLevel;
+        public Dictionary<int, Layer> Layers { get; set; }
+            = new Dictionary<int, Layer>();
+        // All levels need a ref, and not all 
+        // levels fit into the tangible world-space
+        public Dictionary<LevelRef, Level> Levels { get; set; }
+            = new Dictionary<LevelRef, Level>();
+        public Dictionary<LevelRef, GenerationMap.LevelGenDelegate> GenMap
+            { get; set; }
+            = new Dictionary<LevelRef, GenerationMap.LevelGenDelegate>();
 
+        // Factions
         public Faction Nature { get; set; }
         public Dictionary<string, Faction> Religions { get; set; }
             = new Dictionary<string, Faction>();
@@ -77,7 +81,7 @@ namespace Pantheon.Core
         public static System.Random PRNG() => instance.prng;
 
         /// <summary>
-        /// Awake is called when the script instance is being loaded
+        /// Awake is called when the script instance is being loaded.
         /// </summary>
         private void Awake()
         {
@@ -94,13 +98,23 @@ namespace Pantheon.Core
         /// </summary>
         private void Start()
         {
-            pantheon = new Pantheon();
+            Pantheon = new Pantheon();
             InitializeFactions();
+
+            foreach (KeyValuePair<string, Idol> pair in Pantheon.Idols)
+            {
+                Idol idol = pair.Value;
+                for (int i = 0; i < 3; i++) // i < number of levels per domain
+                    GenMap.Add(new LevelRef(idol, i), Zones.Domain);
+            }
 
             AddActor(player1);
 
-            Level firstLevel = MakeNewLevel();
-            LevelZones.GenerateValley(ref firstLevel, CardinalDirection.Centre);
+            int overworldZ = 0;
+            Layer overworld = new Layer(overworldZ, GenerationMap._overworld);
+            Layers.Add(overworldZ, overworld);
+            Level firstLevel = overworld.RequestLevel(new Vector2Int(0, 0));
+            
             LoadLevel(firstLevel);
 
             player1.level = activeLevel;
@@ -122,7 +136,7 @@ namespace Pantheon.Core
         public void InitializeFactions()
         {
             Nature = new Faction("Nature", "nature", FactionType.Nature, null);
-            foreach (KeyValuePair<string, Idol> pair in pantheon.Idols)
+            foreach (KeyValuePair<string, Idol> pair in Pantheon.Idols)
             {
                 Idol idol = pair.Value;
                 string displayName = $"The Church of {idol.DisplayName}";
@@ -247,7 +261,6 @@ namespace Pantheon.Core
                 lastLevel = activeLevel;
                 lastLevel.gameObject.SetActive(false);
             }
-
             activeLevel = level;
             level.gameObject.SetActive(true);
         }
@@ -280,7 +293,25 @@ namespace Pantheon.Core
         /// After level generation, pass it here to add it to the world map.
         /// </summary>
         public void RegisterLevel(Level level)
-            => levels.Add(level.RefName, level);
+        {
+            Levels.Add(level.LevelRef, level);
+        }
+
+        public Level RequestLevel(LevelRef levelRef)
+        {
+            Level newLevel = null;
+            if (!Levels.ContainsKey(levelRef))
+            {
+                if (!GenMap.TryGetValue(levelRef,
+                    out GenerationMap.LevelGenDelegate d))
+                    throw new ArgumentException("Bad ref given.");
+
+                newLevel = instance.MakeNewLevel();
+                d.Invoke(newLevel, levelRef.ToGenArgs());
+                Levels.Add(levelRef, newLevel);
+            }
+            return newLevel;
+        }
 
         public static void QuitGame()
         {

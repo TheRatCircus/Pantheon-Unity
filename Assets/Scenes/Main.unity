@@ -4105,59 +4105,60 @@ MonoBehaviour:
   speed: 100
   energy: 0
   moveSpeed: 100
-  parts:
-  - partData: {fileID: 11400000, guid: b45b693eac9d9894aa96e7cf57719198, type: 2}
-    dexterous: 0
-    strength: 0
-    melee:
-      minDamage: 2
-      maxDamage: 4
-      accuracy: 75
-      attackTime: 100
-      damageType: 3
-  - partData: {fileID: 11400000, guid: 7a61efd1c0afc55448d03782579e4ac0, type: 2}
-    dexterous: 1
-    strength: 0
-    melee:
-      minDamage: 2
-      maxDamage: 4
-      accuracy: 75
-      attackTime: 100
-      damageType: 3
-  - partData: {fileID: 11400000, guid: 7a61efd1c0afc55448d03782579e4ac0, type: 2}
-    dexterous: 0
-    strength: 0
-    melee:
-      minDamage: 2
-      maxDamage: 4
-      accuracy: 75
-      attackTime: 100
-      damageType: 3
-  - partData: {fileID: 11400000, guid: 1fc1b38fe6493b044ac0e2cedec965b3, type: 2}
-    dexterous: 0
-    strength: 0
-    melee:
-      minDamage: 2
-      maxDamage: 4
-      accuracy: 75
-      attackTime: 100
-      damageType: 3
-  - partData: {fileID: 11400000, guid: 1fc1b38fe6493b044ac0e2cedec965b3, type: 2}
-    dexterous: 0
-    strength: 0
-    melee:
-      minDamage: 2
-      maxDamage: 4
-      accuracy: 75
-      attackTime: 100
-      damageType: 3
-  statuses:
-  - displayName: 
-    turnsRemaining: 0
-  - displayName: 
-    turnsRemaining: 0
-  - displayName: 
-    turnsRemaining: 0
+  attributes:
+    strength: 10
+    dexterity: 10
+    intellect: 10
+    constitution: 10
+    willpower: 10
+  body:
+    parts:
+    - partData: {fileID: 11400000, guid: b45b693eac9d9894aa96e7cf57719198, type: 2}
+      dexterous: 0
+      strength: 0
+      melee:
+        minDamage: 0
+        maxDamage: 0
+        accuracy: 0
+        attackTime: 0
+        damageType: 0
+    - partData: {fileID: 11400000, guid: 7a61efd1c0afc55448d03782579e4ac0, type: 2}
+      dexterous: 1
+      strength: 5
+      melee:
+        minDamage: 0
+        maxDamage: 0
+        accuracy: 0
+        attackTime: 0
+        damageType: 0
+    - partData: {fileID: 11400000, guid: 7a61efd1c0afc55448d03782579e4ac0, type: 2}
+      dexterous: 0
+      strength: 5
+      melee:
+        minDamage: 0
+        maxDamage: 0
+        accuracy: 0
+        attackTime: 0
+        damageType: 0
+    - partData: {fileID: 11400000, guid: 1fc1b38fe6493b044ac0e2cedec965b3, type: 2}
+      dexterous: 0
+      strength: 5
+      melee:
+        minDamage: 0
+        maxDamage: 0
+        accuracy: 0
+        attackTime: 0
+        damageType: 0
+    - partData: {fileID: 11400000, guid: 1fc1b38fe6493b044ac0e2cedec965b3, type: 2}
+      dexterous: 0
+      strength: 5
+      melee:
+        minDamage: 0
+        maxDamage: 0
+        accuracy: 0
+        attackTime: 0
+        damageType: 0
+  statuses: []
   spells:
   - {fileID: 11400000, guid: 6d385a899d22ce9409b3f8854e50640b, type: 2}
   species: 1

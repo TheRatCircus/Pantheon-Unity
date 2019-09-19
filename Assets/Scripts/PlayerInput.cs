@@ -138,7 +138,7 @@ public class PlayerInput : MonoBehaviour
             else if (Input.GetButtonDown("Interact"))
             {
                 if (player.Cell.Connection != null)
-                    player.Cell.Connection.Use(player);
+                    player.Cell.Connection.Travel(player);
                 player.NextAction = new WaitAction(player);
             }
             else if (Input.GetButtonDown("Wield"))

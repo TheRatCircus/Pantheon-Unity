@@ -1,4 +1,4 @@
-﻿// LevelItems.cs
+﻿// Items.cs
 // Jerome Martina
 
 using Pantheon.World;
@@ -10,22 +10,22 @@ namespace Pantheon.WorldGen
     /// <summary>
     /// Functions for distributing items in a level.
     /// </summary>
-    public static class LevelItems
+    public static class Items
     {
         /// <summary>
         /// Spawn items at random throughout the level.
         /// </summary>
-        public static void SpawnItems(ref Level level)
+        public static void SpawnItems(Level level)
         {
-            SpawnFlasks(ref level);
-            SpawnScrolls(ref level);
+            SpawnFlasks(level);
+            SpawnScrolls(level);
             level.RandomFloor().Items.Add(NewWeapon(WeaponType.Hatchet));
             level.RandomFloor().Items.Add(NewWeapon(WeaponType.Prejudice));
             for (int i = 0; i < 2; i++)
                 level.RandomFloor().Items.Add(NewWeapon(WeaponType.Dagger));
         }
 
-        public static void SpawnFlasks(ref Level level)
+        public static void SpawnFlasks(Level level)
         {
             for (int i = 0; i < 10; i++)
             {
@@ -34,7 +34,7 @@ namespace Pantheon.WorldGen
             }
         }
 
-        public static void SpawnScrolls(ref Level level)
+        public static void SpawnScrolls(Level level)
         {
             for (int i = 0; i < 10; i++)
             {

@@ -1,19 +1,54 @@
 ﻿// Level.cs
 // Jerome Martina
 
-#define DEBUG_FOV
-
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Pantheon.Core;
 using Pantheon.Actors;
+using Pantheon.WorldGen;
 
 namespace Pantheon.World
 {
-    /// <summary>
-    /// A floor of a dungeon, or wing of a flat zone.
-    /// </summary>
+    public struct LevelRef
+    {
+        public readonly string RefName;
+        public Vector3Int Coords;
+        public readonly Idol Idol;
+
+        public LevelRef(string refName)
+        {
+            RefName = refName;
+            Coords = new Vector3Int();
+            Idol = null;
+        }
+
+        public LevelRef(string refName, Vector3Int coords, Idol idol)
+        {
+            RefName = refName;
+            Coords = coords;
+            Idol = idol;
+        }
+
+        /// <summary>
+        /// Domain constructor.
+        /// </summary>
+        /// <param name="idol">The Idol of this Domain.</param>
+        /// <param name="floor">The floor of the Idol's Domain.</param>
+        public LevelRef(Idol idol, int floor)
+        {
+            RefName = $"domain{idol.DisplayName}{floor}";
+            Idol = idol;
+            Coords = new Vector3Int(0, 0, floor);
+        }
+
+        public LevelGenArgs ToGenArgs()
+        {
+            return new LevelGenArgs(Coords, Idol);
+        }
+    }
+
     public class Level : MonoBehaviour
     {
         // This level's tilemaps
@@ -23,12 +58,21 @@ namespace Pantheon.World
         [SerializeField] private Tilemap targettingTilemap;
 
         public string DisplayName { get; set; } = "NO_NAME";
-        public string RefName { get; set; } = "NO_REF";
+        public LevelRef LevelRef { get; set; }
+        public string RefName => LevelRef.RefName;
+
+        public Layer Layer { get; set; }
+        public Vector2Int LayerPos { get; set; }
 
         public Cell[,] Map { get; set; }
         public Vector2Int LevelSize { get; set; }
         public List<NPC> NPCs { get; } = new List<NPC>();
-        public Dictionary<string, Connection> Connections { get; set; }
+
+        // Connections
+        public Dictionary<CardinalDirection, Connection> LateralConnections
+        { get; set; } = new Dictionary<CardinalDirection, Connection>();
+        public Connection[] UpConnections { get; set; }
+        public Connection[] DownConnections { get; set; }
 
         private FOV fov;
         public void RefreshFOV() => fov.RefreshFOV(this);
@@ -47,6 +91,7 @@ namespace Pantheon.World
         private void Awake()
         {
             Pathfinder = new Pathfinder(this);
+            fov = new FOV();
         }
 
         // Cell accessor, mostly for validation
@@ -55,14 +100,14 @@ namespace Pantheon.World
             if (Contains(pos))
                 return Map[pos.x, pos.y];
             else
-                throw new System.Exception($"Attempt to access out-of-bounds cell {pos.x}, {pos.y}");
+                throw new Exception
+                    ($"Attempt to access out-of-bounds cell {pos.x}, {pos.y}");
         }
 
         // Put the player in their spawn position
         public void SpawnPlayer()
         {
             Actor.MoveTo(Game.GetPlayer(), RandomFloor());
-            fov = new FOV();
             fov.RefreshFOV(this);
         }
 
@@ -74,13 +119,12 @@ namespace Pantheon.World
             do
             {
                 if (attempts > 1000)
-                    throw new System.Exception
-                        ("Could not find a random floor.");
+                    throw new Exception("Could not find a random floor.");
 
                 Vector2Int randomPosition = new Vector2Int
                 {
-                    x = Random.Range(0, LevelSize.x),
-                    y = Random.Range(0, LevelSize.y)
+                    x = UnityEngine.Random.Range(0, LevelSize.x),
+                    y = UnityEngine.Random.Range(0, LevelSize.y)
                 };
 
                 cell = GetCell(randomPosition);
@@ -107,13 +151,13 @@ namespace Pantheon.World
             do
             {
                 if (attempts > 1000)
-                    throw new System.Exception
+                    throw new Exception
                         ($"Could not find a random floor at {x}, {y}.");
 
                 Vector2Int randomPosition = new Vector2Int
                 {
-                    x = x < 0 ? Random.Range(0, LevelSize.x) : x,
-                    y = y < 0 ? Random.Range(0, LevelSize.y) : y
+                    x = x < 0 ? UnityEngine.Random.Range(0, LevelSize.x) : x,
+                    y = y < 0 ? UnityEngine.Random.Range(0, LevelSize.y) : y
                 };
 
                 cell = GetCell(randomPosition);
@@ -131,14 +175,14 @@ namespace Pantheon.World
             do
             {
                 if (attempts > 1000)
-                    throw new System.Exception
+                    throw new Exception
                         ($"Could not find a random floor at a distance of " +
                         $"{distance} to {other.Position}.");
 
                 Vector2Int randomPosition = new Vector2Int
                 {
-                    x = Random.Range(0, LevelSize.x),
-                    y = Random.Range(0, LevelSize.y)
+                    x = UnityEngine.Random.Range(0, LevelSize.x),
+                    y = UnityEngine.Random.Range(0, LevelSize.y)
                 };
 
                 cell = GetCell(randomPosition);
@@ -172,7 +216,7 @@ namespace Pantheon.World
         public Cell GetAdjacentCell(Cell origin, Vector2Int delta)
         {
             if (delta.x == 0 && delta.y == 0)
-                throw new System.ArgumentException
+                throw new ArgumentException
                     ("Level.GetAdjacentCell requires a non-zero delta");
             else if (delta.x > 1 || delta.y > 1)
                 UnityEngine.Debug.LogWarning
