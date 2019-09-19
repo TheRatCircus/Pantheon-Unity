@@ -366,9 +366,9 @@ public class PlayerInput : MonoBehaviour
     // Debug function to change a floor to a wall and vice-versa
     private void DebugChangeCell(Cell cell)
     {
-        if (cell.TerrainData._terrainType == TerrainType.StoneWall)
+        if (cell.TerrainData.TerrainType == TerrainType.StoneWall)
             cell.SetTerrain(Database.GetTerrain(TerrainType.StoneFloor));
-        else if (cell.TerrainData._terrainType == TerrainType.StoneFloor)
+        else if (cell.TerrainData.TerrainType == TerrainType.StoneFloor)
             cell.SetTerrain(Database.GetTerrain(TerrainType.StoneWall));
         player.level.RefreshFOV();
     }

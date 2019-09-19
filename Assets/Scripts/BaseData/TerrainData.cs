@@ -10,12 +10,25 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu(fileName = "New Terrain", menuName = "Terrain")]
 public class TerrainData : ScriptableObject
 {
-    public string DisplayName;
-    public string RefName;
-    public TerrainType _terrainType;
+    [SerializeField] private string displayName = "TERRAIN_DISPLAY";
+    [SerializeField] private string refName = "TERRAIN_REF";
+    [SerializeField] private TerrainType terrainType = TerrainType.None;
 
-    public bool Opaque;
-    public bool Blocked;
+    [SerializeField] private bool opaque = false;
+    [SerializeField] private bool blocked = false;
 
-    public Tile _tile;
+    [SerializeField] private RuleTile ruleTile = null;
+
+    #region Properties
+
+    public string DisplayName { get => displayName; }
+    public string RefName { get => refName; }
+    public TerrainType TerrainType { get => terrainType; }
+
+    public bool Opaque { get => opaque; private set => opaque = value; }
+    public bool Blocked { get => blocked; private set => blocked = value; }
+
+    public RuleTile RuleTile { get => ruleTile; }
+
+    #endregion
 }

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce3570ee172318438340a60ea35cb8e, type: 3}
   m_Name: StoneWall
   m_EditorClassIdentifier: 
-  DisplayName: stone wall
-  RefName: StoneWall
-  _terrainType: 1
-  Opaque: 1
-  Blocked: 1
-  _tile: {fileID: 11400000, guid: f182eaa5644255f469402b41bc90904b, type: 2}
+  displayName: stone wall
+  refName: StoneWall
+  terrainType: 1
+  opaque: 1
+  blocked: 1
+  ruleTile: {fileID: 11400000, guid: 406192b1fbc4b00448c6617553e990ab, type: 2}

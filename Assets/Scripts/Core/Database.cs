@@ -70,7 +70,7 @@ namespace Pantheon.Core
             for (int i = 0; i < flaskList.Count; i++)
                 FlaskDict.Add(flaskList[i].FlaskType, flaskList[i]);
             for (int i = 0; i < terrainList.Count; i++)
-                TerrainDict.Add(terrainList[i]._terrainType, terrainList[i]);
+                TerrainDict.Add(terrainList[i].TerrainType, terrainList[i]);
             for (int i = 0; i < NPCList.Count; i++)
                 NPCDict.Add(NPCList[i].Type, NPCList[i]);
             for (int i = 0; i < features.Count; i++)

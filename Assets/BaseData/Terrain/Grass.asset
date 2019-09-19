@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce3570ee172318438340a60ea35cb8e, type: 3}
   m_Name: Grass
   m_EditorClassIdentifier: 
-  DisplayName: grass
-  RefName: Grass
-  _terrainType: 3
-  Opaque: 0
-  Blocked: 0
-  _tile: {fileID: 11400000, guid: e77f516da07575b4da68f53fa176f170, type: 2}
+  displayName: grass
+  refName: Grass
+  terrainType: 3
+  opaque: 0
+  blocked: 0
+  ruleTile: {fileID: 11400000, guid: e77f516da07575b4da68f53fa176f170, type: 2}

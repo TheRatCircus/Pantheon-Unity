@@ -64,7 +64,7 @@ public static class CellDrawer
 
     public static void DrawTerrain(Level level, Cell cell)
     {
-        level.TerrainTilemap.SetTile((Vector3Int)cell.Position, cell.TerrainData._tile);
+        level.TerrainTilemap.SetTile((Vector3Int)cell.Position, cell.TerrainData.RuleTile);
         level.TerrainTilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
     }
 

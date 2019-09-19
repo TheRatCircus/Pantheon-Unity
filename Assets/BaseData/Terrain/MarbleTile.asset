@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce3570ee172318438340a60ea35cb8e, type: 3}
   m_Name: MarbleTile
   m_EditorClassIdentifier: 
-  DisplayName: marble tile
-  RefName: MarbleTile
-  _terrainType: 4
-  Opaque: 0
-  Blocked: 0
-  _tile: {fileID: 11400000, guid: 4f2592083945a4645a3d422f5da6c2a4, type: 2}
+  displayName: marble tile
+  refName: MarbleTile
+  terrainType: 4
+  opaque: 0
+  blocked: 0
+  ruleTile: {fileID: 11400000, guid: 4f2592083945a4645a3d422f5da6c2a4, type: 2}
