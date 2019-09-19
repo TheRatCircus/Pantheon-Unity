@@ -67,10 +67,6 @@ namespace Pantheon.WorldGen
                     {
                         level.DisplayName = "Central Valley";
                         level.LevelRef = new LevelRef("valleyCentral");
-                        
-                        UnityEngine.Debug.Log("Spawning the player...");
-                        Game.instance.LoadLevel(level);
-                        level.SpawnPlayer();
 
                         Connect.Trails(level,
                             CardinalDirection.North
@@ -123,6 +119,15 @@ namespace Pantheon.WorldGen
 
             Items.SpawnItems(level);
             NPCs.SpawnNPCs(level, ValleyEnemies, NPCPops.ValleyCentre);
+
+            // Defer player spawn so RefreshFOV() covers everything
+            if (wing == CardinalDirection.Centre)
+            {
+                UnityEngine.Debug.Log("Spawning the player...");
+                Game.instance.LoadLevel(level);
+                level.SpawnPlayer();
+            }
+
             FinishLevel(level);
         }
 
