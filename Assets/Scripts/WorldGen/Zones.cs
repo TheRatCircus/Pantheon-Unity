@@ -122,7 +122,7 @@ namespace Pantheon.WorldGen
             UnityEngine.Debug.Log($"Generating {level.RefName}...");
 
             Items.SpawnItems(level);
-            //NPCs.SpawnNPCs(level, ValleyEnemies, NPCPops.ValleyCentre);
+            NPCs.SpawnNPCs(level, ValleyEnemies, NPCPops.ValleyCentre);
             FinishLevel(level);
         }
 

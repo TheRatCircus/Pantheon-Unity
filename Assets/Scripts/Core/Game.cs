@@ -209,7 +209,6 @@ namespace Pantheon.Core
                     return false;
 
                 actor.Energy -= actionCost;
-                activeLevel.RefreshFOV();
 
                 if (actor is Player)
                 {
@@ -227,6 +226,7 @@ namespace Pantheon.Core
 
                     // Signals a successful player action to HUD
                     OnPlayerActionEvent?.Invoke(actor.Energy);
+                    activeLevel.RefreshFOV();
                 }
 
                 // Action may have added a lock
