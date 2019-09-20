@@ -3,10 +3,10 @@
 
 public enum WeaponType
 {
-    None,
-    Dagger,
-    Hatchet,
-    Prejudice,
-    HandGrenade,
-    Carbine,
+    None = 0,
+    Dagger = 1,
+    Hatchet = 2,
+    Prejudice = 3,  
+    HandGrenade = 4,
+    Carbine = 5,
 }

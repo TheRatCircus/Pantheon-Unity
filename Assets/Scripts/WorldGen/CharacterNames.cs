@@ -41,7 +41,7 @@ namespace Pantheon.WorldGen
                 ret = RandomUtils.ArrayRandom(_characterNames);
                 attempts++;
 
-            } while (ret.Used == true);
+            } while (ret.Used);
 
             ret.Used = true;
             return ret.Name;

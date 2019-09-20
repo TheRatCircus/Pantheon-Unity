@@ -1,7 +1,10 @@
 ﻿// RandomPick.cs
 // Jerome Martina
 
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Pantheon.Core;
 
 namespace Pantheon.Utils
 {
@@ -51,7 +54,7 @@ namespace Pantheon.Utils
         {
             int weightSum = RandomPickEntry<T>.WeightSum(set);
 
-            int chance = Core.Game.PRNG().Next(1, weightSum);
+            int chance = Game.PRNG.Next(1, weightSum);
             int runningSum = 0;
             int choice = 0;
 
@@ -84,5 +87,28 @@ namespace Pantheon.Utils
         /// <returns></returns>
         public static int RangeInclusive(int min, int max)
             => Random.Range(min, max + 1);
+
+        public static T ListRandom<T>(List<T> list)
+        {
+            int index = Game.PRNG.Next(list.Count);
+            return list[index];
+        }
+
+        /// <summary>
+        /// Returns a random value from a dictionary.
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="dict"></param>
+        /// <returns></returns>
+        public static IEnumerable<TValue> DictRandom<TKey, TValue>
+            (IDictionary<TKey, TValue> dict)
+        {
+            // Credit to StriplingWarrior on Stack Overflow
+            List<TValue> values = Enumerable.ToList(dict.Values);
+            int size = dict.Count;
+            while (true)
+                yield return values[Game.PRNG.Next(size)];
+        }
     }
 }

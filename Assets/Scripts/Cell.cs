@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using Pantheon.Core;
 using Pantheon.Actors;
 
 namespace Pantheon.World
@@ -33,6 +34,8 @@ namespace Pantheon.World
         // Contents of cell
         [SerializeField] [ReadOnly] private Actor actor = null;
         [SerializeField] [ReadOnly] List<Item> items = new List<Item>();
+        public Feature Feature { get; private set; } = null;
+        public Altar Altar { get; set; }
 
         #region Properties
 
@@ -65,7 +68,6 @@ namespace Pantheon.World
         public Actor Actor { get => actor; set => actor = value; }
         public List<Item> Items => items;
         public TerrainData TerrainData { get => terrainData; }
-        public Feature Feature { get; private set; } = null;
         public Connection Connection { get => connection; set => connection = value; }
 
         #endregion
@@ -111,10 +113,10 @@ namespace Pantheon.World
         /// <summary>
         /// Set this cell's feature type and adjust its attributes accordingly.
         /// </summary>
-        /// <param name="feature">This cell's new Feature.</param>
-        public void SetFeature(Feature feature)
+        /// <param name="featureData">This cell's new Feature (can be null).</param>
+        public void SetFeature(FeatureData featureData)
         {
-            if (feature == null)
+            if (featureData == null)
             {
                 Feature = null;
                 opaque = false;
@@ -122,9 +124,17 @@ namespace Pantheon.World
                 return;
             }
 
-            Feature = feature;
-            opaque = feature.Opaque;
-            blocked = feature.Blocked;
+            Feature = new Feature(featureData);
+            opaque = featureData.Opaque;
+            blocked = featureData.Blocked;
+        }
+
+        public void SetAltar(Altar altar)
+        {
+            Altar = altar;
+            FeatureData featureData = Database.GetFeature(altar.FeatureType);
+            Feature = new Feature(featureData);
+            Feature.DisplayName = $"{featureData.DisplayName} to {altar.Idol.DisplayName}";
         }
 
         // Check if this cell can be walked into
@@ -148,7 +158,7 @@ namespace Pantheon.World
                 if (actor != null)
                     ret = actor.ActorName;
                 else if (Feature != null)
-                    ret = Feature.name;
+                    ret = Feature.DisplayName;
                 else if (Items.Count > 0)
                     ret = Items[0].DisplayName;
                 else

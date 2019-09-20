@@ -152,6 +152,23 @@ namespace Pantheon.Debug
             return $"Opened a portal to {idol.DisplayName}'s Domain.";
         }
 
+        public static string ListIdols(string[] args)
+        {
+            if (args.Length != 0)
+                return "This command takes no arguments.";
+
+            string ret = "";
+
+            foreach (KeyValuePair<string, Idol>
+                pair in Game.instance.Pantheon.Idols)
+            {
+                Idol idol = pair.Value;
+                ret += $"{idol} {Environment.NewLine}";
+            }
+
+            return ret;
+        }
+
         public static string ListReligions(string[] args)
         {
             if (args.Length != 0)
@@ -159,7 +176,7 @@ namespace Pantheon.Debug
 
             string ret = "";
 
-            foreach (KeyValuePair<string, Faction>
+            foreach (KeyValuePair<Idol, Faction>
                 pair in Game.instance.Religions)
             {
                 Faction faction = pair.Value;
@@ -174,7 +191,10 @@ namespace Pantheon.Debug
             if (args.Length != 1)
                 return "Please pass only 1 argument.";
 
-            Game.instance.Religions.TryGetValue(args[0], out Faction religion);
+            if (Game.instance.Pantheon.Idols.TryGetValue(args[0], out Idol idol))
+                return $"Idol {args[0]} does not exist.";
+
+            Game.instance.Religions.TryGetValue(idol, out Faction religion);
             Game.GetPlayer().Faction = religion;
 
             return $"You are now a member of {religion.DisplayName}.";

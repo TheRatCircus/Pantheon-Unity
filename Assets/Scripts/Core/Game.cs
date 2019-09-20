@@ -60,8 +60,8 @@ namespace Pantheon.Core
 
         // Factions
         public Faction Nature { get; set; }
-        public Dictionary<string, Faction> Religions { get; set; }
-            = new Dictionary<string, Faction>();
+        public Dictionary<Idol, Faction> Religions { get; set; }
+            = new Dictionary<Idol, Faction>();
 
         public bool IdolMode { get; set; }
 
@@ -78,7 +78,7 @@ namespace Pantheon.Core
 
         // Accessors
         public static Player GetPlayer(int i = 0) => instance.player1;
-        public static System.Random PRNG() => instance.prng;
+        public static System.Random PRNG => instance.prng;
 
         /// <summary>
         /// Awake is called when the script instance is being loaded.
@@ -141,7 +141,7 @@ namespace Pantheon.Core
                 Idol idol = pair.Value;
                 string displayName = $"The Church of {idol.DisplayName}";
                 string refName = $"religion{idol.DisplayName}";
-                Religions.Add(refName, new Faction(displayName, refName, FactionType.Religion, idol));
+                Religions.Add(idol, new Faction(displayName, refName, FactionType.Religion, idol));
             }
         }
 

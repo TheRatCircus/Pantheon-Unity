@@ -11,5 +11,6 @@ public enum FeatureType
     TrailEast,
     TrailSouth,
     TrailWest,
-    Portal
+    Portal,
+    AltarCrystal
 }

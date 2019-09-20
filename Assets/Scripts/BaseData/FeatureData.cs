@@ -1,4 +1,4 @@
-﻿// Feature.cs
+﻿// FeatureData.cs
 // Jerome Martina
 
 using UnityEngine;
@@ -9,7 +9,7 @@ namespace Pantheon.World
     /// The attributes of a cell feature, e.g. a tree or door.
     /// </summary>
     [CreateAssetMenu(fileName = "New Feature", menuName = "Feature")]
-    public class Feature : ScriptableObject
+    public class FeatureData : ScriptableObject
     {
         [SerializeField] private string displayName;
         [SerializeField] private bool opaque;

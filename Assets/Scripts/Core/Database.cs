@@ -22,9 +22,10 @@ namespace Pantheon.Core
         [SerializeField] private List<FlaskData> flaskList = new List<FlaskData>();
         [SerializeField] private List<TerrainData> terrainList = new List<TerrainData>();
         [SerializeField] private List<NPCWrapper> NPCList = new List<NPCWrapper>();
-        [SerializeField] private List<Feature> features = new List<Feature>();
+        [SerializeField] private List<FeatureData> features = new List<FeatureData>();
         [SerializeField] private List<Spell> spells = new List<Spell>();
         [SerializeField] private List<AmmoData> ammoList = new List<AmmoData>();
+        [SerializeField] private List<Aspect> aspects = new List<Aspect>();
 
         // Miscellaneous
         [SerializeField] private Tile unknownTerrain = null;
@@ -48,8 +49,8 @@ namespace Pantheon.Core
             = new Dictionary<TerrainType, TerrainData>();
         public Dictionary<NPCType, NPCWrapper> NPCDict { get; }
             = new Dictionary<NPCType, NPCWrapper>();
-        public Dictionary<FeatureType, Feature> FeatureDict { get; }
-            = new Dictionary<FeatureType, Feature>();
+        public Dictionary<FeatureType, FeatureData> FeatureDict { get; }
+            = new Dictionary<FeatureType, FeatureData>();
         public Dictionary<SpellType, Spell> SpellDict { get; }
             = new Dictionary<SpellType, Spell>();
         public Dictionary<AmmoType, AmmoData> AmmoDict { get; }
@@ -133,9 +134,9 @@ namespace Pantheon.Core
             return ret;
         }
 
-        public static Feature GetFeature(FeatureType featureType)
+        public static FeatureData GetFeature(FeatureType featureType)
         {
-            GetDatabase().FeatureDict.TryGetValue(featureType, out Feature ret);
+            GetDatabase().FeatureDict.TryGetValue(featureType, out FeatureData ret);
 
             if (ret == null)
                 throw new Exception("Failed to get specified feature.");
@@ -161,6 +162,15 @@ namespace Pantheon.Core
                 throw new Exception("Failed to get specified ammo.");
 
             return ret;
+        }
+
+        /// <summary>
+        /// Get a random aspect.
+        /// </summary>
+        public static Aspect RandomAspect()
+        {
+            Database db = GetDatabase();
+            return Utils.RandomUtils.ListRandom(db.aspects);
         }
 
         #endregion

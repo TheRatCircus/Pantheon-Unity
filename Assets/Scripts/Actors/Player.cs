@@ -149,7 +149,23 @@ namespace Pantheon.Actors
             OnInventoryChangeEvent?.Invoke();
         }
 
-        // Update the list of cells visible to this player
+        public override void Convert(Faction religion)
+        {
+            if (religion.Type != FactionType.Religion)
+                throw new ArgumentException
+                    ("Faction argument must be a religion.");
+
+            if (Faction == religion)
+            {
+                GameLog.Send($"You are already a member of {religion}!");
+                return;
+            }
+
+            Faction = religion;
+            GameLog.Send($"You are now a member of {religion}!");
+        }
+
+        // Call every time FOV is refreshed
         public void UpdateVisibleCells(List<Cell> refreshed)
         {
             visibleCells.Clear();
@@ -164,7 +180,6 @@ namespace Pantheon.Actors
                     visibleEnemies.Add((NPC)c.Actor);
         }
 
-        // Handle the player's death
         public override void OnDeath()
         {
             cell.Actor = null;

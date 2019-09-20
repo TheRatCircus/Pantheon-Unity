@@ -242,6 +242,18 @@ namespace Pantheon.Actors
             }
         }
 
+        public virtual void Convert(Faction religion)
+        {
+            if (religion.Type != FactionType.Religion)
+                throw new ArgumentException
+                    ("Faction argument must be a religion.");
+
+            if (Faction == religion)
+                throw new ArgumentException("Actor already has this faction.");
+
+            Faction = religion;
+        }
+
         public bool IsDead() => health < 0;
 
         // Check if another actor is hostile to this

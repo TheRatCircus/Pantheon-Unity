@@ -139,6 +139,12 @@ public class PlayerInput : MonoBehaviour
             {
                 if (player.Cell.Connection != null)
                     player.Cell.Connection.Travel(player);
+                else if (player.Cell.Altar != null)
+                {
+                    Game.instance.Religions.TryGetValue(player.Cell.Altar.Idol,
+                        out Faction religion);
+                    player.Convert(religion);
+                } 
                 player.NextAction = new WaitAction(player);
             }
             else if (Input.GetButtonDown("Wield"))

@@ -75,7 +75,7 @@ namespace Pantheon.WorldGen
             for (int x = 0; x < level.LevelSize.x; x++)
                 for (int y = 0; y < level.LevelSize.y; y++)
                 {
-                    if (Game.PRNG().Next(0, 100) < percent)
+                    if (Game.PRNG.Next(0, 100) < percent)
                         level.Map[x, y].SetTerrain(Database.GetTerrain(terrain));
                 }
         }
@@ -91,7 +91,7 @@ namespace Pantheon.WorldGen
             for (int x = 0; x < level.LevelSize.x; x++)
                 for (int y = 0; y < level.LevelSize.y; y++)
                 {
-                    if (Game.PRNG().Next(0, 100) < percent)
+                    if (Game.PRNG.Next(0, 100) < percent)
                         if (!level.Map[x, y].Blocked)
                             level.Map[x, y].SetFeature(Database.GetFeature(feature));
                 }

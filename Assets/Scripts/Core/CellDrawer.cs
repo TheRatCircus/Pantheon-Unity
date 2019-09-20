@@ -76,7 +76,7 @@ public static class CellDrawer
         if (cell.Feature.Sprite != null)
             featureTile.sprite = cell.Feature.Sprite;
         else
-            throw new NullReferenceException($"Feature {cell.Feature.name} has no sprite.");
+            throw new NullReferenceException($"Feature {cell.Feature.DisplayName} has no sprite.");
 
         level.FeatureTilemap.SetTile((Vector3Int)cell.Position, featureTile);
         level.FeatureTilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);

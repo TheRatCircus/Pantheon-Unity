@@ -1,6 +1,8 @@
 ﻿// Idol.cs
 // Jerome Martina
 
+using Pantheon.Core;
+
 namespace Pantheon.Actors
 {
     /// <summary>
@@ -10,11 +12,24 @@ namespace Pantheon.Actors
     {
         public string DisplayName { get; set; }
         public string RefName { get; set; }
+        public Gender Gender { get; set; }
 
-        public Idol(string displayName, string refName)
+        public Aspect Aspect { get; set; }
+
+        public bool HasAnAltar { get; set; } = false;
+
+        public override string ToString() => $"{RefName} ({Aspect})";
+    }
+
+    public class Altar
+    {
+        public readonly Idol Idol;
+        public readonly FeatureType FeatureType;
+
+        public Altar(Idol idol, FeatureType featureType)
         {
-            DisplayName = displayName;
-            RefName = refName;
+            Idol = idol;
+            FeatureType = featureType;
         }
     }
 }

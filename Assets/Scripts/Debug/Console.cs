@@ -38,7 +38,8 @@ namespace Pantheon.Debug
                 { "open_domain", new ConsoleCommand(OpenDomain) },
                 { "list_religions", new ConsoleCommand(ListReligions) },
                 { "join_religion", new ConsoleCommand(JoinReligion) },
-                { "list_levels", new ConsoleCommand(ListLevels) }
+                { "list_levels", new ConsoleCommand(ListLevels) },
+                { "list_idols", new ConsoleCommand(ListIdols) }
             };
         }
 

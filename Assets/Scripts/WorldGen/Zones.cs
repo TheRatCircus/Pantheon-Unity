@@ -1,6 +1,7 @@
 ﻿// Zones.cs
 // Jerome Martina
 
+using System;
 using UnityEngine;
 using Pantheon.Core;
 using Pantheon.Actors;
@@ -46,10 +47,8 @@ namespace Pantheon.WorldGen
 
         public static void Valley(Level level, LevelGenArgs args)
         {
-            UnityEngine.Debug.Log(args.Coords);
-
             if (!Game.instance.Layers.TryGetValue(args.Coords.z, out Layer layer))
-                throw new System.Exception("Z-coord argument has no layer.");
+                throw new Exception("Z-coord argument has no layer.");
 
             level.Layer = layer;
             ValleyBasics(level);
@@ -68,10 +67,8 @@ namespace Pantheon.WorldGen
                         level.DisplayName = "Central Valley";
                         level.LevelRef = new LevelRef("valleyCentral");
 
-                        Connect.Trails(level,
-                            CardinalDirection.North
-                            | CardinalDirection.East
-                            | CardinalDirection.South
+                        Connect.Trails(level, CardinalDirection.North
+                            | CardinalDirection.East | CardinalDirection.South
                             | CardinalDirection.West);
 
                         break;
@@ -81,8 +78,9 @@ namespace Pantheon.WorldGen
                         level.DisplayName = "Northern Valley";
                         level.LevelRef = new LevelRef("valleyNorth");
 
-                        Connect.Trails(level,
-                            CardinalDirection.South);
+                        PlaceGuaranteedAltar(level.RandomFloor());
+
+                        Connect.Trails(level, CardinalDirection.South);
                     }
                     break;
                 case CardinalDirection.East:
@@ -90,8 +88,9 @@ namespace Pantheon.WorldGen
                         level.DisplayName = "Eastern Valley";
                         level.LevelRef = new LevelRef("valleyEast");
 
-                        Connect.Trails(level,
-                            CardinalDirection.West);
+                        PlaceGuaranteedAltar(level.RandomFloor());
+
+                        Connect.Trails(level, CardinalDirection.West);
                     }
                     break;
                 case CardinalDirection.South:
@@ -99,8 +98,9 @@ namespace Pantheon.WorldGen
                         level.DisplayName = "Southern Valley";
                         level.LevelRef = new LevelRef("valleySouth");
 
-                        Connect.Trails(level,
-                            CardinalDirection.North);
+                        PlaceGuaranteedAltar(level.RandomFloor());
+
+                        Connect.Trails(level, CardinalDirection.North);
                     }
                     break;
                 case CardinalDirection.West:
@@ -108,12 +108,13 @@ namespace Pantheon.WorldGen
                         level.DisplayName = "Western Valley";
                         level.LevelRef = new LevelRef("valleyWest");
 
-                        Connect.Trails(level,
-                            CardinalDirection.East);
+                        PlaceGuaranteedAltar(level.RandomFloor());
+
+                        Connect.Trails(level, CardinalDirection.East);
                     }
                     break;
                 default:
-                    throw new System.ArgumentException("Unhandled wing passed as coord.");
+                    throw new ArgumentException("Unhandled wing passed as coord.");
             }
             UnityEngine.Debug.Log($"Generating {level.RefName}...");
 
@@ -131,10 +132,20 @@ namespace Pantheon.WorldGen
             FinishLevel(level);
         }
 
+        public static void PlaceGuaranteedAltar(Cell cell)
+        {
+            foreach (Idol idol in Game.instance.Pantheon.Idols.Values)
+                if (!idol.HasAnAltar)
+                {
+                    cell.SetAltar(new Altar(idol, idol.Aspect.AltarFeature));
+                    return;
+                }
+        }
+
         public static void Domain(Level level, LevelGenArgs args)
         {
             if (args.Idol == null)
-                throw new System.ArgumentException("Domain generation needs an idol.");
+                throw new ArgumentException("Domain generation needs an idol.");
 
             level.LevelSize = new Vector2Int(100, 100);
 
