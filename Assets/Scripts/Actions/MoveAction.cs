@@ -49,7 +49,7 @@ namespace Pantheon.Actions
 
             if (destination.Actor != null)
             {
-                if (Actor.HostileToMe(destination.Actor))
+                if (Actor.IsHostileTo(destination.Actor))
                     return new MeleeAction(Actor, destination.Actor).DoAction();
                 else
                     return new WaitAction(Actor).DoAction();

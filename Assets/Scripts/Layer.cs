@@ -81,7 +81,7 @@ namespace Pantheon.World
                 }
             }
 
-            if (level.UpConnections.HasElements())
+            if (level.UpConnections != null && level.UpConnections.HasElements())
             {
                 for (int i = 0; i < level.UpConnections.Length; i++)
                 {
@@ -105,7 +105,7 @@ namespace Pantheon.World
                 }
             }
 
-            if (level.DownConnections.HasElements())
+            if (level.DownConnections != null && level.DownConnections.HasElements())
             {
                 for (int i = 0; i < level.DownConnections.Length; i++)
                 {

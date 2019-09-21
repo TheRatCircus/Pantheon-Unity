@@ -1,13 +1,13 @@
 ﻿// Actor.cs
 // Jerome Martina
 
+using Pantheon.Actions;
+using Pantheon.Core;
+using Pantheon.Utils;
+using Pantheon.World;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Pantheon.Core;
-using Pantheon.World;
-using Pantheon.Utils;
-using Pantheon.Actions;
 
 namespace Pantheon.Actors
 {
@@ -52,7 +52,7 @@ namespace Pantheon.Actors
         [SerializeField] protected Species species;
         [SerializeField] protected Sprite corpseSprite;
 
-        // Action status
+        public Actor Master { get; set; } // For thralls
         [SerializeField] [ReadOnly] protected BaseAction nextAction;
 
         #region Properties
@@ -284,13 +284,49 @@ namespace Pantheon.Actors
 
         public bool IsDead() => health < 0;
 
-        // Check if another actor is hostile to this
-        public bool HostileToMe(Actor other)
+        /// <summary>
+        /// Is this actor hostile to another given actor?
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns>True if this is hostile to other.</returns>
+        public bool IsHostileTo(Actor other)
         {
-            if (this is Player) // Everything else is hostile to player (for now)
-                return true;
-            else // This is an NPC
-                return other is Player; // If other is Player, it's hostile
+            if (this is Player)
+            {
+                NPC otherNPC = (NPC)other;
+
+                if (otherNPC.Master == this)
+                    return false;
+                if (otherNPC.Faction == Faction)
+                    return false;
+                if (otherNPC.Faction.HostileToPlayer)
+                    return true;
+                if (otherNPC.AlwaysHostileToPlayer)
+                    return true;
+
+                return false;
+            }
+            else if (this is NPC thisNPC)
+            {
+                if (other is Player otherPlayer)
+                {
+                    if (thisNPC.Faction == otherPlayer.Faction)
+                        return false;
+                    if (thisNPC.AlwaysHostileToPlayer)
+                        return true;
+                    if (thisNPC.Faction.HostileToPlayer)
+                        return true;
+
+                    return false;
+                }
+                else
+                    return false;
+
+                // TODO:
+                // if other's faction is hostile to this faction
+                // return true
+            }
+            else throw new Exception("An actor illegally has the type Actor.");
         }
 
         // Handle this actor's death

@@ -4,18 +4,36 @@
 #define DEBUG_NPC
 #undef DEBUG_NPC
 
+using Pantheon.Actions;
+using Pantheon.Core;
+using Pantheon.Utils;
+using Pantheon.World;
 using System.Collections.Generic;
 using UnityEngine;
-using Pantheon.Core;
-using Pantheon.World;
-using Pantheon.Actions;
-using Pantheon.Utils;
 
 namespace Pantheon.Actors
 {
+    public enum Intelligence
+    {
+        None,
+        Animal,
+        Human
+    }
+
     public class NPC : Actor
     {
+        [SerializeField] private Intelligence intelligence;
+        [SerializeField] private bool alwaysHostileToPlayer = false;
+
         [SerializeField] [ReadOnly] private Actor target;
+        public bool AwareOfPlayer { get; private set; } = false;
+        
+        // Properties
+        public bool AlwaysHostileToPlayer
+        {
+            get => alwaysHostileToPlayer;
+            private set => alwaysHostileToPlayer = value;
+        }
 
         // Events
         public event System.Action<bool> OnVisibilityChangeEvent;
@@ -32,6 +50,8 @@ namespace Pantheon.Actors
             if (spriteRenderer == null)
                 spriteRenderer = GetComponent<SpriteRenderer>();
             spriteRenderer.enabled = cell.Visible;
+            if (intelligence == Intelligence.Animal)
+                Faction = Game.instance.Nature;
         }
 
         /// <summary>
@@ -54,12 +74,8 @@ namespace Pantheon.Actors
         public override int Act()
         {
             // Detect player if coming into player's view
-            if (cell.Visible && target == null)
-            {
-                target = Game.GetPlayer();
-                GameLog.Send($"{Strings.GetSubject(this, true)} notices you!",
-                    Strings.TextColour.Red);
-            }
+            if (cell.Visible && !AwareOfPlayer)
+                DetectPlayer();
 
             // Engage in combat
             if (target != null)
@@ -78,8 +94,24 @@ namespace Pantheon.Actors
             return ret.DoAction();
         }
 
+        private void DetectPlayer()
+        {
+            if (IsHostileTo(Game.GetPlayer()))
+            {
+                target = Game.GetPlayer();
+                GameLog.Send($"{Strings.GetSubject(this, true)} fixes its gaze upon you!",
+                    Strings.TextColour.Red);
+            }
+            else
+            {
+                GameLog.Send($"{Strings.GetSubject(this, true)} notices you.",
+                    Strings.TextColour.White);
+            }
+            AwareOfPlayer = true;
+        }
+
         // Make a single move along a path towards a target
-        void PathMoveToTarget()
+        private void PathMoveToTarget()
         {
             List<Cell> path = level.Pathfinder.GetCellPath(Position, target.Position);
             if (path.Count > 0)

@@ -96,6 +96,9 @@ namespace Pantheon.WorldGen
                         level.RefName = "valley_north";
 
                         PlaceGuaranteedAltar(level.RandomFloor());
+                        Spawn.SpawnNPC(
+                            Database.GetNPC(NPCType.DreadHamster).Prefab,
+                            level, level.RandomFloor());
 
                         Connect.Trails(level, CardinalDirection.South);
                     }
