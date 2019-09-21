@@ -103,80 +103,68 @@ namespace Pantheon.Core
 
         public static WeaponData GetWeapon(WeaponType type)
         {
-            GetDatabase().WeaponDict.TryGetValue(type, out WeaponData ret);
-
-            if (ret == null)
-                throw new Exception("Failed to get specified weapon data.");
+            if (!GetDatabase().WeaponDict.TryGetValue(type, out WeaponData ret))
+                throw new ArgumentException("Failed to get specified weapon data.");
 
             return ret;
         }
 
         public static ScrollData GetScroll(ScrollType scrollType)
         {
-            GetDatabase().ScrollDict.TryGetValue(scrollType, out ScrollData ret);
-
-            if (ret == null)
-                throw new Exception("Failed to get specified scroll data.");
+            if (!GetDatabase().ScrollDict.TryGetValue(scrollType, out ScrollData ret))
+                throw new ArgumentException("Failed to get specified scroll data.");
 
             return ret;
         }
 
         public static FlaskData GetFlask(FlaskType flaskType)
         {
-            GetDatabase().FlaskDict.TryGetValue(flaskType, out FlaskData ret);
-
-            if (ret == null)
-                throw new Exception("Failed to get specified flask data.");
+            if (!GetDatabase().FlaskDict.TryGetValue(flaskType, out FlaskData ret))
+                throw new ArgumentException("Failed to get specified flask data.");
 
             return ret;
         }
 
         public static TerrainData GetTerrain(TerrainType terrainType)
         {
-            GetDatabase().TerrainDict.TryGetValue(terrainType, out TerrainData ret);
-
-            if (ret == null)
-                throw new Exception("Failed to get specified terrain data.");
+            if (!GetDatabase().TerrainDict.TryGetValue(terrainType, out TerrainData ret))
+                throw new ArgumentException("Failed to get specified terrain data.");
 
             return ret;
         }
 
         public static NPCWrapper GetNPC(NPCType npcType)
         {
-            GetDatabase().NPCDict.TryGetValue(npcType, out NPCWrapper ret);
-
-            if (ret == null)
-                throw new Exception("Failed to get specified NPC.");
+            if (!GetDatabase().NPCDict.TryGetValue(npcType,
+                out NPCWrapper ret))
+                throw new ArgumentException("Failed to get specified NPC.");
 
             return ret;
         }
 
         public static FeatureData GetFeature(FeatureType featureType)
         {
-            GetDatabase().FeatureDict.TryGetValue(featureType, out FeatureData ret);
-
-            if (ret == null)
-                throw new Exception("Failed to get specified feature.");
+            if (!GetDatabase().FeatureDict.TryGetValue(featureType,
+                out FeatureData ret))
+                throw new ArgumentException
+                    ("Failed to get specified feature.");
 
             return ret;
         }
 
         public static Spell GetSpell(SpellType spellType)
         {
-            GetDatabase().SpellDict.TryGetValue(spellType, out Spell ret);
-
-            if (ret == null)
-                throw new Exception("Failed to get specified spell.");
+            if (!GetDatabase().SpellDict.TryGetValue(spellType, out Spell ret))
+                throw new ArgumentException("Failed to get specified spell.");
 
             return ret;
         }
 
         public static AmmoData GetAmmo(AmmoType ammoType)
         {
-            GetDatabase().AmmoDict.TryGetValue(ammoType, out AmmoData ret);
-
-            if (ret == null)
-                throw new Exception("Failed to get specified ammo.");
+            if (!GetDatabase().AmmoDict.TryGetValue(ammoType,
+                out AmmoData ret))
+                throw new ArgumentException("Failed to get specified ammo.");
 
             return ret;
         }
