@@ -16,13 +16,11 @@ namespace Pantheon.Core
     public class GameLog : MonoBehaviour
     {
         // The extended event list for the session
-        [SerializeField]
-        [ReadOnly]
-        private List<string> eventList = new List<string>();
+        [SerializeField] [ReadOnly] private List<string> eventList
+            = new List<string>();
         // Short list of event strings for HUD log
-        [SerializeField]
-        [ReadOnly]
-        private List<string> shortEventList = new List<string>();
+        [SerializeField] [ReadOnly] private List<string> shortEventList
+            = new List<string>();
 
         [SerializeField] private Text logText = null;
 
@@ -31,38 +29,48 @@ namespace Pantheon.Core
         // Append the eventList with a new message and add it to the log
         public static void Send(string msg, Strings.TextColour colour)
         {
+            GameLog log = GetLog();
+
             msg = Strings.ColourString(msg, colour);
 
             // Add event to both lists
-            GetLog().eventList.Add(msg);
-            GetLog().shortEventList.Add(msg);
+            log.eventList.Add(msg);
+            log.shortEventList.Add(msg);
 
             // Cull old messages from top of HUD log
-            if (GetLog().logText.cachedTextGenerator.lines.Count >= 8)
-                GetLog().shortEventList.RemoveAt(0);
-
+            int lines = log.logText.cachedTextGenerator.lines.Count;
+            int overflow = log.shortEventList.Count - 8;
+            if (lines >= 8)
+                for (int i = 0; i < overflow; i++)
+                    log.shortEventList.RemoveAt(0);
+     
             string logStr = "";
-            foreach (string s in GetLog().shortEventList)
+            foreach (string s in log.shortEventList)
                 logStr += $"{s}{Environment.NewLine}";
 
-            GetLog().logText.text = logStr;
+            log.logText.text = logStr;
         }
 
         public static void Send(string msg)
         {
+            GameLog log = GetLog();
+
             // Add event to both lists
-            GetLog().eventList.Add(msg);
-            GetLog().shortEventList.Add(msg);
+            log.eventList.Add(msg);
+            log.shortEventList.Add(msg);
 
             // Cull old messages from top of HUD log
-            if (GetLog().logText.cachedTextGenerator.lines.Count >= 8)
-                GetLog().shortEventList.RemoveAt(0);
+            int lines = log.logText.cachedTextGenerator.lines.Count;
+            int overflow = log.shortEventList.Count - 8;
+            if (lines >= 8)
+                for (int i = 0; i < overflow; i++)
+                    log.shortEventList.RemoveAt(0);
 
             string logStr = "";
-            foreach (string s in GetLog().shortEventList)
+            foreach (string s in log.shortEventList)
                 logStr += $"{s}{Environment.NewLine}";
 
-            GetLog().logText.text = logStr;
+            log.logText.text = logStr;
         }
 
         public static void LogCellItems(Cell cell)
