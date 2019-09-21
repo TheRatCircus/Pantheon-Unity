@@ -16,7 +16,8 @@ namespace Pantheon.WorldGen
 
             if (directions.HasFlag(CardinalDirection.North))
             {
-                Cell trailNorthCell = level.RandomFloor(-1, level.LevelSize.y - 2);
+                Cell trailNorthCell = level.RandomFloorOnY
+                    (level.LevelSize.y - 2, true);
                 Connection trailNorth = new Connection(level.Layer, level,
                     trailNorthCell, FeatureType.TrailNorth,
                     new Vector2Int(0, 1));
@@ -26,7 +27,8 @@ namespace Pantheon.WorldGen
 
             if (directions.HasFlag(CardinalDirection.East))
             {
-                Cell trailEastCell = level.RandomFloor(level.LevelSize.x - 2, -1);
+                Cell trailEastCell = level.RandomFloorOnX
+                    (level.LevelSize.x - 2, true);
                 Connection trailEast = new Connection(level.Layer, level,
                     trailEastCell, FeatureType.TrailEast,
                     new Vector2Int(1, 0));
@@ -36,7 +38,7 @@ namespace Pantheon.WorldGen
 
             if (directions.HasFlag(CardinalDirection.South))
             {
-                Cell trailSouthCell = level.RandomFloor(-1, 1);
+                Cell trailSouthCell = level.RandomFloorOnY(1, true);
                 Connection trailSouth = new Connection(level.Layer, level,
                     trailSouthCell, FeatureType.TrailSouth,
                     new Vector2Int(0, -1));
@@ -46,7 +48,7 @@ namespace Pantheon.WorldGen
 
             if (directions.HasFlag(CardinalDirection.West))
             {
-                Cell trailWestCell = level.RandomFloor(1, -1);
+                Cell trailWestCell = level.RandomFloorOnX(1, true);
                 Connection trailWest = new Connection(level.Layer, level,
                     trailWestCell, FeatureType.TrailWest,
                     new Vector2Int(-1, 0));

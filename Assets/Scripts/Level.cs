@@ -135,30 +135,45 @@ namespace Pantheon.World
             return cell;
         }
 
-        /// <summary>
-        /// Find a random walkable cell; pass a positive int to one arg to fix
-        /// the selection.
-        /// </summary>
-        /// <param name="x">Fix the selection by an x coordinate.</param>
-        /// <param name="y">Fix the selection by a y coordinate.</param>
-        /// <returns></returns>
-        public Cell RandomFloor(int x, int y)
+        public Cell RandomFloorOnX(int x, bool seeded)
         {
-            if (x > 0 && y > 0)
-                UnityEngine.Debug.LogWarning("Result is fixed for both x and y.");
-
             Cell cell;
             int attempts = 0;
             do
             {
                 if (attempts > 1000)
                     throw new Exception
-                        ($"Could not find a random floor at {x}, {y}.");
+                        ($"Could not find a random floor at x {x}.");
 
                 Vector2Int randomPosition = new Vector2Int
                 {
-                    x = x < 0 ? UnityEngine.Random.Range(0, LevelSize.x) : x,
-                    y = y < 0 ? UnityEngine.Random.Range(0, LevelSize.y) : y
+                    x = x,
+                    y = seeded ? Game.PRNG.Next(LevelSize.y) :
+                    UnityEngine.Random.Range(0, LevelSize.y)
+                };
+
+                cell = GetCell(randomPosition);
+                attempts++;
+
+            } while (!cell.IsWalkableTerrain());
+            return cell;
+        }
+
+        public Cell RandomFloorOnY(int y, bool seeded)
+        {
+            Cell cell;
+            int attempts = 0;
+            do
+            {
+                if (attempts > 1000)
+                    throw new Exception
+                        ($"Could not find a random floor at y {y}.");
+
+                Vector2Int randomPosition = new Vector2Int
+                {
+                    x = seeded ? Game.PRNG.Next(LevelSize.x) :
+                    UnityEngine.Random.Range(0, LevelSize.x),
+                    y = y
                 };
 
                 cell = GetCell(randomPosition);
