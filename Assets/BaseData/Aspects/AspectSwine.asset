@@ -18,5 +18,6 @@ MonoBehaviour:
   walls: []
   floors: []
   altarFeature: 9
-  species: 0100000002000000
-  occupations: 
+  species:
+  - {fileID: 11400000, guid: f227b0792cf188d4aa5312c7e8aed174, type: 2}
+  occupations: []

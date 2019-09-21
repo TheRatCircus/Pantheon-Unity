@@ -75,5 +75,47 @@ namespace Pantheon.Core
             Actor.MoveTo(npc, cell);
             return npc;
         }
+
+        public static NPC SpawnIdol(Idol idol, Level level, Cell cell)
+        {
+            GameObject npcObj = Object.Instantiate(Database.GenericNPC,
+                Helpers.V2IToV3(cell.Position),
+                new Quaternion(),
+                level.transform);
+            NPC npc = npcObj.GetComponent<NPC>();
+            npc.Initialize();
+            npc.Faction = idol.Religion;
+
+            Occupation occupation = idol.Aspect.Occupations.Random(true);
+            Species species = idol.Aspect.Species.Random(true);
+            npc.BuildActor(species);
+            // AssignOccupation won't work without limbs, so defer it
+            npc.AssignOccupation(occupation);
+
+            npc.MaxHealth = 100;
+            npc.Speed = Actor.DefaultSpeed;
+            npc.RegenRate = Actor.DefaultRegenRate;
+            npc.MoveSpeed = Actor.DefaultMoveSpeed;
+
+            string title;
+
+            if (idol.Gender == Gender.Male)
+                title = "Lord";
+            else if (idol.Gender == Gender.Female)
+                title = "Lady";
+            else
+                title = "Sovereign";
+
+            string npcName = $"{idol.DisplayName}, {title} of {idol.Aspect.DisplayName}";
+            npc.ActorName = npcName;
+            npc.SpriteRenderer.sprite = species.Sprite;
+            npc.IsUnique = true;
+
+            npc.level = level;
+            level.NPCs.Add(npc);
+            Game.instance.AddActor(npc);
+            Actor.MoveTo(npc, cell);
+            return npc;
+        }
     }
 }

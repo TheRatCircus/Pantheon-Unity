@@ -20,6 +20,23 @@ namespace Pantheon.WorldGen
             Coords = coords;
             Idol = idol;
         }
+
+        public static LevelGenArgs ArgsFromRef(string levelRef)
+        {
+            string[] tokens = levelRef.Split('_');
+            if (tokens[0] == "domain")
+            {
+                if (!Game.instance.Pantheon.Idols.TryGetValue(tokens[1],
+                    out Idol idol))
+                    throw new Exception("levelRef has an illegal idol in it.");
+
+                int domainLevel = int.Parse(tokens[2]);
+
+                return new LevelGenArgs(new Vector3Int(0, domainLevel, 0), idol);
+            }
+            else
+                throw new ArgumentException("Arguments incomplete or invalid.");
+        }
     }
 
     /// <summary>
@@ -52,7 +69,7 @@ namespace Pantheon.WorldGen
 
             level.Layer = layer;
             ValleyBasics(level);
-            
+
             Layout.RandomFill(level, 15, FeatureType.Tree);
             Layout.Enclose(level, TerrainType.StoneWall);
 
@@ -65,7 +82,7 @@ namespace Pantheon.WorldGen
                 case CardinalDirection.Centre:
                     {
                         level.DisplayName = "Central Valley";
-                        level.LevelRef = new LevelRef("valleyCentral");
+                        level.RefName = "valley_central";
 
                         Connect.Trails(level, CardinalDirection.North
                             | CardinalDirection.East | CardinalDirection.South
@@ -76,7 +93,7 @@ namespace Pantheon.WorldGen
                 case CardinalDirection.North:
                     {
                         level.DisplayName = "Northern Valley";
-                        level.LevelRef = new LevelRef("valleyNorth");
+                        level.RefName = "valley_north";
 
                         PlaceGuaranteedAltar(level.RandomFloor());
 
@@ -86,7 +103,7 @@ namespace Pantheon.WorldGen
                 case CardinalDirection.East:
                     {
                         level.DisplayName = "Eastern Valley";
-                        level.LevelRef = new LevelRef("valleyEast");
+                        level.RefName = "valley_east";
 
                         PlaceGuaranteedAltar(level.RandomFloor());
 
@@ -96,7 +113,7 @@ namespace Pantheon.WorldGen
                 case CardinalDirection.South:
                     {
                         level.DisplayName = "Southern Valley";
-                        level.LevelRef = new LevelRef("valleySouth");
+                        level.RefName = "valley_south";
 
                         PlaceGuaranteedAltar(level.RandomFloor());
 
@@ -106,7 +123,7 @@ namespace Pantheon.WorldGen
                 case CardinalDirection.West:
                     {
                         level.DisplayName = "Western Valley";
-                        level.LevelRef = new LevelRef("valleyWest");
+                        level.RefName = "valley_west";
 
                         PlaceGuaranteedAltar(level.RandomFloor());
 
@@ -149,10 +166,65 @@ namespace Pantheon.WorldGen
 
             level.LevelSize = new Vector2Int(100, 100);
 
-            UnityEngine.Debug.Log($"Initializing cells...");
-            level.Map = Layout.BlankMap(level.LevelSize, TerrainType.MarbleTile);
-            BinarySpacePartition.BSP(level, TerrainType.StoneWall, 16);
+            level.DisplayName = "";
+            level.RefName = $"domain_{args.Idol.RefName}_{args.Coords.y}";
+            level.Faction = args.Idol.Religion;
 
+            UnityEngine.Debug.Log($"Initializing cells...");
+            level.Map = Layout.BlankMap(level.LevelSize, TerrainType.StoneWall);
+            BinarySpacePartition.BSP(level, TerrainType.MarbleTile, 10);
+
+            switch (args.Coords.y)
+            {
+                case 0:
+                    {
+                        Connection stairsUp = new Connection(level, level.RandomFloor(),
+                        FeatureType.StairsUp,
+                        $"domain_{args.Idol.RefName}_1");
+
+                        level.UpConnections = new Connection[]
+                        {
+                            stairsUp
+                        };
+                        break;
+                    }
+                case 1:
+                    {
+                        Connection stairsDown = new Connection(level, level.RandomFloor(),
+                            FeatureType.StairsDown,
+                            $"domain_{args.Idol.RefName}_0");
+                        Connection stairsUp = new Connection(level, level.RandomFloor(),
+                            FeatureType.StairsUp,
+                            $"domain_{args.Idol.RefName}_2");
+
+                        level.DownConnections = new Connection[]
+                        {
+                            stairsDown
+                        };
+                        level.UpConnections = new Connection[]
+                        {
+                            stairsUp
+                        };
+                        break;
+                    }
+                case 2:
+                    {
+                        Connection stairsDown = new Connection(level, level.RandomFloor(),
+                            FeatureType.StairsDown,
+                            $"domain_{args.Idol.RefName}_1");
+
+                        level.DownConnections = new Connection[]
+                        {
+                            stairsDown
+                        };
+
+                        Spawn.SpawnIdol(args.Idol, level, level.RandomFloor());
+
+                        break;
+                    }
+                default:
+                    throw new ArgumentException("Domain depth is out of range.");
+            }
             FinishLevel(level);
         }
     }

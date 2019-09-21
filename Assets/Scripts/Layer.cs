@@ -33,9 +33,10 @@ namespace Pantheon.World
 
         public Level RequestLevel(Vector2Int coords)
         {
-            Level newLevel = null;
             if (!Levels.ContainsKey(coords))
             {
+                Level newLevel;
+
                 if (!GenMap.TryGetValue(coords, out GenerationMap.LevelGenDelegate d))
                     throw new ArgumentException("Bad coords given.");
 
@@ -43,11 +44,17 @@ namespace Pantheon.World
                 d.Invoke(newLevel, new LevelGenArgs
                     (new Vector3Int(coords.x, coords.y, ZLevel), null));
                 Levels.Add(coords, newLevel);
-                
+
                 if (Levels.Count > 1)
                     ConnectLevel(newLevel);
+
+                return newLevel;
             }
-            return newLevel;
+            else
+            {
+                Levels.TryGetValue(coords, out Level newLevel);
+                return newLevel;
+            }
         }
 
         public void ConnectLevel(Level level)
@@ -64,8 +71,7 @@ namespace Pantheon.World
 
                     if (!Levels.TryGetValue(level.LayerPos + Helpers.CardinalToV2I(dir),
                         out Level other))
-                        throw new Exception
-                            ("Level has a connection to non-existent other level.");
+                        continue; // Not generated yet, let it handle itself
 
                     if (!other.LateralConnections.TryGetValue(Helpers.CardinalOpposite(dir),
                         out Connection otherConn))
@@ -75,7 +81,53 @@ namespace Pantheon.World
                 }
             }
 
-            // TODO: Vertical connections
+            if (level.UpConnections.HasElements())
+            {
+                for (int i = 0; i < level.UpConnections.Length; i++)
+                {
+                    if (!Game.instance.Layers.TryGetValue(ZLevel + 1,
+                        out Layer layerAbove))
+                        break;
+
+                    if (!layerAbove.Levels.TryGetValue(level.LayerPos,
+                        out Level other))
+                        break; // Not generated yet
+
+                    if (level.UpConnections[i] != null)
+                    {
+                        if (other.DownConnections[i] != null)
+                            level.UpConnections[i].SetDestination
+                                (other.DownConnections[i]);
+                        else
+                            throw new Exception("Other has no compatible" +
+                                "downwards connection.");
+                    }
+                }
+            }
+
+            if (level.DownConnections.HasElements())
+            {
+                for (int i = 0; i < level.DownConnections.Length; i++)
+                {
+                    if (!Game.instance.Layers.TryGetValue(ZLevel - 1,
+                        out Layer layerBelow))
+                        break;
+
+                    if (!layerBelow.Levels.TryGetValue(level.LayerPos,
+                        out Level other))
+                        break; // Not generated yet
+
+                    if (level.DownConnections[i] != null)
+                    {
+                        if (other.UpConnections[i] != null)
+                            level.DownConnections[i].SetDestination
+                                (other.UpConnections[i]);
+                        else
+                            throw new Exception("Other has no compatible" +
+                                "upwards connection.");
+                    }
+                }
+            }
         }
     }
 

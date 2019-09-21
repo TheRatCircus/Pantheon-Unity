@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Axeman
   m_EditorClassIdentifier: 
   displayName: axeman
-  reference: 0
+  reference: 1
   weapons: 02000000
   spells: []

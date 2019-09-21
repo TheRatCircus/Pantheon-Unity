@@ -17,6 +17,7 @@ namespace Pantheon.Actors
         public Aspect Aspect { get; set; }
 
         public bool HasAnAltar { get; set; } = false;
+        public Faction Religion { get; set; }
 
         public override string ToString() => $"{RefName} ({Aspect})";
     }

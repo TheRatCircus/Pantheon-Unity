@@ -112,6 +112,24 @@ namespace Pantheon.Utils
                     throw new ArgumentException("Bad CardinalDirection given.");
             }
         }
+
+        /// <summary>
+        /// Extension method to check if an array has non-null elements.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="arr"></param>
+        /// <returns>True if arr has at least one non-null element.</returns>
+        public static bool HasElements<T>(this T[] arr)
+        {
+            if (Nullable.GetUnderlyingType(typeof(T)) != null)
+                throw new ArgumentException($"Type {typeof(T)} is not nullable.");
+
+            foreach (T t in arr)
+                if (arr != null)
+                    return true;
+
+            return false;
+        }
     }
 }
 

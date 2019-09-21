@@ -22,7 +22,7 @@ namespace Pantheon.Utils
             if (actor is Player)
                 ret = sentenceStart ? "You" : "you";
             else
-                ret = $"{(actor.NameIsProper ? "" : (sentenceStart ? "The " : "the "))}{actor.ActorName}";
+                ret = $"{(actor.IsUnique ? "" : (sentenceStart ? "The " : "the "))}{actor.ActorName}";
             return ret;
         }
 

@@ -11,6 +11,12 @@ namespace Pantheon.WorldGen
 {
     public static class BinarySpacePartition
     {
+        /// <summary>
+        /// Generate rooms using Binary Space Partitioning.
+        /// </summary>
+        /// <param name="level"></param>
+        /// <param name="terrain">Terrain type to fill rooms with.</param>
+        /// <param name="minRoomSize"></param>
         public static void BSP(Level level, TerrainType terrain, int minRoomSize)
         {
             List<Leaf> leaves = new List<Leaf>();

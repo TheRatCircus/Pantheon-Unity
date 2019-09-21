@@ -28,7 +28,7 @@ namespace Pantheon.Actors
 
         // Actor's personal attributes
         [SerializeField] protected string actorName;
-        [SerializeField] protected bool nameIsProper; // TODO: Unique mobs
+        [SerializeField] protected bool isUnique;
         [SerializeField] [ReadOnly] protected int health;
         [SerializeField] protected int maxHealth = -1;
         [SerializeField] protected int regenRate = -1; // Time to regen 1 HP
@@ -58,7 +58,7 @@ namespace Pantheon.Actors
         #region Properties
 
         public string ActorName { get => actorName; set => actorName = value; }
-        public bool NameIsProper { get => nameIsProper; set => nameIsProper = value; }
+        public bool IsUnique { get => isUnique; set => isUnique = value; }
         public int Health { get => health; }
         public int MaxHealth { get => maxHealth; set => maxHealth = value; }
         public int Speed { get => speed; set => speed = value; }

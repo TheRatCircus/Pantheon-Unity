@@ -144,7 +144,8 @@ namespace Pantheon.Debug
                 Game.instance.activeLevel,
                 Game.GetPlayer().Cell,
                 FeatureType.Portal,
-                new LevelRef(idol, 1));
+                $"domain_{idolRef}_0");
+            domainPortal.OneWay = true;
             domainPortal.DisplayName = $"a portal to {idol.DisplayName}'s Domain";
 
             Game.GetPlayer().Cell.Connection = domainPortal;
@@ -209,6 +210,14 @@ namespace Pantheon.Debug
             }
 
             return ret;
+        }
+
+        public static string WhereAmI(string[] args)
+        {
+            if (args.Length != 0)
+                return "This command takes no arguments.";
+
+            return $"{Game.instance.activeLevel.RefName} ({Game.instance.activeLevel.LayerPos})";
         }
     }
 }

@@ -39,7 +39,8 @@ namespace Pantheon.Debug
                 { "list_religions", new ConsoleCommand(ListReligions) },
                 { "join_religion", new ConsoleCommand(JoinReligion) },
                 { "list_levels", new ConsoleCommand(ListLevels) },
-                { "list_idols", new ConsoleCommand(ListIdols) }
+                { "list_idols", new ConsoleCommand(ListIdols) },
+                { "where_am_i", new ConsoleCommand(WhereAmI) }
             };
         }
 

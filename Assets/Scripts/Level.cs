@@ -11,44 +11,6 @@ using Pantheon.WorldGen;
 
 namespace Pantheon.World
 {
-    public struct LevelRef
-    {
-        public readonly string RefName;
-        public Vector3Int Coords;
-        public readonly Idol Idol;
-
-        public LevelRef(string refName)
-        {
-            RefName = refName;
-            Coords = new Vector3Int();
-            Idol = null;
-        }
-
-        public LevelRef(string refName, Vector3Int coords, Idol idol)
-        {
-            RefName = refName;
-            Coords = coords;
-            Idol = idol;
-        }
-
-        /// <summary>
-        /// Domain constructor.
-        /// </summary>
-        /// <param name="idol">The Idol of this Domain.</param>
-        /// <param name="floor">The floor of the Idol's Domain.</param>
-        public LevelRef(Idol idol, int floor)
-        {
-            RefName = $"domain{idol.DisplayName}{floor}";
-            Idol = idol;
-            Coords = new Vector3Int(0, 0, floor);
-        }
-
-        public LevelGenArgs ToGenArgs()
-        {
-            return new LevelGenArgs(Coords, Idol);
-        }
-    }
-
     public class Level : MonoBehaviour
     {
         // This level's tilemaps
@@ -58,8 +20,7 @@ namespace Pantheon.World
         [SerializeField] private Tilemap targettingTilemap;
 
         public string DisplayName { get; set; } = "NO_NAME";
-        public LevelRef LevelRef { get; set; }
-        public string RefName => LevelRef.RefName;
+        public string RefName { get; set; }
 
         public Layer Layer { get; set; }
         public Vector2Int LayerPos { get; set; }

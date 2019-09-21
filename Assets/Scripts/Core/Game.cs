@@ -2,13 +2,14 @@
 // Jerome Martina
 // Credit to Dan Korostelev
 
+using Pantheon.Actors;
+using Pantheon.Utils;
+using Pantheon.World;
+using Pantheon.WorldGen;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Pantheon.Actors;
-using Pantheon.World;
-using Pantheon.WorldGen;
 
 namespace Pantheon.Core
 {
@@ -52,11 +53,12 @@ namespace Pantheon.Core
             = new Dictionary<int, Layer>();
         // All levels need a ref, and not all 
         // levels fit into the tangible world-space
-        public Dictionary<LevelRef, Level> Levels { get; set; }
-            = new Dictionary<LevelRef, Level>();
-        public Dictionary<LevelRef, GenerationMap.LevelGenDelegate> GenMap
+        public Dictionary<string, Level> Levels { get; set; }
+            = new Dictionary<string, Level>();
+
+        public Dictionary<string, GenerationMap.LevelGenDelegate> GenMap
             { get; set; }
-            = new Dictionary<LevelRef, GenerationMap.LevelGenDelegate>();
+            = new Dictionary<string, GenerationMap.LevelGenDelegate>();
 
         // Factions
         public Faction Nature { get; set; }
@@ -102,10 +104,8 @@ namespace Pantheon.Core
             InitializeFactions();
 
             foreach (Idol idol in Pantheon.Idols.Values)
-            {
                 for (int i = 0; i < 3; i++) // i < number of levels per domain
-                    GenMap.Add(new LevelRef(idol, i), Zones.Domain);
-            }
+                    GenMap.Add($"domain_{idol.RefName}_{i}", Zones.Domain);
 
             AddActor(player1);
 
@@ -139,7 +139,10 @@ namespace Pantheon.Core
             {
                 string displayName = $"The Church of {idol.DisplayName}";
                 string refName = $"religion{idol.DisplayName}";
-                Religions.Add(idol, new Faction(displayName, refName, FactionType.Religion, idol));
+                Faction religion = new Faction(displayName, refName,
+                    FactionType.Religion, idol);
+                Religions.Add(idol, religion);
+                idol.Religion = religion;
             }
         }
 
@@ -292,23 +295,71 @@ namespace Pantheon.Core
         /// </summary>
         public void RegisterLevel(Level level)
         {
-            Levels.Add(level.LevelRef, level);
+            Levels.Add(level.RefName, level);
         }
 
-        public Level RequestLevel(LevelRef levelRef)
+        public Level RequestLevel(string prevLevelRef, string levelRef)
         {
-            Level newLevel = null;
             if (!Levels.ContainsKey(levelRef))
             {
                 if (!GenMap.TryGetValue(levelRef,
                     out GenerationMap.LevelGenDelegate d))
                     throw new ArgumentException("Bad ref given.");
 
-                newLevel = instance.MakeNewLevel();
-                d.Invoke(newLevel, levelRef.ToGenArgs());
-                Levels.Add(levelRef, newLevel);
+                Level newLevel = instance.MakeNewLevel();
+                d.Invoke(newLevel, LevelGenArgs.ArgsFromRef(levelRef));
+
+                if (Levels.Count > 0 && prevLevelRef != null)
+                    ConnectLevels(newLevel, prevLevelRef);
+
+                return newLevel;
             }
-            return newLevel;
+            else
+            {
+                Levels.TryGetValue(levelRef, out Level newLevel);
+                return newLevel;
+            }
+        }
+
+        public void ConnectLevels(Level newLevel, string prevRef)
+        {
+            UnityEngine.Debug.Log
+                ($"Attempting to connect {newLevel.RefName} to {prevRef}...");
+
+            if (!Levels.TryGetValue(prevRef, out Level prevLevel))
+                throw new ArgumentException("Bad ref given for previous level.");
+
+            if (newLevel.LateralConnections.Count > 0)
+            {
+                foreach (KeyValuePair<CardinalDirection, Connection> pair
+                    in newLevel.LateralConnections)
+                {
+                    CardinalDirection dir = pair.Key;
+                    Connection homeConn = pair.Value;
+
+                    if (!prevLevel.LateralConnections.TryGetValue(Helpers.CardinalOpposite(dir),
+                        out Connection otherConn))
+                        throw new Exception("Other level has no valid opposite.");
+
+                    homeConn.SetDestination(otherConn);
+                }
+            }
+
+            if (newLevel.DownConnections.HasElements())
+            {
+                for (int i = 0; i < newLevel.DownConnections.Length; i++)
+                {
+                    if (newLevel.DownConnections[i] != null)
+                    {
+                        if (prevLevel.UpConnections[i] != null)
+                            newLevel.DownConnections[i].SetDestination
+                                (prevLevel.UpConnections[i]);
+                        else
+                            throw new Exception("Other has no compatible" +
+                                "upwards connection.");
+                    }
+                }
+            }
         }
 
         public static void QuitGame()
