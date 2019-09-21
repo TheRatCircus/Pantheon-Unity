@@ -101,9 +101,8 @@ namespace Pantheon.Core
             Pantheon = new Pantheon();
             InitializeFactions();
 
-            foreach (KeyValuePair<string, Idol> pair in Pantheon.Idols)
+            foreach (Idol idol in Pantheon.Idols.Values)
             {
-                Idol idol = pair.Value;
                 for (int i = 0; i < 3; i++) // i < number of levels per domain
                     GenMap.Add(new LevelRef(idol, i), Zones.Domain);
             }
@@ -136,9 +135,8 @@ namespace Pantheon.Core
         public void InitializeFactions()
         {
             Nature = new Faction("Nature", "nature", FactionType.Nature, null);
-            foreach (KeyValuePair<string, Idol> pair in Pantheon.Idols)
+            foreach (Idol idol in Pantheon.Idols.Values)
             {
-                Idol idol = pair.Value;
                 string displayName = $"The Church of {idol.DisplayName}";
                 string refName = $"religion{idol.DisplayName}";
                 Religions.Add(idol, new Faction(displayName, refName, FactionType.Religion, idol));

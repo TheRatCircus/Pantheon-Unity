@@ -47,9 +47,9 @@ namespace Pantheon.Core
                 bool occupied = false;
 
                 // Check if another Idol has this aspect
-                foreach (KeyValuePair<string, Idol> pair in Idols)
+                foreach (Idol other in Idols.Values)
                 {
-                    if (pair.Value.Aspect == aspect)
+                    if (other.Aspect == aspect)
                     {
                         occupied = true;
                         break;

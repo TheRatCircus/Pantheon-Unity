@@ -159,12 +159,8 @@ namespace Pantheon.Debug
 
             string ret = "";
 
-            foreach (KeyValuePair<string, Idol>
-                pair in Game.instance.Pantheon.Idols)
-            {
-                Idol idol = pair.Value;
+            foreach (Idol idol in Game.instance.Pantheon.Idols.Values)
                 ret += $"{idol} {Environment.NewLine}";
-            }
 
             return ret;
         }
@@ -207,10 +203,8 @@ namespace Pantheon.Debug
 
             string ret = "";
 
-            foreach (KeyValuePair<LevelRef, Level>
-                pair in Game.instance.Levels)
+            foreach (Level level in Game.instance.Levels.Values)
             {
-                Level level = pair.Value;
                 ret += $"{level.RefName} ({level.DisplayName}){Environment.NewLine}";
             }
 
