@@ -29,6 +29,7 @@ namespace Pantheon.Actions
             else
                 proj = new LineProjAction(Actor, tossFXPrefab, ProjBehaviour.Fly);
 
+            proj.SetSpins(true);
             proj.DoAction(AssignAction);
         }
 

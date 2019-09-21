@@ -118,6 +118,7 @@
     <Compile Include="Assets\Scripts\Debug\Console.cs" />
     <Compile Include="Assets\Scripts\Debug\ConsoleCommandFunctions.cs" />
     <Compile Include="Assets\Scripts\Debug\DebugInfo.cs" />
+    <Compile Include="Assets\Scripts\Debug\Visualisation.cs" />
     <Compile Include="Assets\Scripts\EnumOrder.cs" />
     <Compile Include="Assets\Scripts\Enums\BodyPartType.cs" />
     <Compile Include="Assets\Scripts\Enums\CardinalDirection.cs" />

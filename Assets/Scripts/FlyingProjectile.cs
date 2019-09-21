@@ -40,10 +40,10 @@ public class FlyingProjectile : MonoBehaviour
         while (transform.position != targetPos)
         {
             transform.position =
-                Vector3.MoveTowards(transform.position, targetPos, 1.5f);
+                Vector3.MoveTowards(transform.position, targetPos, .6f);
 
             if (Spins)
-                transform.Rotate(0, 0, 16, Space.Self);
+                transform.Rotate(0, 0, 8, Space.Self);
 
             yield return new WaitForSeconds(.01f);
         }

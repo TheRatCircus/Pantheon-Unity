@@ -25,6 +25,7 @@ namespace Pantheon.Actions
     {
         [SerializeField] private GameObject fxPrefab;
         [SerializeField] private ProjBehaviour projBehaviour;
+        [SerializeField] private bool spins;
         private BaseAction OnLandAction;
 
         [SerializeField] private int minDamage = -1;
@@ -109,6 +110,11 @@ namespace Pantheon.Actions
             pierces = ammo.Pierces;
         }
 
+        public void SetSpins(bool spins)
+        {
+            this.spins = spins;
+        }
+
         public void SetLine(List<Cell> line) => this.line = new List<Cell>(line);
 
         public void FireProjectile()
@@ -159,6 +165,7 @@ namespace Pantheon.Actions
                         FlyingProjectile proj = projObj.GetComponent<FlyingProjectile>();
                         proj.TargetCell = endCell;
                         proj.OnLandAction = OnLandAction;
+                        proj.Spins = spins;
                     }
                     break;
                 case ProjBehaviour.Instant:

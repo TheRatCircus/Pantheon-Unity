@@ -36,8 +36,8 @@ namespace Pantheon.Actions
             int y1 = Origin.Position.y - (radius - 1);
             int y2 = Origin.Position.y + (radius - 1);
 
-            for (int x = x1; x < x2; x++)
-                for (int y = y1; y < y2; y++)
+            for (int x = x1; x <= x2; x++)
+                for (int y = y1; y <= y2; y++)
                 {
                     Cell cell = level.GetCell(new Vector2Int(x, y));
                     if (cell.Actor != null)
