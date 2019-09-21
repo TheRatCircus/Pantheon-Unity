@@ -1,5 +1,6 @@
-﻿// HealthBar.cs
+﻿// OnScreenHealthBar.cs
 // Jerome Martina
+// Credit to Sebastian Lague
 
 using UnityEngine;
 using UnityEngine.UI;
