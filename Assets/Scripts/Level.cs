@@ -67,6 +67,7 @@ namespace Pantheon.World
         public Cell[,] Map { get; set; }
         public Vector2Int LevelSize { get; set; }
         public List<NPC> NPCs { get; } = new List<NPC>();
+        public Faction Faction { get; set; }
 
         // Connections
         public Dictionary<CardinalDirection, Connection> LateralConnections

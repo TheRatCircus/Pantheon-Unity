@@ -48,7 +48,9 @@ namespace Pantheon.Actions
 
             item.WieldProfile = parts;
 
-            GameLog.Send($"You wield the {item.DisplayName}.", Strings.TextColour.White);
+            if (Actor is Player)
+                GameLog.Send($"You wield the {item.DisplayName}.",
+                    Strings.TextColour.White);
 
             return Game.TurnTime;
         }

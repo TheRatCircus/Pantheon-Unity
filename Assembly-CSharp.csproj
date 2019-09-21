@@ -88,6 +88,7 @@
     <Compile Include="Assets\Scripts\Actors\Inventory.cs" />
     <Compile Include="Assets\Scripts\Actors\NPC.cs" />
     <Compile Include="Assets\Scripts\Actors\Player.cs" />
+    <Compile Include="Assets\Scripts\Actors\Species.cs" />
     <Compile Include="Assets\Scripts\Actors\StatusEffect.cs" />
     <Compile Include="Assets\Scripts\Actors\Trait.cs" />
     <Compile Include="Assets\Scripts\Actors\TraitEffects.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Assets\Scripts\Core\Faction.cs" />
     <Compile Include="Assets\Scripts\Core\Game.cs" />
     <Compile Include="Assets\Scripts\Core\GameLog.cs" />
+    <Compile Include="Assets\Scripts\Core\Occupation.cs" />
     <Compile Include="Assets\Scripts\Core\Pantheon.cs" />
     <Compile Include="Assets\Scripts\Core\Spawn.cs" />
     <Compile Include="Assets\Scripts\Debug\Console.cs" />
@@ -125,7 +127,6 @@
     <Compile Include="Assets\Scripts\Enums\Gender.cs" />
     <Compile Include="Assets\Scripts\Enums\NPCType.cs" />
     <Compile Include="Assets\Scripts\Enums\ScrollType.cs" />
-    <Compile Include="Assets\Scripts\Enums\Species.cs" />
     <Compile Include="Assets\Scripts\Enums\SpellType.cs" />
     <Compile Include="Assets\Scripts\Enums\StatusType.cs" />
     <Compile Include="Assets\Scripts\Enums\TerrainType.cs" />

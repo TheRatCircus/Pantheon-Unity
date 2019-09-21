@@ -21,13 +21,26 @@ namespace Pantheon.Actors
         public event System.Action<bool> OnVisibilityChangeEvent;
 
         // Awake is called when the first script instance is being loaded
-        protected override void Awake() => base.Awake();
+        protected override void Awake()
+        {
+            base.Awake();
+            inventory = new Inventory(10);
+        }
 
         private void OnEnable()
         {
             if (spriteRenderer == null)
                 spriteRenderer = GetComponent<SpriteRenderer>();
             spriteRenderer.enabled = cell.Visible;
+        }
+
+        /// <summary>
+        /// Call if referencing contained objects before Awake or Enable.
+        /// </summary>
+        public void Initialize()
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            inventory = new Inventory(10);
         }
 
         // Every time something happens, this NPC must refresh its visibility
@@ -71,6 +84,20 @@ namespace Pantheon.Actors
             List<Cell> path = level.Pathfinder.GetCellPath(Position, target.Position);
             if (path.Count > 0)
                 NextAction = new MoveAction(this, MoveSpeed, path[0]);
+        }
+
+        public string LongDescription()
+        {
+            string ret = $"{ActorName} ";
+
+            if (inventory.Wielded.Count > 0)
+            {
+                ret += "wielding ";
+                foreach (Item item in inventory.Wielded)
+                    ret += $" a {item.DisplayName};";
+            }
+            
+            return ret;
         }
 
         // Handle NPC death

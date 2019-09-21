@@ -3,7 +3,7 @@
 
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Ammo", menuName = "Items/Ammo")]
+[CreateAssetMenu(fileName = "New Ammo", menuName = "BaseData/Items/Ammo")]
 public class AmmoData : ItemData
 {
     [SerializeField] private AmmoType ammoType = AmmoType.None;

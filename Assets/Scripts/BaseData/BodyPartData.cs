@@ -2,14 +2,15 @@
 // Jerome Martina
 
 using UnityEngine;
+using Pantheon.Actors;
 
 /// <summary>
 /// Template for a body part.
 /// </summary>
-[CreateAssetMenu(fileName = "New Body Part", menuName = "Body Part")]
+[CreateAssetMenu(fileName = "New Body Part", menuName = "BaseData/Body Part")]
 public class BodyPartData : ScriptableObject
 {
-    [SerializeField] private Species species = Species.None;
+    [SerializeField] private SpeciesRef species = SpeciesRef.None;
     [SerializeField] private BodyPartType type = BodyPartType.None;
     [SerializeField] private string displayName = null;
     [SerializeField] private Sprite sprite = null;
@@ -24,7 +25,7 @@ public class BodyPartData : ScriptableObject
 
     #region Properties
 
-    public Species Species { get => species; }
+    public SpeciesRef Species { get => species; }
     public BodyPartType Type { get => type; }
     public string DisplayName { get => displayName; }
     public Sprite Sprite { get => sprite; }

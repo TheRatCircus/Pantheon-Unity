@@ -3,11 +3,11 @@
 
 using System.Collections.Generic;
 using UnityEngine;
-using Pantheon.World;
+using Pantheon.Actors;
 
 namespace Pantheon.Core
 {
-    [CreateAssetMenu(fileName = "New Aspect", menuName = "Aspect")]
+    [CreateAssetMenu(fileName = "New Aspect", menuName = "BaseData/Aspect")]
     public class Aspect : ScriptableObject
     {
         [SerializeField] private string displayName = "NO_ASPECT_NAME";
@@ -18,7 +18,8 @@ namespace Pantheon.Core
         [SerializeField] private List<TerrainData> floors;
         [SerializeField] private FeatureType altarFeature = FeatureType.None;
 
-        [SerializeField] private List<Species> species;
+        [SerializeField] private List<SpeciesRef> species;
+        [SerializeField] private List<OccupationRef> occupations;
 
         // Properties
         public string DisplayName { get => displayName; }
@@ -26,6 +27,16 @@ namespace Pantheon.Core
         public Sprite Icon { get => icon; }
 
         public FeatureType AltarFeature { get => altarFeature; }
+        public List<SpeciesRef> Species
+        {
+            get => species;
+            private set => species = value;
+        }
+        public List<OccupationRef> Occupations
+        {
+            get => occupations;
+            private set => occupations = value;
+        }
 
         public override string ToString() => $"{refName}";
     }

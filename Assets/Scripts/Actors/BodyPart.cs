@@ -12,7 +12,7 @@ namespace Pantheon.Actors
         private BodyPartData partData;
 
         // Properties for getting partData
-        public Species Species { get => partData.Species; }
+        public SpeciesRef Species { get => partData.Species; }
         public BodyPartType Type { get => partData.Type; }
         public string DisplayName { get => partData.DisplayName; }
         public Sprite Sprite { get => partData.Sprite; }

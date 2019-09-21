@@ -16,6 +16,10 @@ namespace Pantheon.Actors
     /// </summary>
     public class Actor : MonoBehaviour
     {
+        public const int DefaultSpeed = 100;
+        public const int DefaultMoveSpeed = 100;
+        public const int DefaultRegenRate = 100;
+
         protected SpriteRenderer spriteRenderer;
 
         // Locational
@@ -56,17 +60,19 @@ namespace Pantheon.Actors
         public string ActorName { get => actorName; set => actorName = value; }
         public bool NameIsProper { get => nameIsProper; set => nameIsProper = value; }
         public int Health { get => health; }
-        public int MaxHealth { get => maxHealth; }
+        public int MaxHealth { get => maxHealth; set => maxHealth = value; }
         public int Speed { get => speed; set => speed = value; }
         public int Energy { get => energy; set => energy = value; }
         public Cell Cell { get => cell; set => cell = value; }
         public Vector2Int Position { get => cell.Position; }
         public BaseAction NextAction { get => nextAction; set => nextAction = value; }
-        public int MoveSpeed { get => moveSpeed; }
+        public int MoveSpeed { get => moveSpeed; set => moveSpeed = value; }
         public List<Spell> Spells { get => spells; set => spells = value; }
         public Sprite CorpseSprite { get => corpseSprite; private set => corpseSprite = value; }
         public Body Body { get => body; }
         public Inventory Inventory { get => inventory; }
+        public SpriteRenderer SpriteRenderer { get => spriteRenderer; }
+        public int RegenRate { get => regenRate; set => regenRate = value; }
 
         #endregion
 
@@ -147,6 +153,28 @@ namespace Pantheon.Actors
 
             Game.instance.OnTurnChangeEvent += RegenHealth;
             Game.instance.OnTurnChangeEvent += TickStatuses;
+        }
+
+        public void BuildActor(Species species)
+        {
+            if (body.Parts.Count > 0)
+                throw new Exception("This actor is not empty.");
+
+            this.species = species;
+
+            foreach (BodyPartData partData in species.Parts)
+                body.Parts.Add(new BodyPart(partData));
+        }
+
+        public void AssignOccupation(Occupation occ)
+        {
+            if (inventory.All.Count > 0)
+                throw new Exception("This actor is not empty.");
+
+            WeaponType weaponType = RandomUtils.ListRandom(occ.Weapons);
+            Item weapon = ItemFactory.NewWeapon(weaponType);
+            inventory.AddItem(weapon);
+            new WieldAction(this, weapon, body.GetPrehensiles().ToArray()).DoAction();
         }
 
         // Called by scheduler to carry out and process this actor's action

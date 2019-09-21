@@ -8,7 +8,7 @@ namespace Pantheon.World
     /// <summary>
     /// The attributes of a cell feature, e.g. a tree or door.
     /// </summary>
-    [CreateAssetMenu(fileName = "New Feature", menuName = "Feature")]
+    [CreateAssetMenu(fileName = "New Feature", menuName = "BaseData/Feature")]
     public class FeatureData : ScriptableObject
     {
         [SerializeField] private string displayName;

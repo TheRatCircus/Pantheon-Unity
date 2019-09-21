@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Pantheon.Actors;
 using Pantheon.World;
 
 namespace Pantheon.Core
@@ -26,14 +27,21 @@ namespace Pantheon.Core
         [SerializeField] private List<Spell> spells = new List<Spell>();
         [SerializeField] private List<AmmoData> ammoList = new List<AmmoData>();
         [SerializeField] private List<Aspect> aspects = new List<Aspect>();
+        [SerializeField] private List<Species> species = new List<Species>();
+        [SerializeField] private List<Occupation> occupations = new List<Occupation>();
 
         // Miscellaneous
+        [SerializeField] private GameObject genericNPC = null;
+        public static GameObject GenericNPC => GetDatabase().genericNPC;
+
         [SerializeField] private Tile unknownTerrain = null;
         public static Tile UnknownTerrain
             => GetDatabase().unknownTerrain;
+
         [SerializeField] private Sprite lineTargetOverlay = null;
         public static Sprite LineTargetOverlay
             => GetDatabase().lineTargetOverlay;
+
         [SerializeField] private GameObject tossFXPrefab = null;
         public static GameObject TossFXPrefab
             => GetDatabase().tossFXPrefab;
@@ -55,6 +63,10 @@ namespace Pantheon.Core
             = new Dictionary<SpellType, Spell>();
         public Dictionary<AmmoType, AmmoData> AmmoDict { get; }
             = new Dictionary<AmmoType, AmmoData>();
+        public Dictionary<SpeciesRef, Species> SpeciesDict { get; }
+            = new Dictionary<SpeciesRef, Species>();
+        public Dictionary<OccupationRef, Occupation> OccupationDict { get; }
+            = new Dictionary<OccupationRef, Occupation>();
 
         // Awake is called when the script instance is being loaded
         private void Awake() => InitDatabaseDicts();
@@ -80,6 +92,10 @@ namespace Pantheon.Core
                 SpellDict.Add(spells[i].Type, spells[i]);
             for (int i = 0; i < ammoList.Count; i++)
                 AmmoDict.Add(ammoList[i].AmmoType, ammoList[i]);
+            for (int i = 0; i < species.Count; i++)
+                SpeciesDict.Add(species[i].Reference, species[i]);
+            for (int i = 0; i < occupations.Count; i++)
+                OccupationDict.Add(occupations[i].Reference, occupations[i]);
         }
 
         #region Accessors
@@ -164,9 +180,24 @@ namespace Pantheon.Core
             return ret;
         }
 
-        /// <summary>
-        /// Get a random aspect.
-        /// </summary>
+        public static Occupation GetOccupation(OccupationRef occRef)
+        {
+            if (!GetDatabase().OccupationDict.TryGetValue(occRef,
+                out Occupation ret))
+                throw new ArgumentException("Failed to get specified occupation.");
+
+            return ret;
+        }
+
+        public static Species GetSpecies(SpeciesRef speciesRef)
+        {
+            if (!GetDatabase().SpeciesDict.TryGetValue(speciesRef,
+                out Species ret))
+                throw new ArgumentException("Failed to get specified species.");
+
+            return ret;
+        }
+
         public static Aspect RandomAspect()
         {
             Database db = GetDatabase();

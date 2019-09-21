@@ -2,14 +2,14 @@
 // Jerome Martina
 
 /// <summary>
-/// Arm, leg, etc...
+/// Arm, legs, etc...
 /// </summary>
 public enum BodyPartType
 {
     None,
     Head,
     Arm,
-    Leg,
+    Legs, // Always in a full set
     Teeth,
     Claw
 }

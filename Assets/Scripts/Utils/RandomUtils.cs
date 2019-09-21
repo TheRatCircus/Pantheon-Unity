@@ -1,6 +1,7 @@
 ﻿// RandomPick.cs
 // Jerome Martina
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -73,7 +74,7 @@ namespace Pantheon.Utils
         }
 
         public static T ArrayRandom<T>(T[] array)
-            => array[Random.Range(0, array.Length - 1)];
+            => array[Game.PRNG.Next(array.Length)];
 
         public static bool CoinFlip() => RangeInclusive(0, 1) == 0;
 
@@ -86,7 +87,7 @@ namespace Pantheon.Utils
         /// <param name="max"></param>
         /// <returns></returns>
         public static int RangeInclusive(int min, int max)
-            => Random.Range(min, max + 1);
+            => UnityEngine.Random.Range(min, max + 1);
 
         public static T ListRandom<T>(List<T> list)
         {
@@ -101,14 +102,24 @@ namespace Pantheon.Utils
         /// <typeparam name="TValue"></typeparam>
         /// <param name="dict"></param>
         /// <returns></returns>
-        public static IEnumerable<TValue> DictRandom<TKey, TValue>
+        public static TValue DictRandom<TKey, TValue>
             (IDictionary<TKey, TValue> dict)
         {
             // Credit to StriplingWarrior on Stack Overflow
             List<TValue> values = Enumerable.ToList(dict.Values);
-            int size = dict.Count;
-            while (true)
-                yield return values[Game.PRNG.Next(size)];
+            return ListRandom(values);
+        }
+
+        public static TEnum EnumRandom<TEnum>(bool seeded)
+            where TEnum : struct, IConvertible, IComparable, IFormattable
+        {
+             // Credits:
+             // Stack Overflow users Vivek, Ricardo Nolde, Lisa, Akram Shahda.
+            Array arr = Enum.GetValues(typeof(TEnum));
+            if (seeded)
+                return (TEnum)arr.GetValue(Game.PRNG.Next(arr.Length));
+            else
+                return (TEnum)arr.GetValue(UnityEngine.Random.Range(0, arr.Length));
         }
     }
 }

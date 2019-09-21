@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// NPC prefab with an enumeration.
 /// </summary>
-[CreateAssetMenu(fileName = "New NPCWrapper", menuName = "NPCWrapper")]
+[CreateAssetMenu(fileName = "New NPCWrapper", menuName = "BaseData/NPCWrapper")]
 public class NPCWrapper : ScriptableObject
 {
     // Prefabs cannot be enumerated for the Database without this

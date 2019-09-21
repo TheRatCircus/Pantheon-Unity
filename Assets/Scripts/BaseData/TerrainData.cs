@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 /// <summary>
 /// Attributes of a terrain type.
 /// </summary>
-[CreateAssetMenu(fileName = "New Terrain", menuName = "Terrain")]
+[CreateAssetMenu(fileName = "New Terrain", menuName = "BaseData/Terrain")]
 public class TerrainData : ScriptableObject
 {
     [SerializeField] private string displayName = "TERRAIN_DISPLAY";

@@ -3,7 +3,7 @@
 
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Spell", menuName = "Spell")]
+[CreateAssetMenu(fileName = "New Spell", menuName = "BaseData/Spell")]
 public class Spell : ScriptableObject
 {
     [SerializeField] private string displayName;

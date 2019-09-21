@@ -12,6 +12,7 @@ namespace Pantheon.Core
         public string RefName { get; set; }
         public FactionType Type { get; set; }
         public Idol Idol { get; set; }
+        public bool HostileToPlayer { get; set; }
 
         public List<TraitRef> GrantedTraits { get; set; }
         // Abilities available to members

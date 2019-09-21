@@ -14,7 +14,7 @@ namespace Pantheon.Core
     public static class Spawn
     {
         /// <summary>
-        /// Instantiate an NPC GameObject at a cell.
+        /// Instantiate an NPC GameObject at a cell based on a prefab.
         /// </summary>
         /// <param name="npcPrefab">The prefab of the NPC to spawn.</param>
         /// <param name="level">The level on which the NPC should be spawned.</param>
@@ -28,6 +28,50 @@ namespace Pantheon.Core
                 new Quaternion(),
                 level.transform);
             NPC npc = npcObj.GetComponent<NPC>();
+            npc.level = level;
+            level.NPCs.Add(npc);
+            Game.instance.AddActor(npc);
+            Actor.MoveTo(npc, cell);
+            return npc;
+        }
+
+        /// <summary>
+        /// Build a devotee based on an Idol and their Aspect.
+        /// </summary>
+        /// <param name="religion">The religion followed by the new devotee.</param>
+        /// <param name="level">The level on which the NPC should be spawned.</param>
+        /// <param name="cell">The cell in which the NPC should be spawned.</param>
+        /// <returns></returns>
+        public static NPC SpawnDevotee(Faction religion, Level level, Cell cell)
+        {
+            Idol idol = religion.Idol;
+
+            GameObject npcObj = Object.Instantiate(Database.GenericNPC,
+                Helpers.V2IToV3(cell.Position),
+                new Quaternion(),
+                level.transform);
+            NPC npc = npcObj.GetComponent<NPC>();
+            npc.Initialize();
+            npc.Faction = religion;
+
+            OccupationRef occRef = RandomUtils.EnumRandom<OccupationRef>(true);
+            Occupation occupation = Database.GetOccupation(occRef);
+            
+            SpeciesRef speciesRef = RandomUtils.ListRandom(idol.Aspect.Species);
+            Species species = Database.GetSpecies(speciesRef);
+            npc.BuildActor(species);
+            // AssignOccupation won't work without knowing limbs, so defer it
+            npc.AssignOccupation(occupation);
+
+            npc.MaxHealth = 20;
+            npc.Speed = Actor.DefaultSpeed;
+            npc.RegenRate = Actor.DefaultRegenRate;
+            npc.MoveSpeed = Actor.DefaultMoveSpeed;
+
+            string npcName = $"{species.DisplayName} {occupation.DisplayName} of {idol.DisplayName}";
+            npc.ActorName = npcName;
+            npc.SpriteRenderer.sprite = species.Sprite;
+
             npc.level = level;
             level.NPCs.Add(npc);
             Game.instance.AddActor(npc);

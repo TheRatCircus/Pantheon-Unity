@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// Template for a weapon.
 /// </summary>
-[CreateAssetMenu(fileName = "New Weapon", menuName = "Items/Weapon",
+[CreateAssetMenu(fileName = "New Weapon", menuName = "BaseData/Items/Weapon",
     order = -1)]
 public class WeaponData : ItemData
 {
