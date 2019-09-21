@@ -171,8 +171,15 @@ namespace Pantheon.Actions
                         Vector3 projDirection = (startPoint - endPoint).normalized;
                         rotation = Quaternion.FromToRotation(Vector3.right, projDirection);
 
-                        UnityEngine.Object.Destroy(UnityEngine.Object.Instantiate(
-                            fxPrefab, midPoint, rotation) as GameObject, 10);
+                        float distance = Vector3.Distance(startPoint, endPoint);
+
+                        GameObject projObj = UnityEngine.Object.Instantiate(
+                            fxPrefab, midPoint, rotation) as GameObject;
+                        Vector3 scale = projObj.transform.localScale;
+                        scale.x *= distance;
+                        projObj.transform.localScale = scale;
+
+                        UnityEngine.Object.Destroy(projObj, 10);
 
                         break;
                     }
