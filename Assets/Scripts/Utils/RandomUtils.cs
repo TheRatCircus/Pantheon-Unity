@@ -47,15 +47,18 @@ namespace Pantheon.Utils
 
                 return weightSum;
             }
-
-
         }
 
-        public static int RandomPick<T>(RandomPickEntry<T>[] set)
+        public static T RandomPick<T>(this RandomPickEntry<T>[] set, bool seeded)
         {
             int weightSum = RandomPickEntry<T>.WeightSum(set);
 
-            int chance = Game.PRNG.Next(1, weightSum);
+            int chance;
+            if (seeded)
+                chance = Game.PRNG.Next(1, weightSum);
+            else
+                chance = UnityEngine.Random.Range(1, weightSum);
+
             int runningSum = 0;
             int choice = 0;
 
@@ -64,18 +67,14 @@ namespace Pantheon.Utils
                 runningSum += entry.Weight;
 
                 if (chance <= runningSum)
-                    return choice;
+                    return set[choice].Value;
 
                 choice++;
             }
 
-            throw new System.Exception
-                ("RandomPick() returned nothing; set is likely empty.");
+            throw new Exception("Returned nothing; set is likely empty.");
         }
-
-        public static T ArrayRandom<T>(T[] array)
-            => array[Game.PRNG.Next(array.Length)];
-
+        
         public static bool CoinFlip() => RangeInclusive(0, 1) == 0;
 
         public static bool OneChanceIn(int x) => RangeInclusive(0, x) == x;
@@ -89,25 +88,31 @@ namespace Pantheon.Utils
         public static int RangeInclusive(int min, int max)
             => UnityEngine.Random.Range(min, max + 1);
 
-        public static T ListRandom<T>(List<T> list)
+        // Random() extension method for arrays
+        public static T Random<T>(this T[] array, bool seeded)
         {
-            int index = Game.PRNG.Next(list.Count);
-            return list[index];
+            if (seeded)
+                return array[Game.PRNG.Next(array.Length)];
+            else
+                return array[UnityEngine.Random.Range(0, array.Length)];
         }
 
-        /// <summary>
-        /// Returns a random value from a dictionary.
-        /// </summary>
-        /// <typeparam name="TKey"></typeparam>
-        /// <typeparam name="TValue"></typeparam>
-        /// <param name="dict"></param>
-        /// <returns></returns>
-        public static TValue DictRandom<TKey, TValue>
-            (IDictionary<TKey, TValue> dict)
+        // List.Random() extension method
+        public static T Random<T>(this List<T> list, bool seeded)
+        {
+            if (seeded)
+                return list[Game.PRNG.Next(list.Count)];
+            else
+                return list[UnityEngine.Random.Range(0, list.Count)];
+        }
+
+        // Dictionary.Random() extension method
+        public static TValue Random<TKey, TValue>(
+            this IDictionary<TKey, TValue> dict, bool seeded)
         {
             // Credit to StriplingWarrior on Stack Overflow
             List<TValue> values = Enumerable.ToList(dict.Values);
-            return ListRandom(values);
+            return values.Random(seeded);
         }
 
         public static TEnum EnumRandom<TEnum>(bool seeded)

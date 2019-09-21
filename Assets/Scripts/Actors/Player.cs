@@ -114,7 +114,7 @@ namespace Pantheon.Actors
                 return;
             }
 
-            string restMsg = RandomUtils.ArrayRandom(Strings.RestMessages);
+            string restMsg = RestMessages.Random(false);
             GameLog.Send($"You stop to {restMsg}", TextColour.Grey);
             longResting = true;
         }

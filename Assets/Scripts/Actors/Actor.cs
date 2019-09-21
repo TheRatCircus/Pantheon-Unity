@@ -171,7 +171,7 @@ namespace Pantheon.Actors
             if (inventory.All.Count > 0)
                 throw new Exception("This actor is not empty.");
 
-            WeaponType weaponType = RandomUtils.ListRandom(occ.Weapons);
+            WeaponType weaponType = occ.Weapons.Random(true);
             Item weapon = ItemFactory.NewWeapon(weaponType);
             inventory.AddItem(weapon);
             new WieldAction(this, weapon, body.GetPrehensiles().ToArray()).DoAction();

@@ -56,8 +56,8 @@ namespace Pantheon.Core
 
             OccupationRef occRef = RandomUtils.EnumRandom<OccupationRef>(true);
             Occupation occupation = Database.GetOccupation(occRef);
-            
-            SpeciesRef speciesRef = RandomUtils.ListRandom(idol.Aspect.Species);
+
+            SpeciesRef speciesRef = idol.Aspect.Species.Random(true);
             Species species = Database.GetSpecies(speciesRef);
             npc.BuildActor(species);
             // AssignOccupation won't work without knowing limbs, so defer it

@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using Pantheon.Actors;
 using Pantheon.World;
+using Pantheon.Utils;
 
 namespace Pantheon.Core
 {
@@ -201,7 +202,7 @@ namespace Pantheon.Core
         public static Aspect RandomAspect()
         {
             Database db = GetDatabase();
-            return Utils.RandomUtils.ListRandom(db.aspects);
+            return db.aspects.Random(true);
         }
 
         #endregion

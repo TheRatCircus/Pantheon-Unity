@@ -38,7 +38,7 @@ namespace Pantheon.WorldGen
                 if (attempts > 100)
                     throw new System.Exception("Could not find a random character name.");
 
-                ret = RandomUtils.ArrayRandom(_characterNames);
+                ret = _characterNames.Random(true);
                 attempts++;
 
             } while (ret.Used);

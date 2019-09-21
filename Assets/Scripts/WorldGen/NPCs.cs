@@ -1,6 +1,7 @@
 ﻿// LevelEnemies.cs
 // Jerome Maratina
 
+using System;
 using UnityEngine;
 using Pantheon.Core;
 using Pantheon.World;
@@ -22,18 +23,18 @@ namespace Pantheon.WorldGen
         public static void SpawnNPCs(Level level, int numNPCs, RandomPickEntry<NPCType>[] pop)
         {
             if (numNPCs <= 0)
-                throw new System.Exception("Number of NPCs to spawn must be non-zero.");
+                throw new Exception("Number of NPCs to spawn must be non-zero.");
 
             for (int i = 0; i < numNPCs; i++)
             {
-                GameObject prefab = Database.GetNPC(pop[RandomPick(pop)].Value).Prefab;
+                GameObject prefab = Database.GetNPC(pop.RandomPick(true)).Prefab;
 
                 Cell cell;
                 int attempts = 0;
                 do
                 {
                     if (attempts > 100)
-                        throw new System.Exception("Attempt to generate new NPC position failed.");
+                        throw new Exception("Attempt to generate new NPC position failed.");
                     cell = level.RandomFloor();
                     attempts++;
                 } while (level.Distance(cell, Game.GetPlayer().Cell) <= 7

@@ -34,13 +34,13 @@ namespace Pantheon.Utils
             switch (item.Melee.DamageType)
             {
                 case DamageType.Slashing:
-                    ret = RandomUtils.ArrayRandom(SlashingVerbs).Get(isPlayer);
+                    ret = SlashingVerbs.Random(false).Get(isPlayer);
                     break;
                 case DamageType.Piercing:
-                    ret = RandomUtils.ArrayRandom(PiercingVerbs).Get(isPlayer);
+                    ret = PiercingVerbs.Random(false).Get(isPlayer);
                     break;
                 case DamageType.Bludgeoning:
-                    ret = RandomUtils.ArrayRandom(BludgeoningVerbs).Get(isPlayer);
+                    ret = BludgeoningVerbs.Random(false).Get(isPlayer);
                     break;
                 default:
                     throw new System.Exception
@@ -58,16 +58,16 @@ namespace Pantheon.Utils
             switch (part.Type)
             {
                 case BodyPartType.Arm:
-                    ret = RandomUtils.ArrayRandom(PunchVerbs).Get(isPlayer);
+                    ret = PunchVerbs.Random(false).Get(isPlayer);
                     break;
                 case BodyPartType.Head:
                     ret = HeadButt.Get(isPlayer);
                     break;
                 case BodyPartType.Teeth:
-                    ret = RandomUtils.ArrayRandom(BiteVerbs).Get(isPlayer);
+                    ret = BiteVerbs.Random(false).Get(isPlayer);
                     break;
                 case BodyPartType.Claw:
-                    ret = RandomUtils.ArrayRandom(ClawVerbs).Get(isPlayer);
+                    ret = ClawVerbs.Random(false).Get(isPlayer);
                     break;
                 default:
                     throw new System.Exception

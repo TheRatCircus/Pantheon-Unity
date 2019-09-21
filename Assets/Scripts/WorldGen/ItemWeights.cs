@@ -11,7 +11,7 @@ namespace Pantheon.WorldGen
     public static class ItemWeights
     {
         public static T RandomWeighted<T>(RandomPickEntry<T>[] set)
-            => set[RandomPick(set)].Value;
+            => set.RandomPick(true);
 
         public static RandomPickEntry<ScrollType>[] ScrollWeights =
         {
