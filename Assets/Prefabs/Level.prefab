@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5417036770917020098}
   - component: {fileID: 5417036770917020100}
+  - component: {fileID: -7000847016378387697}
   m_Layer: 0
   m_Name: Level
   m_TagString: Untagged
@@ -51,9 +52,19 @@ MonoBehaviour:
   featureTilemap: {fileID: 5417036771799319359}
   itemTilemap: {fileID: 5417036771993949794}
   targettingTilemap: {fileID: 5417036771413630753}
-  stairsDown: {fileID: 11400000, guid: 678f8437c0c02d34bb91bed0ee681fa9, type: 2}
-  stairsUp: {fileID: 11400000, guid: b04f727a3f2e64e4aaead662f979de77, type: 2}
-  unknownTile: {fileID: 11400000, guid: 200c77702078a4e4d90e808bf9898762, type: 2}
+--- !u!114 &-7000847016378387697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5417036770917020103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c54124df5957124494951505d1e5eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: {fileID: 5417036770917020100}
 --- !u!1 &5417036771127889788
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,6 +196,7 @@ TilemapRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -299,6 +311,7 @@ TilemapRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -413,6 +426,7 @@ TilemapRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -527,6 +541,7 @@ TilemapRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

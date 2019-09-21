@@ -20,4 +20,5 @@ MonoBehaviour:
   altarFeature: 9
   species:
   - {fileID: 11400000, guid: f227b0792cf188d4aa5312c7e8aed174, type: 2}
-  occupations: []
+  occupations:
+  - {fileID: 11400000, guid: ae3091b7056bc754f83c20fbcf2d1552, type: 2}

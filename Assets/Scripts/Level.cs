@@ -7,7 +7,6 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using Pantheon.Core;
 using Pantheon.Actors;
-using Pantheon.WorldGen;
 
 namespace Pantheon.World
 {
@@ -64,6 +63,16 @@ namespace Pantheon.World
             else
                 throw new Exception
                     ($"Attempt to access out-of-bounds cell {pos.x}, {pos.y}");
+        }
+
+        // Cell accessor, mostly for validation
+        public Cell GetCell(int x, int y)
+        {
+            if (Contains(new Vector2Int(x, y)))
+                return Map[x, y];
+            else
+                throw new Exception
+                    ($"Attempt to access out-of-bounds cell {x}, {y}");
         }
 
         // Put the player in their spawn position
