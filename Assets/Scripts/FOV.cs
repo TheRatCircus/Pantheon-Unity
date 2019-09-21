@@ -1,5 +1,5 @@
 ﻿// FOV.cs
-// Jerome Martina
+// Credit to Bob Nystrom
 
 using System.Collections.Generic;
 using UnityEngine;
