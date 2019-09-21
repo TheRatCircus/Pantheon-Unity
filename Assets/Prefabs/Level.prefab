@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5417036770917020098}
   - component: {fileID: 5417036770917020100}
-  - component: {fileID: -7000847016378387697}
   m_Layer: 0
   m_Name: Level
   m_TagString: Untagged
@@ -52,19 +51,6 @@ MonoBehaviour:
   featureTilemap: {fileID: 5417036771799319359}
   itemTilemap: {fileID: 5417036771993949794}
   targettingTilemap: {fileID: 5417036771413630753}
---- !u!114 &-7000847016378387697
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5417036770917020103}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c54124df5957124494951505d1e5eba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  level: {fileID: 5417036770917020100}
 --- !u!1 &5417036771127889788
 GameObject:
   m_ObjectHideFlags: 0
