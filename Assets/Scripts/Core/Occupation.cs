@@ -12,19 +12,21 @@ namespace Pantheon.Actors
     [CreateAssetMenu(fileName = "New Occupation", menuName = "BaseData/Occupation")]
     public class Occupation : ScriptableObject
     {
-        [SerializeField] private string displayName;
-        [SerializeField] private OccupationRef reference;
-        [SerializeField] private List<WeaponType> weapons;
+        [SerializeField] private string displayName = "NO_NAME";
+        [SerializeField] private OccupationRef reference = OccupationRef.None;
+        [SerializeField] private List<WeaponType> weapons = null;
         [SerializeField] private List<Spell> spells;
 
         // Properties
         public string DisplayName { get => displayName; }
         public OccupationRef Reference { get => reference; }
         public List<WeaponType> Weapons { get => weapons; }
+        public List<Spell> Spells { get => spells; set => spells = value; }
     }
 
     public enum OccupationRef
     {
-        Axeman
+        None,
+        Axeman,
     }
 }

@@ -18,8 +18,8 @@ namespace Pantheon.Core
         [SerializeField] private List<TerrainData> floors;
         [SerializeField] private FeatureType altarFeature = FeatureType.None;
 
-        [SerializeField] private List<SpeciesRef> species;
-        [SerializeField] private List<OccupationRef> occupations;
+        [SerializeField] private List<Species> species;
+        [SerializeField] private List<Occupation> occupations;
 
         // Properties
         public string DisplayName { get => displayName; }
@@ -27,12 +27,12 @@ namespace Pantheon.Core
         public Sprite Icon { get => icon; }
 
         public FeatureType AltarFeature { get => altarFeature; }
-        public List<SpeciesRef> Species
+        public List<Species> Species
         {
             get => species;
             private set => species = value;
         }
-        public List<OccupationRef> Occupations
+        public List<Occupation> Occupations
         {
             get => occupations;
             private set => occupations = value;

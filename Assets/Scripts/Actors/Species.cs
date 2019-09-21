@@ -12,10 +12,10 @@ namespace Pantheon.Actors
     [CreateAssetMenu(fileName = "New Species", menuName = "BaseData/Species")]
     public class Species : ScriptableObject
     {
-        [SerializeField] private string displayName;
-        [SerializeField] private SpeciesRef reference;
-        [SerializeField] private Sprite sprite;
-        [SerializeField] private List<BodyPartData> parts;
+        [SerializeField] private string displayName = "NO_NAME";
+        [SerializeField] private SpeciesRef reference = SpeciesRef.None;
+        [SerializeField] private Sprite sprite = null;
+        [SerializeField] private List<BodyPartData> parts = null;
 
         // Properties
         public string DisplayName { get => displayName; }
