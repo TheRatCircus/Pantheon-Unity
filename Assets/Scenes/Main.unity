@@ -1603,6 +1603,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: df00290421552af4788371e68d02790a, type: 2}
   - {fileID: 11400000, guid: bf77dab20b179e24392e60e96ea0d416, type: 2}
   - {fileID: 11400000, guid: 71e276792b2cd294c9185c7a47946fb1, type: 2}
+  - {fileID: 11400000, guid: cb602d9ea36d8394f9cc36966cd70d38, type: 2}
   spells:
   - {fileID: 11400000, guid: 6d385a899d22ce9409b3f8854e50640b, type: 2}
   ammoList:
@@ -4054,7 +4055,7 @@ MonoBehaviour:
     revealed: 0
     actor: {fileID: 0}
   actorName: The Hero
-  nameIsProper: 1
+  isUnique: 0
   health: 0
   maxHealth: 50
   regenRate: 300

@@ -1,6 +1,7 @@
 ﻿// LevelLayout.cs
 // Jerome Martina
 
+using System;
 using UnityEngine;
 using Pantheon.Core;
 using Pantheon.World;
@@ -119,11 +120,11 @@ namespace Pantheon.WorldGen
                 Vector2Int pos = new Vector2Int();
                 Vector2Int dims = new Vector2Int
                 {
-                    x = Random.Range(roomMinSize, roomMaxSize),
-                    y = Random.Range(roomMinSize, roomMaxSize)
+                    x = Game.PRNG.Next(roomMinSize, roomMaxSize),
+                    y = Game.PRNG.Next(roomMinSize, roomMaxSize)
                 };
-                pos.x = Random.Range(0, level.LevelSize.x - dims.x - 1);
-                pos.y = Random.Range(0, level.LevelSize.y - dims.y - 1);
+                pos.x = Game.PRNG.Next(0, level.LevelSize.x - dims.x - 1);
+                pos.y = Game.PRNG.Next(0, level.LevelSize.y - dims.y - 1);
 
                 Rectangle newRoom = new Rectangle(pos, dims);
 
@@ -145,7 +146,7 @@ namespace Pantheon.WorldGen
                     {
                         Vector2Int prevCenter = rooms[numRooms - 1].Center();
 
-                        if (Random.Range(0, 2) == 1)
+                        if (Utils.RandomUtils.CoinFlip(true))
                         {
                             CreateHorizontalTunnel(level, prevCenter.x, newCenter.x, prevCenter.y);
                             CreateVerticalTunnel(level, prevCenter.y, newCenter.y, newCenter.x);
@@ -167,12 +168,20 @@ namespace Pantheon.WorldGen
         /// </summary>
         /// <param name="level">Level to modify by reference.</param>
         /// <param name="rect">The rectangle used to make the room.</param>
+        /// <param name="terrain">The rectangle to make the room's floor with.</param>
         public static void GenerateRoom(Level level, Rectangle rect, TerrainType terrain)
         {
             //Debug.Log($"Generating room {rect.x2 - rect.x1} tiles wide and {rect.y2 - rect.y1} tiles long");
             for (int x = rect.x1 + 1; x < rect.x2 - 1; x++)
                 for (int y = rect.y1 + 1; y < rect.y2 - 1; y++)
                     level.Map[x, y].SetTerrain(Database.GetTerrain(terrain));
+        }
+
+        public static void GenerateRoom(Level level, Rectangle rect,
+            TerrainType wall, TerrainType floor)
+        {
+            FillRect(level, rect, wall);
+            GenerateRoom(level, rect, floor);
         }
 
         public static void FillRect(Level level, Rectangle rect, TerrainType terrain)
@@ -183,6 +192,16 @@ namespace Pantheon.WorldGen
                     if (level.Contains(new Vector2Int(x, y)))
                         level.Map[x, y].SetTerrain(Database.GetTerrain(terrain));
                 }   
+        }
+
+        public static void FillRect(Level level, Rectangle rect, FeatureType feature)
+        {
+            for (int x = rect.x1; x < rect.x2; x++)
+                for (int y = rect.y1; y < rect.y2; y++)
+                {
+                    if (level.Contains(new Vector2Int(x, y)))
+                        level.Map[x, y].SetFeature(Database.GetFeature(feature));
+                }
         }
 
         /// <summary>
@@ -218,6 +237,9 @@ namespace Pantheon.WorldGen
         {
             public int x1, x2, y1, y2;
 
+            public int Width => x2 - x1;
+            public int Height => y2 - y1;
+
             /// <summary>
             /// Construct using Vector2Ints for position and dimensions.
             /// </summary>
@@ -251,6 +273,37 @@ namespace Pantheon.WorldGen
             {
                 return (x1 <= other.x2 && x2 >= other.x1
                     && y1 <= other.y2 && y2 >= other.y1);
+            }
+
+            public static bool IsNeighbour(Rectangle a, Rectangle b)
+            {
+                /// # DESCRIPTION
+                /// Determine whether rectangles a and b are neighbors
+                /// by projecting them onto both axes and comparing their
+                /// combined projections ("one-dimensional shadows") to
+                /// their actual sizes.
+                /// If a projection:
+                ///     - is smaller than both rectangles' width/height,
+                ///     then the rectangles overlap on the x/ y - axis.
+                ///     - is equivalent to both rectangles' width/height,
+                ///     then the rectangles are touching on the x / y - axis.
+                ///     - is greater than both rectangles' width/height,
+                ///     then the rectangles can not be neighbors.
+                /// 
+                /// Return true iff the overlap on one axis is greater than zero
+                /// while the overlap on the other axis is equal to zero.
+                /// (If both overlaps were greater than zero, the rectangles
+                /// would be overlapping. If both overlaps were equal to zero,
+                /// the rectangles would be touching on a corner only.)
+                /// 
+                int xProjection = Math.Max(a.x2, b.x2) - Math.Min(a.x1, b.x1);
+                int xOverlap = a.Width + b.Width - xProjection;
+
+                int yProjection = Math.Max(a.y2, b.y2) - Math.Min(a.y1, b.y1);
+                int yOverlap = a.Height + b.Height - yProjection;
+
+                return xOverlap > 0 && yOverlap == 0 ||
+                    xOverlap == 0 && yOverlap > 0;
             }
         }
     }

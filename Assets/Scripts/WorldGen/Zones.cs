@@ -70,7 +70,13 @@ namespace Pantheon.WorldGen
             level.Layer = layer;
             ValleyBasics(level);
 
-            Layout.RandomFill(level, 15, FeatureType.Tree);
+            Layout.Rectangle rect = new Layout.Rectangle(
+                new Vector2Int(0, 0),
+                new Vector2Int(level.LevelSize.x, level.LevelSize.y));
+
+            Layout.FillRect(level, rect, FeatureType.WoodFence);
+            BinarySpacePartition.BSP(level, TerrainType.Grass, 12);
+            Layout.RandomFill(level, 7, FeatureType.Tree);
             Layout.Enclose(level, TerrainType.StoneWall);
 
             Vector2Int layerPos = Helpers.V3IToV2I(args.Coords);
@@ -175,7 +181,7 @@ namespace Pantheon.WorldGen
 
             UnityEngine.Debug.Log($"Initializing cells...");
             level.Map = Layout.BlankMap(level.LevelSize, TerrainType.StoneWall);
-            BinarySpacePartition.BSP(level, TerrainType.MarbleTile, 10);
+            BinarySpacePartition.BSP(level, TerrainType.MarbleTile, 12);
 
             switch (args.Coords.y)
             {

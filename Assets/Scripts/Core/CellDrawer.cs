@@ -68,22 +68,35 @@ public static class CellDrawer
 
     public static void DrawTerrain(Level level, Cell cell)
     {
-        level.TerrainTilemap.SetTile((Vector3Int)cell.Position, cell.TerrainData.RuleTile);
-        level.TerrainTilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
+        level.TerrainTilemap.SetTile((Vector3Int)cell.Position,
+            cell.TerrainData.RuleTile);
+        level.TerrainTilemap.SetColor((Vector3Int)cell.Position,
+            cell.Visible ? Color.white : Color.grey);
     }
 
     public static void DrawFeature(Level level, Cell cell)
     {
+        if (cell.Feature.RuleTile != null)
+        {
+            level.FeatureTilemap.SetTile((Vector3Int)cell.Position,
+                cell.Feature.RuleTile);
+            level.FeatureTilemap.SetColor((Vector3Int)cell.Position,
+                cell.Visible ? Color.white : Color.grey);
+            return;
+        }
+
         Tile featureTile = ScriptableObject.CreateInstance<Tile>();
         featureTile.flags = TileFlags.None;
 
         if (cell.Feature.Sprite != null)
             featureTile.sprite = cell.Feature.Sprite;
         else
-            throw new NullReferenceException($"Feature {cell.Feature.DisplayName} has no sprite.");
+            throw new NullReferenceException
+                ($"Feature {cell.Feature.DisplayName} has no sprite.");
 
         level.FeatureTilemap.SetTile((Vector3Int)cell.Position, featureTile);
-        level.FeatureTilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
+        level.FeatureTilemap.SetColor((Vector3Int)cell.Position,
+            cell.Visible ? Color.white : Color.grey);
     }
 
     public static void DrawItem(Level level, Cell cell)
@@ -98,7 +111,8 @@ public static class CellDrawer
             throw new NullReferenceException($"Item {cell.Items[0].DisplayName} has no sprite.");
 
         level.ItemTilemap.SetTile((Vector3Int)cell.Position, itemTile);
-        level.ItemTilemap.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
+        level.ItemTilemap.SetColor((Vector3Int)cell.Position,
+            cell.Visible ? Color.white : Color.grey);
     }
 
     // Paint cells for targetting

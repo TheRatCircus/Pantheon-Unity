@@ -75,7 +75,13 @@ namespace Pantheon.Utils
             throw new Exception("Returned nothing; set is likely empty.");
         }
         
-        public static bool CoinFlip() => RangeInclusive(0, 1) == 0;
+        public static bool CoinFlip(bool seeded)
+        {
+            if (seeded)
+                return Game.PRNG.Next(2) == 0;
+            else
+                return UnityEngine.Random.Range(0, 2) == 0;
+        }
 
         public static bool OneChanceIn(int x) => RangeInclusive(0, x) == x;
 

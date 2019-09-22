@@ -1,4 +1,4 @@
-﻿// Dijkstra.cs
+﻿// DijkstraMap.cs
 // Jerome Martina
 
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using Pantheon.World;
 /// <summary>
 /// General-purpose Dijkstra map to lay on a level.
 /// </summary>
-public sealed class Dijkstra
+public sealed class DijkstraMap
 {
     private Level level;
 
@@ -16,7 +16,7 @@ public sealed class Dijkstra
     private List<Vector2Int> open = new List<Vector2Int>();
     private HashSet<Vector2Int> closed = new HashSet<Vector2Int>();
 
-    public Dijkstra(Level level) => this.level = level;
+    public DijkstraMap(Level level) => this.level = level;
 
     public void Recalculate(Vector2Int[] goals)
     {

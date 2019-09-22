@@ -11,6 +11,7 @@ namespace Pantheon.World
         public bool Opaque { get; set; }
         public bool Blocked { get; set; }
         public Sprite Sprite { get; set; }
+        public RuleTile RuleTile { get; set; }
 
         public Feature(FeatureData featureData)
         {
@@ -18,6 +19,7 @@ namespace Pantheon.World
             Opaque = featureData.Opaque;
             Blocked = featureData.Blocked;
             Sprite = featureData.Sprite;
+            RuleTile = featureData.RuleTile;
         }
     }
 }

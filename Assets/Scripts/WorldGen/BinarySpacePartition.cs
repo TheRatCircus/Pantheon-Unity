@@ -70,7 +70,7 @@ namespace Pantheon.WorldGen
     public class Leaf
     {
         public const int MaxLeafSize = 21;
-        public const int MinLeafSize = 13;
+        public const int MinLeafSize = 7;
 
         public int X { get; set; }
         public int Y { get; set; }
@@ -96,7 +96,7 @@ namespace Pantheon.WorldGen
             if (LeftChild != null || RightChild != null)
                 return false; // Already split
 
-            bool splitH = CoinFlip();
+            bool splitH = CoinFlip(true);
             if (Width > Height && Width / Height >= 1.25f)
                 splitH = false;
             else if (Height > Width && Height / Width >= 1.25f)
@@ -142,8 +142,10 @@ namespace Pantheon.WorldGen
                 Vector2Int roomPos;
 
                 roomSize = new Vector2Int(
-                    RangeInclusive(minRoomSize, Width - 2),
-                    RangeInclusive(minRoomSize, Height - 2));
+                    Width - 1, Height - 1
+                    //RangeInclusive(minRoomSize, Width - 2),
+                    //RangeInclusive(minRoomSize, Height - 2)
+                    );
                 roomPos = new Vector2Int(
                     RangeInclusive(1, Width - roomSize.x - 1),
                     RangeInclusive(1, Height - roomSize.y - 1));
@@ -198,7 +200,7 @@ namespace Pantheon.WorldGen
             {
                 if (h < 0)
                 {
-                    if (CoinFlip())
+                    if (CoinFlip(true))
                     {
                         Halls.Push(new Rectangle(
                             new Vector2Int(p2.x, p1.y),
@@ -219,7 +221,7 @@ namespace Pantheon.WorldGen
                 }
                 else if (h > 0)
                 {
-                    if (CoinFlip())
+                    if (CoinFlip(true))
                     {
                         Halls.Push(new Rectangle(
                             new Vector2Int(p2.x, p1.y),
@@ -247,7 +249,7 @@ namespace Pantheon.WorldGen
             {
                 if (h < 0)
                 {
-                    if (CoinFlip())
+                    if (CoinFlip(true))
                     {
                         Halls.Push(new Rectangle(
                             new Vector2Int(p1.x, p2.y),
@@ -268,7 +270,7 @@ namespace Pantheon.WorldGen
                 }
                 else if (h > 0)
                 {
-                    if (CoinFlip())
+                    if (CoinFlip(true))
                     {
                         Halls.Push(new Rectangle(
                             new Vector2Int(p1.x, p1.y),

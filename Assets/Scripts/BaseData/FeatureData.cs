@@ -15,12 +15,14 @@ namespace Pantheon.World
         [SerializeField] private bool opaque;
         [SerializeField] private bool blocked;
         [SerializeField] private Sprite sprite;
+        [SerializeField] private RuleTile ruleTile;
         [SerializeField] private FeatureType type;
 
         public string DisplayName { get => displayName; private set => displayName = value; }
         public bool Opaque { get => opaque; private set => opaque = value; }
         public bool Blocked { get => blocked; private set => blocked = value; }
         public Sprite Sprite { get => sprite; private set => sprite = value; }
+        public RuleTile RuleTile { get => ruleTile; private set => ruleTile = value; }
         public FeatureType Type { get => type; private set => type = value; }
     }
 }

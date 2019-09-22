@@ -18,5 +18,12 @@ namespace Pantheon.Debug
             Vector3 end = new Vector3(start.x + .2f, start.y + .2f);
             UnityEngine.Debug.DrawLine(start, end, Color.cyan, 5);
         }
+
+        public static void MarkPos(Vector2Int pos)
+        {
+            Vector3 start = Helpers.V2IToV3(pos);
+            Vector3 end = new Vector3(start.x + .2f, start.y + .2f);
+            UnityEngine.Debug.DrawLine(start, end, Color.cyan, 5);
+        }
     }
 }

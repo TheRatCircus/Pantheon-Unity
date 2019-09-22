@@ -25,7 +25,7 @@ namespace Pantheon.Core
                 Idol idol = new Idol { DisplayName = CharacterNames.Random() };
                 idol.RefName = idol.DisplayName.ToLower();
 
-                if (Utils.RandomUtils.CoinFlip())
+                if (Utils.RandomUtils.CoinFlip(true))
                     idol.Gender = Gender.Male;
                 else
                     idol.Gender = Gender.Female;

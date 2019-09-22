@@ -119,7 +119,7 @@
     <Compile Include="Assets\Scripts\Debug\ConsoleCommandFunctions.cs" />
     <Compile Include="Assets\Scripts\Debug\DebugInfo.cs" />
     <Compile Include="Assets\Scripts\Debug\Visualisation.cs" />
-    <Compile Include="Assets\Scripts\Dijkstra.cs" />
+    <Compile Include="Assets\Scripts\DijkstraMap.cs" />
     <Compile Include="Assets\Scripts\EnumOrder.cs" />
     <Compile Include="Assets\Scripts\Enums\BodyPartType.cs" />
     <Compile Include="Assets\Scripts\Enums\CardinalDirection.cs" />
@@ -176,6 +176,7 @@
     <Compile Include="Assets\Scripts\WorldGen\Layout.cs" />
     <Compile Include="Assets\Scripts\WorldGen\NPCPops.cs" />
     <Compile Include="Assets\Scripts\WorldGen\NPCs.cs" />
+    <Compile Include="Assets\Scripts\WorldGen\RectGrid.cs" />
     <Compile Include="Assets\Scripts\WorldGen\Zones.cs" />
     <None Include="Assets\ScriptCalculator\Readme.txt" />
     <Reference Include="Unity.Timeline.Editor">
