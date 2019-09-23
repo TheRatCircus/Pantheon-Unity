@@ -75,6 +75,7 @@
     <Compile Include="Assets\Scripts\Actions\ShootAction.cs" />
     <Compile Include="Assets\Scripts\Actions\TossAction.cs" />
     <Compile Include="Assets\Scripts\Actions\WaitAction.cs" />
+    <Compile Include="Assets\Scripts\Actions\WearAction.cs" />
     <Compile Include="Assets\Scripts\Actions\WieldAction.cs" />
     <Compile Include="Assets\Scripts\ActionWrappers\ExplodeActionWrapper.cs" />
     <Compile Include="Assets\Scripts\ActionWrappers\HealActionWrapper.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Assets\Scripts\Actors\Attributes.cs" />
     <Compile Include="Assets\Scripts\Actors\Body.cs" />
     <Compile Include="Assets\Scripts\Actors\BodyPart.cs" />
+    <Compile Include="Assets\Scripts\Actors\Defenses.cs" />
     <Compile Include="Assets\Scripts\Actors\Equipment.cs" />
     <Compile Include="Assets\Scripts\Actors\Idol.cs" />
     <Compile Include="Assets\Scripts\Actors\Inventory.cs" />
@@ -95,6 +97,7 @@
     <Compile Include="Assets\Scripts\Actors\Traits.cs" />
     <Compile Include="Assets\Scripts\Ammo.cs" />
     <Compile Include="Assets\Scripts\BaseData\AmmoData.cs" />
+    <Compile Include="Assets\Scripts\BaseData\ArmourData.cs" />
     <Compile Include="Assets\Scripts\BaseData\BodyPartData.cs" />
     <Compile Include="Assets\Scripts\BaseData\FeatureData.cs" />
     <Compile Include="Assets\Scripts\BaseData\FlaskData.cs" />

@@ -1017,6 +1017,8 @@ RectTransform:
   - {fileID: 79670553}
   - {fileID: 1517369206}
   - {fileID: 1749549057}
+  - {fileID: 1146757573}
+  - {fileID: 1118336460}
   - {fileID: 1858473453}
   - {fileID: 2036548790}
   m_Father: {fileID: 1299990570}
@@ -1617,6 +1619,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f227b0792cf188d4aa5312c7e8aed174, type: 2}
   occupations:
   - {fileID: 11400000, guid: ae3091b7056bc754f83c20fbcf2d1552, type: 2}
+  armours:
+  - {fileID: 11400000, guid: a68275dff8f442b429ac24096f29656a, type: 2}
   genericNPC: {fileID: 1008646114880207100, guid: 29d9659028fc47e40ba160daa32f9551,
     type: 3}
   unknownTerrain: {fileID: 0}
@@ -2365,6 +2369,160 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1064644937}
   m_CullTransparentMesh: 0
+--- !u!1 &1118336459
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1118336460}
+  - component: {fileID: 1118336461}
+  - component: {fileID: 1118336462}
+  m_Layer: 5
+  m_Name: EvasionCounter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1118336460
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1118336459}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 392357402}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 209.25, y: 24}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1118336461
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1118336459}
+  m_CullTransparentMesh: 0
+--- !u!114 &1118336462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1118336459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 18
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 1
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Evasion: '
+--- !u!1 &1146757572
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1146757573}
+  - component: {fileID: 1146757574}
+  - component: {fileID: 1146757575}
+  m_Layer: 5
+  m_Name: ArmourCounter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1146757573
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146757572}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 392357402}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 209.25, y: 24}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1146757574
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146757572}
+  m_CullTransparentMesh: 0
+--- !u!114 &1146757575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146757572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 18
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 1
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Armour: '
 --- !u!1 &1297772089
 GameObject:
   m_ObjectHideFlags: 0
@@ -2563,8 +2721,9 @@ MonoBehaviour:
   energyCounter: {fileID: 1517369207}
   turnCounter: {fileID: 1749549058}
   locationDisplay: {fileID: 1858473454}
+  armourCounter: {fileID: 1146757575}
+  evasionCounter: {fileID: 1118336462}
   statusDisplay: {fileID: 2036548788}
-  statusNames: []
   itemModalList: {fileID: 883801131}
   bodyPartModalList: {fileID: 383188873}
   spellModalList: {fileID: 1699517180}
@@ -3735,7 +3894,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 392357402}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3929,7 +4088,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 392357402}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4116,10 +4275,18 @@ MonoBehaviour:
         accuracy: 0
         attackTime: 0
         damageType: 0
+  defenses:
+    armour: 1
+    evasion: 1
+    resistPhys: 0
+    resistHeat: 0
+    resistCold: 0
+    resistDisease: 0
+    resistPoison: 0
   statuses: []
   spells:
   - {fileID: 11400000, guid: 6d385a899d22ce9409b3f8854e50640b, type: 2}
-  species: {fileID: 0}
+  species: {fileID: 11400000, guid: 8cd1f5dbcccda61478c053389eb62ccd, type: 2}
   corpseSprite: {fileID: 21300000, guid: 0d047209e32634c4cb6ff78ed5fe9767, type: 3}
   inventorySize: 40
   fovRadius: 15

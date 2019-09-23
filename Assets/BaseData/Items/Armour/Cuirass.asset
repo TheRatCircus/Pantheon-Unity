@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9264f4685af2674193b9184292db0bb, type: 3}
+  m_Name: Cuirass
+  m_EditorClassIdentifier: 
+  displayName: cuirass
+  maxStack: 1
+  stackable: 0
+  sprite: {fileID: 21300000, guid: f0a156903b21fd14a97a32bce119669d, type: 3}
+  onUse: {fileID: 0}
+  onUseString: NO_USE_STRING
+  infiniteThrow: 0
+  onThrow: {fileID: 0}
+  strengthReq: 12
+  maxWieldParts: 4
+  melee:
+    minDamage: 4
+    maxDamage: 8
+    accuracy: 60
+    attackTime: 130
+    damageType: 3
+  ranged:
+    minDamage: -1
+    maxDamage: -1
+    accuracy: -1
+    ammoFamily: 0
+  ammo:
+    minDamage: -1
+    maxDamage: -1
+    accuracy: -1
+    damageType: 0
+    pierces: 0
+    fxPrefab: {fileID: 0}
+    ammoFamily: 0
+  defenses:
+    armour: 8
+    evasion: 0
+    resistPhys: 2
+    resistHeat: 0
+    resistCold: 0
+    resistDisease: 0
+    resistPoison: 0
+  hasDefenses: 1
+  equipType: 2
+  armourRef: 1

@@ -7,7 +7,7 @@ using Pantheon.Actors;
 using Pantheon.Actions;
 using Pantheon.Utils;
 
-public class Item
+public sealed class Item
 {
     private bool stackable;
     private int quantity;
@@ -36,17 +36,24 @@ public class Item
     public Ammo Ammo { get; set; }
     public bool IsAmmo => Ammo.MaxDamage >= 0;
 
-    // Constructor
+    public Defenses Defenses { get; set; }
+
+    public EquipType EquipType { get; set; }
+
     public Item(ItemData itemData)
     {
         DisplayName = itemData.DisplayName;
         Sprite = itemData.Sprite;
+        
         stackable = itemData.Stackable;
 
         OnUse = itemData.OnUse;
 
         Melee = itemData.Melee;
-        Ranged = itemData.Ranged;
+        if (itemData.IsRanged)
+            Ranged = itemData.Ranged;
+        if (itemData.IsAmmo)
+            Ammo = itemData.Ammo;
 
         StrengthReq = itemData.StrengthReq;
         MaxWieldParts = itemData.MaxWieldParts;
@@ -54,7 +61,10 @@ public class Item
         OnToss = itemData.OnThrow;
         InfiniteThrow = itemData.InfiniteThrow;
 
-        Ammo = itemData.Ammo;
+        if (itemData.HasDefenses)
+            Defenses = itemData.Defenses;
+
+        EquipType = itemData.EquipType;
 
         Owner = null;
     }
@@ -73,16 +83,18 @@ public class Item
     // Use this item
     public void Use(Actor user)
     {
-        if (OnUse == null)
+        if (OnUse != null)
         {
-            TryEquip(user);
-            return;
+            ItemUseAction use
+                = new ItemUseAction(user, this, OnUse.GetAction(user));
         }
-
-        ItemUseAction use = new ItemUseAction(user, this, OnUse.GetAction(user));
+        else if (EquipType != EquipType.None)
+        {
+            TryWear(user);
+        }
     }
 
-    public void TryEquip(Actor user)
+    public void TryWield(Actor user)
     {
         if (user is NPC)
             throw new System.NotImplementedException("NPC attempted to wield.");
@@ -97,6 +109,31 @@ public class Item
         // Present modal dialog, let user choose parts to hold item
     }
 
+    public void TryWear(Actor user)
+    {
+        if (user is NPC)
+            throw new System.NotImplementedException("NPC attempted to wear.");
+
+        user.NextAction = new WearAction(user, this);
+    }
+
     public override string ToString()
         => DisplayName;
+}
+
+[System.Serializable]
+public sealed class Defenses
+{
+    [SerializeField] private int armour;
+    [SerializeField] private int evasion;
+
+    // Resists run from -1.0 to 1.0
+    [SerializeField] private float resistPhys;
+    [SerializeField] private float resistHeat;
+    [SerializeField] private float resistCold;
+    [SerializeField] private float resistDisease;
+    [SerializeField] private float resistPoison;
+
+    public int Armour { get => armour; set => armour = value; }
+    public int Evasion { get => evasion; set => evasion = value; }
 }

@@ -21,14 +21,13 @@ namespace Pantheon.UI
         public Player player;
 
         // UI elements
-        public Text healthCounter;
-        public Text energyCounter;
-        public Text turnCounter;
-        public Text locationDisplay;
-        public Text statusDisplay;
-
-        // UI element backends
-        public List<string> statusNames;
+        [SerializeField] private Text healthCounter = null;
+        [SerializeField] private Text energyCounter = null;
+        [SerializeField] private Text turnCounter = null;
+        [SerializeField] private Text locationDisplay = null;
+        [SerializeField] private Text armourCounter = null;
+        [SerializeField] private Text evasionCounter = null;
+        [SerializeField] private Text statusDisplay = null;
 
         // Modals
         public ItemModalList itemModalList;
@@ -42,6 +41,7 @@ namespace Pantheon.UI
             player.Input.ModalListOpenEvent += OpenModalList;
             player.Input.ModalCancelEvent += ClearModals;
             player.StatusChangeEvent += UpdateStatuses;
+            player.Defenses.RecalculateEvent += UpdateDefenses;
             Game.instance.OnPlayerActionEvent += UpdateEnergyCounter;
             Game.instance.OnClockTickEvent += UpdateTurnCounter;
             Game.instance.OnLevelChangeEvent += UpdateLocationDisplay;
@@ -49,6 +49,7 @@ namespace Pantheon.UI
             UpdateTurnCounter(0);
             UpdateHealthCounter(player.Health, player.MaxHealth);
             UpdateEnergyCounter(player.Energy);
+            UpdateDefenses(player.Defenses);
         }
 
         private void UpdateHealthCounter(int health, int maxHealth)
@@ -85,6 +86,12 @@ namespace Pantheon.UI
                     status.LabelColour);
                 statusDisplay.text += $"{displayName} ";
             }
+        }
+
+        private void UpdateDefenses(Actors.Defenses defenses)
+        {
+            armourCounter.text = $"Armour: {defenses.Armour}";
+            evasionCounter.text = $"Evasion: {defenses.Evasion}";
         }
 
         private void ClearModals()

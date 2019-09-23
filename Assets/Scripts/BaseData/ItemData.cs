@@ -9,11 +9,9 @@ using UnityEngine;
 public abstract class ItemData : ScriptableObject
 {
     [SerializeField] private string displayName = "NO_NAME";
-    [SerializeField] private string refName = "NO_REF";
     [SerializeField] private int maxStack = -1;
     [SerializeField] private bool stackable = false;
     [SerializeField] private Sprite sprite = null;
-    [SerializeField] private bool usable = false;
 
     [SerializeField] private ActionWrapper onUse = null;
     [SerializeField] private string onUseString = "NO_USE_STRING";
@@ -24,27 +22,41 @@ public abstract class ItemData : ScriptableObject
     [SerializeField] private int strengthReq = -1; // Cumulative strength needed to equip
     [SerializeField] private int maxWieldParts = -1; // In how many parts maximum can this be wielded?
 
-    [SerializeField] private Ranged ranged = null;
     [SerializeField] private Melee melee = null;
+    [SerializeField] private Ranged ranged = null;
     [SerializeField] private Ammo ammo = null;
+
+    [SerializeField] private Defenses defenses = null;
+    [SerializeField] private bool hasDefenses = false;
+
+    [SerializeField] private EquipType equipType = EquipType.None;
 
     #region Properties
 
-    public string DisplayName { get => displayName; }
-    public string RefName { get => refName; }
-    public int MaxStack { get => maxStack; }
-    public bool Stackable { get => stackable; }
-    public Sprite Sprite { get => sprite; }
-    public bool Usable { get => usable; }
-    public ActionWrapper OnUse { get => onUse; }
-    public string OnUseString { get => onUseString; }
-    public int StrengthReq { get => strengthReq; }
-    public int MaxWieldParts { get => maxWieldParts; }
-    public Melee Melee { get => melee; }
-    public Ammo Ammo { get => ammo; }
-    public bool InfiniteThrow { get => infiniteThrow; }
-    public ActionWrapper OnThrow { get => onThrow; }
-    public Ranged Ranged { get => ranged; }
+    public string DisplayName => displayName;
+    public int MaxStack => maxStack;
+    public bool Stackable => stackable;
+    public Sprite Sprite => sprite;
+
+    public ActionWrapper OnUse => onUse;
+    public string OnUseString => onUseString;
+
+    public int StrengthReq => strengthReq;
+    public int MaxWieldParts => maxWieldParts;
+
+    public bool InfiniteThrow => infiniteThrow;
+    public ActionWrapper OnThrow => onThrow;
+
+    public Melee Melee => melee;
+    public Ranged Ranged => ranged;
+    public bool IsRanged => ranged.MaxDamage >= 0;
+    public Ammo Ammo => ammo;
+    public bool IsAmmo => ammo.AmmoFamily != AmmoFamily.None;
+
+    public Defenses Defenses => defenses;
+    public bool HasDefenses => hasDefenses;
+
+    public EquipType EquipType { get => equipType; }
 
     #endregion
 }

@@ -39,11 +39,11 @@ namespace Pantheon.Actors
 
         [SerializeField] protected Attributes attributes;
         [SerializeField] protected Body body;
+        [SerializeField] protected Defenses defenses;
         [SerializeField] protected List<Trait> traits;
-        [SerializeField]
-        [ReadOnly]
-        protected List<StatusEffect> statuses
+        [SerializeField] [ReadOnly] protected List<StatusEffect> statuses
             = new List<StatusEffect>();
+        [SerializeField] protected Equipment equipment;
         [SerializeField] protected Inventory inventory;
         [SerializeField] protected List<Spell> spells = new List<Spell>();
         public Faction Faction { get; set; }
@@ -73,6 +73,17 @@ namespace Pantheon.Actors
         public Inventory Inventory { get => inventory; }
         public SpriteRenderer SpriteRenderer { get => spriteRenderer; }
         public int RegenRate { get => regenRate; set => regenRate = value; }
+        public Species Species { get => species; }
+        public Defenses Defenses
+        {
+            get => defenses;
+            private set => defenses = value;
+        }
+        public Equipment Equipment
+        {
+            get => equipment;
+            private set => equipment = value;
+        }
 
         #endregion
 
@@ -190,6 +201,7 @@ namespace Pantheon.Actors
         public virtual void TakeDamage(int damage)
         {
             // TODO: Infinitely negative lower bound?
+            damage -= defenses.Armour;
             health = Mathf.Clamp(health - damage, -255, MaxHealth);
             if (health <= 0)
                 OnDeath();

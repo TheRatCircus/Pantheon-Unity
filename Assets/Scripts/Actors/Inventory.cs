@@ -21,7 +21,7 @@ namespace Pantheon.Actors
 
         public void AddItem(Item item)
             => all.Add(item);
-        public void RemoveItem(Item item)
+        public bool RemoveItem(Item item)
             => all.Remove(item);
 
         public bool HasAmmoFor(Item rangedWeapon)

@@ -29,6 +29,11 @@ namespace Pantheon.Actors
         public bool AwareOfPlayer { get; private set; } = false;
         
         // Properties
+        public Intelligence Intelligence
+        {
+            get => intelligence;
+            private set => intelligence = value;
+        }
         public bool AlwaysHostileToPlayer
         {
             get => alwaysHostileToPlayer;

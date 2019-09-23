@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39c752a66c55ae4690acbe4728e5fc0, type: 3}
+  m_Name: Human
+  m_EditorClassIdentifier: 
+  displayName: human
+  reference: 1
+  sprite: {fileID: 0}
+  parts:
+  - {fileID: 11400000, guid: b45b693eac9d9894aa96e7cf57719198, type: 2}
+  - {fileID: 11400000, guid: 7a61efd1c0afc55448d03782579e4ac0, type: 2}
+  - {fileID: 11400000, guid: 7a61efd1c0afc55448d03782579e4ac0, type: 2}
+  - {fileID: 11400000, guid: 1fc1b38fe6493b044ac0e2cedec965b3, type: 2}
+  defenses:
+    armour: 1
+    evasion: 1
+    resistPhys: 1
+    resistHeat: 1
+    resistCold: 1
+    resistDisease: 1
+    resistPoison: 1

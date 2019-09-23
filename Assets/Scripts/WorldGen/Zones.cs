@@ -145,6 +145,7 @@ namespace Pantheon.WorldGen
             UnityEngine.Debug.Log($"Generating {level.RefName}...");
 
             Items.SpawnItems(level);
+            level.RandomFloor().Items.Add(ItemFactory.NewArmour(ArmourRef.Cuirass));
             NPCs.SpawnNPCs(level, ValleyEnemies, NPCPops.ValleyCentre);
 
             // Defer player spawn so RefreshFOV() covers everything
