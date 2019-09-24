@@ -13,7 +13,6 @@ namespace Pantheon.UI
         {
 #if UNITY_EDITOR
             SceneManager.LoadScene("Main");
-            SceneManager.LoadScene("Debug", LoadSceneMode.Additive);
 #endif
         }
 

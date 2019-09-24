@@ -65,12 +65,24 @@ namespace Pantheon.Actors
         public int Energy { get => energy; set => energy = value; }
         public Cell Cell { get => cell; set => cell = value; }
         public Vector2Int Position { get => cell.Position; }
-        public BaseAction NextAction { get => nextAction; set => nextAction = value; }
+        public BaseAction NextAction
+        {
+            get => nextAction;
+            set => nextAction = value;
+        }
         public int MoveSpeed { get => moveSpeed; set => moveSpeed = value; }
         public List<Spell> Spells { get => spells; set => spells = value; }
-        public Sprite CorpseSprite { get => corpseSprite; private set => corpseSprite = value; }
+        public Sprite CorpseSprite
+        {
+            get => corpseSprite;
+            private set => corpseSprite = value;
+        }
         public Body Body { get => body; }
-        public Inventory Inventory { get => inventory; }
+        public Inventory Inventory
+        {
+            get => inventory;
+            protected set => inventory = value;
+        }
         public SpriteRenderer SpriteRenderer { get => spriteRenderer; }
         public int RegenRate { get => regenRate; set => regenRate = value; }
         public Species Species { get => species; }

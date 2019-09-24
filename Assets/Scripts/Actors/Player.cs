@@ -1,13 +1,13 @@
 ﻿// Player.cs
 // Jerome Martina
 
+using Pantheon.Actions;
+using Pantheon.Core;
+using Pantheon.Utils;
+using Pantheon.World;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Pantheon.Core;
-using Pantheon.World;
-using Pantheon.Actions;
-using Pantheon.Utils;
 using static Pantheon.Utils.Strings;
 
 namespace Pantheon.Actors
@@ -39,11 +39,15 @@ namespace Pantheon.Actors
         // Event invokers for PlayerInput
         public void RaiseInventoryToggleEvent() => OnInventoryToggleEvent?.Invoke();
 
+        public void Initialize()
+        {
+            Inventory = new Inventory(40);
+        }
+
         // Awake is called when the script instance is being loaded
         protected override void Awake()
         {
             base.Awake();
-            inventory = new Inventory(inventorySize);
             movePath = new List<Cell>();
         }
 
@@ -51,7 +55,9 @@ namespace Pantheon.Actors
         protected override void Start()
         {
             base.Start();
+            
             Input = GetComponent<PlayerInput>();
+            UnityEngine.Debug.Log("Player input registered.");
         }
 
         // Request this actor's action and carry it out

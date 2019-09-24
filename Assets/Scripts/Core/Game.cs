@@ -87,10 +87,20 @@ namespace Pantheon.Core
         /// </summary>
         private void Awake()
         {
+            // Initialize singleton
             if (instance != null)
                 UnityEngine.Debug.LogWarning("Game singleton assigned in error");
             else
-                instance = this;      
+                instance = this;
+
+            GameObject introObj = GameObject.FindGameObjectWithTag("Intro");
+            Intro intro = introObj.GetComponent<Intro>();
+
+            player1.ActorName = intro.PlayerName;
+            player1.Initialize();
+            player1.AddItem(ItemFactory.NewWeapon(intro.StartingWeapon));
+
+            introObj.SetActive(false);
 
             queue = new List<Actor>();
         }
