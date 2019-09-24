@@ -31,8 +31,17 @@ public class Intro : MonoBehaviour
     public string PlayerName { get; private set; }
     public WeaponType StartingWeapon { get; private set; }
 
+#if UNITY_EDITOR
+    private void Start()
+    {
+        PlayerName = "The Hero";
+        StartingWeapon = WeaponType.Hatchet;
+        StartGame();
+    }
+#endif
+
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (Input.anyKeyDown && IntroState == IntroState.IntroText)
         {
