@@ -206,7 +206,7 @@ namespace Pantheon.Actions
                 GameLog.Send($"The magic bullet punches through " +
                     $"{Strings.GetSubject(cell.Actor, false)}, " +
                     $"dealing {hit.Damage} damage!");
-                cell.Actor.TakeHit(hit);
+                cell.Actor.TakeHit(hit, Actor);
             }
             else
                 GameLog.Send($"The magic bullet misses " +

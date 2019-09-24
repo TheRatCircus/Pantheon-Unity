@@ -87,7 +87,7 @@ namespace Pantheon.Actors
                 if (!level.AdjacentTo(cell, target.Cell))
                     PathMoveToTarget();
                 else
-                    NextAction = new MeleeAction(this, target);
+                    NextAction = new MeleeAction(this, target.Cell);
             else
                 NextAction = new WaitAction(this);
 
@@ -99,13 +99,29 @@ namespace Pantheon.Actors
             return ret.DoAction();
         }
 
+        public override void TakeHit(Hit hit, Actor source)
+        {
+            base.TakeHit(hit, source);
+            if (source is Player && !(target is Player))
+            {
+                AlwaysHostileToPlayer = true;
+                target = Game.GetPlayer();
+                GameLog.Send($"{Strings.GetSubject(this, true)}" +
+                    $" fixes its gaze upon you!",
+                    Strings.TextColour.Orange);
+            }
+            else
+                target = source;
+        }
+
         private void DetectPlayer()
         {
             if (IsHostileTo(Game.GetPlayer()))
             {
                 target = Game.GetPlayer();
-                GameLog.Send($"{Strings.GetSubject(this, true)} fixes its gaze upon you!",
-                    Strings.TextColour.Red);
+                GameLog.Send($"{Strings.GetSubject(this, true)}" +
+                    $" fixes its gaze upon you!",
+                    Strings.TextColour.Orange);
             }
             else
             {

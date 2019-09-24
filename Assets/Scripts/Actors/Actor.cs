@@ -208,7 +208,8 @@ namespace Pantheon.Actors
         }
 
         // Take a damaging hit from something
-        public virtual void TakeHit(Hit hit) => TakeDamage(hit.Damage);
+        public virtual void TakeHit(Hit hit, Actor source)
+            => TakeDamage(hit.Damage);
 
         public virtual void TakeDamage(int damage)
         {
@@ -315,15 +316,17 @@ namespace Pantheon.Actors
         /// <returns>True if this is hostile to other.</returns>
         public bool IsHostileTo(Actor other)
         {
+            /// XXX: This should be override and cleaned
             if (this is Player)
             {
                 NPC otherNPC = (NPC)other;
 
                 if (otherNPC.Master == this)
                     return false;
-                if (otherNPC.Faction == Faction)
+                if (otherNPC.Faction != null && otherNPC.Faction == Faction)
                     return false;
-                if (otherNPC.Faction.HostileToPlayer)
+                if (otherNPC.Faction != null && 
+                    otherNPC.Faction.HostileToPlayer)
                     return true;
                 if (otherNPC.AlwaysHostileToPlayer)
                     return true;
@@ -334,11 +337,13 @@ namespace Pantheon.Actors
             {
                 if (other is Player otherPlayer)
                 {
-                    if (thisNPC.Faction == otherPlayer.Faction)
+                    if (thisNPC.Faction != null &&
+                        thisNPC.Faction == otherPlayer.Faction)
                         return false;
                     if (thisNPC.AlwaysHostileToPlayer)
                         return true;
-                    if (thisNPC.Faction.HostileToPlayer)
+                    if (thisNPC.Faction != null && 
+                        thisNPC.Faction.HostileToPlayer)
                         return true;
 
                     return false;
@@ -351,6 +356,11 @@ namespace Pantheon.Actors
                 // return true
             }
             else throw new Exception("An actor illegally has the type Actor.");
+        }
+
+        public Cell GetAdjacentCell(Vector2Int delta)
+        {
+            return level.GetAdjacentCell(cell, delta);
         }
 
         // Handle this actor's death

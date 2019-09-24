@@ -106,7 +106,7 @@ namespace Pantheon.Actors
             else return -1;
         }
 
-        public override void TakeHit(Hit hit)
+        public override void TakeHit(Hit hit, Actor source)
         {
             if (!Game.instance.IdolMode)
                 TakeDamage(hit.Damage);

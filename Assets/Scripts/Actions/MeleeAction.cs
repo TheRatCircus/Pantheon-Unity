@@ -9,17 +9,18 @@ using UnityEngine;
 using Pantheon.Core;
 using Pantheon.Actors;
 using Pantheon.Utils;
+using Pantheon.World;
 
 namespace Pantheon.Actions
 {
     /// <summary>
     /// Try to land a melee hit on an actor.
     /// </summary>
-    public class MeleeAction : BaseAction
+    public sealed class MeleeAction : BaseAction
     {
-        private Actor target;
+        private Cell target;
 
-        public MeleeAction(Actor actor, Actor target)
+        public MeleeAction(Actor actor, Cell target)
             : base(actor)
             => this.target = target;
 
@@ -29,6 +30,12 @@ namespace Pantheon.Actions
         /// <returns>The time taken by the attack.</returns>
         public override int DoAction()
         {
+            Actor enemy;
+            if (target.Actor != null)
+                enemy = target.Actor;
+            else
+                enemy = null;
+
             int actionTime = -1;
 
             List<Melee> attacks = Actor.Body.GetMelees();
@@ -58,7 +65,7 @@ namespace Pantheon.Actions
              */
             foreach (BodyPart part in Actor.Body.Parts)
             {
-                if (target.IsDead())
+                if (enemy != null && enemy.IsDead())
                     break;
 
                 bool weapon = false; // Whether or not an item is involved
@@ -80,7 +87,7 @@ namespace Pantheon.Actions
 
                 for (int i = 0; i < swings; i++)
                 {
-                    if (target.IsDead())
+                    if (enemy != null && enemy.IsDead())
                         break;
 
                     string attackMsg = "";
@@ -103,7 +110,17 @@ namespace Pantheon.Actions
                         attackMsg += $"{(Actor is Player ? "miss" : "misses")} ";
 
                     // The defender
-                    attackMsg += $"{Strings.GetSubject(target, false)}";
+                    if (enemy != null)
+                        attackMsg += $"{Strings.GetSubject(enemy, false)}";
+                    else
+                    {
+                        if (target.Feature != null)
+                            attackMsg += $"the {target.Feature.DisplayName}";
+                        else if (target.Blocked)
+                            attackMsg += $"the {target.TerrainData.DisplayName}";
+                        else
+                            attackMsg += $"the air";
+                    }
 
                     if (!hitLanded)
                     {
@@ -113,9 +130,18 @@ namespace Pantheon.Actions
                     else
                     {
                         Hit hit = new Hit(attack.MinDamage, attack.MaxDamage);
-                        attackMsg += $" for {hit.Damage} damage!";
-                        GameLog.Send(attackMsg, Strings.TextColour.White);
-                        target.TakeHit(hit);
+
+                        if (enemy != null)
+                        {
+                            attackMsg += $" for {hit.Damage} damage!";
+                            GameLog.Send(attackMsg, Strings.TextColour.White);
+                            enemy.TakeHit(hit, Actor);
+                        }
+                        else
+                        {
+                            attackMsg += ".";
+                            GameLog.Send(attackMsg, Strings.TextColour.Grey);
+                        }
                     }
 #if DEBUG_MELEE
                     string actorName = Actor.ActorName;
@@ -127,7 +153,7 @@ namespace Pantheon.Actions
                         Debug.Log($"{actorName} has killed {targetName}");
 #endif
                 }
-
+                // Prevent a weapon from being swung twice by two appendages
                 if (weapon)
                     weaponStatuses.Add(part.Item);
             }
@@ -145,6 +171,6 @@ namespace Pantheon.Actions
             => throw new System.NotImplementedException();
 
         public override string ToString()
-            => $"{Actor.ActorName} is attacking {target.ActorName} in melee.";
+            => $"{Actor.ActorName} is attacking {target} in melee.";
     }
 }

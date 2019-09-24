@@ -116,21 +116,77 @@ public class PlayerInput : MonoBehaviour
         else if (inputState == InputState.Move)
         {
             if (Input.GetButtonDown("Up"))
-                player.NextAction = new MoveAction(player, player.MoveSpeed, Vector2Int.up);
+            {
+                if (Input.GetKey(KeyCode.LeftControl))
+                    player.NextAction = new MeleeAction(player,
+                        player.GetAdjacentCell(Vector2Int.up));
+                else
+                    player.NextAction = new MoveAction
+                        (player, player.MoveSpeed, Vector2Int.up);
+            }
             else if (Input.GetButtonDown("Down"))
-                player.NextAction = new MoveAction(player, player.MoveSpeed, Vector2Int.down);
+            {
+                if (Input.GetKey(KeyCode.LeftControl))
+                    player.NextAction = new MeleeAction(player,
+                        player.GetAdjacentCell(Vector2Int.down));
+                else
+                    player.NextAction = new MoveAction
+                        (player, player.MoveSpeed, Vector2Int.down);
+            }
             else if (Input.GetButtonDown("Left"))
-                player.NextAction = new MoveAction(player, player.MoveSpeed, Vector2Int.left);
+            {
+                if (Input.GetKey(KeyCode.LeftControl))
+                    player.NextAction = new MeleeAction(player,
+                        player.GetAdjacentCell(Vector2Int.left));
+                else
+                    player.NextAction = new MoveAction
+                        (player, player.MoveSpeed, Vector2Int.left);
+            }
             else if (Input.GetButtonDown("Right"))
-                player.NextAction = new MoveAction(player, player.MoveSpeed, Vector2Int.right);
+            {
+                if (Input.GetKey(KeyCode.LeftControl))
+                    player.NextAction = new MeleeAction(player,
+                        player.GetAdjacentCell(Vector2Int.right));
+                else
+                    player.NextAction = new MoveAction
+                        (player, player.MoveSpeed, Vector2Int.right);
+            }
             else if (Input.GetButtonDown("Up Left"))
-                player.NextAction = new MoveAction(player, player.MoveSpeed, new Vector2Int(-1, 1));
+            {
+                if (Input.GetKey(KeyCode.LeftControl))
+                    player.NextAction = new MeleeAction(player,
+                        player.GetAdjacentCell(new Vector2Int(-1, 1)));
+                else
+                    player.NextAction = new MoveAction
+                        (player, player.MoveSpeed, new Vector2Int(-1, 1));
+            }
             else if (Input.GetButtonDown("Up Right"))
-                player.NextAction = new MoveAction(player, player.MoveSpeed, new Vector2Int(1, 1));
+            {
+                if (Input.GetKey(KeyCode.LeftControl))
+                    player.NextAction = new MeleeAction(player,
+                        player.GetAdjacentCell(new Vector2Int(1, 1)));
+                else
+                player.NextAction = new MoveAction
+                        (player, player.MoveSpeed, new Vector2Int(1, 1));
+            }
             else if (Input.GetButtonDown("Down Left"))
-                player.NextAction = new MoveAction(player, player.MoveSpeed, new Vector2Int(-1, -1));
+            {
+                if (Input.GetKey(KeyCode.LeftControl))
+                    player.NextAction = new MeleeAction(player,
+                        player.GetAdjacentCell(new Vector2Int(-1, -1)));
+                else
+                    player.NextAction = new MoveAction
+                        (player, player.MoveSpeed, new Vector2Int(-1, -1));
+            }
             else if (Input.GetButtonDown("Down Right"))
-                player.NextAction = new MoveAction(player, player.MoveSpeed, new Vector2Int(1, -1));
+            {
+                if (Input.GetKey(KeyCode.LeftControl))
+                    player.NextAction = new MeleeAction(player,
+                        player.GetAdjacentCell(new Vector2Int(1, -1)));
+                else
+                    player.NextAction = new MoveAction
+                        (player, player.MoveSpeed, new Vector2Int(1, -1));
+            }
             else if (Input.GetButtonDown("Wait"))
                 player.NextAction = new WaitAction(player);
             else if (Input.GetButtonDown("Pickup"))
@@ -144,7 +200,7 @@ public class PlayerInput : MonoBehaviour
                     Game.instance.Religions.TryGetValue(player.Cell.Altar.Idol,
                         out Faction religion);
                     player.Convert(religion);
-                } 
+                }
                 player.NextAction = new WaitAction(player);
             }
             else if (Input.GetButtonDown("Wield"))

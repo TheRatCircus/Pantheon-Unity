@@ -47,7 +47,7 @@ namespace Pantheon.Actions
                             $"{(cell.Actor is Player ? "are" : "is")} " +
                             $"caught in the blast, and takes {hit.Damage} damage!");
                         
-                        cell.Actor.TakeHit(hit);
+                        cell.Actor.TakeHit(hit, Actor);
                     }
                 }
 

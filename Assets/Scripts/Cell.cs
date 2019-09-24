@@ -146,7 +146,6 @@ namespace Pantheon.World
                 return !blocked;
         }
 
-        // toString override: returns name of tile, position, contained actor
         public override string ToString()
         {
             string ret;
