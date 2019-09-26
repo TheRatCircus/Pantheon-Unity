@@ -28,6 +28,7 @@ namespace Pantheon.Core
                 new Quaternion(),
                 level.transform);
             NPC npc = npcObj.GetComponent<NPC>();
+            npc.gameObject.name = npc.ActorName;
             npc.level = level;
             level.NPCs.Add(npc);
             Game.instance.AddActor(npc);
@@ -67,6 +68,7 @@ namespace Pantheon.Core
 
             string npcName = $"{species.DisplayName} {occupation.DisplayName} of {idol.DisplayName}";
             npc.ActorName = npcName;
+            npc.gameObject.name = npc.ActorName;
             npc.SpriteRenderer.sprite = species.Sprite;
 
             npc.level = level;

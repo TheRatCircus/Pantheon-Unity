@@ -81,6 +81,7 @@ namespace Pantheon.WorldGen
         {
             level.RefName = $"valley_{layerPos.x}_{layerPos.y}";
             level.DisplayName = $"{wing.Adjective()} Valley at {layerPos}";
+            level.gameObject.name = level.RefName;
             level.Layer = layer;
             level.LayerPos = layerPos;
 
@@ -95,6 +96,8 @@ namespace Pantheon.WorldGen
             BinarySpacePartition.BSP(level, TerrainType.Grass, 12);
             //Layout.RandomFill(level, 2, FeatureType.Tree);
             Layout.Enclose(level, TerrainType.StoneWall);
+
+            NPCs.SpawnNPCs(level, ValleyEnemies, NPCPops.ValleyCentre);
 
             // Defer player spawn so RefreshFOV() covers everything
             if (wing == CardinalDirection.Centre)
