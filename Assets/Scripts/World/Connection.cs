@@ -74,10 +74,12 @@ namespace Pantheon.World
                         DestinationCell = DestinationLevel.RandomFloor();
                     }
                     else
-                        DestinationLevel = Game.instance.RequestLevel(Level.RefName, DestinationRef);
+                        DestinationLevel = Game.instance.RequestLevel
+                            (Level.RefName, DestinationRef);
                 }
                 else
-                    DestinationLevel = Layer.RequestLevel(Level.LayerPos + DestinationVector);
+                    DestinationLevel = Layer.RequestLevel
+                        (Level.LayerPos + DestinationVector);
             }
             Game.instance.MoveToLevel(player, DestinationLevel, DestinationCell);
         }

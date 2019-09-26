@@ -12,18 +12,34 @@ namespace Pantheon.Debug
     /// </summary>
     public static class Visualisation
     {
+        /// <summary>
+        /// Draw an X on a cell (aligned to world grid).
+        /// </summary>
+        /// <param name="cell"></param>
         public static void MarkCell(Cell cell)
         {
             Vector3 start = Helpers.V2IToV3(cell.Position);
             Vector3 end = new Vector3(start.x + .2f, start.y + .2f);
             UnityEngine.Debug.DrawLine(start, end, Color.cyan, 5);
+            start.y += 1f;
+            end.y -= 1f;
+            UnityEngine.Debug.DrawLine(start, end, Color.cyan, 5);
         }
 
-        public static void MarkPos(Vector2Int pos)
+        /// <summary>
+        /// Draw an X on a position.
+        /// </summary>
+        /// <param name="pos"></param>
+        public static void MarkPos(Vector2Int pos, float duration)
         {
             Vector3 start = Helpers.V2IToV3(pos);
-            Vector3 end = new Vector3(start.x + .2f, start.y + .2f);
-            UnityEngine.Debug.DrawLine(start, end, Color.cyan, 5);
+            start.x -= .5f; // Offset to put center of x on actual position
+            start.y -= .5f;
+            Vector3 end = new Vector3(start.x + 1f, start.y + 1f);
+            UnityEngine.Debug.DrawLine(start, end, Color.cyan, duration);
+            start.y += 1f;
+            end.y -= 1f;
+            UnityEngine.Debug.DrawLine(start, end, Color.cyan, duration);
         }
     }
 }

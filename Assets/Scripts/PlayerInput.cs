@@ -38,7 +38,7 @@ public enum ModalListOperation
     Toss
 }
 
-public class PlayerInput : MonoBehaviour
+public sealed class PlayerInput : MonoBehaviour
 {
     // Requisite objects
     [SerializeField] private Player player = null;
@@ -66,6 +66,7 @@ public class PlayerInput : MonoBehaviour
     public event Action ModalCancelEvent;
 
     public event Action<ModalListOperation> ModalListOpenEvent;
+    public event Action WorldMapToggleEvent;
 
     // Start is called before the first frame update
     private void Start()
@@ -341,6 +342,9 @@ public class PlayerInput : MonoBehaviour
                 Game.QuitGame();
             }
         }
+
+        if (Input.GetButtonDown("World Map"))
+            WorldMapToggleEvent?.Invoke();
     }
 
     #region Mouse

@@ -28,6 +28,7 @@ namespace Pantheon.UI
         [SerializeField] private Text armourCounter = null;
         [SerializeField] private Text evasionCounter = null;
         [SerializeField] private Text statusDisplay = null;
+        [SerializeField] private GameObject worldMap = null;
 
         // Modals
         public ItemModalList itemModalList;
@@ -38,6 +39,7 @@ namespace Pantheon.UI
         private void Start()
         {
             player.OnHealthChangeEvent += UpdateHealthCounter;
+            player.Input.WorldMapToggleEvent += ToggleWorldMap;
             player.Input.ModalListOpenEvent += OpenModalList;
             player.Input.ModalCancelEvent += ClearModals;
             player.StatusChangeEvent += UpdateStatuses;
@@ -50,6 +52,7 @@ namespace Pantheon.UI
             UpdateHealthCounter(player.Health, player.MaxHealth);
             UpdateEnergyCounter(player.Energy);
             UpdateDefenses(player.Defenses);
+            UpdateLocationDisplay(player.level);
         }
 
         private void UpdateHealthCounter(int health, int maxHealth)
@@ -92,6 +95,11 @@ namespace Pantheon.UI
         {
             armourCounter.text = $"Armour: {defenses.Armour}";
             evasionCounter.text = $"Evasion: {defenses.Evasion}";
+        }
+
+        private void ToggleWorldMap()
+        {
+            worldMap.SetActive(!worldMap.activeSelf);
         }
 
         private void ClearModals()

@@ -24,7 +24,7 @@ namespace Pantheon.Core
         public static Game instance;
 
         // Other components of GameController
-        public System.Random prng = new System.Random(131198);
+        public System.Random prng = new System.Random();
         [SerializeField] private Database database;
         [SerializeField] private GameLog gameLog;
         [SerializeField] private Transform grid = null;
@@ -56,9 +56,9 @@ namespace Pantheon.Core
         public Dictionary<string, Level> Levels { get; set; }
             = new Dictionary<string, Level>();
 
-        public Dictionary<string, GenerationMap.LevelGenDelegate> GenMap
+        public Dictionary<string, LevelBuilder> BuilderMap
             { get; set; }
-            = new Dictionary<string, GenerationMap.LevelGenDelegate>();
+            = new Dictionary<string, LevelBuilder>();
 
         // Factions
         public Faction Nature { get; set; }
@@ -115,12 +115,13 @@ namespace Pantheon.Core
 
             foreach (Idol idol in Pantheon.Idols.Values)
                 for (int i = 0; i < 3; i++) // i < number of levels per domain
-                    GenMap.Add($"domain_{idol.RefName}_{i}", Zones.Domain);
+                    BuilderMap.Add($"domain_{idol.RefName}_{i}",
+                        new DomainBuilder(null, Vector2Int.zero));
 
             AddActor(player1);
 
             int overworldZ = 0;
-            Layer overworld = new Layer(overworldZ, GenerationMap._overworld);
+            Layer overworld = new Layer(overworldZ);
             Layers.Add(overworldZ, overworld);
             Level firstLevel = overworld.RequestLevel(new Vector2Int(0, 0));
             
@@ -172,13 +173,14 @@ namespace Pantheon.Core
         public void Unlock()
         {
             if (lockCount == 0)
-                throw new Exception("Cannot unlock turn scheduler when not locked");
+                throw new Exception
+                    ("Cannot unlock turn scheduler when not locked");
 
             lockCount--;
         }
 
-        // Iterate through each actor in the queue, and take its actions until its
-        // energy is spent
+        // Iterate through each actor in the queue, and
+        // take its actions until its energy is spent
         private bool Tick()
         {
             if (lockCount > 0)
@@ -260,8 +262,8 @@ namespace Pantheon.Core
         }
 
         /// <summary>
-        /// Load a level into the game scene, make it active in the hierarchy, and
-        /// make it the active level.
+        /// Load a level into the game scene, make it active in the hierarchy,
+        /// and make it the active level.
         /// </summary>
         /// <param name="level">The level to be loaded.</param>
         public void LoadLevel(Level level)
@@ -287,12 +289,15 @@ namespace Pantheon.Core
             instance.LoadLevel(level);
             level.RefreshFOV();
             OnLevelChangeEvent?.Invoke(level);
+            if (!level.Visited)
+                level.Visited = true;
         }
 
         /// <summary>
         /// Instantiates a new level from a prefab.
         /// </summary>
-        /// <returns>The Level script component of the new level GameObject.</returns>
+        /// <returns>The Level script component of the new level GameObject.
+        /// </returns>
         public Level MakeNewLevel()
         {
             GameObject newLevelObj = Instantiate(levelPrefab, grid);
@@ -301,23 +306,21 @@ namespace Pantheon.Core
         }
 
         /// <summary>
-        /// After level generation, pass it here to add it to the world map.
+        /// After gen of a level, pass it here to add it to the world map.
         /// </summary>
         public void RegisterLevel(Level level)
-        {
-            Levels.Add(level.RefName, level);
-        }
+            => Levels.Add(level.RefName, level);
 
         public Level RequestLevel(string prevLevelRef, string levelRef)
         {
             if (!Levels.ContainsKey(levelRef))
             {
-                if (!GenMap.TryGetValue(levelRef,
-                    out GenerationMap.LevelGenDelegate d))
+                if (!BuilderMap.TryGetValue(levelRef,
+                    out LevelBuilder builder))
                     throw new ArgumentException("Bad ref given.");
 
                 Level newLevel = instance.MakeNewLevel();
-                d.Invoke(newLevel, LevelGenArgs.ArgsFromRef(levelRef));
+                builder.Generate(newLevel);
 
                 if (Levels.Count > 0 && prevLevelRef != null)
                     ConnectLevels(newLevel, prevLevelRef);

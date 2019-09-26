@@ -12,10 +12,10 @@ using static Pantheon.Utils.Strings;
 
 namespace Pantheon.Actors
 {
-    public class Player : Actor
+    public sealed class Player : Actor
     {
-        public PlayerInput Input { get; private set; }
-        [SerializeField] protected int inventorySize = 40;
+        [SerializeField] private PlayerInput input;
+        [SerializeField] private int inventorySize = 40;
         [SerializeField] private int fovRadius = 15; // Not in cells
         private bool longResting = false;
 
@@ -26,9 +26,18 @@ namespace Pantheon.Actors
         [SerializeField] [ReadOnly] private List<Cell> movePath;
 
         // Properties
+        public PlayerInput Input
+        {
+            get => input;
+            private set => input = value;
+        }
         public int InventorySize { get => inventorySize; }
         public int FOVRadius { get => fovRadius; }
-        public List<Cell> MovePath { get => movePath; set => movePath = value; }
+        public List<Cell> MovePath
+        {
+            get => movePath;
+            set => movePath = value;
+        }
 
         // Events
         public event Action OnInventoryChangeEvent;
@@ -37,7 +46,8 @@ namespace Pantheon.Actors
         public event Action OnPlayerDeathEvent;
 
         // Event invokers for PlayerInput
-        public void RaiseInventoryToggleEvent() => OnInventoryToggleEvent?.Invoke();
+        public void RaiseInventoryToggleEvent()
+            => OnInventoryToggleEvent?.Invoke();
 
         public void Initialize()
         {
@@ -55,9 +65,7 @@ namespace Pantheon.Actors
         protected override void Start()
         {
             base.Start();
-            
             Input = GetComponent<PlayerInput>();
-            UnityEngine.Debug.Log("Player input registered.");
         }
 
         // Request this actor's action and carry it out

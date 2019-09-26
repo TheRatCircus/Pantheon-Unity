@@ -18,8 +18,8 @@ namespace Pantheon.World
         [SerializeField] private Tilemap itemTilemap;
         [SerializeField] private Tilemap targettingTilemap;
 
-        public string DisplayName { get; set; } = "NO_NAME";
-        public string RefName { get; set; }
+        public string DisplayName { get; set; } // Keep as null to highlight
+        public string RefName { get; set; } // errors in world generation
 
         public Layer Layer { get; set; }
         public Vector2Int LayerPos { get; set; }
@@ -38,6 +38,8 @@ namespace Pantheon.World
         private FOV fov;
         public void RefreshFOV() => fov.RefreshFOV(this);
         public Pathfinder Pathfinder { get; private set; }
+
+        public bool Visited { get; set; } = false;
 
         // Properties
         public Tilemap TerrainTilemap

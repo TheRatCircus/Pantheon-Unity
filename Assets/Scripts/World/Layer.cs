@@ -1,12 +1,12 @@
 ﻿// Layer.cs
 // Jerome Martina
 
+using Pantheon.Core;
+using Pantheon.Utils;
+using Pantheon.WorldGen;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Pantheon.Core;
-using Pantheon.WorldGen;
-using Pantheon.Utils;
 
 namespace Pantheon.World
 {
@@ -21,14 +21,36 @@ namespace Pantheon.World
 
         // If a level is requested at a position and does not exist yet,
         // what should be generated there?
-        public Dictionary<Vector2Int, GenerationMap.LevelGenDelegate>
-            GenMap { get; }
-
-        public Layer(int zLevel,
-            Dictionary<Vector2Int, GenerationMap.LevelGenDelegate> genMap)
+        public Dictionary<Vector2Int, LevelBuilder>
+            BuilderMap
+        { get; } = new Dictionary<Vector2Int, LevelBuilder>();
+        
+        public Layer(int zLevel)
         {
             ZLevel = zLevel;
-            GenMap = genMap;
+            BuilderMap = new Dictionary<Vector2Int, LevelBuilder>();
+
+            Zone valley = new Zone("The Valley", "valley", Vector2Int.zero);
+            for (int x = -1; x <= 1; x++)
+                for (int y = -1; y <= 1; y++)
+                {
+                    Vector2Int layerPos = new Vector2Int(x, y);
+                    Debug.Visualisation.MarkPos(layerPos, 120);
+                    if (x == 0 && y == 0)
+                    {
+                        BuilderMap.Add(new Vector2Int(x, y),
+                            new ValleyBuilder(this, layerPos,
+                            valley, CardinalDirection.Centre));
+                    }
+                    else
+                    {
+                        CardinalDirection wing = layerPos.ToCardinal();
+                        BuilderMap.Add(new Vector2Int(x, y),
+                            new ValleyBuilder(this, layerPos, valley, wing));
+                    }
+                }
+            for (int i = 0; i < 10; i++)
+                new SurfaceTunneler(this).Start();
         }
 
         public Level RequestLevel(Vector2Int coords)
@@ -37,12 +59,11 @@ namespace Pantheon.World
             {
                 Level newLevel;
 
-                if (!GenMap.TryGetValue(coords, out GenerationMap.LevelGenDelegate d))
+                if (!BuilderMap.TryGetValue(coords,
+                    out LevelBuilder builder))
                     throw new ArgumentException("Bad coords given.");
-
                 newLevel = Game.instance.MakeNewLevel();
-                d.Invoke(newLevel, new LevelGenArgs
-                    (new Vector3Int(coords.x, coords.y, ZLevel), null));
+                builder.Generate(newLevel);
                 Levels.Add(coords, newLevel);
 
                 if (Levels.Count > 1)
@@ -60,7 +81,8 @@ namespace Pantheon.World
         public void ConnectLevel(Level level)
         {
             UnityEngine.Debug.Log
-                ($"Attempting to connect {level.RefName} to its neighbours...");
+                ($"Attempting to connect {level.RefName}" +
+                $" to its neighbours...");
             if (level.LateralConnections.Count > 0)
             {
                 foreach (KeyValuePair<CardinalDirection, Connection> pair
@@ -69,19 +91,22 @@ namespace Pantheon.World
                     CardinalDirection dir = pair.Key;
                     Connection homeConn = pair.Value;
 
-                    if (!Levels.TryGetValue(level.LayerPos + Helpers.CardinalToV2I(dir),
-                        out Level other))
+                    if (!Levels.TryGetValue(level.LayerPos
+                        + Helpers.CardinalToV2I(dir), out Level other))
                         continue; // Not generated yet, let it handle itself
 
-                    if (!other.LateralConnections.TryGetValue(Helpers.CardinalOpposite(dir),
+                    if (!other.LateralConnections.TryGetValue(
+                        Helpers.CardinalOpposite(dir),
                         out Connection otherConn))
-                        throw new Exception("Other level has no valid opposite.");
+                        throw new Exception
+                            ("Other level has no valid opposite.");
 
                     homeConn.SetDestination(otherConn);
                 }
             }
 
-            if (level.UpConnections != null && level.UpConnections.HasElements())
+            if (level.UpConnections != null &&
+                level.UpConnections.HasElements())
             {
                 for (int i = 0; i < level.UpConnections.Length; i++)
                 {
@@ -105,7 +130,8 @@ namespace Pantheon.World
                 }
             }
 
-            if (level.DownConnections != null && level.DownConnections.HasElements())
+            if (level.DownConnections != null &&
+                level.DownConnections.HasElements())
             {
                 for (int i = 0; i < level.DownConnections.Length; i++)
                 {
@@ -129,23 +155,5 @@ namespace Pantheon.World
                 }
             }
         }
-    }
-
-    /// <summary>
-    /// Holds callbacks at given keys for level generation.
-    /// </summary>
-    public static class GenerationMap
-    {
-        public delegate void LevelGenDelegate(Level level, LevelGenArgs args);
-
-        public static Dictionary<Vector2Int, LevelGenDelegate> _overworld
-            = new Dictionary<Vector2Int, LevelGenDelegate>()
-            {
-                { new Vector2Int(0, 0), Zones.Valley },
-                { new Vector2Int(0, 1), Zones.Valley },
-                { new Vector2Int(1, 0), Zones.Valley },
-                { new Vector2Int(0, -1), Zones.Valley },
-                { new Vector2Int(-1, 0), Zones.Valley }
-            };
     }
 }

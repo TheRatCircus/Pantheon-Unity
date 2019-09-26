@@ -7,7 +7,6 @@ using Pantheon.Core;
 using Pantheon.Actors;
 using Pantheon.World;
 using Pantheon.Utils;
-using Pantheon.WorldGen;
 
 namespace Pantheon.Debug
 {
@@ -107,7 +106,9 @@ namespace Pantheon.Debug
 
             int npcsKilled = 0;
 
-            for (int i = Game.instance.activeLevel.NPCs.Count - 1; i >= 0; i--)
+            for (int i = Game.instance.activeLevel.NPCs.Count - 1;
+                i >= 0;
+                i--)
             {
                 Game.instance.activeLevel.NPCs[i].OnDeath();
                 npcsKilled++;
@@ -137,7 +138,8 @@ namespace Pantheon.Debug
 
             string idolRef = args[0].ToLower();
 
-            if (!Game.instance.Pantheon.Idols.TryGetValue(idolRef, out Idol idol))
+            if (!Game.instance.Pantheon.Idols.TryGetValue(idolRef,
+                out Idol idol))
                 return "That idol was not found.";
 
             Connection domainPortal = new Connection(
@@ -146,7 +148,8 @@ namespace Pantheon.Debug
                 FeatureType.Portal,
                 $"domain_{idolRef}_0");
             domainPortal.OneWay = true;
-            domainPortal.DisplayName = $"a portal to {idol.DisplayName}'s Domain";
+            domainPortal.DisplayName = $"a portal to {idol.DisplayName}'s" +
+                $" Domain";
 
             Game.GetPlayer().Cell.Connection = domainPortal;
 
@@ -177,7 +180,8 @@ namespace Pantheon.Debug
                 pair in Game.instance.Religions)
             {
                 Faction faction = pair.Value;
-                ret += $"{faction.RefName} ({faction.DisplayName}){Environment.NewLine}";
+                ret += $"{faction.RefName} ({faction.DisplayName})" +
+                    $"{Environment.NewLine}";
             }
 
             return ret;
@@ -188,7 +192,8 @@ namespace Pantheon.Debug
             if (args.Length != 1)
                 return "Please pass only 1 argument.";
 
-            if (Game.instance.Pantheon.Idols.TryGetValue(args[0], out Idol idol))
+            if (Game.instance.Pantheon.Idols.TryGetValue(args[0],
+                out Idol idol))
                 return $"Idol {args[0]} does not exist.";
 
             Game.instance.Religions.TryGetValue(idol, out Faction religion);
@@ -205,9 +210,8 @@ namespace Pantheon.Debug
             string ret = "";
 
             foreach (Level level in Game.instance.Levels.Values)
-            {
-                ret += $"{level.RefName} ({level.DisplayName}){Environment.NewLine}";
-            }
+                ret += $"{level.RefName} ({level.DisplayName})" +
+                    $"{Environment.NewLine}";
 
             return ret;
         }
@@ -217,7 +221,8 @@ namespace Pantheon.Debug
             if (args.Length != 0)
                 return "This command takes no arguments.";
 
-            return $"{Game.instance.activeLevel.RefName} ({Game.instance.activeLevel.LayerPos})";
+            return $"{Game.instance.activeLevel.RefName} " +
+                $"({Game.instance.activeLevel.LayerPos})";
         }
     }
 }

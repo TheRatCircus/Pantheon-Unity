@@ -81,7 +81,7 @@ namespace Pantheon.WorldGen
 
             Vector2Int layerPos = Helpers.V3IToV2I(args.Coords);
             level.LayerPos = layerPos;
-            CardinalDirection wing = Helpers.V2IToCardinal(layerPos);
+            CardinalDirection wing = Helpers.ToCardinal(layerPos);
 
             switch (wing)
             {
@@ -90,7 +90,7 @@ namespace Pantheon.WorldGen
                         level.DisplayName = "Central Valley";
                         level.RefName = "valley_central";
 
-                        Connect.Trails(level, CardinalDirection.North
+                        Connect.ConnectByDirection(level, CardinalDirection.North
                             | CardinalDirection.East | CardinalDirection.South
                             | CardinalDirection.West);
 
@@ -106,7 +106,7 @@ namespace Pantheon.WorldGen
                             Database.GetNPC(NPCType.DreadHamster).Prefab,
                             level, level.RandomFloor());
 
-                        Connect.Trails(level, CardinalDirection.South);
+                        Connect.ConnectByDirection(level, CardinalDirection.South);
                     }
                     break;
                 case CardinalDirection.East:
@@ -116,7 +116,7 @@ namespace Pantheon.WorldGen
 
                         PlaceGuaranteedAltar(level.RandomFloor());
 
-                        Connect.Trails(level, CardinalDirection.West);
+                        Connect.ConnectByDirection(level, CardinalDirection.West);
                     }
                     break;
                 case CardinalDirection.South:
@@ -126,7 +126,7 @@ namespace Pantheon.WorldGen
 
                         PlaceGuaranteedAltar(level.RandomFloor());
 
-                        Connect.Trails(level, CardinalDirection.North);
+                        Connect.ConnectByDirection(level, CardinalDirection.North);
                     }
                     break;
                 case CardinalDirection.West:
@@ -136,7 +136,7 @@ namespace Pantheon.WorldGen
 
                         PlaceGuaranteedAltar(level.RandomFloor());
 
-                        Connect.Trails(level, CardinalDirection.East);
+                        Connect.ConnectByDirection(level, CardinalDirection.East);
                     }
                     break;
                 default:
