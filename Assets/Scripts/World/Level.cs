@@ -67,7 +67,6 @@ namespace Pantheon.World
                     ($"Attempt to access out-of-bounds cell {pos.x}, {pos.y}");
         }
 
-        // Cell accessor, mostly for validation
         public Cell GetCell(int x, int y)
         {
             if (Contains(new Vector2Int(x, y)))
@@ -197,6 +196,13 @@ namespace Pantheon.World
             else return false;
         }
 
+        public bool Contains(int x, int y)
+        {
+            if (x < LevelSize.x && y < LevelSize.y)
+                return (x >= 0 && y >= 0);
+            else return false;
+        }
+
         // Check if one cell is adjacent to another
         public bool AdjacentTo(Cell a, Cell b) => Distance(a, b) <= 1;
 
@@ -214,6 +220,39 @@ namespace Pantheon.World
 
             Vector2Int newCellPos = origin.Position + delta;
             return GetCell(newCellPos);
+        }
+
+        /// <summary>
+        /// Returns a number of blocked terrain cells adjacent to a cell.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="scopeX"></param>
+        /// <param name="scopeY"></param>
+        /// <param name="oobIsWall">True to consider out-of-bounds as a wall.
+        /// </param>
+        /// <returns></returns>
+        public int GetAdjacentWalls(int x, int y, int scopeX, int scopeY,
+            bool oobIsWall)
+        {
+            int startX = x - scopeX;
+            int startY = y - scopeY;
+            int endX = x + scopeX;
+            int endY = y + scopeY;
+            int wallCounter = 0;
+
+            int iX = startX;
+            int iY = startY;
+
+            for (iY = startY; iY <= endY; iY++)
+                for (iX = startX; iX <= endX; iX++)
+                    if (!(iX == x && iY == y))
+                        if ((oobIsWall && !Contains(iX, iY))
+                            || Map[iX, iY].IsWall)
+                        {
+                            wallCounter++;
+                        }
+            return wallCounter;
         }
 
         public override string ToString()

@@ -421,8 +421,6 @@ public sealed class PlayerInput : MonoBehaviour
         // Finally, examine is always available
         if (Input.GetMouseButtonDown(1))
             GameLog.Send(targetCell.ToString(), Strings.TextColour.White);
-        else if (Input.GetMouseButtonDown(2))
-            DebugChangeCell(targetCell);
     }
 
     // Move crosshair and change its targetted cell
@@ -437,16 +435,6 @@ public sealed class PlayerInput : MonoBehaviour
         else
             Debug.LogWarning
                 ("Attempted to move crosshair to null cell");
-    }
-
-    // Debug function to change a floor to a wall and vice-versa
-    private void DebugChangeCell(Cell cell)
-    {
-        if (cell.TerrainData.TerrainType == TerrainType.StoneWall)
-            cell.SetTerrain(Database.GetTerrain(TerrainType.StoneFloor));
-        else if (cell.TerrainData.TerrainType == TerrainType.StoneFloor)
-            cell.SetTerrain(Database.GetTerrain(TerrainType.StoneWall));
-        player.level.RefreshFOV();
     }
 
     // Pathfinding list, also used for gizmo

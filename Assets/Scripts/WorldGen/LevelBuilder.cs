@@ -94,7 +94,7 @@ namespace Pantheon.WorldGen
 
             Layout.FillRect(level, rect, FeatureType.WoodFence);
             BinarySpacePartition.BSP(level, TerrainType.Grass, 12);
-            //Layout.RandomFill(level, 2, FeatureType.Tree);
+            ////Layout.RandomFill(level, 2, FeatureType.Tree);
             Layout.Enclose(level, TerrainType.StoneWall);
 
             NPCs.SpawnNPCs(level, ValleyEnemies, NPCPops.ValleyCentre);

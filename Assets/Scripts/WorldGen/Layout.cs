@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Pantheon.Core;
 using Pantheon.World;
@@ -23,7 +24,7 @@ namespace Pantheon.WorldGen
                 for (int y = 0; y < map.GetLength(1); y++)
                 {
                     map[x, y] = new Cell(new Vector2Int(x, y));
-                    map[x, y].SetTerrain(Database.GetTerrain(terrain));
+                    map[x, y].SetTerrain(terrain);
                 }
 
             return map;
@@ -41,24 +42,24 @@ namespace Pantheon.WorldGen
                 {
                     if (x == 0)
                     {
-                        level.Map[x, y].SetTerrain(Database.GetTerrain(terrain));
+                        level.Map[x, y].SetTerrain(terrain);
                         continue;
                     }
                     else if (x == level.LevelSize.x - 1)
                     {
-                        level.Map[x, y].SetTerrain(Database.GetTerrain(terrain));
+                        level.Map[x, y].SetTerrain(terrain);
                         continue;
                     }
                     else
                     {
                         if (y == 0)
                         {
-                            level.Map[x, y].SetTerrain(Database.GetTerrain(terrain));
+                            level.Map[x, y].SetTerrain(terrain);
                             continue;
                         }
                         else if (y == level.LevelSize.y - 1)
                         {
-                            level.Map[x, y].SetTerrain(Database.GetTerrain(terrain));
+                            level.Map[x, y].SetTerrain(terrain);
                             continue;
                         }
                     }
@@ -77,7 +78,7 @@ namespace Pantheon.WorldGen
                 for (int y = 0; y < level.LevelSize.y; y++)
                 {
                     if (Game.PRNG.Next(0, 100) < percent)
-                        level.Map[x, y].SetTerrain(Database.GetTerrain(terrain));
+                        level.Map[x, y].SetTerrain(terrain);
                 }
         }
 
@@ -174,7 +175,7 @@ namespace Pantheon.WorldGen
             //Debug.Log($"Generating room {rect.x2 - rect.x1} tiles wide and {rect.y2 - rect.y1} tiles long");
             for (int x = rect.x1 + 1; x < rect.x2 - 1; x++)
                 for (int y = rect.y1 + 1; y < rect.y2 - 1; y++)
-                    level.Map[x, y].SetTerrain(Database.GetTerrain(terrain));
+                    level.Map[x, y].SetTerrain(terrain);
         }
 
         public static void GenerateRoom(Level level, Rectangle rect,
@@ -190,8 +191,8 @@ namespace Pantheon.WorldGen
                 for (int y = rect.y1; y < rect.y2; y++)
                 {
                     if (level.Contains(new Vector2Int(x, y)))
-                        level.Map[x, y].SetTerrain(Database.GetTerrain(terrain));
-                }   
+                        level.Map[x, y].SetTerrain(terrain);
+                }
         }
 
         public static void FillRect(Level level, Rectangle rect, FeatureType feature)
@@ -214,7 +215,7 @@ namespace Pantheon.WorldGen
         private static void CreateHorizontalTunnel(Level level, int x1, int x2, int y)
         {
             for (int x = Mathf.Min(x1, x2); x < Mathf.Max(x1, x2); x++)
-                level.Map[x, y].SetTerrain(Database.GetTerrain(TerrainType.StoneFloor));
+                level.Map[x, y].SetTerrain(TerrainType.StoneFloor);
         }
 
         /// <summary>
@@ -227,7 +228,7 @@ namespace Pantheon.WorldGen
         private static void CreateVerticalTunnel(Level level, int y1, int y2, int x)
         {
             for (int y = Mathf.Min(y1, y2); y < Mathf.Max(y1, y2); y++)
-                level.Map[x, y].SetTerrain(Database.GetTerrain(TerrainType.StoneFloor));
+                level.Map[x, y].SetTerrain(TerrainType.StoneFloor);
         }
 
         /// <summary>
@@ -304,6 +305,176 @@ namespace Pantheon.WorldGen
 
                 return xOverlap > 0 && yOverlap == 0 ||
                     xOverlap == 0 && yOverlap > 0;
+            }
+        }
+
+        public static HashSet<Cell> FloodFill(Level level, Cell start)
+        {
+            HashSet<Cell> filled = new HashSet<Cell>();
+            List<Cell> open = new List<Cell>();
+            HashSet<Cell> closed = new HashSet<Cell>();
+
+            filled.Add(start);
+            open.Add(start);
+
+            while (open.Count > 0)
+            {
+                for (int i = 0; i < open.Count; i++)
+                {
+                    closed.Add(open[i]);
+                    for (int x = -1; x <= 1; x++)
+                        for (int y = -1; y <= 1; y++)
+                        {
+                            Vector2Int frontier = open[i].Position;
+                            frontier += new Vector2Int(x, y);
+                            Cell frontierCell;
+
+                            if (level.Contains(frontier))
+                                frontierCell = level.GetCell(frontier);
+                            else
+                                continue;
+
+
+                            if (closed.Contains(frontierCell))
+                                continue;
+
+                            if (frontierCell.Blocked)
+                            {
+                                closed.Add(frontierCell);
+                                continue;
+                            }
+
+                            if (filled.Contains(frontierCell))
+                            {
+                                closed.Add(frontierCell);
+                                continue;
+                            }
+
+                            filled.Add(frontierCell);
+                            open.Add(frontierCell);
+                        }
+                    open.RemoveAt(i);
+                }
+            }
+            return filled;
+        }
+
+        public class CellularAutomata
+        {
+            // Credit to Adam Rakaska
+
+            public Level Level { get; set; }
+
+            public int MapWidth { get; set; }
+            public int MapHeight { get; set; }
+            public int PercentAreWalls { get; set; }
+
+            public CellularAutomata(Level level)
+            {
+                Level = level;
+
+                MapWidth = 64;
+                MapHeight = 64;
+                PercentAreWalls = 45;
+
+                Run();
+            }
+
+            private void Run()
+            {
+                for (int iterations = 0; iterations < 10; iterations++)
+                {
+                    Level.Map = BlankMap(Level.LevelSize, TerrainType.StoneFloor);
+                    RandomFillMap();
+                    Enclose(Level, TerrainType.StoneWall);
+                    MakeCaverns();
+
+                    if (Finish())
+                        return;
+                }
+                UnityEngine.Debug.Log("Cellular automata failed after 10 tries.");
+            }
+
+            public void MakeCaverns()
+            {
+                for (int column = 0, row = 0; row <= MapHeight - 1; row++)
+                    for (column = 0; column <= MapWidth - 1; column++)
+                    {
+                        if (PlaceWallLogic(column, row))
+                            Level.Map[column, row].SetTerrain(TerrainType.StoneWall);
+                        else
+                            Level.Map[column, row].SetTerrain(TerrainType.StoneFloor);
+                    }
+
+                //Finish();
+            }
+
+            public bool PlaceWallLogic(int x, int y)
+            {
+                int numWalls = Level.GetAdjacentWalls(x, y, 1, 1, true);
+
+                if (Level.Map[x, y].IsWall)
+                {
+                    if (numWalls >= 4)
+                        return true;
+                    if (numWalls < 2)
+                        return false;
+                }
+                else
+                {
+                    if (numWalls >= 5)
+                        return true;
+                }
+                return false;
+            }
+
+            public bool Finish()
+            {
+                // Find the main cavern using threshold
+                int threshold = (int)(Level.Map.Length * .4f);
+                HashSet<Cell> cavern = new HashSet<Cell>();
+                int attempts = 0;
+                do
+                {
+                    if (attempts > 50)
+                    {
+                        UnityEngine.Debug.Log("No cavern of sufficient size" +
+                            " found, regenerating...");
+                        return false;
+                    }
+
+                    cavern = FloodFill(Level, Level.RandomFloor());
+                    attempts++;
+                } while (cavern.Count < threshold);
+                UnityEngine.Debug.Log("Cavern of " + cavern.Count + " found.");
+                // cavern should now be the largest open space in the map
+                // Fill in every other cell to create one contiguous opening
+                foreach (Cell cell in Level.Map)
+                    if (!cavern.Contains(cell))
+                        cell.SetTerrain(TerrainType.StoneWall);
+                return true;
+            }
+
+            public void RandomFillMap()
+            {
+                int mapMiddle = 0;
+                for (int column = 0, row = 0; row < MapHeight; row++)
+                {
+                    for (column = 0; column < MapWidth; column++)
+                    {
+                        mapMiddle = (MapHeight / 2);
+
+                        if (row == mapMiddle)
+                            Level.Map[column, row].SetTerrain(TerrainType.StoneFloor);
+                        else
+                        {
+                            if (Utils.RandomUtils.RangeInclusive(0, 100) <= PercentAreWalls)
+                                Level.Map[column, row].SetTerrain(TerrainType.StoneWall);
+                            else
+                                Level.Map[column, row].SetTerrain(TerrainType.StoneFloor);
+                        }
+                    }
+                }
             }
         }
     }

@@ -52,6 +52,7 @@ namespace Pantheon.World
             set => blocked = value;
 
         }
+        public bool IsWall => blocked;
         public bool Opaque
         {
             get
@@ -95,16 +96,12 @@ namespace Pantheon.World
 
         public void Reveal() => revealed = true;
 
-        /// <summary>
-        /// Set this cell's terrain type and adjust its attributes accordingly.
-        /// </summary>
-        /// <param name="terrainData">The TerrainData which should define this
-        /// cell's new terrain.</param>
-        public void SetTerrain(TerrainData terrainData)
+        public void SetTerrain(TerrainType terrainType)
         {
             if (Feature != null)
                 SetFeature(null);
 
+            TerrainData terrainData = Database.GetTerrain(terrainType);
             this.terrainData = terrainData;
             opaque = terrainData.Opaque;
             blocked = terrainData.Blocked;

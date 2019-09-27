@@ -32,7 +32,7 @@ public sealed class DijkstraMap
             open.Add(v);
         }
 
-        int iterations = 0;
+        int iterations = 0; // Arbitrary limiter
         while (open.Count > 0)
         {
             for (int i = 0; i < open.Count; i++)
@@ -42,7 +42,8 @@ public sealed class DijkstraMap
                 for (int x = -1; x <= 1; x++)
                     for (int y = -1; y <= 1; y++)
                     {
-                        Vector2Int frontier = new Vector2Int(open[i].x + x, open[i].y + y);
+                        Vector2Int frontier = new Vector2Int(open[i].x + x,
+                            open[i].y + y);
 
                         if (closed.Contains(frontier))
                             continue;
@@ -52,7 +53,7 @@ public sealed class DijkstraMap
                             closed.Add(frontier);
                             continue;
                         }
-                            
+                        
                         if (map.ContainsKey(frontier))
                         {
                             closed.Add(frontier);
