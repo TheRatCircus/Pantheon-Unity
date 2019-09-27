@@ -100,6 +100,7 @@ namespace Pantheon.Core
             player1.Initialize();
             player1.AddItem(ItemFactory.NewWeapon(intro.StartingWeapon));
 
+            introObj.GetComponentInChildren<Camera>().enabled = false;
             introObj.SetActive(false);
 
             queue = new List<Actor>();
@@ -131,6 +132,7 @@ namespace Pantheon.Core
             player1.transform.SetParent(activeLevel.transform);
 
             player1.OnPlayerDeathEvent += Lock;
+            UnityEngine.Debug.Log("Game initialization complete.");
         }
 
         /// <summary>
