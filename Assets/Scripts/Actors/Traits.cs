@@ -10,9 +10,13 @@ using static TraitEffects;
 /// </summary>
 public static class Traits
 {
-    public static Dictionary<TraitRef, Trait> _traits = new Dictionary<TraitRef, Trait>()
+    public static Dictionary<TraitRef, Trait> _traits
+        = new Dictionary<TraitRef, Trait>()
     {
-        { TraitRef.Ambidexterous, new Trait("Ambidextrous", ApplyAmbidextrous, LoseAmbidextrous) },
+        { TraitRef.Ambidexterous, new Trait(
+            "Ambidextrous",
+            ApplyAmbidextrous,
+            LoseAmbidextrous) },
         { TraitRef.Adrenaline, new Trait("Adrenaline", null, null) },
         { TraitRef.Endemic, new Trait("Endemic", null, null) }
     };
@@ -23,6 +27,7 @@ public static class Traits
 /// </summary>
 public enum TraitRef
 {
+    None, // Because trait map options need a default
     Ambidexterous,
     Adrenaline,
     Endemic

@@ -159,6 +159,8 @@
     <Compile Include="Assets\Scripts\UI\ModalList\SpellModalList.cs" />
     <Compile Include="Assets\Scripts\UI\ModalList\SpellModalListOption.cs" />
     <Compile Include="Assets\Scripts\UI\OnScreenHealthBar.cs" />
+    <Compile Include="Assets\Scripts\UI\TraitMenu.cs" />
+    <Compile Include="Assets\Scripts\UI\TraitStar.cs" />
     <Compile Include="Assets\Scripts\UI\WorldMap.cs" />
     <Compile Include="Assets\Scripts\Utils\Bresenhams.cs" />
     <Compile Include="Assets\Scripts\Utils\Colours.cs" />

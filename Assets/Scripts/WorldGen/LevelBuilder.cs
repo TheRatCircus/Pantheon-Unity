@@ -97,7 +97,7 @@ namespace Pantheon.WorldGen
             //Layout.RandomFill(level, 2, FeatureType.Tree);
             Layout.Enclose(level, TerrainType.StoneWall);
 
-            NPCs.SpawnNPCs(level, ValleyEnemies, NPCPops.ValleyCentre);
+            //NPCs.SpawnNPCs(level, ValleyEnemies, NPCPops.ValleyCentre);
 
             // Defer player spawn so RefreshFOV() covers everything
             if (wing == CardinalDirection.Centre)

@@ -1,13 +1,11 @@
 ﻿// Trait.cs
 // Jerome Martina
 
-using UnityEngine;
-
 namespace Pantheon.Actors
 {
     public class Trait
     {
-        [SerializeField] [ReadOnly] private string displayName;
+        public string DisplayName { get; private set; }
 
         public delegate void TraitEffectDelegate(Actor actor);
         public TraitEffectDelegate OnGetTrait { get; private set; }
@@ -17,11 +15,11 @@ namespace Pantheon.Actors
             TraitEffectDelegate onGet,
             TraitEffectDelegate onLose)
         {
-            this.displayName = displayName;
+            DisplayName = displayName;
             OnGetTrait = onGet;
             OnLoseTrait = onLose;
         }
 
-        public override string ToString() => displayName;
+        public override string ToString() => DisplayName;
     }
 }

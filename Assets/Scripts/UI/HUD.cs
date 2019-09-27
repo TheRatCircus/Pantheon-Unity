@@ -29,6 +29,7 @@ namespace Pantheon.UI
         [SerializeField] private Text evasionCounter = null;
         [SerializeField] private Text statusDisplay = null;
         [SerializeField] private GameObject worldMap = null;
+        [SerializeField] private GameObject traitMenu = null;
 
         // Modals
         public ItemModalList itemModalList;
@@ -38,10 +39,13 @@ namespace Pantheon.UI
         // Start is called before the first frame update
         private void Start()
         {
+            traitMenu.GetComponent<TraitMenu>().Initialize(player);
+
             player.OnHealthChangeEvent += UpdateHealthCounter;
             player.Input.WorldMapToggleEvent += ToggleWorldMap;
             player.Input.ModalListOpenEvent += OpenModalList;
             player.Input.ModalCancelEvent += ClearModals;
+            player.Input.TraitMenuToggleEvent += ToggleTraitMenu;
             player.StatusChangeEvent += UpdateStatuses;
             player.Defenses.RecalculateEvent += UpdateDefenses;
             Game.instance.OnPlayerActionEvent += UpdateEnergyCounter;
@@ -100,6 +104,11 @@ namespace Pantheon.UI
         private void ToggleWorldMap()
         {
             worldMap.SetActive(!worldMap.activeSelf);
+        }
+
+        private void ToggleTraitMenu()
+        {
+            traitMenu.SetActive(!traitMenu.activeSelf);
         }
 
         private void ClearModals()

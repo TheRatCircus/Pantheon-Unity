@@ -17,13 +17,17 @@ namespace Pantheon.Actors
         [SerializeField] private PlayerInput input;
         [SerializeField] private int inventorySize = 40;
         [SerializeField] private int fovRadius = 15; // Not in cells
-        private bool longResting = false;
+
+        private int XP = 0;
+        private int expLevel = 1;
+        public int TraitPoints { get; private set; } = 0;
 
         [SerializeField] [ReadOnly] private List<Cell> visibleCells
             = new List<Cell>();
         [SerializeField] [ReadOnly] private List<NPC> visibleEnemies
             = new List<NPC>();
         [SerializeField] [ReadOnly] private List<Cell> movePath;
+        private bool longResting = false;
 
         // Properties
         public PlayerInput Input
@@ -44,6 +48,7 @@ namespace Pantheon.Actors
         public event Action OnInventoryToggleEvent;
         public event Action<List<StatusEffect>> StatusChangeEvent;
         public event Action OnPlayerDeathEvent;
+        public event Action<int> TraitPointChangeEvent;
 
         // Event invokers for PlayerInput
         public void RaiseInventoryToggleEvent()
@@ -177,6 +182,21 @@ namespace Pantheon.Actors
 
             Faction = religion;
             GameLog.Send($"You are now a member of {religion}!");
+        }
+
+        public void ChangeTraitPoints(int pts)
+        {
+            TraitPoints += pts;
+            bool lost = pts < 0;
+            bool single = pts == 1;
+            if (!lost)
+            {
+                string msg = $"You have gained" +
+                    $" {(single ? "a" : pts.ToString())}" +
+                    $" trait point{(single ? "" : "s")}!";
+                GameLog.Send(msg, lost ? TextColour.Red : TextColour.Green);
+            }
+            TraitPointChangeEvent?.Invoke(TraitPoints);
         }
 
         // Call every time FOV is refreshed

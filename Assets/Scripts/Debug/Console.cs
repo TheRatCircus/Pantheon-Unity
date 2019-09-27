@@ -40,7 +40,8 @@ namespace Pantheon.Debug
                 { "join_religion", new ConsoleCommand(JoinReligion) },
                 { "list_levels", new ConsoleCommand(ListLevels) },
                 { "list_idols", new ConsoleCommand(ListIdols) },
-                { "where_am_i", new ConsoleCommand(WhereAmI) }
+                { "where_am_i", new ConsoleCommand(WhereAmI) },
+                { "add_trait_points", new ConsoleCommand(AddTraitPoints) }
             };
         }
 
@@ -77,7 +78,8 @@ namespace Pantheon.Debug
             string[] tokens = input.Split(' ');
             string output;
 
-            if (!consoleCommands.TryGetValue(tokens[0], out ConsoleCommand cmd))
+            if (!consoleCommands.TryGetValue(tokens[0],
+                out ConsoleCommand cmd))
                 output = $"Command \"{tokens[0]}\" not found";
             else
             {

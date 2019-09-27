@@ -1,12 +1,12 @@
 ﻿// ConsoleCommandFunctions.cs
 // Jerome Martina
 
+using Pantheon.Actors;
+using Pantheon.Core;
+using Pantheon.Utils;
+using Pantheon.World;
 using System;
 using System.Collections.Generic;
-using Pantheon.Core;
-using Pantheon.Actors;
-using Pantheon.World;
-using Pantheon.Utils;
 
 namespace Pantheon.Debug
 {
@@ -223,6 +223,19 @@ namespace Pantheon.Debug
 
             return $"{Game.instance.activeLevel.RefName} " +
                 $"({Game.instance.activeLevel.LayerPos})";
+        }
+
+        public static string AddTraitPoints(string[] args)
+        {
+            if (args.Length < 1)
+                return "Please enter a number of trait points to add.";
+
+            if (args.Length > 1)
+                return "Please pass only 1 argument.";
+
+            int toAdd = Math.Min(int.Parse(args[0]), 64);
+            Game.GetPlayer().ChangeTraitPoints(toAdd);
+            return $"Added {toAdd} trait points.";
         }
     }
 }

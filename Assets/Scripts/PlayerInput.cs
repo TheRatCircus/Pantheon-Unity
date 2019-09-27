@@ -67,6 +67,7 @@ public sealed class PlayerInput : MonoBehaviour
 
     public event Action<ModalListOperation> ModalListOpenEvent;
     public event Action WorldMapToggleEvent;
+    public event Action TraitMenuToggleEvent;
 
     // Start is called before the first frame update
     private void Start()
@@ -343,8 +344,13 @@ public sealed class PlayerInput : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown("World Map"))
-            WorldMapToggleEvent?.Invoke();
+        if (inputState != InputState.Console)
+        {
+            if (Input.GetButtonDown("World Map"))
+                WorldMapToggleEvent?.Invoke();
+            if (Input.GetButtonDown("Trait Menu"))
+                TraitMenuToggleEvent?.Invoke();
+        }
     }
 
     #region Mouse
@@ -361,7 +367,8 @@ public sealed class PlayerInput : MonoBehaviour
         if (player.level.Contains((Vector2Int)posInt))
         {
             MoveCrosshair(player.level.GetCell((Vector2Int)posInt));
-            targetLine = Bresenhams.GetLine(player.level, player.Cell, targetCell);
+            targetLine = Bresenhams.GetLine(player.level, player.Cell,
+                targetCell);
             switch (inputState)
             {
                 case InputState.Move:
@@ -369,7 +376,8 @@ public sealed class PlayerInput : MonoBehaviour
                 case InputState.PointTarget:
                     break;
                 case InputState.LineTarget:
-                    CellDrawer.PaintCells(player.level, Bresenhams.GetLine(player.level, player.Cell, targetCell));
+                    CellDrawer.PaintCells(player.level, Bresenhams.GetLine(
+                        player.level, player.Cell, targetCell));
                     break;
             }
         }
@@ -391,12 +399,14 @@ public sealed class PlayerInput : MonoBehaviour
                     if (targetCell.Actor is NPC
                         && player.Inventory.WieldingRangedWeapon())
                     {
-                        List<Cell> l = Bresenhams.GetLine(player.level, player.Cell, targetCell);
+                        List<Cell> l = Bresenhams.GetLine(player.level,
+                            player.Cell, targetCell);
                         player.NextAction = new ShootAction(player, l);
                         break;
                     }
 
-                    path = player.level.Pathfinder.GetCellPath(Game.GetPlayer().Position, targetCell.Position);
+                    path = player.level.Pathfinder.GetCellPath(
+                        Game.GetPlayer().Position, targetCell.Position);
                     player.MovePath = path;
                 }
                 break;
@@ -446,7 +456,8 @@ public sealed class PlayerInput : MonoBehaviour
     {
         if (path != null)
             foreach (Cell c in path)
-                Gizmos.DrawWireCube(Helpers.V2IToV3(c.Position), new Vector3(.5f, .5f, .5f));
+                Gizmos.DrawWireCube(Helpers.V2IToV3(c.Position),
+                    new Vector3(.5f, .5f, .5f));
     }
 
     #endregion
