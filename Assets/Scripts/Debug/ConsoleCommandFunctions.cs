@@ -114,6 +114,7 @@ namespace Pantheon.Debug
                 npcsKilled++;
             }
 
+            Game.instance.activeLevel.RefreshFOV();
             return $"Killed {npcsKilled} NPCs.";
         }
 
