@@ -210,7 +210,7 @@ namespace Pantheon.Actors
 
             // Also refresh list of visible enemies
             foreach (Cell c in visibleCells)
-                if (c.Actor is NPC)
+                if (c.Actor is NPC && c.Actor.IsHostileTo(this))
                     visibleEnemies.Add((NPC)c.Actor);
         }
 
