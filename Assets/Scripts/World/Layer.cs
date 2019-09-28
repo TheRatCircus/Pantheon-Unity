@@ -68,6 +68,7 @@ namespace Pantheon.World
                 if (Levels.Count > 1)
                     ConnectLevel(newLevel);
 
+                BuilderMap.Remove(coords);
                 return newLevel;
             }
             else

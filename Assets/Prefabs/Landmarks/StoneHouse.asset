@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: StoneHouse
   m_EditorClassIdentifier: 
   prefab: {fileID: 7256606487818231151, guid: d2571f28f47f8924186a9604426ca531, type: 3}
-  reference: 0
+  reference: 1
   terrain: 0200000001000000

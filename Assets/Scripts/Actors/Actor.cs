@@ -141,9 +141,7 @@ namespace Pantheon.Actors
                 if (cell.Items.Count > 0)
                     GameLog.LogCellItems(cell);
 
-                if (cell.Connection != null)
-                    GameLog.LogCellConnection(cell);
-                else if (cell.Feature != null)
+                if (cell.Feature != null)
                     GameLog.LogCellFeature(cell);
             }
         }
