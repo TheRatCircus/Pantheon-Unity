@@ -75,13 +75,11 @@ namespace Pantheon.WorldGen
                     if (x == rect.x1)
                     {
                         level.Map[x, y].SetTerrain(wallType);
-                        Debug.Visualisation.MarkPos(level.Map[x, y].Position, 120);
                         continue;
                     }
                     else if (x == rect.x2)
                     {
                         level.Map[x, y].SetTerrain(wallType);
-                        Debug.Visualisation.MarkPos(level.Map[x, y].Position, 120);
                         continue;
                     }
                     else
@@ -89,13 +87,11 @@ namespace Pantheon.WorldGen
                         if (y == rect.y1)
                         {
                             level.Map[x, y].SetTerrain(wallType);
-                            Debug.Visualisation.MarkPos(level.Map[x, y].Position, 120);
                             continue;
                         }
                         else if (y == rect.y2)
                         {
                             level.Map[x, y].SetTerrain(wallType);
-                            Debug.Visualisation.MarkPos(level.Map[x, y].Position, 120);
                             continue;
                         }
                     }

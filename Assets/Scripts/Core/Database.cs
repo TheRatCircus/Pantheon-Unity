@@ -8,6 +8,7 @@ using UnityEngine.Tilemaps;
 using Pantheon.Actors;
 using Pantheon.World;
 using Pantheon.Utils;
+using Pantheon.WorldGen;
 
 namespace Pantheon.Core
 {
@@ -43,6 +44,8 @@ namespace Pantheon.Core
             = new List<Occupation>();
         [SerializeField] private List<ArmourData> armours
             = new List<ArmourData>();
+        [SerializeField] private List<Landmark> landmarkList
+            = new List<Landmark>();
 
         // Dictionaries for lookup by enum
         public Dictionary<WeaponType, WeaponData> WeaponDict { get; }
@@ -67,6 +70,8 @@ namespace Pantheon.Core
             = new Dictionary<OccupationRef, Occupation>();
         public Dictionary<ArmourRef, ArmourData> ArmourDict { get; }
             = new Dictionary<ArmourRef, ArmourData>();
+        public Dictionary<LandmarkRef, Landmark> LandmarkDict { get; }
+            = new Dictionary<LandmarkRef, Landmark>();
 
         // Miscellaneous
         [SerializeField] private GameObject genericNPC = null;
@@ -114,6 +119,8 @@ namespace Pantheon.Core
                 OccupationDict.Add(occupations[i].Reference, occupations[i]);
             for (int i = 0; i < armours.Count; i++)
                 ArmourDict.Add(armours[i].ArmourRef, armours[i]);
+            for (int i = 0; i < landmarkList.Count; i++)
+                LandmarkDict.Add(landmarkList[i].Reference, landmarkList[i]);
         }
 
         #region Accessors
@@ -211,6 +218,16 @@ namespace Pantheon.Core
             if (!GetDatabase().ArmourDict.TryGetValue(armourRef,
                 out ArmourData ret))
                 throw new ArgumentException("Failed to get specified armour.");
+
+            return ret;
+        }
+
+        public static Landmark GetLandmark(LandmarkRef landmarkRef)
+        {
+            if (!GetDatabase().LandmarkDict.TryGetValue(landmarkRef,
+                out Landmark ret))
+                throw new ArgumentException($"Failed to get landmark data" +
+                    $" {landmarkRef}.");
 
             return ret;
         }

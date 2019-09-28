@@ -4,8 +4,8 @@
 using Pantheon.Actors;
 using Pantheon.Core;
 using Pantheon.World;
-using static Pantheon.WorldGen.Layout;
 using UnityEngine;
+using static Pantheon.WorldGen.Layout;
 
 namespace Pantheon.WorldGen
 {
@@ -19,7 +19,8 @@ namespace Pantheon.WorldGen
 
         public static void FinishLevel(Level level)
         {
-            UnityEngine.Debug.Log($"Registering level {level.RefName} in dictionary...");
+            UnityEngine.Debug.Log
+                ($"Registering level {level.RefName} in dictionary...");
             Game.instance.RegisterLevel(level);
             CellDrawer.DrawLevel(level);
         }
@@ -38,11 +39,11 @@ namespace Pantheon.WorldGen
 
             switch (r)
             {
-                case 0: // Sparse wood
+                case 0: 
+                case 1: // Sparse wood
                     RandomFill(level, 2, FeatureType.Tree);
                     Enclose(level, TerrainType.StoneWall);
                     break;
-                case 1:
                 case 2: // Gorge
                     CellularAutomata ca = new CellularAutomata(level);
                     ca.WallType = TerrainType.StoneWall;
@@ -50,13 +51,7 @@ namespace Pantheon.WorldGen
                     ca.Run();
                     break;
                 case 3:
-                    CellularAutomata lca = new CellularAutomata(level,
-                        new LevelRect(new Vector2Int(16, 16),
-                        new Vector2Int(31, 31)), 50);
-                    lca.WallType = TerrainType.StoneWall;
-                    lca.FloorType = TerrainType.Grass;
-                    lca.Run();
-                    break;
+                    goto case 0;
             }
         }
 

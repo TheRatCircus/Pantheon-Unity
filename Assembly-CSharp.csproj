@@ -182,6 +182,7 @@
     <Compile Include="Assets\Scripts\WorldGen\Connect.cs" />
     <Compile Include="Assets\Scripts\WorldGen\Items.cs" />
     <Compile Include="Assets\Scripts\WorldGen\ItemWeights.cs" />
+    <Compile Include="Assets\Scripts\WorldGen\Landmark.cs" />
     <Compile Include="Assets\Scripts\WorldGen\LayerBuild.cs" />
     <Compile Include="Assets\Scripts\WorldGen\Layout.cs" />
     <Compile Include="Assets\Scripts\WorldGen\LevelBuilder.cs" />

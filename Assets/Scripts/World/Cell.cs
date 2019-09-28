@@ -93,12 +93,15 @@ namespace Pantheon.World
 
         public void Reveal() => revealed = true;
 
-        public void SetTerrain(TerrainType terrainType)
+        public void SetTerrain(TerrainType type)
         {
             if (Feature != null)
                 SetFeature(null);
 
-            TerrainData terrainData = Database.GetTerrain(terrainType);
+            if (type == TerrainType.None)
+                return;
+
+            TerrainData terrainData = Database.GetTerrain(type);
             this.terrainData = terrainData;
             opaque = terrainData.Opaque;
             blocked = terrainData.Blocked;

@@ -37,11 +37,11 @@ namespace Pantheon.WorldGen
                 position.y += rectSize.y; 
             }
 
-            foreach (LevelRect rect in rects)
-            {
-                Debug.Visualisation.MarkPos(new Vector2Int(rect.x1, rect.y1), 10);
-                Debug.Visualisation.MarkPos(new Vector2Int(rect.x2, rect.y2), 10);
-            }
+            //foreach (LevelRect rect in rects)
+            //{
+            //    Debug.Visualisation.MarkPos(new Vector2Int(rect.x1, rect.y1), 10);
+            //    Debug.Visualisation.MarkPos(new Vector2Int(rect.x2, rect.y2), 10);
+            //}
 
             //RoomsFromGrid(level, rects);
         }
