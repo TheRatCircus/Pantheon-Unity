@@ -87,25 +87,27 @@ namespace Pantheon.WorldGen
 
             Zones.ValleyBasics(level);
 
-            // Terrain generation
-            Layout.Rectangle rect = new Layout.Rectangle(
-                new Vector2Int(0, 0),
-                new Vector2Int(level.LevelSize.x, level.LevelSize.y));
-
-            Layout.FillRect(level, rect, FeatureType.WoodFence);
-            BinarySpacePartition.BSP(level, TerrainType.Grass, 12);
-            ////Layout.RandomFill(level, 2, FeatureType.Tree);
-            Layout.Enclose(level, TerrainType.StoneWall);
-
-            NPCs.SpawnNPCs(level, ValleyEnemies, NPCPops.ValleyCentre);
-
-            // Defer player spawn so RefreshFOV() covers everything
             if (wing == CardinalDirection.Centre)
             {
+                // Terrain generation
+                LevelRect rect = new LevelRect(new Vector2Int(0, 0),
+                    new Vector2Int(level.LevelSize.x, level.LevelSize.y));
+
+                Layout.FillRect(level, rect, FeatureType.WoodFence);
+                BinarySpacePartition.BSP(level, TerrainType.Grass, 12);
+                Layout.Enclose(level, TerrainType.StoneWall);
+                foreach (Cell c in level.Map)
+                    if (Utils.RandomUtils.OneChanceIn(6))
+                        c.SetFeature(null); // Chop fence a bit
+
+                NPCs.SpawnNPCs(level, ValleyEnemies, NPCPops.ValleyCentre);
+
                 UnityEngine.Debug.Log("Spawning the player...");
                 Core.Game.instance.LoadLevel(level);
                 level.SpawnPlayer();
             }
+            else
+                Zones.GenerateValley(level);
 
             Connect.ConnectZone(level, wing, null);
             if (wing != CardinalDirection.Centre)
@@ -113,7 +115,7 @@ namespace Pantheon.WorldGen
 
             Vector2Int zonePos = CardinalToV2I(wing);
 
-            zone.Levels[zonePos.x, zonePos.y] = level;
+            zone.Levels[zonePos.x + 1, zonePos.y + 1] = level;
             UnityEngine.Debug.Log($"Registering level {level.RefName}" +
                 $" in dictionary...");
             Core.Game.instance.RegisterLevel(level);
@@ -134,14 +136,6 @@ namespace Pantheon.WorldGen
         public override void Generate(Level level)
         {
             throw new System.NotImplementedException();
-        }
-    }
-
-    public sealed class ConnectionCallback
-    {
-        public void Invoke(Level level)
-        {
-
         }
     }
 }

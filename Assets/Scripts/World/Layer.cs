@@ -35,7 +35,6 @@ namespace Pantheon.World
                 for (int y = -1; y <= 1; y++)
                 {
                     Vector2Int layerPos = new Vector2Int(x, y);
-                    Debug.Visualisation.MarkPos(layerPos, 120);
                     if (x == 0 && y == 0)
                     {
                         BuilderMap.Add(new Vector2Int(x, y),

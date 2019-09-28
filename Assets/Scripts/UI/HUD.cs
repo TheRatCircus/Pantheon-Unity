@@ -28,7 +28,7 @@ namespace Pantheon.UI
         [SerializeField] private Text armourCounter = null;
         [SerializeField] private Text evasionCounter = null;
         [SerializeField] private Text statusDisplay = null;
-        [SerializeField] private GameObject worldMap = null;
+        [SerializeField] private WorldMap worldMap = null;
         [SerializeField] private GameObject traitMenu = null;
 
         // Modals
@@ -103,7 +103,7 @@ namespace Pantheon.UI
 
         private void ToggleWorldMap()
         {
-            worldMap.SetActive(!worldMap.activeSelf);
+            worldMap.Toggle();
         }
 
         private void ToggleTraitMenu()

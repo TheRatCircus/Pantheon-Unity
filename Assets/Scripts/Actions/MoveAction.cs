@@ -44,7 +44,7 @@ namespace Pantheon.Actions
                 UnityEngine.Debug.LogException(new System.Exception
                     ("A MoveAction was initialized with a null cell"));
 
-            if (!destination.IsWalkableTerrain())
+            if (destination.Blocked)
                 return -1;
 
             if (destination.Actor != null)

@@ -1,44 +1,14 @@
 ﻿// Zones.cs
 // Jerome Martina
 
-using System;
-using UnityEngine;
-using Pantheon.Core;
 using Pantheon.Actors;
+using Pantheon.Core;
 using Pantheon.World;
-using Pantheon.Utils;
+using static Pantheon.WorldGen.Layout;
+using UnityEngine;
 
 namespace Pantheon.WorldGen
 {
-    public struct LevelGenArgs
-    {
-        public Vector3Int Coords { get; }
-        public Idol Idol { get; }
-
-        public LevelGenArgs(Vector3Int coords, Idol idol)
-        {
-            Coords = coords;
-            Idol = idol;
-        }
-
-        public static LevelGenArgs ArgsFromRef(string levelRef)
-        {
-            string[] tokens = levelRef.Split('_');
-            if (tokens[0] == "domain")
-            {
-                if (!Game.instance.Pantheon.Idols.TryGetValue(tokens[1],
-                    out Idol idol))
-                    throw new Exception("levelRef has an illegal idol in it.");
-
-                int domainLevel = int.Parse(tokens[2]);
-
-                return new LevelGenArgs(new Vector3Int(0, domainLevel, 0), idol);
-            }
-            else
-                throw new ArgumentException("Arguments incomplete or invalid.");
-        }
-    }
-
     /// <summary>
     /// Functions for generating levels by their zones.
     /// </summary>
@@ -59,104 +29,35 @@ namespace Pantheon.WorldGen
             level.LevelSize = new Vector2Int(ValleySize, ValleySize);
 
             UnityEngine.Debug.Log($"Initializing cells...");
-            level.Map = Layout.BlankMap(level.LevelSize, TerrainType.Grass);
+            level.Map = BlankMap(level.LevelSize, TerrainType.Grass);
         }
 
-        public static void Valley(Level level, LevelGenArgs args)
+        public static void GenerateValley(Level level)
         {
-            if (!Game.instance.Layers.TryGetValue(args.Coords.z, out Layer layer))
-                throw new Exception("Z-coord argument has no layer.");
+            int r = Utils.RandomUtils.RangeInclusive(0, 3);
 
-            level.Layer = layer;
-            ValleyBasics(level);
-
-            Layout.Rectangle rect = new Layout.Rectangle(
-                new Vector2Int(0, 0),
-                new Vector2Int(level.LevelSize.x, level.LevelSize.y));
-
-            Layout.FillRect(level, rect, FeatureType.WoodFence);
-            BinarySpacePartition.BSP(level, TerrainType.Grass, 12);
-            Layout.RandomFill(level, 7, FeatureType.Tree);
-            Layout.Enclose(level, TerrainType.StoneWall);
-
-            Vector2Int layerPos = Helpers.V3IToV2I(args.Coords);
-            level.LayerPos = layerPos;
-            CardinalDirection wing = Helpers.ToCardinal(layerPos);
-
-            switch (wing)
+            switch (r)
             {
-                case CardinalDirection.Centre:
-                    {
-                        level.DisplayName = "Central Valley";
-                        level.RefName = "valley_central";
-
-                        Connect.ConnectByDirection(level, CardinalDirection.North
-                            | CardinalDirection.East | CardinalDirection.South
-                            | CardinalDirection.West);
-
-                        break;
-                    }
-                case CardinalDirection.North:
-                    {
-                        level.DisplayName = "Northern Valley";
-                        level.RefName = "valley_north";
-
-                        PlaceGuaranteedAltar(level.RandomFloor());
-                        Spawn.SpawnNPC(
-                            Database.GetNPC(NPCType.DreadHamster).Prefab,
-                            level, level.RandomFloor());
-
-                        Connect.ConnectByDirection(level, CardinalDirection.South);
-                    }
+                case 0: // Sparse wood
+                    RandomFill(level, 2, FeatureType.Tree);
+                    Enclose(level, TerrainType.StoneWall);
                     break;
-                case CardinalDirection.East:
-                    {
-                        level.DisplayName = "Eastern Valley";
-                        level.RefName = "valley_east";
-
-                        PlaceGuaranteedAltar(level.RandomFloor());
-
-                        Connect.ConnectByDirection(level, CardinalDirection.West);
-                    }
+                case 1:
+                case 2: // Gorge
+                    CellularAutomata ca = new CellularAutomata(level);
+                    ca.WallType = TerrainType.StoneWall;
+                    ca.FloorType = TerrainType.Grass;
+                    ca.Run();
                     break;
-                case CardinalDirection.South:
-                    {
-                        level.DisplayName = "Southern Valley";
-                        level.RefName = "valley_south";
-
-                        PlaceGuaranteedAltar(level.RandomFloor());
-
-                        Connect.ConnectByDirection(level, CardinalDirection.North);
-                    }
+                case 3:
+                    CellularAutomata lca = new CellularAutomata(level,
+                        new LevelRect(new Vector2Int(16, 16),
+                        new Vector2Int(31, 31)), 50);
+                    lca.WallType = TerrainType.StoneWall;
+                    lca.FloorType = TerrainType.Grass;
+                    lca.Run();
                     break;
-                case CardinalDirection.West:
-                    {
-                        level.DisplayName = "Western Valley";
-                        level.RefName = "valley_west";
-
-                        PlaceGuaranteedAltar(level.RandomFloor());
-
-                        Connect.ConnectByDirection(level, CardinalDirection.East);
-                    }
-                    break;
-                default:
-                    throw new ArgumentException("Unhandled wing passed as coord.");
             }
-            UnityEngine.Debug.Log($"Generating {level.RefName}...");
-
-            Items.SpawnItems(level);
-            level.RandomFloor().Items.Add(ItemFactory.NewArmour(ArmourRef.Cuirass));
-            NPCs.SpawnNPCs(level, ValleyEnemies, NPCPops.ValleyCentre);
-
-            // Defer player spawn so RefreshFOV() covers everything
-            if (wing == CardinalDirection.Centre)
-            {
-                UnityEngine.Debug.Log("Spawning the player...");
-                Game.instance.LoadLevel(level);
-                level.SpawnPlayer();
-            }
-
-            FinishLevel(level);
         }
 
         public static void PlaceGuaranteedAltar(Cell cell)
@@ -167,75 +68,6 @@ namespace Pantheon.WorldGen
                     cell.SetAltar(new Altar(idol, idol.Aspect.AltarFeature));
                     return;
                 }
-        }
-
-        public static void Domain(Level level, LevelGenArgs args)
-        {
-            if (args.Idol == null)
-                throw new ArgumentException("Domain generation needs an idol.");
-
-            level.LevelSize = new Vector2Int(100, 100);
-
-            level.DisplayName = "";
-            level.RefName = $"domain_{args.Idol.RefName}_{args.Coords.y}";
-            level.Faction = args.Idol.Religion;
-
-            UnityEngine.Debug.Log($"Initializing cells...");
-            level.Map = Layout.BlankMap(level.LevelSize, TerrainType.StoneWall);
-            BinarySpacePartition.BSP(level, TerrainType.MarbleTile, 12);
-
-            switch (args.Coords.y)
-            {
-                case 0:
-                    {
-                        Connection stairsUp = new Connection(level, level.RandomFloor(),
-                        FeatureType.StairsUp,
-                        $"domain_{args.Idol.RefName}_1");
-
-                        level.UpConnections = new Connection[]
-                        {
-                            stairsUp
-                        };
-                        break;
-                    }
-                case 1:
-                    {
-                        Connection stairsDown = new Connection(level, level.RandomFloor(),
-                            FeatureType.StairsDown,
-                            $"domain_{args.Idol.RefName}_0");
-                        Connection stairsUp = new Connection(level, level.RandomFloor(),
-                            FeatureType.StairsUp,
-                            $"domain_{args.Idol.RefName}_2");
-
-                        level.DownConnections = new Connection[]
-                        {
-                            stairsDown
-                        };
-                        level.UpConnections = new Connection[]
-                        {
-                            stairsUp
-                        };
-                        break;
-                    }
-                case 2:
-                    {
-                        Connection stairsDown = new Connection(level, level.RandomFloor(),
-                            FeatureType.StairsDown,
-                            $"domain_{args.Idol.RefName}_1");
-
-                        level.DownConnections = new Connection[]
-                        {
-                            stairsDown
-                        };
-
-                        Spawn.SpawnIdol(args.Idol, level, level.RandomFloor());
-
-                        break;
-                    }
-                default:
-                    throw new ArgumentException("Domain depth is out of range.");
-            }
-            FinishLevel(level);
         }
     }
 }

@@ -10,9 +10,9 @@ namespace Pantheon.UI
     {
         [SerializeField] private GameObject connectionPrefab = null;
 
-        [SerializeField] private Button button;
+        [SerializeField] private Button button = null;
         [SerializeField] private TraitRef traitRef = TraitRef.None;
-        [SerializeField] private TraitStar[] prereqs;
+        [SerializeField] private TraitStar[] prereqs = null;
         public bool Acquired { get; private set; }
         public System.Action AcquiredEvent;
 

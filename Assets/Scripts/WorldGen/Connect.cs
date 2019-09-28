@@ -18,8 +18,8 @@ namespace Pantheon.WorldGen
 
             if (direction.HasFlag(CardinalDirection.North))
             {
-                Cell trailNorthCell = level.RandomFloorOnY
-                    (level.LevelSize.y - 2, true);
+                Cell trailNorthCell = level.RandomFloorInDirection
+                    (CardinalDirection.North);
                 Connection trailNorth = new Connection(level.Layer, level,
                     trailNorthCell, FeatureType.TrailNorth,
                     new Vector2Int(0, 1));
@@ -28,17 +28,19 @@ namespace Pantheon.WorldGen
 
             if (direction.HasFlag(CardinalDirection.East))
             {
-                Cell trailEastCell = level.RandomFloorOnX
-                    (level.LevelSize.x - 2, true);
+                Cell trailEastCell = level.RandomFloorInDirection
+                    (CardinalDirection.East);
                 Connection trailEast = new Connection(level.Layer, level,
                     trailEastCell, FeatureType.TrailEast,
                     new Vector2Int(1, 0));
-                level.LateralConnections.Add(CardinalDirection.East, trailEast);
+                level.LateralConnections.Add(CardinalDirection.East,
+                    trailEast);
             }
 
             if (direction.HasFlag(CardinalDirection.South))
             {
-                Cell trailSouthCell = level.RandomFloorOnY(1, true);
+                Cell trailSouthCell = level.RandomFloorInDirection
+                    (CardinalDirection.South);
                 Connection trailSouth = new Connection(level.Layer, level,
                     trailSouthCell, FeatureType.TrailSouth,
                     new Vector2Int(0, -1));
@@ -47,7 +49,8 @@ namespace Pantheon.WorldGen
 
             if (direction.HasFlag(CardinalDirection.West))
             {
-                Cell trailWestCell = level.RandomFloorOnX(1, true);
+                Cell trailWestCell = level.RandomFloorInDirection
+                    (CardinalDirection.West);
                 Connection trailWest = new Connection(level.Layer, level,
                     trailWestCell, FeatureType.TrailWest,
                     new Vector2Int(-1, 0));
@@ -72,7 +75,8 @@ namespace Pantheon.WorldGen
                         // TODO: Path to boss level needs to depend on layouts
                         // of other levels
 
-                        Cell trailWestCell = level.RandomFloorOnX(1, true);
+                        Cell trailWestCell = level.RandomFloorInDirection
+                            (CardinalDirection.West);
                         Connection trailWest = new Connection(level.Layer,
                             level, trailWestCell, FeatureType.TrailWest,
                             new Vector2Int(-1, 0));
@@ -84,15 +88,16 @@ namespace Pantheon.WorldGen
                 case CardinalDirection.North:
                 case CardinalDirection.South:
                     {
-                        Cell trailWestCell = level.RandomFloorOnX(1, true);
+                        Cell trailWestCell = level.RandomFloorInDirection
+                            (CardinalDirection.West);
                         Connection trailWest = new Connection(level.Layer,
                             level, trailWestCell, FeatureType.TrailWest,
                             new Vector2Int(-1, 0));
                         level.LateralConnections.Add(CardinalDirection.West,
                             trailWest);
 
-                        Cell trailEastCell = level.RandomFloorOnX
-                            (level.LevelSize.x - 2, true);
+                        Cell trailEastCell = level.RandomFloorInDirection
+                            (CardinalDirection.East);
                         Connection trailEast = new Connection(level.Layer,
                             level, trailEastCell, FeatureType.TrailEast,
                             new Vector2Int(1, 0));
@@ -104,8 +109,8 @@ namespace Pantheon.WorldGen
                 case CardinalDirection.West:
                     {
                         // Connect to centre
-                        Cell trailEastCell = level.RandomFloorOnX
-                            (level.LevelSize.x - 2, true);
+                        Cell trailEastCell = level.RandomFloorInDirection
+                            (CardinalDirection.East);
                         Connection trailEast = new Connection(level.Layer,
                             level, trailEastCell, FeatureType.TrailEast,
                             new Vector2Int(1, 0));
@@ -116,15 +121,16 @@ namespace Pantheon.WorldGen
                     }
                 case CardinalDirection.East:
                     {
-                        Cell trailNorthCell = level.RandomFloorOnY
-                            (level.LevelSize.y - 2, true);
+                        Cell trailNorthCell = level.RandomFloorInDirection
+                            (CardinalDirection.North);
                         Connection trailNorth = new Connection(level.Layer,
                             level, trailNorthCell, FeatureType.TrailNorth,
                             new Vector2Int(0, 1));
                         level.LateralConnections.Add(CardinalDirection.North,
                             trailNorth);
 
-                        Cell trailSouthCell = level.RandomFloorOnY(1, true);
+                        Cell trailSouthCell = level.RandomFloorInDirection
+                            (CardinalDirection.South);
                         Connection trailSouth = new Connection(level.Layer,
                             level, trailSouthCell, FeatureType.TrailSouth,
                             new Vector2Int(0, -1));
@@ -135,14 +141,16 @@ namespace Pantheon.WorldGen
                     }
                 case CardinalDirection.NorthEast:
                     {
-                        Cell trailWestCell = level.RandomFloorOnX(1, true);
+                        Cell trailWestCell = level.RandomFloorInDirection
+                            (CardinalDirection.West);
                         Connection trailWest = new Connection(level.Layer,
                             level, trailWestCell, FeatureType.TrailWest,
                             new Vector2Int(-1, 0));
                         level.LateralConnections.Add(CardinalDirection.West,
                             trailWest);
 
-                        Cell trailSouthCell = level.RandomFloorOnY(1, true);
+                        Cell trailSouthCell = level.RandomFloorInDirection
+                            (CardinalDirection.South);
                         Connection trailSouth = new Connection(level.Layer,
                             level, trailSouthCell, FeatureType.TrailSouth,
                             new Vector2Int(0, -1));
@@ -153,15 +161,16 @@ namespace Pantheon.WorldGen
                     }
                 case CardinalDirection.SouthEast:
                     {
-                        Cell trailNorthCell = level.RandomFloorOnY
-                            (level.LevelSize.y - 2, true);
+                        Cell trailNorthCell = level.RandomFloorInDirection
+                            (CardinalDirection.North);
                         Connection trailNorth = new Connection(level.Layer,
                             level, trailNorthCell, FeatureType.TrailNorth,
                             new Vector2Int(0, 1));
                         level.LateralConnections.Add(CardinalDirection.North,
                             trailNorth);
 
-                        Cell trailWestCell = level.RandomFloorOnX(1, true);
+                        Cell trailWestCell = level.RandomFloorInDirection
+                            (CardinalDirection.West);
                         Connection trailWest = new Connection(level.Layer,
                             level, trailWestCell, FeatureType.TrailWest,
                             new Vector2Int(-1, 0));
@@ -172,16 +181,16 @@ namespace Pantheon.WorldGen
                     }
                 case CardinalDirection.SouthWest:
                     {
-                        Cell trailNorthCell = level.RandomFloorOnY
-                            (level.LevelSize.y - 2, true);
+                        Cell trailNorthCell = level.RandomFloorInDirection
+                            (CardinalDirection.North);
                         Connection trailNorth = new Connection(level.Layer,
                             level, trailNorthCell, FeatureType.TrailNorth,
                             new Vector2Int(0, 1));
                         level.LateralConnections.Add(CardinalDirection.North,
                             trailNorth);
 
-                        Cell trailEastCell = level.RandomFloorOnX
-                            (level.LevelSize.x - 2, true);
+                        Cell trailEastCell = level.RandomFloorInDirection
+                            (CardinalDirection.East);
                         Connection trailEast = new Connection(level.Layer,
                             level, trailEastCell, FeatureType.TrailEast,
                             new Vector2Int(1, 0));
@@ -192,15 +201,16 @@ namespace Pantheon.WorldGen
                     }
                 case CardinalDirection.NorthWest:
                     {
-                        Cell trailSouthCell = level.RandomFloorOnY(1, true);
+                        Cell trailSouthCell = level.RandomFloorInDirection
+                            (CardinalDirection.South);
                         Connection trailSouth = new Connection(level.Layer,
                             level, trailSouthCell, FeatureType.TrailSouth,
                             new Vector2Int(0, -1));
                         level.LateralConnections.Add(CardinalDirection.South,
                             trailSouth);
 
-                        Cell trailEastCell = level.RandomFloorOnX
-                            (level.LevelSize.x - 2, true);
+                        Cell trailEastCell = level.RandomFloorInDirection
+                            (CardinalDirection.East);
                         Connection trailEast = new Connection(level.Layer,
                             level, trailEastCell, FeatureType.TrailEast,
                             new Vector2Int(1, 0));

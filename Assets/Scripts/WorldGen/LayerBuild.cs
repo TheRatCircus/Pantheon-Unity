@@ -60,9 +60,6 @@ namespace Pantheon.WorldGen
                 Vector2Int transition = position + delta.Quotient(2);
                 Vector2Int destination = position + delta;
 
-                UnityEngine.Debug.DrawLine(V2IToV3(position),
-                    V2IToV3(destination), Color.green, 30f);
-
                 // Is there a transition to the destination already?
                 if (layer.BuilderMap.ContainsKey(transition))
                 {
@@ -138,8 +135,6 @@ namespace Pantheon.WorldGen
             CardinalDirection start = CardinalOpposite(end);
             layer.BuilderMap.Add(position,
                 new TransitionBuilder(layer, position, start, end));
-
-            Debug.Visualisation.MarkPos(position, 10);
         }
 
         private void BuildZone(Vector2Int delta)
@@ -152,7 +147,6 @@ namespace Pantheon.WorldGen
                     CardinalDirection wing = layerPos.ToCardinal();
                     layer.BuilderMap.Add(new Vector2Int(x, y),
                         new ValleyBuilder(layer, layerPos, zone, wing));
-                    Debug.Visualisation.MarkPos(layerPos, 10);
                 }
         }
     }

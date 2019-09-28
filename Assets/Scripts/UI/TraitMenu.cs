@@ -11,7 +11,7 @@ namespace Pantheon.UI
     {
         public Player Player { get; private set; }
 
-        [SerializeField] private Text traitPointCounter;
+        [SerializeField] private Text traitPointCounter = null;
 
         private void Start()
         {

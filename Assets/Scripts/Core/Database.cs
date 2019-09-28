@@ -144,8 +144,10 @@ namespace Pantheon.Core
 
         public static TerrainData GetTerrain(TerrainType terrainType)
         {
-            if (!GetDatabase().TerrainDict.TryGetValue(terrainType, out TerrainData ret))
-                throw new ArgumentException("Failed to get specified terrain data.");
+            if (!GetDatabase().TerrainDict.TryGetValue(terrainType,
+                out TerrainData ret))
+                throw new ArgumentException($"Failed to get terrain data: " +
+                    $"{terrainType}.");
 
             return ret;
         }

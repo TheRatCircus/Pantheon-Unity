@@ -53,9 +53,9 @@ namespace Pantheon.WorldGen
                     FillRect(level, leaves[i].Room, terrain);
                 
                 if (leaves[i].Halls != null)
-                    foreach (Rectangle hall in leaves[i].Halls)
+                    foreach (LevelRect hall in leaves[i].Halls)
                     {
-                        Rectangle rect = new Rectangle(
+                        LevelRect rect = new LevelRect(
                             new Vector2Int(hall.x1, hall.y1),
                             new Vector2Int(hall.x2 - hall.x1 + 2, hall.y2 - hall.y1 + 2));
                         FillRect(level, hall, terrain);
@@ -79,8 +79,8 @@ namespace Pantheon.WorldGen
 
         public Leaf LeftChild { get; set; }
         public Leaf RightChild { get; set; }
-        public Rectangle Room { get; set; }
-        public Stack<Rectangle> Halls { get; set; }
+        public LevelRect Room { get; set; }
+        public Stack<LevelRect> Halls { get; set; }
 
         public Leaf(int x, int y, int width, int height)
         {
@@ -149,20 +149,20 @@ namespace Pantheon.WorldGen
                 roomPos = new Vector2Int(
                     RangeInclusive(1, Width - roomSize.x - 1),
                     RangeInclusive(1, Height - roomSize.y - 1));
-                Room = new Rectangle(
+                Room = new LevelRect(
                     new Vector2Int(X + roomPos.x, Y + roomPos.y),
                     new Vector2Int(roomSize.x, roomSize.y));
             }
         }
 
-        public Rectangle GetRoom()
+        public LevelRect GetRoom()
         {
             if (Room != null)
                 return Room;
             else
             {
-                Rectangle lRoom = null;
-                Rectangle rRoom = null;
+                LevelRect lRoom = null;
+                LevelRect rRoom = null;
 
                 if (LeftChild != null)
                     lRoom = LeftChild.GetRoom();
@@ -182,9 +182,9 @@ namespace Pantheon.WorldGen
             }
         }
 
-        public void CreateHall(Rectangle l, Rectangle r)
+        public void CreateHall(LevelRect l, LevelRect r)
         {
-            Halls = new Stack<Rectangle>();
+            Halls = new Stack<LevelRect>();
 
             Vector2Int p1 = new Vector2Int(
                 RangeInclusive(l.x1 + 1, l.x2 - 2),
@@ -202,19 +202,19 @@ namespace Pantheon.WorldGen
                 {
                     if (CoinFlip(true))
                     {
-                        Halls.Push(new Rectangle(
+                        Halls.Push(new LevelRect(
                             new Vector2Int(p2.x, p1.y),
                             new Vector2Int(Mathf.Abs(w), 1)));
-                        Halls.Push(new Rectangle(
+                        Halls.Push(new LevelRect(
                             new Vector2Int(p2.x, p2.y),
                             new Vector2Int(1, Mathf.Abs(h))));
                     }
                     else
                     {
-                        Halls.Push(new Rectangle(
+                        Halls.Push(new LevelRect(
                             new Vector2Int(p2.x, p2.y),
                             new Vector2Int(Mathf.Abs(w), 1)));
-                        Halls.Push(new Rectangle(
+                        Halls.Push(new LevelRect(
                             new Vector2Int(p1.x, p2.y),
                             new Vector2Int(1, Mathf.Abs(h))));
                     }
@@ -223,25 +223,25 @@ namespace Pantheon.WorldGen
                 {
                     if (CoinFlip(true))
                     {
-                        Halls.Push(new Rectangle(
+                        Halls.Push(new LevelRect(
                             new Vector2Int(p2.x, p1.y),
                             new Vector2Int(Mathf.Abs(w), 1)));
-                        Halls.Push(new Rectangle(
+                        Halls.Push(new LevelRect(
                             new Vector2Int(p2.x, p1.y),
                             new Vector2Int(1, Mathf.Abs(h))));
                     }
                     else
                     {
-                        Halls.Push(new Rectangle(
+                        Halls.Push(new LevelRect(
                             new Vector2Int(p2.x, p2.y),
                             new Vector2Int(Mathf.Abs(w), 1)));
-                        Halls.Push(new Rectangle(
+                        Halls.Push(new LevelRect(
                             new Vector2Int(p1.x, p1.y),
                             new Vector2Int(1, Mathf.Abs(h))));
                     }
                 }
                 else // if (h == 0)
-                    Halls.Push(new Rectangle(
+                    Halls.Push(new LevelRect(
                         new Vector2Int(p2.x, p2.y),
                         new Vector2Int(Mathf.Abs(w), 1)));
             }
@@ -251,19 +251,19 @@ namespace Pantheon.WorldGen
                 {
                     if (CoinFlip(true))
                     {
-                        Halls.Push(new Rectangle(
+                        Halls.Push(new LevelRect(
                             new Vector2Int(p1.x, p2.y),
                             new Vector2Int(Mathf.Abs(w), 1)));
-                        Halls.Push(new Rectangle(
+                        Halls.Push(new LevelRect(
                             new Vector2Int(p1.x, p2.y),
                              new Vector2Int(1, Mathf.Abs(h))));
                     }
                     else
                     {
-                        Halls.Push(new Rectangle(
+                        Halls.Push(new LevelRect(
                             new Vector2Int(p1.x, p1.y),
                             new Vector2Int(Mathf.Abs(w), 1)));
-                        Halls.Push(new Rectangle(
+                        Halls.Push(new LevelRect(
                             new Vector2Int(p2.x, p2.y),
                             new Vector2Int(1, Mathf.Abs(h))));
                     }
@@ -272,36 +272,36 @@ namespace Pantheon.WorldGen
                 {
                     if (CoinFlip(true))
                     {
-                        Halls.Push(new Rectangle(
+                        Halls.Push(new LevelRect(
                             new Vector2Int(p1.x, p1.y),
                             new Vector2Int(Mathf.Abs(w), 1)));
-                        Halls.Push(new Rectangle(
+                        Halls.Push(new LevelRect(
                             new Vector2Int(p2.x, p1.y),
                              new Vector2Int(1, Mathf.Abs(h))));
                     }
                     else
                     {
-                        Halls.Push(new Rectangle(
+                        Halls.Push(new LevelRect(
                             new Vector2Int(p1.x, p2.y),
                             new Vector2Int(Mathf.Abs(w), 1)));
-                        Halls.Push(new Rectangle(
+                        Halls.Push(new LevelRect(
                             new Vector2Int(p1.x, p1.y),
                              new Vector2Int(1, Mathf.Abs(h))));
                     }
                 }
                 else // if (h == 0)
-                    Halls.Push(new Rectangle(
+                    Halls.Push(new LevelRect(
                         new Vector2Int(p1.x, p1.y),
                         new Vector2Int(Mathf.Abs(w), 1)));
             }
             else // if (w == 0)
             {
                 if (h < 0)
-                    Halls.Push(new Rectangle(
+                    Halls.Push(new LevelRect(
                         new Vector2Int(p2.x, p2.y),
                         new Vector2Int(1, Mathf.Abs(h))));
                 else if (h > 0)
-                    Halls.Push(new Rectangle(
+                    Halls.Push(new LevelRect(
                         new Vector2Int(p1.x, p1.y),
                         new Vector2Int(1, Mathf.Abs(h))));
             }

@@ -1587,7 +1587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 2.060222
+  m_AspectRatio: 2.0570524
 --- !u!114 &420544337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3181,7 +3181,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1010146930
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3209,7 +3209,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1010146929}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -3251,6 +3251,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemap: {fileID: 2025786766}
+  renderer: {fileID: 2025786767}
+  background: {fileID: 1010146931}
   mapTile: {fileID: 11400000, guid: c5a43740aae44ad43be2a0ade6995362, type: 2}
 --- !u!1 &1036819764
 GameObject:
@@ -4152,7 +4154,7 @@ MonoBehaviour:
   armourCounter: {fileID: 1146757575}
   evasionCounter: {fileID: 1118336462}
   statusDisplay: {fileID: 2036548788}
-  worldMap: {fileID: 1010146929}
+  worldMap: {fileID: 1010146933}
   traitMenu: {fileID: 326346049}
   itemModalList: {fileID: 883801131}
   bodyPartModalList: {fileID: 383188873}
@@ -6169,7 +6171,7 @@ TilemapRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2025786763}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1

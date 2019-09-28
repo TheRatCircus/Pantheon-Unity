@@ -49,10 +49,7 @@ namespace Pantheon.World
                 else
                     return blocked;
             }
-            set => blocked = value;
-
         }
-        public bool IsWall => blocked;
         public bool Opaque
         {
             get
@@ -116,8 +113,8 @@ namespace Pantheon.World
             if (featureData == null)
             {
                 Feature = null;
-                opaque = false;
-                blocked = false;
+                opaque = terrainData.Opaque;
+                blocked = terrainData.Blocked;
                 return;
             }
 
@@ -132,15 +129,6 @@ namespace Pantheon.World
             FeatureData featureData = Database.GetFeature(altar.FeatureType);
             Feature = new Feature(featureData);
             Feature.DisplayName = $"{featureData.DisplayName} to {altar.Idol.DisplayName}";
-        }
-
-        // Check if this cell can be walked into
-        public bool IsWalkableTerrain()
-        {
-            if (Feature != null)
-                return (!blocked && !Feature.Blocked);
-            else
-                return !blocked;
         }
 
         public override string ToString()

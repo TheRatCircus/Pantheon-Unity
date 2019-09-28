@@ -113,17 +113,17 @@ namespace Pantheon.Actors
             if (actor.cell != null)
                 previous = actor.cell;
 
-            if (!cell.IsWalkableTerrain())
+            if (cell.Blocked)
             {
                 UnityEngine.Debug.LogException(new Exception
-                    ("MoveTo destination is not walkable"));
+                    ("Destination is blocked."));
                 return;
             }
 
             if (cell.Actor != null)
             {
                 UnityEngine.Debug.LogException(
-                    new Exception("MoveTo destination has an actor in it"));
+                    new Exception("Destination has an actor in it."));
                 return;
             }
 

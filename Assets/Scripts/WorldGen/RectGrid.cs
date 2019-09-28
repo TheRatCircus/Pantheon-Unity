@@ -17,7 +17,7 @@ namespace Pantheon.WorldGen
                 throw new System.ArgumentException
                     ("Rectangle size cannot meet or exceed level size.");
 
-            List<Rectangle> rects = new List<Rectangle>();
+            List<LevelRect> rects = new List<LevelRect>();
 
             int numXRectangles = level.LevelSize.x / rectSize.x;
             int numYRectangles = level.LevelSize.y / rectSize.y;
@@ -28,7 +28,7 @@ namespace Pantheon.WorldGen
             {
                 for (int y = 0; y < numYRectangles; y++)
                 {
-                    Rectangle rect = new Rectangle(
+                    LevelRect rect = new LevelRect(
                         position, rectSize);
                     rects.Add(rect);
                     position.x += rectSize.x;
@@ -37,7 +37,7 @@ namespace Pantheon.WorldGen
                 position.y += rectSize.y; 
             }
 
-            foreach (Rectangle rect in rects)
+            foreach (LevelRect rect in rects)
             {
                 Debug.Visualisation.MarkPos(new Vector2Int(rect.x1, rect.y1), 10);
                 Debug.Visualisation.MarkPos(new Vector2Int(rect.x2, rect.y2), 10);
@@ -47,9 +47,9 @@ namespace Pantheon.WorldGen
         }
 
         public static void RoomsFromGrid(Level level,
-            List<Rectangle> rects)
+            List<LevelRect> rects)
         {
-            foreach (Rectangle rect in rects)
+            foreach (LevelRect rect in rects)
                 GenerateRoom(level, rect, TerrainType.StoneWall,
                     TerrainType.StoneFloor);
         }

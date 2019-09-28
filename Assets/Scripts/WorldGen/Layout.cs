@@ -1,4 +1,4 @@
-﻿// LevelLayout.cs
+﻿// Layout.cs
 // Jerome Martina
 
 using System;
@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pantheon.Core;
 using Pantheon.World;
+using static Pantheon.WorldGen.Layout;
 
 namespace Pantheon.WorldGen
 {
@@ -66,6 +67,41 @@ namespace Pantheon.WorldGen
                 }
         }
 
+        public static void Enclose(Level level, LevelRect rect, TerrainType wallType)
+        {
+            for (int x = rect.x1; x <= rect.x2; x++)
+                for (int y = rect.y1; y <= rect.y2; y++)
+                {
+                    if (x == rect.x1)
+                    {
+                        level.Map[x, y].SetTerrain(wallType);
+                        Debug.Visualisation.MarkPos(level.Map[x, y].Position, 120);
+                        continue;
+                    }
+                    else if (x == rect.x2)
+                    {
+                        level.Map[x, y].SetTerrain(wallType);
+                        Debug.Visualisation.MarkPos(level.Map[x, y].Position, 120);
+                        continue;
+                    }
+                    else
+                    {
+                        if (y == rect.y1)
+                        {
+                            level.Map[x, y].SetTerrain(wallType);
+                            Debug.Visualisation.MarkPos(level.Map[x, y].Position, 120);
+                            continue;
+                        }
+                        else if (y == rect.y2)
+                        {
+                            level.Map[x, y].SetTerrain(wallType);
+                            Debug.Visualisation.MarkPos(level.Map[x, y].Position, 120);
+                            continue;
+                        }
+                    }
+                }
+        }
+
         /// <summary>
         /// Fill a level's cells with terrain at a random percentage.
         /// </summary>
@@ -110,7 +146,7 @@ namespace Pantheon.WorldGen
         /// <returns></returns>
         public static void ConnectedRooms(Level level, int maxRooms, int roomMinSize, int roomMaxSize)
         {
-            Rectangle[] rooms = new Rectangle[maxRooms];
+            LevelRect[] rooms = new LevelRect[maxRooms];
             int numRooms = 0;
 
             // Center of last room for staircase
@@ -127,10 +163,10 @@ namespace Pantheon.WorldGen
                 pos.x = Game.PRNG.Next(0, level.LevelSize.x - dims.x - 1);
                 pos.y = Game.PRNG.Next(0, level.LevelSize.y - dims.y - 1);
 
-                Rectangle newRoom = new Rectangle(pos, dims);
+                LevelRect newRoom = new LevelRect(pos, dims);
 
                 bool overlaps = false;
-                foreach (Rectangle otherRoom in rooms)
+                foreach (LevelRect otherRoom in rooms)
                 {
                     if (newRoom.Intersects(otherRoom))
                         overlaps = true;
@@ -170,7 +206,7 @@ namespace Pantheon.WorldGen
         /// <param name="level">Level to modify by reference.</param>
         /// <param name="rect">The rectangle used to make the room.</param>
         /// <param name="terrain">The rectangle to make the room's floor with.</param>
-        public static void GenerateRoom(Level level, Rectangle rect, TerrainType terrain)
+        public static void GenerateRoom(Level level, LevelRect rect, TerrainType terrain)
         {
             //Debug.Log($"Generating room {rect.x2 - rect.x1} tiles wide and {rect.y2 - rect.y1} tiles long");
             for (int x = rect.x1 + 1; x < rect.x2 - 1; x++)
@@ -178,14 +214,14 @@ namespace Pantheon.WorldGen
                     level.Map[x, y].SetTerrain(terrain);
         }
 
-        public static void GenerateRoom(Level level, Rectangle rect,
+        public static void GenerateRoom(Level level, LevelRect rect,
             TerrainType wall, TerrainType floor)
         {
             FillRect(level, rect, wall);
             GenerateRoom(level, rect, floor);
         }
 
-        public static void FillRect(Level level, Rectangle rect, TerrainType terrain)
+        public static void FillRect(Level level, LevelRect rect, TerrainType terrain)
         {
             for (int x = rect.x1; x < rect.x2; x++)
                 for (int y = rect.y1; y < rect.y2; y++)
@@ -195,7 +231,7 @@ namespace Pantheon.WorldGen
                 }
         }
 
-        public static void FillRect(Level level, Rectangle rect, FeatureType feature)
+        public static void FillRect(Level level, LevelRect rect, FeatureType feature)
         {
             for (int x = rect.x1; x < rect.x2; x++)
                 for (int y = rect.y1; y < rect.y2; y++)
@@ -229,83 +265,6 @@ namespace Pantheon.WorldGen
         {
             for (int y = Mathf.Min(y1, y2); y < Mathf.Max(y1, y2); y++)
                 level.Map[x, y].SetTerrain(TerrainType.StoneFloor);
-        }
-
-        /// <summary>
-        /// An abstract rectangle in world space.
-        /// </summary>
-        public class Rectangle
-        {
-            public int x1, x2, y1, y2;
-
-            public int Width => x2 - x1;
-            public int Height => y2 - y1;
-
-            /// <summary>
-            /// Construct using Vector2Ints for position and dimensions.
-            /// </summary>
-            /// <param name="pos">The position of the upper-left corner.</param>
-            /// <param name="dims">The size of the rectangle.</param>
-            public Rectangle(Vector2Int pos, Vector2Int dims)
-            {
-                x1 = pos.x;
-                y1 = pos.y;
-                x2 = pos.x + dims.x;
-                y2 = pos.y + dims.y;
-            }
-
-            /// <summary>
-            /// Get the center of this rectangle.
-            /// </summary>
-            /// <returns>Rectangle's center.</returns>
-            public Vector2Int Center()
-            {
-                int centerX = (x1 + x2) / 2;
-                int centerY = (y1 + y2) / 2;
-                return new Vector2Int(centerX, centerY);
-            }
-
-            /// <summary>
-            /// Check if this rectangle intersects another.
-            /// </summary>
-            /// <param name="other">Other rectangle to check for intersection.</param>
-            /// <returns>True if intersects.</returns>
-            public bool Intersects(Rectangle other)
-            {
-                return (x1 <= other.x2 && x2 >= other.x1
-                    && y1 <= other.y2 && y2 >= other.y1);
-            }
-
-            public static bool IsNeighbour(Rectangle a, Rectangle b)
-            {
-                /// # DESCRIPTION
-                /// Determine whether rectangles a and b are neighbors
-                /// by projecting them onto both axes and comparing their
-                /// combined projections ("one-dimensional shadows") to
-                /// their actual sizes.
-                /// If a projection:
-                ///     - is smaller than both rectangles' width/height,
-                ///     then the rectangles overlap on the x/ y - axis.
-                ///     - is equivalent to both rectangles' width/height,
-                ///     then the rectangles are touching on the x / y - axis.
-                ///     - is greater than both rectangles' width/height,
-                ///     then the rectangles can not be neighbors.
-                /// 
-                /// Return true iff the overlap on one axis is greater than zero
-                /// while the overlap on the other axis is equal to zero.
-                /// (If both overlaps were greater than zero, the rectangles
-                /// would be overlapping. If both overlaps were equal to zero,
-                /// the rectangles would be touching on a corner only.)
-                /// 
-                int xProjection = Math.Max(a.x2, b.x2) - Math.Min(a.x1, b.x1);
-                int xOverlap = a.Width + b.Width - xProjection;
-
-                int yProjection = Math.Max(a.y2, b.y2) - Math.Min(a.y1, b.y1);
-                int yOverlap = a.Height + b.Height - yProjection;
-
-                return xOverlap > 0 && yOverlap == 0 ||
-                    xOverlap == 0 && yOverlap > 0;
-            }
         }
 
         public static HashSet<Cell> FloodFill(Level level, Cell start)
@@ -359,123 +318,131 @@ namespace Pantheon.WorldGen
             return filled;
         }
 
-        public class CellularAutomata
+        public static HashSet<Cell> FloodFill(Level level, LevelRect rect,
+            Cell start)
         {
-            // Credit to Adam Rakaska
+            HashSet<Cell> filled = new HashSet<Cell>();
+            List<Cell> open = new List<Cell>();
+            HashSet<Cell> closed = new HashSet<Cell>();
 
-            public Level Level { get; set; }
+            filled.Add(start);
+            open.Add(start);
 
-            public int MapWidth { get; set; }
-            public int MapHeight { get; set; }
-            public int PercentAreWalls { get; set; }
-
-            public CellularAutomata(Level level)
+            while (open.Count > 0)
             {
-                Level = level;
-
-                MapWidth = 64;
-                MapHeight = 64;
-                PercentAreWalls = 45;
-
-                Run();
-            }
-
-            private void Run()
-            {
-                for (int iterations = 0; iterations < 10; iterations++)
+                for (int i = 0; i < open.Count; i++)
                 {
-                    Level.Map = BlankMap(Level.LevelSize, TerrainType.StoneFloor);
-                    RandomFillMap();
-                    Enclose(Level, TerrainType.StoneWall);
-                    MakeCaverns();
-
-                    if (Finish())
-                        return;
-                }
-                UnityEngine.Debug.Log("Cellular automata failed after 10 tries.");
-            }
-
-            public void MakeCaverns()
-            {
-                for (int column = 0, row = 0; row <= MapHeight - 1; row++)
-                    for (column = 0; column <= MapWidth - 1; column++)
-                    {
-                        if (PlaceWallLogic(column, row))
-                            Level.Map[column, row].SetTerrain(TerrainType.StoneWall);
-                        else
-                            Level.Map[column, row].SetTerrain(TerrainType.StoneFloor);
-                    }
-
-                //Finish();
-            }
-
-            public bool PlaceWallLogic(int x, int y)
-            {
-                int numWalls = Level.GetAdjacentWalls(x, y, 1, 1, true);
-
-                if (Level.Map[x, y].IsWall)
-                {
-                    if (numWalls >= 4)
-                        return true;
-                    if (numWalls < 2)
-                        return false;
-                }
-                else
-                {
-                    if (numWalls >= 5)
-                        return true;
-                }
-                return false;
-            }
-
-            public bool Finish()
-            {
-                // Find the main cavern using threshold
-                int threshold = (int)(Level.Map.Length * .4f);
-                HashSet<Cell> cavern = new HashSet<Cell>();
-                int attempts = 0;
-                do
-                {
-                    if (attempts > 50)
-                    {
-                        UnityEngine.Debug.Log("No cavern of sufficient size" +
-                            " found, regenerating...");
-                        return false;
-                    }
-
-                    cavern = FloodFill(Level, Level.RandomFloor());
-                    attempts++;
-                } while (cavern.Count < threshold);
-                UnityEngine.Debug.Log("Cavern of " + cavern.Count + " found.");
-                // cavern should now be the largest open space in the map
-                // Fill in every other cell to create one contiguous opening
-                foreach (Cell cell in Level.Map)
-                    if (!cavern.Contains(cell))
-                        cell.SetTerrain(TerrainType.StoneWall);
-                return true;
-            }
-
-            public void RandomFillMap()
-            {
-                int mapMiddle = 0;
-                for (int column = 0, row = 0; row < MapHeight; row++)
-                {
-                    for (column = 0; column < MapWidth; column++)
-                    {
-                        mapMiddle = (MapHeight / 2);
-
-                        if (row == mapMiddle)
-                            Level.Map[column, row].SetTerrain(TerrainType.StoneFloor);
-                        else
+                    closed.Add(open[i]);
+                    for (int x = -1; x <= 1; x++)
+                        for (int y = -1; y <= 1; y++)
                         {
-                            if (Utils.RandomUtils.RangeInclusive(0, 100) <= PercentAreWalls)
-                                Level.Map[column, row].SetTerrain(TerrainType.StoneWall);
+                            Vector2Int frontier = open[i].Position;
+                            frontier += new Vector2Int(x, y);
+                            Cell frontierCell;
+
+                            if (level.Contains(frontier) && rect.Contains(frontier))
+                                frontierCell = level.GetCell(frontier);
                             else
-                                Level.Map[column, row].SetTerrain(TerrainType.StoneFloor);
+                                continue;
+
+                            if (closed.Contains(frontierCell))
+                                continue;
+
+                            if (frontierCell.Blocked)
+                            {
+                                closed.Add(frontierCell);
+                                continue;
+                            }
+
+                            if (filled.Contains(frontierCell))
+                            {
+                                closed.Add(frontierCell);
+                                continue;
+                            }
+
+                            filled.Add(frontierCell);
+                            open.Add(frontierCell);
                         }
-                    }
+                    open.RemoveAt(i);
                 }
             }
+            return filled;
+        }
+    }
+
+    /// <summary>
+    /// An abstract rectangle in world space.
+    /// </summary>
+    public sealed class LevelRect
+    {
+        public int x1, x2, y1, y2;
+
+        public int Width => x2 - x1;
+        public int Height => y2 - y1;
+
+        public LevelRect(Vector2Int pos, Vector2Int dims)
+        {
+            x1 = pos.x;
+            y1 = pos.y;
+            x2 = pos.x + dims.x;
+            y2 = pos.y + dims.y;
+        }
+
+        public static bool IsNeighbour(LevelRect a, LevelRect b)
+        {
+            /// # DESCRIPTION
+            /// Determine whether rectangles a and b are neighbors
+            /// by projecting them onto both axes and comparing their
+            /// combined projections ("one-dimensional shadows") to
+            /// their actual sizes.
+            /// If a projection:
+            ///     - is smaller than both rectangles' width/height,
+            ///     then the rectangles overlap on the x/ y - axis.
+            ///     - is equivalent to both rectangles' width/height,
+            ///     then the rectangles are touching on the x / y - axis.
+            ///     - is greater than both rectangles' width/height,
+            ///     then the rectangles can not be neighbors.
+            /// 
+            /// Return true iff the overlap on one axis is greater than zero
+            /// while the overlap on the other axis is equal to zero.
+            /// (If both overlaps were greater than zero, the rectangles
+            /// would be overlapping. If both overlaps were equal to zero,
+            /// the rectangles would be touching on a corner only.)
+
+            int xProjection = Math.Max(a.x2, b.x2) - Math.Min(a.x1, b.x1);
+            int xOverlap = a.Width + b.Width - xProjection;
+
+            int yProjection = Math.Max(a.y2, b.y2) - Math.Min(a.y1, b.y1);
+            int yOverlap = a.Height + b.Height - yProjection;
+
+            return xOverlap > 0 && yOverlap == 0 ||
+                xOverlap == 0 && yOverlap > 0;
+        }
+
+        public Vector2Int Center()
+        {
+            int centerX = (x1 + x2) / 2;
+            int centerY = (y1 + y2) / 2;
+            return new Vector2Int(centerX, centerY);
+        }
+
+        public bool Intersects(LevelRect other)
+        {
+            return (x1 <= other.x2 && x2 >= other.x1
+                && y1 <= other.y2 && y2 >= other.y1);
+        }
+
+        public bool Contains(Vector2Int position)
+        {
+            return
+                position.x >= x1 && position.y >= y1 &&
+                position.x <= x2 && position.y <= y2;
+        }
+
+        public bool Contains(int x, int y)
+        {
+            return
+                x >= x1 && y >= y1 && x <= x2 && y <= y2;
         }
     }
 }

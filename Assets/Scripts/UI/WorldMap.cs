@@ -12,6 +12,9 @@ namespace Pantheon.UI
     {
         [SerializeField] private Tilemap tilemap = null;
 
+        [SerializeField] private TilemapRenderer tilemapRenderer = null;
+        [SerializeField] private UnityEngine.UI.Image background = null;
+
         [SerializeField] private Tile mapTile = null;
 
         private Vector2Int currentPosition;
@@ -22,6 +25,14 @@ namespace Pantheon.UI
             tilemap.SetTile((Vector3Int)Game.GetPlayer().level.LayerPos,
                 mapTile);
             Game.instance.OnLevelChangeEvent += MapLevel;
+        }
+
+        public void Toggle()
+        {
+            // Can't map if gameObject is inactive, so keep active and just
+            // disable rendering
+            tilemapRenderer.enabled = !tilemapRenderer.enabled;
+            background.enabled = !background.enabled;
         }
 
         private void MapLevel(Level level)
