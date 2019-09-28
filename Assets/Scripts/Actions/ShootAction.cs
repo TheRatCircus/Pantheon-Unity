@@ -1,15 +1,15 @@
 ﻿// ShootAction.cs
 // Jerome Martina
 
+using Pantheon.Actors;
+using Pantheon.Core;
+using Pantheon.World;
 using System.Collections.Generic;
 using UnityEngine;
-using Pantheon.Core;
-using Pantheon.Actors;
-using Pantheon.World;
 
 namespace Pantheon.Actions
 {
-    public class ShootAction : BaseAction
+    public sealed class ShootAction : BaseAction
     {
         private List<Cell> targetLine;
 

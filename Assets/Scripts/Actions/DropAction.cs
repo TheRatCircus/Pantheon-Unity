@@ -9,7 +9,7 @@ namespace Pantheon.Actions
     /// <summary>
     /// Drop an item from an inventory.
     /// </summary>
-    public class DropAction : BaseAction
+    public sealed class DropAction : BaseAction
     {
         private Item item;
 

@@ -1,40 +1,36 @@
 ﻿// DebugInfo.cs
 // Jerome Martina
 
+using Pantheon.Actors;
+using Pantheon.Core;
 using UnityEngine;
 using UnityEngine.UI;
-using Pantheon.Core;
-using Pantheon.Actors;
 
-public class DebugInfo : MonoBehaviour
+namespace Pantheon.Debug
 {
-    [SerializeField] private Text activeActor = null;
-    [SerializeField] private Text inputState = null;
-    [SerializeField] private Text worldPos = null;
-    [SerializeField] private Text levelPos = null;
-
-    private void Start()
+    public class DebugInfo : MonoBehaviour
     {
-        Game.instance.ActorDebugEvent += UpdateActiveActor;
-    }
+        [SerializeField] private Text activeActor = null;
+        [SerializeField] private Text inputState = null;
+        [SerializeField] private Text worldPos = null;
+        [SerializeField] private Text levelPos = null;
 
-    void UpdateActiveActor(Actor actor)
-    {
-        activeActor.text = $"Active actor: {actor.ActorName} ({actor.Energy})";
-    }
+        private void Start()
+        {
+            Game.instance.ActorDebugEvent += UpdateActiveActor;
+        }
 
-    void UpdateInputState(InputState inputState)
-    {
-        this.inputState.text = $"Input state: {inputState}";
-    }
+        void UpdateActiveActor(Actor actor)
+            => activeActor.text
+            = $"Active actor: {actor.ActorName} ({actor.Energy})";
 
-    void UpdateWorldPos(Vector3Int worldPos)
-    {
-        this.worldPos.text = $"Position of level in world: {worldPos}";
-    }
+        void UpdateInputState(InputState inputState)
+            => this.inputState.text = $"Input state: {inputState}";
 
-    void UpdateLevelPos(Vector2Int levelPos)
-    {
-        this.levelPos.text = $"Cell position in level: {levelPos}";
+        void UpdateWorldPos(Vector3Int worldPos)
+            => this.worldPos.text = $"Position of level in world: {worldPos}";
+
+        void UpdateLevelPos(Vector2Int levelPos)
+            => this.levelPos.text = $"Cell position in level: {levelPos}";
     }
 }

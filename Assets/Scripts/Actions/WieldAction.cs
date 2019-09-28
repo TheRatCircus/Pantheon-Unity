@@ -1,17 +1,17 @@
 ﻿// WieldAction.cs
 // Jerome Martina
 
-using System.Collections.Generic;
-using Pantheon.Core;
 using Pantheon.Actors;
+using Pantheon.Core;
 using Pantheon.Utils;
+using System.Collections.Generic;
 
 namespace Pantheon.Actions
 {
     /// <summary>
     /// An actor attempts to wield an item in one or more prehensile parts.
     /// </summary>
-    public class WieldAction : BaseAction
+    public sealed class WieldAction : BaseAction
     {
         private readonly Item item;
         private readonly BodyPart[] parts;

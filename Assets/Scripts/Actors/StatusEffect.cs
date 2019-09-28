@@ -40,3 +40,11 @@ namespace Pantheon.Actors
         public override string ToString() => Type.ToString();
     }
 }
+
+namespace Pantheon
+{
+    public enum StatusType
+    {
+        Haste
+    }
+}

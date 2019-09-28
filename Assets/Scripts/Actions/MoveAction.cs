@@ -1,16 +1,16 @@
 ﻿// MoveAction.cs
 // Jerome Martina
 
-using UnityEngine;
 using Pantheon.Actors;
 using Pantheon.World;
+using UnityEngine;
 
 namespace Pantheon.Actions
 {
     /// <summary>
     /// An attempt by a creature to move into a new cell.
     /// </summary>
-    public class MoveAction : BaseAction
+    public sealed class MoveAction : BaseAction
     {
         private Cell destination;
         private Cell previous;

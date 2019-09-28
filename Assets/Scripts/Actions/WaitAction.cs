@@ -8,7 +8,7 @@ namespace Pantheon.Actions
     /// <summary>
     /// An actor does nothing for a standard turn time.
     /// </summary>
-    public class WaitAction : BaseAction
+    public sealed class WaitAction : BaseAction
     {
         public WaitAction(Actor actor) : base(actor) { }
 

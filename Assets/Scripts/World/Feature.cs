@@ -5,7 +5,10 @@ using UnityEngine;
 
 namespace Pantheon.World
 {
-    public class Feature
+    /// <summary>
+    /// An object which can co-exist in a cell with terrain, e.g. a tree.
+    /// </summary>
+    public sealed class Feature
     {
         public string DisplayName { get; set; }
         public bool Opaque { get; set; }

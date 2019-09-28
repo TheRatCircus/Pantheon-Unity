@@ -3,13 +3,23 @@
 
 using UnityEngine;
 
-/// <summary>
-/// Template for a flask.
-/// </summary>
-[CreateAssetMenu(fileName = "New Flask", menuName = "BaseData/Items/Flask")]
-public class FlaskData : ItemData
+namespace Pantheon
 {
-    [SerializeField] private FlaskType flaskType = FlaskType.None;
+    /// <summary>
+    /// Template for a flask.
+    /// </summary>
+    [CreateAssetMenu(fileName = "New Flask",
+        menuName = "BaseData/Items/Flask")]
+    public class FlaskData : ItemData
+    {
+        [SerializeField] private FlaskType flaskType = FlaskType.None;
 
-    public FlaskType FlaskType { get => flaskType; }
+        public FlaskType FlaskType { get => flaskType; }
+    }
+
+    public enum FlaskType
+    {
+        None = 0,
+        Healing = 1
+    }
 }

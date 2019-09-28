@@ -1,4 +1,5 @@
 ﻿// CellularAutomata.cs
+// Credit to Adam Rakaska
 // Jerome Martina
 
 using System.Collections.Generic;
@@ -10,8 +11,6 @@ namespace Pantheon.WorldGen
 {
     public sealed class CellularAutomata
     {
-        // Credit to Adam Rakaska
-
         public Level Level { get; private set; }
         public LevelRect Rect { get; private set; }
 

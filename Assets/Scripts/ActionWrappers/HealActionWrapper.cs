@@ -5,14 +5,18 @@ using UnityEngine;
 using Pantheon.Actors;
 using Pantheon.Actions;
 
-[CreateAssetMenu(fileName = "HealAction", menuName = "ActionWrappers/HealAction")]
-public class HealActionWrapper : ActionWrapper
+namespace Pantheon
 {
-    [SerializeField] private HealAction HealAction = null;
-
-    public override BaseAction GetAction(Actor actor)
+    [CreateAssetMenu(fileName = "HealAction",
+        menuName = "ActionWrappers/HealAction")]
+    public sealed class HealActionWrapper : ActionWrapper
     {
-        HealAction.Actor = actor;
-        return HealAction;
+        [SerializeField] private HealAction HealAction = null;
+
+        public override BaseAction GetAction(Actor actor)
+        {
+            HealAction.Actor = actor;
+            return HealAction;
+        }
     }
 }

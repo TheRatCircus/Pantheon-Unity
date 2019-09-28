@@ -1,17 +1,17 @@
 ﻿// ExplodeAction.cs
 // Jerome Martina
 
+using Pantheon.Actors;
+using Pantheon.Core;
+using Pantheon.World;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Pantheon.Core;
-using Pantheon.Actors;
-using Pantheon.World;
 
 namespace Pantheon.Actions
 {
     [Serializable]
-    public class ExplodeAction : BaseAction
+    public sealed class ExplodeAction : BaseAction
     {
         [SerializeField] private GameObject fxPrefab = null;
 

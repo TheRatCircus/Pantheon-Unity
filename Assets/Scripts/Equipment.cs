@@ -3,16 +3,19 @@
 
 using UnityEngine;
 
-/// <summary>
-/// Component of any item that can be equipped e.g. armour, jewellery.
-/// </summary>
-public class Equipment
+namespace Pantheon
 {
-    [SerializeField] private EquipType type = EquipType.None;
+    /// <summary>
+    /// Component of any item that can be equipped e.g. armour, jewellery.
+    /// </summary>
+    public sealed class Equipment
+    {
+        [SerializeField] private EquipType type = EquipType.None;
 
-    // Armour, evasion, shielding
-    // Resistances
-    // ???
+        // Armour, evasion, shielding
+        // Resistances
+        // ???
 
-    public bool Equipable { get => type != EquipType.None; }
+        public bool Equipable { get => type != EquipType.None; }
+    }
 }

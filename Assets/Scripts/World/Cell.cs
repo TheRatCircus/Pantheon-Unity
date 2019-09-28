@@ -1,10 +1,10 @@
 ﻿// Cell.cs
 // Jerome Martina
 
+using Pantheon.Actors;
+using Pantheon.Core;
 using System.Collections.Generic;
 using UnityEngine;
-using Pantheon.Core;
-using Pantheon.Actors;
 
 namespace Pantheon.World
 {
@@ -13,7 +13,7 @@ namespace Pantheon.World
     /// to one actor.
     /// </summary>
     [System.Serializable]
-    public class Cell
+    public sealed class Cell
     {
         // Statics
         // The offset of each tile from Unity's true grid coords
@@ -23,13 +23,17 @@ namespace Pantheon.World
         [SerializeField] [ReadOnly] private Vector2Int position;
 
         [SerializeField] [ReadOnly] private TerrainData terrainData;
-        [SerializeField] [ReadOnly] private bool blocked = true; // Can cell be moved through?
-        [SerializeField] [ReadOnly] private bool opaque = true; // Can cell be seen through?
+        // Can cell be moved through?
+        [SerializeField] [ReadOnly] private bool blocked = true;
+        // Can cell be seen through?
+        [SerializeField] [ReadOnly] private bool opaque = true;
         [SerializeField] [ReadOnly] private Connection connection;
 
         // Status
-        [SerializeField] private bool visible = false; // Is this cell within view?
-        [SerializeField] private bool revealed = false; // Is this cell known?
+        // Is this cell within view?
+        [SerializeField] private bool visible = false;
+        // Is this cell known?
+        [SerializeField] private bool revealed = false;
 
         // Contents of cell
         [SerializeField] [ReadOnly] private Actor actor = null;
@@ -96,7 +100,7 @@ namespace Pantheon.World
         public void SetTerrain(TerrainType type)
         {
             if (Feature != null)
-                SetFeature(null);
+                SetFeature(FeatureType.None);
 
             if (type == TerrainType.None)
                 return;
@@ -110,16 +114,19 @@ namespace Pantheon.World
         /// <summary>
         /// Set this cell's feature type and adjust its attributes accordingly.
         /// </summary>
-        /// <param name="featureData">This cell's new Feature (can be null).</param>
-        public void SetFeature(FeatureData featureData)
+        /// <param name="featureData">This cell's new Feature
+        /// (can be FeatureType.None).</param>
+        public void SetFeature(FeatureType feature)
         {
-            if (featureData == null)
+            if (feature == FeatureType.None)
             {
                 Feature = null;
                 opaque = terrainData.Opaque;
                 blocked = terrainData.Blocked;
                 return;
             }
+
+            FeatureData featureData = Database.GetFeature(feature);
 
             Feature = new Feature(featureData);
             opaque = featureData.Opaque;
@@ -131,7 +138,8 @@ namespace Pantheon.World
             Altar = altar;
             FeatureData featureData = Database.GetFeature(altar.FeatureType);
             Feature = new Feature(featureData);
-            Feature.DisplayName = $"{featureData.DisplayName} to {altar.Idol.DisplayName}";
+            Feature.DisplayName
+                = $"{featureData.DisplayName} to {altar.Idol.DisplayName}";
         }
 
         public override string ToString()

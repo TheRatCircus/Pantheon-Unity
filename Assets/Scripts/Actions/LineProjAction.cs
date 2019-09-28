@@ -1,13 +1,13 @@
 ﻿// LineProjAction.cs
 // Jerome Martina
 
+using Pantheon.Actors;
+using Pantheon.Core;
+using Pantheon.Utils;
+using Pantheon.World;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Pantheon.Core;
-using Pantheon.Actors;
-using Pantheon.World;
-using Pantheon.Utils;
 
 namespace Pantheon.Actions
 {
@@ -21,7 +21,7 @@ namespace Pantheon.Actions
     /// Prepare and fire a projectile in a line.
     /// </summary>
     [Serializable]
-    public class LineProjAction : BaseAction
+    public sealed class LineProjAction : BaseAction
     {
         [SerializeField] private GameObject fxPrefab;
         [SerializeField] private ProjBehaviour projBehaviour;

@@ -3,16 +3,19 @@
 
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Ammo", menuName = "BaseData/Items/Ammo")]
-public class AmmoData : ItemData
+namespace Pantheon
 {
-    [SerializeField] private AmmoType ammoType = AmmoType.None;
+    [CreateAssetMenu(fileName = "New Ammo", menuName = "BaseData/Items/Ammo")]
+    public class AmmoData : ItemData
+    {
+        [SerializeField] private AmmoType ammoType = AmmoType.None;
 
-    public AmmoType AmmoType { get => ammoType; }
-}
+        public AmmoType AmmoType { get => ammoType; }
+    }
 
-public enum AmmoType
-{
-    None,
-    Cartridges
+    public enum AmmoType
+    {
+        None,
+        Cartridges
+    }
 }

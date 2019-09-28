@@ -3,7 +3,7 @@
 
 using UnityEngine;
 
-namespace Pantheon.World
+namespace Pantheon
 {
     /// <summary>
     /// The attributes of a cell feature, e.g. a tree or door.
@@ -24,5 +24,20 @@ namespace Pantheon.World
         public Sprite Sprite { get => sprite; private set => sprite = value; }
         public RuleTile RuleTile { get => ruleTile; private set => ruleTile = value; }
         public FeatureType Type { get => type; private set => type = value; }
+    }
+
+    public enum FeatureType
+    {
+        None,
+        StairsUp,
+        StairsDown,
+        Tree,
+        TrailNorth,
+        TrailEast,
+        TrailSouth,
+        TrailWest,
+        Portal,
+        AltarCrystal,
+        WoodFence
     }
 }

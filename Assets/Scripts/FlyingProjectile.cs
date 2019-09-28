@@ -1,54 +1,57 @@
 ﻿// FlyingProjectile.cs
 // Jerome Martina
 
+using Pantheon.Actions;
+using Pantheon.Core;
+using Pantheon.Utils;
+using Pantheon.World;
 using System.Collections;
 using UnityEngine;
-using Pantheon.Core;
-using Pantheon.World;
-using Pantheon.Actions;
-using Pantheon.Utils;
 
-public class FlyingProjectile : MonoBehaviour
+namespace Pantheon
 {
-    public Cell TargetCell { get; set; }
-    public bool Spins { get; set; }
-    private Vector3 targetPos;
-
-    // What happens when the projectile lands?
-    public BaseAction OnLandAction;
-
-    private void Start()
+    public sealed class FlyingProjectile : MonoBehaviour
     {
-        switch(OnLandAction)
+        public Cell TargetCell { get; set; }
+        public bool Spins { get; set; }
+        private Vector3 targetPos;
+
+        // What happens when the projectile lands?
+        public BaseAction OnLandAction;
+
+        private void Start()
         {
-            case ExplodeAction a:
-                a.Origin = TargetCell;
-                break;
-            case null:
-                break;
-            default:
-                throw new System.Exception
-                    ($"{OnLandAction.GetType()} cannot be handled.");
+            switch (OnLandAction)
+            {
+                case ExplodeAction a:
+                    a.Origin = TargetCell;
+                    break;
+                case null:
+                    break;
+                default:
+                    throw new System.Exception
+                        ($"{OnLandAction.GetType()} cannot be handled.");
+            }
+            targetPos = Helpers.V2IToV3(TargetCell.Position);
+            StartCoroutine(Fly());
         }
-        targetPos = Helpers.V2IToV3(TargetCell.Position);
-        StartCoroutine(Fly());
-    }
 
-    private IEnumerator Fly()
-    {
-        Game.instance.Lock();
-        while (transform.position != targetPos)
+        private IEnumerator Fly()
         {
-            transform.position =
-                Vector3.MoveTowards(transform.position, targetPos, .6f);
+            Game.instance.Lock();
+            while (transform.position != targetPos)
+            {
+                transform.position =
+                    Vector3.MoveTowards(transform.position, targetPos, .6f);
 
-            if (Spins)
-                transform.Rotate(0, 0, 8, Space.Self);
+                if (Spins)
+                    transform.Rotate(0, 0, 8, Space.Self);
 
-            yield return new WaitForSeconds(.01f);
+                yield return new WaitForSeconds(.01f);
+            }
+            OnLandAction?.DoAction();
+            Game.instance.Unlock();
+            Destroy(gameObject);
         }
-        OnLandAction?.DoAction();
-        Game.instance.Unlock();
-        Destroy(gameObject);
     }
 }

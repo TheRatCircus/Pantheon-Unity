@@ -1,8 +1,8 @@
 ﻿// HealAction.cs
 // Jerome Martina
 
-using UnityEngine;
 using Pantheon.Actors;
+using UnityEngine;
 
 namespace Pantheon.Actions
 {
@@ -10,7 +10,7 @@ namespace Pantheon.Actions
     /// Heal an actor.
     /// </summary>
     [System.Serializable]
-    public class HealAction : BaseAction
+    public sealed class HealAction : BaseAction
     {
         [SerializeField] private int healAmount;
         [SerializeField] private float healPercent;

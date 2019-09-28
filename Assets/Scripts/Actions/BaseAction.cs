@@ -1,9 +1,9 @@
 ﻿// BaseAction.cs
 // Jerome Martina
 
-using UnityEngine;
-using Pantheon.Actors;
 using Pantheon.Actions;
+using Pantheon.Actors;
+using UnityEngine;
 
 namespace Pantheon.Actions
 {

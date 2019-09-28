@@ -3,16 +3,20 @@
 
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Armour", menuName = "BaseData/Items/Armour")]
-public sealed class ArmourData : ItemData
+namespace Pantheon
 {
-    [SerializeField] private ArmourRef armourRef = ArmourRef.None;
+    [CreateAssetMenu(fileName = "New Armour",
+        menuName = "BaseData/Items/Armour")]
+    public sealed class ArmourData : ItemData
+    {
+        [SerializeField] private ArmourRef armourRef = ArmourRef.None;
 
-    public ArmourRef ArmourRef => armourRef;
-}
+        public ArmourRef ArmourRef => armourRef;
+    }
 
-public enum ArmourRef
-{
-    None,
-    Cuirass
+    public enum ArmourRef
+    {
+        None,
+        Cuirass
+    }
 }

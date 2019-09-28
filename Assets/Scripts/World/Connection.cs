@@ -4,14 +4,14 @@
 #define DEBUG_CONNECTIONS
 #undef DEBUG_CONNECTIONS
 
+using Pantheon.Actors;
+using Pantheon.Core;
 using System;
 using UnityEngine;
-using Pantheon.Core;
-using Pantheon.Actors;
 
 namespace Pantheon.World
 {
-    public class Connection
+    public sealed class Connection
     {
         public Action<Connection> ConnectDelegate;
         public Action<Connection, Vector2Int> LateralConnectDelegate;
@@ -35,7 +35,7 @@ namespace Pantheon.World
         {
             Level = level;
             Cell = cell;
-            Cell.SetFeature(Database.GetFeature(feature));
+            Cell.SetFeature(feature);
             DestinationRef = destinationRef;
             cell.Connection = this;
         }
@@ -46,7 +46,7 @@ namespace Pantheon.World
             Layer = layer;
             Level = level;
             Cell = cell;
-            Cell.SetFeature(Database.GetFeature(feature));
+            Cell.SetFeature(feature);
             DestinationVector = destinationVector;
             cell.Connection = this;
         }
@@ -70,7 +70,8 @@ namespace Pantheon.World
                 {
                     if (OneWay)
                     {
-                        DestinationLevel = Game.instance.RequestLevel(null, DestinationRef);
+                        DestinationLevel = Game.instance.RequestLevel(null,
+                            DestinationRef);
                         DestinationCell = DestinationLevel.RandomFloor();
                     }
                     else
@@ -81,7 +82,8 @@ namespace Pantheon.World
                     DestinationLevel = Layer.RequestLevel
                         (Level.LayerPos + DestinationVector);
             }
-            Game.instance.MoveToLevel(player, DestinationLevel, DestinationCell);
+            Game.instance.MoveToLevel(player, DestinationLevel, 
+                DestinationCell);
         }
     }
 }

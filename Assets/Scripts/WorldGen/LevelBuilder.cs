@@ -98,7 +98,7 @@ namespace Pantheon.WorldGen
                 Layout.Enclose(level, TerrainType.StoneWall);
                 foreach (Cell c in level.Map)
                     if (Utils.RandomUtils.OneChanceIn(6))
-                        c.SetFeature(null); // Chop fence a bit
+                        c.SetFeature(FeatureType.None); // Chop fence a bit
 
                 NPCs.SpawnNPCs(level, ValleyEnemies, NPCPops.ValleyCentre);
 

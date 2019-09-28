@@ -1,17 +1,17 @@
 ﻿// PickupAction.cs
 // Jerome Martina
 
-using Pantheon.Core;
 using Pantheon.Actors;
-using Pantheon.World;
+using Pantheon.Core;
 using Pantheon.Utils;
+using Pantheon.World;
 
 namespace Pantheon.Actions
 {
     /// <summary>
     /// An actor tries to pick an item up off the ground.
     /// </summary>
-    public class PickupAction : BaseAction
+    public sealed class PickupAction : BaseAction
     {
         private Cell cell;
         private Item item;

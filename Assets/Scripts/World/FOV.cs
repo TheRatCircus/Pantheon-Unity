@@ -1,23 +1,26 @@
 ﻿// FOV.cs
 // Credit to Bob Nystrom
 
+using Pantheon.Actors;
+using Pantheon.Core;
 using System.Collections.Generic;
 using UnityEngine;
-using Pantheon.Core;
-using Pantheon.Actors;
 
 namespace Pantheon.World
 {
-    public class FOV
+    public sealed class FOV
     {
-        // Change visibility and reveal new cells. Only call when a player spawns
-        // or moves/is moved
+        /// <summary>
+        /// Change visibility and reveal new cells.
+        /// Only call when a player acts.
+        /// <param name="level"></param>
         public void RefreshFOV(Level level)
         {
             List<Cell> allRefreshed = new List<Cell>();
             for (int octant = 0; octant < 8; octant++)
             {
-                List<Cell> refreshed = ShadowOctant(level, Game.GetPlayer().Position, octant);
+                List<Cell> refreshed = ShadowOctant(level,
+                    Game.GetPlayer().Position, octant);
                 CellDrawer.DrawCells(level, refreshed);
                 allRefreshed.AddRange(refreshed);
             }
@@ -28,7 +31,7 @@ namespace Pantheon.World
         }
 
         // Coordinates used to transform a point in an octant
-        static Vector2Int[,] octantCoordinates = new Vector2Int[,]
+        static readonly Vector2Int[,] _octantCoordinates = new Vector2Int[,]
         {
         { new Vector2Int(0, -1), new Vector2Int(1, 0) },
         { new Vector2Int(1, 0), new Vector2Int(0, -1) },
@@ -41,11 +44,12 @@ namespace Pantheon.World
         };
 
         // Generate an octant of shadows, and return the FOV area to be redrawn
-        public List<Cell> ShadowOctant(Level level, Vector2Int origin, int octant)
+        public List<Cell> ShadowOctant(Level level, Vector2Int origin,
+            int octant)
         {
             // Increments based off of octantCoordinates
-            var rowInc = octantCoordinates[octant, 0];
-            var colInc = octantCoordinates[octant, 1];
+            var rowInc = _octantCoordinates[octant, 0];
+            var colInc = _octantCoordinates[octant, 1];
 
             ShadowLine line = new ShadowLine();
             bool fullShadow = false;
@@ -68,8 +72,8 @@ namespace Pantheon.World
                     // Visibility fall off over distance
                     int fallOff = 255;
 
-                    // If entire row is known to be in shadow, set this cell to be 
-                    // in shadow
+                    // If entire row is known to be in shadow, set this cell to
+                    // be in shadow
                     if (fullShadow || pastMaxDistance)
                         level.Map[pos.x, pos.y].SetVisibility(false, fallOff);
                     else
@@ -83,7 +87,8 @@ namespace Pantheon.World
                         }
                         else
                         {
-                            float normalized = distance / Game.GetPlayer().FOVRadius;
+                            float normalized = distance /
+                                Game.GetPlayer().FOVRadius;
                             normalized = Mathf.Pow(normalized, 2);
                             fallOff = (int)(normalized * 255);
                         }
@@ -91,7 +96,8 @@ namespace Pantheon.World
 
                         // Set the visibility of this tile
                         bool visible = !line.IsInShadow(projection);
-                        level.Map[pos.x, pos.y].SetVisibility(visible, fallOff);
+                        level.Map[pos.x, pos.y].SetVisibility(visible,
+                            fallOff);
 
                         // Add any opaque tiles to the shadow map
                         if (visible && level.Map[pos.x, pos.y].Opaque)
@@ -107,8 +113,13 @@ namespace Pantheon.World
             return ret;
         }
 
-        // Creates a Shadow that corresponds to the projected silhouette of the
-        // tile at row, col
+        /// <summary>
+        /// Creates a Shadow that corresponds to the projected silhouette of
+        /// the tile at row, col.
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <returns></returns>
         Shadow ProjectTile(float row, float col)
         {
             float rowF = row;
@@ -199,8 +210,10 @@ namespace Pantheon.World
         }
     }
 
-    // Represents the 1D projection of a 2D shadow onto a normalized line. In
-    // other words, a range from 0.0 to 1.0
+    /// <summary>
+    /// Represents the 1D projection of a 2D shadow onto a normalized line.
+    /// In other words, a range from 0.0 to 1.0.
+    /// </summary>
     public class Shadow
     {
         public float Start { get; set; }

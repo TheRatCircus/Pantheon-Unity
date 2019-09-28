@@ -1,12 +1,10 @@
 ﻿// Layout.cs
 // Jerome Martina
 
-using System;
-using System.Collections.Generic;
-using UnityEngine;
 using Pantheon.Core;
 using Pantheon.World;
-using static Pantheon.WorldGen.Layout;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Pantheon.WorldGen
 {
@@ -67,7 +65,8 @@ namespace Pantheon.WorldGen
                 }
         }
 
-        public static void Enclose(Level level, LevelRect rect, TerrainType wallType)
+        public static void Enclose(Level level, LevelRect rect,
+            TerrainType wallType)
         {
             for (int x = rect.x1; x <= rect.x2; x++)
                 for (int y = rect.y1; y <= rect.y2; y++)
@@ -104,7 +103,8 @@ namespace Pantheon.WorldGen
         /// <param name="level">Level to modify by reference.</param>
         /// <param name="percent">Likelihood that a cell gets filled.</param>
         /// <param name="terrain">Terrain type to fill the level with.</param>
-        public static void RandomFill(Level level, int percent, TerrainType terrain)
+        public static void RandomFill(Level level, int percent,
+            TerrainType terrain)
         {
             for (int x = 0; x < level.LevelSize.x; x++)
                 for (int y = 0; y < level.LevelSize.y; y++)
@@ -120,27 +120,31 @@ namespace Pantheon.WorldGen
         /// <param name="level">Level to modify by reference.</param>
         /// <param name="percent">Likelihood that a cell gets filled.</param>
         /// <param name="feature">Feature type to fill the level with.</param>
-        public static void RandomFill(Level level, int percent, FeatureType feature)
+        public static void RandomFill(Level level, int percent,
+            FeatureType feature)
         {
             for (int x = 0; x < level.LevelSize.x; x++)
                 for (int y = 0; y < level.LevelSize.y; y++)
                 {
                     if (Game.PRNG.Next(0, 100) < percent)
                         if (!level.Map[x, y].Blocked)
-                            level.Map[x, y].SetFeature(Database.GetFeature(feature));
+                            level.Map[x, y].SetFeature(feature);
                 }
         }
 
         /// <summary>
-        /// Generate a number of randomly-sized rooms and then connect them with
-        /// tunnels at right angles.
+        /// Generate a number of randomly-sized rooms and then connect them 
+        /// with tunnels at right angles.
         /// </summary>
         /// <param name="level">Level to modify by reference.</param>
         /// <param name="maxRooms">The maximum number of rooms.</param>
-        /// <param name="roomMinSize">The minimum size of any given room.</param>
-        /// <param name="roomMaxSize">The maximum size of any given room.</param>
+        /// <param name="roomMinSize">The minimum size of any given room.
+        /// </param>
+        /// <param name="roomMaxSize">The maximum size of any given room.
+        /// </param>
         /// <returns></returns>
-        public static void ConnectedRooms(Level level, int maxRooms, int roomMinSize, int roomMaxSize)
+        public static void ConnectedRooms(Level level, int maxRooms,
+            int roomMinSize, int roomMaxSize)
         {
             LevelRect[] rooms = new LevelRect[maxRooms];
             int numRooms = 0;
@@ -197,12 +201,13 @@ namespace Pantheon.WorldGen
         }
 
         /// <summary>
-        /// Generate a room given a rectangle.
+        /// Generate a room of floors given a rectangle.
         /// </summary>
         /// <param name="level">Level to modify by reference.</param>
         /// <param name="rect">The rectangle used to make the room.</param>
         /// <param name="terrain">The rectangle to make the room's floor with.</param>
-        public static void GenerateRoom(Level level, LevelRect rect, TerrainType terrain)
+        public static void GenerateRoom(Level level, LevelRect rect,
+            TerrainType terrain)
         {
             //Debug.Log($"Generating room {rect.x2 - rect.x1} tiles wide and {rect.y2 - rect.y1} tiles long");
             for (int x = rect.x1 + 1; x < rect.x2 - 1; x++)
@@ -217,7 +222,8 @@ namespace Pantheon.WorldGen
             GenerateRoom(level, rect, floor);
         }
 
-        public static void FillRect(Level level, LevelRect rect, TerrainType terrain)
+        public static void FillRect(Level level, LevelRect rect,
+            TerrainType terrain)
         {
             for (int x = rect.x1; x < rect.x2; x++)
                 for (int y = rect.y1; y < rect.y2; y++)
@@ -227,13 +233,14 @@ namespace Pantheon.WorldGen
                 }
         }
 
-        public static void FillRect(Level level, LevelRect rect, FeatureType feature)
+        public static void FillRect(Level level, LevelRect rect,
+            FeatureType feature)
         {
             for (int x = rect.x1; x < rect.x2; x++)
                 for (int y = rect.y1; y < rect.y2; y++)
                 {
                     if (level.Contains(new Vector2Int(x, y)))
-                        level.Map[x, y].SetFeature(Database.GetFeature(feature));
+                        level.Map[x, y].SetFeature(feature);
                 }
         }
 
@@ -244,7 +251,8 @@ namespace Pantheon.WorldGen
         /// <param name="x1">Horizontal start of tunnel.</param>
         /// <param name="x2">Horizontal end of tunnel.</param>
         /// <param name="y">Y-position of tunnel.</param>
-        private static void CreateHorizontalTunnel(Level level, int x1, int x2, int y)
+        private static void CreateHorizontalTunnel(Level level, int x1, int x2,
+            int y)
         {
             for (int x = Mathf.Min(x1, x2); x < Mathf.Max(x1, x2); x++)
                 level.Map[x, y].SetTerrain(TerrainType.StoneFloor);
@@ -257,7 +265,8 @@ namespace Pantheon.WorldGen
         /// <param name="y1">Vertical start of tunnel.</param>
         /// <param name="y2">Vertical end of tunnel.</param>
         /// <param name="x">X-position of tunnel.</param>
-        private static void CreateVerticalTunnel(Level level, int y1, int y2, int x)
+        private static void CreateVerticalTunnel(Level level, int y1, int y2,
+            int x)
         {
             for (int y = Mathf.Min(y1, y2); y < Mathf.Max(y1, y2); y++)
                 level.Map[x, y].SetTerrain(TerrainType.StoneFloor);
@@ -288,7 +297,6 @@ namespace Pantheon.WorldGen
                                 frontierCell = level.GetCell(frontier);
                             else
                                 continue;
-
 
                             if (closed.Contains(frontierCell))
                                 continue;
@@ -336,7 +344,8 @@ namespace Pantheon.WorldGen
                             frontier += new Vector2Int(x, y);
                             Cell frontierCell;
 
-                            if (level.Contains(frontier) && rect.Contains(frontier))
+                            if (level.Contains(frontier) &&
+                                rect.Contains(frontier))
                                 frontierCell = level.GetCell(frontier);
                             else
                                 continue;
@@ -363,82 +372,6 @@ namespace Pantheon.WorldGen
                 }
             }
             return filled;
-        }
-    }
-
-    /// <summary>
-    /// An abstract rectangle in world space.
-    /// </summary>
-    public sealed class LevelRect
-    {
-        public int x1, x2, y1, y2;
-
-        public int Width => x2 - x1;
-        public int Height => y2 - y1;
-
-        public LevelRect(Vector2Int pos, Vector2Int dims)
-        {
-            x1 = pos.x;
-            y1 = pos.y;
-            x2 = pos.x + dims.x;
-            y2 = pos.y + dims.y;
-        }
-
-        public static bool IsNeighbour(LevelRect a, LevelRect b)
-        {
-            /// # DESCRIPTION
-            /// Determine whether rectangles a and b are neighbors
-            /// by projecting them onto both axes and comparing their
-            /// combined projections ("one-dimensional shadows") to
-            /// their actual sizes.
-            /// If a projection:
-            ///     - is smaller than both rectangles' width/height,
-            ///     then the rectangles overlap on the x/ y - axis.
-            ///     - is equivalent to both rectangles' width/height,
-            ///     then the rectangles are touching on the x / y - axis.
-            ///     - is greater than both rectangles' width/height,
-            ///     then the rectangles can not be neighbors.
-            /// 
-            /// Return true iff the overlap on one axis is greater than zero
-            /// while the overlap on the other axis is equal to zero.
-            /// (If both overlaps were greater than zero, the rectangles
-            /// would be overlapping. If both overlaps were equal to zero,
-            /// the rectangles would be touching on a corner only.)
-
-            int xProjection = Math.Max(a.x2, b.x2) - Math.Min(a.x1, b.x1);
-            int xOverlap = a.Width + b.Width - xProjection;
-
-            int yProjection = Math.Max(a.y2, b.y2) - Math.Min(a.y1, b.y1);
-            int yOverlap = a.Height + b.Height - yProjection;
-
-            return xOverlap > 0 && yOverlap == 0 ||
-                xOverlap == 0 && yOverlap > 0;
-        }
-
-        public Vector2Int Center()
-        {
-            int centerX = (x1 + x2) / 2;
-            int centerY = (y1 + y2) / 2;
-            return new Vector2Int(centerX, centerY);
-        }
-
-        public bool Intersects(LevelRect other)
-        {
-            return (x1 <= other.x2 && x2 >= other.x1
-                && y1 <= other.y2 && y2 >= other.y1);
-        }
-
-        public bool Contains(Vector2Int position)
-        {
-            return
-                position.x >= x1 && position.y >= y1 &&
-                position.x <= x2 && position.y <= y2;
-        }
-
-        public bool Contains(int x, int y)
-        {
-            return
-                x >= x1 && y >= y1 && x <= x2 && y <= y2;
         }
     }
 }

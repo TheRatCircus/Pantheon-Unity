@@ -3,13 +3,24 @@
 
 using UnityEngine;
 
-/// <summary>
-/// Template for a scroll.
-/// </summary>
-[CreateAssetMenu(fileName = "New Scroll", menuName = "BaseData/Items/Scroll")]
-public class ScrollData : ItemData
+namespace Pantheon
 {
-    [SerializeField] private ScrollType scrollType = ScrollType.None;
+    /// <summary>
+    /// Template for a scroll.
+    /// </summary>
+    [CreateAssetMenu(fileName = "New Scroll",
+        menuName = "BaseData/Items/Scroll")]
+    public class ScrollData : ItemData
+    {
+        [SerializeField] private ScrollType scrollType = ScrollType.None;
 
-    public ScrollType ScrollType { get => scrollType; }
+        public ScrollType ScrollType { get => scrollType; }
+    }
+
+    public enum ScrollType
+    {
+        None = 0,
+        MagicBullet = 1
+    }
+
 }

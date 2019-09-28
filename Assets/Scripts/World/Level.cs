@@ -88,7 +88,8 @@ namespace Pantheon.World
         {
             Cell[,] rectMap = new Cell[rect.Width, rect.Height];
             for (int x = rect.x1, rectX = 0; x <= rect.x2 - 1; x++, rectX++)
-                for (int y = rect.y1, rectY = 0; y <= rect.y2 - 1; y++, rectY++)
+                for (int y = rect.y1, rectY = 0; y <= rect.y2 - 1; y++,
+                    rectY++)
                 {
                     rectMap[rectX, rectY] = Map[x, y];
                 }

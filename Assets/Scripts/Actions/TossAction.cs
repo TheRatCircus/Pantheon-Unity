@@ -1,13 +1,13 @@
 ﻿// TossAction.cs
 // Jerome Martina
 
-using UnityEngine;
-using Pantheon.Core;
 using Pantheon.Actors;
+using Pantheon.Core;
+using UnityEngine;
 
 namespace Pantheon.Actions
 {
-    public class TossAction : BaseAction
+    public sealed class TossAction : BaseAction
     {
         private Item item;
         private GameObject tossFXPrefab;

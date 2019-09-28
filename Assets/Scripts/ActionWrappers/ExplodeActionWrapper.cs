@@ -5,14 +5,18 @@ using UnityEngine;
 using Pantheon.Actors;
 using Pantheon.Actions;
 
-[CreateAssetMenu(fileName = "ExplodeAction", menuName = "ActionWrappers/ExplodeAction")]
-public class ExplodeActionWrapper : ActionWrapper
+namespace Pantheon
 {
-    [SerializeField] private ExplodeAction explodeAction = null;
-
-    public override BaseAction GetAction(Actor actor)
+    [CreateAssetMenu(fileName = "ExplodeAction",
+        menuName = "ActionWrappers/ExplodeAction")]
+    public sealed class ExplodeActionWrapper : ActionWrapper
     {
-        explodeAction.Actor = actor;
-        return explodeAction;
+        [SerializeField] private ExplodeAction explodeAction = null;
+
+        public override BaseAction GetAction(Actor actor)
+        {
+            explodeAction.Actor = actor;
+            return explodeAction;
+        }
     }
 }

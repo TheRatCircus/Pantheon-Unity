@@ -8,7 +8,7 @@ namespace Pantheon.Actions
     /// <summary>
     /// Attempt to use an item.
     /// </summary>
-    public class ItemUseAction : BaseAction
+    public sealed class ItemUseAction : BaseAction
     {
         private readonly Item item;
         private readonly BaseAction onUse;

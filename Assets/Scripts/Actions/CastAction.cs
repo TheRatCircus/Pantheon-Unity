@@ -5,7 +5,7 @@ using Pantheon.Actors;
 
 namespace Pantheon.Actions
 {
-    public class CastAction : BaseAction
+    public sealed class CastAction : BaseAction
     {
         private readonly Spell spell;
         private readonly BaseAction onCast;

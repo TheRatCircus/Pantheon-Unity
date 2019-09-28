@@ -1,9 +1,9 @@
 ﻿// BinarySpacePartition.cs
 // Credit to Timothy Hely
 
+using Pantheon.World;
 using System.Collections.Generic;
 using UnityEngine;
-using Pantheon.World;
 using static Pantheon.Utils.RandomUtils;
 using static Pantheon.WorldGen.Layout;
 
@@ -17,7 +17,8 @@ namespace Pantheon.WorldGen
         /// <param name="level"></param>
         /// <param name="terrain">Terrain type to fill rooms with.</param>
         /// <param name="minRoomSize"></param>
-        public static void BSP(Level level, TerrainType terrain, int minRoomSize)
+        public static void BSP(Level level, TerrainType terrain,
+            int minRoomSize)
         {
             List<Leaf> leaves = new List<Leaf>();
 
@@ -30,7 +31,8 @@ namespace Pantheon.WorldGen
                 didSplit = false;
                 for (int i = leaves.Count - 1; i >= 0; i--)
                 {
-                    if (leaves[i].LeftChild == null && leaves[i].RightChild == null)
+                    if (leaves[i].LeftChild == null &&
+                        leaves[i].RightChild == null)
                     {
                         if (leaves[i].Width > Leaf.MaxLeafSize ||
                             leaves[i].Height > Leaf.MaxLeafSize ||
@@ -57,7 +59,9 @@ namespace Pantheon.WorldGen
                     {
                         LevelRect rect = new LevelRect(
                             new Vector2Int(hall.x1, hall.y1),
-                            new Vector2Int(hall.x2 - hall.x1 + 2, hall.y2 - hall.y1 + 2));
+                            new Vector2Int(
+                                hall.x2 - hall.x1 + 2,
+                                hall.y2 - hall.y1 + 2));
                         FillRect(level, hall, terrain);
                     }
             }                
