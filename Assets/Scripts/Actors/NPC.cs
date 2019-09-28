@@ -78,6 +78,13 @@ namespace Pantheon.Actors
         // Evaluate the situation and act
         public override int Act()
         {
+            // Random energy
+            int r = RandomUtils.RangeInclusive(0, 20);
+            if (r >= 18)
+                energy += speed / 10;
+            else if (r <= 2)
+                energy -= speed / 10;
+
             // Detect player if coming into player's view
             if (cell.Visible && !AwareOfPlayer)
                 DetectPlayer();
