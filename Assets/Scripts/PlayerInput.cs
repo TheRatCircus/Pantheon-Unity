@@ -233,6 +233,10 @@ namespace Pantheon
                     ModalListOpenEvent?.Invoke(ModalListOperation.Toss);
                     SetInputState(InputState.Modal);
                 }
+                else if (Input.GetButtonDown("Autoexplore"))
+                {
+                    player.Autoexplore();
+                }
             }
             else if (inputState == InputState.PointTarget)
             {

@@ -283,6 +283,9 @@ namespace Pantheon.WorldGen
 
             while (open.Count > 0)
             {
+                // Keep a temporary list so open can be emptied and then
+                // refreshed from scratch
+                List<Cell> temp = new List<Cell>();
                 for (int i = 0; i < open.Count; i++)
                 {
                     closed.Add(open[i]);
@@ -314,10 +317,12 @@ namespace Pantheon.WorldGen
                             }
 
                             filled.Add(frontierCell);
-                            open.Add(frontierCell);
+                            temp.Add(frontierCell);
                         }
-                    open.RemoveAt(i);
                 }
+                open.Clear();
+                open.AddRange(temp);
+                temp.Clear();
             }
             return filled;
         }

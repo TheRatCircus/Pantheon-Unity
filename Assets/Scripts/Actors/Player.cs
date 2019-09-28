@@ -28,6 +28,7 @@ namespace Pantheon.Actors
             = new List<NPC>();
         [SerializeField] [ReadOnly] private List<Cell> movePath;
         private bool longResting = false;
+        private bool autoexploring = false;
 
         // Properties
         public PlayerInput Input
@@ -106,6 +107,36 @@ namespace Pantheon.Actors
                 Cell destination = movePath[0];
                 movePath.RemoveAt(0);
                 return new MoveAction(this, MoveSpeed, destination).DoAction();
+            }
+
+            if (autoexploring)
+            {
+                if (visibleEnemies.Count > 0)
+                {
+                    GameLog.Send($"An enemy is nearby!", TextColour.Red);
+                    autoexploring = false;
+                    return -1;
+                }
+
+                DijkstraMap dijkstra = new DijkstraMap(level);
+                List<Vector2Int> goals = new List<Vector2Int>();
+                foreach (Cell c in level.Map)
+                {
+                    if (!c.Revealed)
+                        goals.Add(c.Position);
+                }
+
+                dijkstra.Recalculate(goals);
+                Vector2Int destination = dijkstra.RollDownhill(cell);
+
+                if (destination == Vector2Int.zero)
+                {
+                    autoexploring = false;
+                    return -1;
+                }
+
+                Cell destinationCell = level.GetCell(destination);
+                nextAction = new MoveAction(this, moveSpeed, destinationCell);
             }
 
             if (NextAction != null)
@@ -197,6 +228,11 @@ namespace Pantheon.Actors
                 GameLog.Send(msg, lost ? TextColour.Red : TextColour.Green);
             }
             TraitPointChangeEvent?.Invoke(TraitPoints);
+        }
+
+        public void Autoexplore()
+        {
+            autoexploring = !autoexploring;
         }
 
         // Call every time FOV is refreshed

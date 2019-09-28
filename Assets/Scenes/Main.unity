@@ -1587,7 +1587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 2.014516
+  m_AspectRatio: 1.9968305
 --- !u!114 &420544337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3253,7 +3253,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemap: {fileID: 2025786766}
-  tilemapRenderer: {fileID: 0}
+  tilemapRenderer: {fileID: 2025786767}
   background: {fileID: 1010146931}
   mapTile: {fileID: 11400000, guid: c5a43740aae44ad43be2a0ade6995362, type: 2}
 --- !u!1 &1036819764

@@ -314,7 +314,7 @@ namespace Pantheon.Actors
         /// <returns>True if this is hostile to other.</returns>
         public bool IsHostileTo(Actor other)
         {
-            /// XXX: This should be override and cleaned
+            /// XXX: This should be overridden and cleaned
             if (this is Player)
             {
                 NPC otherNPC = (NPC)other;

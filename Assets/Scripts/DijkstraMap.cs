@@ -12,34 +12,38 @@ namespace Pantheon
     /// </summary>
     public sealed class DijkstraMap
     {
-        private Level level;
+        public Level Level { get; private set; }
 
-        private Dictionary<Vector2Int, int> map
+        public Dictionary<Vector2Int, int> Map { get; private set; }
             = new Dictionary<Vector2Int, int>();
         private List<Vector2Int> open = new List<Vector2Int>();
         private HashSet<Vector2Int> closed = new HashSet<Vector2Int>();
 
-        public DijkstraMap(Level level) => this.level = level;
+        public DijkstraMap(Level level) => Level = level;
 
-        public void Recalculate(Vector2Int[] goals)
+        public void Recalculate(List<Vector2Int> goals)
         {
-            map.Clear();
+            Map.Clear();
             open.Clear();
             closed.Clear();
 
             foreach (Vector2Int v in goals)
             {
-                map.Add(v, 0);
+                Map.Add(v, 0);
                 open.Add(v);
             }
 
             int iterations = 0; // Arbitrary limiter
-            while (open.Count > 0)
+            while (open.Count > 0) // Until no cells left to map
             {
+                // Keep a temporary list so open can be emptied and then
+                // refreshed from scratch
+                List<Vector2Int> temp = new List<Vector2Int>();
                 for (int i = 0; i < open.Count; i++)
                 {
-                    map.TryGetValue(open[i], out int distance);
-                    closed.Add(open[i]);
+                    Map.TryGetValue(open[i], out int prevDist);
+                    closed.Add(open[i]); // Immediately close origin
+
                     for (int x = -1; x <= 1; x++)
                         for (int y = -1; y <= 1; y++)
                         {
@@ -49,25 +53,54 @@ namespace Pantheon
                             if (closed.Contains(frontier))
                                 continue;
 
-                            if (level.GetCell(frontier).Blocked)
+                            if (!Level.Contains(frontier) || 
+                                Level.GetCell(frontier).Blocked ||
+                                Level.GetCell(frontier).Actor != null)
                             {
                                 closed.Add(frontier);
                                 continue;
                             }
 
-                            if (map.ContainsKey(frontier))
+                            if (Map.ContainsKey(frontier))
                             {
                                 closed.Add(frontier);
                                 continue;
                             }
 
-                            map.Add(frontier, distance + 1);
-                            open.Add(frontier);
+                            Map.Add(frontier, prevDist + 1);
+                            temp.Add(frontier);
                         }
-                    open.RemoveAt(i);
                 }
+                open.Clear();
+                open.AddRange(temp);
+                temp.Clear();
                 iterations++;
             }
+        }
+
+        public Vector2Int RollDownhill(Cell origin)
+        {
+            Vector2Int lowestPosition = Vector2Int.zero;
+            int lowest = 255;
+
+            for (int x = origin.Position.x - 1; x <= origin.Position.x + 1;
+                x++)
+                for (int y = origin.Position.y - 1; y <= origin.Position.y + 1;
+                    y++)
+                {
+                    if (x == origin.Position.x && y == origin.Position.y)
+                        continue;
+
+                    if (!Map.TryGetValue(new Vector2Int(x, y), out int weight))
+                        continue;
+
+                    if (weight < lowest)
+                    {
+                        lowest = weight;
+                        lowestPosition = new Vector2Int(x, y);
+                    }
+                }
+            return lowestPosition;
         }
     }
 }
