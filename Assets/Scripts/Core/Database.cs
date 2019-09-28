@@ -74,6 +74,8 @@ namespace Pantheon.Core
             = new Dictionary<LandmarkRef, Landmark>();
 
         // Miscellaneous
+        public static List<Aspect> AspectList { get => GetDatabase().aspects; }
+
         [SerializeField] private GameObject genericNPC = null;
         public static GameObject GenericNPC => GetDatabase().genericNPC;
 

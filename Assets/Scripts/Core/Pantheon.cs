@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using Pantheon.Actors;
+using Pantheon.Utils;
 using Pantheon.WorldGen;
 
 namespace Pantheon.Core
@@ -25,45 +26,34 @@ namespace Pantheon.Core
                 Idol idol = new Idol { DisplayName = CharacterNames.Random() };
                 idol.RefName = idol.DisplayName.ToLower();
 
-                if (Utils.RandomUtils.CoinFlip(true))
+                if (RandomUtils.CoinFlip(true))
                     idol.Gender = Gender.Male;
                 else
                     idol.Gender = Gender.Female;
 
-                AssignAspect(idol);
-
                 // TODO: Personality, mannerism, titles
 
                 Idols.Add(idol.RefName, idol);
-                UnityEngine.Debug.Log($"Finished idol {idol}.");
+            }
+            AssignAspects();
+            foreach (Idol i in Idols.Values)
+            {
+                UnityEngine.Debug.Log($"Finished idol: {i.RefName}" +
+                    $" ({i.DisplayName})" +
+                    $" ({i.Aspect.RefName}).");
             }
         }
 
-        public void AssignAspect(Idol idol)
+        public void AssignAspects()
         {
-            for (int i = 0; i < 50; i++)
+            List<Aspect> shuffledAspects = Database.AspectList;
+            shuffledAspects.Shuffle(true);
+            int counter = 0;
+            foreach (Idol idol in Idols.Values)
             {
-                Aspect aspect = Database.RandomAspect();
-                bool occupied = false;
-
-                // Check if another Idol has this aspect
-                foreach (Idol other in Idols.Values)
-                {
-                    if (other.Aspect == aspect)
-                    {
-                        occupied = true;
-                        break;
-                    }
-                }
-
-                if (!occupied)
-                {
-                    idol.Aspect = aspect;
-                    return;
-                }
+                idol.Aspect = shuffledAspects[counter];
+                counter++;
             }
-            throw new System.Exception
-                ("No open aspect found for Idol after 50 attempts.");
         }
     }
 }
