@@ -29,27 +29,47 @@ namespace Pantheon.World
         {
             ZLevel = zLevel;
             BuilderMap = new Dictionary<Vector2Int, LevelBuilder>();
+            BuildLayer();
+        }
 
-            Zone valley = new Zone("The Valley", "valley", Vector2Int.zero);
-            for (int x = -1; x <= 1; x++)
-                for (int y = -1; y <= 1; y++)
-                {
-                    Vector2Int layerPos = new Vector2Int(x, y);
-                    if (x == 0 && y == 0)
+        private void BuildLayer()
+        {
+            switch (ZLevel)
+            {
+                case 0: // Surface, needs a spawn zone
                     {
-                        BuilderMap.Add(new Vector2Int(x, y),
-                            new ValleyBuilder(this, layerPos,
-                            valley, CardinalDirection.Centre));
+                        Zone valley = new Zone("The Little Valley",
+                            "valleySpawn", Vector2Int.zero);
+                        for (int x = -1; x <= 1; x++)
+                            for (int y = -1; y <= 1; y++)
+                            {
+                                Vector2Int layerPos = new Vector2Int(x, y);
+                                if (x == 0 && y == 0)
+                                {
+                                    BuilderMap.Add(new Vector2Int(x, y),
+                                        new ZoneLevelBuilder(this, layerPos,
+                                        valley, layerPos,
+                                        CardinalDirection.Centre,
+                                        ThemeDefs._valley));
+                                }
+                                else
+                                {
+                                    CardinalDirection wing
+                                        = layerPos.ToCardinal();
+                                    BuilderMap.Add(new Vector2Int(x, y),
+                                        new ZoneLevelBuilder(this, layerPos,
+                                        valley, layerPos, wing,
+                                        ThemeDefs._valley));
+                                }
+                            }
+                        for (int i = 0; i < 10; i++)
+                            new ZoneTunneler(this).Start();
+
+                        break;
                     }
-                    else
-                    {
-                        CardinalDirection wing = layerPos.ToCardinal();
-                        BuilderMap.Add(new Vector2Int(x, y),
-                            new ValleyBuilder(this, layerPos, valley, wing));
-                    }
-                }
-            for (int i = 0; i < 10; i++)
-                new SurfaceTunneler(this).Start();
+                case -1: // Caves
+                    break;
+            }
         }
 
         public Level RequestLevel(Vector2Int coords)

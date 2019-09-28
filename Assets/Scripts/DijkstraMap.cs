@@ -21,20 +21,20 @@ namespace Pantheon
 
         public DijkstraMap(Level level) => Level = level;
 
-        public void Recalculate(List<Vector2Int> goals)
+        public void Recalculate(IEnumerable<Cell> goals)
         {
             Map.Clear();
             open.Clear();
             closed.Clear();
 
-            foreach (Vector2Int v in goals)
+            foreach (Cell c in goals)
             {
-                Map.Add(v, 0);
-                open.Add(v);
+                Map.Add(c.Position, 0);
+                open.Add(c.Position);
             }
 
             int iterations = 0; // Arbitrary limiter
-            while (open.Count > 0) // Until no cells left to map
+            while (open.Count > 0)
             {
                 // Keep a temporary list so open can be emptied and then
                 // refreshed from scratch

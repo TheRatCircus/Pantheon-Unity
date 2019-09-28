@@ -76,6 +76,6 @@ namespace Pantheon.WorldGen
     public enum LandmarkRef
     {
         None,
-        StoneHouse
+        Keep
     }
 }

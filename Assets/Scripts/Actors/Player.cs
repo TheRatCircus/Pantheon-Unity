@@ -118,16 +118,13 @@ namespace Pantheon.Actors
                     return -1;
                 }
 
-                DijkstraMap dijkstra = new DijkstraMap(level);
-                List<Vector2Int> goals = new List<Vector2Int>();
+                HashSet<Cell> unexplored = new HashSet<Cell>();
                 foreach (Cell c in level.Map)
-                {
                     if (!c.Revealed)
-                        goals.Add(c.Position);
-                }
+                        unexplored.Add(c);
 
-                dijkstra.Recalculate(goals);
-                Vector2Int destination = dijkstra.RollDownhill(cell);
+                level.Autoexplore.Recalculate(unexplored);
+                Vector2Int destination = level.Autoexplore.RollDownhill(cell);
 
                 if (destination == Vector2Int.zero)
                 {

@@ -8,26 +8,18 @@ using static Pantheon.Utils.RandomUtils;
 
 namespace Pantheon.WorldGen
 {
-    public abstract class ZoneTunneler
+    public sealed class ZoneTunneler
     {
-        protected Layer layer;
-        protected Vector2Int position;
+        private Layer layer;
+        private Vector2Int position;
 
-        //ZoneTheme newTheme;
-        //ZoneTheme oldTheme;
-
-        public abstract void Start();
-    }
-
-    public sealed class SurfaceTunneler : ZoneTunneler
-    {
-        public SurfaceTunneler(Layer layer)
+        public ZoneTunneler(Layer layer)
         {
             this.layer = layer;
             position = new Vector2Int();
         }
 
-        public override void Start() => Move(10);
+        public void Start() => Move(10);
 
         private void Move(int maxMoves)
         {
@@ -139,14 +131,19 @@ namespace Pantheon.WorldGen
 
         private void BuildZone(Vector2Int delta)
         {
-            Zone zone = new Zone("Faraway Basin", "basin", position);
+            ZoneTheme theme = ThemeDefs._valley;
+            Zone zone = new Zone($"{theme.DisplayName} of Ghoti",
+                $"{theme.ThemeRef}_Ghoti", position);
             for (int x = position.x - 1; x <= position.x + 1; x++)
                 for (int y = position.y - 1; y <= position.y + 1; y++)
                 {
                     Vector2Int layerPos = new Vector2Int(x, y);
-                    CardinalDirection wing = layerPos.ToCardinal();
-                    layer.BuilderMap.Add(new Vector2Int(x, y),
-                        new ValleyBuilder(layer, layerPos, zone, wing));
+                    Vector2Int zonePos = 
+                        new Vector2Int(x - position.x, y - position.y);
+                    CardinalDirection wing = zonePos.ToCardinal();
+                    layer.BuilderMap.Add(layerPos,
+                        new ZoneLevelBuilder(layer, layerPos, zone, zonePos,
+                        wing, theme));
                 }
         }
     }

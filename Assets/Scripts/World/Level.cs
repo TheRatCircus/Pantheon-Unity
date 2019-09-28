@@ -39,6 +39,7 @@ namespace Pantheon.World
         private FOV fov;
         public void RefreshFOV() => fov.RefreshFOV(this);
         public Pathfinder Pathfinder { get; private set; }
+        public DijkstraMap Autoexplore { get; private set; }
 
         public bool Visited { get; set; } = false;
 
@@ -55,6 +56,7 @@ namespace Pantheon.World
         private void Awake()
         {
             Pathfinder = new Pathfinder(this);
+            Autoexplore = new DijkstraMap(this);
             fov = new FOV();
         }
 

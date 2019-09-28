@@ -14,7 +14,7 @@ namespace Pantheon.World
         /// Change visibility and reveal new cells.
         /// Only call when a player acts.
         /// <param name="level"></param>
-        public void RefreshFOV(Level level)
+        public List<Cell> RefreshFOV(Level level)
         {
             List<Cell> allRefreshed = new List<Cell>();
             for (int octant = 0; octant < 8; octant++)
@@ -28,6 +28,8 @@ namespace Pantheon.World
 
             foreach (NPC e in level.NPCs)
                 e.UpdateVisibility();
+
+            return allRefreshed;
         }
 
         // Coordinates used to transform a point in an octant

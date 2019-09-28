@@ -28,18 +28,35 @@ namespace Pantheon.WorldGen
         public static void ValleyBasics(Level level)
         {
             level.LevelSize = new Vector2Int(ValleySize, ValleySize);
-
-            UnityEngine.Debug.Log($"Initializing cells...");
             level.Map = BlankMap(level.LevelSize, TerrainType.Grass);
         }
 
-        public static void GenerateValley(Level level)
+        public static void GenerateOuterValley(Level level)
         {
+            ValleyBasics(level);
+
             int r = Utils.RandomUtils.RangeInclusive(0, 3);
 
             switch (r)
             {
-                case 0: 
+                case 0:
+                    {
+                        LevelRect rect = new LevelRect(new Vector2Int(0, 0),
+                            new Vector2Int(
+                                level.LevelSize.x,
+                                level.LevelSize.y));
+
+                        FillRect(level, rect, FeatureType.WoodFence);
+                        BinarySpacePartition.BSP(level, TerrainType.Grass, 12);
+                        Enclose(level, TerrainType.StoneWall);
+                        foreach (Cell c in level.Map)
+                            if (Utils.RandomUtils.OneChanceIn(6))
+                                c.SetFeature(FeatureType.None); // Ruin fence
+
+                        NPCs.SpawnNPCs(level, ValleyEnemies,
+                            NPCPops.ValleyCentre);
+                        break;
+                    }
                 case 1: // Sparse wood
                     RandomFill(level, 2, FeatureType.Tree);
                     Enclose(level, TerrainType.StoneWall);
@@ -53,6 +70,36 @@ namespace Pantheon.WorldGen
                 case 3:
                     goto case 0;
             }
+        }
+
+        public static void GenerateCentralValley(Level level)
+        {
+            ValleyBasics(level);
+
+            // Never generate boss level if this is spawn
+            if (level.LayerPos == Vector2Int.zero)
+            {
+                LevelRect rect = new LevelRect(new Vector2Int(0, 0),
+                            new Vector2Int(
+                                level.LevelSize.x,
+                                level.LevelSize.y));
+
+                FillRect(level, rect, FeatureType.WoodFence);
+                BinarySpacePartition.BSP(level, TerrainType.Grass, 12);
+                Enclose(level, TerrainType.StoneWall);
+                foreach (Cell c in level.Map)
+                    if (Utils.RandomUtils.OneChanceIn(6))
+                        c.SetFeature(FeatureType.None); // Ruin fence
+
+                NPCs.SpawnNPCs(level, ValleyEnemies,
+                    NPCPops.ValleyCentre);
+
+                return;
+            }
+
+            Enclose(level, TerrainType.StoneWall);
+            Landmark.Build(LandmarkRef.Keep, level, 
+                new Vector2Int(16, 16));
         }
 
         public static void PlaceGuaranteedAltar(Cell cell)

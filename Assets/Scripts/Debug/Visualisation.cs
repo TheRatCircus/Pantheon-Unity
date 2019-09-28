@@ -16,15 +16,17 @@ namespace Pantheon.Debug
         /// Draw an X on a cell (aligned to world grid).
         /// </summary>
         /// <param name="cell"></param>
-        public static void MarkCell(Cell cell)
+        public static void MarkCell(Cell cell, float duration)
         {
             Vector3 start = Helpers.V2IToV3(cell.Position);
             Vector3 end = new Vector3(start.x + .2f, start.y + .2f);
-            UnityEngine.Debug.DrawLine(start, end, Color.cyan, 5);
+            UnityEngine.Debug.DrawLine(start, end, Color.cyan, duration);
             start.y += 1f;
             end.y -= 1f;
-            UnityEngine.Debug.DrawLine(start, end, Color.cyan, 5);
+            UnityEngine.Debug.DrawLine(start, end, Color.cyan, duration);
         }
+
+
 
         /// <summary>
         /// Draw an X on a position.

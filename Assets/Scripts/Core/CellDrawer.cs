@@ -37,7 +37,7 @@ public static class CellDrawer
     [System.Diagnostics.Conditional("DEBUG_CELLDRAW")]
     public static void VisualiseDrawnCell(Cell cell)
     {
-        Pantheon.Debug.Visualisation.MarkCell(cell);
+        Pantheon.Debug.Visualisation.MarkCell(cell, 5);
     }
 
     public static void DrawLevel(Level level)
