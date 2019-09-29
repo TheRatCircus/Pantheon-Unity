@@ -2,11 +2,12 @@
 // Jerome Martina
 
 /// <summary>
-/// All of the different NPC types in Pantheon, enumerated.
+/// References for NPC prefabs.
 /// </summary>
 public enum NPCType
 {
-    None = 0,
-    Goblin = 1,
-    DreadHamster = 2
+    None,
+    Goblin,
+    DreadHamster,
+    Coyote
 }

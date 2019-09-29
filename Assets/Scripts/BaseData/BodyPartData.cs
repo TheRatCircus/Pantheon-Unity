@@ -18,8 +18,8 @@ namespace Pantheon
         [SerializeField] private string displayName = null;
         [SerializeField] private Sprite sprite = null;
 
-        [SerializeField] private int strength = 0;
-        [SerializeField] private int runBonus = 0;
+        [SerializeField] private int strength = -1;
+        [SerializeField] private int moveTime = -1;
 
         [SerializeField] private bool prehensile = false;
         [SerializeField] private bool inherentlyDexterous = false;
@@ -33,7 +33,7 @@ namespace Pantheon
         public string DisplayName { get => displayName; }
         public Sprite Sprite { get => sprite; }
         public int Strength { get => strength; }
-        public int RunBonus { get => runBonus; }
+        public int MoveTime { get => moveTime; }
         public bool Prehensile { get => prehensile; }
         public bool CanMelee { get => inherentlyDexterous; }
         public Melee Melee { get => melee; }
@@ -51,7 +51,6 @@ namespace Pantheon
         Head,
         Arm,
         Legs, // Always in a full set
-        Teeth,
         Claw
     }
 }

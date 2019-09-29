@@ -90,11 +90,11 @@
     <Compile Include="Assets\Scripts\Actors\Inventory.cs" />
     <Compile Include="Assets\Scripts\Actors\NPC.cs" />
     <Compile Include="Assets\Scripts\Actors\Player.cs" />
-    <Compile Include="Assets\Scripts\Actors\Species.cs" />
     <Compile Include="Assets\Scripts\Actors\StatusEffect.cs" />
     <Compile Include="Assets\Scripts\Actors\Trait.cs" />
     <Compile Include="Assets\Scripts\Actors\TraitEffects.cs" />
     <Compile Include="Assets\Scripts\Actors\Traits.cs" />
+    <Compile Include="Assets\Scripts\Algorithms.cs" />
     <Compile Include="Assets\Scripts\Ammo.cs" />
     <Compile Include="Assets\Scripts\BaseData\AmmoData.cs" />
     <Compile Include="Assets\Scripts\BaseData\ArmourData.cs" />
@@ -104,6 +104,7 @@
     <Compile Include="Assets\Scripts\BaseData\ItemData.cs" />
     <Compile Include="Assets\Scripts\BaseData\NPCWrapper.cs" />
     <Compile Include="Assets\Scripts\BaseData\ScrollData.cs" />
+    <Compile Include="Assets\Scripts\BaseData\Species.cs" />
     <Compile Include="Assets\Scripts\BaseData\Spell.cs" />
     <Compile Include="Assets\Scripts\BaseData\TerrainData.cs" />
     <Compile Include="Assets\Scripts\BaseData\WeaponData.cs" />
@@ -180,7 +181,7 @@
     <Compile Include="Assets\Scripts\WorldGen\Layout.cs" />
     <Compile Include="Assets\Scripts\WorldGen\LevelBuilder.cs" />
     <Compile Include="Assets\Scripts\WorldGen\NPCPops.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\NPCs.cs" />
+    <Compile Include="Assets\Scripts\WorldGen\NPCSpawn.cs" />
     <Compile Include="Assets\Scripts\WorldGen\RectGrid.cs" />
     <Compile Include="Assets\Scripts\WorldGen\Zones.cs" />
     <Compile Include="Assets\Scripts\WorldGen\ZoneTheme.cs" />

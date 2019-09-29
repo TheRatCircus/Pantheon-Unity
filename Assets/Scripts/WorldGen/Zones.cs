@@ -14,8 +14,8 @@ namespace Pantheon.WorldGen
     /// </summary>
     public static class Zones
     {
-        public const int ValleySize = 64;
-        public const int ValleyEnemies = 10;
+        public const int ValleySize = 80;
+        public const int ValleyEnemies = 20;
 
         public static void FinishLevel(Level level)
         {
@@ -52,9 +52,6 @@ namespace Pantheon.WorldGen
                         foreach (Cell c in level.Map)
                             if (Utils.RandomUtils.OneChanceIn(6))
                                 c.SetFeature(FeatureType.None); // Ruin fence
-
-                        NPCs.SpawnNPCs(level, ValleyEnemies,
-                            NPCPops.ValleyCentre);
                         break;
                     }
                 case 1: // Sparse wood
@@ -70,6 +67,9 @@ namespace Pantheon.WorldGen
                 case 3:
                     goto case 0;
             }
+            NPCSpawn spawner = new NPCSpawn(level, ValleyEnemies,
+                ValleyEnemies, NPCPops._startingValley);
+            spawner.SpawnNPCs();
         }
 
         public static void GenerateCentralValley(Level level)
@@ -91,8 +91,9 @@ namespace Pantheon.WorldGen
                     if (Utils.RandomUtils.OneChanceIn(6))
                         c.SetFeature(FeatureType.None); // Ruin fence
 
-                NPCs.SpawnNPCs(level, ValleyEnemies,
-                    NPCPops.ValleyCentre);
+                NPCSpawn spawner = new NPCSpawn(level, ValleyEnemies,
+                    ValleyEnemies, NPCPops._startingValley);
+                spawner.SpawnNPCs();
 
                 return;
             }

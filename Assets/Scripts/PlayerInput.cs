@@ -128,7 +128,7 @@ namespace Pantheon
                             player.GetAdjacentCell(Vector2Int.up));
                     else
                         player.NextAction = new MoveAction
-                            (player, player.MoveSpeed, Vector2Int.up);
+                            (player, player.MoveTime, Vector2Int.up);
                 }
                 else if (Input.GetButtonDown("Down"))
                 {
@@ -137,7 +137,7 @@ namespace Pantheon
                             player.GetAdjacentCell(Vector2Int.down));
                     else
                         player.NextAction = new MoveAction
-                            (player, player.MoveSpeed, Vector2Int.down);
+                            (player, player.MoveTime, Vector2Int.down);
                 }
                 else if (Input.GetButtonDown("Left"))
                 {
@@ -146,7 +146,7 @@ namespace Pantheon
                             player.GetAdjacentCell(Vector2Int.left));
                     else
                         player.NextAction = new MoveAction
-                            (player, player.MoveSpeed, Vector2Int.left);
+                            (player, player.MoveTime, Vector2Int.left);
                 }
                 else if (Input.GetButtonDown("Right"))
                 {
@@ -155,7 +155,7 @@ namespace Pantheon
                             player.GetAdjacentCell(Vector2Int.right));
                     else
                         player.NextAction = new MoveAction
-                            (player, player.MoveSpeed, Vector2Int.right);
+                            (player, player.MoveTime, Vector2Int.right);
                 }
                 else if (Input.GetButtonDown("Up Left"))
                 {
@@ -164,7 +164,7 @@ namespace Pantheon
                             player.GetAdjacentCell(new Vector2Int(-1, 1)));
                     else
                         player.NextAction = new MoveAction
-                            (player, player.MoveSpeed, new Vector2Int(-1, 1));
+                            (player, player.MoveTime, new Vector2Int(-1, 1));
                 }
                 else if (Input.GetButtonDown("Up Right"))
                 {
@@ -173,7 +173,7 @@ namespace Pantheon
                             player.GetAdjacentCell(new Vector2Int(1, 1)));
                     else
                         player.NextAction = new MoveAction
-                                (player, player.MoveSpeed, new Vector2Int(1, 1));
+                                (player, player.MoveTime, new Vector2Int(1, 1));
                 }
                 else if (Input.GetButtonDown("Down Left"))
                 {
@@ -182,7 +182,7 @@ namespace Pantheon
                             player.GetAdjacentCell(new Vector2Int(-1, -1)));
                     else
                         player.NextAction = new MoveAction
-                            (player, player.MoveSpeed, new Vector2Int(-1, -1));
+                            (player, player.MoveTime, new Vector2Int(-1, -1));
                 }
                 else if (Input.GetButtonDown("Down Right"))
                 {
@@ -191,7 +191,7 @@ namespace Pantheon
                             player.GetAdjacentCell(new Vector2Int(1, -1)));
                     else
                         player.NextAction = new MoveAction
-                            (player, player.MoveSpeed, new Vector2Int(1, -1));
+                            (player, player.MoveTime, new Vector2Int(1, -1));
                 }
                 else if (Input.GetButtonDown("Wait"))
                     player.NextAction = new WaitAction(player);

@@ -106,7 +106,7 @@ namespace Pantheon.Actors
 
                 Cell destination = movePath[0];
                 movePath.RemoveAt(0);
-                return new MoveAction(this, MoveSpeed, destination).DoAction();
+                return new MoveAction(this, MoveTime, destination).DoAction();
             }
 
             if (autoexploring)
@@ -133,7 +133,7 @@ namespace Pantheon.Actors
                 }
 
                 Cell destinationCell = level.GetCell(destination);
-                nextAction = new MoveAction(this, moveSpeed, destinationCell);
+                nextAction = new MoveAction(this, MoveTime, destinationCell);
             }
 
             if (NextAction != null)

@@ -16,7 +16,7 @@ namespace Pantheon.Actors
         public BodyPartType Type { get => partData.Type; }
         public string DisplayName { get => partData.DisplayName; }
         public Sprite Sprite { get => partData.Sprite; }
-        public int RunBonus { get => partData.RunBonus; }
+        public int MoveSpeed { get => partData.MoveTime; }
         public bool Prehensile { get => partData.Prehensile; }
 
         // Instance-specific

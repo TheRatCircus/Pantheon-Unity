@@ -17,8 +17,7 @@ namespace Pantheon.Actors
     public class Actor : MonoBehaviour
     {
         public const int DefaultSpeed = 100;
-        public const int DefaultMoveSpeed = 100;
-        public const int DefaultRegenRate = 100;
+        public const int DefaultRegenRate = 1600;
 
         protected SpriteRenderer spriteRenderer;
 
@@ -35,13 +34,16 @@ namespace Pantheon.Actors
         [SerializeField] [ReadOnly] protected int regenProgress = 0;
         [SerializeField] protected int speed = -1; // Energy per turn
         [SerializeField] [ReadOnly] protected int energy; // Energy remaining
-        [SerializeField] protected int moveSpeed; // Energy needed to walk one cell
 
         [SerializeField] protected Attributes attributes;
         [SerializeField] protected Body body;
         [SerializeField] protected Defenses defenses;
-        [SerializeField] protected List<Trait> traits;
-        [SerializeField] [ReadOnly] protected List<StatusEffect> statuses
+        [SerializeField]
+        protected List<Trait> traits
+            = new List<Trait>();
+        [SerializeField]
+        [ReadOnly]
+        protected List<StatusEffect> statuses
             = new List<StatusEffect>();
         [SerializeField] protected Equipment equipment;
         [SerializeField] protected Inventory inventory;
@@ -70,7 +72,7 @@ namespace Pantheon.Actors
             get => nextAction;
             set => nextAction = value;
         }
-        public int MoveSpeed { get => moveSpeed; set => moveSpeed = value; }
+        public int MoveTime { get => Body.GetMoveTime(); }
         public List<Spell> Spells { get => spells; set => spells = value; }
         public Sprite CorpseSprite
         {
@@ -149,17 +151,18 @@ namespace Pantheon.Actors
         // Awake is called when the script instance is being loaded
         protected virtual void Awake()
         {
-            if (maxHealth < 0)
-                throw new Exception("Actor has negative health.");
-            if (speed < 0)
-                throw new Exception("Actor has negative speed.");
+            if (maxHealth < 0 || speed < 0 || regenRate < 0)
+                throw new Exception("Actor data incomplete.");
 
             health = MaxHealth;
             energy = speed;
 
-            if (traits == null)
-                traits = new List<Trait>();
-            // Some actors start with traits, so these need to fire their
+            // Prefabs don't have body parts assigned manually, so take from
+            // species
+            if (Body.Parts.Count == 0)
+                BuildActor(species);
+
+            // Some prefabs start with traits, so these need to fire their
             // callback now
             if (traits.Count > 0)
                 foreach (Trait trait in traits)
@@ -323,7 +326,7 @@ namespace Pantheon.Actors
                     return false;
                 if (otherNPC.Faction != null && otherNPC.Faction == Faction)
                     return false;
-                if (otherNPC.Faction != null && 
+                if (otherNPC.Faction != null &&
                     otherNPC.Faction.HostileToPlayer)
                     return true;
                 if (otherNPC.AlwaysHostileToPlayer)
@@ -340,7 +343,7 @@ namespace Pantheon.Actors
                         return false;
                     if (thisNPC.AlwaysHostileToPlayer)
                         return true;
-                    if (thisNPC.Faction != null && 
+                    if (thisNPC.Faction != null &&
                         thisNPC.Faction.HostileToPlayer)
                         return true;
 

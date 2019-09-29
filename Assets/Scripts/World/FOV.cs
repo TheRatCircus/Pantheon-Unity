@@ -33,16 +33,17 @@ namespace Pantheon.World
         }
 
         // Coordinates used to transform a point in an octant
-        static readonly Vector2Int[,] _octantCoordinates = new Vector2Int[,]
+        private static readonly Vector2Int[,] _octantCoordinates
+            = new Vector2Int[,]
         {
-        { new Vector2Int(0, -1), new Vector2Int(1, 0) },
-        { new Vector2Int(1, 0), new Vector2Int(0, -1) },
-        { new Vector2Int(1, 0), new Vector2Int(0, 1) },
-        { new Vector2Int(0, 1), new Vector2Int(1, 0) },
-        { new Vector2Int(0, 1), new Vector2Int(-1, 0) },
-        { new Vector2Int(-1, 0), new Vector2Int(0, 1) },
-        { new Vector2Int(-1, 0), new Vector2Int(0, -1) },
-        { new Vector2Int(0, -1), new Vector2Int(-1, 0) }
+            { new Vector2Int(0, -1), new Vector2Int(1, 0) },
+            { new Vector2Int(1, 0), new Vector2Int(0, -1) },
+            { new Vector2Int(1, 0), new Vector2Int(0, 1) },
+            { new Vector2Int(0, 1), new Vector2Int(1, 0) },
+            { new Vector2Int(0, 1), new Vector2Int(-1, 0) },
+            { new Vector2Int(-1, 0), new Vector2Int(0, 1) },
+            { new Vector2Int(-1, 0), new Vector2Int(0, -1) },
+            { new Vector2Int(0, -1), new Vector2Int(-1, 0) }
         };
 
         // Generate an octant of shadows, and return the FOV area to be redrawn

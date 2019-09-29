@@ -104,26 +104,36 @@ MonoBehaviour:
     revealed: 0
     actor: {fileID: 0}
   actorName: GENERIC_NPC
-  nameIsProper: 0
+  isUnique: 0
   health: 0
   maxHealth: -1
   regenRate: -1
   regenProgress: 0
   speed: -1
   energy: 0
-  moveSpeed: 0
+  moveSpeed: -1
   attributes:
-    strength: 0
-    dexterity: 0
-    intellect: 0
-    constitution: 0
-    willpower: 0
+    strength: -1
+    dexterity: -1
+    intellect: -1
+    constitution: -1
+    willpower: -1
   body:
     parts: []
+  defenses:
+    armour: -1
+    evasion: -1
+    resistPhys: -1
+    resistHeat: -1
+    resistCold: -1
+    resistDisease: -1
+    resistPoison: -1
   statuses: []
   spells: []
-  species: 0
+  species: {fileID: 0}
   corpseSprite: {fileID: 21300000, guid: 0d047209e32634c4cb6ff78ed5fe9767, type: 3}
+  intelligence: 0
+  alwaysHostileToPlayer: 0
   target: {fileID: 0}
 --- !u!114 &5804891888235607368
 MonoBehaviour:

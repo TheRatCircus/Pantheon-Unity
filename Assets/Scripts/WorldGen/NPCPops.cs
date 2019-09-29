@@ -6,19 +6,13 @@ using static Pantheon.Utils.RandomUtils;
 namespace Pantheon.WorldGen
 {
     /// <summary>
-    /// Defines the NPC populations of any given zone.
+    /// Defines ambient NPC populations for zone themes.
     /// </summary>
     public static class NPCPops
     {
-        public static RandomPickEntry<NPCType>[] ValleyCentre =
+        public static RandomPickEntry<NPCType>[] _startingValley =
         {
-        new RandomPickEntry<NPCType>(512, NPCType.Goblin)
-    };
-
-        public static RandomPickEntry<NPCType>[] ValleyNorth =
-        {
-        new RandomPickEntry<NPCType>(512, NPCType.Goblin),
-        new RandomPickEntry<NPCType>(64, NPCType.DreadHamster)
-    };
+            new RandomPickEntry<NPCType>(512, NPCType.Coyote)
+        };
     }
 }

@@ -107,11 +107,10 @@ MonoBehaviour:
   isUnique: 0
   health: 0
   maxHealth: 60
-  regenRate: 200
+  regenRate: 1400
   regenProgress: 0
   speed: 130
   energy: 0
-  moveSpeed: 100
   attributes:
     strength: 0
     dexterity: 0
@@ -119,70 +118,15 @@ MonoBehaviour:
     constitution: 0
     willpower: 0
   body:
-    parts:
-    - partData: {fileID: 11400000, guid: a0953f3048b68ac46b3c00da5ca36970, type: 2}
-      dexterous: 0
-      strength: 0
-      melee:
-        minDamage: 0
-        maxDamage: 0
-        accuracy: 0
-        attackTime: 0
-        damageType: 0
-    - partData: {fileID: 11400000, guid: 1e42844d54403e242abae67b27f62c9d, type: 2}
-      dexterous: 0
-      strength: 0
-      melee:
-        minDamage: 0
-        maxDamage: 0
-        accuracy: 0
-        attackTime: 0
-        damageType: 0
-    - partData: {fileID: 11400000, guid: 1e42844d54403e242abae67b27f62c9d, type: 2}
-      dexterous: 0
-      strength: 0
-      melee:
-        minDamage: 0
-        maxDamage: 0
-        accuracy: 0
-        attackTime: 0
-        damageType: 0
-    - partData: {fileID: 11400000, guid: 556bac5bc944209409b8e8425077c05e, type: 2}
-      dexterous: 1
-      strength: 0
-      melee:
-        minDamage: 0
-        maxDamage: 0
-        accuracy: 0
-        attackTime: 0
-        damageType: 0
-    - partData: {fileID: 11400000, guid: 5b70a63a971588f44b7b3a96f92c91b3, type: 2}
-      dexterous: 1
-      strength: 0
-      melee:
-        minDamage: 0
-        maxDamage: 0
-        accuracy: 0
-        attackTime: 0
-        damageType: 0
-    - partData: {fileID: 11400000, guid: d32d6490d4f2b0f4a9900cceca154eba, type: 2}
-      dexterous: 0
-      strength: 0
-      melee:
-        minDamage: 0
-        maxDamage: 0
-        accuracy: 0
-        attackTime: 0
-        damageType: 0
-    - partData: {fileID: 11400000, guid: d32d6490d4f2b0f4a9900cceca154eba, type: 2}
-      dexterous: 0
-      strength: 0
-      melee:
-        minDamage: 0
-        maxDamage: 0
-        accuracy: 0
-        attackTime: 0
-        damageType: 0
+    parts: []
+  defenses:
+    armour: 0
+    evasion: 0
+    resistPhys: 0
+    resistHeat: 0
+    resistCold: 0
+    resistDisease: 0
+    resistPoison: 0
   statuses: []
   spells: []
   species: {fileID: 0}

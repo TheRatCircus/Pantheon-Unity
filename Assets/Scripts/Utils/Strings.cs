@@ -61,9 +61,6 @@ namespace Pantheon.Utils
                     ret = PunchVerbs.Random(false).Get(isPlayer);
                     break;
                 case BodyPartType.Head:
-                    ret = HeadButt.Get(isPlayer);
-                    break;
-                case BodyPartType.Teeth:
                     ret = BiteVerbs.Random(false).Get(isPlayer);
                     break;
                 case BodyPartType.Claw:

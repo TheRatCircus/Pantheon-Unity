@@ -238,5 +238,21 @@ namespace Pantheon.Debug
             Game.GetPlayer().ChangeTraitPoints(toAdd);
             return $"Added {toAdd} trait points.";
         }
+
+        public static string SeeAll(string[] args)
+        {
+            if (args.Length != 0)
+                return "This command takes no arguments.";
+
+            foreach (Cell c in Game.instance.activeLevel.Map)
+            {
+                c.SetVisibility(true, -1);
+                CellDrawer.DrawCell(Game.instance.activeLevel, c);
+                if (c.Actor != null && c.Actor is NPC npc)
+                    npc.UpdateVisibility();
+            }
+
+            return $"All cells in level made visible.";
+        }
     }
 }

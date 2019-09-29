@@ -41,7 +41,8 @@ namespace Pantheon.Debug
                 { "list_levels", new ConsoleCommand(ListLevels) },
                 { "list_idols", new ConsoleCommand(ListIdols) },
                 { "where_am_i", new ConsoleCommand(WhereAmI) },
-                { "add_trait_points", new ConsoleCommand(AddTraitPoints) }
+                { "add_trait_points", new ConsoleCommand(AddTraitPoints) },
+                { "see_all", new ConsoleCommand(SeeAll) }
             };
         }
 

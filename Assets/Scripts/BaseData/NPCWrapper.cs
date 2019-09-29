@@ -3,16 +3,26 @@
 
 using UnityEngine;
 
-/// <summary>
-/// NPC prefab with an enumeration.
-/// </summary>
-[CreateAssetMenu(fileName = "New NPCWrapper", menuName = "BaseData/NPCWrapper")]
-public class NPCWrapper : ScriptableObject
+namespace Pantheon
 {
-    // Prefabs cannot be enumerated for the Database without this
-    [SerializeField] private NPCType type = NPCType.None;
-    [SerializeField] private GameObject prefab = null;
+    /// <summary>
+    /// NPC prefab with an enumeration and spawning configurations.
+    /// </summary>
+    [CreateAssetMenu(fileName = "New NPCWrapper",
+        menuName = "BaseData/NPCWrapper")]
+    public sealed class NPCWrapper : ScriptableObject
+    {
+        [SerializeField] private NPCType type = NPCType.None;
+        [SerializeField] private GameObject prefab = null;
 
-    public NPCType Type { get => type;}
-    public GameObject Prefab { get => prefab; }
+        [SerializeField] private bool packSpawn = false;
+        [SerializeField] private int minPackSize = -1;
+        [SerializeField] private int maxPackSize = -1;
+
+        public NPCType Type { get => type; }
+        public GameObject Prefab { get => prefab; }
+        public bool PackSpawn { get => packSpawn; }
+        public int MinPackSize { get => minPackSize; }
+        public int MaxPackSize { get => maxPackSize; }
+    }
 }

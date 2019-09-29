@@ -143,7 +143,7 @@ namespace Pantheon.Actors
         {
             List<Cell> path = level.Pathfinder.GetCellPath(Position, target.Position);
             if (path.Count > 0)
-                NextAction = new MoveAction(this, MoveSpeed, path[0]);
+                NextAction = new MoveAction(this, MoveTime, path[0]);
         }
 
         public string LongDescription()

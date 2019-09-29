@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Pantheon.Actors
@@ -20,6 +21,31 @@ namespace Pantheon.Actors
         {
             foreach (BodyPart part in parts)
                 part.Initialize();
+        }
+
+        /// <summary>
+        /// Get the average move speed of all parts which have any.
+        /// </summary>
+        /// <returns></returns>
+        public int GetMoveTime()
+        {
+            IEnumerable<BodyPart> aQuery = from app in parts
+                                           where app.Type == BodyPartType.Legs
+                                           select app;
+            
+            // If this actor has no walking appendages, it crawls at 200
+            if (aQuery.Count() == 0)
+                return 200;
+
+            // Otherwise get average of all speeds
+            int sum = 0;
+
+            foreach (BodyPart app in aQuery)
+            {
+                sum += app.MoveSpeed;
+            }
+
+            return sum / aQuery.Count();
         }
 
         // Check if this actor has any prehensile body parts

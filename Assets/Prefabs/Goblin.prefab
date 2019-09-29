@@ -107,7 +107,7 @@ MonoBehaviour:
   isUnique: 0
   health: 0
   maxHealth: 10
-  regenRate: 300
+  regenRate: 1600
   regenProgress: 0
   speed: 100
   energy: 0
@@ -165,6 +165,14 @@ MonoBehaviour:
         accuracy: 0
         attackTime: 0
         damageType: 0
+  defenses:
+    armour: 0
+    evasion: 0
+    resistPhys: 0
+    resistHeat: 0
+    resistCold: 0
+    resistDisease: 0
+    resistPoison: 0
   statuses: []
   spells: []
   species: {fileID: 0}

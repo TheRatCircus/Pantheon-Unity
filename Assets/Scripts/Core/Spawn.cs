@@ -64,9 +64,11 @@ namespace Pantheon.Core
             npc.MaxHealth = 20;
             npc.Speed = Actor.DefaultSpeed;
             npc.RegenRate = Actor.DefaultRegenRate;
-            npc.MoveSpeed = Actor.DefaultMoveSpeed;
 
-            string npcName = $"{species.DisplayName} {occupation.DisplayName} of {idol.DisplayName}";
+            string npcName = 
+                $"{species.DisplayName}" +
+                $" {occupation.DisplayName}" +
+                $" of {idol.DisplayName}";
             npc.ActorName = npcName;
             npc.gameObject.name = npc.ActorName;
             npc.SpriteRenderer.sprite = species.Sprite;
@@ -97,7 +99,6 @@ namespace Pantheon.Core
             npc.MaxHealth = 100;
             npc.Speed = Actor.DefaultSpeed;
             npc.RegenRate = Actor.DefaultRegenRate;
-            npc.MoveSpeed = Actor.DefaultMoveSpeed;
 
             string title;
 
@@ -108,7 +109,8 @@ namespace Pantheon.Core
             else
                 title = "Sovereign";
 
-            string npcName = $"{idol.DisplayName}, {title} of {idol.Aspect.DisplayName}";
+            string npcName = $"{idol.DisplayName}," +
+                $" {title} of {idol.Aspect.DisplayName}";
             npc.ActorName = npcName;
             npc.SpriteRenderer.sprite = species.Sprite;
             npc.IsUnique = true;
