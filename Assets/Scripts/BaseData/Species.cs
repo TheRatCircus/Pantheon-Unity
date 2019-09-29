@@ -31,10 +31,11 @@ namespace Pantheon
         None,
         Human,
         Swine,
-        Goblin,
+        Goose,
         DreadHamster,
         Pigman,
-        Coyote
+        Coyote,
+        GiantBumblebee
     }
 }
 

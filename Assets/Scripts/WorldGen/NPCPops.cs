@@ -12,7 +12,8 @@ namespace Pantheon.WorldGen
     {
         public static RandomPickEntry<NPCType>[] _startingValley =
         {
-            new RandomPickEntry<NPCType>(512, NPCType.Coyote)
+            new RandomPickEntry<NPCType>(256, NPCType.RagingGoose),
+            new RandomPickEntry<NPCType>(256, NPCType.Coyote)
         };
     }
 }

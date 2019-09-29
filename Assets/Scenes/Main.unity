@@ -2266,9 +2266,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 84549a9c33ea36f4facb96d7d9f5a6f8, type: 2}
   - {fileID: 11400000, guid: b7febc8b7e6e34243bd5aee9a3396aed, type: 2}
   NPCList:
-  - {fileID: 11400000, guid: c242fefd7786d774b863f8185ed10807, type: 2}
+  - {fileID: 11400000, guid: cf2dbe5002fbd4046a58728973c01c05, type: 2}
   - {fileID: 11400000, guid: 15b4abeb03b176141b12e90cf5adf76c, type: 2}
   - {fileID: 11400000, guid: 219bfa9cb9fa54a418f506baa15f1227, type: 2}
+  - {fileID: 11400000, guid: d207a29d48ce98140b9e67143cdcecba, type: 2}
   features:
   - {fileID: 11400000, guid: d5454cfdf80e1db44aedb29d6bb28557, type: 2}
   - {fileID: 11400000, guid: f3245e7cfcd95494391cb0467d2e7af4, type: 2}
@@ -6309,7 +6310,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &277744510518784710
 Transform:
   m_ObjectHideFlags: 0

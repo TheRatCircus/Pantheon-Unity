@@ -7,7 +7,8 @@
 public enum NPCType
 {
     None,
-    Goblin,
+    GiantBumblebee,
     DreadHamster,
-    Coyote
+    Coyote,
+    RagingGoose
 }

@@ -51,6 +51,8 @@ namespace Pantheon
         Head,
         Arm,
         Legs, // Always in a full set
-        Claw
+        Claw,
+        Wings,
+        Stinger
     }
 }
