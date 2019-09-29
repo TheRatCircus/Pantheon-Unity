@@ -24,8 +24,6 @@ namespace Pantheon
         public void Recalculate(IEnumerable<Cell> goals)
         {
             Map.Clear();
-            open.Clear();
-            closed.Clear();
 
             foreach (Cell c in goals)
             {
@@ -76,6 +74,7 @@ namespace Pantheon
                 temp.Clear();
                 iterations++;
             }
+            closed.Clear();
         }
 
         public Vector2Int RollDownhill(Cell origin)
