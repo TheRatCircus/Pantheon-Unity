@@ -91,6 +91,13 @@ namespace Pantheon.WorldGen
                     if (Utils.RandomUtils.OneChanceIn(6))
                         c.SetFeature(FeatureType.None); // Ruin fence
 
+                if (level.LayerPos == Vector2Int.zero)
+                {
+                    UnityEngine.Debug.Log("Spawning the player...");
+                    Game.instance.LoadLevel(level);
+                    level.SpawnPlayer();
+                }
+
                 NPCSpawn spawner = new NPCSpawn(level, ValleyEnemies,
                     ValleyEnemies, NPCPops._startingValley);
                 spawner.SpawnNPCs();

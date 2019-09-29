@@ -86,13 +86,6 @@ namespace Pantheon.WorldGen
             else
                 theme.OuterGenDelegate.Invoke(level);
 
-            if (layerPos == Vector2Int.zero)
-            {
-                UnityEngine.Debug.Log("Spawning the player...");
-                Core.Game.instance.LoadLevel(level);
-                level.SpawnPlayer();
-            }
-
             Connect.ConnectZone(level, wing, null);
             if (wing != CardinalDirection.Centre)
                 ZoneConnect?.Invoke(level, wing);

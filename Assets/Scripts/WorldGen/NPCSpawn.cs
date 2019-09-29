@@ -1,12 +1,11 @@
 ﻿// NPCSpawn.cs
 // Jerome Maratina
 
-using System;
-using UnityEngine;
 using Pantheon.Core;
-using Pantheon.World;
-using static Pantheon.Utils.RandomUtils;
 using Pantheon.Utils;
+using Pantheon.World;
+using System;
+using static Pantheon.Utils.RandomUtils;
 
 namespace Pantheon.WorldGen
 {
@@ -62,8 +61,11 @@ namespace Pantheon.WorldGen
                         cell = Level.RandomFloor();
                         attempts++;
 
-                    } while (Level.Distance(cell, Game.GetPlayer().Cell) <= 50
+                    } while (Level.Distance(cell, Game.GetPlayer().Cell) <= 15
                     || cell.Actor != null);
+
+                    Debug.Visualisation.MarkCell(cell, 30);
+                    UnityEngine.Debug.Log("Starting pack at distance: " + Level.Distance(cell, Game.GetPlayer().Cell));
 
                     int numPackSpawns = Game.PRNG.Next(currentNPC.MinPackSize,
                         currentNPC.MaxPackSize);
@@ -72,8 +74,7 @@ namespace Pantheon.WorldGen
                         numPackSpawns);
 
                     // Bump counter to reflect number of spawns in pack
-                    i--;
-                    i += numPackSpawns;
+                    i += numPackSpawns - 1;
                 }
                 else
                 {
@@ -104,7 +105,7 @@ namespace Pantheon.WorldGen
         /// <returns></returns>
         private bool PackSpawnNPC(Cell cell)
         {
-            if (cell.Actor == null && OneChanceIn(2))
+            if (cell.Actor == null && OneChanceIn(3))
             {
                 Spawn.SpawnNPC(currentNPC.Prefab, Level, cell);
                 return true;
