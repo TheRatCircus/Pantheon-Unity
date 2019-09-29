@@ -54,7 +54,7 @@ namespace Pantheon.WorldGen
                     int attempts = 0;
                     do
                     {
-                        if (attempts > 100)
+                        if (attempts >= 100)
                             throw new Exception
                                 ($"No valid NPC spawn position found after " +
                                 $"{attempts} tries.");
@@ -62,7 +62,7 @@ namespace Pantheon.WorldGen
                         cell = Level.RandomFloor();
                         attempts++;
 
-                    } while (Level.Distance(cell, Game.GetPlayer().Cell) <= 21
+                    } while (Level.Distance(cell, Game.GetPlayer().Cell) <= 50
                     || cell.Actor != null);
 
                     int numPackSpawns = Game.PRNG.Next(currentNPC.MinPackSize,
@@ -104,7 +104,7 @@ namespace Pantheon.WorldGen
         /// <returns></returns>
         private bool PackSpawnNPC(Cell cell)
         {
-            if (OneChanceIn(3))
+            if (cell.Actor == null && OneChanceIn(2))
             {
                 Spawn.SpawnNPC(currentNPC.Prefab, Level, cell);
                 return true;

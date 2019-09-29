@@ -17,7 +17,7 @@ MonoBehaviour:
   displayName: swine legs
   sprite: {fileID: 0}
   strength: 0
-  runBonus: 0
+  moveTime: 100
   prehensile: 0
   inherentlyDexterous: 0
   melee:

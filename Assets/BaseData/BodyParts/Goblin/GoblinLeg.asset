@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   species: 2
   type: 3
-  displayName: goblin leg
+  displayName: goblin legs
   sprite: {fileID: 0}
   strength: 0
-  runBonus: 0
+  moveTime: 100
   prehensile: 0
   inherentlyDexterous: 0
   melee:

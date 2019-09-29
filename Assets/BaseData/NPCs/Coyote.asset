@@ -14,3 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 3
   prefab: {fileID: 6954818061952080985, guid: 8e741b4e090313c46bbb9ada35a3b2d4, type: 3}
+  packSpawn: 1
+  minPackSize: 2
+  maxPackSize: 5

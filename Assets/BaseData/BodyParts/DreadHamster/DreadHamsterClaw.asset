@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: DreadHamsterClaw
   m_EditorClassIdentifier: 
   species: 3
-  type: 5
+  type: 4
   displayName: dread hamster claw
   sprite: {fileID: 0}
   strength: 0
-  runBonus: 0
+  moveTime: -1
   prehensile: 0
   inherentlyDexterous: 1
   melee:

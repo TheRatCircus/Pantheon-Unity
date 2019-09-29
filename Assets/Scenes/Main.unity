@@ -2268,6 +2268,7 @@ MonoBehaviour:
   NPCList:
   - {fileID: 11400000, guid: c242fefd7786d774b863f8185ed10807, type: 2}
   - {fileID: 11400000, guid: 15b4abeb03b176141b12e90cf5adf76c, type: 2}
+  - {fileID: 11400000, guid: 219bfa9cb9fa54a418f506baa15f1227, type: 2}
   features:
   - {fileID: 11400000, guid: d5454cfdf80e1db44aedb29d6bb28557, type: 2}
   - {fileID: 11400000, guid: f3245e7cfcd95494391cb0467d2e7af4, type: 2}
@@ -6410,12 +6411,11 @@ MonoBehaviour:
   actorName: The Hero
   isUnique: 0
   health: 0
-  maxHealth: 50
+  maxHealth: 15
   regenRate: 1600
   regenProgress: 0
   speed: 100
   energy: 0
-  moveSpeed: 100
   attributes:
     strength: 10
     dexterity: 10

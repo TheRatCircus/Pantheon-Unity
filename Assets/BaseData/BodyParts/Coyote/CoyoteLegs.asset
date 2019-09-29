@@ -16,8 +16,8 @@ MonoBehaviour:
   type: 3
   displayName: coyote legs
   sprite: {fileID: 0}
-  strength: 0
-  runBonus: 0
+  strength: -1
+  moveTime: 90
   prehensile: 0
   inherentlyDexterous: 0
   melee:
