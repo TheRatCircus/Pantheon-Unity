@@ -64,8 +64,16 @@ namespace Pantheon.WorldGen
                     ca.FloorType = TerrainType.Grass;
                     ca.Run();
                     break;
-                case 3:
-                    goto case 0;
+                case 3: // Circle algorithm test
+                    {
+                        Enclose(level, TerrainType.StoneWall);
+                        Algorithms.DrawCircle(40, 40, 32, (int x, int y) =>
+                        {
+                            level.GetCell(x, y).SetTerrain
+                            (TerrainType.StoneWall);
+                        });
+                        break;
+                    }
             }
 
             AmbientSpawner spawner = new AmbientSpawner(level, ValleyEnemies,

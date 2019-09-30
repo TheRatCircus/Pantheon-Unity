@@ -3,11 +3,55 @@
 
 using Pantheon;
 using Pantheon.World;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public static class Algorithms
 {
+    /// <summary>
+    /// Bresenham's circle algorithm.
+    /// </summary>
+    /// <param name="xc">X coordinate of circle centre.</param>
+    /// <param name="yc">Y coordinate of circle centre.</param>
+    /// <param name="r">Radius.</param>
+    /// <param name="action"></param>
+    public static void DrawCircle(int xc, int yc, int r,
+        Action<int, int> action)
+    {
+        // Credit to Shivam Pradhan
+        int x = 0, y = r;
+        int d = 3 - 2 * r;
+        Subsequence();
+        while (y >= x)
+        {
+            x++;
+
+            if (d > 0)
+            {
+                y--;
+                d = d + 4 * (x - y) + 10;
+            }
+            else
+            {
+                d = d + 4 * x + 6;
+            }
+            Subsequence();
+        }
+
+        void Subsequence()
+        {
+            action.Invoke(xc + x, yc + y);
+            action.Invoke(xc - x, yc + y);
+            action.Invoke(xc + x, yc - y);
+            action.Invoke(xc - x, yc - y);
+            action.Invoke(xc + y, yc + x);
+            action.Invoke(xc - y, yc + x);
+            action.Invoke(xc + y, yc - x);
+            action.Invoke(xc - y, yc - x);
+        }
+    }
+
     public static HashSet<Cell> FloodFill(Level level, Cell start)
     {
         HashSet<Cell> filled = new HashSet<Cell>();
@@ -116,7 +160,7 @@ public static class Algorithms
     }
 
     public static HashSet<Cell> FloodFill(Level level, Cell start,
-        System.Action<Cell> onFillDelegate)
+        Action<Cell> onFillDelegate)
     {
         HashSet<Cell> filled = new HashSet<Cell>();
         List<Cell> open = new List<Cell>();
@@ -173,7 +217,7 @@ public static class Algorithms
     }
 
     public static HashSet<Cell> FloodFill(Level level, Cell start,
-        System.Predicate<Cell> onFillPredicate)
+        Predicate<Cell> onFillPredicate)
     {
         HashSet<Cell> filled = new HashSet<Cell>();
         List<Cell> open = new List<Cell>();
@@ -243,7 +287,7 @@ public static class Algorithms
     /// <param name="iterations"></param>
     /// <returns></returns>
     public static HashSet<Cell> FloodFill(Level level, Cell start,
-        System.Func<Cell, bool> iterateFillDelegate, int iterations)
+        Func<Cell, bool> iterateFillDelegate, int iterations)
     {
         HashSet<Cell> filled = new HashSet<Cell>();
         List<Cell> open = new List<Cell>();
@@ -305,6 +349,4 @@ public static class Algorithms
         }
         return filled;
     }
-
-
 }
