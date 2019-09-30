@@ -67,7 +67,8 @@ namespace Pantheon.WorldGen
                 case 3: // Circle algorithm test
                     {
                         Enclose(level, TerrainType.StoneWall);
-                        Algorithms.DrawCircle(40, 40, 32, (int x, int y) =>
+                        Utils.Algorithms.DrawCircle(40, 40, 32, 
+                            (int x, int y) =>
                         {
                             level.GetCell(x, y).SetTerrain
                             (TerrainType.StoneWall);

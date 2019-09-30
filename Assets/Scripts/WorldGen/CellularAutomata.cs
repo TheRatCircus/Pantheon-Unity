@@ -101,7 +101,7 @@ namespace Pantheon.WorldGen
                     return false;
                 }
 
-                cavern = Algorithms.FloodFill(Level, Rect,
+                cavern = Utils.Algorithms.FloodFill(Level, Rect,
                     Level.RandomFloorInRect(Rect));
                 attempts++;
 
