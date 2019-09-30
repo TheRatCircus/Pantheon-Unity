@@ -83,7 +83,13 @@ namespace Pantheon.Utils
                 return UnityEngine.Random.Range(0, 2) == 0;
         }
 
-        public static bool OneChanceIn(int x) => RangeInclusive(0, x) == x;
+        public static bool OneChanceIn(int x, bool seeded)
+        {
+            if (seeded)
+                return Game.PRNG.Next(0, x + 1) == x;
+            else
+                return RangeInclusive(0, x) == x;
+        }
 
         /// <summary>
         /// UnityEngine.Random.Range, but inclusive, and thus more readable.

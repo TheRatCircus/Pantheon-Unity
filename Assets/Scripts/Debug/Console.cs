@@ -35,7 +35,7 @@ namespace Pantheon.Debug
                 { "add_trait", new ConsoleCommand(AddTrait) },
                 { "kill_level", new ConsoleCommand(KillLevel) },
                 { "idolmode", new ConsoleCommand(IdolMode) },
-                { "open_domain", new ConsoleCommand(OpenDomain) },
+                { "open_sanctum", new ConsoleCommand(OpenSanctum) },
                 { "list_religions", new ConsoleCommand(ListReligions) },
                 { "join_religion", new ConsoleCommand(JoinReligion) },
                 { "list_levels", new ConsoleCommand(ListLevels) },

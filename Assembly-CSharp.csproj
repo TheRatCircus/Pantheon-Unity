@@ -181,7 +181,7 @@
     <Compile Include="Assets\Scripts\WorldGen\Layout.cs" />
     <Compile Include="Assets\Scripts\WorldGen\LevelBuilder.cs" />
     <Compile Include="Assets\Scripts\WorldGen\NPCPops.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\NPCSpawn.cs" />
+    <Compile Include="Assets\Scripts\WorldGen\NPCSpawner.cs" />
     <Compile Include="Assets\Scripts\WorldGen\RectGrid.cs" />
     <Compile Include="Assets\Scripts\WorldGen\Zones.cs" />
     <Compile Include="Assets\Scripts\WorldGen\ZoneTheme.cs" />

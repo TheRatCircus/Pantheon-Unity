@@ -51,9 +51,6 @@ namespace Pantheon.WorldGen
 
     public sealed class ZoneLevelBuilder : LevelBuilder
     {
-        public const int ValleySize = 64;
-        public const int ValleyEnemies = 10;
-
         public delegate void ZoneConnectDelegate(Level level,
             CardinalDirection direction);
 
@@ -91,8 +88,20 @@ namespace Pantheon.WorldGen
                 ZoneConnect?.Invoke(level, wing);
 
             zone.Levels[zonePos.x + 1, zonePos.y + 1] = level;
-            UnityEngine.Debug.Log($"Registering level {level.RefName}" +
-                $" in dictionary...");
+            
+            if (zone.Position != Vector2Int.zero)
+            {
+                DomainSpawner spawner = new DomainSpawner(level, zone,
+                Zones.ValleyEnemies, Zones.ValleyEnemies);
+                spawner.Run();
+
+                if (zonePos == Vector2Int.zero)
+                {
+                    Core.Spawn.SpawnBoss(zone.Boss, level, level.RandomFloor());
+                }
+            }
+
+            UnityEngine.Debug.Log($"Registering {level.RefName}...");
             Core.Game.instance.RegisterLevel(level);
             CellDrawer.DrawLevel(level);
         }
@@ -101,9 +110,9 @@ namespace Pantheon.WorldGen
             => $"ValleyBuilder {layerPos} {layer.ZLevel} {wing}";
     }
 
-    public sealed class DomainBuilder : LevelBuilder
+    public sealed class SanctumBuilder : LevelBuilder
     {
-        public DomainBuilder(Layer layer, Vector2Int layerPos)
+        public SanctumBuilder(Layer layer, Vector2Int layerPos)
             : base(layer, layerPos)
         {
         }

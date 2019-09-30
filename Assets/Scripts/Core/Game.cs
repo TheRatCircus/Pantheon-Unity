@@ -115,9 +115,9 @@ namespace Pantheon.Core
             InitializeFactions();
 
             foreach (Idol idol in Pantheon.Idols.Values)
-                for (int i = 0; i < 3; i++) // i < number of levels per domain
-                    BuilderMap.Add($"domain_{idol.RefName}_{i}",
-                        new DomainBuilder(null, Vector2Int.zero));
+                for (int i = 0; i < 3; i++) // i < number of levels per sanctum
+                    BuilderMap.Add($"sanctum_{idol.RefName}_{i}",
+                        new SanctumBuilder(null, Vector2Int.zero));
 
             AddActor(player1);
 

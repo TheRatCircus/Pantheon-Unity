@@ -8,7 +8,7 @@ namespace Pantheon.Actors
     /// <summary>
     /// Represents abstract information about an Idol.
     /// </summary>
-    public class Idol
+    public sealed class Idol
     {
         public string DisplayName { get; set; }
         public string RefName { get; set; }
@@ -22,7 +22,7 @@ namespace Pantheon.Actors
         public override string ToString() => $"{RefName} ({Aspect})";
     }
 
-    public class Altar
+    public sealed class Altar
     {
         public readonly Idol Idol;
         public readonly FeatureType FeatureType;

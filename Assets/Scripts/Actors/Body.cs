@@ -41,9 +41,7 @@ namespace Pantheon.Actors
             int sum = 0;
 
             foreach (BodyPart app in aQuery)
-            {
                 sum += app.MoveSpeed;
-            }
 
             return sum / aQuery.Count();
         }

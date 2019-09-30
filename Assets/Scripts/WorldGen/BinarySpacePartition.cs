@@ -36,7 +36,7 @@ namespace Pantheon.WorldGen
                     {
                         if (leaves[i].Width > Leaf.MaxLeafSize ||
                             leaves[i].Height > Leaf.MaxLeafSize ||
-                            OneChanceIn(4))
+                            OneChanceIn(4, true))
                         {
                             if (leaves[i].Split())
                             {
@@ -179,7 +179,7 @@ namespace Pantheon.WorldGen
                     return lRoom;
                 else if (lRoom == null)
                     return rRoom;
-                else if (OneChanceIn(2))
+                else if (OneChanceIn(2, true))
                     return lRoom;
                 else
                     return rRoom;

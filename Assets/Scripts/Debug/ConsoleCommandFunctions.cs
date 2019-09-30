@@ -131,9 +131,8 @@ namespace Pantheon.Debug
                 return "Idolmode disabled.";
         }
 
-        public static string OpenDomain(string[] args)
+        public static string OpenSanctum(string[] args)
         {
-            //return "This command is currently non-functional.";
             if (args.Length != 1)
                 return "Please pass only 1 argument.";
 
@@ -143,18 +142,18 @@ namespace Pantheon.Debug
                 out Idol idol))
                 return "That idol was not found.";
 
-            Connection domainPortal = new Connection(
+            Connection sanctumPortal = new Connection(
                 Game.instance.activeLevel,
                 Game.GetPlayer().Cell,
                 FeatureType.Portal,
-                $"domain_{idolRef}_0");
-            domainPortal.OneWay = true;
-            domainPortal.DisplayName = $"a portal to {idol.DisplayName}'s" +
-                $" Domain";
+                $"sanctum_{idolRef}_0");
+            sanctumPortal.OneWay = true;
+            sanctumPortal.DisplayName = $"a portal to {idol.DisplayName}'s" +
+                $" sanctum";
 
-            Game.GetPlayer().Cell.Connection = domainPortal;
+            Game.GetPlayer().Cell.Connection = sanctumPortal;
 
-            return $"Opened a portal to {idol.DisplayName}'s Domain.";
+            return $"Opened a portal to {idol.DisplayName}'s sanctum.";
         }
 
         public static string ListIdols(string[] args)

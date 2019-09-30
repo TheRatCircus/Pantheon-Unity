@@ -210,7 +210,8 @@ namespace Pantheon.Core
         {
             if (!GetDatabase().SpeciesDict.TryGetValue(speciesRef,
                 out Species ret))
-                throw new ArgumentException("Failed to get specified species.");
+                throw new ArgumentException
+                    ($"Failed to get species {speciesRef}.");
 
             return ret;
         }

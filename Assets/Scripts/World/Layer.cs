@@ -38,8 +38,8 @@ namespace Pantheon.World
             {
                 case 0: // Surface, needs a spawn zone
                     {
-                        Zone valley = new Zone("The Little Valley",
-                            "valleySpawn", Vector2Int.zero);
+                        Zone valley = new Zone(ThemeDefs._valley,
+                            Vector2Int.zero);
                         for (int x = -1; x <= 1; x++)
                             for (int y = -1; y <= 1; y++)
                             {

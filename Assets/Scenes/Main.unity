@@ -2292,6 +2292,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a5b31d802dbb8814bb426a9816cc2a23, type: 2}
   species:
   - {fileID: 11400000, guid: f227b0792cf188d4aa5312c7e8aed174, type: 2}
+  - {fileID: 11400000, guid: 8cd1f5dbcccda61478c053389eb62ccd, type: 2}
+  - {fileID: 11400000, guid: 7edb01530f5659b46908135a58c02b88, type: 2}
+  - {fileID: 11400000, guid: 07992349dfeeb8c438edd8637305a381, type: 2}
+  - {fileID: 11400000, guid: 6bb499b430815144798b25923eda765b, type: 2}
+  - {fileID: 11400000, guid: 6a20ce45a1d00c444b157adc7e8cc75e, type: 2}
   occupations:
   - {fileID: 11400000, guid: ae3091b7056bc754f83c20fbcf2d1552, type: 2}
   armours:

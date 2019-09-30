@@ -37,7 +37,7 @@ namespace Pantheon.Actors
         public bool AlwaysHostileToPlayer
         {
             get => alwaysHostileToPlayer;
-            private set => alwaysHostileToPlayer = value;
+            set => alwaysHostileToPlayer = value;
         }
 
         // Events
@@ -114,7 +114,7 @@ namespace Pantheon.Actors
                 AlwaysHostileToPlayer = true;
                 target = Game.GetPlayer();
                 GameLog.Send($"{Strings.GetSubject(this, true)}" +
-                    $" fixes its gaze upon you!",
+                    $" fixes a steely gaze upon you!",
                     Strings.TextColour.Orange);
             }
             else
@@ -127,7 +127,7 @@ namespace Pantheon.Actors
             {
                 target = Game.GetPlayer();
                 GameLog.Send($"{Strings.GetSubject(this, true)}" +
-                    $" fixes its gaze upon you!",
+                    $" fixes a steely gaze upon you!",
                     Strings.TextColour.Orange);
             }
             else

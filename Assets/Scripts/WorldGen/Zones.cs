@@ -39,7 +39,7 @@ namespace Pantheon.WorldGen
 
             switch (r)
             {
-                case 0:
+                case 0: // Abandoned pastures
                     {
                         LevelRect rect = new LevelRect(new Vector2Int(0, 0),
                             new Vector2Int(
@@ -50,7 +50,7 @@ namespace Pantheon.WorldGen
                         BinarySpacePartition.BSP(level, TerrainType.Grass, 12);
                         Enclose(level, TerrainType.StoneWall);
                         foreach (Cell c in level.Map)
-                            if (Utils.RandomUtils.OneChanceIn(6))
+                            if (Utils.RandomUtils.OneChanceIn(6, true))
                                 c.SetFeature(FeatureType.None); // Ruin fence
                         break;
                     }
@@ -67,9 +67,10 @@ namespace Pantheon.WorldGen
                 case 3:
                     goto case 0;
             }
-            NPCSpawn spawner = new NPCSpawn(level, ValleyEnemies,
+
+            AmbientSpawner spawner = new AmbientSpawner(level, ValleyEnemies,
                 ValleyEnemies, NPCPops._startingValley);
-            spawner.SpawnNPCs();
+            spawner.Run();
         }
 
         public static void GenerateCentralValley(Level level)
@@ -88,7 +89,7 @@ namespace Pantheon.WorldGen
                 BinarySpacePartition.BSP(level, TerrainType.Grass, 12);
                 Enclose(level, TerrainType.StoneWall);
                 foreach (Cell c in level.Map)
-                    if (Utils.RandomUtils.OneChanceIn(6))
+                    if (Utils.RandomUtils.OneChanceIn(6, true))
                         c.SetFeature(FeatureType.None); // Ruin fence
 
                 if (level.LayerPos == Vector2Int.zero)
@@ -98,9 +99,9 @@ namespace Pantheon.WorldGen
                     level.SpawnPlayer();
                 }
 
-                NPCSpawn spawner = new NPCSpawn(level, ValleyEnemies,
-                    ValleyEnemies, NPCPops._startingValley);
-                spawner.SpawnNPCs();
+                AmbientSpawner spawner = new AmbientSpawner(level,
+                    ValleyEnemies, ValleyEnemies, NPCPops._startingValley);
+                spawner.Run();
 
                 return;
             }

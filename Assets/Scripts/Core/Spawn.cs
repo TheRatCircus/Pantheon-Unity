@@ -13,6 +13,15 @@ namespace Pantheon.Core
     /// </summary>
     public static class Spawn
     {
+        public static void FinishNPC(NPC npc, Level level, Cell cell)
+        {
+            npc.gameObject.name = npc.ActorName;
+            npc.level = level;
+            level.NPCs.Add(npc);
+            Game.instance.AddActor(npc);
+            Actor.MoveTo(npc, cell);
+        }
+
         /// <summary>
         /// Instantiate an NPC GameObject at a cell based on a prefab.
         /// </summary>
@@ -28,11 +37,75 @@ namespace Pantheon.Core
                 new Quaternion(),
                 level.transform);
             NPC npc = npcObj.GetComponent<NPC>();
-            npc.gameObject.name = npc.ActorName;
-            npc.level = level;
-            level.NPCs.Add(npc);
-            Game.instance.AddActor(npc);
-            Actor.MoveTo(npc, cell);
+
+            FinishNPC(npc, level, cell);
+            return npc;
+        }
+
+        public static NPC SpawnBoss(ZoneBoss boss, Level level, Cell cell)
+        {
+            GameObject npcObj = Object.Instantiate(Database.GenericNPC,
+                Helpers.V2IToV3(cell.Position),
+                new Quaternion(),
+                level.transform);
+            NPC npc = npcObj.GetComponent<NPC>();
+            npc.Initialize();
+
+            Species species;
+            if (boss.SpeciesPref != null)
+                species = boss.SpeciesPref;
+            else
+                species = Database.GetSpecies(SpeciesRef.Human);
+
+            npc.BuildActor(species);
+
+            npc.MaxHealth = 50;
+            npc.Speed = Actor.DefaultSpeed;
+            npc.RegenRate = Actor.DefaultRegenRate;
+
+            npc.ActorName = boss.GivenName;
+            npc.SpriteRenderer.sprite = species.Sprite;
+            npc.IsUnique = true;
+
+            FinishNPC(npc, level, cell);
+            return npc;
+        }
+
+        public static NPC SpawnDomainNPC(ZoneBoss boss, Level level, Cell cell)
+        {
+            GameObject npcObj = Object.Instantiate(Database.GenericNPC,
+                Helpers.V2IToV3(cell.Position),
+                new Quaternion(),
+                level.transform);
+            NPC npc = npcObj.GetComponent<NPC>();
+            npc.Initialize();
+
+            Species species;
+            if (boss.SpeciesPref != null)
+                species = boss.SpeciesPref;
+            else
+                species = Database.GetSpecies(SpeciesRef.Human);
+
+            npc.BuildActor(species);
+
+            Occupation occupation;
+            if (boss.OccupationPrefs.Count > 0)
+                occupation = boss.OccupationPrefs.Random(true);
+            else
+                occupation = Database.GetOccupation(OccupationRef.Axeman);
+
+            npc.AssignOccupation(occupation);
+
+            npc.MaxHealth = 20;
+            npc.Speed = Actor.DefaultSpeed;
+            npc.RegenRate = Actor.DefaultRegenRate;
+
+            npc.ActorName = $"{species.DisplayName} {occupation.DisplayName}" +
+                $" of {boss.GivenName}";
+            npc.SpriteRenderer.sprite = species.Sprite;
+            npc.AlwaysHostileToPlayer = true;
+
+            FinishNPC(npc, level, cell);
             return npc;
         }
 
@@ -43,7 +116,8 @@ namespace Pantheon.Core
         /// <param name="level">The level on which the NPC should be spawned.</param>
         /// <param name="cell">The cell in which the NPC should be spawned.</param>
         /// <returns></returns>
-        public static NPC SpawnDevotee(Faction religion, Level level, Cell cell)
+        public static NPC SpawnDevotee(Faction religion, Level level,
+            Cell cell)
         {
             Idol idol = religion.Idol;
 
@@ -70,13 +144,9 @@ namespace Pantheon.Core
                 $" {occupation.DisplayName}" +
                 $" of {idol.DisplayName}";
             npc.ActorName = npcName;
-            npc.gameObject.name = npc.ActorName;
             npc.SpriteRenderer.sprite = species.Sprite;
 
-            npc.level = level;
-            level.NPCs.Add(npc);
-            Game.instance.AddActor(npc);
-            Actor.MoveTo(npc, cell);
+            FinishNPC(npc, level, cell);
             return npc;
         }
 
@@ -115,10 +185,7 @@ namespace Pantheon.Core
             npc.SpriteRenderer.sprite = species.Sprite;
             npc.IsUnique = true;
 
-            npc.level = level;
-            level.NPCs.Add(npc);
-            Game.instance.AddActor(npc);
-            Actor.MoveTo(npc, cell);
+            FinishNPC(npc, level, cell);
             return npc;
         }
     }

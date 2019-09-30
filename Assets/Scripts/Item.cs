@@ -77,7 +77,7 @@ namespace Pantheon
         /// <param name="actor">Actor off which to base the new corpse.</param>
         public Item(Actor actor)
         {
-            DisplayName = $"{actor.ActorName} corpse";
+            DisplayName = $"{actor.Species.DisplayName} corpse";
             Sprite = actor.CorpseSprite;
             // TODO: Derive stats from actor weight
         }

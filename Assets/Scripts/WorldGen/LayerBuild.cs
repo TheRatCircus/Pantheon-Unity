@@ -131,9 +131,11 @@ namespace Pantheon.WorldGen
 
         private void BuildZone(Vector2Int delta)
         {
+            // TODO: Random theme from list corresponding to layer z-level
             ZoneTheme theme = ThemeDefs._valley;
-            Zone zone = new Zone($"{theme.DisplayName} of Ghoti",
-                $"{theme.ThemeRef}_Ghoti", position);
+            Zone zone = new Zone(theme, position);
+            zone.Boss = new ZoneBoss(zone);
+
             for (int x = position.x - 1; x <= position.x + 1; x++)
                 for (int y = position.y - 1; y <= position.y + 1; y++)
                 {
