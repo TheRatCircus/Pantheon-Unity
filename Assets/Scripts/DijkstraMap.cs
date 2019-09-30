@@ -77,6 +77,77 @@ namespace Pantheon
             closed.Clear();
         }
 
+        /// <summary>
+        /// Recalculate map, but stop if a predicate returns false.
+        /// </summary>
+        /// <param name="goals"></param>
+        /// <param name="onFillPredicate"></param>
+        public void Recalculate(IEnumerable<Cell> goals,
+            System.Predicate<Cell> onFillPredicate)
+        {
+            Map.Clear();
+
+            foreach (Cell c in goals)
+            {
+                Map.Add(c.Position, 0);
+                open.Add(c.Position);
+            }
+
+            int iterations = 0; // Arbitrary limiter
+            while (open.Count > 0)
+            {
+                // Keep a temporary list so open can be emptied and then
+                // refreshed from scratch
+                List<Vector2Int> temp = new List<Vector2Int>();
+                for (int i = 0; i < open.Count; i++)
+                {
+                    Map.TryGetValue(open[i], out int prevDist);
+                    closed.Add(open[i]); // Immediately close origin
+
+                    for (int x = -1; x <= 1; x++)
+                        for (int y = -1; y <= 1; y++)
+                        {
+                            Vector2Int frontier = new Vector2Int(open[i].x + x,
+                                open[i].y + y);
+
+                            if (closed.Contains(frontier))
+                                continue;
+
+                            if (!Level.Contains(frontier) ||
+                                Level.GetCell(frontier).Blocked ||
+                                Level.GetCell(frontier).Actor != null)
+                            {
+                                closed.Add(frontier);
+                                continue;
+                            }
+
+                            if (Map.ContainsKey(frontier))
+                            {
+                                closed.Add(frontier);
+                                continue;
+                            }
+
+                            Map.Add(frontier, prevDist + 1);
+
+                            if (onFillPredicate.Invoke(Level.GetCell(frontier)))
+                            {
+                                open.Clear();
+                                closed.Clear();
+                                temp.Clear();
+                                return;
+                            }
+
+                            temp.Add(frontier);
+                        }
+                }
+                open.Clear();
+                open.AddRange(temp);
+                temp.Clear();
+                iterations++;
+            }
+            closed.Clear();
+        }
+
         public Vector2Int RollDownhill(Cell origin)
         {
             Vector2Int lowestPosition = Vector2Int.zero;

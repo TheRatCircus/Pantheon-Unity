@@ -172,6 +172,68 @@ public static class Algorithms
         return filled;
     }
 
+    public static HashSet<Cell> FloodFill(Level level, Cell start,
+        System.Predicate<Cell> onFillPredicate)
+    {
+        HashSet<Cell> filled = new HashSet<Cell>();
+        List<Cell> open = new List<Cell>();
+        HashSet<Cell> closed = new HashSet<Cell>();
+
+        filled.Add(start);
+        open.Add(start);
+
+        while (open.Count > 0)
+        {
+            // Keep a temporary list so open can be emptied and then
+            // refreshed from scratch
+            List<Cell> temp = new List<Cell>();
+            for (int i = 0; i < open.Count; i++)
+            {
+                closed.Add(open[i]);
+                for (int x = -1; x <= 1; x++)
+                    for (int y = -1; y <= 1; y++)
+                    {
+                        Vector2Int frontier = open[i].Position;
+                        frontier += new Vector2Int(x, y);
+                        Cell frontierCell;
+
+                        if (level.Contains(frontier))
+                            frontierCell = level.GetCell(frontier);
+                        else
+                            continue;
+
+                        if (closed.Contains(frontierCell))
+                            continue;
+
+                        if (frontierCell.Blocked || frontierCell.Actor != null)
+                        {
+                            closed.Add(frontierCell);
+                            continue;
+                        }
+
+                        if (filled.Contains(frontierCell))
+                        {
+                            closed.Add(frontierCell);
+                            continue;
+                        }
+
+                        filled.Add(frontierCell);
+
+                        if (onFillPredicate.Invoke(frontierCell))
+                        {
+                            return filled;
+                        }
+
+                        temp.Add(frontierCell);
+                    }
+            }
+            open.Clear();
+            open.AddRange(temp);
+            temp.Clear();
+        }
+        return filled;
+    }
+
     /// <summary>
     /// Flood filler which runs a fallible callback i times.
     /// </summary>
@@ -243,4 +305,6 @@ public static class Algorithms
         }
         return filled;
     }
+
+
 }

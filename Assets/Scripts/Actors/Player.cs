@@ -123,7 +123,8 @@ namespace Pantheon.Actors
                     if (!c.Revealed)
                         unexplored.Add(c);
 
-                level.Autoexplore.Recalculate(unexplored);
+                level.Autoexplore.Recalculate(unexplored, (Cell c) =>
+                { return c.Actor is Player; });
                 Vector2Int destination = level.Autoexplore.RollDownhill(cell);
 
                 if (destination == Vector2Int.zero)
@@ -146,6 +147,19 @@ namespace Pantheon.Actors
 
             else return -1;
         }
+
+#if DEBUG_AUTOEXPLORE
+        private void OnDrawGizmos()
+        {
+            if (dmap != null && !UnityEngine.Input.anyKeyDown)
+            {
+                foreach (KeyValuePair<Vector2Int, int> pair in dmap)
+                {
+                    UnityEditor.Handles.Label(Helpers.V2IToV3(pair.Key), pair.Value.ToString());
+                }
+            }
+        }
+#endif
 
         public override void TakeHit(Hit hit, Actor source)
         {
