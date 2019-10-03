@@ -2,11 +2,11 @@
 // Jerome Martina
 // Credit to Asbjørn "Brackeys" Thorslund
 
+using Pantheon.Actions;
+using Pantheon.Actors;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Pantheon.Actors;
-using Pantheon.Actions;
 
 namespace Pantheon.UI
 {

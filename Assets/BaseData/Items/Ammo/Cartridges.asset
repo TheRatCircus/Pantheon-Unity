@@ -13,35 +13,21 @@ MonoBehaviour:
   m_Name: Cartridges
   m_EditorClassIdentifier: 
   displayName: cartridges
-  refName: Cartridges
   maxStack: 1
   stackable: 0
   sprite: {fileID: 21300000, guid: 0700bc0dbea42a247b5ae7d4dc58180d, type: 3}
-  usable: 0
   onUse: {fileID: 0}
   onUseString: NO_USE_STRING
   infiniteThrow: 0
   onThrow: {fileID: 0}
   strengthReq: -1
   maxWieldParts: -1
-  ranged:
-    minDamage: -1
-    maxDamage: -1
-    accuracy: -1
-    ammoFamily: 0
   melee:
     minDamage: -1
     maxDamage: -1
     accuracy: -1
     attackTime: -1
     damageType: 0
-  ammo:
-    minDamage: 5
-    maxDamage: 8
-    accuracy: 80
-    damageType: 2
-    pierces: 0
-    fxPrefab: {fileID: 3843464375304575577, guid: a7358d2300337354fbb5a641004ace8e,
-      type: 3}
-    ammoFamily: 3
+  components:
+  - {fileID: 11400000, guid: 88642c4594c7cb548824b29406847016, type: 2}
   ammoType: 1

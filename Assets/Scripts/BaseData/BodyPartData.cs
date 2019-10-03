@@ -1,7 +1,7 @@
 ﻿// BodyPartData.cs
 // Jerome Martina
 
-using Pantheon.Actors;
+using Pantheon.Components;
 using UnityEngine;
 
 namespace Pantheon

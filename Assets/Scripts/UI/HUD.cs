@@ -4,14 +4,14 @@
 #define DEBUG_MODAL
 #undef DEBUG_MODAL
 
+using Pantheon.Actions;
+using Pantheon.Actors;
+using Pantheon.Core;
+using Pantheon.Utils;
+using Pantheon.World;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Pantheon.Core;
-using Pantheon.Actors;
-using Pantheon.World;
-using Pantheon.Actions;
-using Pantheon.Utils;
 
 namespace Pantheon.UI
 {

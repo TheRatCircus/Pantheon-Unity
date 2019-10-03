@@ -1,6 +1,7 @@
 ﻿// Inventory.cs
 // Jerome Martina
 
+using Pantheon.Components;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,8 +32,8 @@ namespace Pantheon.Actors
                     ("Argument item must be a ranged weapon.");
 
             foreach (Item item in all)
-                if (item.IsAmmo && item.Ammo.AmmoFamily
-                    == rangedWeapon.Ranged.AmmoFamily)
+                if (item.IsAmmo && item.GetComponent<Ammo>().AmmoFamily
+                    == rangedWeapon.GetComponent<Ranged>().AmmoFamily)
                     return true;
 
             return false;

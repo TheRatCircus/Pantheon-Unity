@@ -1,6 +1,7 @@
 ﻿// Species.cs
 // Jerome Martina
 
+using Pantheon.Actors;
 using System.Collections.Generic;
 using UnityEngine;
 

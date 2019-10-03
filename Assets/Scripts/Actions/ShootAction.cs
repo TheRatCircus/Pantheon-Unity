@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Pantheon.Actors;
+using Pantheon.Components;
 using Pantheon.Core;
 using Pantheon.World;
 using System.Collections.Generic;
@@ -35,9 +36,10 @@ namespace Pantheon.Actions
                     Ammo ammo = null;
                     foreach (Item item in Actor.Inventory.All)
                     {
-                        if (item.Ammo.AmmoFamily == weapon.Ranged.AmmoFamily)
+                        if (item.IsAmmo && item.GetComponent<Ammo>().AmmoFamily
+                            == weapon.GetComponent<Ranged>().AmmoFamily)
                         {
-                            ammo = item.Ammo;
+                            ammo = item.GetComponent<Ammo>();
                             break;
                         }
                     }
@@ -51,7 +53,8 @@ namespace Pantheon.Actions
 
                     GameObject shotPrefab = ammo.FXPrefab;
                     ammoUsed.Add(ammo);
-                    projectiles.Add(new LineProjAction(Actor, shotPrefab, ProjBehaviour.Instant));
+                    projectiles.Add(new LineProjAction(Actor, shotPrefab,
+                        ProjBehaviour.Instant));
                 }
             }
 

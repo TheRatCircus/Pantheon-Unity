@@ -61,6 +61,7 @@ namespace Pantheon.Actions
             => throw new NotImplementedException();
 
         public override string ToString()
-            => $"{Actor.ActorName} caused a {radius}-cell-radius explosion at {Origin.Position}.";
+            => $"{Actor.ActorName} caused a {radius}-cell-radius explosion" +
+            $" at {Origin.Position}.";
     }
 }

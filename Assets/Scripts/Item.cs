@@ -3,44 +3,59 @@
 
 using Pantheon.Actions;
 using Pantheon.Actors;
+using Pantheon.Components;
 using Pantheon.Core;
 using Pantheon.Utils;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Pantheon
 {
     public sealed class Item
     {
-        private bool stackable;
-        private int quantity;
-        private int weight;
-
-        // Properties
-        public Actor Owner { get; set; }
         public string DisplayName { get; }
         public Sprite Sprite { get; }
+        private bool stackable;
+        private int weight;
+
+        public Dictionary<ComponentType, IComponent> Components
+        { get; private set; }
+            = new Dictionary<ComponentType, IComponent>();
         public ActionWrapper OnUse { get; }
 
+        private int quantity = 1;
+        public Actor Owner { get; set; } = null;
+        
         public int StrengthReq { get; }
         public int MaxWieldParts { get; }
-
-        // Items save the last parts they were wielded in, and are wielded there
-        // again next time they are equipped
+        // Items save the last parts they were wielded in, and are wielded
+        // there again next time they are equipped
         public BodyPart[] WieldProfile { get; set; }
 
         public Melee Melee { get; set; }
-        public Ranged Ranged { get; set; }
-        public bool IsRanged => Ranged.MaxDamage >= 0;
 
         public ActionWrapper OnToss { get; }
-        public bool InfiniteThrow { get; set; }
+        public bool InfiniteToss { get; set; }
 
-        public Ammo Ammo { get; set; }
-        public bool IsAmmo => Ammo.MaxDamage >= 0;
+        public bool HasComponent(ComponentType type)
+            => Components.ContainsKey(type);
 
-        public Defenses Defenses { get; set; }
+        // Properties for fast component checks
+        public bool IsRanged => HasComponent(ComponentType.Ranged);
+        public bool IsAmmo => HasComponent(ComponentType.Ammo);
 
-        public EquipType EquipType { get; set; }
+        public T GetComponent<T>() where T : class
+        {
+            foreach (KeyValuePair<ComponentType, IComponent> pair
+                in Components)
+            {
+                if (pair.Value is T t)
+                {
+                    return t;
+                }
+            }
+            return null;
+        }
 
         public Item(ItemData itemData)
         {
@@ -52,23 +67,17 @@ namespace Pantheon
             OnUse = itemData.OnUse;
 
             Melee = itemData.Melee;
-            if (itemData.IsRanged)
-                Ranged = itemData.Ranged;
-            if (itemData.IsAmmo)
-                Ammo = itemData.Ammo;
 
             StrengthReq = itemData.StrengthReq;
             MaxWieldParts = itemData.MaxWieldParts;
 
             OnToss = itemData.OnThrow;
-            InfiniteThrow = itemData.InfiniteThrow;
+            InfiniteToss = itemData.InfiniteThrow;
 
-            if (itemData.HasDefenses)
-                Defenses = itemData.Defenses;
-
-            EquipType = itemData.EquipType;
-
-            Owner = null;
+            foreach (ComponentWrapper c in itemData.Components)
+            {
+                Components.Add(c.Get.Type, c.Get);
+            }
         }
 
         /// <summary>
@@ -79,10 +88,10 @@ namespace Pantheon
         {
             DisplayName = $"{actor.Species.DisplayName} corpse";
             Sprite = actor.CorpseSprite;
+            Components.Add(ComponentType.Corpse, new Corpse(actor));
             // TODO: Derive stats from actor weight
         }
 
-        // Use this item
         public void Use(Actor user)
         {
             if (OnUse != null)
@@ -90,7 +99,7 @@ namespace Pantheon
                 ItemUseAction use
                     = new ItemUseAction(user, this, OnUse.GetAction(user));
             }
-            else if (EquipType != EquipType.None)
+            else if (Components.ContainsKey(ComponentType.Equipment))
             {
                 TryWear(user);
             }
@@ -99,7 +108,8 @@ namespace Pantheon
         public void TryWield(Actor user)
         {
             if (user is NPC)
-                throw new System.NotImplementedException("NPC attempted to wield.");
+                throw new System.NotImplementedException
+                    ("NPC attempted to wield.");
 
             if (!user.Body.HasPrehensile())
             {
@@ -114,7 +124,8 @@ namespace Pantheon
         public void TryWear(Actor user)
         {
             if (user is NPC)
-                throw new System.NotImplementedException("NPC attempted to wear.");
+                throw new System.NotImplementedException
+                    ("NPC attempted to wear.");
 
             user.NextAction = new WearAction(user, this);
         }
@@ -122,23 +133,4 @@ namespace Pantheon
         public override string ToString()
             => DisplayName;
     }
-
-    [System.Serializable]
-    public sealed class Defenses
-    {
-        [SerializeField] private int armour;
-        [SerializeField] private int evasion;
-
-        // Resists run from -1.0 to 1.0
-        [SerializeField] private float resistPhys;
-        [SerializeField] private float resistHeat;
-        [SerializeField] private float resistCold;
-        [SerializeField] private float resistDisease;
-        [SerializeField] private float resistPoison;
-
-        public int Armour { get => armour; set => armour = value; }
-        public int Evasion { get => evasion; set => evasion = value; }
-    }
 }
-
-

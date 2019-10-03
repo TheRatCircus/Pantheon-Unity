@@ -28,27 +28,7 @@ MonoBehaviour:
     accuracy: 60
     attackTime: 130
     damageType: 3
-  ranged:
-    minDamage: -1
-    maxDamage: -1
-    accuracy: -1
-    ammoFamily: 0
-  ammo:
-    minDamage: -1
-    maxDamage: -1
-    accuracy: -1
-    damageType: 0
-    pierces: 0
-    fxPrefab: {fileID: 0}
-    ammoFamily: 0
-  defenses:
-    armour: 8
-    evasion: 0
-    resistPhys: 2
-    resistHeat: 0
-    resistCold: 0
-    resistDisease: 0
-    resistPoison: 0
-  hasDefenses: 1
-  equipType: 2
+  components:
+  - {fileID: 11400000, guid: 8cc7e9cf116cabc48b80ec1e6d57d528, type: 2}
+  - {fileID: 11400000, guid: 6f6a4b506213d85409d2db9374ea1a08, type: 2}
   armourRef: 1

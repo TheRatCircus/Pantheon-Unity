@@ -5,6 +5,7 @@
 #undef DEBUG_MELEE
 
 using Pantheon.Actors;
+using Pantheon.Components;
 using Pantheon.Core;
 using Pantheon.Utils;
 using Pantheon.World;

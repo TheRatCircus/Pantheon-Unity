@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Pantheon.Actors;
+using Pantheon.Components;
 
 namespace Pantheon.Utils
 {

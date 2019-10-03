@@ -10,29 +10,32 @@ namespace Pantheon.Actors
     public sealed class Equipment
     {
         // Equipment
+        public Item HeadWear { get; set; }
         public Item BodyWear { get; set; }
         public Item ShoulderWear { get; set; }
         public Item Amulet { get; set; }
         public Item Belt { get; set; }
-        public Item Gloves { get; set; }
-        public Item Boots { get; set; }
+        public Item Handwear { get; set; }
+        public Item Footwear { get; set; }
 
         public int GetArmour()
         {
             int armour = 0;
 
+            if (HeadWear != null)
+                armour += HeadWear.GetComponent<Defenses>().Armour;
             if (BodyWear != null)
-                armour += BodyWear.Defenses.Armour;
+                armour += BodyWear.GetComponent<Defenses>().Armour;
             if (ShoulderWear != null)
-                armour += ShoulderWear.Defenses.Armour;
+                armour += ShoulderWear.GetComponent<Defenses>().Armour;
             if (Amulet != null)
-                armour += Amulet.Defenses.Armour;
+                armour += Amulet.GetComponent<Defenses>().Armour;
             if (Belt != null)
-                armour += Belt.Defenses.Armour;
-            if (Gloves != null)
-                armour += Gloves.Defenses.Armour;
-            if (Boots != null)
-                armour += Boots.Defenses.Armour;
+                armour += Belt.GetComponent<Defenses>().Armour;
+            if (Handwear != null)
+                armour += Handwear.GetComponent<Defenses>().Armour;
+            if (Footwear != null)
+                armour += Footwear.GetComponent<Defenses>().Armour;
 
             return armour;
         }

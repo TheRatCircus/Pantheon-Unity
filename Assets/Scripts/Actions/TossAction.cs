@@ -35,7 +35,7 @@ namespace Pantheon.Actions
 
         public override int DoAction()
         {
-            if (!item.InfiniteThrow)
+            if (!item.InfiniteToss)
                 Actor.RemoveItem(item);
             return Game.TurnTime;
         }

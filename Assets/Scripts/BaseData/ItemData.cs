@@ -1,7 +1,9 @@
 ﻿// ItemData.cs
 // Jerome Martina
 
+using Pantheon.Components;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Pantheon
 {
@@ -26,13 +28,9 @@ namespace Pantheon
         [SerializeField] private int maxWieldParts = -1;
 
         [SerializeField] private Melee melee = null;
-        [SerializeField] private Ranged ranged = null;
-        [SerializeField] private Ammo ammo = null;
-
-        [SerializeField] private Defenses defenses = null;
-        [SerializeField] private bool hasDefenses = false;
-
-        [SerializeField] private EquipType equipType = EquipType.None;
+        [SerializeField]
+        private List<ComponentWrapper> components
+            = new List<ComponentWrapper>();
 
         #region Properties
 
@@ -51,15 +49,7 @@ namespace Pantheon
         public ActionWrapper OnThrow => onThrow;
 
         public Melee Melee => melee;
-        public Ranged Ranged => ranged;
-        public bool IsRanged => ranged.MaxDamage >= 0;
-        public Ammo Ammo => ammo;
-        public bool IsAmmo => ammo.AmmoFamily != AmmoFamily.None;
-
-        public Defenses Defenses => defenses;
-        public bool HasDefenses => hasDefenses;
-
-        public EquipType EquipType { get => equipType; }
+        public List<ComponentWrapper> Components => components;
 
         #endregion
     }

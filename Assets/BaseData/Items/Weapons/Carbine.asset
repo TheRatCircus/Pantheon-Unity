@@ -13,34 +13,21 @@ MonoBehaviour:
   m_Name: Carbine
   m_EditorClassIdentifier: 
   displayName: carbine
-  refName: Carbine
   maxStack: 1
   stackable: 0
   sprite: {fileID: 21300000, guid: 0680187b3eb92414686b4f23f85e10c8, type: 3}
-  usable: 0
   onUse: {fileID: 0}
   onUseString: NO_USE_STRING
   infiniteThrow: 0
   onThrow: {fileID: 0}
   strengthReq: 4
-  maxWieldParts: 1
-  ranged:
-    minDamage: 4
-    maxDamage: 7
-    accuracy: 80
-    ammoFamily: 3
+  maxWieldParts: 2
   melee:
     minDamage: 2
     maxDamage: 4
     accuracy: 75
     attackTime: 100
     damageType: 3
-  ammo:
-    minDamage: -1
-    maxDamage: -1
-    accuracy: -1
-    damageType: 0
-    pierces: 0
-    fxPrefab: {fileID: 0}
-    ammoFamily: 0
+  components:
+  - {fileID: 11400000, guid: fd696bff20814fa46b5be35dd6fb6fbe, type: 2}
   type: 5

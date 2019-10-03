@@ -1,6 +1,7 @@
 ﻿// Body.cs
 // Jerome Martina
 
+using Pantheon.Components;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;

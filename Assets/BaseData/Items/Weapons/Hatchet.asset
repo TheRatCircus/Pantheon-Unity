@@ -13,11 +13,9 @@ MonoBehaviour:
   m_Name: Hatchet
   m_EditorClassIdentifier: 
   displayName: hatchet
-  refName: Hatchet
   maxStack: 1
   stackable: 0
   sprite: {fileID: 21300000, guid: c2a64b95f8e96a44891d801af2988db3, type: 3}
-  usable: 0
   onUse: {fileID: 0}
   onUseString: NO_USE_STRING
   infiniteThrow: 0
@@ -30,4 +28,27 @@ MonoBehaviour:
     accuracy: 75
     attackTime: 100
     damageType: 1
+  ranged:
+    minDamage: -1
+    maxDamage: -1
+    accuracy: -1
+    ammoFamily: 0
+  ammo:
+    minDamage: -1
+    maxDamage: -1
+    accuracy: -1
+    damageType: 0
+    pierces: 0
+    fxPrefab: {fileID: 0}
+    ammoFamily: 0
+  defenses:
+    armour: 0
+    evasion: 0
+    resistPhys: 0
+    resistHeat: 0
+    resistCold: 0
+    resistDisease: 0
+    resistPoison: 0
+  hasDefenses: 0
+  equipType: 0
   type: 2
