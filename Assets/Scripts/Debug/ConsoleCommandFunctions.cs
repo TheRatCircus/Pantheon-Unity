@@ -110,7 +110,7 @@ namespace Pantheon.Debug
                 i >= 0;
                 i--)
             {
-                Game.instance.activeLevel.NPCs[i].OnDeath();
+                Game.instance.activeLevel.NPCs[i].OnDeath(null);
                 npcsKilled++;
             }
 
@@ -252,6 +252,20 @@ namespace Pantheon.Debug
             }
 
             return $"All cells in level made visible.";
+        }
+
+        public static string LevelUp(string[] args)
+        {
+            if (args.Length != 0)
+            {
+                return "This command takes no arguments.";
+            }
+
+            Player player = Game.GetPlayer();
+            player.LevelUp();
+            player.XP = player.XPToLevel(player.ExpLevel);
+
+            return $"Levelled up the player to {player.ExpLevel}.";
         }
     }
 }

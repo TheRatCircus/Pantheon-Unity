@@ -117,6 +117,7 @@ MonoBehaviour:
     intellect: -1
     constitution: -1
     willpower: -1
+  xpValue: 10
   body:
     parts: []
   defenses:

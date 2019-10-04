@@ -111,13 +111,13 @@ MonoBehaviour:
   regenProgress: 0
   speed: 100
   energy: 0
-  moveSpeed: 90
   attributes:
     strength: 0
     dexterity: 0
     intellect: 0
     constitution: 0
     willpower: 0
+  xpValue: 8
   body:
     parts: []
   defenses:

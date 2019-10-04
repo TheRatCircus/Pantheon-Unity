@@ -66,6 +66,7 @@ namespace Pantheon.Core
             npc.ActorName = boss.GivenName;
             npc.SpriteRenderer.sprite = species.Sprite;
             npc.IsUnique = true;
+            npc.CalcXPValue();
 
             FinishNPC(npc, level, cell);
             return npc;
@@ -104,6 +105,7 @@ namespace Pantheon.Core
                 $" of {boss.GivenName}";
             npc.SpriteRenderer.sprite = species.Sprite;
             npc.AlwaysHostileToPlayer = true;
+            npc.CalcXPValue();
 
             FinishNPC(npc, level, cell);
             return npc;
@@ -145,6 +147,7 @@ namespace Pantheon.Core
                 $" of {idol.DisplayName}";
             npc.ActorName = npcName;
             npc.SpriteRenderer.sprite = species.Sprite;
+            npc.CalcXPValue();
 
             FinishNPC(npc, level, cell);
             return npc;
@@ -184,6 +187,7 @@ namespace Pantheon.Core
             npc.ActorName = npcName;
             npc.SpriteRenderer.sprite = species.Sprite;
             npc.IsUnique = true;
+            npc.CalcXPValue();
 
             FinishNPC(npc, level, cell);
             return npc;

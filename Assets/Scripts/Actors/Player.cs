@@ -18,8 +18,6 @@ namespace Pantheon.Actors
         [SerializeField] private int inventorySize = 40;
         [SerializeField] private int fovRadius = 15; // Not in cells
 
-        private int XP = 0;
-        private int expLevel = 1;
         public int TraitPoints { get; private set; } = 0;
 
         [SerializeField] [ReadOnly] private List<Cell> visibleCells
@@ -164,7 +162,9 @@ namespace Pantheon.Actors
         public override void TakeHit(Hit hit, Actor source)
         {
             if (!Game.instance.IdolMode)
-                TakeDamage(hit.Damage);
+            {
+                TakeDamage(source, hit.Damage);
+            }
         }
 
         public void LongRest()
@@ -261,7 +261,7 @@ namespace Pantheon.Actors
                     visibleEnemies.Add((NPC)c.Actor);
         }
 
-        public override void OnDeath()
+        public override void OnDeath(Actor killer)
         {
             cell.Actor = null;
             GameLog.Send("You perish...", TextColour.Purple);

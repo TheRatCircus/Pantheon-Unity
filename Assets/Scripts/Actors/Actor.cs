@@ -36,6 +36,11 @@ namespace Pantheon.Actors
         [SerializeField] [ReadOnly] protected int energy; // Energy remaining
 
         [SerializeField] protected Attributes attributes;
+
+        public int XP { get; set; }
+        [SerializeField] private int xpValue = -1;
+        public int ExpLevel { get; private set; } = 1;
+
         [SerializeField] protected Body body;
         [SerializeField] protected Defenses defenses;
         [SerializeField]
@@ -211,7 +216,7 @@ namespace Pantheon.Actors
         // Take a damaging hit from something
         public virtual void TakeHit(Hit hit, Actor source)
         {
-            TakeDamage(hit.Damage);
+            TakeDamage(source, hit.Damage);
             if (RandomUtils.OneChanceIn(2, false))
             {
                 Cell c = level.RandomAdjacentCell(cell);
@@ -220,13 +225,13 @@ namespace Pantheon.Actors
             }
         }
 
-        public virtual void TakeDamage(int damage)
+        public virtual void TakeDamage(Actor source, int damage)
         {
             // TODO: Infinitely negative lower bound?
             damage -= defenses.Armour;
             health = Mathf.Clamp(health - damage, -255, MaxHealth);
             if (health <= 0)
-                OnDeath();
+                OnDeath(source);
             OnHealthChangeEvent?.Invoke(health, MaxHealth);
         }
 
@@ -282,6 +287,57 @@ namespace Pantheon.Actors
                     GameLog.Send(onExpireMsg);
                 }
             }
+        }
+
+        public virtual void GainXP(int xp)
+        {
+            XP += xp;
+            if (XP >= XPToLevel(ExpLevel))
+            {
+                LevelUp();
+            }
+        }
+
+        public virtual int XPToLevel(int expLevel)
+        {
+            int cost = 100;
+            int b = 100;
+            for (int i = 1; i < expLevel; i++)
+            {
+                b = (int)Mathf.Pow(b, 1.01f);
+                cost += b;
+            }
+            return cost;
+        }
+
+        public virtual void LevelUp()
+        {
+            ExpLevel++;
+            int maxHealthChange = (int)(maxHealth * 1.3f) - maxHealth;
+            maxHealth += maxHealthChange;
+            health += maxHealthChange;
+            OnHealthChangeEvent?.Invoke(health, maxHealth);
+
+            if (this is Player p)
+            {
+                GameLog.Send("You become more experienced!",
+                    Strings.TextColour.Green);
+                p.ChangeTraitPoints(1);
+            }
+        }
+
+        public virtual void CalcXPValue()
+        {
+            if (xpValue >= 0)
+            {
+                throw new Exception("This actor already has an XP value.");
+            }
+
+            int value = 0;
+            value += 7 * body.Parts.Count;
+            value += 10 * traits.Count;
+            value += 10 * inventory.All.Count;
+            xpValue = value;
         }
 
         public virtual void AddTrait(Trait trait)
@@ -373,13 +429,30 @@ namespace Pantheon.Actors
         }
 
         // Handle this actor's death
-        public virtual void OnDeath()
+        public virtual void OnDeath(Actor killer)
         {
             Game.instance.RemoveActor(this);
             cell.Actor = null;
             Destroy(gameObject);
-            GameLog.Send($"You kill {Strings.GetSubject(this, false)}!",
+
+            if (killer is Player)
+            {
+                GameLog.Send($"You kill {Strings.GetSubject(this, false)}!",
                 Strings.TextColour.White);
+            }
+            else if (killer == this)
+            {
+                GameLog.Send($"{Strings.GetSubject(this, true)} dies!",
+                Strings.TextColour.White);
+            }
+            else
+            {
+                GameLog.Send($"{Strings.GetSubject(killer, true)} kills " +
+                    $"{Strings.GetSubject(this, false)}!",
+                Strings.TextColour.White);
+            }
+
+            killer.GainXP(xpValue);
             cell.Items.Add(new Item(this));
         }
 

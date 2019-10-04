@@ -161,9 +161,9 @@ namespace Pantheon.Actors
         }
 
         // Handle NPC death
-        public override void OnDeath()
+        public override void OnDeath(Actor killer)
         {
-            base.OnDeath();
+            base.OnDeath(killer);
             level.NPCs.Remove(this);
         }
 
