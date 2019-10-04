@@ -48,6 +48,7 @@ namespace Pantheon.Actors
         public event Action<List<StatusEffect>> StatusChangeEvent;
         public event Action OnPlayerDeathEvent;
         public event Action<int> TraitPointChangeEvent;
+        public event Action<int, int> XPChangeEvent;
 
         // Event invokers for PlayerInput
         public void RaiseInventoryToggleEvent()
@@ -259,6 +260,20 @@ namespace Pantheon.Actors
             foreach (Cell c in visibleCells)
                 if (c.Actor is NPC && c.Actor.IsHostileTo(this))
                     visibleEnemies.Add((NPC)c.Actor);
+        }
+
+        public override void GainXP(int xp)
+        {
+            base.GainXP(xp);
+            if (ExpLevel == 1)
+            {
+                XPChangeEvent?.Invoke(XP, XPToLevel(ExpLevel));
+            }
+            else
+            {
+                XPChangeEvent?.Invoke(XP - XPToLevel(ExpLevel -1 ),
+                    XPToLevel(ExpLevel));
+            }
         }
 
         public override void OnDeath(Actor killer)

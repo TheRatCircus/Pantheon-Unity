@@ -36,6 +36,18 @@ namespace Pantheon
 #if UNITY_EDITOR
         private void Start()
         {
+            GameObject[] rootGameObjectsOfSpecificScene
+                = SceneManager.GetSceneByName("Main")
+                .GetRootGameObjects();
+
+            foreach (GameObject go in rootGameObjectsOfSpecificScene)
+            {
+                if (!go == gameObject && !go.CompareTag("EventSystem"))
+                {
+                    go.SetActive(false);
+                }
+            }
+
             PlayerName = "The Hero";
             StartingWeapon = WeaponType.Hatchet;
             StartGame();
@@ -91,7 +103,9 @@ namespace Pantheon
                 .GetRootGameObjects();
 
             foreach (GameObject go in rootGameObjectsOfSpecificScene)
+            {
                 go.SetActive(true);
+            }
         }
     }
 }

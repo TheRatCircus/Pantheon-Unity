@@ -28,6 +28,8 @@ namespace Pantheon.UI
         [SerializeField] private Text armourCounter = null;
         [SerializeField] private Text evasionCounter = null;
         [SerializeField] private Text statusDisplay = null;
+        [SerializeField] private Text xpCounter = null;
+        [SerializeField] private Image xpBar = null;
         [SerializeField] private WorldMap worldMap = null;
         [SerializeField] private GameObject traitMenu = null;
 
@@ -48,6 +50,7 @@ namespace Pantheon.UI
             player.Input.TraitMenuToggleEvent += ToggleTraitMenu;
             player.StatusChangeEvent += UpdateStatuses;
             player.Defenses.RecalculateEvent += UpdateDefenses;
+            player.XPChangeEvent += UpdateXPCounter;
             Game.instance.OnPlayerActionEvent += UpdateEnergyCounter;
             Game.instance.OnClockTickEvent += UpdateTurnCounter;
             Game.instance.OnLevelChangeEvent += UpdateLocationDisplay;
@@ -57,6 +60,7 @@ namespace Pantheon.UI
             UpdateEnergyCounter(player.Energy);
             UpdateDefenses(player.Defenses);
             UpdateLocationDisplay(player.level);
+            UpdateXPCounter(player.XP, player.XPToLevel(player.ExpLevel));
         }
 
         private void UpdateHealthCounter(int health, int maxHealth)
@@ -95,10 +99,16 @@ namespace Pantheon.UI
             }
         }
 
-        private void UpdateDefenses(Actors.Defenses defenses)
+        private void UpdateDefenses(Defenses defenses)
         {
             armourCounter.text = $"Armour: {defenses.Armour}";
             evasionCounter.text = $"Evasion: {defenses.Evasion}";
+        }
+
+        private void UpdateXPCounter(int xp, int xpToLevel)
+        {
+            xpCounter.text = $"XP: {xp} / {xpToLevel}";
+            xpBar.fillAmount = (float)xp / xpToLevel;
         }
 
         private void ToggleWorldMap()

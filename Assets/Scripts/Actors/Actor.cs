@@ -435,24 +435,27 @@ namespace Pantheon.Actors
             cell.Actor = null;
             Destroy(gameObject);
 
-            if (killer is Player)
+            if (cell.Visible)
             {
-                GameLog.Send($"You kill {Strings.GetSubject(this, false)}!",
-                Strings.TextColour.White);
-            }
-            else if (killer == this)
-            {
-                GameLog.Send($"{Strings.GetSubject(this, true)} dies!",
-                Strings.TextColour.White);
-            }
-            else
-            {
-                GameLog.Send($"{Strings.GetSubject(killer, true)} kills " +
-                    $"{Strings.GetSubject(this, false)}!",
-                Strings.TextColour.White);
+                if (killer is Player)
+                {
+                    GameLog.Send($"You kill {Strings.GetSubject(this, false)}!",
+                    Strings.TextColour.White);
+                }
+                else if (killer == this)
+                {
+                    GameLog.Send($"{Strings.GetSubject(this, true)} dies!",
+                    Strings.TextColour.White);
+                }
+                else
+                {
+                    GameLog.Send($"{Strings.GetSubject(killer, true)} kills " +
+                        $"{Strings.GetSubject(this, false)}!",
+                    Strings.TextColour.White);
+                }
             }
 
-            killer.GainXP(xpValue);
+            killer?.GainXP(xpValue);
             cell.Items.Add(new Item(this));
         }
 
