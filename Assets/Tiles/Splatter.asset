@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
+  m_Name: Splatter
+  m_EditorClassIdentifier: 
+  m_DefaultSprite: {fileID: 0}
+  m_DefaultGameObject: {fileID: 0}
+  m_DefaultColliderType: 1
+  m_TilingRules:
+  - m_Neighbors: 0000000000000000000000000000000000000000000000000000000000000000
+    m_Sprites:
+    - {fileID: -2454631135387727588, guid: dd2029f809af05a40b12d2ea803d2877, type: 3}
+    - {fileID: -5919090430122801964, guid: dd2029f809af05a40b12d2ea803d2877, type: 3}
+    - {fileID: 1993394545745100425, guid: dd2029f809af05a40b12d2ea803d2877, type: 3}
+    - {fileID: -1030140325960086638, guid: dd2029f809af05a40b12d2ea803d2877, type: 3}
+    - {fileID: 9158050845529435922, guid: dd2029f809af05a40b12d2ea803d2877, type: 3}
+    m_GameObject: {fileID: 0}
+    m_AnimationSpeed: 1
+    m_PerlinScale: 0.59
+    m_RuleTransform: 0
+    m_Output: 1
+    m_ColliderType: 0
+    m_RandomTransform: 1

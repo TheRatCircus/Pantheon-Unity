@@ -14,10 +14,11 @@ namespace Pantheon.World
     public sealed class Level : MonoBehaviour
     {
         // This level's tilemaps
-        [SerializeField] private Tilemap terrainTilemap;
-        [SerializeField] private Tilemap featureTilemap;
-        [SerializeField] private Tilemap itemTilemap;
-        [SerializeField] private Tilemap targettingTilemap;
+        [SerializeField] private Tilemap terrainTilemap = null;
+        [SerializeField] private Tilemap featureTilemap = null;
+        [SerializeField] private Tilemap itemTilemap = null;
+        [SerializeField] private Tilemap targettingTilemap = null;
+        [SerializeField] private Tilemap splatterTilemap = null;
 
         public string DisplayName { get; set; } // Keep as null to highlight
         public string RefName { get; set; } // errors in world generation
@@ -44,14 +45,11 @@ namespace Pantheon.World
         public bool Visited { get; set; } = false;
 
         // Properties
-        public Tilemap TerrainTilemap
-        { get => terrainTilemap; private set => terrainTilemap = value; }
-        public Tilemap FeatureTilemap
-        { get => featureTilemap; private set => featureTilemap = value; }
-        public Tilemap ItemTilemap
-        { get => itemTilemap; private set => itemTilemap = value; }
-        public Tilemap TargettingTilemap
-        { get => targettingTilemap; private set => targettingTilemap = value; }
+        public Tilemap TerrainTilemap{ get => terrainTilemap; }
+        public Tilemap FeatureTilemap { get => featureTilemap; }
+        public Tilemap ItemTilemap { get => itemTilemap; }
+        public Tilemap TargettingTilemap{ get => targettingTilemap; }
+        public Tilemap SplatterTilemap { get => splatterTilemap; }
         
         private void Awake()
         {
@@ -313,6 +311,21 @@ namespace Pantheon.World
                             wallCounter++;
                         }
             return wallCounter;
+        }
+
+        public Cell RandomAdjacentCell(Cell cell)
+        {
+            Vector2Int pos;
+
+            do
+            {
+                int x = Utils.RandomUtils.RangeInclusive(-1, 1);
+                int y = Utils.RandomUtils.RangeInclusive(-1, 1);
+                pos = new Vector2Int(x, y);
+
+            } while (!Contains(cell.Position + pos));
+
+            return GetCell(cell.Position + pos);
         }
 
         public List<Cell> GetCellsAtX(int x, bool floorsOnly)

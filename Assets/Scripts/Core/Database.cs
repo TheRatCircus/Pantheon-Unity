@@ -88,8 +88,10 @@ namespace Pantheon.Core
             => GetDatabase().lineTargetOverlay;
 
         [SerializeField] private GameObject tossFXPrefab = null;
-        public static GameObject TossFXPrefab
-            => GetDatabase().tossFXPrefab;
+        public static GameObject TossFXPrefab => GetDatabase().tossFXPrefab;
+
+        [SerializeField] private RuleTile splatterTile = null;
+        public static RuleTile SplatterTile => GetDatabase().splatterTile;
 
         // Awake is called when the script instance is being loaded
         private void Awake() => InitDatabaseDicts();

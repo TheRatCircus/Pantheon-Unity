@@ -210,7 +210,15 @@ namespace Pantheon.Actors
 
         // Take a damaging hit from something
         public virtual void TakeHit(Hit hit, Actor source)
-            => TakeDamage(hit.Damage);
+        {
+            TakeDamage(hit.Damage);
+            if (RandomUtils.OneChanceIn(2, false))
+            {
+                Cell c = level.RandomAdjacentCell(cell);
+                if (cell.Feature == null)
+                    c.Splattered = true;
+            }
+        }
 
         public virtual void TakeDamage(int damage)
         {

@@ -39,7 +39,8 @@ namespace Pantheon.World
         [SerializeField] [ReadOnly] private Actor actor = null;
         [SerializeField] [ReadOnly] List<Item> items = new List<Item>();
         public Feature Feature { get; private set; } = null;
-        public Altar Altar { get; set; }
+        public Altar Altar { get; set; } = null;
+        public bool Splattered { get; set; } = false;
 
         #region Properties
 

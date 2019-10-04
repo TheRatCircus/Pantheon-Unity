@@ -43,9 +43,12 @@ namespace Pantheon.Actions
                     if (cell.Actor != null)
                     {
                         Hit hit = new Hit(minDamage, maxDamage);
-                        GameLog.Send($"{Utils.Strings.GetSubject(cell.Actor, true)} " +
+                        GameLog.Send
+                            ($"{Utils.Strings.GetSubject(cell.Actor, true)} " +
                             $"{(cell.Actor is Player ? "are" : "is")} " +
-                            $"caught in the blast, and takes {hit.Damage} damage!");
+                            $"caught in the blast, and " +
+                            $"{(cell.Actor is Player ? "take" : "takes")}" +
+                            $" {hit.Damage} damage!");
                         
                         cell.Actor.TakeHit(hit, Actor);
                     }
@@ -54,6 +57,7 @@ namespace Pantheon.Actions
             UnityEngine.Object.Destroy(UnityEngine.Object.Instantiate(fxPrefab,
                 Utils.Helpers.V2IToV3(Origin.Position),
                 new Quaternion()) as GameObject, 10);
+
             return -1;
         }
 

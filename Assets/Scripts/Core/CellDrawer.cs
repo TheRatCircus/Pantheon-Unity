@@ -55,14 +55,29 @@ public static class CellDrawer
         {
             DrawTerrain(level, cell);
 
+            if (cell.Splattered)
+            {
+                Color darkRed = Color.red;
+                darkRed.r -= .2f;
+                DrawSplatter(level, cell.Position, darkRed);
+            }
+                
             if (cell.Feature != null)
+            {
                 DrawFeature(level, cell);
-
+            }
+                
             if (cell.Revealed && cell.Items.Count > 0)
+            {
                 if (cell.Actor == null)
+                {
                     DrawItem(level, cell);
+                }
                 else
+                {
                     level.ItemTilemap.SetTile((Vector3Int)cell.Position, null);
+                }
+            }  
         }
     }
 
@@ -104,15 +119,30 @@ public static class CellDrawer
         Tile itemTile = ScriptableObject.CreateInstance<Tile>();
         itemTile.flags = TileFlags.None;
         
-
         if (cell.Items[0].Sprite != null)
             itemTile.sprite = cell.Items[0].Sprite;
         else
-            throw new NullReferenceException($"Item {cell.Items[0].DisplayName} has no sprite.");
+            throw new NullReferenceException
+                ($"Item {cell.Items[0].DisplayName} has no sprite.");
 
         level.ItemTilemap.SetTile((Vector3Int)cell.Position, itemTile);
         level.ItemTilemap.SetColor((Vector3Int)cell.Position,
             cell.Visible ? Color.white : Color.grey);
+    }
+
+    public static void DrawSplatter(Level level, Vector2Int position,
+        Color color)
+    {
+        level.SplatterTilemap.SetTile((Vector3Int)position,
+            Database.SplatterTile);
+        Cell cell = level.GetCell(position);
+        if (!cell.Visible)
+        {
+            color.r -= .5f;
+            color.g -= .5f;
+            color.b -= .5f;
+        }
+        level.SplatterTilemap.SetColor((Vector3Int)position, color);
     }
 
     // Paint cells for targetting

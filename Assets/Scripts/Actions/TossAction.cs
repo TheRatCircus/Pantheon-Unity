@@ -24,10 +24,16 @@ namespace Pantheon.Actions
             spriteRenderer.sprite = item.Sprite;
 
             if (item.OnToss != null)
-                proj = new LineProjAction(Actor, tossFXPrefab, ProjBehaviour.Fly,
+            {
+                proj = new LineProjAction(Actor, tossFXPrefab,
+                    ProjBehaviour.Fly,
                     item.OnToss.GetAction(Actor));
+            }
             else
-                proj = new LineProjAction(Actor, tossFXPrefab, ProjBehaviour.Fly);
+            {
+                proj = new LineProjAction(Actor, tossFXPrefab,
+                    ProjBehaviour.Fly);
+            }
 
             proj.SetSpins(true);
             proj.DoAction(AssignAction);
@@ -36,7 +42,9 @@ namespace Pantheon.Actions
         public override int DoAction()
         {
             if (!item.InfiniteToss)
+            {
                 Actor.RemoveItem(item);
+            }
             return Game.TurnTime;
         }
 
