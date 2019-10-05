@@ -24,6 +24,7 @@ namespace Pantheon.Actions
     [Serializable]
     public sealed class LineProjAction : BaseAction
     {
+        [SerializeField] private string projName;
         [SerializeField] private GameObject fxPrefab;
         [SerializeField] private ProjBehaviour projBehaviour;
         [SerializeField] private bool spins;
@@ -36,18 +37,19 @@ namespace Pantheon.Actions
 
         [NonSerialized] private List<Cell> line;
 
-        public LineProjAction(Actor actor, GameObject fxPrefab,
-            ProjBehaviour projBehaviour)
-            : base(actor)
+        public LineProjAction(Actor actor, string projName,
+            GameObject fxPrefab, ProjBehaviour projBehaviour) : base(actor)
         {
+            this.projName = projName;
             this.fxPrefab = fxPrefab;
             this.projBehaviour = projBehaviour;
         }
 
-        public LineProjAction(Actor actor, GameObject fxPrefab,
-            ProjBehaviour projBehaviour, BaseAction onLand)
-            : base(actor)
+        public LineProjAction(Actor actor, string projName,
+            GameObject fxPrefab, ProjBehaviour projBehaviour,
+            BaseAction onLand) : base(actor)
         {
+            this.projName = projName;
             this.fxPrefab = fxPrefab;
             this.projBehaviour = projBehaviour;
             OnLandAction = onLand;
@@ -158,28 +160,42 @@ namespace Pantheon.Actions
             {
                 case ProjBehaviour.Fly:
                     {
-                        Vector3 startPoint = Helpers.V2IToV3(startCell.Position);
+                        Vector3 startPoint
+                            = Helpers.V2IToV3(startCell.Position);
 
                         GameObject projObj = UnityEngine.Object.Instantiate(
                             fxPrefab, startPoint, new Quaternion())
                             as GameObject;
-                        FlyingProjectile proj = projObj.GetComponent<FlyingProjectile>();
+                        FlyingProjectile proj
+                            = projObj.GetComponent<FlyingProjectile>();
+
+                        proj.ProjName = projName;
+                        proj.Source = Actor;
                         proj.TargetCell = endCell;
-                        proj.OnLandAction = OnLandAction;
                         proj.Spins = spins;
+                        proj.OnLandAction = OnLandAction;
+
+                        proj.MinDamage = minDamage;
+                        proj.MaxDamage = maxDamage;
+                        proj.Accuracy = accuracy;
                     }
                     break;
                 case ProjBehaviour.Instant:
                     {
-                        Vector3 startPoint = Helpers.V2IToV3(startCell.Position);
-                        Vector3 endPoint = Helpers.V2IToV3(endCell.Position);
+                        Vector3 startPoint
+                            = Helpers.V2IToV3(startCell.Position);
+                        Vector3 endPoint
+                            = Helpers.V2IToV3(endCell.Position);
 
                         Vector3 midPoint = (startPoint + endPoint) / 2;
                         Quaternion rotation = new Quaternion();
-                        Vector3 projDirection = (startPoint - endPoint).normalized;
-                        rotation = Quaternion.FromToRotation(Vector3.right, projDirection);
+                        Vector3 projDirection
+                            = (startPoint - endPoint).normalized;
+                        rotation = Quaternion.FromToRotation(Vector3.right,
+                            projDirection);
 
-                        float distance = Vector3.Distance(startPoint, endPoint);
+                        float distance = Vector3.Distance(startPoint,
+                            endPoint);
 
                         GameObject projObj = UnityEngine.Object.Instantiate(
                             fxPrefab, midPoint, rotation) as GameObject;
@@ -204,17 +220,19 @@ namespace Pantheon.Actions
             if (hitRoll < accuracy)
             {
                 Hit hit = new Hit(minDamage, maxDamage);
-                GameLog.Send($"The magic bullet punches through " +
+                GameLog.Send($"The {projName}" +
+                    $" {(pierces ? "punches through" : "hits")} " +
                     $"{Strings.GetSubject(cell.Actor, false)}, " +
                     $"dealing {hit.Damage} damage!");
                 cell.Actor.TakeHit(hit, Actor);
             }
             else
-                GameLog.Send($"The magic bullet misses " +
-                    $"{Strings.GetSubject(cell.Actor, false)}.");
+                GameLog.Send($"The {projName} misses " +
+                    $"{Strings.GetSubject(cell.Actor, false)}.",
+                    Strings.TextColour.Grey);
         }
 
         public override string ToString()
-            => $"{Actor.ActorName} is firing a {fxPrefab.name}.";
+            => $"{Actor.ActorName} is firing a {projName}.";
     }
 }

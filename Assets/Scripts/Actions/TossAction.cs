@@ -25,17 +25,29 @@ namespace Pantheon.Actions
 
             if (item.OnToss != null)
             {
-                proj = new LineProjAction(Actor, tossFXPrefab,
-                    ProjBehaviour.Fly,
+                proj = new LineProjAction(Actor, item.DisplayName, 
+                    tossFXPrefab, ProjBehaviour.Fly,
                     item.OnToss.GetAction(Actor));
             }
             else
             {
-                proj = new LineProjAction(Actor, tossFXPrefab,
-                    ProjBehaviour.Fly);
+                proj = new LineProjAction(Actor, item.DisplayName,
+                    tossFXPrefab, ProjBehaviour.Fly);
             }
 
             proj.SetSpins(true);
+
+            if (item.Melee.DamageType == Components.DamageType.Slashing
+                || item.Melee.DamageType == Components.DamageType.Piercing)
+            {
+                proj.SetValues(item.Melee.MinDamage, item.Melee.MaxDamage, 80,
+                    item.Melee.DamageType == Components.DamageType.Piercing);
+            }
+            else // Blunt object toss damages are based on weight (TODO)
+            {
+                proj.SetValues(5, 10, 80, false);
+            }
+
             proj.DoAction(AssignAction);
         }
 

@@ -53,8 +53,8 @@ namespace Pantheon.Actions
 
                     GameObject shotPrefab = ammo.FXPrefab;
                     ammoUsed.Add(ammo);
-                    projectiles.Add(new LineProjAction(Actor, shotPrefab,
-                        ProjBehaviour.Instant));
+                    projectiles.Add(new LineProjAction(Actor, ammo.ProjName,
+                        shotPrefab, ProjBehaviour.Instant));
                 }
             }
 

@@ -78,6 +78,7 @@ namespace Pantheon.Components
     {
         public ComponentType Type => ComponentType.Ammo;
 
+        [SerializeField] private string projName = "NO_AMMO_NAME";
         [SerializeField] private int minDamage = -1;
         [SerializeField] private int maxDamage = -1;
         [SerializeField] private int accuracy = -1; // 0...100
@@ -87,6 +88,7 @@ namespace Pantheon.Components
         [SerializeField] private AmmoFamily ammoFamily = AmmoFamily.None;
 
         // Properties
+        public string ProjName { get => projName; }
         public int MinDamage { get => minDamage; }
         public int MaxDamage { get => maxDamage; }
         public int Accuracy { get => accuracy; }

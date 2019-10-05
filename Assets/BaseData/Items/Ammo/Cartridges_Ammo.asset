@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Cartridges_Ammo
   m_EditorClassIdentifier: 
   ammo:
+    projName: lead ball
     minDamage: 3
     maxDamage: 4
     accuracy: 70

@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: MagicBulletAction
   m_EditorClassIdentifier: 
   LineProjAction:
+    projName: magic bullet
     fxPrefab: {fileID: 3843464375304575577, guid: a7358d2300337354fbb5a641004ace8e,
       type: 3}
     projBehaviour: 1
+    spins: 0
     minDamage: 10
     maxDamage: 20
     accuracy: 100
