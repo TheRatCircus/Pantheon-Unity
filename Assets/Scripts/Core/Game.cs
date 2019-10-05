@@ -104,6 +104,20 @@ namespace Pantheon.Core
             introObj.SetActive(false);
 
             queue = new List<Actor>();
+
+            AddActor(player1);
+
+            int overworldZ = 0;
+            Layer overworld = new Layer(overworldZ);
+            Layers.Add(overworldZ, overworld);
+            Level firstLevel = overworld.RequestLevel(new Vector2Int(0, 0));
+
+            LoadLevel(firstLevel);
+
+            player1.level = activeLevel;
+            player1.transform.SetParent(activeLevel.transform);
+
+            UnityEngine.Debug.Log("Game awoken successfully.");
         }
 
         /// <summary>
@@ -119,20 +133,8 @@ namespace Pantheon.Core
                     BuilderMap.Add($"sanctum_{idol.RefName}_{i}",
                         new SanctumBuilder(null, Vector2Int.zero));
 
-            AddActor(player1);
-
-            int overworldZ = 0;
-            Layer overworld = new Layer(overworldZ);
-            Layers.Add(overworldZ, overworld);
-            Level firstLevel = overworld.RequestLevel(new Vector2Int(0, 0));
-            
-            LoadLevel(firstLevel);
-
-            player1.level = activeLevel;
-            player1.transform.SetParent(activeLevel.transform);
-
             player1.OnPlayerDeathEvent += Lock;
-            UnityEngine.Debug.Log("Game initialization complete.");
+            UnityEngine.Debug.Log("Game start complete.");
         }
 
         /// <summary>

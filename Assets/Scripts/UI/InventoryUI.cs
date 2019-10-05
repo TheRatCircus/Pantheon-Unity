@@ -38,6 +38,7 @@ namespace Pantheon.UI
             }
             player.OnInventoryChangeEvent += UpdateInventory;
             player.OnInventoryToggleEvent += ToggleInventory;
+            UpdateInventory(); // To reflect starting items
         }
 
         private void ToggleInventory()
