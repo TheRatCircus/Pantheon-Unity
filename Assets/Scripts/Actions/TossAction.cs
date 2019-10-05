@@ -37,6 +37,11 @@ namespace Pantheon.Actions
 
             proj.SetSpins(true);
 
+            if (!item.DestroyedOnToss)
+            {
+                proj.SetLeftoverItem(item);
+            }
+
             if (item.Melee.DamageType == Components.DamageType.Slashing
                 || item.Melee.DamageType == Components.DamageType.Piercing)
             {

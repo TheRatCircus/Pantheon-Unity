@@ -27,6 +27,7 @@ namespace Pantheon.Actions
         [SerializeField] private string projName;
         [SerializeField] private GameObject fxPrefab;
         [SerializeField] private ProjBehaviour projBehaviour;
+        [SerializeField] private Item leftoverItem = null;
         [SerializeField] private bool spins;
         private BaseAction OnLandAction;
 
@@ -113,6 +114,11 @@ namespace Pantheon.Actions
             pierces = ammo.Pierces;
         }
 
+        public void SetLeftoverItem(Item item)
+        {
+            leftoverItem = item;
+        }
+
         public void SetSpins(bool spins)
         {
             this.spins = spins;
@@ -172,6 +178,10 @@ namespace Pantheon.Actions
                         proj.ProjName = projName;
                         proj.Source = Actor;
                         proj.TargetCell = endCell;
+                        if (leftoverItem != null)
+                        {
+                            proj.LeftoverItem = leftoverItem;
+                        }
                         proj.Spins = spins;
                         proj.OnLandAction = OnLandAction;
 

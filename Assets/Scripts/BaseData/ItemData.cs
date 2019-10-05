@@ -20,6 +20,7 @@ namespace Pantheon
         [SerializeField] private ActionWrapper onUse = null;
         [SerializeField] private string onUseString = "NO_USE_STRING";
 
+        [SerializeField] private bool destroyedOnToss = false;
         [SerializeField] private bool infiniteThrow = false;
         [SerializeField] private ActionWrapper onThrow = null;
 
@@ -45,6 +46,7 @@ namespace Pantheon
         public int StrengthReq => strengthReq;
         public int MaxWieldParts => maxWieldParts;
 
+        public bool DestroyedOnToss => destroyedOnToss;
         public bool InfiniteThrow => infiniteThrow;
         public ActionWrapper OnThrow => onThrow;
 

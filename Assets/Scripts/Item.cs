@@ -35,6 +35,7 @@ namespace Pantheon
         public Melee Melee { get; set; }
 
         public ActionWrapper OnToss { get; }
+        public bool DestroyedOnToss { get; }
         public bool InfiniteToss { get; set; }
 
         public bool HasComponent(ComponentType type)
@@ -71,6 +72,7 @@ namespace Pantheon
             StrengthReq = itemData.StrengthReq;
             MaxWieldParts = itemData.MaxWieldParts;
 
+            DestroyedOnToss = itemData.DestroyedOnToss;
             OnToss = itemData.OnThrow;
             InfiniteToss = itemData.InfiniteThrow;
 

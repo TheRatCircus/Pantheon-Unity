@@ -17,6 +17,7 @@ namespace Pantheon
         public Actor Source { get; set; } = null;
         public Cell TargetCell { get; set; } = null;
         public bool Spins { get; set; } = false;
+        public Item LeftoverItem { get; set; } = null;
         private Vector3 targetPos;
 
         public int MinDamage { get; set; } = -1;
@@ -68,6 +69,10 @@ namespace Pantheon
                     $"dealing {hit.Damage} damage!");
                     TargetCell.Actor.TakeHit(hit, Source);
                 }
+            }
+            if (LeftoverItem != null)
+            {
+                TargetCell.Items.Add(LeftoverItem);
             }
             OnLandAction?.DoAction();
             Game.instance.Unlock();

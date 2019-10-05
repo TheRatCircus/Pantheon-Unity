@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: FlaskHealing
   m_EditorClassIdentifier: 
   displayName: flask of healing
-  refName: FlaskHealing
   maxStack: 99
   stackable: 1
   sprite: {fileID: 21300000, guid: 5cdbeba5f45d3334ea9d0b5e4633b68c, type: 3}
-  usable: 1
   onUse: {fileID: 11400000, guid: a29a50cf79579774da3886b92d6ddc5a, type: 2}
   onUseString: You drink the flask of healing.
+  destroyedOnToss: 1
+  infiniteThrow: 0
+  onThrow: {fileID: 0}
   strengthReq: 1
   maxWieldParts: 1
   melee:
@@ -28,4 +29,5 @@ MonoBehaviour:
     accuracy: 65
     attackTime: 100
     damageType: 3
+  components: []
   flaskType: 1
