@@ -24,10 +24,13 @@ namespace Pantheon.Core
         public static Game instance;
 
         // Other components of GameController
-        public System.Random prng = new System.Random();
+        private System.Random prng;
+        private int seed;
         [SerializeField] private Database database;
         [SerializeField] private GameLog gameLog;
-        [SerializeField] private Transform grid = null;
+        [SerializeField] private GameObject grid = null;
+        [SerializeField] private GameObject hud = null;
+        [SerializeField] private GameObject worldGUI = null;
         public Pantheon Pantheon { get; private set; }
 
         // Basic prefabs
@@ -67,6 +70,9 @@ namespace Pantheon.Core
 
         public bool IdolMode { get; set; }
 
+        // Active save
+        private Save save;
+
         // Events
         public event Action OnTurnChangeEvent;
         public event Action<int> OnClockTickEvent;
@@ -87,37 +93,46 @@ namespace Pantheon.Core
         /// </summary>
         private void Awake()
         {
+            UnityEngine.Debug.Log("Game waking up...");
             // Initialize singleton
             if (instance != null)
-                UnityEngine.Debug.LogWarning("Game singleton assigned in error");
+            {
+                UnityEngine.Debug.LogWarning
+                    ("Game singleton assigned in error");
+            }
             else
+            {
                 instance = this;
+            }
 
-            GameObject introObj = GameObject.FindGameObjectWithTag("Intro");
-            Intro intro = introObj.GetComponent<Intro>();
+            prng = new System.Random(UnityEngine.Random.Range(int.MinValue,
+                int.MaxValue));
 
-            player1.ActorName = intro.PlayerName;
-            player1.Initialize();
-            player1.AddItem(ItemFactory.NewWeapon(intro.StartingWeapon));
+            foreach (GameObject go in SceneManager.GetActiveScene().
+                GetRootGameObjects())
+            {
+                if (go != gameObject)
+                {
+                    // Guarantee that everything else is disabled first
+                    go.SetActive(false);
+                }
+            }
 
-            introObj.GetComponentInChildren<Camera>().enabled = false;
-            introObj.SetActive(false);
+            StartCoroutine(LoadDebugScene());
 
-            queue = new List<Actor>();
+            //
+        }
 
-            AddActor(player1);
+        private System.Collections.IEnumerator LoadDebugScene()
+        {
+            AsyncOperation debugLoad = SceneManager.LoadSceneAsync
+                ("Debug", LoadSceneMode.Additive);
 
-            int overworldZ = 0;
-            Layer overworld = new Layer(overworldZ);
-            Layers.Add(overworldZ, overworld);
-            Level firstLevel = overworld.RequestLevel(new Vector2Int(0, 0));
-
-            LoadLevel(firstLevel);
-
-            player1.level = activeLevel;
-            player1.transform.SetParent(activeLevel.transform);
-
-            UnityEngine.Debug.Log("Game awoken successfully.");
+            while (!debugLoad.isDone)
+            {
+                yield return null;
+            }
+            UnityEngine.Debug.Log("Debug scene loaded.");
         }
 
         /// <summary>
@@ -125,16 +140,7 @@ namespace Pantheon.Core
         /// </summary>
         private void Start()
         {
-            Pantheon = new Pantheon();
-            InitializeFactions();
-
-            foreach (Idol idol in Pantheon.Idols.Values)
-                for (int i = 0; i < 3; i++) // i < number of levels per sanctum
-                    BuilderMap.Add($"sanctum_{idol.RefName}_{i}",
-                        new SanctumBuilder(null, Vector2Int.zero));
-
             player1.OnPlayerDeathEvent += Lock;
-            UnityEngine.Debug.Log("Game start complete.");
         }
 
         /// <summary>
@@ -145,6 +151,108 @@ namespace Pantheon.Core
             for (int i = 0; i < queue.Count; i++)
                 if (!Tick())
                     break;
+        }
+
+        public void NewGame()
+        {
+            Pantheon = new Pantheon();
+            InitializeFactions();
+
+            foreach (Idol idol in Pantheon.Idols.Values)
+                for (int i = 0; i < 3; i++) // i < number of levels per sanctum
+                    BuilderMap.Add($"sanctum_{idol.RefName}_{i}",
+                        new SanctumBuilder(null, Vector2Int.zero));
+
+            grid.SetActive(true);
+            queue = new List<Actor>();
+
+            int overworldZ = 0;
+            Layer overworld = new Layer(overworldZ);
+            Layers.Add(overworldZ, overworld);
+            Level firstLevel = overworld.RequestLevel(new Vector2Int(0, 0));
+
+            LoadLevel(firstLevel);
+
+            player1.gameObject.SetActive(true);
+
+            player1.level = activeLevel;
+            player1.transform.SetParent(activeLevel.transform);
+
+            hud.SetActive(true);
+            worldGUI.SetActive(true);
+
+            //GameObject introObj = GameObject.FindGameObjectWithTag("Intro");
+            //Intro intro = introObj.GetComponent<Intro>();
+
+            //player1.ActorName = intro.PlayerName;
+            player1.Initialize();
+
+            
+            AddActor(player1);
+
+            //player1.AddItem(ItemFactory.NewWeapon(intro.StartingWeapon));
+
+            //introObj.GetComponentInChildren<Camera>().enabled = false;
+            //introObj.SetActive(false);
+            save = new Save();
+            WriteToSave();
+            SaveLoad.Save(save);
+        }
+
+        private void WriteToSave()
+        {
+            save.SaveName = player1.ActorName;
+            save.Seed = seed;
+            save.Pantheon = Pantheon;
+            save.Queue = queue;
+            save.CurrentActor = currentActor;
+            save.TurnProgress = turnProgress;
+            save.Turns = turns;
+            save.Player = player1;
+            save.ActiveLevel = activeLevel;
+            save.Layers = Layers;
+            save.Levels = Levels;
+            save.BuilderMap = BuilderMap;
+            save.Nature = Nature;
+            save.Religions = Religions;
+            save.IdolMode = IdolMode;
+        }
+
+        private void ReadFromSave()
+        {
+            seed = save.Seed;
+            Pantheon = save.Pantheon;
+            queue = save.Queue;
+            currentActor = save.CurrentActor;
+            turnProgress = save.TurnProgress;
+            turns = save.Turns;
+            player1 = save.Player;
+            activeLevel = save.ActiveLevel;
+            Layers = save.Layers;
+            Levels = save.Levels;
+            BuilderMap = save.BuilderMap;
+            Nature = save.Nature;
+            Religions = save.Religions;
+            IdolMode = save.IdolMode;
+        }
+
+        public void SaveAndQuit()
+        {
+            WriteToSave();
+            QuitGame();
+        }
+
+        public static void LoadGame(Save save)
+        {
+            instance.save = save;
+            instance.ReadFromSave();
+            instance.prng = new System.Random(instance.seed);
+
+            instance.hud.SetActive(true);
+            instance.worldGUI.SetActive(true);
+            instance.activeLevel.RefreshFOV();
+            UnityEngine.Debug.Log
+                ($"Successfully loaded save game {save.SaveName}.");
         }
 
         public void InitializeFactions()
@@ -304,7 +412,7 @@ namespace Pantheon.Core
         /// </returns>
         public Level MakeNewLevel()
         {
-            GameObject newLevelObj = Instantiate(levelPrefab, grid);
+            GameObject newLevelObj = Instantiate(levelPrefab, grid.transform);
             Level newLevel = newLevelObj.GetComponent<Level>();
             return newLevel;
         }
@@ -344,7 +452,8 @@ namespace Pantheon.Core
                 ($"Attempting to connect {newLevel.RefName} to {prevRef}...");
 
             if (!Levels.TryGetValue(prevRef, out Level prevLevel))
-                throw new ArgumentException("Bad ref given for previous level.");
+                throw new ArgumentException
+                    ("Bad ref given for previous level.");
 
             if (newLevel.LateralConnections.Count > 0)
             {
@@ -354,9 +463,11 @@ namespace Pantheon.Core
                     CardinalDirection dir = pair.Key;
                     Connection homeConn = pair.Value;
 
-                    if (!prevLevel.LateralConnections.TryGetValue(Helpers.CardinalOpposite(dir),
+                    if (!prevLevel.LateralConnections.TryGetValue
+                        (Helpers.CardinalOpposite(dir),
                         out Connection otherConn))
-                        throw new Exception("Other level has no valid opposite.");
+                        throw new Exception
+                            ("Other level has no valid opposite.");
 
                     homeConn.SetDestination(otherConn);
                 }
@@ -379,10 +490,35 @@ namespace Pantheon.Core
             }
         }
 
+        public static Game StartGame()
+        {
+            Scene main = SceneManager.GetSceneByName("Main");
+            SceneManager.SetActiveScene(main);
+            GameObject[] gameObjects = main.
+                GetRootGameObjects();
+            GameObject gameController = null;
+            foreach (GameObject go in gameObjects)
+            {
+                if (go.tag == "GameController")
+                {
+                    gameController = go;
+                    break;
+                }
+            }
+
+            if (gameController == null)
+            {
+                throw new Exception("Game controller not found.");
+            }
+
+            gameController.SetActive(true);
+            return gameController.GetComponent<Game>();
+        }
+
         public static void QuitGame()
         {
             CharacterNames.ClearUsed();
-            SceneManager.LoadScene("Title");
+            SceneManager.LoadScene("MainMenu");
         }
     }
 }

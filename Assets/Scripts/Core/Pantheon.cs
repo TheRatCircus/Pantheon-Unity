@@ -11,6 +11,7 @@ namespace Pantheon.Core
     /// <summary>
     /// Global storage and control of Idol data.
     /// </summary>
+    [System.Serializable]
     public class Pantheon
     {
         public const int Size = 4;
@@ -20,7 +21,6 @@ namespace Pantheon.Core
 
         public Pantheon()
         {
-            UnityEngine.Debug.Log("Populating the Pantheon...");
             for (int i = 0; i < Size; i++)
             {
                 Idol idol = new Idol { DisplayName = CharacterNames.Random() };
@@ -36,12 +36,6 @@ namespace Pantheon.Core
                 Idols.Add(idol.RefName, idol);
             }
             AssignAspects();
-            foreach (Idol i in Idols.Values)
-            {
-                UnityEngine.Debug.Log($"Finished idol: {i.RefName}" +
-                    $" ({i.DisplayName})" +
-                    $" ({i.Aspect.RefName}).");
-            }
         }
 
         public void AssignAspects()

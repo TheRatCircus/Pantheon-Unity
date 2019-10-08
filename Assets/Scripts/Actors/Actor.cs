@@ -35,8 +35,6 @@ namespace Pantheon.Actors
         [SerializeField] protected int speed = -1; // Energy per turn
         [SerializeField] [ReadOnly] protected int energy; // Energy remaining
 
-        [SerializeField] protected Attributes attributes;
-
         public int XP { get; set; }
         [SerializeField] private int xpValue = -1;
         public int ExpLevel { get; private set; } = 1;
@@ -92,6 +90,7 @@ namespace Pantheon.Actors
         }
         public SpriteRenderer SpriteRenderer { get => spriteRenderer; }
         public int RegenRate { get => regenRate; set => regenRate = value; }
+        public int RegenProgress { get => regenProgress; }
         public Species Species { get => species; }
         public Defenses Defenses
         {
@@ -103,6 +102,9 @@ namespace Pantheon.Actors
             get => equipment;
             private set => equipment = value;
         }
+        public List<StatusEffect> Statuses => statuses;
+        public List<Trait> Traits => traits;
+        public int XPValue => xpValue;
 
         #endregion
 

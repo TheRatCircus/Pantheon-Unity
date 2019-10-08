@@ -36,21 +36,21 @@ namespace Pantheon
 #if UNITY_EDITOR
         private void Start()
         {
-            GameObject[] rootGameObjectsOfSpecificScene
-                = SceneManager.GetSceneByName("Main")
-                .GetRootGameObjects();
+            //GameObject[] rootGameObjectsOfSpecificScene
+            //    = SceneManager.GetSceneByName("Main")
+            //    .GetRootGameObjects();
 
-            foreach (GameObject go in rootGameObjectsOfSpecificScene)
-            {
-                if (!go == gameObject && !go.CompareTag("EventSystem"))
-                {
-                    go.SetActive(false);
-                }
-            }
+            //foreach (GameObject go in rootGameObjectsOfSpecificScene)
+            //{
+            //    if (!go == gameObject && !go.CompareTag("EventSystem"))
+            //    {
+            //        go.SetActive(false);
+            //    }
+            //}
 
-            PlayerName = "The Hero";
-            StartingWeapon = WeaponType.Hatchet;
-            StartGame();
+            //PlayerName = "The Hero";
+            //StartingWeapon = WeaponType.Hatchet;
+            //StartGame();
         }
 #endif
 
@@ -91,21 +91,23 @@ namespace Pantheon
                     break;
             }
             backgroundSelect.SetActive(false);
-            StartGame();
+            StartCoroutine(StartGame());
         }
 
-        private void StartGame()
+        private System.Collections.IEnumerator StartGame()
         {
-            SceneManager.LoadScene("Debug", LoadSceneMode.Additive);
+            AsyncOperation mainLoad = SceneManager.LoadSceneAsync
+                ("Main", LoadSceneMode.Additive);
 
-            GameObject[] rootGameObjectsOfSpecificScene
-                = SceneManager.GetSceneByName("Main")
-                .GetRootGameObjects();
-
-            foreach (GameObject go in rootGameObjectsOfSpecificScene)
+            while (!mainLoad.isDone)
             {
-                go.SetActive(true);
+                yield return null;
             }
+            UnityEngine.Debug.Log("Main game scene loaded.");
+
+            Core.Game.StartGame();
+            Core.Game.instance.NewGame();
+            SceneManager.UnloadSceneAsync("Intro");
         }
     }
 }

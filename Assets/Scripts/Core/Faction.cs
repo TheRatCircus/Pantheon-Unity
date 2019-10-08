@@ -6,7 +6,8 @@ using Pantheon.Actors;
 
 namespace Pantheon.Core
 {
-    public class Faction
+    [System.Serializable]
+    public sealed class Faction
     {
         public string DisplayName { get; set; }
         public string RefName { get; set; }

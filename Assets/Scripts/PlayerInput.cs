@@ -224,7 +224,7 @@ namespace Pantheon
                 else if (Input.GetButtonDown("Cancel"))
                 {
                     UnityEngine.Debug.Log($"Exiting game...");
-                    Game.QuitGame();
+                    Game.instance.SaveAndQuit();
                 }
                 else if (Input.GetButtonDown("Long Rest"))
                     player.LongRest();
