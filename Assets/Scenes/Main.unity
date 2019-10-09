@@ -1745,6 +1745,7 @@ MonoBehaviour:
   grid: {fileID: 1781780696}
   hud: {fileID: 1299990566}
   worldGUI: {fileID: 1496336022}
+  eventSystem: {fileID: 1453436313}
   levelPrefab: {fileID: 5417036770917020103, guid: f63f320659e23cc438d26e527a171180,
     type: 3}
   turnProgress: 0
@@ -5355,12 +5356,6 @@ MonoBehaviour:
   regenProgress: 0
   speed: 100
   energy: 0
-  attributes:
-    strength: 10
-    dexterity: 10
-    intellect: 10
-    constitution: 10
-    willpower: 10
   xpValue: -1
   body:
     parts:

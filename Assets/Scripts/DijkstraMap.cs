@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Pantheon.World;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,12 +17,33 @@ namespace Pantheon
 
         public Dictionary<Vector2Int, int> Map { get; private set; }
             = new Dictionary<Vector2Int, int>();
+        private HashSet<Cell> goals = new HashSet<Cell>();
         private List<Vector2Int> open = new List<Vector2Int>();
         private HashSet<Vector2Int> closed = new HashSet<Vector2Int>();
 
         public DijkstraMap(Level level) => Level = level;
 
-        public void Recalculate(IEnumerable<Cell> goals)
+        public void SetGoals(IEnumerable<Cell> goals)
+        {
+            this.goals = (HashSet<Cell>)goals;
+        }
+
+        /// <summary>
+        /// Conditionally remove cells from the map.
+        /// </summary>
+        /// <param name="cells"></param>
+        /// <param name="unsetPredicate"></param>
+        public void UnsetGoals(IEnumerable<Cell> cells,
+            Predicate<Cell> unsetPredicate)
+        {
+            foreach (Cell c in cells)
+            {
+                if (unsetPredicate(c))
+                    goals.Remove(c);
+            }
+        }
+
+        public void Recalculate()
         {
             Map.Clear();
 
@@ -82,8 +104,7 @@ namespace Pantheon
         /// </summary>
         /// <param name="goals"></param>
         /// <param name="onFillPredicate"></param>
-        public void Recalculate(IEnumerable<Cell> goals,
-            System.Predicate<Cell> onFillPredicate)
+        public void Recalculate(Predicate<Cell> onFillPredicate)
         {
             Map.Clear();
 

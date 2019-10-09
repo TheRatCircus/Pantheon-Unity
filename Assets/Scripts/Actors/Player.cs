@@ -117,12 +117,7 @@ namespace Pantheon.Actors
                     return -1;
                 }
 
-                HashSet<Cell> unexplored = new HashSet<Cell>();
-                foreach (Cell c in level.Map)
-                    if (!c.Revealed)
-                        unexplored.Add(c);
-
-                level.Autoexplore.Recalculate(unexplored, (Cell c) =>
+                level.Autoexplore.Recalculate((Cell c) =>
                 { return c.Actor is Player; });
                 Vector2Int destination = level.Autoexplore.RollDownhill(cell);
 

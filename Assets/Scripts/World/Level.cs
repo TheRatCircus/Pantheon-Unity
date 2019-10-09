@@ -3,7 +3,6 @@
 
 using Pantheon.Actors;
 using Pantheon.Core;
-using Pantheon.WorldGen;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,7 +37,15 @@ namespace Pantheon.World
         public Connection[] DownConnections { get; set; }
 
         private FOV fov;
-        public void RefreshFOV() => fov.RefreshFOV(this);
+        public void RefreshFOV()
+        {
+            List<Cell> refreshed = fov.RefreshFOV(this);
+            Autoexplore.UnsetGoals(refreshed, (Cell c) =>
+            {
+                return c.Revealed;
+            });
+            Autoexplore.Recalculate();
+        }
         public Pathfinder Pathfinder { get; private set; }
         public DijkstraMap Autoexplore { get; private set; }
 
@@ -54,7 +61,9 @@ namespace Pantheon.World
         private void Awake()
         {
             Pathfinder = new Pathfinder(this);
+
             Autoexplore = new DijkstraMap(this);
+
             fov = new FOV();
         }
 
@@ -81,7 +90,15 @@ namespace Pantheon.World
         public void SpawnPlayer()
         {
             Actor.MoveTo(Game.GetPlayer(), RandomFloor());
-            fov.RefreshFOV(this);
+            RefreshFOV();
+
+            HashSet<Cell> unrevealed = new HashSet<Cell>();
+            foreach (Cell c in Map)
+            {
+                if (!c.Revealed)
+                    unrevealed.Add(c);
+            }
+            Autoexplore.SetGoals(unrevealed);
         }
 
         public Cell[,] CellsInRect(LevelRect rect)

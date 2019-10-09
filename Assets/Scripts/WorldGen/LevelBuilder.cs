@@ -2,11 +2,13 @@
 // Jerome Martina
 
 using Pantheon.World;
+using System;
 using UnityEngine;
 using static Pantheon.Utils.Helpers;
 
 namespace Pantheon.WorldGen
 {
+    [Serializable]
     public abstract class LevelBuilder
     {
         protected Layer layer;
@@ -21,6 +23,7 @@ namespace Pantheon.WorldGen
         public abstract void Generate(Level level);
     }
 
+    [Serializable]
     public sealed class TransitionBuilder : LevelBuilder
     {
         // TODO: themes
@@ -49,6 +52,7 @@ namespace Pantheon.WorldGen
         }
     }
 
+    [Serializable]
     public sealed class ZoneLevelBuilder : LevelBuilder
     {
         public delegate void ZoneConnectDelegate(Level level,
@@ -110,6 +114,7 @@ namespace Pantheon.WorldGen
             => $"ValleyBuilder {layerPos} {layer.ZLevel} {wing}";
     }
 
+    [Serializable]
     public sealed class SanctumBuilder : LevelBuilder
     {
         public SanctumBuilder(Layer layer, Vector2Int layerPos)

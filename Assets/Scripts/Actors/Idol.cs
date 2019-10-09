@@ -8,6 +8,7 @@ namespace Pantheon.Actors
     /// <summary>
     /// Represents abstract information about an Idol.
     /// </summary>
+    [System.Serializable]
     public sealed class Idol
     {
         public string DisplayName { get; set; }

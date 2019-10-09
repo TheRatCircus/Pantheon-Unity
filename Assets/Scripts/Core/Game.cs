@@ -31,6 +31,7 @@ namespace Pantheon.Core
         [SerializeField] private GameObject grid = null;
         [SerializeField] private GameObject hud = null;
         [SerializeField] private GameObject worldGUI = null;
+        [SerializeField] private GameObject eventSystem = null;
         public Pantheon Pantheon { get; private set; }
 
         // Basic prefabs
@@ -180,23 +181,23 @@ namespace Pantheon.Core
 
             hud.SetActive(true);
             worldGUI.SetActive(true);
+            eventSystem.SetActive(true);
 
             //GameObject introObj = GameObject.FindGameObjectWithTag("Intro");
             //Intro intro = introObj.GetComponent<Intro>();
 
             //player1.ActorName = intro.PlayerName;
             player1.Initialize();
-
-            
             AddActor(player1);
 
             //player1.AddItem(ItemFactory.NewWeapon(intro.StartingWeapon));
 
             //introObj.GetComponentInChildren<Camera>().enabled = false;
             //introObj.SetActive(false);
-            save = new Save();
-            WriteToSave();
-            SaveLoad.Save(save);
+
+            //save = new Save();
+            //WriteToSave();
+            //SaveLoad.Save(save);
         }
 
         private void WriteToSave()
@@ -204,14 +205,14 @@ namespace Pantheon.Core
             save.SaveName = player1.ActorName;
             save.Seed = seed;
             save.Pantheon = Pantheon;
-            save.Queue = queue;
-            save.CurrentActor = currentActor;
+            //save.Queue = queue;
+            //save.CurrentActor = currentActor;
             save.TurnProgress = turnProgress;
             save.Turns = turns;
-            save.Player = player1;
-            save.ActiveLevel = activeLevel;
+            //save.Player = player1;
+            //save.ActiveLevel = activeLevel;
             save.Layers = Layers;
-            save.Levels = Levels;
+            //save.Levels = Levels;
             save.BuilderMap = BuilderMap;
             save.Nature = Nature;
             save.Religions = Religions;
@@ -222,14 +223,14 @@ namespace Pantheon.Core
         {
             seed = save.Seed;
             Pantheon = save.Pantheon;
-            queue = save.Queue;
-            currentActor = save.CurrentActor;
+            //queue = save.Queue;
+            //currentActor = save.CurrentActor;
             turnProgress = save.TurnProgress;
             turns = save.Turns;
-            player1 = save.Player;
-            activeLevel = save.ActiveLevel;
+            //player1 = save.Player;
+            //activeLevel = save.ActiveLevel;
             Layers = save.Layers;
-            Levels = save.Levels;
+            //Levels = save.Levels;
             BuilderMap = save.BuilderMap;
             Nature = save.Nature;
             Religions = save.Religions;
