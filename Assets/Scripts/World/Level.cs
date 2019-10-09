@@ -43,7 +43,7 @@ namespace Pantheon.World
             {
                 return c.Revealed;
             });
-            Autoexplore.Recalculate();
+            
         }
         public Pathfinder Pathfinder { get; private set; }
         public DijkstraMap Autoexplore { get; private set; }
@@ -62,6 +62,17 @@ namespace Pantheon.World
             Pathfinder = new Pathfinder(this);
 
             Autoexplore = new DijkstraMap(this);
+        }
+
+        private void Start()
+        {
+            HashSet<Cell> unrevealed = new HashSet<Cell>();
+            foreach (Cell c in Map)
+            {
+                if (!c.Revealed)
+                    unrevealed.Add(c);
+            }
+            Autoexplore.SetGoals(unrevealed);
         }
 
         // Cell accessor, mostly for validation
@@ -88,14 +99,6 @@ namespace Pantheon.World
         {
             Actor.MoveTo(Game.GetPlayer(), RandomFloor());
             RefreshFOV();
-
-            HashSet<Cell> unrevealed = new HashSet<Cell>();
-            foreach (Cell c in Map)
-            {
-                if (!c.Revealed)
-                    unrevealed.Add(c);
-            }
-            Autoexplore.SetGoals(unrevealed);
         }
 
         public Cell[,] CellsInRect(LevelRect rect)
