@@ -14,7 +14,6 @@ namespace Pantheon
     {
         [SerializeField] private string displayName = "NO_NAME";
         [SerializeField] private int maxStack = -1;
-        [SerializeField] private bool stackable = false;
         [SerializeField] private Sprite sprite = null;
 
         [SerializeField] private ActionWrapper onUse = null;

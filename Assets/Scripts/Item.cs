@@ -15,7 +15,7 @@ namespace Pantheon
     {
         public string DisplayName { get; }
         public Sprite Sprite { get; }
-        private bool stackable;
+        
         private int weight;
 
         public Dictionary<ComponentType, IComponent> Components
@@ -23,6 +23,8 @@ namespace Pantheon
             = new Dictionary<ComponentType, IComponent>();
         public ActionWrapper OnUse { get; }
 
+        public int MaxStack { get; set; }
+        public bool Stackable => MaxStack > 1;
         private int quantity = 1;
         public Actor Owner { get; set; } = null;
         
@@ -62,8 +64,7 @@ namespace Pantheon
         {
             DisplayName = itemData.DisplayName;
             Sprite = itemData.Sprite;
-
-            stackable = itemData.Stackable;
+            MaxStack = itemData.MaxStack;
 
             OnUse = itemData.OnUse;
 
