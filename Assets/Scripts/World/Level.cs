@@ -36,10 +36,9 @@ namespace Pantheon.World
         public Connection[] UpConnections { get; set; }
         public Connection[] DownConnections { get; set; }
 
-        private FOV fov;
         public void RefreshFOV()
         {
-            List<Cell> refreshed = fov.RefreshFOV(this);
+            List<Cell> refreshed = FOV.RefreshFOV(this);
             Autoexplore.UnsetGoals(refreshed, (Cell c) =>
             {
                 return c.Revealed;
@@ -63,8 +62,6 @@ namespace Pantheon.World
             Pathfinder = new Pathfinder(this);
 
             Autoexplore = new DijkstraMap(this);
-
-            fov = new FOV();
         }
 
         // Cell accessor, mostly for validation

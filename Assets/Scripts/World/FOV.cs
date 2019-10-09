@@ -8,13 +8,13 @@ using UnityEngine;
 
 namespace Pantheon.World
 {
-    public sealed class FOV
+    public static class FOV
     {
         /// <summary>
         /// Change visibility and reveal new cells.
         /// Only call when a player acts.
         /// <param name="level"></param>
-        public List<Cell> RefreshFOV(Level level)
+        public static List<Cell> RefreshFOV(Level level)
         {
             List<Cell> allRefreshed = new List<Cell>();
             for (int octant = 0; octant < 8; octant++)
@@ -47,7 +47,7 @@ namespace Pantheon.World
         };
 
         // Generate an octant of shadows, and return the FOV area to be redrawn
-        public List<Cell> ShadowOctant(Level level, Vector2Int origin,
+        public static List<Cell> ShadowOctant(Level level, Vector2Int origin,
             int octant)
         {
             // Increments based off of octantCoordinates
@@ -123,7 +123,7 @@ namespace Pantheon.World
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <returns></returns>
-        Shadow ProjectTile(float row, float col)
+        private static Shadow ProjectTile(float row, float col)
         {
             float rowF = row;
             float colF = col;
@@ -138,7 +138,7 @@ namespace Pantheon.World
     }
 
     // Generate a line of shadows
-    public class ShadowLine
+    public sealed class ShadowLine
     {
         public readonly List<Shadow> Shadows = new List<Shadow>();
 
@@ -217,7 +217,7 @@ namespace Pantheon.World
     /// Represents the 1D projection of a 2D shadow onto a normalized line.
     /// In other words, a range from 0.0 to 1.0.
     /// </summary>
-    public class Shadow
+    public sealed class Shadow
     {
         public float Start { get; set; }
         public float End { get; set; }

@@ -444,7 +444,7 @@ namespace Pantheon.Actors
                     GameLog.Send($"You kill {Strings.GetSubject(this, false)}!",
                     Strings.TextColour.White);
                 }
-                else if (killer == this)
+                else if (killer == this || killer == null)
                 {
                     GameLog.Send($"{Strings.GetSubject(this, true)} dies!",
                     Strings.TextColour.White);
