@@ -159,7 +159,7 @@ namespace Pantheon.Actors
         {
             if (!Game.instance.IdolMode)
             {
-                TakeDamage(source, hit.Damage);
+                Damage(source, hit.Damage);
             }
         }
 

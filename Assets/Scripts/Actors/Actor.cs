@@ -218,7 +218,7 @@ namespace Pantheon.Actors
         // Take a damaging hit from something
         public virtual void TakeHit(Hit hit, Actor source)
         {
-            TakeDamage(source, hit.Damage);
+            Damage(source, hit.Damage);
             if (RandomUtils.OneChanceIn(2, false))
             {
                 Cell c = level.RandomAdjacentCell(cell);
@@ -227,7 +227,24 @@ namespace Pantheon.Actors
             }
         }
 
-        public virtual void TakeDamage(Actor source, int damage)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="health"></param>
+        /// <param name="canKill">Can this health change kill the actor?</param>
+        public void ChangeHealth(int health, bool canKill)
+        {
+            this.health += health;
+
+            if (canKill && health <= 0)
+                OnDeath(null);
+            else
+                health = Mathf.Clamp(health, 1, MaxHealth);
+
+            OnHealthChangeEvent?.Invoke(health, MaxHealth);
+        }
+
+        public virtual void Damage(Actor source, int damage)
         {
             // TODO: Infinitely negative lower bound?
             damage -= defenses.Armour;

@@ -36,7 +36,6 @@ namespace Pantheon
 
         public string DisplayName => displayName;
         public int MaxStack => maxStack;
-        public bool Stackable => stackable;
         public Sprite Sprite => sprite;
 
         public ActionWrapper OnUse => onUse;

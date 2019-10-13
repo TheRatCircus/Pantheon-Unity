@@ -22,6 +22,7 @@ namespace Pantheon
         { get; private set; }
             = new Dictionary<ComponentType, IComponent>();
         public ActionWrapper OnUse { get; }
+        public List<Enchant> Enchants { get; set; } = new List<Enchant>();
 
         public int MaxStack { get; set; }
         public bool Stackable => MaxStack > 1;

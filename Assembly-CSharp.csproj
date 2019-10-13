@@ -127,6 +127,7 @@
     <Compile Include="Assets\Scripts\Debug\DebugInfo.cs" />
     <Compile Include="Assets\Scripts\Debug\Visualisation.cs" />
     <Compile Include="Assets\Scripts\DijkstraMap.cs" />
+    <Compile Include="Assets\Scripts\Enchant.cs" />
     <Compile Include="Assets\Scripts\EnumOrder.cs" />
     <Compile Include="Assets\Scripts\Enums\CardinalDirection.cs" />
     <Compile Include="Assets\Scripts\Enums\Gender.cs" />
