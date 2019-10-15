@@ -226,8 +226,7 @@ namespace Pantheon.Actions
 
         private void HitActor(Cell cell)
         {
-            int hitRoll = RandomUtils.RangeInclusive(0, 100);
-            if (hitRoll < accuracy)
+            if (cell.Actor.RollToHit(accuracy))
             {
                 Hit hit = new Hit(minDamage, maxDamage);
                 GameLog.Send($"The {projName}" +

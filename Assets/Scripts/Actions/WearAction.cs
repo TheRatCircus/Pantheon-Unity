@@ -41,7 +41,7 @@ namespace Pantheon.Actions
                     throw new Exception("Illegal equip type.");
             }
 
-            Actor.Defenses.Recalculate(Actor);
+            item.OnEquip(Actor);
 
             if (Actor is Player player)
             {

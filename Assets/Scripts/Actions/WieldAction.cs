@@ -45,6 +45,7 @@ namespace Pantheon.Actions
                 part.Item = item;
 
             Actor.Inventory.Wielded.Add(item);
+            item.OnEquip(Actor);
 
             item.WieldProfile = parts;
 

@@ -97,7 +97,7 @@ namespace Pantheon.Actions
                     attackMsg += $"{Strings.GetSubject(Actor, true)} ";
 
                     // Did the attack hit?
-                    bool hitLanded = HitLanded(attack);
+                    bool hitLanded = enemy.RollToHit(attack.Accuracy);
 
                     if (hitLanded)
                     {
@@ -159,12 +159,6 @@ namespace Pantheon.Actions
                     weaponStatuses.Add(part.Item);
             }
             return actionTime;
-        }
-
-        public bool HitLanded(Melee attack)
-        {
-            int hitRoll = Random.Range(0, 101);
-            return hitRoll <= attack.Accuracy;
         }
 
         // DoAction() with a callback

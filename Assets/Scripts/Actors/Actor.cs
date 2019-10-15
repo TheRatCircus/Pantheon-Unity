@@ -215,6 +215,12 @@ namespace Pantheon.Actors
             return -1;
         }
 
+        public virtual bool RollToHit(int accuracy)
+        {
+            accuracy -= defenses.Evasion;
+            return accuracy >= RandomUtils.RangeInclusive(0, 100);
+        }
+
         // Take a damaging hit from something
         public virtual void TakeHit(Hit hit, Actor source)
         {

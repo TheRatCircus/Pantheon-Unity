@@ -49,7 +49,7 @@ namespace Pantheon.UI
             player.Input.ModalCancelEvent += ClearModals;
             player.Input.TraitMenuToggleEvent += ToggleTraitMenu;
             player.StatusChangeEvent += UpdateStatuses;
-            player.Defenses.RecalculateEvent += UpdateDefenses;
+            player.Defenses.HUDDefenseChangeEvent += UpdateDefenses;
             player.XPChangeEvent += UpdateXPCounter;
             Game.instance.OnPlayerActionEvent += UpdateEnergyCounter;
             Game.instance.OnClockTickEvent += UpdateTurnCounter;

@@ -18,23 +18,21 @@ namespace Pantheon.Actors
         [SerializeField] private float resistDisease;
         [SerializeField] private float resistPoison;
 
-        public int Armour { get => armour; set => armour = value; }
-        public int Evasion { get => evasion; set => evasion = value; }
-
-        public event System.Action<Defenses> RecalculateEvent;
-
-        public void Recalculate(Actor actor)
-        {
-            int ac = 0
-                + actor.Species.Defenses.Armour
-                + actor.Equipment.GetArmour();
-            int ev = 0
-                + actor.Species.Defenses.Evasion;
-
-            armour = ac;
-            evasion = ev;
-
-            RecalculateEvent?.Invoke(this);
+        public int Armour { get => armour;
+            set
+            {
+                armour = value;
+                HUDDefenseChangeEvent?.Invoke(this);
+            }
         }
+        public int Evasion { get => evasion;
+            set
+            {
+                evasion = value;
+                HUDDefenseChangeEvent?.Invoke(this);
+            }
+        }
+
+        public event System.Action<Defenses> HUDDefenseChangeEvent;
     }
 }

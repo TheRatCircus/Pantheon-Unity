@@ -60,7 +60,7 @@ namespace Pantheon
             }
             if (TargetCell.Actor != null && OnLandAction == null)
             {
-                if (RandomUtils.RangeInclusive(0, 100) < Accuracy)
+                if (TargetCell.Actor.RollToHit(Accuracy))
                 {
                     Hit hit = new Hit(MinDamage, MaxDamage);
                     GameLog.Send($"The {ProjName}" +

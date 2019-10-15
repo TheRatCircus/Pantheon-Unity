@@ -134,6 +134,15 @@ namespace Pantheon
             user.NextAction = new WearAction(user, this);
         }
 
+        public void OnEquip(Actor equipper)
+        {
+            foreach (Enchant e in Enchants)
+            {
+                if (e is IOnEquipEnchant equipEnchant)
+                    equipEnchant.EquipEffect(equipper);
+            }
+        }
+
         public override string ToString()
             => DisplayName;
     }

@@ -38,4 +38,44 @@ namespace Pantheon
             actor.ChangeHealth(-MaxHealth, false);
         }
     }
+
+    public sealed class ArmourEnchant : Enchant, IOnEquipEnchant
+    {
+        public int Armour { get; private set; }
+
+        public ArmourEnchant(int armour)
+        {
+            Armour = armour;
+        }
+
+        public void EquipEffect(Actor actor)
+        {
+            actor.Defenses.Armour += Armour;
+        }
+
+        public void UnequipEffect(Actor actor)
+        {
+            actor.Defenses.Armour -= Armour;
+        }
+    }
+
+    public sealed class EvasionEnchant : Enchant, IOnEquipEnchant
+    {
+        public int Evasion { get; private set; }
+
+        public EvasionEnchant(int evasion)
+        {
+            Evasion = evasion;
+        }
+
+        public void EquipEffect(Actor actor)
+        {
+            actor.Defenses.Evasion += Evasion;
+        }
+
+        public void UnequipEffect(Actor actor)
+        {
+            actor.Defenses.Evasion -= Evasion;
+        }
+    }
 }
