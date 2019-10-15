@@ -11,11 +11,11 @@ namespace Pantheon.UI
 {
     public class MainMenu : MonoBehaviour
     {
-        [SerializeField] private GameObject saveOptionPrefab;
+        [SerializeField] private GameObject saveOptionPrefab = null;
 
-        [SerializeField] private GameObject mainTitle;
-        [SerializeField] private GameObject loadMenu;
-        [SerializeField] private Transform saveOptionsList;
+        [SerializeField] private GameObject mainTitle = null;
+        [SerializeField] private GameObject loadMenu = null;
+        [SerializeField] private Transform saveOptionsList = null;
 
         // Skip main menu if in editor
         private void Awake()
