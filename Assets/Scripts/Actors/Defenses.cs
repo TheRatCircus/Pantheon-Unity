@@ -1,6 +1,7 @@
 ﻿// Defenses.cs
 // Jerome Martina
 
+using Pantheon.Components;
 using UnityEngine;
 
 namespace Pantheon.Actors
@@ -34,5 +35,28 @@ namespace Pantheon.Actors
         }
 
         public event System.Action<Defenses> HUDDefenseChangeEvent;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="damage"></param>
+        /// <param name="damageType"></param>
+        /// <returns>Incoming damage after resistances.</returns>
+        public int Resist(int damage, DamageType damageType)
+        {
+            float res;
+            switch (damageType)
+            {
+                case DamageType.Slashing:
+                case DamageType.Piercing:
+                case DamageType.Bludgeoning:
+                    res = resistPhys;
+                    break;
+                default:
+                    throw new System.Exception("No damage type given.");
+            }
+            res = 1.0f - res;
+            return (int)(damage * res);
+        }
     }
 }

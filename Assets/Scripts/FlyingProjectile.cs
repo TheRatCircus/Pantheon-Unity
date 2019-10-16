@@ -3,6 +3,7 @@
 
 using Pantheon.Actions;
 using Pantheon.Actors;
+using Pantheon.Components;
 using Pantheon.Core;
 using Pantheon.Utils;
 using Pantheon.World;
@@ -22,6 +23,7 @@ namespace Pantheon
 
         public int MinDamage { get; set; } = -1;
         public int MaxDamage { get; set; } = -1;
+        public DamageType DamageType { get; set; } = DamageType.None;
         public int Accuracy { get; set; } = -1;
         public bool Pierces { get; set; } = false;
 
@@ -62,7 +64,7 @@ namespace Pantheon
             {
                 if (TargetCell.Actor.RollToHit(Accuracy))
                 {
-                    Hit hit = new Hit(MinDamage, MaxDamage);
+                    Hit hit = new Hit(MinDamage, MaxDamage, DamageType);
                     GameLog.Send($"The {ProjName}" +
                     $" {(Pierces ? "punches through" : "hits")} " +
                     $"{Strings.GetSubject(TargetCell.Actor, false)}, " +

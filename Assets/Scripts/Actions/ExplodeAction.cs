@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Pantheon.Actors;
+using Pantheon.Components;
 using Pantheon.Core;
 using Pantheon.World;
 using System;
@@ -19,6 +20,7 @@ namespace Pantheon.Actions
         [SerializeField] private int radius = -1;
         [SerializeField] private int minDamage = -1;
         [SerializeField] private int maxDamage = -1;
+        [SerializeField] private DamageType damageType = DamageType.None;
 
         public ExplodeAction(Actor actor, int radius)
             : base(actor)
@@ -42,7 +44,7 @@ namespace Pantheon.Actions
                     Cell cell = level.GetCell(new Vector2Int(x, y));
                     if (cell.Actor != null)
                     {
-                        Hit hit = new Hit(minDamage, maxDamage);
+                        Hit hit = new Hit(minDamage, maxDamage, damageType);
                         GameLog.Send
                             ($"{Utils.Strings.GetSubject(cell.Actor, true)} " +
                             $"{(cell.Actor is Player ? "are" : "is")} " +

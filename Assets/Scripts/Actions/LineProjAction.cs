@@ -33,6 +33,7 @@ namespace Pantheon.Actions
 
         [SerializeField] private int minDamage = -1;
         [SerializeField] private int maxDamage = -1;
+        [SerializeField] private DamageType damageType;
         [SerializeField] private int accuracy = -1;
         [SerializeField] private bool pierces = false; // Pierces actors
 
@@ -187,6 +188,7 @@ namespace Pantheon.Actions
 
                         proj.MinDamage = minDamage;
                         proj.MaxDamage = maxDamage;
+                        proj.DamageType = damageType;
                         proj.Accuracy = accuracy;
                     }
                     break;
@@ -228,7 +230,7 @@ namespace Pantheon.Actions
         {
             if (cell.Actor.RollToHit(accuracy))
             {
-                Hit hit = new Hit(minDamage, maxDamage);
+                Hit hit = new Hit(minDamage, maxDamage, damageType);
                 GameLog.Send($"The {projName}" +
                     $" {(pierces ? "punches through" : "hits")} " +
                     $"{Strings.GetSubject(cell.Actor, false)}, " +

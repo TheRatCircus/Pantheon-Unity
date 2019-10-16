@@ -130,7 +130,8 @@ namespace Pantheon.Actions
                     }
                     else
                     {
-                        Hit hit = new Hit(attack.MinDamage, attack.MaxDamage);
+                        Hit hit = new Hit(attack.MinDamage, attack.MaxDamage,
+                            attack.DamageType);
 
                         if (enemy != null)
                         {

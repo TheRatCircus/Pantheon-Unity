@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Pantheon.Actions;
+using Pantheon.Components;
 using Pantheon.Core;
 using Pantheon.Utils;
 using Pantheon.World;
@@ -221,10 +222,9 @@ namespace Pantheon.Actors
             return accuracy >= RandomUtils.RangeInclusive(0, 100);
         }
 
-        // Take a damaging hit from something
         public virtual void TakeHit(Hit hit, Actor source)
         {
-            Damage(source, hit.Damage);
+            Damage(source, hit.Damage, hit.DamageType);
             if (RandomUtils.OneChanceIn(2, false))
             {
                 Cell c = level.RandomAdjacentCell(cell);
@@ -250,10 +250,11 @@ namespace Pantheon.Actors
             OnHealthChangeEvent?.Invoke(health, MaxHealth);
         }
 
-        public virtual void Damage(Actor source, int damage)
+        public virtual void Damage(Actor source, int damage, DamageType type)
         {
-            // TODO: Infinitely negative lower bound?
+            damage = defenses.Resist(damage, type);
             damage -= defenses.Armour;
+            // TODO: Infinitely negative lower bound?
             health = Mathf.Clamp(health - damage, -255, MaxHealth);
             if (health <= 0)
                 OnDeath(source);
