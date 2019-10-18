@@ -20,5 +20,6 @@ MonoBehaviour:
     spins: 0
     minDamage: 10
     maxDamage: 20
+    damageType: 2
     accuracy: 100
     pierces: 1

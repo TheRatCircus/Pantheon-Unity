@@ -257,15 +257,52 @@ namespace Pantheon.Debug
         public static string LevelUp(string[] args)
         {
             if (args.Length != 0)
-            {
                 return "This command takes no arguments.";
-            }
 
             Player player = Game.GetPlayer();
             player.LevelUp();
             player.XP = player.XPToLevel(player.ExpLevel);
 
             return $"Levelled up the player to {player.ExpLevel}.";
+        }
+
+        public static string Relic(string[] args)
+        {
+            if (args.Length != 1)
+                return "Please supply an item base type.";
+
+            ItemData itemData;
+
+            if (Enum.TryParse(args[0], out WeaponType weaponType))
+            {
+                itemData = Database.GetWeapon(weaponType);
+            }
+            else if (Enum.TryParse(args[0], out FlaskType flaskType))
+            {
+                itemData = Database.GetFlask(flaskType);
+            }
+            else if (Enum.TryParse(args[0], out ScrollType scrollType))
+            {
+                itemData = Database.GetScroll(scrollType);
+            }
+            else if (Enum.TryParse(args[0], out AmmoType ammoType))
+            {
+                itemData = Database.GetAmmo(ammoType);
+            }
+            else
+                return $"Item of type {args[0]} could not be found";
+
+            Item relic = new Item(itemData);
+            for (int i = 0; i < 7; i++)
+            {
+                relic.Enchants.Add(Enchant._enchantCallbacks.Random(true).
+                    Invoke());
+            }
+
+            Game.GetPlayer().Cell.Items.Add(relic);
+            Game.instance.activeLevel.RefreshFOV();
+
+            return $"Relic {relic.DisplayName} created.";
         }
     }
 }

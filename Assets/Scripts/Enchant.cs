@@ -2,11 +2,25 @@
 // Jerome Martina
 
 using Pantheon.Actors;
+using System.Collections.Generic;
 
 namespace Pantheon
 {
+    
+
     public abstract class Enchant
     {
+        public static readonly List<System.Func<Enchant>> _enchantCallbacks =
+            new List<System.Func<Enchant>>()
+        {
+            Make<HealthEnchant>,
+            Make<EvasionEnchant>
+        };
+
+        public static T Make<T>() where T : new()
+        {
+            return new T();
+        }
     }
 
     /// <summary>
@@ -21,6 +35,11 @@ namespace Pantheon
     public sealed class HealthEnchant : Enchant, IOnEquipEnchant
     {
         public int MaxHealth { get; private set; }
+
+        public HealthEnchant()
+        {
+
+        }
 
         public HealthEnchant(int health)
         {
@@ -62,6 +81,11 @@ namespace Pantheon
     public sealed class EvasionEnchant : Enchant, IOnEquipEnchant
     {
         public int Evasion { get; private set; }
+
+        public EvasionEnchant()
+        {
+
+        }
 
         public EvasionEnchant(int evasion)
         {

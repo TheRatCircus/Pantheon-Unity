@@ -15,7 +15,7 @@ MonoBehaviour:
   explodeAction:
     fxPrefab: {fileID: 2927215069722470620, guid: a12c41e5ae0e3aa4b94992cdb145d387,
       type: 3}
-    audio: {fileID: 8300000, guid: 744c67342ea0f0345b47b9a8b4efc5fd, type: 3}
     radius: 2
     minDamage: 7
     maxDamage: 14
+    damageType: 2
