@@ -134,6 +134,7 @@
     <Compile Include="Assets\Scripts\Enums\NPCType.cs" />
     <Compile Include="Assets\Scripts\FlyingProjectile.cs" />
     <Compile Include="Assets\Scripts\Hit.cs" />
+    <Compile Include="Assets\Scripts\IDescriptor.cs" />
     <Compile Include="Assets\Scripts\Item.cs" />
     <Compile Include="Assets\Scripts\LevelRect.cs" />
     <Compile Include="Assets\Scripts\Node.cs" />

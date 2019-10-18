@@ -2,22 +2,23 @@
 // Jerome Martina
 
 using Pantheon.Actors;
+using Pantheon.Core;
 using System.Collections.Generic;
 
 namespace Pantheon
 {
-    
-
     public abstract class Enchant
     {
         public static readonly List<System.Func<Enchant>> _enchantCallbacks =
             new List<System.Func<Enchant>>()
         {
-            Make<HealthEnchant>,
-            Make<EvasionEnchant>
+            MakeEnchant<HealthEnchant>,
+            MakeEnchant<ArmourEnchant>,
+            MakeEnchant<EvasionEnchant>,
+            MakeEnchant<SpellEnchant>
         };
 
-        public static T Make<T>() where T : new()
+        public static T MakeEnchant<T>() where T : new()
         {
             return new T();
         }
@@ -34,27 +35,22 @@ namespace Pantheon
 
     public sealed class HealthEnchant : Enchant, IOnEquipEnchant
     {
-        public int MaxHealth { get; private set; }
+        public int Health { get; private set; }
 
         public HealthEnchant()
         {
-
-        }
-
-        public HealthEnchant(int health)
-        {
-            MaxHealth = health;
+            Health = Game.PRNG.Next(3, 9);
         }
 
         public void EquipEffect(Actor actor)
         {
-            actor.MaxHealth += MaxHealth;
+            actor.MaxHealth += Health;
         }
 
         public void UnequipEffect(Actor actor)
         {
-            actor.MaxHealth -= MaxHealth;
-            actor.ChangeHealth(-MaxHealth, false);
+            actor.MaxHealth -= Health;
+            actor.ChangeHealth(-Health, false);
         }
     }
 
@@ -62,9 +58,9 @@ namespace Pantheon
     {
         public int Armour { get; private set; }
 
-        public ArmourEnchant(int armour)
+        public ArmourEnchant()
         {
-            Armour = armour;
+            Armour = Game.PRNG.Next(2, 5);
         }
 
         public void EquipEffect(Actor actor)
@@ -84,12 +80,7 @@ namespace Pantheon
 
         public EvasionEnchant()
         {
-
-        }
-
-        public EvasionEnchant(int evasion)
-        {
-            Evasion = evasion;
+            Evasion = Game.PRNG.Next(2, 5);
         }
 
         public void EquipEffect(Actor actor)
@@ -100,6 +91,26 @@ namespace Pantheon
         public void UnequipEffect(Actor actor)
         {
             actor.Defenses.Evasion -= Evasion;
+        }
+    }
+
+    public sealed class SpellEnchant : Enchant, IOnEquipEnchant
+    {
+        public Spell Spell { get; private set; }
+
+        public SpellEnchant()
+        {
+            Spell = Database.GetSpell(SpellType.PatsonsMagicBullet);
+        }
+
+        public void EquipEffect(Actor actor)
+        {
+            actor.Spells.Add(Spell);
+        }
+
+        public void UnequipEffect(Actor actor)
+        {
+            actor.Spells.Remove(Spell);
         }
     }
 }
