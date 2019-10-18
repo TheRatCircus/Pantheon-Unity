@@ -3,7 +3,7 @@
 
 using Pantheon.Core;
 
-namespace Pantheon.Actors
+namespace Pantheon
 {
     /// <summary>
     /// Represents abstract information about an Idol.
@@ -18,7 +18,16 @@ namespace Pantheon.Actors
         public Aspect Aspect { get; set; }
 
         public bool HasAnAltar { get; set; } = false;
-        public Faction Religion { get; set; }
+        public Faction Religion
+        {
+            get
+            {
+                Game.instance.Religions.TryGetValue(this,
+                    out Faction religion);
+                return religion;
+            }
+        }
+        
 
         public override string ToString() => $"{RefName} ({Aspect})";
     }

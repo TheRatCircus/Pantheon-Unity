@@ -266,7 +266,6 @@ namespace Pantheon.Core
                 Faction religion = new Faction(displayName, refName,
                     FactionType.Religion, idol);
                 Religions.Add(idol, religion);
-                idol.Religion = religion;
             }
         }
 
