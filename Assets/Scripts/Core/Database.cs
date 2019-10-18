@@ -93,6 +93,9 @@ namespace Pantheon.Core
         [SerializeField] private RuleTile splatterTile = null;
         public static RuleTile SplatterTile => GetDatabase().splatterTile;
 
+        [SerializeField] private TextAsset relicNames = null;
+        public static TextAsset RelicNames => GetDatabase().relicNames;
+
         // Awake is called when the script instance is being loaded
         private void Awake() => InitDatabaseDicts();
 

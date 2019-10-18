@@ -299,6 +299,7 @@ namespace Pantheon.Debug
                     Invoke());
             }
 
+            WorldGen.Relic.NameRelic(relic);
             Game.GetPlayer().Cell.Items.Add(relic);
             Game.instance.activeLevel.RefreshFOV();
 

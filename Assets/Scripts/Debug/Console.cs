@@ -43,7 +43,8 @@ namespace Pantheon.Debug
                 { "where_am_i", new ConsoleCommand(WhereAmI) },
                 { "add_trait_points", new ConsoleCommand(AddTraitPoints) },
                 { "see_all", new ConsoleCommand(SeeAll) },
-                { "level_up", new ConsoleCommand(LevelUp) }
+                { "level_up", new ConsoleCommand(LevelUp) },
+                { "relic", new ConsoleCommand(Relic) }
             };
         }
 

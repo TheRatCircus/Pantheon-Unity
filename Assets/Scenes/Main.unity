@@ -1825,6 +1825,7 @@ MonoBehaviour:
   tossFXPrefab: {fileID: 5407183414458642120, guid: afaa1a7d98184d744886ffc72bd5164d,
     type: 3}
   splatterTile: {fileID: 11400000, guid: a5f02b6c047438c4d999411963a65070, type: 2}
+  relicNames: {fileID: 4900000, guid: 96a419ec2b918da4eace99ad95bc5537, type: 3}
 --- !u!1 &648055311
 GameObject:
   m_ObjectHideFlags: 0

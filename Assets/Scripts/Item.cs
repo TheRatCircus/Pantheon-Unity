@@ -13,7 +13,8 @@ namespace Pantheon
 {
     public sealed class Item
     {
-        public string DisplayName { get; }
+        public string DisplayName { get; set; }
+        public string BaseName { get; private set; }
         public Sprite Sprite { get; }
         
         private int weight;
@@ -63,7 +64,7 @@ namespace Pantheon
 
         public Item(ItemData itemData)
         {
-            DisplayName = itemData.DisplayName;
+            DisplayName = BaseName = itemData.DisplayName;
             Sprite = itemData.Sprite;
             MaxStack = itemData.MaxStack;
 
