@@ -32,6 +32,7 @@ namespace Pantheon.UI
         [SerializeField] private Image xpBar = null;
         [SerializeField] private WorldMap worldMap = null;
         [SerializeField] private GameObject traitMenu = null;
+        [SerializeField] private DescriptionMenu descMenu = null;
 
         // Modals
         public ItemModalList itemModalList;
@@ -205,6 +206,19 @@ namespace Pantheon.UI
                     player.NextAction = new WieldAction(player, item, parts);
                 });
             player.Input.ModalConfirmEvent += bodyPartModalList.Submit;
+        }
+
+        public void Describe<T>(T describable) where T : IDescribable
+        {
+            descMenu.gameObject.SetActive(true);
+            switch (describable)
+            {
+                case Item i:
+                    descMenu.DescribeItem(i);
+                    break;
+                default:
+                    throw new System.Exception("Class not describable.");
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Pantheon
 {
-    public sealed class Item
+    public sealed class Item : IDescribable
     {
         public string DisplayName { get; set; }
         public string BaseName { get; private set; }

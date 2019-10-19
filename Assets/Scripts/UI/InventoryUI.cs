@@ -18,6 +18,7 @@ namespace Pantheon.UI
         [SerializeField] private Player player = null;
         [SerializeField] private GameObject slotPrefab = null;
         [SerializeField] private Text itemNameText = null;
+        [SerializeField] private HUD hud = null;
 
         // The inventory slots the GUI holds
         [SerializeField] [ReadOnly] private List<InventorySlot> inventorySlots
@@ -33,8 +34,8 @@ namespace Pantheon.UI
                 InventorySlot newSlot = newSlotObj.GetComponent<InventorySlot>();
                 inventorySlots.Add(newSlot);
                 newSlot.OnHoverEvent += UpdateItemName;
-                newSlot.OnUseEvent += UseItem;
-                newSlot.OnDropEvent += DropItem;
+                newSlot.LeftClickEvent += UseItem;
+                newSlot.RightClickEvent += DescribeItem;
             }
             player.OnInventoryChangeEvent += UpdateInventory;
             player.OnInventoryToggleEvent += ToggleInventory;
@@ -66,5 +67,10 @@ namespace Pantheon.UI
         // Send item drop call to the player
         private void DropItem(Item item)
             => player.NextAction = new DropAction(player, item);
+
+        private void DescribeItem(Item item)
+        {
+            hud.Describe(item);
+        }
     }
 }

@@ -2,9 +2,8 @@
 // Jerome Martina
 
 /// <summary>
-/// Implemented by any entity with a description text.
+/// Implemented by any entity which can be examined in the description menu.
 /// </summary>
-public interface IDescriptor
+public interface IDescribable
 {
-    string GetDescription();
 }

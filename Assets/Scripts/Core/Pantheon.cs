@@ -2,7 +2,6 @@
 // Jerome Martina
 
 using System.Collections.Generic;
-using Pantheon.Actors;
 using Pantheon.Utils;
 using Pantheon.WorldGen;
 

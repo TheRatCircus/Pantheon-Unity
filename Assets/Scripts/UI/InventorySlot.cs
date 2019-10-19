@@ -15,8 +15,8 @@ namespace Pantheon.UI
 
         // Events
         public event Action<string> OnHoverEvent;
-        public event Action<Item> OnUseEvent;
-        public event Action<Item> OnDropEvent;
+        public event Action<Item> LeftClickEvent;
+        public event Action<Item> RightClickEvent;
 
         // Add item to slot on inventory UI update
         public void AddItem(Item item)
@@ -39,13 +39,13 @@ namespace Pantheon.UI
         public void UseItem()
         {
             if (item != null)
-                OnUseEvent?.Invoke(item);
+                LeftClickEvent?.Invoke(item);
         }
 
         public void DropItem()
         {
             if (item != null)
-                OnDropEvent?.Invoke(item);
+                RightClickEvent?.Invoke(item);
         }
 
         public void OnPointerEnter()

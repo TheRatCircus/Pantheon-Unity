@@ -52,6 +52,11 @@ namespace Pantheon
             actor.MaxHealth -= Health;
             actor.ChangeHealth(-Health, false);
         }
+
+        public override string ToString()
+        {
+            return $"{(Health > 0 ? "+" : "-")}{Health} health";
+        }
     }
 
     public sealed class ArmourEnchant : Enchant, IOnEquipEnchant
@@ -71,6 +76,11 @@ namespace Pantheon
         public void UnequipEffect(Actor actor)
         {
             actor.Defenses.Armour -= Armour;
+        }
+
+        public override string ToString()
+        {
+            return $"{(Armour > 0 ? "+" : "-")}{Armour} armour";
         }
     }
 
@@ -92,6 +102,11 @@ namespace Pantheon
         {
             actor.Defenses.Evasion -= Evasion;
         }
+
+        public override string ToString()
+        {
+            return $"{(Evasion > 0 ? "+" : "-")}{Evasion} evasion";
+        }
     }
 
     public sealed class SpellEnchant : Enchant, IOnEquipEnchant
@@ -111,6 +126,11 @@ namespace Pantheon
         public void UnequipEffect(Actor actor)
         {
             actor.Spells.Remove(Spell);
+        }
+
+        public override string ToString()
+        {
+            return $"Grants {Spell.DisplayName}";
         }
     }
 }
