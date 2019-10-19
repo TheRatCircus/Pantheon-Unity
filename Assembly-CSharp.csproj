@@ -91,7 +91,6 @@
     <Compile Include="Assets\Scripts\Actors\Trait.cs" />
     <Compile Include="Assets\Scripts\Actors\TraitEffects.cs" />
     <Compile Include="Assets\Scripts\Actors\Traits.cs" />
-    <Compile Include="Assets\Scripts\Algorithms.cs" />
     <Compile Include="Assets\Scripts\BaseData\AmmoData.cs" />
     <Compile Include="Assets\Scripts\BaseData\ArmourData.cs" />
     <Compile Include="Assets\Scripts\BaseData\BodyPartData.cs" />
@@ -162,10 +161,12 @@
     <Compile Include="Assets\Scripts\UI\TraitMenu.cs" />
     <Compile Include="Assets\Scripts\UI\TraitStar.cs" />
     <Compile Include="Assets\Scripts\UI\WorldMap.cs" />
+    <Compile Include="Assets\Scripts\Utils\Algorithms.cs" />
     <Compile Include="Assets\Scripts\Utils\Bresenhams.cs" />
     <Compile Include="Assets\Scripts\Utils\Colours.cs" />
     <Compile Include="Assets\Scripts\Utils\Helpers.cs" />
     <Compile Include="Assets\Scripts\Utils\ItemFactory.cs" />
+    <Compile Include="Assets\Scripts\Utils\Markov.cs" />
     <Compile Include="Assets\Scripts\Utils\RandomUtils.cs" />
     <Compile Include="Assets\Scripts\Utils\StatusFactory.cs" />
     <Compile Include="Assets\Scripts\Utils\Strings.cs" />
