@@ -179,7 +179,6 @@
     <Compile Include="Assets\Scripts\World\Zone.cs" />
     <Compile Include="Assets\Scripts\WorldGen\BinarySpacePartition.cs" />
     <Compile Include="Assets\Scripts\WorldGen\CellularAutomata.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\CharacterNames.cs" />
     <Compile Include="Assets\Scripts\WorldGen\Connect.cs" />
     <Compile Include="Assets\Scripts\WorldGen\Items.cs" />
     <Compile Include="Assets\Scripts\WorldGen\ItemWeights.cs" />

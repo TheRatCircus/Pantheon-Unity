@@ -22,7 +22,9 @@ namespace Pantheon.Core
         {
             for (int i = 0; i < Size; i++)
             {
-                Idol idol = new Idol { DisplayName = CharacterNames.Random() };
+                Idol idol = new Idol();
+                Markov m = new Markov();
+                idol.DisplayName = m.GetName();
                 idol.RefName = idol.DisplayName.ToLower();
 
                 if (RandomUtils.CoinFlip(true))

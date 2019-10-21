@@ -517,7 +517,6 @@ namespace Pantheon.Core
 
         public static void QuitGame()
         {
-            CharacterNames.ClearUsed();
             SceneManager.LoadScene("MainMenu");
         }
     }
