@@ -3,7 +3,6 @@
 
 using System.Collections.Generic;
 using Pantheon.Utils;
-using Pantheon.WorldGen;
 
 namespace Pantheon.Core
 {

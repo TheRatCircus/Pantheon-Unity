@@ -33,7 +33,7 @@ namespace Pantheon.Actions
 
         [SerializeField] private int minDamage = -1;
         [SerializeField] private int maxDamage = -1;
-        [SerializeField] private DamageType damageType;
+        [SerializeField] private DamageType damageType = DamageType.None;
         [SerializeField] private int accuracy = -1;
         [SerializeField] private bool pierces = false; // Pierces actors
 

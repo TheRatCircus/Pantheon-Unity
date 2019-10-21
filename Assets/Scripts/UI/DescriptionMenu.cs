@@ -8,9 +8,9 @@ namespace Pantheon.UI
 {
     public class DescriptionMenu : MonoBehaviour
     {
-        [SerializeField] private Image image;
-        [SerializeField] private Text titleText;
-        [SerializeField] private Text descriptionText;
+        [SerializeField] private Image image = null;
+        [SerializeField] private Text titleText = null;
+        [SerializeField] private Text descriptionText = null;
 
         public void Close()
         {

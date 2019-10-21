@@ -2,18 +2,19 @@
 // Jerome Martina
 
 using Pantheon.Components;
+using System;
 using UnityEngine;
 
 namespace Pantheon.Actors
 {
-    [System.Serializable]
+    [Serializable]
     public sealed class Defenses
     {
         [SerializeField] private int armour;
         [SerializeField] private int evasion;
 
         // Resists run from -1.0 to 1.0
-        [SerializeField] private float resistPhys; 
+        [SerializeField] private float resistPhys = 0.0f; 
         [SerializeField] private float resistHeat;
         [SerializeField] private float resistCold;
         [SerializeField] private float resistDisease;
@@ -34,12 +35,12 @@ namespace Pantheon.Actors
             }
         }
 
-        public event System.Action<Defenses> HUDDefenseChangeEvent;
+        public event Action<Defenses> HUDDefenseChangeEvent;
 
         /// <summary>
-        /// 
+        /// Pass damage through resistance before applying to an actor.
         /// </summary>
-        /// <param name="damage"></param>
+        /// <param name="damage">Incoming damage before resistances.</param>
         /// <param name="damageType"></param>
         /// <returns>Incoming damage after resistances.</returns>
         public int Resist(int damage, DamageType damageType)
@@ -53,7 +54,7 @@ namespace Pantheon.Actors
                     res = resistPhys;
                     break;
                 default:
-                    throw new System.Exception("No damage type given.");
+                    throw new Exception("No damage type given.");
             }
             res = 1.0f - res;
             return (int)(damage * res);

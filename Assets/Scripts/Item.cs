@@ -27,7 +27,7 @@ namespace Pantheon
 
         public int MaxStack { get; set; }
         public bool Stackable => MaxStack > 1;
-        private int quantity = 1;
+        //private int quantity;
         public Actor Owner { get; set; } = null;
         
         public int StrengthReq { get; }
