@@ -2410,6 +2410,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a68275dff8f442b429ac24096f29656a, type: 2}
   landmarkList:
   - {fileID: 11400000, guid: e7dee3f2ff6911b42854d49da3ec12c2, type: 2}
+  testList:
+  - {fileID: 11400000, guid: f2adb3aa355150b469f477952950197e, type: 2}
   genericNPC: {fileID: 1008646114880207100, guid: 29d9659028fc47e40ba160daa32f9551,
     type: 3}
   unknownTerrain: {fileID: 0}
