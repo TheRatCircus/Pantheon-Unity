@@ -1,6 +1,7 @@
 ﻿// MainMenu.cs
 // Jerome Martina
 
+using Pantheon.Utils;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
@@ -9,7 +10,7 @@ using UnityEngine.UI;
 
 namespace Pantheon.UI
 {
-    public class MainMenu : MonoBehaviour
+    public sealed class MainMenu : MonoBehaviour
     {
         [SerializeField] private GameObject saveOptionPrefab = null;
 
@@ -17,16 +18,10 @@ namespace Pantheon.UI
         [SerializeField] private GameObject loadMenu = null;
         [SerializeField] private Transform saveOptionsList = null;
 
-        // Skip main menu if in editor
-        private void Awake()
+        public void NewGame()
         {
-#if UNITY_EDITOR
-            //SceneManager.LoadScene("Main");
-#endif
+            SceneManager.LoadScene(Scenes.Intro, LoadSceneMode.Single);
         }
-
-        public void NewGame() => SceneManager.LoadScene("Intro",
-            LoadSceneMode.Single);
 
         public void OpenLoadMenu()
         {
@@ -62,14 +57,17 @@ namespace Pantheon.UI
 
         public System.Collections.IEnumerator LoadGame(Save save)
         {
-            AsyncOperation load = SceneManager.LoadSceneAsync("Main");
+            AsyncOperation load = SceneManager.LoadSceneAsync(Scenes.Game);
+
             while (!load.isDone)
-            {
                 yield return null;
-            }
-            Core.Game.StartGame();
-            Core.Game.LoadGame(save);
-            SceneManager.UnloadSceneAsync("MainMenu");
+
+            SceneManager.LoadSceneAsync(Scenes.Game, LoadSceneMode.Additive).
+                completed += (AsyncOperation op) =>
+                {
+                    Core.Game.LoadGame(save);
+                    SceneManager.UnloadSceneAsync(gameObject.scene);
+                };
         }
 
         public void Quit() =>

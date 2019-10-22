@@ -14,7 +14,7 @@ using UnityEngine.SceneManagement;
 namespace Pantheon.Core
 {
     /// <summary>
-    /// Central game controller. Turn scheduling and other core game behaviour.
+    /// Central game (not application) controller.
     /// </summary>
     public sealed class Game : MonoBehaviour
     {
@@ -32,12 +32,13 @@ namespace Pantheon.Core
         [SerializeField] private GameObject hud = null;
         [SerializeField] private GameObject worldGUI = null;
         [SerializeField] private GameObject eventSystem = null;
-        public Pantheon Pantheon { get; private set; }
+        // Don't serialize pantheon due to reliance on PRNG
+        [NonSerialized] private Pantheon pantheon = null;
 
         // Basic prefabs
         [SerializeField] private GameObject levelPrefab = null;
 
-        private List<Actor> queue;
+        private List<Actor> queue = new List<Actor>();
         private Actor currentActor;
         private bool currentActorRemoved;
 
@@ -88,60 +89,41 @@ namespace Pantheon.Core
         // Accessors
         public static Player GetPlayer(int i = 0) => instance.player1;
         public static System.Random PRNG => instance.prng;
+        public static Pantheon Pantheon
+        {
+            get => instance.pantheon;
+            private set => instance.pantheon = value;
+        }
 
         /// <summary>
         /// Awake is called when the script instance is being loaded.
         /// </summary>
         private void Awake()
         {
-            UnityEngine.Debug.Log("Game waking up...");
+            UnityEngine.Debug.Log("Waking game controller...");
             // Initialize singleton
             if (instance != null)
-            {
                 UnityEngine.Debug.LogWarning
                     ("Game singleton assigned in error");
-            }
             else
-            {
                 instance = this;
-            }
 
-            prng = new System.Random(UnityEngine.Random.Range(int.MinValue,
-                int.MaxValue));
-
-            foreach (GameObject go in SceneManager.GetActiveScene().
-                GetRootGameObjects())
-            {
+            // Guarantee that everything else is disabled first
+            foreach (GameObject go in SceneManager.GetSceneByName(
+                        Scenes.Game).GetRootGameObjects())
                 if (go != gameObject)
-                {
-                    // Guarantee that everything else is disabled first
                     go.SetActive(false);
-                }
-            }
-
-            StartCoroutine(LoadDebugScene());
-
-            //
         }
 
         private System.Collections.IEnumerator LoadDebugScene()
         {
             AsyncOperation debugLoad = SceneManager.LoadSceneAsync
-                ("Debug", LoadSceneMode.Additive);
+                (Scenes.Debug, LoadSceneMode.Additive);
 
             while (!debugLoad.isDone)
-            {
                 yield return null;
-            }
-            UnityEngine.Debug.Log("Debug scene loaded.");
-        }
 
-        /// <summary>
-        /// Start is called before the first frame update.
-        /// </summary>
-        private void Start()
-        {
-            player1.OnPlayerDeathEvent += Lock;
+            UnityEngine.Debug.Log("Debug scene loaded.");
         }
 
         /// <summary>
@@ -154,8 +136,15 @@ namespace Pantheon.Core
                     break;
         }
 
-        public void NewGame()
+        public void NewGame(string playerName)
         {
+            UnityEngine.Debug.Log("Starting a new game...");
+
+            player1.OnPlayerDeathEvent += Lock;
+
+            prng = new System.Random(UnityEngine.Random.Range(int.MinValue,
+                int.MaxValue));
+
             Pantheon = new Pantheon();
             InitializeFactions();
 
@@ -165,7 +154,6 @@ namespace Pantheon.Core
                         new SanctumBuilder(null, Vector2Int.zero));
 
             grid.SetActive(true);
-            queue = new List<Actor>();
 
             int overworldZ = 0;
             Layer overworld = new Layer(overworldZ);
@@ -183,17 +171,12 @@ namespace Pantheon.Core
             worldGUI.SetActive(true);
             eventSystem.SetActive(true);
 
-            //GameObject introObj = GameObject.FindGameObjectWithTag("Intro");
-            //Intro intro = introObj.GetComponent<Intro>();
-
-            //player1.ActorName = intro.PlayerName;
+            player1.ActorName = playerName;
             player1.Initialize();
             AddActor(player1);
 
-            //player1.AddItem(ItemFactory.NewWeapon(intro.StartingWeapon));
-
-            //introObj.GetComponentInChildren<Camera>().enabled = false;
-            //introObj.SetActive(false);
+            StartCoroutine(LoadDebugScene());
+            player1.AddItem(ItemFactory.NewWeapon(WeaponType.Hatchet));
 
             //save = new Save();
             //WriteToSave();
@@ -204,7 +187,7 @@ namespace Pantheon.Core
         {
             save.SaveName = player1.ActorName;
             save.Seed = seed;
-            save.Pantheon = Pantheon;
+            //save.Pantheon = Pantheon;
             //save.Queue = queue;
             //save.CurrentActor = currentActor;
             save.TurnProgress = turnProgress;
@@ -222,7 +205,7 @@ namespace Pantheon.Core
         private void ReadFromSave()
         {
             seed = save.Seed;
-            Pantheon = save.Pantheon;
+            //Pantheon = save.Pantheon;
             //queue = save.Queue;
             //currentActor = save.CurrentActor;
             turnProgress = save.TurnProgress;
@@ -239,8 +222,8 @@ namespace Pantheon.Core
 
         public void SaveAndQuit()
         {
-            WriteToSave();
-            QuitGame();
+            //WriteToSave();
+            QuitToTitle();
         }
 
         public static void LoadGame(Save save)
@@ -490,34 +473,9 @@ namespace Pantheon.Core
             }
         }
 
-        public static Game StartGame()
+        public static void QuitToTitle()
         {
-            Scene main = SceneManager.GetSceneByName("Main");
-            SceneManager.SetActiveScene(main);
-            GameObject[] gameObjects = main.
-                GetRootGameObjects();
-            GameObject gameController = null;
-            foreach (GameObject go in gameObjects)
-            {
-                if (go.tag == "GameController")
-                {
-                    gameController = go;
-                    break;
-                }
-            }
-
-            if (gameController == null)
-            {
-                throw new Exception("Game controller not found.");
-            }
-
-            gameController.SetActive(true);
-            return gameController.GetComponent<Game>();
-        }
-
-        public static void QuitGame()
-        {
-            SceneManager.LoadScene("MainMenu");
+            SceneManager.LoadScene(Scenes.MainMenu, LoadSceneMode.Single);
         }
     }
 }

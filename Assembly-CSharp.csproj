@@ -168,6 +168,7 @@
     <Compile Include="Assets\Scripts\Utils\ItemFactory.cs" />
     <Compile Include="Assets\Scripts\Utils\Markov.cs" />
     <Compile Include="Assets\Scripts\Utils\RandomUtils.cs" />
+    <Compile Include="Assets\Scripts\Utils\Scenes.cs" />
     <Compile Include="Assets\Scripts\Utils\StatusFactory.cs" />
     <Compile Include="Assets\Scripts\Utils\Strings.cs" />
     <Compile Include="Assets\Scripts\World\Cell.cs" />

@@ -369,6 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d867bca30dc8e784d884add1fdf17cc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioListener: {fileID: 1380913697}
   introText: {fileID: 970593576}
   nameInput: {fileID: 1504593563}
   inputField: {fileID: 1845967291}
@@ -431,7 +432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 2.087171
+  m_AspectRatio: 2.0769231
 --- !u!114 &420544337
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 ﻿// Intro.cs
 // Jerome Martina
 
+using Pantheon.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -17,10 +18,12 @@ namespace Pantheon
     /// <summary>
     /// Controller for intro screens.
     /// </summary>
-    public class Intro : MonoBehaviour
+    public sealed class Intro : MonoBehaviour
     {
         public IntroState IntroState { get; set; }
             = IntroState.IntroText;
+
+        [SerializeField] private AudioListener audioListener = null;
 
         [SerializeField] private GameObject introText = null;
 
@@ -37,7 +40,7 @@ namespace Pantheon
         private void Start()
         {
             //GameObject[] rootGameObjectsOfSpecificScene
-            //    = SceneManager.GetSceneByName("Main")
+            //    = SceneManager.GetSceneByName(Scenes.Main)
             //    .GetRootGameObjects();
 
             //foreach (GameObject go in rootGameObjectsOfSpecificScene)
@@ -91,23 +94,14 @@ namespace Pantheon
                     break;
             }
             backgroundSelect.SetActive(false);
-            StartCoroutine(StartGame());
-        }
+            audioListener.enabled = false;
 
-        private System.Collections.IEnumerator StartGame()
-        {
-            AsyncOperation mainLoad = SceneManager.LoadSceneAsync
-                ("Main", LoadSceneMode.Additive);
-
-            while (!mainLoad.isDone)
-            {
-                yield return null;
-            }
-            UnityEngine.Debug.Log("Main game scene loaded.");
-
-            Core.Game.StartGame();
-            Core.Game.instance.NewGame();
-            SceneManager.UnloadSceneAsync("Intro");
+            SceneManager.LoadSceneAsync(Scenes.Game, LoadSceneMode.Additive).
+                completed += (AsyncOperation op) =>
+                {
+                    Core.Game.instance.NewGame(PlayerName);
+                    SceneManager.UnloadSceneAsync(Scenes.Intro);
+                };
         }
     }
 }

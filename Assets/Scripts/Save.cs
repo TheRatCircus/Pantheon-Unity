@@ -14,7 +14,7 @@ namespace Pantheon
     {
         public string SaveName { get; set; }
         public int Seed { get; set; }
-        public Core.Pantheon Pantheon { get; set; }
+        //public Core.Pantheon Pantheon { get; set; }
         //public List<Actor> Queue { get; set; }
         //public Actor CurrentActor { get; set; }
         public int TurnProgress { get; set; }

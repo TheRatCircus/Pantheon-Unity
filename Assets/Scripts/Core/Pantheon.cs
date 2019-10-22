@@ -10,7 +10,7 @@ namespace Pantheon.Core
     /// Global storage and control of Idol data.
     /// </summary>
     [System.Serializable]
-    public class Pantheon
+    public sealed class Pantheon
     {
         public const int Size = 4;
 
@@ -19,6 +19,7 @@ namespace Pantheon.Core
 
         public Pantheon()
         {
+            UnityEngine.Debug.Log("Building pantheon...");
             for (int i = 0; i < Size; i++)
             {
                 Idol idol = new Idol();

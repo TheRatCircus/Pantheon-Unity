@@ -21,7 +21,7 @@ namespace Pantheon.Debug
 
         private List<string> logEntries = new List<string>();
 
-        Dictionary<string, ConsoleCommand> consoleCommands;
+        private Dictionary<string, ConsoleCommand> consoleCommands;
 
         private void Awake()
         {

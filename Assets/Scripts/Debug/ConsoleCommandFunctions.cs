@@ -138,7 +138,7 @@ namespace Pantheon.Debug
 
             string idolRef = args[0].ToLower();
 
-            if (!Game.instance.Pantheon.Idols.TryGetValue(idolRef,
+            if (!Game.Pantheon.Idols.TryGetValue(idolRef,
                 out Idol idol))
                 return "That idol was not found.";
 
@@ -163,7 +163,7 @@ namespace Pantheon.Debug
 
             string ret = "";
 
-            foreach (Idol idol in Game.instance.Pantheon.Idols.Values)
+            foreach (Idol idol in Game.Pantheon.Idols.Values)
                 ret += $"{idol} {Environment.NewLine}";
 
             return ret;
@@ -192,7 +192,7 @@ namespace Pantheon.Debug
             if (args.Length != 1)
                 return "Please pass only 1 argument.";
 
-            if (Game.instance.Pantheon.Idols.TryGetValue(args[0],
+            if (Game.Pantheon.Idols.TryGetValue(args[0],
                 out Idol idol))
                 return $"Idol {args[0]} does not exist.";
 

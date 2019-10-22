@@ -122,7 +122,7 @@ namespace Pantheon.WorldGen
 
         public static void PlaceGuaranteedAltar(Cell cell)
         {
-            foreach (Idol idol in Game.instance.Pantheon.Idols.Values)
+            foreach (Idol idol in Game.Pantheon.Idols.Values)
                 if (!idol.HasAnAltar)
                 {
                     cell.SetAltar(new Altar(idol, idol.Aspect.AltarFeature));
