@@ -91,18 +91,6 @@
     <Compile Include="Assets\Scripts\Actors\Trait.cs" />
     <Compile Include="Assets\Scripts\Actors\TraitEffects.cs" />
     <Compile Include="Assets\Scripts\Actors\Traits.cs" />
-    <Compile Include="Assets\Scripts\BaseData\AmmoData.cs" />
-    <Compile Include="Assets\Scripts\BaseData\ArmourData.cs" />
-    <Compile Include="Assets\Scripts\BaseData\BodyPartData.cs" />
-    <Compile Include="Assets\Scripts\BaseData\FeatureData.cs" />
-    <Compile Include="Assets\Scripts\BaseData\FlaskData.cs" />
-    <Compile Include="Assets\Scripts\BaseData\ItemData.cs" />
-    <Compile Include="Assets\Scripts\BaseData\NPCWrapper.cs" />
-    <Compile Include="Assets\Scripts\BaseData\ScrollData.cs" />
-    <Compile Include="Assets\Scripts\BaseData\Species.cs" />
-    <Compile Include="Assets\Scripts\BaseData\Spell.cs" />
-    <Compile Include="Assets\Scripts\BaseData\TerrainData.cs" />
-    <Compile Include="Assets\Scripts\BaseData\WeaponData.cs" />
     <Compile Include="Assets\Scripts\Components\AmmoWrapper.cs" />
     <Compile Include="Assets\Scripts\Components\Components.cs" />
     <Compile Include="Assets\Scripts\Components\ComponentWrapper.cs" />
@@ -112,6 +100,13 @@
     <Compile Include="Assets\Scripts\Components\HealActionWrapper.cs" />
     <Compile Include="Assets\Scripts\Components\LineProjActionWrapper.cs" />
     <Compile Include="Assets\Scripts\Components\RangedWrapper.cs" />
+    <Compile Include="Assets\Scripts\Content\AppendageData.cs" />
+    <Compile Include="Assets\Scripts\Content\FeatureData.cs" />
+    <Compile Include="Assets\Scripts\Content\ItemData.cs" />
+    <Compile Include="Assets\Scripts\Content\NPCWrapper.cs" />
+    <Compile Include="Assets\Scripts\Content\Species.cs" />
+    <Compile Include="Assets\Scripts\Content\Spell.cs" />
+    <Compile Include="Assets\Scripts\Content\TerrainData.cs" />
     <Compile Include="Assets\Scripts\Core\Aspect.cs" />
     <Compile Include="Assets\Scripts\Core\CellDrawer.cs" />
     <Compile Include="Assets\Scripts\Core\Database.cs" />
@@ -165,7 +160,6 @@
     <Compile Include="Assets\Scripts\Utils\Bresenhams.cs" />
     <Compile Include="Assets\Scripts\Utils\Colours.cs" />
     <Compile Include="Assets\Scripts\Utils\Helpers.cs" />
-    <Compile Include="Assets\Scripts\Utils\ItemFactory.cs" />
     <Compile Include="Assets\Scripts\Utils\Markov.cs" />
     <Compile Include="Assets\Scripts\Utils\RandomUtils.cs" />
     <Compile Include="Assets\Scripts\Utils\Scenes.cs" />
@@ -182,7 +176,6 @@
     <Compile Include="Assets\Scripts\WorldGen\CellularAutomata.cs" />
     <Compile Include="Assets\Scripts\WorldGen\Connect.cs" />
     <Compile Include="Assets\Scripts\WorldGen\Items.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\ItemWeights.cs" />
     <Compile Include="Assets\Scripts\WorldGen\Landmark.cs" />
     <Compile Include="Assets\Scripts\WorldGen\LayerBuild.cs" />
     <Compile Include="Assets\Scripts\WorldGen\Layout.cs" />
@@ -191,6 +184,7 @@
     <Compile Include="Assets\Scripts\WorldGen\NPCSpawner.cs" />
     <Compile Include="Assets\Scripts\WorldGen\RectGrid.cs" />
     <Compile Include="Assets\Scripts\WorldGen\Relic.cs" />
+    <Compile Include="Assets\Scripts\WorldGen\WeightTable.cs" />
     <Compile Include="Assets\Scripts\WorldGen\Zones.cs" />
     <Compile Include="Assets\Scripts\WorldGen\ZoneTheme.cs" />
     <None Include="Assets\ScriptCalculator\Readme.txt" />

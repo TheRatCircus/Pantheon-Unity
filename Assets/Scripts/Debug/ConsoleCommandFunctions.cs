@@ -43,28 +43,13 @@ namespace Pantheon.Debug
             if (args.Length != 1)
                 return "Please pass only 1 argument.";
 
-            if (Enum.TryParse(args[0], out WeaponType weaponType))
-            {
-                Game.GetPlayer().AddItem(ItemFactory.NewWeapon(weaponType));
-                return $"Giving {weaponType.ToString()}";
-            }
-            else if (Enum.TryParse(args[0], out FlaskType flaskType))
-            {
-                Game.GetPlayer().AddItem(ItemFactory.NewFlask(flaskType));
-                return $"Giving {flaskType.ToString()}";
-            }
-            else if (Enum.TryParse(args[0], out ScrollType scrollType))
-            {
-                Game.GetPlayer().AddItem(ItemFactory.NewScroll(scrollType));
-                return $"Giving {scrollType.ToString()}";
-            }
-            else if (Enum.TryParse(args[0], out AmmoType ammoType))
-            {
-                Game.GetPlayer().AddItem(ItemFactory.NewAmmo(ammoType));
-                return $"Giving {ammoType.ToString()}";
-            }
-            else
-                return $"Item of type {args[0]} could not be found";
+            if (!Game.instance.Database.ItemDict.ContainsKey(args[0]))
+                return "Item not found.";
+
+            ItemData itemData = Database.GetItem(args[0]);
+            Game.GetPlayer().AddItem(new Item(itemData));
+
+            return $"Giving {itemData.DisplayName}...";
         }
 
         public static string LearnSpell(string[] args)
@@ -271,26 +256,10 @@ namespace Pantheon.Debug
             if (args.Length != 1)
                 return "Please supply an item base type.";
 
-            ItemData itemData;
+            if (!Game.instance.Database.ItemDict.ContainsKey(args[0]))
+                return "Item not found.";
 
-            if (Enum.TryParse(args[0], out WeaponType weaponType))
-            {
-                itemData = Database.GetWeapon(weaponType);
-            }
-            else if (Enum.TryParse(args[0], out FlaskType flaskType))
-            {
-                itemData = Database.GetFlask(flaskType);
-            }
-            else if (Enum.TryParse(args[0], out ScrollType scrollType))
-            {
-                itemData = Database.GetScroll(scrollType);
-            }
-            else if (Enum.TryParse(args[0], out AmmoType ammoType))
-            {
-                itemData = Database.GetAmmo(ammoType);
-            }
-            else
-                return $"Item of type {args[0]} could not be found";
+            ItemData itemData = Database.GetItem(args[0]);
 
             Item relic = new Item(itemData);
             for (int i = 0; i < 7; i++)

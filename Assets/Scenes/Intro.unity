@@ -432,7 +432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 2.0769231
+  m_AspectRatio: 2.0666666
 --- !u!114 &420544337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -464,7 +464,7 @@ GameObject:
   - component: {fileID: 427335065}
   - component: {fileID: 427335064}
   m_Layer: 0
-  m_Name: BackgroundOption
+  m_Name: HatchetBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -561,10 +561,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 420544333}
         m_MethodName: SelectBackground
-        m_Mode: 3
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 11400000, guid: 4eb6ca40a1b113149b2cc240abe40420,
+            type: 2}
+          m_ObjectArgumentAssemblyTypeName: Pantheon.ItemData, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

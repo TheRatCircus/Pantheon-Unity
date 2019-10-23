@@ -194,7 +194,7 @@ namespace Pantheon.Actors
 
             this.species = species;
 
-            foreach (BodyPartData partData in species.Parts)
+            foreach (AppendageData partData in species.Parts)
                 body.Parts.Add(new BodyPart(partData));
         }
 
@@ -203,8 +203,8 @@ namespace Pantheon.Actors
             if (inventory.All.Count > 0)
                 throw new Exception("This actor is not empty.");
 
-            WeaponType weaponType = occ.Weapons.Random(true);
-            Item weapon = ItemFactory.NewWeapon(weaponType);
+            ItemData weaponData = occ.Gear.Random(true);
+            Item weapon = new Item(weaponData);
             inventory.AddItem(weapon);
             new WieldAction(this, weapon, body.GetPrehensiles().ToArray()).DoAction();
         }

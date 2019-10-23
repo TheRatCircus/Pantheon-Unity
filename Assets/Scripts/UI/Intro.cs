@@ -34,7 +34,7 @@ namespace Pantheon
         [SerializeField] private GameObject backgroundSelect = null;
 
         public string PlayerName { get; private set; }
-        public WeaponType StartingWeapon { get; private set; }
+        public ItemData StartingWeapon { get; private set; }
 
 #if UNITY_EDITOR
         private void Start()
@@ -85,21 +85,16 @@ namespace Pantheon
             }
         }
 
-        public void SelectBackground(int bg)
+        public void SelectBackground(ItemData item)
         {
-            switch (bg)
-            {
-                case 0: // Hatchet
-                    StartingWeapon = WeaponType.Hatchet;
-                    break;
-            }
+            StartingWeapon = item;
             backgroundSelect.SetActive(false);
             audioListener.enabled = false;
 
             SceneManager.LoadSceneAsync(Scenes.Game, LoadSceneMode.Additive).
                 completed += (AsyncOperation op) =>
                 {
-                    Core.Game.instance.NewGame(PlayerName);
+                    Core.Game.instance.NewGame(PlayerName, StartingWeapon);
                     SceneManager.UnloadSceneAsync(Scenes.Intro);
                 };
         }

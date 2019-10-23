@@ -136,7 +136,7 @@ namespace Pantheon.Core
                     break;
         }
 
-        public void NewGame(string playerName)
+        public void NewGame(string playerName, ItemData startGear)
         {
             UnityEngine.Debug.Log("Starting a new game...");
 
@@ -176,7 +176,7 @@ namespace Pantheon.Core
             AddActor(player1);
 
             StartCoroutine(LoadDebugScene());
-            player1.AddItem(ItemFactory.NewWeapon(WeaponType.Hatchet));
+            player1.AddItem(new Item(startGear));
 
             //save = new Save();
             //WriteToSave();

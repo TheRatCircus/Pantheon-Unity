@@ -10,7 +10,8 @@ namespace Pantheon.WorldGen
     /// <summary>
     /// A prefab of objects placed in the world at generation time.
     /// </summary>
-    [CreateAssetMenu(fileName = "New Landmark", menuName = "Landmark")]
+    [CreateAssetMenu(fileName = "New Landmark",
+        menuName = "Pantheon/Content/Landmark")]
     public sealed class Landmark : ScriptableObject
     {
         [SerializeField] private GameObject prefab = null;

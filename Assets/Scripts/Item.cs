@@ -62,6 +62,16 @@ namespace Pantheon
             return null;
         }
 
+        /// <summary>
+        /// Factory function to shorten calls.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static Item NewItem(string id)
+        {
+            return new Item(Database.GetItem(id));
+        }
+
         public Item(ItemData itemData)
         {
             DisplayName = BaseName = itemData.DisplayName;

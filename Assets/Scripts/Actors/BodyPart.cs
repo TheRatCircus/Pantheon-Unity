@@ -10,11 +10,11 @@ namespace Pantheon.Actors
     public class BodyPart
     {
         [SerializeField]
-        private BodyPartData partData;
+        private AppendageData partData;
 
         // Properties for getting partData
         public SpeciesRef Species { get => partData.Species; }
-        public BodyPartType Type { get => partData.Type; }
+        public AppendageType Type { get => partData.Type; }
         public string DisplayName { get => partData.DisplayName; }
         public Sprite Sprite { get => partData.Sprite; }
         public int MoveSpeed { get => partData.MoveTime; }
@@ -32,7 +32,7 @@ namespace Pantheon.Actors
         public bool CanMelee { get => melee.MaxDamage > 0; }
         public bool Dexterous { get => dexterous; set => dexterous = value; }
 
-        public BodyPart(BodyPartData partData)
+        public BodyPart(AppendageData partData)
         {
             this.partData = partData;
 

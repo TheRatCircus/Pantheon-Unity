@@ -1,14 +1,14 @@
 ﻿// Aspect.cs
 // Jerome Martina
 
+using Pantheon.Actors;
 using System.Collections.Generic;
 using UnityEngine;
-using Pantheon.Actors;
 
 namespace Pantheon.Core
 {
-    [CreateAssetMenu(fileName = "New Aspect", menuName = "BaseData/Aspect")]
-    public class Aspect : ScriptableObject
+    [CreateAssetMenu(fileName = "New Aspect", menuName = "Pantheon/Aspect")]
+    public sealed class Aspect : ScriptableObject
     {
         [SerializeField] private string displayName = "NO_ASPECT_NAME";
         [SerializeField] private string refName = "NO_ASPECT_REF";

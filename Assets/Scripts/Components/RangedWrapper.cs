@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Pantheon.Components
 {
     [CreateAssetMenu(fileName = "New Ranged Component",
-        menuName = "BaseData/Components/Ranged")]
+        menuName = "Pantheon/Components/Ranged")]
     public class RangedWrapper : ComponentWrapper
     {
         [SerializeField] private Ranged ranged = null;

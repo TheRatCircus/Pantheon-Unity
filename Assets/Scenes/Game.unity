@@ -2357,16 +2357,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b31fb9a69d8130044b78946568b8a117, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponList:
-  - {fileID: 11400000, guid: 179a0e11ef0272440af4cbed69018e73, type: 2}
-  - {fileID: 11400000, guid: f2adb3aa355150b469f477952950197e, type: 2}
-  - {fileID: 11400000, guid: f53cae12bef511145b20e4f54601a414, type: 2}
-  - {fileID: 11400000, guid: 737b12c58416caa4ba6341341f9bbfd9, type: 2}
-  - {fileID: 11400000, guid: 5231b9861d27b6b44a895d30f1e9226e, type: 2}
-  scrollList:
-  - {fileID: 11400000, guid: 5b7d939e3dd5a0b44a354dbfe8781bbf, type: 2}
-  flaskList:
-  - {fileID: 11400000, guid: fb5b223ecdd00c847b10085e9a00dd81, type: 2}
+  itemList:
+  - {fileID: 11400000, guid: 20c2a1395112cfa4d8aa7c122d8f3fcf, type: 2}
   terrainList:
   - {fileID: 11400000, guid: e25cedeeb2c79dd4cb8ca0568549e6ce, type: 2}
   - {fileID: 11400000, guid: 1a37e81f764ad184dad399d3ad1149c2, type: 2}
@@ -2390,8 +2382,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cb602d9ea36d8394f9cc36966cd70d38, type: 2}
   spells:
   - {fileID: 11400000, guid: 6d385a899d22ce9409b3f8854e50640b, type: 2}
-  ammoList:
-  - {fileID: 11400000, guid: c3d137edb1ca14e4e8e9a9494f3f1ad9, type: 2}
   aspects:
   - {fileID: 11400000, guid: fa4be487a4c6d3e40b6390437c4bb7dd, type: 2}
   - {fileID: 11400000, guid: 496c61c32e4d5144da037157ccf3b252, type: 2}
@@ -2406,8 +2396,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6a20ce45a1d00c444b157adc7e8cc75e, type: 2}
   occupations:
   - {fileID: 11400000, guid: ae3091b7056bc754f83c20fbcf2d1552, type: 2}
-  armours:
-  - {fileID: 11400000, guid: a68275dff8f442b429ac24096f29656a, type: 2}
   landmarkList:
   - {fileID: 11400000, guid: e7dee3f2ff6911b42854d49da3ec12c2, type: 2}
   genericNPC: {fileID: 1008646114880207100, guid: 29d9659028fc47e40ba160daa32f9551,

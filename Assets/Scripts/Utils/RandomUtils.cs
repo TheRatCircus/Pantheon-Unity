@@ -4,8 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using Pantheon.Core;
+using UnityEngine;
 
 namespace Pantheon.Utils
 {
@@ -14,21 +14,37 @@ namespace Pantheon.Utils
     /// </summary>
     public static class RandomUtils
     {
-        /// <summary>
-        /// An entry in a set from which something random can be picked by weight.
-        /// </summary>
-        /// <typeparam name="T">Value type.</typeparam>
-        public struct RandomPickEntry<T>
+        [Serializable]
+        public struct SerializableRandomPick
         {
-            public int Weight; // 0...512
-            public T Value;
+            [SerializeField] [Range(0, 512)] private int weight;
+            [SerializeField] private UnityEngine.Object obj;
 
-            /// <summary>
-            /// Constructor.
-            /// </summary>
-            /// <param name="weight">The relative weight used to pick this entry.</param>
-            /// <param name="value">The value picked.</param>
-            public RandomPickEntry(int weight, T value)
+            public int Weight => weight;
+            public UnityEngine.Object Obj => obj;
+
+            private SerializableRandomPick(int weight, UnityEngine.Object obj)
+            {
+                this.weight = weight;
+                this.obj = obj;
+            }
+
+            public static int WeightSum(SerializableRandomPick[] set)
+            {
+                int weightSum = 0;
+                foreach (SerializableRandomPick entry in set)
+                    weightSum += entry.weight;
+
+                return weightSum;
+            }
+        }
+
+        public struct GenericRandomPick<T>
+        {
+            public readonly int Weight; // 0...512
+            public readonly T Value;
+
+            public GenericRandomPick(int weight, T value)
             {
                 Weight = weight;
                 Value = value;
@@ -39,19 +55,19 @@ namespace Pantheon.Utils
             /// </summary>
             /// <param name="set">Set of type RandomPickEntry.</param>
             /// <returns>The sum of all the weights in set.</returns>
-            public static int WeightSum(RandomPickEntry<T>[] set)
+            public static int WeightSum(GenericRandomPick<T>[] set)
             {
                 int weightSum = 0;
-                foreach (RandomPickEntry<T> entry in set)
+                foreach (GenericRandomPick<T> entry in set)
                     weightSum += entry.Weight;
 
                 return weightSum;
             }
         }
 
-        public static T RandomPick<T>(this RandomPickEntry<T>[] set, bool seeded)
+        public static T RandomPick<T>(this GenericRandomPick<T>[] set, bool seeded)
         {
-            int weightSum = RandomPickEntry<T>.WeightSum(set);
+            int weightSum = GenericRandomPick<T>.WeightSum(set);
 
             int chance;
             if (seeded)
@@ -62,7 +78,7 @@ namespace Pantheon.Utils
             int runningSum = 0;
             int choice = 0;
 
-            foreach (RandomPickEntry<T> entry in set)
+            foreach (GenericRandomPick<T> entry in set)
             {
                 runningSum += entry.Weight;
 

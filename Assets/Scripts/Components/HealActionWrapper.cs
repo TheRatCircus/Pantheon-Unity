@@ -8,7 +8,7 @@ using Pantheon.Actions;
 namespace Pantheon
 {
     [CreateAssetMenu(fileName = "HealAction",
-        menuName = "ActionWrappers/HealAction")]
+        menuName = "Pantheon/Actions/HealAction")]
     public sealed class HealActionWrapper : ActionWrapper
     {
         [SerializeField] private HealAction HealAction = null;

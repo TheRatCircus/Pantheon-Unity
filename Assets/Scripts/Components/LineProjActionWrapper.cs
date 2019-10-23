@@ -8,7 +8,7 @@ using Pantheon.Actions;
 namespace Pantheon
 {
     [CreateAssetMenu(fileName = "LineProjAction",
-        menuName = "ActionWrappers/LineProjAction")]
+        menuName = "Pantheon/Actions/LineProjAction")]
     public sealed class LineProjActionWrapper : ActionWrapper
     {
         [SerializeField] private LineProjAction LineProjAction = null;

@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\CreateAssetBundles.cs" />
+    <Compile Include="Assets\Editor\Database.cs" />
     <Compile Include="Assets\Editor\EnumOrderDrawer.cs" />
     <Compile Include="Assets\Editor\OnPlayMode.cs" />
     <Compile Include="Assets\Editor\ReadOnlyDrawer.cs" />

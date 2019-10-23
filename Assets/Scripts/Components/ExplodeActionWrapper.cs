@@ -8,7 +8,7 @@ using Pantheon.Actions;
 namespace Pantheon
 {
     [CreateAssetMenu(fileName = "ExplodeAction",
-        menuName = "ActionWrappers/ExplodeAction")]
+        menuName = "Pantheon/Actions/ExplodeAction")]
     public sealed class ExplodeActionWrapper : ActionWrapper
     {
         [SerializeField] private ExplodeAction explodeAction = null;

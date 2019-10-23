@@ -58,13 +58,13 @@ namespace Pantheon.Utils
 
             switch (part.Type)
             {
-                case BodyPartType.Arm:
+                case AppendageType.Arm:
                     ret = PunchVerbs.Random(false).Get(isPlayer);
                     break;
-                case BodyPartType.Head:
+                case AppendageType.Head:
                     ret = BiteVerbs.Random(false).Get(isPlayer);
                     break;
-                case BodyPartType.Claw:
+                case AppendageType.Claw:
                     ret = ClawVerbs.Random(false).Get(isPlayer);
                     break;
                 default:

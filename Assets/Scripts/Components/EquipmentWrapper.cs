@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace Pantheon.Components
 {
-    [UnityEngine.CreateAssetMenu(fileName = "New Equipment Component",
-        menuName = "BaseData/Components/Equipment")]
+    [CreateAssetMenu(fileName = "New Equipment Component",
+        menuName = "Pantheon/Components/Equipment")]
     public class EquipmentWrapper : ComponentWrapper
     {
         [SerializeField] private Equipment equipment = null;

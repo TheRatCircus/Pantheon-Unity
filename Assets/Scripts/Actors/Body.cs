@@ -31,7 +31,7 @@ namespace Pantheon.Actors
         public int GetMoveTime()
         {
             IEnumerable<BodyPart> aQuery = from app in parts
-                                           where app.Type == BodyPartType.Legs
+                                           where app.Type == AppendageType.Legs
                                            select app;
             
             // If this actor has no walking appendages, it crawls at 200

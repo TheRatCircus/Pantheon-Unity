@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Pantheon.Components
 {
     [CreateAssetMenu(fileName = "New Ammo Component",
-        menuName = "BaseData/Components/Ammo")]
+        menuName = "Pantheon/Components/Ammo")]
     public class AmmoWrapper : ComponentWrapper
     {
         [SerializeField] private Ammo ammo = null;

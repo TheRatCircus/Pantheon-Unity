@@ -10,10 +10,10 @@ namespace Pantheon.WorldGen
     /// </summary>
     public static class NPCPops
     {
-        public static RandomPickEntry<NPCType>[] _startingValley =
+        public static GenericRandomPick<NPCType>[] _startingValley =
         {
-            new RandomPickEntry<NPCType>(256, NPCType.RagingGoose),
-            new RandomPickEntry<NPCType>(256, NPCType.Coyote)
+            new GenericRandomPick<NPCType>(256, NPCType.RagingGoose),
+            new GenericRandomPick<NPCType>(256, NPCType.Coyote)
         };
     }
 }
