@@ -14,7 +14,8 @@ namespace Pantheon.Actors
     [System.Serializable]
     public sealed class Body
     {
-        [SerializeField] private List<Appendage> parts;
+        [SerializeField] private List<Appendage> parts
+            = new List<Appendage>();
 
         public List<Appendage> Parts { get => parts; }
 
