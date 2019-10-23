@@ -80,6 +80,8 @@ namespace Pantheon.WorldGen
             AmbientSpawner spawner = new AmbientSpawner(level, ValleyEnemies,
                 ValleyEnemies, NPCPops._startingValley);
             spawner.Run();
+
+            Items.SpawnItems(level);
         }
 
         public static void GenerateCentralValley(Level level)
@@ -101,23 +103,22 @@ namespace Pantheon.WorldGen
                     if (Utils.RandomUtils.OneChanceIn(6, true))
                         c.SetFeature(FeatureID.Default); // Ruin fence
 
-                if (level.LayerPos == Vector2Int.zero)
-                {
-                    UnityEngine.Debug.Log("Spawning the player...");
-                    Game.instance.LoadLevel(level);
-                    level.SpawnPlayer();
-                }
-
-                AmbientSpawner spawner = new AmbientSpawner(level,
-                    ValleyEnemies, ValleyEnemies, NPCPops._startingValley);
-                spawner.Run();
-
-                return;
+                UnityEngine.Debug.Log("Spawning the player...");
+                Game.instance.LoadLevel(level);
+                level.SpawnPlayer();
+            }
+            else
+            {
+                Enclose(level, TerrainID.StoneWall);
+                Landmark.Build(LandmarkID.Keep, level,
+                    new Vector2Int(16, 16));
             }
 
-            Enclose(level, TerrainID.StoneWall);
-            Landmark.Build(LandmarkID.Keep, level, 
-                new Vector2Int(16, 16));
+            Items.SpawnItems(level);
+
+            AmbientSpawner spawner = new AmbientSpawner(level,
+                    ValleyEnemies, ValleyEnemies, NPCPops._startingValley);
+            spawner.Run();
         }
 
         public static void PlaceGuaranteedAltar(Cell cell)

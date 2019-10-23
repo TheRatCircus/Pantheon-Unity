@@ -184,7 +184,7 @@
     <Compile Include="Assets\Scripts\WorldGen\NPCSpawner.cs" />
     <Compile Include="Assets\Scripts\WorldGen\RectGrid.cs" />
     <Compile Include="Assets\Scripts\WorldGen\Relic.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\WeightTable.cs" />
+    <Compile Include="Assets\Scripts\WorldGen\Weights.cs" />
     <Compile Include="Assets\Scripts\WorldGen\Zones.cs" />
     <Compile Include="Assets\Scripts\WorldGen\ZoneTheme.cs" />
     <None Include="Assets\ScriptCalculator\Readme.txt" />

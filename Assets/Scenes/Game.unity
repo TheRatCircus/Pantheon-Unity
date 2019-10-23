@@ -2360,6 +2360,7 @@ MonoBehaviour:
   itemList:
   - {fileID: 11400000, guid: 20c2a1395112cfa4d8aa7c122d8f3fcf, type: 2}
   - {fileID: 11400000, guid: 4eb6ca40a1b113149b2cc240abe40420, type: 2}
+  - {fileID: 11400000, guid: 2f426e25715acc648a1f81e3b2420f7d, type: 2}
   terrainList:
   - {fileID: 11400000, guid: 84549a9c33ea36f4facb96d7d9f5a6f8, type: 2}
   - {fileID: 11400000, guid: b7febc8b7e6e34243bd5aee9a3396aed, type: 2}
@@ -2402,7 +2403,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e7dee3f2ff6911b42854d49da3ec12c2, type: 2}
   genericNPC: {fileID: 1008646114880207100, guid: 29d9659028fc47e40ba160daa32f9551,
     type: 3}
-  unknownTerrain: {fileID: 0}
   lineTargetOverlay: {fileID: 21300000, guid: a5ea99f1f7b062b4d809ff0899851c17, type: 3}
   tossFXPrefab: {fileID: 5407183414458642120, guid: afaa1a7d98184d744886ffc72bd5164d,
     type: 3}
@@ -4430,7 +4430,7 @@ MonoBehaviour:
   traitMenu: {fileID: 326346049}
   descMenu: {fileID: 180283656}
   itemModalList: {fileID: 883801131}
-  bodyPartModalList: {fileID: 383188873}
+  appendageModalList: {fileID: 0}
   spellModalList: {fileID: 1699517180}
 --- !u!114 &1299990572
 MonoBehaviour:
@@ -6582,7 +6582,7 @@ MonoBehaviour:
   level: {fileID: 0}
   cell:
     position: {x: 0, y: 0}
-    terrainData: {fileID: 0}
+    terrain: {fileID: 0}
     blocked: 0
     opaque: 0
     visible: 0
@@ -6598,52 +6598,7 @@ MonoBehaviour:
   energy: 0
   xpValue: -1
   body:
-    parts:
-    - partData: {fileID: 11400000, guid: b45b693eac9d9894aa96e7cf57719198, type: 2}
-      dexterous: 0
-      strength: 0
-      melee:
-        minDamage: 0
-        maxDamage: 0
-        accuracy: 0
-        attackTime: 0
-        damageType: 0
-    - partData: {fileID: 11400000, guid: 7a61efd1c0afc55448d03782579e4ac0, type: 2}
-      dexterous: 1
-      strength: 5
-      melee:
-        minDamage: 0
-        maxDamage: 0
-        accuracy: 0
-        attackTime: 0
-        damageType: 0
-    - partData: {fileID: 11400000, guid: 7a61efd1c0afc55448d03782579e4ac0, type: 2}
-      dexterous: 0
-      strength: 5
-      melee:
-        minDamage: 0
-        maxDamage: 0
-        accuracy: 0
-        attackTime: 0
-        damageType: 0
-    - partData: {fileID: 11400000, guid: 1fc1b38fe6493b044ac0e2cedec965b3, type: 2}
-      dexterous: 0
-      strength: 5
-      melee:
-        minDamage: 0
-        maxDamage: 0
-        accuracy: 0
-        attackTime: 0
-        damageType: 0
-    - partData: {fileID: 11400000, guid: 1fc1b38fe6493b044ac0e2cedec965b3, type: 2}
-      dexterous: 0
-      strength: 5
-      melee:
-        minDamage: 0
-        maxDamage: 0
-        accuracy: 0
-        attackTime: 0
-        damageType: 0
+    parts: []
   defenses:
     armour: 1
     evasion: 1
@@ -6656,7 +6611,7 @@ MonoBehaviour:
   spells: []
   species: {fileID: 11400000, guid: 8cd1f5dbcccda61478c053389eb62ccd, type: 2}
   corpseSprite: {fileID: 21300000, guid: 0d047209e32634c4cb6ff78ed5fe9767, type: 3}
-  input: {fileID: 0}
+  input: {fileID: 277744510518784715}
   inventorySize: 40
   fovRadius: 15
   visibleCells: []
@@ -6679,7 +6634,7 @@ MonoBehaviour:
   crosshair: {fileID: 599566651}
   targetCell:
     position: {x: 0, y: 0}
-    terrainData: {fileID: 0}
+    terrain: {fileID: 0}
     blocked: 0
     opaque: 0
     visible: 0

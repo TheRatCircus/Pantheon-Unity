@@ -46,6 +46,10 @@ namespace Pantheon.Utils
 
             public GenericRandomPick(int weight, T value)
             {
+                if (weight < 0 || weight > 512)
+                    throw new ArgumentException(
+                        "Constrain weight between 0 and 512.");
+
                 Weight = weight;
                 Value = value;
             }

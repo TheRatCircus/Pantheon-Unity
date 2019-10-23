@@ -59,6 +59,15 @@ namespace Pantheon
         #endregion
     }
 
+    public enum ItemCategory
+    {
+        Weapon,
+        Ammo,
+        Wearable,
+        Consumable,
+        Misc
+    }
+
     public enum ItemID
     {
         Default,

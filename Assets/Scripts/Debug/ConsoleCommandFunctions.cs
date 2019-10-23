@@ -262,13 +262,8 @@ namespace Pantheon.Debug
             ItemDef item = Database.GetItem(id);
 
             Item relic = new Item(item);
-            for (int i = 0; i < 7; i++)
-            {
-                relic.Enchants.Add(Enchant._enchantCallbacks.Random(true).
-                    Invoke());
-            }
-
-            WorldGen.Relic.NameRelic(relic);
+            Enchant.EnchantItem(relic, true);
+            
             Game.GetPlayer().Cell.Items.Add(relic);
             Game.instance.activeLevel.RefreshFOV();
 

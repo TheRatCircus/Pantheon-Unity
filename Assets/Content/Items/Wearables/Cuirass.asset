@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 026a0276692eae3459c57ba21cd6656d, type: 3}
+  m_Name: Cuirass
+  m_EditorClassIdentifier: 
+  displayName: cuirass
+  id: 7
+  maxStack: 1
+  sprite: {fileID: 21300000, guid: f0a156903b21fd14a97a32bce119669d, type: 3}
+  onUse: {fileID: 0}
+  onUseString: NO_USE_STRING
+  destroyedOnToss: 0
+  infiniteThrow: 0
+  onThrow: {fileID: 0}
+  strengthReq: 10
+  maxWieldParts: 4
+  melee:
+    minDamage: 2
+    maxDamage: 4
+    accuracy: 60
+    attackTime: 120
+    damageType: 3
+  components:
+  - {fileID: 11400000, guid: 4bc15627fa5be0542bf06b299cfd4d12, type: 2}
+  - {fileID: 11400000, guid: a655c8b531ecb564c8df3057fe16cbc2, type: 2}
