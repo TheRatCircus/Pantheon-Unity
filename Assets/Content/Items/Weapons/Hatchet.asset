@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 026a0276692eae3459c57ba21cd6656d, type: 3}
-  m_Name: Item_Hatchet
+  m_Name: Hatchet
   m_EditorClassIdentifier: 
   displayName: hatchet
   id: 2

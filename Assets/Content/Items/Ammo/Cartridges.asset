@@ -10,23 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 026a0276692eae3459c57ba21cd6656d, type: 3}
-  m_Name: Laudanum
+  m_Name: Cartridges
   m_EditorClassIdentifier: 
-  displayName: laudanum
-  id: 5
+  displayName: cartridges
+  id: 6
   maxStack: 1
-  sprite: {fileID: 21300000, guid: 5cdbeba5f45d3334ea9d0b5e4633b68c, type: 3}
-  onUse: {fileID: 11400000, guid: a29a50cf79579774da3886b92d6ddc5a, type: 2}
+  sprite: {fileID: 21300000, guid: 0700bc0dbea42a247b5ae7d4dc58180d, type: 3}
+  onUse: {fileID: 0}
   onUseString: NO_USE_STRING
-  destroyedOnToss: 1
+  destroyedOnToss: 0
   infiniteThrow: 0
   onThrow: {fileID: 0}
-  strengthReq: -1
-  maxWieldParts: -1
+  strengthReq: 2
+  maxWieldParts: 1
   melee:
-    minDamage: 2
-    maxDamage: 3
+    minDamage: 1
+    maxDamage: 1
     accuracy: 70
     attackTime: 100
     damageType: 3
-  components: []
+  components:
+  - {fileID: 11400000, guid: 93045fee2c400a44ea7b0b2c8d603658, type: 2}

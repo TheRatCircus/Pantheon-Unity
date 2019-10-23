@@ -68,8 +68,7 @@ namespace Pantheon
                     item.Enchants.Add(enchant);
                     points -= buy.Cost;
                 }
-                else
-                    buys.RemoveAt(0);
+                buys.RemoveAt(0);
             }
 
             if (relic)
@@ -102,8 +101,7 @@ namespace Pantheon
                     item.Enchants.Add(enchant);
                     points -= buy.Cost;
                 }
-                else
-                    buys.RemoveAt(0);
+                buys.RemoveAt(0);
             }
 
             if (relic)

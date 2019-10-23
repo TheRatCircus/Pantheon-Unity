@@ -51,7 +51,8 @@ namespace Pantheon.WorldGen
                 if (category == ItemCategory.Weapon || 
                     category == ItemCategory.Wearable)
                 {
-                    Enchant.EnchantItem(item);
+                    if (Core.Game.PRNG.Next(4) == 3)
+                        Enchant.EnchantItem(item);
                 }
 
                 level.RandomFloor().Items.Add(item);
