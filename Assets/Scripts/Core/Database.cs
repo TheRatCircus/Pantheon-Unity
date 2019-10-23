@@ -18,55 +18,66 @@ namespace Pantheon.Core
     {
         private static Database GetDatabase() => Game.instance.Database;
 
-        // Database lists
         [SerializeField]
-        private List<ItemData> itemList =
-            new List<ItemData>();
-        public List<ItemData> ItemList => itemList;
+        private List<ItemDef> itemList =
+            new List<ItemDef>();
+        [SerializeField]
+        private List<TerrainDef> terrainList =
+            new List<TerrainDef>();
+        [SerializeField]
+        private List<NPCWrapper> npcList =
+            new List<NPCWrapper>();
+        [SerializeField]
+        private List<FeatureDef> featureList =
+            new List<FeatureDef>();
+        [SerializeField]
+        private List<Spell> spellList =
+            new List<Spell>();
+        [SerializeField]
+        private List<Aspect> aspectList =
+            new List<Aspect>();
+        [SerializeField]
+        private List<Species> speciesList =
+            new List<Species>();
+        [SerializeField]
+        private List<Occupation> occupationList =
+            new List<Occupation>();
+        [SerializeField]
+        private List<Landmark> landmarkList =
+            new List<Landmark>();
 
-        [SerializeField] private List<TerrainData> terrainList
-            = new List<TerrainData>();
-        [SerializeField] private List<NPCWrapper> NPCList
-            = new List<NPCWrapper>();
-        [SerializeField] private List<FeatureData> features
-            = new List<FeatureData>();
-        [SerializeField] private List<Spell> spells
-            = new List<Spell>();
-        [SerializeField] private List<Aspect> aspects
-            = new List<Aspect>();
-        [SerializeField] private List<Species> species
-            = new List<Species>();
-        [SerializeField] private List<Occupation> occupations
-            = new List<Occupation>();
-        [SerializeField] private List<Landmark> landmarkList
-            = new List<Landmark>();
+        public List<ItemDef> ItemList => itemList;
+        public List<TerrainDef> TerrainList => terrainList;
+        public List<NPCWrapper> NPCList => npcList;
+        public List<FeatureDef> FeatureList => featureList;
+        public List<Spell> SpellList => spellList;
+        public List<Aspect> AspectList => aspectList;
+        public List<Species> SpeciesList => speciesList;
+        public List<Occupation> OccupationList => occupationList; 
+        public List<Landmark> LandmarkList => landmarkList;
 
         // Dictionaries for lookup by enum
-        public Dictionary<string, ItemData> ItemDict { get; private set; }
-        public Dictionary<TerrainType, TerrainData> TerrainDict { get; }
-            = new Dictionary<TerrainType, TerrainData>();
-        public Dictionary<NPCType, NPCWrapper> NPCDict { get; }
-            = new Dictionary<NPCType, NPCWrapper>();
-        public Dictionary<FeatureType, FeatureData> FeatureDict { get; }
-            = new Dictionary<FeatureType, FeatureData>();
-        public Dictionary<SpellType, Spell> SpellDict { get; }
-            = new Dictionary<SpellType, Spell>();
-        public Dictionary<SpeciesRef, Species> SpeciesDict { get; }
-            = new Dictionary<SpeciesRef, Species>();
-        public Dictionary<OccupationRef, Occupation> OccupationDict { get; }
-            = new Dictionary<OccupationRef, Occupation>();
-        public Dictionary<LandmarkRef, Landmark> LandmarkDict { get; }
-            = new Dictionary<LandmarkRef, Landmark>();
-
-        // Miscellaneous
-        public static List<Aspect> AspectList { get => GetDatabase().aspects; }
+        public Dictionary<ItemID, ItemDef> ItemDict
+        { get; private set; } = new Dictionary<ItemID, ItemDef>();
+        public Dictionary<TerrainID, TerrainDef> TerrainDict
+        { get; private set; } = new Dictionary<TerrainID, TerrainDef>();
+        public Dictionary<NPCID, NPCWrapper> NPCDict
+        { get; private set; } = new Dictionary<NPCID, NPCWrapper>();
+        public Dictionary<FeatureID, FeatureDef> FeatureDict
+        { get; private set; } = new Dictionary<FeatureID, FeatureDef>();
+        public Dictionary<SpellID, Spell> SpellDict
+        { get; private set; } = new Dictionary<SpellID, Spell>();
+        public Dictionary<SpeciesID, Species> SpeciesDict
+        { get; private set; } = new Dictionary<SpeciesID, Species>();
+        public Dictionary<OccupationID, Occupation> OccupationDict
+        { get; private set; } = new Dictionary<OccupationID, Occupation>();
+        public Dictionary<LandmarkID, Landmark> LandmarkDict
+        { get; private set; } = new Dictionary<LandmarkID, Landmark>();
+        public Dictionary<AspectID, Aspect> AspectDict
+        { get; private set; } = new Dictionary<AspectID, Aspect>();
 
         [SerializeField] private GameObject genericNPC = null;
         public static GameObject GenericNPC => GetDatabase().genericNPC;
-
-        [SerializeField] private Tile unknownTerrain = null;
-        public static Tile UnknownTerrain
-            => GetDatabase().unknownTerrain;
 
         [SerializeField] private Sprite lineTargetOverlay = null;
         public static Sprite LineTargetOverlay
@@ -81,119 +92,125 @@ namespace Pantheon.Core
         [SerializeField] private TextAsset relicNames = null;
         public static TextAsset RelicNames => GetDatabase().relicNames;
 
-        // Awake is called when the script instance is being loaded
-        private void Awake() => InitDatabaseDicts();
-
-        /// <summary>
-        /// Initialize each of the database's dictionaries.
-        /// </summary>
-        private void InitDatabaseDicts()
+        private void Awake()
         {
-            ItemDict = new Dictionary<string, ItemData>(itemList.Count);
+            ItemDict = new Dictionary<ItemID, ItemDef>(ItemList.Count);
+            for (int i = 0; i < ItemList.Count; i++)
+                ItemDict.Add(ItemList[i].ID, ItemList[i]);
 
-            for (int i = 0; i < itemList.Count; i++)
-            {
-                if (itemList[i].ID == "NO_REF")
-                    throw new Exception($"{itemList[i].name} has no ID.");
-                ItemDict.Add(itemList[i].ID, itemList[i]);
-            }
-            for (int i = 0; i < terrainList.Count; i++)
-                TerrainDict.Add(terrainList[i].TerrainType, terrainList[i]);
+            TerrainDict = new Dictionary<TerrainID, TerrainDef>(TerrainList.Count);
+            for (int i = 0; i < TerrainList.Count; i++)
+                TerrainDict.Add(TerrainList[i].ID, TerrainList[i]);
+
+            NPCDict = new Dictionary<NPCID, NPCWrapper>(NPCList.Count);
             for (int i = 0; i < NPCList.Count; i++)
-                NPCDict.Add(NPCList[i].Type, NPCList[i]);
-            for (int i = 0; i < features.Count; i++)
-                FeatureDict.Add(features[i].Type, features[i]);
-            for (int i = 0; i < spells.Count; i++)
-                SpellDict.Add(spells[i].Type, spells[i]);
-            for (int i = 0; i < species.Count; i++)
-                SpeciesDict.Add(species[i].Reference, species[i]);
-            for (int i = 0; i < occupations.Count; i++)
-                OccupationDict.Add(occupations[i].Reference, occupations[i]);
-            for (int i = 0; i < landmarkList.Count; i++)
-                LandmarkDict.Add(landmarkList[i].Reference, landmarkList[i]);
+                NPCDict.Add(NPCList[i].ID, NPCList[i]);
+
+            FeatureDict = new Dictionary<FeatureID, FeatureDef>(FeatureList.Count);
+            for (int i = 0; i < FeatureList.Count; i++)
+                FeatureDict.Add(FeatureList[i].ID, FeatureList[i]);
+
+            SpellDict = new Dictionary<SpellID, Spell>(SpellList.Count);
+            for (int i = 0; i < SpellList.Count; i++)
+                SpellDict.Add(SpellList[i].ID, SpellList[i]);
+
+            AspectDict = new Dictionary<AspectID, Aspect>(AspectList.Count);
+            for (int i = 0; i < AspectList.Count; i++)
+                AspectDict.Add(AspectList[i].ID, AspectList[i]);
+
+            SpeciesDict = new Dictionary<SpeciesID, Species>(SpeciesList.Count);
+            for (int i = 0; i < SpeciesList.Count; i++)
+                SpeciesDict.Add(SpeciesList[i].ID, SpeciesList[i]);
+
+            OccupationDict = new Dictionary<OccupationID, Occupation>(OccupationList.Count);
+            for (int i = 0; i < OccupationList.Count; i++)
+                OccupationDict.Add(OccupationList[i].ID, OccupationList[i]);
+
+            LandmarkDict = new Dictionary<LandmarkID, Landmark>(LandmarkList.Count);
+            for (int i = 0; i < LandmarkList.Count; i++)
+                LandmarkDict.Add(LandmarkList[i].ID, LandmarkList[i]);
         }
 
         #region Accessors
 
-        public static ItemData GetItem(string itemID)
+        public static ItemDef GetItem(ItemID id)
         {
-            if (!GetDatabase().ItemDict.TryGetValue(itemID, out ItemData ret))
+            if (!GetDatabase().ItemDict.TryGetValue(id, out ItemDef ret))
                 throw new ArgumentException(
-                    $"Failed to get item: {itemID}");
+                    $"Failed to get item: {id}");
 
             return ret;
         }
 
-        public static TerrainData GetTerrain(TerrainType terrainType)
+        public static TerrainDef GetTerrain(TerrainID id)
         {
-            if (!GetDatabase().TerrainDict.TryGetValue(terrainType,
-                out TerrainData ret))
-                throw new ArgumentException($"Failed to get terrain data: " +
-                    $"{terrainType}.");
+            if (!GetDatabase().TerrainDict.TryGetValue(id,
+                out TerrainDef ret))
+                throw new ArgumentException(
+                    $"Failed to get terrain: {id}");
 
             return ret;
         }
 
-        public static NPCWrapper GetNPC(NPCType npcType)
+        public static NPCWrapper GetNPC(NPCID id)
         {
-            if (!GetDatabase().NPCDict.TryGetValue(npcType,
+            if (!GetDatabase().NPCDict.TryGetValue(id,
                 out NPCWrapper ret))
-                throw new ArgumentException("Failed to get specified NPC.");
+                throw new ArgumentException($"Failed to get NPC: {id}");
 
             return ret;
         }
 
-        public static FeatureData GetFeature(FeatureType featureType)
+        public static FeatureDef GetFeature(FeatureID id)
         {
-            if (!GetDatabase().FeatureDict.TryGetValue(featureType,
-                out FeatureData ret))
+            if (!GetDatabase().FeatureDict.TryGetValue(id,
+                out FeatureDef ret))
                 throw new ArgumentException
-                    ("Failed to get specified feature.");
+                    ($"Failed to get feature: {id}");
 
             return ret;
         }
 
-        public static Spell GetSpell(SpellType spellType)
+        public static Spell GetSpell(SpellID id)
         {
-            if (!GetDatabase().SpellDict.TryGetValue(spellType, out Spell ret))
-                throw new ArgumentException("Failed to get specified spell.");
+            if (!GetDatabase().SpellDict.TryGetValue(id, out Spell ret))
+                throw new ArgumentException($"Failed to get spell: {id}");
 
             return ret;
         }
 
-        public static Occupation GetOccupation(OccupationRef occRef)
+        public static Occupation GetOccupation(OccupationID id)
         {
-            if (!GetDatabase().OccupationDict.TryGetValue(occRef,
+            if (!GetDatabase().OccupationDict.TryGetValue(id,
                 out Occupation ret))
-                throw new ArgumentException("Failed to get specified occupation.");
+                throw new ArgumentException($"Failed to get occupation: {id}");
 
             return ret;
         }
 
-        public static Species GetSpecies(SpeciesRef speciesRef)
+        public static Species GetSpecies(SpeciesID id)
         {
-            if (!GetDatabase().SpeciesDict.TryGetValue(speciesRef,
+            if (!GetDatabase().SpeciesDict.TryGetValue(id,
                 out Species ret))
-                throw new ArgumentException
-                    ($"Failed to get species {speciesRef}.");
+                throw new ArgumentException(
+                    $"Failed to get species {id}");
 
             return ret;
         }
 
-        public static Landmark GetLandmark(LandmarkRef landmarkRef)
+        public static Landmark GetLandmark(LandmarkID id)
         {
-            if (!GetDatabase().LandmarkDict.TryGetValue(landmarkRef,
+            if (!GetDatabase().LandmarkDict.TryGetValue(id,
                 out Landmark ret))
-                throw new ArgumentException($"Failed to get landmark data" +
-                    $" {landmarkRef}.");
+                throw new ArgumentException(
+                    $"Failed to get landmark: {id}");
 
             return ret;
         }
 
         public static Aspect RandomAspect()
         {
-            Database db = GetDatabase();
-            return db.aspects.Random(true);
+            return GetDatabase().AspectDict.Random(true);
         }
 
         #endregion

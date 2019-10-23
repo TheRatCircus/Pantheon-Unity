@@ -15,12 +15,12 @@ namespace Pantheon.WorldGen
     public sealed class Landmark : ScriptableObject
     {
         [SerializeField] private GameObject prefab = null;
-        [SerializeField] private LandmarkRef reference = LandmarkRef.None;
+        [SerializeField] private LandmarkID id = LandmarkID.Default;
         private Tilemap tilemap = null;
-        [SerializeField] private List<TerrainType> terrain
-            = new List<TerrainType>();
+        [SerializeField] private List<TerrainID> terrain
+            = new List<TerrainID>();
 
-        public LandmarkRef Reference => reference;
+        public LandmarkID ID => id;
         public Vector2Int Size => (Vector2Int)tilemap.size;
 
         public void Initialize()
@@ -29,13 +29,13 @@ namespace Pantheon.WorldGen
             tilemap.CompressBounds();
         }
 
-        public TerrainType GetTerrain(int x, int y)
+        public TerrainID GetTerrain(int x, int y)
         {
             TileBase marker = tilemap.GetTile
                 ((Vector3Int)new Vector2Int(x, y));
 
             if (marker == null)
-                return TerrainType.None;
+                return TerrainID.Default;
 
             int markerIndex = int.Parse(marker.name.Split('_')[1]);
             return terrain[markerIndex];
@@ -46,7 +46,7 @@ namespace Pantheon.WorldGen
         /// </summary>
         /// <param name="level"></param>
         /// <param name="position"></param>
-        public static bool Build(LandmarkRef reference,
+        public static bool Build(LandmarkID reference,
             World.Level level, Vector2Int position)
         {
             Landmark landmark = Core.Database.GetLandmark(reference);
@@ -74,9 +74,9 @@ namespace Pantheon.WorldGen
         }
     }
 
-    public enum LandmarkRef
+    public enum LandmarkID
     {
-        None,
+        Default,
         Keep
     }
 }

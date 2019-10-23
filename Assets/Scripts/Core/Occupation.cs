@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Pantheon.Actors
+namespace Pantheon
 {
     /// <summary>
     /// Represents a sentient NPC's role in its organization.
@@ -13,21 +13,21 @@ namespace Pantheon.Actors
         menuName = "Pantheon/Content/Occupation")]
     public class Occupation : ScriptableObject
     {
-        [SerializeField] private string displayName = "NO_NAME";
-        [SerializeField] private OccupationRef reference = OccupationRef.None;
-        [SerializeField] private List<ItemData> gear = null;
+        [SerializeField] private string displayName = "DEFAULT_OCC_NAME";
+        [SerializeField] private OccupationID id = OccupationID.Default;
+        [SerializeField] private List<ItemDef> gear = null;
         [SerializeField] private List<Spell> spells;
 
         // Properties
         public string DisplayName { get => displayName; }
-        public OccupationRef Reference { get => reference; }
-        public List<ItemData> Gear { get => gear; }
+        public OccupationID ID { get => id; }
+        public List<ItemDef> Gear { get => gear; }
         public List<Spell> Spells { get => spells; set => spells = value; }
     }
 
-    public enum OccupationRef
+    public enum OccupationID
     {
-        None,
+        Default,
         Axeman,
     }
 }

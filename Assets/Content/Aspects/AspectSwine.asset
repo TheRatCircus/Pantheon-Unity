@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AspectSwine
   m_EditorClassIdentifier: 
   displayName: Aspect of Swine
-  refName: aspectSwine
+  id: 3
   icon: {fileID: 0}
   walls: []
   floors: []

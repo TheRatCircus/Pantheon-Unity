@@ -9,28 +9,28 @@ using UnityEngine;
 namespace Pantheon.Actors
 {
     /// <summary>
-    /// Storage and functions for actor body parts.
+    /// Storage and functions for actor appendages.
     /// </summary>
     [System.Serializable]
-    public class Body
+    public sealed class Body
     {
-        [SerializeField] protected List<BodyPart> parts;
+        [SerializeField] private List<Appendage> parts;
 
-        public List<BodyPart> Parts { get => parts; }
+        public List<Appendage> Parts { get => parts; }
 
         public void Initialize()
         {
-            foreach (BodyPart part in parts)
-                part.Initialize();
+            foreach (Appendage app in parts)
+                app.Initialize();
         }
 
         /// <summary>
-        /// Get the average move speed of all parts which have any.
+        /// Get the average move speed of all appendages which have any.
         /// </summary>
         /// <returns></returns>
         public int GetMoveTime()
         {
-            IEnumerable<BodyPart> aQuery = from app in parts
+            IEnumerable<Appendage> aQuery = from app in parts
                                            where app.Type == AppendageType.Legs
                                            select app;
             
@@ -41,28 +41,28 @@ namespace Pantheon.Actors
             // Otherwise get average of all speeds
             int sum = 0;
 
-            foreach (BodyPart app in aQuery)
+            foreach (Appendage app in aQuery)
                 sum += app.MoveSpeed;
 
             return sum / aQuery.Count();
         }
 
-        // Check if this actor has any prehensile body parts
+        // Check if this actor has any prehensile appendages
         public bool HasPrehensile()
         {
-            foreach (BodyPart part in parts)
-                if (part.Prehensile) return true;
+            foreach (Appendage app in parts)
+                if (app.Prehensile) return true;
 
             return false;
         }
 
-        public List<BodyPart> GetPrehensiles()
+        public List<Appendage> GetPrehensiles()
         {
-            List<BodyPart> prehensiles = new List<BodyPart>();
+            List<Appendage> prehensiles = new List<Appendage>();
 
-            foreach (BodyPart part in parts)
-                if (part.Prehensile)
-                    prehensiles.Add(part);
+            foreach (Appendage app in parts)
+                if (app.Prehensile)
+                    prehensiles.Add(app);
 
             return prehensiles;
         }
@@ -75,12 +75,12 @@ namespace Pantheon.Actors
         {
             List<Melee> melees = new List<Melee>();
 
-            foreach (BodyPart part in parts)
+            foreach (Appendage app in parts)
             {
-                if (part.Item != null)
-                    melees.Add(part.Item.Melee);
-                else if (part.CanMelee && part.Dexterous)
-                    melees.Add(part.Melee);
+                if (app.Item != null)
+                    melees.Add(app.Item.Melee);
+                else if (app.CanMelee && app.Dexterous)
+                    melees.Add(app.Melee);
                 else
                     continue;
             }
@@ -104,8 +104,8 @@ namespace Pantheon.Actors
 
             int wieldStrength = 0;
 
-            List<BodyPart> prehensiles = GetPrehensiles();
-            foreach (BodyPart prehensile in prehensiles)
+            List<Appendage> prehensiles = GetPrehensiles();
+            foreach (Appendage prehensile in prehensiles)
                 if (prehensile.Item == item)
                     wieldStrength += prehensile.Strength;
 

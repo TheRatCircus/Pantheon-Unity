@@ -16,13 +16,13 @@ namespace Pantheon.World
         public Sprite Sprite { get; set; }
         public RuleTile RuleTile { get; set; }
 
-        public Feature(FeatureData featureData)
+        public Feature(FeatureDef featureDef)
         {
-            DisplayName = featureData.DisplayName;
-            Opaque = featureData.Opaque;
-            Blocked = featureData.Blocked;
-            Sprite = featureData.Sprite;
-            RuleTile = featureData.RuleTile;
+            DisplayName = featureDef.DisplayName;
+            Opaque = featureDef.Opaque;
+            Blocked = featureDef.Blocked;
+            Sprite = featureDef.Sprite;
+            RuleTile = featureDef.RuleTile;
         }
     }
 }

@@ -598,7 +598,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   saveOptionPrefab: {fileID: 8726524741322985175, guid: 261e2f7a3a22dbe418c016eb123b8cf2,
     type: 3}
-  eventSystem: {fileID: 1197210934}
   mainTitle: {fileID: 1022136877}
   loadMenu: {fileID: 1151323044}
   saveOptionsList: {fileID: 2043881197}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DreadHamster
   m_EditorClassIdentifier: 
   displayName: dread hamster
-  reference: 4
+  id: 4
   sprite: {fileID: 21300000, guid: 2a57613533e96d54a874f588c375f5f0, type: 3}
   parts:
   - {fileID: 11400000, guid: a0953f3048b68ac46b3c00da5ca36970, type: 2}

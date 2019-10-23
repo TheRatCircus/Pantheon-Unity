@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Keep
   m_EditorClassIdentifier: 
   prefab: {fileID: 7055042773115820059, guid: 4b45e0fe4c4ac8e4bb92414834c02042, type: 3}
-  reference: 1
+  id: 1
   terrain: 0200000001000000

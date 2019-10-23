@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: StoneWall
   m_EditorClassIdentifier: 
   displayName: stone wall
-  refName: StoneWall
-  terrainType: 1
+  id: 1
   opaque: 1
   blocked: 1
   ruleTile: {fileID: 11400000, guid: 406192b1fbc4b00448c6617553e990ab, type: 2}

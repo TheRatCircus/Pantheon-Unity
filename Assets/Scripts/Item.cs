@@ -31,10 +31,10 @@ namespace Pantheon
         public Actor Owner { get; set; } = null;
         
         public int StrengthReq { get; }
-        public int MaxWieldParts { get; }
+        public int MaxWieldAppendages { get; }
         // Items save the last parts they were wielded in, and are wielded
         // there again next time they are equipped
-        public BodyPart[] WieldProfile { get; set; }
+        public Appendage[] WieldProfile { get; set; }
 
         public Melee Melee { get; set; }
 
@@ -67,29 +67,29 @@ namespace Pantheon
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static Item NewItem(string id)
+        public static Item NewItem(ItemID id)
         {
             return new Item(Database.GetItem(id));
         }
 
-        public Item(ItemData itemData)
+        public Item(ItemDef itemDef)
         {
-            DisplayName = BaseName = itemData.DisplayName;
-            Sprite = itemData.Sprite;
-            MaxStack = itemData.MaxStack;
+            DisplayName = BaseName = itemDef.DisplayName;
+            Sprite = itemDef.Sprite;
+            MaxStack = itemDef.MaxStack;
 
-            OnUse = itemData.OnUse;
+            OnUse = itemDef.OnUse;
 
-            Melee = itemData.Melee;
+            Melee = itemDef.Melee;
 
-            StrengthReq = itemData.StrengthReq;
-            MaxWieldParts = itemData.MaxWieldParts;
+            StrengthReq = itemDef.StrengthReq;
+            MaxWieldAppendages = itemDef.MaxWieldAppendages;
 
-            DestroyedOnToss = itemData.DestroyedOnToss;
-            OnToss = itemData.OnThrow;
-            InfiniteToss = itemData.InfiniteThrow;
+            DestroyedOnToss = itemDef.DestroyedOnToss;
+            OnToss = itemDef.OnThrow;
+            InfiniteToss = itemDef.InfiniteThrow;
 
-            foreach (ComponentWrapper c in itemData.Components)
+            foreach (ComponentWrapper c in itemDef.Components)
             {
                 Components.Add(c.Get.Type, c.Get);
             }
@@ -133,7 +133,7 @@ namespace Pantheon
                 return;
             }
 
-            // Present modal dialog, let user choose parts to hold item
+            // Present modal dialog, let user choose appendages to hold item
         }
 
         public void TryWear(Actor user)

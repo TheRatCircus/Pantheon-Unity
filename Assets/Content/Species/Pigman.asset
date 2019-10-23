@@ -13,10 +13,18 @@ MonoBehaviour:
   m_Name: Pigman
   m_EditorClassIdentifier: 
   displayName: pigman
-  reference: 5
+  id: 5
   sprite: {fileID: 21300000, guid: afe3b6c7f8e3edb498fa1109e20ac10a, type: 3}
   parts:
   - {fileID: 11400000, guid: 9932eebc008ec4d46a5bd54425c949c2, type: 2}
   - {fileID: 11400000, guid: 7a61efd1c0afc55448d03782579e4ac0, type: 2}
   - {fileID: 11400000, guid: 7a61efd1c0afc55448d03782579e4ac0, type: 2}
   - {fileID: 11400000, guid: 1fc1b38fe6493b044ac0e2cedec965b3, type: 2}
+  defenses:
+    armour: 0
+    evasion: 0
+    resistPhys: 0
+    resistHeat: 0
+    resistCold: 0
+    resistDisease: 0
+    resistPoison: 0

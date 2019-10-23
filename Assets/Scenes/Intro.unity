@@ -432,7 +432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 2.0666666
+  m_AspectRatio: 2.0454545
 --- !u!114 &420544337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -565,7 +565,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 4eb6ca40a1b113149b2cc240abe40420,
             type: 2}
-          m_ObjectArgumentAssemblyTypeName: Pantheon.ItemData, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: Pantheon.ItemDef, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

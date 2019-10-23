@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GiantBumblebee
   m_EditorClassIdentifier: 
   displayName: giant bumblebee
-  reference: 7
+  id: 7
   sprite: {fileID: 21300000, guid: 004a37718e6cb8c428a4e19c945a4351, type: 3}
   parts:
   - {fileID: 11400000, guid: 8df593b3230b35a43a76d42648f477be, type: 2}

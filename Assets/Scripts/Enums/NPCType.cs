@@ -4,9 +4,9 @@
 /// <summary>
 /// References for NPC prefabs.
 /// </summary>
-public enum NPCType
+public enum NPCID
 {
-    None,
+    Default,
     GiantBumblebee,
     DreadHamster,
     Coyote,

@@ -115,7 +115,7 @@ namespace Pantheon
 
         public SpellEnchant()
         {
-            Spell = Database.GetSpell(SpellType.PatsonsMagicBullet);
+            Spell = Database.GetSpell(SpellID.PatsonsMagicBullet);
         }
 
         public void EquipEffect(Actor actor)

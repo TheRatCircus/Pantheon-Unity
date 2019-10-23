@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4011695caa514ce43864cf56ee2055df, type: 3}
-  m_Name: FlaskHealingAction
+  m_Name: LaudanumAction
   m_EditorClassIdentifier: 
   HealAction:
     healAmount: 0

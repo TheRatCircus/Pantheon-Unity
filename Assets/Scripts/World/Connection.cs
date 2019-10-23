@@ -31,7 +31,7 @@ namespace Pantheon.World
         public bool OneWay { get; set; }
 
         public Connection(Level level, Cell cell,
-            FeatureType feature, string destinationRef)
+            FeatureID feature, string destinationRef)
         {
             Level = level;
             Cell = cell;
@@ -41,7 +41,7 @@ namespace Pantheon.World
         }
 
         public Connection(Layer layer, Level level, Cell cell,
-            FeatureType feature, Vector2Int destinationVector)
+            FeatureID feature, Vector2Int destinationVector)
         {
             Layer = layer;
             Level = level;

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Swine
   m_EditorClassIdentifier: 
   displayName: swine
-  reference: 2
+  id: 2
   sprite: {fileID: 21300000, guid: ff57581767fbd5c44ac08b8abb18e7ee, type: 3}
   parts:
   - {fileID: 11400000, guid: 9932eebc008ec4d46a5bd54425c949c2, type: 2}

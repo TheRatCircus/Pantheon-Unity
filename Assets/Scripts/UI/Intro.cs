@@ -34,7 +34,7 @@ namespace Pantheon
         [SerializeField] private GameObject backgroundSelect = null;
 
         public string PlayerName { get; private set; }
-        public ItemData StartingWeapon { get; private set; }
+        public ItemDef StartingWeapon { get; private set; }
 
 #if UNITY_EDITOR
         private void Start()
@@ -85,7 +85,7 @@ namespace Pantheon
             }
         }
 
-        public void SelectBackground(ItemData item)
+        public void SelectBackground(ItemDef item)
         {
             StartingWeapon = item;
             backgroundSelect.SetActive(false);

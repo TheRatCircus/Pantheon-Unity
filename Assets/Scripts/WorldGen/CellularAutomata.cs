@@ -14,8 +14,8 @@ namespace Pantheon.WorldGen
         public Level Level { get; private set; }
         public LevelRect Rect { get; private set; }
 
-        public TerrainType WallType { get; set; }
-        public TerrainType FloorType { get; set; }
+        public TerrainID WallType { get; set; }
+        public TerrainID FloorType { get; set; }
         public int PercentAreWalls { get; private set; }
 
         public CellularAutomata(Level level, LevelRect rect = null,

@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: AspectFire
   m_EditorClassIdentifier: 
   displayName: Aspect of Fire
-  refName: aspectFire
+  id: 1
   icon: {fileID: 0}
   walls: []
   floors: []
   altarFeature: 9
-  species: 
+  species: []
+  occupations: []

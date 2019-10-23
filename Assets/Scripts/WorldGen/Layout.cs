@@ -16,7 +16,7 @@ namespace Pantheon.WorldGen
         /// <param name="size">The size of the new cell map.</param>
         /// <param name="terrain">The terrain to fill the new map with.</param>
         /// <returns>The new cell map.</returns>
-        public static Cell[,] BlankMap(Vector2Int size, TerrainType terrain)
+        public static Cell[,] BlankMap(Vector2Int size, TerrainID terrain)
         {
             Cell[,] map = new Cell[size.x, size.y];
             for (int x = 0; x < map.GetLength(0); x++)
@@ -34,7 +34,7 @@ namespace Pantheon.WorldGen
         /// </summary>
         /// <param name="level">Level to modify by reference.</param>
         /// <param name="terrain">Terrain type with which to enclose the level.</param>
-        public static void Enclose(Level level, TerrainType terrain)
+        public static void Enclose(Level level, TerrainID terrain)
         {
             for (int x = 0; x < level.LevelSize.x; x++)
                 for (int y = 0; y < level.LevelSize.y; y++)
@@ -66,7 +66,7 @@ namespace Pantheon.WorldGen
         }
 
         public static void Enclose(Level level, LevelRect rect,
-            TerrainType wallType)
+            TerrainID wallType)
         {
             for (int x = rect.x1; x <= rect.x2; x++)
                 for (int y = rect.y1; y <= rect.y2; y++)
@@ -104,7 +104,7 @@ namespace Pantheon.WorldGen
         /// <param name="percent">Likelihood that a cell gets filled.</param>
         /// <param name="terrain">Terrain type to fill the level with.</param>
         public static void RandomFill(Level level, int percent,
-            TerrainType terrain)
+            TerrainID terrain)
         {
             for (int x = 0; x < level.LevelSize.x; x++)
                 for (int y = 0; y < level.LevelSize.y; y++)
@@ -121,7 +121,7 @@ namespace Pantheon.WorldGen
         /// <param name="percent">Likelihood that a cell gets filled.</param>
         /// <param name="feature">Feature type to fill the level with.</param>
         public static void RandomFill(Level level, int percent,
-            FeatureType feature)
+            FeatureID feature)
         {
             for (int x = 0; x < level.LevelSize.x; x++)
                 for (int y = 0; y < level.LevelSize.y; y++)
@@ -174,7 +174,7 @@ namespace Pantheon.WorldGen
 
                 if (!overlaps)
                 {
-                    GenerateRoom(level, newRoom, TerrainType.StoneFloor);
+                    GenerateRoom(level, newRoom, TerrainID.StoneFloor);
                     Vector2Int newCenter = newRoom.Center();
 
                     lastCenter = newCenter;
@@ -207,7 +207,7 @@ namespace Pantheon.WorldGen
         /// <param name="rect">The rectangle used to make the room.</param>
         /// <param name="terrain">The rectangle to make the room's floor with.</param>
         public static void GenerateRoom(Level level, LevelRect rect,
-            TerrainType terrain)
+            TerrainID terrain)
         {
             //Debug.Log($"Generating room {rect.x2 - rect.x1} tiles wide and {rect.y2 - rect.y1} tiles long");
             for (int x = rect.x1 + 1; x < rect.x2 - 1; x++)
@@ -216,14 +216,14 @@ namespace Pantheon.WorldGen
         }
 
         public static void GenerateRoom(Level level, LevelRect rect,
-            TerrainType wall, TerrainType floor)
+            TerrainID wall, TerrainID floor)
         {
             FillRect(level, rect, wall);
             GenerateRoom(level, rect, floor);
         }
 
         public static void FillRect(Level level, LevelRect rect,
-            TerrainType terrain)
+            TerrainID terrain)
         {
             for (int x = rect.x1; x < rect.x2; x++)
                 for (int y = rect.y1; y < rect.y2; y++)
@@ -234,7 +234,7 @@ namespace Pantheon.WorldGen
         }
 
         public static void FillRect(Level level, LevelRect rect,
-            FeatureType feature)
+            FeatureID feature)
         {
             for (int x = rect.x1; x < rect.x2; x++)
                 for (int y = rect.y1; y < rect.y2; y++)
@@ -255,7 +255,7 @@ namespace Pantheon.WorldGen
             int y)
         {
             for (int x = Mathf.Min(x1, x2); x < Mathf.Max(x1, x2); x++)
-                level.Map[x, y].SetTerrain(TerrainType.StoneFloor);
+                level.Map[x, y].SetTerrain(TerrainID.StoneFloor);
         }
 
         /// <summary>
@@ -269,7 +269,7 @@ namespace Pantheon.WorldGen
             int x)
         {
             for (int y = Mathf.Min(y1, y2); y < Mathf.Max(y1, y2); y++)
-                level.Map[x, y].SetTerrain(TerrainType.StoneFloor);
+                level.Map[x, y].SetTerrain(TerrainID.StoneFloor);
         }
 
         

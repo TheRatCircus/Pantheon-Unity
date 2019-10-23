@@ -55,7 +55,7 @@ namespace Pantheon.Core
             if (boss.SpeciesPref != null)
                 species = boss.SpeciesPref;
             else
-                species = Database.GetSpecies(SpeciesRef.Human);
+                species = Database.GetSpecies(SpeciesID.Human);
 
             npc.BuildActor(species);
 
@@ -85,7 +85,7 @@ namespace Pantheon.Core
             if (boss.SpeciesPref != null)
                 species = boss.SpeciesPref;
             else
-                species = Database.GetSpecies(SpeciesRef.Human);
+                species = Database.GetSpecies(SpeciesID.Human);
 
             npc.BuildActor(species);
 
@@ -93,7 +93,7 @@ namespace Pantheon.Core
             if (boss.OccupationPrefs.Count > 0)
                 occupation = boss.OccupationPrefs.Random(true);
             else
-                occupation = Database.GetOccupation(OccupationRef.Axeman);
+                occupation = Database.GetOccupation(OccupationID.Axeman);
 
             npc.AssignOccupation(occupation);
 

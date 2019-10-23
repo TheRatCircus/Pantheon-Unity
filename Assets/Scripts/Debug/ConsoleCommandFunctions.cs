@@ -43,13 +43,13 @@ namespace Pantheon.Debug
             if (args.Length != 1)
                 return "Please pass only 1 argument.";
 
-            if (!Game.instance.Database.ItemDict.ContainsKey(args[0]))
+            if (!Enum.TryParse(args[0], out ItemID id))
                 return "Item not found.";
 
-            ItemData itemData = Database.GetItem(args[0]);
-            Game.GetPlayer().AddItem(new Item(itemData));
+            ItemDef item = Database.GetItem(id);
+            Game.GetPlayer().AddItem(new Item(item));
 
-            return $"Giving {itemData.DisplayName}...";
+            return $"Giving {item.DisplayName}...";
         }
 
         public static string LearnSpell(string[] args)
@@ -57,7 +57,7 @@ namespace Pantheon.Debug
             if (args.Length != 1)
                 return "Please pass only 1 argument.";
 
-            if (Enum.TryParse(args[0], out SpellType spellType))
+            if (Enum.TryParse(args[0], out SpellID spellType))
             {
                 Game.GetPlayer().Spells.Add(Database.GetSpell(spellType));
                 return $"You have learned {spellType.ToString()}";
@@ -130,7 +130,7 @@ namespace Pantheon.Debug
             Connection sanctumPortal = new Connection(
                 Game.instance.activeLevel,
                 Game.GetPlayer().Cell,
-                FeatureType.Portal,
+                FeatureID.Portal,
                 $"sanctum_{idolRef}_0");
             sanctumPortal.OneWay = true;
             sanctumPortal.DisplayName = $"a portal to {idol.DisplayName}'s" +
@@ -256,12 +256,12 @@ namespace Pantheon.Debug
             if (args.Length != 1)
                 return "Please supply an item base type.";
 
-            if (!Game.instance.Database.ItemDict.ContainsKey(args[0]))
+            if (!Enum.TryParse(args[0], out ItemID id))
                 return "Item not found.";
 
-            ItemData itemData = Database.GetItem(args[0]);
+            ItemDef item = Database.GetItem(id);
 
-            Item relic = new Item(itemData);
+            Item relic = new Item(item);
             for (int i = 0; i < 7; i++)
             {
                 relic.Enchants.Add(Enchant._enchantCallbacks.Random(true).

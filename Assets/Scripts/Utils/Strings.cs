@@ -51,12 +51,12 @@ namespace Pantheon.Utils
             return ret;
         }
 
-        public static string PartHitString(Actor actor, BodyPart part)
+        public static string AppendageHitString(Actor actor, Appendage app)
         {
             string ret;
             bool isPlayer = actor is Player;
 
-            switch (part.Type)
+            switch (app.Type)
             {
                 case AppendageType.Arm:
                     ret = PunchVerbs.Random(false).Get(isPlayer);
@@ -69,7 +69,7 @@ namespace Pantheon.Utils
                     break;
                 default:
                     throw new System.Exception
-                        ($"Case missing for {part.Type.ToString()}-based attack.");
+                        ($"Case missing for {app.Type.ToString()}-based attack.");
             }
 
             return ret;

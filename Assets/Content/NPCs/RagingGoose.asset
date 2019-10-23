@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e449d2cf694dce047be4261b61515a5c, type: 3}
   m_Name: RagingGoose
   m_EditorClassIdentifier: 
-  type: 4
+  id: 4
   prefab: {fileID: 6016650506773724264, guid: 95e258504a8f2b64f8881b0f401fb65d, type: 3}
   packSpawn: 0
   minPackSize: -1

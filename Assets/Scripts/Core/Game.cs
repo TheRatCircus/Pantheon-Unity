@@ -136,7 +136,7 @@ namespace Pantheon.Core
                     break;
         }
 
-        public void NewGame(string playerName, ItemData startGear)
+        public void NewGame(string playerName, ItemDef startGear)
         {
             UnityEngine.Debug.Log("Starting a new game...");
 

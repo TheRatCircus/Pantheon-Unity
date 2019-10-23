@@ -15,22 +15,22 @@ namespace Pantheon
     public class Species : ScriptableObject
     {
         [SerializeField] private string displayName = "NO_NAME";
-        [SerializeField] private SpeciesRef reference = SpeciesRef.None;
+        [SerializeField] private SpeciesID id = SpeciesID.Default;
         [SerializeField] private Sprite sprite = null;
-        [SerializeField] private List<AppendageData> parts = null;
+        [SerializeField] private List<AppendageDef> parts = null;
         [SerializeField] private Defenses defenses = null;
 
         // Properties
         public string DisplayName { get => displayName; }
-        public SpeciesRef Reference { get => reference; }
+        public SpeciesID ID { get => id; }
         public Sprite Sprite { get => sprite; }
-        public List<AppendageData> Parts { get => parts; }
+        public List<AppendageDef> Appendages { get => parts; }
         public Defenses Defenses { get => defenses; set => defenses = value; }
     }
 
-    public enum SpeciesRef
+    public enum SpeciesID
     {
-        None,
+        Default,
         Human,
         Swine,
         Goose,

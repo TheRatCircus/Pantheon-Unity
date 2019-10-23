@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: StoneFloor
   m_EditorClassIdentifier: 
   displayName: stone floor
-  refName: StoneFloor
-  terrainType: 2
+  id: 2
   opaque: 0
   blocked: 0
   ruleTile: {fileID: 11400000, guid: 54c2dae89fae3a64ca6e01921078e1da, type: 2}

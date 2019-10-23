@@ -12,14 +12,14 @@ namespace Pantheon
         menuName = "Pantheon/Content/NPC")]
     public sealed class NPCWrapper : ScriptableObject
     {
-        [SerializeField] private NPCType type = NPCType.None;
+        [SerializeField] private NPCID id = NPCID.Default;
         [SerializeField] private GameObject prefab = null;
 
         [SerializeField] private bool packSpawn = false;
         [SerializeField] private int minPackSize = -1;
         [SerializeField] private int maxPackSize = -1;
 
-        public NPCType Type { get => type; }
+        public NPCID ID { get => id; }
         public GameObject Prefab { get => prefab; }
         public bool PackSpawn { get => packSpawn; }
         public int MinPackSize { get => minPackSize; }

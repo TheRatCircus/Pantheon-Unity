@@ -28,7 +28,7 @@ namespace Pantheon.WorldGen
         public static void ValleyBasics(Level level)
         {
             level.LevelSize = new Vector2Int(ValleySize, ValleySize);
-            level.Map = BlankMap(level.LevelSize, TerrainType.Grass);
+            level.Map = BlankMap(level.LevelSize, TerrainID.Grass);
         }
 
         public static void GenerateOuterValley(Level level)
@@ -46,32 +46,32 @@ namespace Pantheon.WorldGen
                                 level.LevelSize.x,
                                 level.LevelSize.y));
 
-                        FillRect(level, rect, FeatureType.WoodFence);
-                        BinarySpacePartition.BSP(level, TerrainType.Grass, 12);
-                        Enclose(level, TerrainType.StoneWall);
+                        FillRect(level, rect, FeatureID.WoodFence);
+                        BinarySpacePartition.BSP(level, TerrainID.Grass, 12);
+                        Enclose(level, TerrainID.StoneWall);
                         foreach (Cell c in level.Map)
                             if (Utils.RandomUtils.OneChanceIn(6, true))
-                                c.SetFeature(FeatureType.None); // Ruin fence
+                                c.SetFeature(FeatureID.Default); // Ruin fence
                         break;
                     }
                 case 1: // Sparse wood
-                    RandomFill(level, 2, FeatureType.Tree);
-                    Enclose(level, TerrainType.StoneWall);
+                    RandomFill(level, 2, FeatureID.Tree);
+                    Enclose(level, TerrainID.StoneWall);
                     break;
                 case 2: // Gorge
                     CellularAutomata ca = new CellularAutomata(level);
-                    ca.WallType = TerrainType.StoneWall;
-                    ca.FloorType = TerrainType.Grass;
+                    ca.WallType = TerrainID.StoneWall;
+                    ca.FloorType = TerrainID.Grass;
                     ca.Run();
                     break;
                 case 3: // Circle algorithm test
                     {
-                        Enclose(level, TerrainType.StoneWall);
+                        Enclose(level, TerrainID.StoneWall);
                         Utils.Algorithms.DrawCircle(40, 40, 32, 
                             (int x, int y) =>
                         {
                             level.GetCell(x, y).SetTerrain
-                            (TerrainType.StoneWall);
+                            (TerrainID.StoneWall);
                         });
                         break;
                     }
@@ -94,12 +94,12 @@ namespace Pantheon.WorldGen
                                 level.LevelSize.x,
                                 level.LevelSize.y));
 
-                FillRect(level, rect, FeatureType.WoodFence);
-                BinarySpacePartition.BSP(level, TerrainType.Grass, 12);
-                Enclose(level, TerrainType.StoneWall);
+                FillRect(level, rect, FeatureID.WoodFence);
+                BinarySpacePartition.BSP(level, TerrainID.Grass, 12);
+                Enclose(level, TerrainID.StoneWall);
                 foreach (Cell c in level.Map)
                     if (Utils.RandomUtils.OneChanceIn(6, true))
-                        c.SetFeature(FeatureType.None); // Ruin fence
+                        c.SetFeature(FeatureID.Default); // Ruin fence
 
                 if (level.LayerPos == Vector2Int.zero)
                 {
@@ -115,8 +115,8 @@ namespace Pantheon.WorldGen
                 return;
             }
 
-            Enclose(level, TerrainType.StoneWall);
-            Landmark.Build(LandmarkRef.Keep, level, 
+            Enclose(level, TerrainID.StoneWall);
+            Landmark.Build(LandmarkID.Keep, level, 
                 new Vector2Int(16, 16));
         }
 

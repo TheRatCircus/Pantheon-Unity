@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: MarbleTile
   m_EditorClassIdentifier: 
   displayName: marble tile
-  refName: MarbleTile
-  terrainType: 4
+  id: 4
   opaque: 0
   blocked: 0
   ruleTile: {fileID: 11400000, guid: 4f2592083945a4645a3d422f5da6c2a4, type: 2}

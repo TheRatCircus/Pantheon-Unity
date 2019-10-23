@@ -165,7 +165,7 @@ namespace Pantheon.Actors
             health = MaxHealth;
             energy = speed;
 
-            // Prefabs don't have body parts assigned manually, so take from
+            // Prefabs don't have appendages assigned manually, so take from
             // species
             if (Body.Parts.Count == 0)
                 BuildActor(species);
@@ -194,8 +194,8 @@ namespace Pantheon.Actors
 
             this.species = species;
 
-            foreach (AppendageData partData in species.Parts)
-                body.Parts.Add(new BodyPart(partData));
+            foreach (AppendageDef app in species.Appendages)
+                body.Parts.Add(new Appendage(app));
         }
 
         public void AssignOccupation(Occupation occ)
@@ -203,8 +203,8 @@ namespace Pantheon.Actors
             if (inventory.All.Count > 0)
                 throw new Exception("This actor is not empty.");
 
-            ItemData weaponData = occ.Gear.Random(true);
-            Item weapon = new Item(weaponData);
+            ItemDef weaponDef = occ.Gear.Random(true);
+            Item weapon = new Item(weaponDef);
             inventory.AddItem(weapon);
             new WieldAction(this, weapon, body.GetPrehensiles().ToArray()).DoAction();
         }

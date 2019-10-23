@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Item_Hatchet
   m_EditorClassIdentifier: 
   displayName: hatchet
-  id: Item_Hatchet
+  id: 2
   maxStack: 1
   sprite: {fileID: 21300000, guid: c2a64b95f8e96a44891d801af2988db3, type: 3}
   onUse: {fileID: 0}

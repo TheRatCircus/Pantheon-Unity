@@ -17,4 +17,4 @@ MonoBehaviour:
   blocked: 1
   sprite: {fileID: 0}
   ruleTile: {fileID: 11400000, guid: 9b68f90025016794e8a192ab883668df, type: 2}
-  type: 10
+  id: 10

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Goose
   m_EditorClassIdentifier: 
   displayName: goose
-  reference: 3
+  id: 3
   sprite: {fileID: 21300000, guid: 4a45ca827308db240a7c4eac0606510f, type: 3}
   parts:
   - {fileID: 11400000, guid: 35e29dad155069240adeb952d8471195, type: 2}

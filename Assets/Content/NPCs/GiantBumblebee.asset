@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e449d2cf694dce047be4261b61515a5c, type: 3}
   m_Name: GiantBumblebee
   m_EditorClassIdentifier: 
-  type: 1
+  id: 1
   prefab: {fileID: 7937619979220412260, guid: 3585f6abc7c02014992fce090eddc2d5, type: 3}
   packSpawn: 0
   minPackSize: -1

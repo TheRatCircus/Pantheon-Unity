@@ -36,7 +36,7 @@ namespace Pantheon.UI
 
         // Modals
         public ItemModalList itemModalList;
-        public BodyPartModalList bodyPartModalList;
+        public AppendageModalList appendageModalList;
         public SpellModalList spellModalList;
 
         // Start is called before the first frame update
@@ -127,8 +127,8 @@ namespace Pantheon.UI
             LogClearModals();
             itemModalList.Clean();
             itemModalList.gameObject.SetActive(false);
-            bodyPartModalList.Clean();
-            bodyPartModalList.gameObject.SetActive(false);
+            appendageModalList.Clean();
+            appendageModalList.gameObject.SetActive(false);
             spellModalList.Clean();
             spellModalList.gameObject.SetActive(false);
             player.Input.ModalCancelEvent += ClearModals;
@@ -189,23 +189,23 @@ namespace Pantheon.UI
             ClearModals();
             itemModalList.gameObject.SetActive(true);
             itemModalList.Initialize("Wield which item?", player, 1,
-                WieldPartsModalList);
+                WieldAppendagesModalList);
         }
 
-        private void WieldPartsModalList(Item item)
+        private void WieldAppendagesModalList(Item item)
         {
             ClearModals();
-            bodyPartModalList.gameObject.SetActive(true);
-            bodyPartModalList.Initialize(
-                $"Wield where? Select up to {item.MaxWieldParts}.",
-                player, item.MaxWieldParts,
-                (List<BodyPart> parts) =>
+            appendageModalList.gameObject.SetActive(true);
+            appendageModalList.Initialize(
+                $"Wield where? Select up to {item.MaxWieldAppendages}.",
+                player, item.MaxWieldAppendages,
+                (List<Appendage> appendages) =>
                 {
                     ClearModals();
                     player.Input.SetInputState(InputState.Move);
-                    player.NextAction = new WieldAction(player, item, parts);
+                    player.NextAction = new WieldAction(player, item, appendages);
                 });
-            player.Input.ModalConfirmEvent += bodyPartModalList.Submit;
+            player.Input.ModalConfirmEvent += appendageModalList.Submit;
         }
 
         public void Describe<T>(T describable) where T : IDescribable

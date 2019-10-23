@@ -21,7 +21,7 @@ namespace Pantheon.WorldGen
                 Cell trailNorthCell = level.RandomFloorInDirection
                     (CardinalDirection.North);
                 Connection trailNorth = new Connection(level.Layer, level,
-                    trailNorthCell, FeatureType.TrailNorth,
+                    trailNorthCell, FeatureID.TrailNorth,
                     new Vector2Int(0, 1));
                 level.LateralConnections.Add(CardinalDirection.North, trailNorth);
             }
@@ -31,7 +31,7 @@ namespace Pantheon.WorldGen
                 Cell trailEastCell = level.RandomFloorInDirection
                     (CardinalDirection.East);
                 Connection trailEast = new Connection(level.Layer, level,
-                    trailEastCell, FeatureType.TrailEast,
+                    trailEastCell, FeatureID.TrailEast,
                     new Vector2Int(1, 0));
                 level.LateralConnections.Add(CardinalDirection.East,
                     trailEast);
@@ -42,7 +42,7 @@ namespace Pantheon.WorldGen
                 Cell trailSouthCell = level.RandomFloorInDirection
                     (CardinalDirection.South);
                 Connection trailSouth = new Connection(level.Layer, level,
-                    trailSouthCell, FeatureType.TrailSouth,
+                    trailSouthCell, FeatureID.TrailSouth,
                     new Vector2Int(0, -1));
                 level.LateralConnections.Add(CardinalDirection.South, trailSouth);
             }
@@ -52,7 +52,7 @@ namespace Pantheon.WorldGen
                 Cell trailWestCell = level.RandomFloorInDirection
                     (CardinalDirection.West);
                 Connection trailWest = new Connection(level.Layer, level,
-                    trailWestCell, FeatureType.TrailWest,
+                    trailWestCell, FeatureID.TrailWest,
                     new Vector2Int(-1, 0));
                 level.LateralConnections.Add(CardinalDirection.West, trailWest);
             }
@@ -78,7 +78,7 @@ namespace Pantheon.WorldGen
                         Cell trailWestCell = level.RandomFloorInDirection
                             (CardinalDirection.West);
                         Connection trailWest = new Connection(level.Layer,
-                            level, trailWestCell, FeatureType.TrailWest,
+                            level, trailWestCell, FeatureID.TrailWest,
                             new Vector2Int(-1, 0));
                         level.LateralConnections.Add(CardinalDirection.West,
                             trailWest);
@@ -91,7 +91,7 @@ namespace Pantheon.WorldGen
                         Cell trailWestCell = level.RandomFloorInDirection
                             (CardinalDirection.West);
                         Connection trailWest = new Connection(level.Layer,
-                            level, trailWestCell, FeatureType.TrailWest,
+                            level, trailWestCell, FeatureID.TrailWest,
                             new Vector2Int(-1, 0));
                         level.LateralConnections.Add(CardinalDirection.West,
                             trailWest);
@@ -99,7 +99,7 @@ namespace Pantheon.WorldGen
                         Cell trailEastCell = level.RandomFloorInDirection
                             (CardinalDirection.East);
                         Connection trailEast = new Connection(level.Layer,
-                            level, trailEastCell, FeatureType.TrailEast,
+                            level, trailEastCell, FeatureID.TrailEast,
                             new Vector2Int(1, 0));
                         level.LateralConnections.Add(CardinalDirection.East,
                             trailEast);
@@ -112,7 +112,7 @@ namespace Pantheon.WorldGen
                         Cell trailEastCell = level.RandomFloorInDirection
                             (CardinalDirection.East);
                         Connection trailEast = new Connection(level.Layer,
-                            level, trailEastCell, FeatureType.TrailEast,
+                            level, trailEastCell, FeatureID.TrailEast,
                             new Vector2Int(1, 0));
                         level.LateralConnections.Add(CardinalDirection.East,
                             trailEast);
@@ -124,7 +124,7 @@ namespace Pantheon.WorldGen
                         Cell trailNorthCell = level.RandomFloorInDirection
                             (CardinalDirection.North);
                         Connection trailNorth = new Connection(level.Layer,
-                            level, trailNorthCell, FeatureType.TrailNorth,
+                            level, trailNorthCell, FeatureID.TrailNorth,
                             new Vector2Int(0, 1));
                         level.LateralConnections.Add(CardinalDirection.North,
                             trailNorth);
@@ -132,7 +132,7 @@ namespace Pantheon.WorldGen
                         Cell trailSouthCell = level.RandomFloorInDirection
                             (CardinalDirection.South);
                         Connection trailSouth = new Connection(level.Layer,
-                            level, trailSouthCell, FeatureType.TrailSouth,
+                            level, trailSouthCell, FeatureID.TrailSouth,
                             new Vector2Int(0, -1));
                         level.LateralConnections.Add(CardinalDirection.South,
                             trailSouth);
@@ -144,7 +144,7 @@ namespace Pantheon.WorldGen
                         Cell trailWestCell = level.RandomFloorInDirection
                             (CardinalDirection.West);
                         Connection trailWest = new Connection(level.Layer,
-                            level, trailWestCell, FeatureType.TrailWest,
+                            level, trailWestCell, FeatureID.TrailWest,
                             new Vector2Int(-1, 0));
                         level.LateralConnections.Add(CardinalDirection.West,
                             trailWest);
@@ -152,7 +152,7 @@ namespace Pantheon.WorldGen
                         Cell trailSouthCell = level.RandomFloorInDirection
                             (CardinalDirection.South);
                         Connection trailSouth = new Connection(level.Layer,
-                            level, trailSouthCell, FeatureType.TrailSouth,
+                            level, trailSouthCell, FeatureID.TrailSouth,
                             new Vector2Int(0, -1));
                         level.LateralConnections.Add(CardinalDirection.South,
                             trailSouth);
@@ -164,7 +164,7 @@ namespace Pantheon.WorldGen
                         Cell trailNorthCell = level.RandomFloorInDirection
                             (CardinalDirection.North);
                         Connection trailNorth = new Connection(level.Layer,
-                            level, trailNorthCell, FeatureType.TrailNorth,
+                            level, trailNorthCell, FeatureID.TrailNorth,
                             new Vector2Int(0, 1));
                         level.LateralConnections.Add(CardinalDirection.North,
                             trailNorth);
@@ -172,7 +172,7 @@ namespace Pantheon.WorldGen
                         Cell trailWestCell = level.RandomFloorInDirection
                             (CardinalDirection.West);
                         Connection trailWest = new Connection(level.Layer,
-                            level, trailWestCell, FeatureType.TrailWest,
+                            level, trailWestCell, FeatureID.TrailWest,
                             new Vector2Int(-1, 0));
                         level.LateralConnections.Add(CardinalDirection.West,
                             trailWest);
@@ -184,7 +184,7 @@ namespace Pantheon.WorldGen
                         Cell trailNorthCell = level.RandomFloorInDirection
                             (CardinalDirection.North);
                         Connection trailNorth = new Connection(level.Layer,
-                            level, trailNorthCell, FeatureType.TrailNorth,
+                            level, trailNorthCell, FeatureID.TrailNorth,
                             new Vector2Int(0, 1));
                         level.LateralConnections.Add(CardinalDirection.North,
                             trailNorth);
@@ -192,7 +192,7 @@ namespace Pantheon.WorldGen
                         Cell trailEastCell = level.RandomFloorInDirection
                             (CardinalDirection.East);
                         Connection trailEast = new Connection(level.Layer,
-                            level, trailEastCell, FeatureType.TrailEast,
+                            level, trailEastCell, FeatureID.TrailEast,
                             new Vector2Int(1, 0));
                         level.LateralConnections.Add(CardinalDirection.East,
                             trailEast);
@@ -204,7 +204,7 @@ namespace Pantheon.WorldGen
                         Cell trailSouthCell = level.RandomFloorInDirection
                             (CardinalDirection.South);
                         Connection trailSouth = new Connection(level.Layer,
-                            level, trailSouthCell, FeatureType.TrailSouth,
+                            level, trailSouthCell, FeatureID.TrailSouth,
                             new Vector2Int(0, -1));
                         level.LateralConnections.Add(CardinalDirection.South,
                             trailSouth);
@@ -212,7 +212,7 @@ namespace Pantheon.WorldGen
                         Cell trailEastCell = level.RandomFloorInDirection
                             (CardinalDirection.East);
                         Connection trailEast = new Connection(level.Layer,
-                            level, trailEastCell, FeatureType.TrailEast,
+                            level, trailEastCell, FeatureID.TrailEast,
                             new Vector2Int(1, 0));
                         level.LateralConnections.Add(CardinalDirection.East,
                             trailEast);
@@ -241,14 +241,14 @@ namespace Pantheon.WorldGen
                 Cell trailNorthCell = level.RandomFloorOnY
                             (level.LevelSize.y - 2, true);
                 Connection trailNorth = new Connection(level.Layer,
-                    level, trailNorthCell, FeatureType.TrailNorth,
+                    level, trailNorthCell, FeatureID.TrailNorth,
                     new Vector2Int(0, 1));
                 level.LateralConnections.Add(CardinalDirection.North,
                     trailNorth);
 
                 Cell trailSouthCell = level.RandomFloorOnY(1, true);
                 Connection trailSouth = new Connection(level.Layer,
-                    level, trailSouthCell, FeatureType.TrailSouth,
+                    level, trailSouthCell, FeatureID.TrailSouth,
                     new Vector2Int(0, -1));
                 level.LateralConnections.Add(CardinalDirection.South,
                     trailSouth);
@@ -260,7 +260,7 @@ namespace Pantheon.WorldGen
             {
                 Cell trailWestCell = level.RandomFloorOnX(1, true);
                 Connection trailWest = new Connection(level.Layer,
-                    level, trailWestCell, FeatureType.TrailWest,
+                    level, trailWestCell, FeatureID.TrailWest,
                     new Vector2Int(-1, 0));
                 level.LateralConnections.Add(CardinalDirection.West,
                     trailWest);
@@ -268,7 +268,7 @@ namespace Pantheon.WorldGen
                 Cell trailEastCell = level.RandomFloorOnX
                     (level.LevelSize.x - 2, true);
                 Connection trailEast = new Connection(level.Layer,
-                    level, trailEastCell, FeatureType.TrailEast,
+                    level, trailEastCell, FeatureID.TrailEast,
                     new Vector2Int(1, 0));
                 level.LateralConnections.Add(CardinalDirection.East,
                     trailEast);

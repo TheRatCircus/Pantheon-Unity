@@ -9,45 +9,45 @@ using System.Collections.Generic;
 namespace Pantheon.Actions
 {
     /// <summary>
-    /// An actor attempts to wield an item in one or more prehensile parts.
+    /// An actor attempts to wield an item in one or more prehensile appendages.
     /// </summary>
     public sealed class WieldAction : BaseAction
     {
         private readonly Item item;
-        private readonly BodyPart[] parts;
+        private readonly Appendage[] appendages;
 
-        public WieldAction(Actor actor, Item item, BodyPart[] parts)
+        public WieldAction(Actor actor, Item item, Appendage[] appendages)
             : base(actor)
         {
             this.item = item;
-            this.parts = parts;
+            this.appendages = appendages;
         }
 
         // Alternate constructor for lists
-        public WieldAction(Actor actor, Item item, List<BodyPart> parts)
+        public WieldAction(Actor actor, Item item, List<Appendage> appendages)
             : base(actor)
         {
             this.item = item;
-            this.parts = parts.ToArray();
+            this.appendages = appendages.ToArray();
         }
 
         public override int DoAction()
         {
             Actor.Inventory.Wielded.Remove(item);
-            // Unwield item from all previous parts
-            foreach (BodyPart part in Actor.Body.GetPrehensiles())
+            // Unwield item from all previous appendages
+            foreach (Appendage app in Actor.Body.GetPrehensiles())
             {
-                if (part.Item == item)
-                    part.Item = null;
+                if (app.Item == item)
+                    app.Item = null;
             }
 
-            foreach (BodyPart part in parts)
-                part.Item = item;
+            foreach (Appendage app in appendages)
+                app.Item = item;
 
             Actor.Inventory.Wielded.Add(item);
             item.OnEquip(Actor);
 
-            item.WieldProfile = parts;
+            item.WieldProfile = appendages;
 
             if (Actor is Player)
                 GameLog.Send($"You wield the {item.DisplayName}.",

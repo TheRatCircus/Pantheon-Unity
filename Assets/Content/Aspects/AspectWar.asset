@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: AspectWar
   m_EditorClassIdentifier: 
   displayName: Aspect of War
-  refName: aspectWar
+  id: 4
   icon: {fileID: 0}
   walls: []
   floors: []
   altarFeature: 9
-  species: 
+  species: []
+  occupations: []

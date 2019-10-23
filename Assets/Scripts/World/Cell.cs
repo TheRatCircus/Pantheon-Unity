@@ -22,7 +22,7 @@ namespace Pantheon.World
 
         [SerializeField] [ReadOnly] private Vector2Int position;
 
-        [SerializeField] [ReadOnly] private TerrainData terrainData;
+        [SerializeField] [ReadOnly] private TerrainDef terrain;
         // Can cell be moved through?
         [SerializeField] [ReadOnly] private bool blocked = true;
         // Can cell be seen through?
@@ -70,7 +70,7 @@ namespace Pantheon.World
         public bool Revealed { get => revealed; set => revealed = value; }
         public Actor Actor { get => actor; set => actor = value; }
         public List<Item> Items => items;
-        public TerrainData TerrainData { get => terrainData; }
+        public TerrainDef Terrain { get => terrain; }
         public Connection Connection { get => connection; set => connection = value; }
 
         #endregion
@@ -98,16 +98,16 @@ namespace Pantheon.World
 
         public void Reveal() => revealed = true;
 
-        public void SetTerrain(TerrainType type)
+        public void SetTerrain(TerrainID type)
         {
             if (Feature != null)
-                SetFeature(FeatureType.None);
+                SetFeature(FeatureID.Default);
 
-            if (type == TerrainType.None)
+            if (type == TerrainID.Default)
                 return;
 
-            TerrainData terrainData = Database.GetTerrain(type);
-            this.terrainData = terrainData;
+            TerrainDef terrainData = Database.GetTerrain(type);
+            this.terrain = terrainData;
             opaque = terrainData.Opaque;
             blocked = terrainData.Blocked;
         }
@@ -117,17 +117,17 @@ namespace Pantheon.World
         /// </summary>
         /// <param name="featureData">This cell's new Feature
         /// (can be FeatureType.None).</param>
-        public void SetFeature(FeatureType feature)
+        public void SetFeature(FeatureID feature)
         {
-            if (feature == FeatureType.None)
+            if (feature == FeatureID.Default)
             {
                 Feature = null;
-                opaque = terrainData.Opaque;
-                blocked = terrainData.Blocked;
+                opaque = terrain.Opaque;
+                blocked = terrain.Blocked;
                 return;
             }
 
-            FeatureData featureData = Database.GetFeature(feature);
+            FeatureDef featureData = Database.GetFeature(feature);
 
             Feature = new Feature(featureData);
             opaque = featureData.Opaque;
@@ -137,7 +137,7 @@ namespace Pantheon.World
         public void SetAltar(Altar altar)
         {
             Altar = altar;
-            FeatureData featureData = Database.GetFeature(altar.FeatureType);
+            FeatureDef featureData = Database.GetFeature(altar.FeatureType);
             Feature = new Feature(featureData);
             Feature.DisplayName
                 = $"{featureData.DisplayName} to {altar.Idol.DisplayName}";
@@ -158,7 +158,7 @@ namespace Pantheon.World
                 else if (Items.Count > 0)
                     ret = Items[0].DisplayName;
                 else
-                    ret = terrainData.DisplayName;
+                    ret = terrain.DisplayName;
             }
 
             return ret;

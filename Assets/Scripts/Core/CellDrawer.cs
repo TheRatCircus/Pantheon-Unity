@@ -49,8 +49,7 @@ public static class CellDrawer
     public static void DrawTile(Level level, Cell cell)
     {
         if (!cell.Revealed)
-            level.TerrainTilemap.SetTile((Vector3Int)cell.Position,
-                Database.UnknownTerrain);
+            level.TerrainTilemap.SetTile((Vector3Int)cell.Position, null);
         else
         {
             DrawTerrain(level, cell);
@@ -84,7 +83,7 @@ public static class CellDrawer
     public static void DrawTerrain(Level level, Cell cell)
     {
         level.TerrainTilemap.SetTile((Vector3Int)cell.Position,
-            cell.TerrainData.RuleTile);
+            cell.Terrain.RuleTile);
         level.TerrainTilemap.SetColor((Vector3Int)cell.Position,
             cell.Visible ? Color.white : Color.grey);
     }

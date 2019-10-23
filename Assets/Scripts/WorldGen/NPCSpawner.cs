@@ -42,11 +42,11 @@ namespace Pantheon.WorldGen
     /// </summary>
     public sealed class AmbientSpawner : NPCSpawner
     {
-        public GenericRandomPick<NPCType>[] Pop { get; private set; }
+        public GenericRandomPick<NPCID>[] Pop { get; private set; }
         private NPCWrapper currentNPC = null;
 
         public AmbientSpawner(Level level, int minSpawns, int maxSpawns,
-            GenericRandomPick<NPCType>[] pop) : base(level, minSpawns, maxSpawns)
+            GenericRandomPick<NPCID>[] pop) : base(level, minSpawns, maxSpawns)
         {
             Pop = pop;
         }

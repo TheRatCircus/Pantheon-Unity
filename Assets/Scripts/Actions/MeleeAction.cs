@@ -58,13 +58,13 @@ namespace Pantheon.Actions
             HashSet<Item> weaponStatuses = new HashSet<Item>();
 
             /*  
-             *  Now iterate directly through parts in order to send relevant
-             *  data to string processing for game log.
+             *  Now iterate directly through appendages in order to send 
+             *  relevant data to string processing for game log.
              *  
              *  e.g. if attack takes 200 and another takes 50, one attack of
              *  200 and four of 50 are carried out in the action
              */
-            foreach (BodyPart part in Actor.Body.Parts)
+            foreach (Appendage app in Actor.Body.Parts)
             {
                 if (enemy != null && enemy.IsDead())
                     break;
@@ -73,15 +73,15 @@ namespace Pantheon.Actions
                 Melee attack;
                 int swings;
 
-                if (part.Item != null && !weaponStatuses.Contains(part.Item))
+                if (app.Item != null && !weaponStatuses.Contains(app.Item))
                 {
                     weapon = true;
-                    attack = part.Item.Melee;
+                    attack = app.Item.Melee;
                     swings = actionTime / attack.AttackTime;
                 }
-                else if (part.CanMelee && part.Dexterous)
+                else if (app.CanMelee && app.Dexterous)
                 {
-                    attack = part.Melee;
+                    attack = app.Melee;
                     swings = actionTime / attack.AttackTime;
                 }
                 else { continue; }
@@ -103,9 +103,9 @@ namespace Pantheon.Actions
                     {
                         // Hit string, e.g. "slice" or "bites"
                         if (weapon)
-                            attackMsg += $"{Strings.WeaponHitString(Actor, part.Item)} ";
+                            attackMsg += $"{Strings.WeaponHitString(Actor, app.Item)} ";
                         else
-                            attackMsg += $"{Strings.PartHitString(Actor, part)} ";
+                            attackMsg += $"{Strings.AppendageHitString(Actor, app)} ";
                     }
                     else
                         attackMsg += $"{(Actor is Player ? "miss" : "misses")} ";
@@ -118,7 +118,7 @@ namespace Pantheon.Actions
                         if (target.Feature != null)
                             attackMsg += $"the {target.Feature.DisplayName}";
                         else if (target.Blocked)
-                            attackMsg += $"the {target.TerrainData.DisplayName}";
+                            attackMsg += $"the {target.Terrain.DisplayName}";
                         else
                             attackMsg += $"the air";
                     }
@@ -157,7 +157,7 @@ namespace Pantheon.Actions
                 }
                 // Prevent a weapon from being swung twice by two appendages
                 if (weapon)
-                    weaponStatuses.Add(part.Item);
+                    weaponStatuses.Add(app.Item);
             }
             return actionTime;
         }

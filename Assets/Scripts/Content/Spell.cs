@@ -7,30 +7,25 @@ namespace Pantheon
 {
     [CreateAssetMenu(fileName = "New Spell",
         menuName = "Pantheon/Content/Spell")]
-    public class Spell : ScriptableObject
+    public sealed class Spell : ScriptableObject
     {
-        [SerializeField] private string displayName;
-        [SerializeField] private Sprite sprite;
-        [SerializeField] private SpellType type;
+        [SerializeField] private string displayName = "DEFAULT_SPELL_NAME";
+        [SerializeField] private Sprite sprite = null;
+        [SerializeField] private SpellID id = SpellID.Default;
 
-        [SerializeField] private ActionWrapper onCast;
-        [SerializeField] private int castTime;
+        [SerializeField] private ActionWrapper onCast = null;
+        [SerializeField] private int castTime = -1;
 
-        public string DisplayName
-        { get => displayName; private set => displayName = value; }
-        public Sprite Sprite
-        { get => sprite; set => sprite = value; }
-        public SpellType Type
-        { get => type; private set => type = value; }
-        public ActionWrapper OnCast
-        { get => onCast; private set => onCast = value; }
-        public int CastTime
-        { get => castTime; private set => castTime = value; }
+        public string DisplayName => displayName;
+        public Sprite Sprite => sprite;
+        public SpellID ID => id;
+        public ActionWrapper OnCast => onCast;
+        public int CastTime => castTime;
     }
 
-    public enum SpellType
+    public enum SpellID
     {
+        Default,
         PatsonsMagicBullet
     }
 }
-
