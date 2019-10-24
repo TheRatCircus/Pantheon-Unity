@@ -35,12 +35,14 @@ namespace Pantheon.Actions
                     tossFXPrefab, ProjBehaviour.Fly);
             }
 
-            proj.SetSpins(true);
+            // TODO: This should eventually be a var in item
+            proj.Spins = true;
 
-            if (!item.DestroyedOnToss)
-            {
-                proj.SetLeftoverItem(item);
-            }
+            if (item.ReturnsOnToss)
+                proj.Returns = true;
+
+            if (!item.DestroyedOnToss || item.ReturnsOnToss)
+                proj.Item = item;
 
             if (item.Melee.DamageType == Components.DamageType.Slashing
                 || item.Melee.DamageType == Components.DamageType.Piercing)
@@ -49,9 +51,7 @@ namespace Pantheon.Actions
                     item.Melee.DamageType == Components.DamageType.Piercing);
             }
             else // Blunt object toss damages are based on weight (TODO)
-            {
                 proj.SetValues(5, 10, 80, false);
-            }
 
             proj.DoAction(AssignAction);
         }

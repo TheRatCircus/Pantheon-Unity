@@ -27,8 +27,9 @@ namespace Pantheon.Actions
         [SerializeField] private string projName;
         [SerializeField] private GameObject fxPrefab;
         [SerializeField] private ProjBehaviour projBehaviour;
-        [SerializeField] private Item leftoverItem = null;
+        [SerializeField] private Item item = null;
         [SerializeField] private bool spins;
+        [SerializeField] private bool returns;
         private BaseAction OnLandAction;
 
         [SerializeField] private int minDamage = -1;
@@ -38,6 +39,22 @@ namespace Pantheon.Actions
         [SerializeField] private bool pierces = false; // Pierces actors
 
         [NonSerialized] private List<Cell> line;
+
+        public bool Spins
+        { get => spins; set => spins = value; }
+        public bool Returns
+        {
+            get => returns;
+            set
+            {
+                if (projBehaviour == ProjBehaviour.Instant)
+                    throw new Exception("Instant projectiles can't return.");
+                else
+                    returns = value;
+            }
+        }
+        public Item Item
+        { get => item; set => item = value; }
 
         public LineProjAction(Actor actor, string projName,
             GameObject fxPrefab, ProjBehaviour projBehaviour) : base(actor)
@@ -91,7 +108,8 @@ namespace Pantheon.Actions
                 ((Player)Actor).Input.StartCoroutine(
                     ((Player)Actor).Input.LineTarget(FireProjectile));
             else
-                throw new NotImplementedException("An NPC should not be able to do this");
+                throw new NotImplementedException(
+                    "An NPC should not be able to do this.");
 
             this.onConfirm = onConfirm;
             
@@ -113,16 +131,6 @@ namespace Pantheon.Actions
             maxDamage = ammo.MaxDamage;
             accuracy = ammo.Accuracy;
             pierces = ammo.Pierces;
-        }
-
-        public void SetLeftoverItem(Item item)
-        {
-            leftoverItem = item;
-        }
-
-        public void SetSpins(bool spins)
-        {
-            this.spins = spins;
         }
 
         public void SetLine(List<Cell> line) => this.line = new List<Cell>(line);
@@ -179,11 +187,12 @@ namespace Pantheon.Actions
                         proj.ProjName = projName;
                         proj.Source = Actor;
                         proj.TargetCell = endCell;
-                        if (leftoverItem != null)
+                        if (item != null)
                         {
-                            proj.LeftoverItem = leftoverItem;
+                            proj.Item = item;
                         }
                         proj.Spins = spins;
+                        proj.Returns = Returns;
                         proj.OnLandAction = OnLandAction;
 
                         proj.MinDamage = minDamage;

@@ -30,7 +30,8 @@ namespace Pantheon
                 new EnchantBuy(MakeEnchant<HealthEnchant>, 75),
                 new EnchantBuy(MakeEnchant<ArmourEnchant>, 75),
                 new EnchantBuy(MakeEnchant<EvasionEnchant>, 75),
-                new EnchantBuy(MakeEnchant<SpellEnchant>, 100)
+                new EnchantBuy(MakeEnchant<SpellEnchant>, 100),
+                new EnchantBuy(MakeEnchant<TossReturnEnchant>, 100)
             });
 
         public static T MakeEnchant<T>() where T : Enchant, new()
@@ -66,6 +67,8 @@ namespace Pantheon
                 {
                     Enchant enchant = buy.Enchant.Invoke();
                     item.Enchants.Add(enchant);
+                    if (enchant is IOnEnchant e)
+                        e.OnEnchant(item);
                     points -= buy.Cost;
                 }
                 buys.RemoveAt(0);
@@ -99,6 +102,8 @@ namespace Pantheon
                 {
                     Enchant enchant = buy.Enchant.Invoke();
                     item.Enchants.Add(enchant);
+                    if (enchant is IOnEnchant e)
+                        e.OnEnchant(item);
                     points -= buy.Cost;
                 }
                 buys.RemoveAt(0);
@@ -121,6 +126,11 @@ namespace Pantheon
             Enchant = enchant;
             Cost = cost;
         }
+    }
+
+    public interface IOnEnchant
+    {
+        void OnEnchant(Item item);
     }
 
     /// <summary>
@@ -230,6 +240,22 @@ namespace Pantheon
         public override string ToString()
         {
             return $"Grants {Spell.DisplayName}";
+        }
+    }
+
+    public sealed class TossReturnEnchant : Enchant, IOnEnchant
+    {
+        public TossReturnEnchant() : base("Returning", "of Returning") { }
+
+        public void OnEnchant(Item item)
+        {
+            item.DestroyedOnToss = true;
+            item.ReturnsOnToss = true;
+        }
+
+        public override string ToString()
+        {
+            return $"Returns when thrown";
         }
     }
 }

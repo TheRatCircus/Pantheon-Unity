@@ -25,7 +25,7 @@ namespace Pantheon.Actions
         public virtual void AssignAction() => Actor.NextAction = this;
 
         /// <summary>
-        /// Carry out this action's effects; only let scheduler call this.
+        /// Carry out this action's effects.
         /// </summary>
         /// <returns>The action cost of this action.</returns>
         public abstract int DoAction();

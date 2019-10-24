@@ -39,8 +39,9 @@ namespace Pantheon
         public Melee Melee { get; set; }
 
         public ActionWrapper OnToss { get; }
-        public bool DestroyedOnToss { get; }
+        public bool DestroyedOnToss { get; set; }
         public bool InfiniteToss { get; set; }
+        public bool ReturnsOnToss { get; set; }
 
         public bool HasComponent(ComponentType type)
             => Components.ContainsKey(type);

@@ -1649,7 +1649,7 @@ GameObject:
   - component: {fileID: 383188874}
   - component: {fileID: 383188873}
   m_Layer: 5
-  m_Name: BodyPartModalList
+  m_Name: AppendageModalList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4431,7 +4431,7 @@ MonoBehaviour:
   traitMenu: {fileID: 326346049}
   descMenu: {fileID: 180283656}
   itemModalList: {fileID: 883801131}
-  appendageModalList: {fileID: 0}
+  appendageModalList: {fileID: 383188873}
   spellModalList: {fileID: 1699517180}
 --- !u!114 &1299990572
 MonoBehaviour:

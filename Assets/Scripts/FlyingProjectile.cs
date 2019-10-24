@@ -14,11 +14,16 @@ namespace Pantheon
 {
     public sealed class FlyingProjectile : MonoBehaviour
     {
-        public string ProjName { get; set; } = "NO_FLYINGPROJ_NAME";
+        public string ProjName { get; set; } = "DEFAULT_FLYINGPROJ_NAME";
         public Actor Source { get; set; } = null;
         public Cell TargetCell { get; set; } = null;
         public bool Spins { get; set; } = false;
-        public Item LeftoverItem { get; set; } = null;
+        public bool Returns { get; set; } = false;
+
+        // Leave as null if no item is left or returned to sender
+        public Item Item { get; set; } = null;
+
+        private Vector3 sourcePos;
         private Vector3 targetPos;
 
         public int MinDamage { get; set; } = -1;
@@ -32,6 +37,7 @@ namespace Pantheon
 
         private void Start()
         {
+            sourcePos = Helpers.V2IToV3(Source.Position);
             switch (OnLandAction)
             {
                 case ExplodeAction a:
@@ -50,6 +56,7 @@ namespace Pantheon
         private IEnumerator Fly()
         {
             Game.instance.Lock();
+            // Move to target
             while (transform.position != targetPos)
             {
                 transform.position =
@@ -60,6 +67,8 @@ namespace Pantheon
 
                 yield return new WaitForSeconds(.01f);
             }
+
+            // Proj has landed at target
             if (TargetCell.Actor != null && OnLandAction == null)
             {
                 if (TargetCell.Actor.RollToHit(Accuracy))
@@ -72,11 +81,29 @@ namespace Pantheon
                     TargetCell.Actor.TakeHit(hit, Source);
                 }
             }
-            if (LeftoverItem != null)
-            {
-                TargetCell.Items.Add(LeftoverItem);
-            }
+
+            if (Item != null && !Returns)
+                TargetCell.Items.Add(Item);
+
             OnLandAction?.DoAction();
+
+            // Return to sender if set to do so
+            if (Returns)
+            {
+                while (transform.position != sourcePos)
+                {
+                    transform.position =
+                        Vector3.MoveTowards(transform.position, sourcePos, .6f);
+
+                    if (Spins)
+                        transform.Rotate(0, 0, 8, Space.Self);
+
+                    yield return new WaitForSeconds(.01f);
+                }
+                Source.AddItem(Item);
+            }
+
+            // Done
             Game.instance.Unlock();
             Destroy(gameObject);
         }
