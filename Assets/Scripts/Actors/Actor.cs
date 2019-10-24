@@ -56,6 +56,7 @@ namespace Pantheon.Actors
 
         // Per-actor-type data
         [SerializeField] protected Species species;
+        [SerializeField] protected GameObject splatFX;
         [SerializeField] protected Sprite corpseSprite;
 
         public Actor Master { get; set; } // For thralls
@@ -231,6 +232,19 @@ namespace Pantheon.Actors
                 if (cell.Feature == null)
                     c.Splattered = true;
             }
+        }
+
+        public void Splat(Vector2Int source)
+        {
+            Vector2 hitDirection = 
+                ((Vector2)transform.position - source).normalized;
+
+            Destroy(Instantiate(
+                    splatFX,
+                    transform.position,
+                    Quaternion.FromToRotation(Vector2.right,
+                    hitDirection))
+                    as GameObject, 10);
         }
 
         /// <summary>

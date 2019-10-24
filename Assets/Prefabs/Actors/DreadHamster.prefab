@@ -97,7 +97,7 @@ MonoBehaviour:
   level: {fileID: 0}
   cell:
     position: {x: 0, y: 0}
-    terrainData: {fileID: 0}
+    terrain: {fileID: 0}
     blocked: 0
     opaque: 0
     visible: 0
@@ -111,12 +111,6 @@ MonoBehaviour:
   regenProgress: 0
   speed: 130
   energy: 0
-  attributes:
-    strength: 0
-    dexterity: 0
-    intellect: 0
-    constitution: 0
-    willpower: 0
   xpValue: 99
   body:
     parts: []
@@ -130,7 +124,8 @@ MonoBehaviour:
     resistPoison: 0
   statuses: []
   spells: []
-  species: {fileID: 0}
+  species: {fileID: 11400000, guid: 7edb01530f5659b46908135a58c02b88, type: 2}
+  splatFX: {fileID: 3945858257142237079, guid: 2cd01ad3999b474408677e12ac0234fa, type: 3}
   corpseSprite: {fileID: 21300000, guid: 0d047209e32634c4cb6ff78ed5fe9767, type: 3}
   intelligence: 1
   alwaysHostileToPlayer: 1

@@ -77,6 +77,7 @@ namespace Pantheon
         Carbine,
         Flask,
         Cartridges,
-        Cuirass
+        Cuirass,
+        HandGrenade
     }
 }

@@ -57,7 +57,7 @@ public static class CellDrawer
             if (cell.Splattered)
             {
                 Color darkRed = Color.red;
-                darkRed.r -= .2f;
+                darkRed.r -= .3f;
                 DrawSplatter(level, cell.Position, darkRed);
             }
                 

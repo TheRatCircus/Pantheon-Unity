@@ -187,6 +187,7 @@
     <Compile Include="Assets\Scripts\WorldGen\Weights.cs" />
     <Compile Include="Assets\Scripts\WorldGen\Zones.cs" />
     <Compile Include="Assets\Scripts\WorldGen\ZoneTheme.cs" />
+    <Compile Include="Assets\SplatFX.cs" />
     <None Include="Assets\ScriptCalculator\Readme.txt" />
     <None Include="Assets\RelicNames.txt" />
     <Reference Include="Unity.Timeline.Editor">

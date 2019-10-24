@@ -51,7 +51,8 @@ namespace Pantheon.Actions
                             $"caught in the blast, and " +
                             $"{(cell.Actor is Player ? "take" : "takes")}" +
                             $" {hit.Damage} damage!");
-                        
+
+                        cell.Actor.Splat(cell.Position);
                         cell.Actor.TakeHit(hit, Actor);
                     }
                 }
