@@ -133,12 +133,10 @@ namespace Pantheon.Actors
 
             if (NextAction != null)
             {
-                BaseAction ret = NextAction;
-                // Clear action buffer
+                int cost = NextAction.DoAction();
                 NextAction = null;
-                return ret.DoAction();
+                return cost;
             }
-
             else return -1;
         }
 

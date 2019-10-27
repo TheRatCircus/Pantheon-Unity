@@ -78,6 +78,9 @@ namespace Pantheon.Actors
         // Evaluate the situation and act
         public override int Act()
         {
+            // Clear action buffer
+            NextAction = null;
+
             // Random energy
             int r = RandomUtils.RangeInclusive(0, 20);
             if (r >= 18)
@@ -100,10 +103,7 @@ namespace Pantheon.Actors
 
             LogNPCAction();
 
-            BaseAction ret = NextAction;
-            // Clear action buffer
-            NextAction = null;
-            return ret.DoAction();
+            return NextAction.DoAction();
         }
 
         public override void TakeHit(Hit hit, Actor source)
