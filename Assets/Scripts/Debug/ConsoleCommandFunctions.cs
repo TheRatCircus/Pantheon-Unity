@@ -14,6 +14,9 @@ namespace Pantheon.Debug
     {
         public static string RevealLevel(string[] args)
         {
+            if (args.Length != 0)
+                return "This command takes no arguments.";
+
             foreach (Cell cell in Game.instance.activeLevel.Map)
                 cell.Reveal();
 
