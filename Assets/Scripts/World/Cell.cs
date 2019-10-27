@@ -158,7 +158,7 @@ namespace Pantheon.World
         {
             string ret;
 
-            if (revealed)
+            if (!revealed)
                 ret = "Unknown terrain";
             else
             {

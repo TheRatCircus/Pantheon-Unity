@@ -22,10 +22,4 @@ namespace Pantheon
         public List<ItemDef> Gear { get => gear; }
         public List<Spell> Spells { get => spells; set => spells = value; }
     }
-
-    public enum OccupationID
-    {
-        Default,
-        Axeman,
-    }
 }

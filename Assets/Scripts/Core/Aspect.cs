@@ -37,13 +37,4 @@ namespace Pantheon.Core
 
         public override string ToString() => $"{id}";
     }
-
-    public enum AspectID
-    {
-        Default,
-        Fire,
-        Greed,
-        Swine,
-        War
-    }
 }
