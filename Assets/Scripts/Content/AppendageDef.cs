@@ -14,7 +14,7 @@ namespace Pantheon
     public sealed class AppendageDef : ScriptableObject
     {
         [SerializeField] private AppendageType type = AppendageType.None;
-        [SerializeField] private string displayName = "DEFAULT_SPECIES_NAME";
+        [SerializeField] private string displayName = "DEFAULT_APPENDAGE_NAME";
         [SerializeField] private Sprite sprite = null;
 
         [SerializeField] private int strength = -1;
