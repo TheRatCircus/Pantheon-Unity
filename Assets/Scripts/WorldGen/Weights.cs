@@ -16,24 +16,24 @@ namespace Pantheon.WorldGen
             new GenericRandomPick<ItemCategory>(64, ItemCategory.Misc)
         };
 
-        public static GenericRandomPick<ItemID>[] _weapons = 
+        public static GenericRandomPick<string>[] _weapons = 
         {
-            new GenericRandomPick<ItemID>(512, ItemID.Hatchet)
+            new GenericRandomPick<string>(512, ID.Item._hatchet)
         };
 
-        public static GenericRandomPick<ItemID>[] _ammos =
+        public static GenericRandomPick<string>[] _ammos =
         {
-            new GenericRandomPick<ItemID>(512, ItemID.Cartridges)
+            new GenericRandomPick<string>(512, ID.Item._cartridges)
         };
 
-        public static GenericRandomPick<ItemID>[] _wearables =
+        public static GenericRandomPick<string>[] _wearables =
         {
-            new GenericRandomPick<ItemID>(512, ItemID.Cuirass)
+            new GenericRandomPick<string>(512, ID.Item._cuirass)
         };
 
-        public static GenericRandomPick<ItemID>[] _consumables = 
+        public static GenericRandomPick<string>[] _consumables = 
         {
-            new GenericRandomPick<ItemID>(512, ItemID.Flask)
+            new GenericRandomPick<string>(512, ID.Item._laudanum)
         };
     }
 }

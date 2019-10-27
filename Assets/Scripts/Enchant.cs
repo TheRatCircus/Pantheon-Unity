@@ -128,6 +128,9 @@ namespace Pantheon
         }
     }
 
+    /// <summary>
+    /// For enchants which have an effect of the item once when applied.
+    /// </summary>
     public interface IOnEnchant
     {
         void OnEnchant(Item item);
@@ -224,7 +227,7 @@ namespace Pantheon
 
         public SpellEnchant() : base("Mage's", "of the Sorcerer")
         {
-            Spell = Database.GetSpell(SpellID.PatsonsMagicBullet);
+            Spell = Database.Get<Spell>(ID.Spell._patsons);
         }
 
         public void EquipEffect(Actor actor)

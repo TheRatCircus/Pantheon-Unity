@@ -45,14 +45,6 @@ namespace Pantheon.Components
         public DamageType DamageType { get => damageType; }
     }
 
-    public enum DamageType
-    {
-        None = 0,
-        Slashing = 1,
-        Piercing = 2,
-        Bludgeoning = 3
-    }
-
     [Serializable]
     public sealed class Ranged : IComponent
     {

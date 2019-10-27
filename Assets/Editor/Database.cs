@@ -1,9 +1,12 @@
-﻿// PopulateDatabase.cs
+﻿// Database.cs
 // Jerome Martina
 
 using Pantheon;
 using Pantheon.Core;
 using Pantheon.WorldGen;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -12,6 +15,18 @@ namespace PantheonEditor
 {
     public static class Database
     {
+        private static List<FieldInfo> GetConstants(System.Type type)
+        {
+            FieldInfo[] fieldInfos = type.GetFields(
+                BindingFlags.Public |
+                BindingFlags.Static);
+
+            return fieldInfos.Where(
+                f => f.FieldType == typeof(string) &&
+                f.IsInitOnly)
+                .ToList();
+        }
+
         /// <summary>
         /// Fill the in-game content database with all relevant objects.
         /// </summary>
@@ -22,6 +37,8 @@ namespace PantheonEditor
             Game gameController = gameControllerObj.GetComponent<Game>();
 
             Pantheon.Core.Database db = gameController.Database;
+
+            db.Content.Clear();
 
             PopulateDatabaseItems(db);
             PopulateDatabaseTerrains(db);
@@ -39,11 +56,10 @@ namespace PantheonEditor
 
         private static void PopulateDatabaseItems(Pantheon.Core.Database db)
         {
+            List<FieldInfo> itemConsts = GetConstants(typeof(ID.Item));
+
             string[] itemGuids = AssetDatabase.FindAssets(
                 "t:ItemDef", new string[] { "Assets/Content/Items" });
-
-            db.ItemList.Clear();
-            db.ItemList.Capacity = itemGuids.Length;
 
             for (int i = 0; i < itemGuids.Length; i++)
             {
@@ -52,20 +68,29 @@ namespace PantheonEditor
                 ItemDef item = AssetDatabase.LoadAssetAtPath<ItemDef>(
                     assetPath);
 
-                if (item.ID == ItemID.Default)
-                    Debug.LogWarning($"{item.name} has no ID.");
+                item.SetID();
 
-                db.ItemList.Add(item);
+                string s = ""; // Dummy string for FieldInfo.GetValue()
+                bool set = false;
+                foreach (FieldInfo info in itemConsts)
+                {
+                    if (item.ID == (string)info.GetValue(s))
+                    {
+                        db.Content.Add(item);
+                        set = true;
+                    }
+                }
+                if (!set)
+                    Debug.LogWarning($"{item.name} has no constant.");
             }
         }
 
         private static void PopulateDatabaseTerrains(Pantheon.Core.Database db)
         {
+            List<FieldInfo> terrainConsts = GetConstants(typeof(ID.Terrain));
+
             string[] terrainGuids = AssetDatabase.FindAssets(
                 "t:TerrainDef", new string[] { "Assets/Content/Terrain" });
-
-            db.TerrainList.Clear();
-            db.TerrainList.Capacity = terrainGuids.Length;
 
             for (int i = 0; i < terrainGuids.Length; i++)
             {
@@ -74,20 +99,29 @@ namespace PantheonEditor
                 TerrainDef terrain = AssetDatabase.LoadAssetAtPath<TerrainDef>(
                     assetPath);
 
-                if (terrain.ID == TerrainID.Default)
-                    Debug.LogWarning($"{terrain.name} has no ID.");
+                terrain.SetID();
 
-                db.TerrainList.Add(terrain);
+                string s = "";
+                bool set = false;
+                foreach (FieldInfo info in terrainConsts)
+                {
+                    if (terrain.ID == (string)info.GetValue(s))
+                    {
+                        db.Content.Add(terrain);
+                        set = true;
+                    }
+                }
+                if (!set)
+                    Debug.LogWarning($"{terrain.name} has no constant.");
             }
         }
 
         private static void PopulateDatabaseNPCs(Pantheon.Core.Database db)
         {
+            List<FieldInfo> npcConsts = GetConstants(typeof(ID.NPC));
+
             string[] npcGuids = AssetDatabase.FindAssets(
                 "t:NPCWrapper", new string[] { "Assets/Content/NPCs" });
-
-            db.NPCList.Clear();
-            db.NPCList.Capacity = npcGuids.Length;
 
             for (int i = 0; i < npcGuids.Length; i++)
             {
@@ -96,20 +130,29 @@ namespace PantheonEditor
                 NPCWrapper npc = AssetDatabase.LoadAssetAtPath<NPCWrapper>(
                     assetPath);
 
-                if (npc.ID == NPCID.Default)
-                    Debug.LogWarning($"{npc.name} has no ID.");
+                npc.SetID();
 
-                db.NPCList.Add(npc);
+                string s = "";
+                bool set = false;
+                foreach (FieldInfo info in npcConsts)
+                {
+                    if (npc.ID == (string)info.GetValue(s))
+                    {
+                        db.Content.Add(npc);
+                        set = true;
+                    }
+                }
+                if (!set)
+                    Debug.LogWarning($"{npc.name} has no constant.");
             }
         }
 
         private static void PopulateDatabaseFeatures(Pantheon.Core.Database db)
         {
+            List<FieldInfo> featConsts = GetConstants(typeof(ID.Feature));
+
             string[] featureGuids = AssetDatabase.FindAssets(
                 "t:FeatureDef", new string[] { "Assets/Content/Features" });
-
-            db.FeatureList.Clear();
-            db.FeatureList.Capacity = featureGuids.Length;
 
             for (int i = 0; i < featureGuids.Length; i++)
             {
@@ -118,20 +161,29 @@ namespace PantheonEditor
                 FeatureDef feat = AssetDatabase.LoadAssetAtPath<FeatureDef>(
                     assetPath);
 
-                if (feat.ID == FeatureID.Default)
-                    Debug.LogWarning($"{feat.name} has no ID.");
+                feat.SetID();
 
-                db.FeatureList.Add(feat);
+                string s = "";
+                bool set = false;
+                foreach (FieldInfo info in featConsts)
+                {
+                    if (feat.ID == (string)info.GetValue(s))
+                    {
+                        db.Content.Add(feat);
+                        set = true;
+                    }
+                }
+                if (!set)
+                    Debug.LogWarning($"{feat.name} has no constant.");
             }
         }
 
         private static void PopulateDatabaseSpells(Pantheon.Core.Database db)
         {
+            List<FieldInfo> spellConsts = GetConstants(typeof(ID.Spell));
+
             string[] spellGuids = AssetDatabase.FindAssets(
                 "t:Spell", new string[] { "Assets/Content/Spells" });
-
-            db.SpellList.Clear();
-            db.SpellList.Capacity = spellGuids.Length;
 
             for (int i = 0; i < spellGuids.Length; i++)
             {
@@ -140,20 +192,29 @@ namespace PantheonEditor
                 Spell spell = AssetDatabase.LoadAssetAtPath<Spell>(
                     assetPath);
 
-                if (spell.ID == SpellID.Default)
-                    Debug.LogWarning($"{spell.name} has no ID.");
+                spell.SetID();
 
-                db.SpellList.Add(spell);
+                string s = "";
+                bool set = false;
+                foreach (FieldInfo info in spellConsts)
+                {
+                    if (spell.ID == (string)info.GetValue(s))
+                    {
+                        db.Content.Add(spell);
+                        set = true;
+                    }
+                }
+                if (!set)
+                    Debug.LogWarning($"{spell.name} has no constant.");
             }
         }
 
         private static void PopulateDatabaseAspects(Pantheon.Core.Database db)
         {
+            List<FieldInfo> aspectConsts = GetConstants(typeof(ID.Aspect));
+
             string[] aspectGuids = AssetDatabase.FindAssets(
                 "t:Aspect", new string[] { "Assets/Content/Aspects" });
-
-            db.AspectList.Clear();
-            db.AspectList.Capacity = aspectGuids.Length;
 
             for (int i = 0; i < aspectGuids.Length; i++)
             {
@@ -162,20 +223,29 @@ namespace PantheonEditor
                 Aspect aspect = AssetDatabase.LoadAssetAtPath<Aspect>(
                     assetPath);
 
-                if (aspect.ID == AspectID.Default)
-                    Debug.LogWarning($"{aspect.name} has no ID.");
+                aspect.SetID();
 
-                db.AspectList.Add(aspect);
+                string s = "";
+                bool set = false;
+                foreach (FieldInfo info in aspectConsts)
+                {
+                    if (aspect.ID == (string)info.GetValue(s))
+                    {
+                        db.Content.Add(aspect);
+                        set = true;
+                    }
+                }
+                if (!set)
+                    Debug.LogWarning($"{aspect.name} has no constant.");
             }
         }
 
         private static void PopulateDatabaseSpecies(Pantheon.Core.Database db)
         {
+            List<FieldInfo> speciesConsts = GetConstants(typeof(ID.Species));
+
             string[] speciesGuids = AssetDatabase.FindAssets(
                 "t:Species", new string[] { "Assets/Content/Species" });
-
-            db.SpeciesList.Clear();
-            db.SpeciesList.Capacity = speciesGuids.Length;
 
             for (int i = 0; i < speciesGuids.Length; i++)
             {
@@ -184,20 +254,29 @@ namespace PantheonEditor
                 Species species = AssetDatabase.LoadAssetAtPath<Species>(
                     assetPath);
 
-                if (species.ID == SpeciesID.Default)
-                    Debug.LogWarning($"{species.name} has no ID.");
+                species.SetID();
 
-                db.SpeciesList.Add(species);
+                string s = "";
+                bool set = false;
+                foreach (FieldInfo info in speciesConsts)
+                {
+                    if (species.ID == (string)info.GetValue(s))
+                    {
+                        db.Content.Add(species);
+                        set = true;
+                    }
+                }
+                if (!set)
+                    Debug.LogWarning($"{species.name} has no constant.");
             }
         }
 
         private static void PopulateDatabaseOccupations(Pantheon.Core.Database db)
         {
+            List<FieldInfo> occConsts = GetConstants(typeof(ID.Occupation));
+
             string[] occGuids = AssetDatabase.FindAssets(
                 "t:Occupation", new string[] { "Assets/Content/Occupations" });
-
-            db.OccupationList.Clear();
-            db.OccupationList.Capacity = occGuids.Length;
 
             for (int i = 0; i < occGuids.Length; i++)
             {
@@ -206,20 +285,29 @@ namespace PantheonEditor
                 Occupation occ = AssetDatabase.LoadAssetAtPath<Occupation>(
                     assetPath);
 
-                if (occ.ID == OccupationID.Default)
-                    Debug.LogWarning($"{occ.name} has no ID.");
+                occ.SetID();
 
-                db.OccupationList.Add(occ);
+                string s = ""; // Dummy string for FieldInfo.GetValue()
+                bool set = false;
+                foreach (FieldInfo info in occConsts)
+                {
+                    if (occ.ID == (string)info.GetValue(s))
+                    {
+                        db.Content.Add(occ);
+                        set = true;
+                    }
+                }
+                if (!set)
+                    Debug.LogWarning($"{occ.name} has no constant.");
             }
         }
 
         private static void PopulateDatabaseLandmarks(Pantheon.Core.Database db)
         {
+            List<FieldInfo> landmarkConsts = GetConstants(typeof(ID.Landmark));
+
             string[] landmarkGuids = AssetDatabase.FindAssets(
                 "t:Landmark", new string[] { "Assets/Prefabs/Landmarks" });
-
-            db.LandmarkList.Clear();
-            db.LandmarkList.Capacity = landmarkGuids.Length;
 
             for (int i = 0; i < landmarkGuids.Length; i++)
             {
@@ -228,10 +316,20 @@ namespace PantheonEditor
                 Landmark landmark = AssetDatabase.LoadAssetAtPath<Landmark>(
                     assetPath);
 
-                if (landmark.ID == LandmarkID.Default)
-                    Debug.LogWarning($"{landmark.name} has no ID.");
+                landmark.SetID();
 
-                db.LandmarkList.Add(landmark);
+                string s = ""; // Dummy string for FieldInfo.GetValue()
+                bool set = false;
+                foreach (FieldInfo info in landmarkConsts)
+                {
+                    if (landmark.ID == (string)info.GetValue(s))
+                    {
+                        db.Content.Add(landmark);
+                        set = true;
+                    }
+                }
+                if (!set)
+                    Debug.LogWarning($"{landmark.name} has no constant.");
             }
         }
     }

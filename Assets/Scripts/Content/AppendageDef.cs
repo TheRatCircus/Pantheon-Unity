@@ -13,7 +13,6 @@ namespace Pantheon
         menuName = "Pantheon/Content/Appendage")]
     public sealed class AppendageDef : ScriptableObject
     {
-        [SerializeField] private SpeciesID species = SpeciesID.Default;
         [SerializeField] private AppendageType type = AppendageType.None;
         [SerializeField] private string displayName = "DEFAULT_SPECIES_NAME";
         [SerializeField] private Sprite sprite = null;
@@ -28,7 +27,6 @@ namespace Pantheon
 
         #region Properties
 
-        public SpeciesID Species { get => species; }
         public AppendageType Type { get => type; }
         public string DisplayName { get => displayName; }
         public Sprite Sprite { get => sprite; }

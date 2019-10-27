@@ -12,15 +12,13 @@ namespace Pantheon.WorldGen
     /// </summary>
     [CreateAssetMenu(fileName = "New Landmark",
         menuName = "Pantheon/Content/Landmark")]
-    public sealed class Landmark : ScriptableObject
+    public sealed class Landmark : Content
     {
         [SerializeField] private GameObject prefab = null;
-        [SerializeField] private LandmarkID id = LandmarkID.Default;
         private Tilemap tilemap = null;
-        [SerializeField] private List<TerrainID> terrain
-            = new List<TerrainID>();
+        [SerializeField] private List<TerrainDef> terrain
+            = new List<TerrainDef>();
 
-        public LandmarkID ID => id;
         public Vector2Int Size => (Vector2Int)tilemap.size;
 
         public void Initialize()
@@ -29,13 +27,13 @@ namespace Pantheon.WorldGen
             tilemap.CompressBounds();
         }
 
-        public TerrainID GetTerrain(int x, int y)
+        public TerrainDef GetTerrain(int x, int y)
         {
             TileBase marker = tilemap.GetTile
                 ((Vector3Int)new Vector2Int(x, y));
 
             if (marker == null)
-                return TerrainID.Default;
+                return null;
 
             int markerIndex = int.Parse(marker.name.Split('_')[1]);
             return terrain[markerIndex];
@@ -46,10 +44,10 @@ namespace Pantheon.WorldGen
         /// </summary>
         /// <param name="level"></param>
         /// <param name="position"></param>
-        public static bool Build(LandmarkID reference,
-            World.Level level, Vector2Int position)
+        public static bool Build(string id, World.Level level,
+            Vector2Int position)
         {
-            Landmark landmark = Core.Database.GetLandmark(reference);
+            Landmark landmark = Core.Database.Get<Landmark>(id);
             landmark.Initialize();
 
             if (!level.Contains(position + landmark.Size))

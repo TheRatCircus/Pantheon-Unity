@@ -42,11 +42,11 @@ namespace Pantheon.WorldGen
     /// </summary>
     public sealed class AmbientSpawner : NPCSpawner
     {
-        public GenericRandomPick<NPCID>[] Pop { get; private set; }
+        public GenericRandomPick<string>[] Pop { get; private set; }
         private NPCWrapper currentNPC = null;
 
         public AmbientSpawner(Level level, int minSpawns, int maxSpawns,
-            GenericRandomPick<NPCID>[] pop) : base(level, minSpawns, maxSpawns)
+            GenericRandomPick<string>[] pop) : base(level, minSpawns, maxSpawns)
         {
             Pop = pop;
         }
@@ -61,7 +61,7 @@ namespace Pantheon.WorldGen
 
             for (int i = 0; i < numSpawns; i++)
             {
-                currentNPC = Database.GetNPC(Pop.RandomPick(true));
+                currentNPC = Database.Get<NPCWrapper>(Pop.RandomPick(true));
 
                 if (currentNPC.PackSpawn)
                 {

@@ -39,25 +39,25 @@ namespace Pantheon.Core
             //AssignAspects();
         }
 
-        public void AssignAspects()
-        {
-            Dictionary<AspectID, Aspect> aspects =
-                Game.instance.Database.AspectDict;
+        //public void AssignAspects()
+        //{
+        //    Dictionary<AspectID, Aspect> aspects =
+        //        Game.instance.Database.AspectDict;
 
-            List<Aspect> shuffledAspects = new List<Aspect>(
-                aspects.Count);
+        //    List<Aspect> shuffledAspects = new List<Aspect>(
+        //        aspects.Count);
 
-            foreach (Aspect a in aspects.Values)
-                shuffledAspects.Add(a);
+        //    foreach (Aspect a in aspects.Values)
+        //        shuffledAspects.Add(a);
 
-            shuffledAspects.Shuffle(true);
+        //    shuffledAspects.Shuffle(true);
 
-            int counter = 0;
-            foreach (Idol idol in Idols.Values)
-            {
-                idol.Aspect = shuffledAspects[counter];
-                counter++;
-            }
-        }
+        //    int counter = 0;
+        //    foreach (Idol idol in Idols.Values)
+        //    {
+        //        idol.Aspect = shuffledAspects[counter];
+        //        counter++;
+        //    }
+        //}
     }
 }

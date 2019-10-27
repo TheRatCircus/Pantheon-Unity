@@ -98,28 +98,40 @@ namespace Pantheon.World
 
         public void Reveal() => revealed = true;
 
-        public void SetTerrain(TerrainID type)
+        public void SetTerrain(string terrainID)
         {
             if (Feature != null)
-                SetFeature(FeatureID.Default);
+                SetFeature(null);
 
-            if (type == TerrainID.Default)
+            if (terrainID == null)
                 return;
 
-            TerrainDef terrainData = Database.GetTerrain(type);
-            this.terrain = terrainData;
-            opaque = terrainData.Opaque;
-            blocked = terrainData.Blocked;
+            TerrainDef terrainDef = Database.Get<TerrainDef>(terrainID);
+            terrain = terrainDef;
+            opaque = terrainDef.Opaque;
+            blocked = terrainDef.Blocked;
+        }
+
+        public void SetTerrain(TerrainDef terrain)
+        {
+            if (Feature != null)
+                SetFeature(null);
+
+            if (terrain == null)
+                return;
+
+            this.terrain = terrain;
+            opaque = terrain.Opaque;
+            blocked = terrain.Blocked;
         }
 
         /// <summary>
         /// Set this cell's feature type and adjust its attributes accordingly.
         /// </summary>
-        /// <param name="featureData">This cell's new Feature
-        /// (can be FeatureType.None).</param>
-        public void SetFeature(FeatureID feature)
+        /// <param name="featureData">This cell's new Feature (can be null).</param>
+        public void SetFeature(string featID)
         {
-            if (feature == FeatureID.Default)
+            if (featID == null)
             {
                 Feature = null;
                 opaque = terrain.Opaque;
@@ -127,7 +139,7 @@ namespace Pantheon.World
                 return;
             }
 
-            FeatureDef featureData = Database.GetFeature(feature);
+            FeatureDef featureData = Database.Get<FeatureDef>(featID);
 
             Feature = new Feature(featureData);
             opaque = featureData.Opaque;
@@ -137,10 +149,9 @@ namespace Pantheon.World
         public void SetAltar(Altar altar)
         {
             Altar = altar;
-            FeatureDef featureData = Database.GetFeature(altar.FeatureType);
-            Feature = new Feature(featureData);
+            Feature = new Feature(altar.Feature);
             Feature.DisplayName
-                = $"{featureData.DisplayName} to {altar.Idol.DisplayName}";
+                = $"{altar.Feature.DisplayName} to {altar.Idol.DisplayName}";
         }
 
         public override string ToString()

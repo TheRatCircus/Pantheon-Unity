@@ -44,11 +44,11 @@ namespace Pantheon.Actions
             if (!item.DestroyedOnToss || item.ReturnsOnToss)
                 proj.Item = item;
 
-            if (item.Melee.DamageType == Components.DamageType.Slashing
-                || item.Melee.DamageType == Components.DamageType.Piercing)
+            if (item.Melee.DamageType == DamageType.Slashing
+                || item.Melee.DamageType == DamageType.Piercing)
             {
                 proj.SetValues(item.Melee.MinDamage, item.Melee.MaxDamage, 80,
-                    item.Melee.DamageType == Components.DamageType.Piercing);
+                    item.Melee.DamageType == DamageType.Piercing);
             }
             else // Blunt object toss damages are based on weight (TODO)
                 proj.SetValues(5, 10, 80, false);

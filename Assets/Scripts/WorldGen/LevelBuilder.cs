@@ -47,7 +47,7 @@ namespace Pantheon.WorldGen
             level.LayerPos = layerPos;
 
             Zones.ValleyBasics(level);
-            Layout.Enclose(level, TerrainID.StoneWall);
+            Layout.Enclose(level, ID.Terrain._stoneWall);
             Connect.TransitionConnect(level, start, end);
         }
     }

@@ -11,16 +11,14 @@ namespace Pantheon
     /// </summary>
     [CreateAssetMenu(fileName = "New Occupation",
         menuName = "Pantheon/Content/Occupation")]
-    public class Occupation : ScriptableObject
+    public class Occupation : Content
     {
         [SerializeField] private string displayName = "DEFAULT_OCC_NAME";
-        [SerializeField] private OccupationID id = OccupationID.Default;
         [SerializeField] private List<ItemDef> gear = null;
         [SerializeField] private List<Spell> spells;
 
         // Properties
         public string DisplayName { get => displayName; }
-        public OccupationID ID { get => id; }
         public List<ItemDef> Gear { get => gear; }
         public List<Spell> Spells { get => spells; set => spells = value; }
     }

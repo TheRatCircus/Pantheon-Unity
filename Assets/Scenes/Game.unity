@@ -2357,23 +2357,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b31fb9a69d8130044b78946568b8a117, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemList:
+  content:
   - {fileID: 11400000, guid: 2f8c2dfeecb30d545bbeab9f468ade4d, type: 2}
   - {fileID: 11400000, guid: 20c2a1395112cfa4d8aa7c122d8f3fcf, type: 2}
   - {fileID: 11400000, guid: c907b5fb06a7c684a886215f80cd1c61, type: 2}
   - {fileID: 11400000, guid: 4eb6ca40a1b113149b2cc240abe40420, type: 2}
   - {fileID: 11400000, guid: 2f426e25715acc648a1f81e3b2420f7d, type: 2}
-  terrainList:
   - {fileID: 11400000, guid: 84549a9c33ea36f4facb96d7d9f5a6f8, type: 2}
   - {fileID: 11400000, guid: b7febc8b7e6e34243bd5aee9a3396aed, type: 2}
   - {fileID: 11400000, guid: e25cedeeb2c79dd4cb8ca0568549e6ce, type: 2}
   - {fileID: 11400000, guid: 1a37e81f764ad184dad399d3ad1149c2, type: 2}
-  npcList:
   - {fileID: 11400000, guid: 219bfa9cb9fa54a418f506baa15f1227, type: 2}
-  - {fileID: 11400000, guid: 15b4abeb03b176141b12e90cf5adf76c, type: 2}
   - {fileID: 11400000, guid: d207a29d48ce98140b9e67143cdcecba, type: 2}
   - {fileID: 11400000, guid: cf2dbe5002fbd4046a58728973c01c05, type: 2}
-  featureList:
   - {fileID: 11400000, guid: 71e276792b2cd294c9185c7a47946fb1, type: 2}
   - {fileID: 11400000, guid: bf77dab20b179e24392e60e96ea0d416, type: 2}
   - {fileID: 11400000, guid: f3245e7cfcd95494391cb0467d2e7af4, type: 2}
@@ -2384,24 +2380,18 @@ MonoBehaviour:
   - {fileID: 11400000, guid: df00290421552af4788371e68d02790a, type: 2}
   - {fileID: 11400000, guid: d05cb2309e3293a4f8887310501e330e, type: 2}
   - {fileID: 11400000, guid: cb602d9ea36d8394f9cc36966cd70d38, type: 2}
-  spellList:
   - {fileID: 11400000, guid: 6d385a899d22ce9409b3f8854e50640b, type: 2}
-  aspectList:
   - {fileID: 11400000, guid: fa4be487a4c6d3e40b6390437c4bb7dd, type: 2}
   - {fileID: 11400000, guid: 496c61c32e4d5144da037157ccf3b252, type: 2}
   - {fileID: 11400000, guid: b14b4cc75189dc94787481bfc060030f, type: 2}
   - {fileID: 11400000, guid: a5b31d802dbb8814bb426a9816cc2a23, type: 2}
-  speciesList:
   - {fileID: 11400000, guid: 6bb499b430815144798b25923eda765b, type: 2}
-  - {fileID: 11400000, guid: 7edb01530f5659b46908135a58c02b88, type: 2}
   - {fileID: 11400000, guid: 07992349dfeeb8c438edd8637305a381, type: 2}
   - {fileID: 11400000, guid: 19027f0d8a194d646a3dbc9eebcd6349, type: 2}
   - {fileID: 11400000, guid: 8cd1f5dbcccda61478c053389eb62ccd, type: 2}
   - {fileID: 11400000, guid: f227b0792cf188d4aa5312c7e8aed174, type: 2}
   - {fileID: 11400000, guid: 6a20ce45a1d00c444b157adc7e8cc75e, type: 2}
-  occupationList:
   - {fileID: 11400000, guid: ae3091b7056bc754f83c20fbcf2d1552, type: 2}
-  landmarkList:
   - {fileID: 11400000, guid: e7dee3f2ff6911b42854d49da3ec12c2, type: 2}
   genericNPC: {fileID: 1008646114880207100, guid: 29d9659028fc47e40ba160daa32f9551,
     type: 3}

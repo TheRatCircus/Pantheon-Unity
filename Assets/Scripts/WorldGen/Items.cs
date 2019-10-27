@@ -20,7 +20,7 @@ namespace Pantheon.WorldGen
             for (int i = 0; i < 30; i++)
             {
                 Item item;
-                ItemID itemID;
+                string itemID;
 
                 // weighted roll between weapon, wearable, consumable, misc
                 ItemCategory category = Weights._itemCategories.RandomPick(true);

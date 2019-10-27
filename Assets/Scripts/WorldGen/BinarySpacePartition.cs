@@ -15,9 +15,9 @@ namespace Pantheon.WorldGen
         /// Generate rooms using Binary Space Partitioning.
         /// </summary>
         /// <param name="level"></param>
-        /// <param name="terrain">Terrain type to fill rooms with.</param>
+        /// <param name="terrainID">Terrain type to fill rooms with.</param>
         /// <param name="minRoomSize"></param>
-        public static void BSP(Level level, TerrainID terrain,
+        public static void BSP(Level level, string terrainID,
             int minRoomSize)
         {
             List<Leaf> leaves = new List<Leaf>();
@@ -52,7 +52,7 @@ namespace Pantheon.WorldGen
             for (int i = 0; i < leaves.Count; i++)
             {
                 if (leaves[i].Room != null)
-                    FillRect(level, leaves[i].Room, terrain);
+                    FillRectTerrain(level, leaves[i].Room, terrainID);
                 
                 if (leaves[i].Halls != null)
                     foreach (LevelRect hall in leaves[i].Halls)
@@ -62,7 +62,7 @@ namespace Pantheon.WorldGen
                             new Vector2Int(
                                 hall.x2 - hall.x1 + 2,
                                 hall.y2 - hall.y1 + 2));
-                        FillRect(level, hall, terrain);
+                        FillRectTerrain(level, hall, terrainID);
                     }
             }                
         }

@@ -10,16 +10,14 @@ namespace Pantheon
     /// </summary>
     [CreateAssetMenu(fileName = "New NPC",
         menuName = "Pantheon/Content/NPC")]
-    public sealed class NPCWrapper : ScriptableObject
+    public sealed class NPCWrapper : Content
     {
-        [SerializeField] private NPCID id = NPCID.Default;
         [SerializeField] private GameObject prefab = null;
 
         [SerializeField] private bool packSpawn = false;
         [SerializeField] private int minPackSize = -1;
         [SerializeField] private int maxPackSize = -1;
 
-        public NPCID ID { get => id; }
         public GameObject Prefab { get => prefab; }
         public bool PackSpawn { get => packSpawn; }
         public int MinPackSize { get => minPackSize; }

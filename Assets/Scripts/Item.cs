@@ -68,9 +68,9 @@ namespace Pantheon
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static Item NewItem(ItemID id)
+        public static Item NewItem(string id)
         {
-            return new Item(Database.GetItem(id));
+            return new Item(Database.Get<ItemDef>(id));
         }
 
         public Item(ItemDef itemDef)

@@ -13,7 +13,6 @@ namespace Pantheon.Actors
         private AppendageDef appendageDef;
 
         // Properties for getting appendageDef
-        public SpeciesID Species { get => appendageDef.Species; }
         public AppendageType Type { get => appendageDef.Type; }
         public string DisplayName { get => appendageDef.DisplayName; }
         public Sprite Sprite { get => appendageDef.Sprite; }

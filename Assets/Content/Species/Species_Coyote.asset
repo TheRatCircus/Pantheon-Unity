@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39c752a66c55ae4690acbe4728e5fc0, type: 3}
+  m_Name: Species_Coyote
+  m_EditorClassIdentifier: 
+  id: Species_Coyote
+  displayName: coyote
+  sprite: {fileID: 21300000, guid: 6170ca3d19645c347b195181397d2081, type: 3}
+  parts:
+  - {fileID: 11400000, guid: a093e1102856e684ab4c16973a250c13, type: 2}
+  - {fileID: 11400000, guid: deef7b843aa5b924fa61b7ce3fa72e16, type: 2}
+  defenses:
+    armour: 2
+    evasion: 3
+    resistPhys: 0
+    resistHeat: 0
+    resistCold: 0
+    resistDisease: 0
+    resistPoison: 0

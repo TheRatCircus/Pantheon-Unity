@@ -11,10 +11,9 @@ namespace Pantheon
     /// Base item type definition.
     /// </summary>
     [CreateAssetMenu(fileName = "New Item", menuName = "Pantheon/Content/Item")]
-    public sealed class ItemDef : ScriptableObject
+    public sealed class ItemDef : Content
     {
         [SerializeField] private string displayName = "DEFAULT_ITEM_NAME";
-        [SerializeField] private ItemID id = ItemID.Default;
 
         [SerializeField] private int maxStack = -1;
         [SerializeField] private Sprite sprite = null;
@@ -38,7 +37,6 @@ namespace Pantheon
         #region Properties
 
         public string DisplayName => displayName;
-        public ItemID ID => id;
 
         public int MaxStack => maxStack;
         public Sprite Sprite => sprite;
@@ -66,18 +64,5 @@ namespace Pantheon
         Wearable,
         Consumable,
         Misc
-    }
-
-    public enum ItemID
-    {
-        Default,
-        Dagger,
-        Hatchet,
-        Prejudice,
-        Carbine,
-        Flask,
-        Cartridges,
-        Cuirass,
-        HandGrenade
     }
 }

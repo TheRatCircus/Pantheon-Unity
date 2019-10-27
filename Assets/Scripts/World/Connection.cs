@@ -31,22 +31,22 @@ namespace Pantheon.World
         public bool OneWay { get; set; }
 
         public Connection(Level level, Cell cell,
-            FeatureID feature, string destinationRef)
+            string featID, string destinationRef)
         {
             Level = level;
             Cell = cell;
-            Cell.SetFeature(feature);
+            Cell.SetFeature(featID);
             DestinationRef = destinationRef;
             cell.Connection = this;
         }
 
         public Connection(Layer layer, Level level, Cell cell,
-            FeatureID feature, Vector2Int destinationVector)
+            string featID, Vector2Int destinationVector)
         {
             Layer = layer;
             Level = level;
             Cell = cell;
-            Cell.SetFeature(feature);
+            Cell.SetFeature(featID);
             DestinationVector = destinationVector;
             cell.Connection = this;
         }

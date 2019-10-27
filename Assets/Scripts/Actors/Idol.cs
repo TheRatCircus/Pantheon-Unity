@@ -35,12 +35,12 @@ namespace Pantheon
     public sealed class Altar
     {
         public readonly Idol Idol;
-        public readonly FeatureID FeatureType;
+        public readonly FeatureDef Feature;
 
-        public Altar(Idol idol, FeatureID featureType)
+        public Altar(Idol idol, FeatureDef feat)
         {
             Idol = idol;
-            FeatureType = featureType;
+            Feature = feat;
         }
     }
 }

@@ -1,16 +1,12 @@
 ﻿// MeleeAction.cs
 // Jerome Martina
 
-#define DEBUG_MELEE
-#undef DEBUG_MELEE
-
 using Pantheon.Actors;
 using Pantheon.Components;
 using Pantheon.Core;
 using Pantheon.Utils;
 using Pantheon.World;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Pantheon.Actions
 {
@@ -42,7 +38,8 @@ namespace Pantheon.Actions
             List<Melee> attacks = Actor.Body.GetMelees();
             if (attacks == null)
             {
-                UnityEngine.Debug.LogWarning("An actor has no melee attacks.");
+                UnityEngine.Debug.LogWarning(
+                    $"{Actor.ActorName} has no melee attacks.");
                 return Game.TurnTime;
             }
             
@@ -52,7 +49,7 @@ namespace Pantheon.Actions
                     actionTime = attack.AttackTime;
 
             if (actionTime < 0)
-                throw new System.Exception("A MeleeAction has no attack time.");
+                throw new System.Exception($"No attack time.");
 
             // Track already-used weapons to prevent re-use by a different limb
             HashSet<Item> weaponStatuses = new HashSet<Item>();

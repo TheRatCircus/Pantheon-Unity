@@ -43,13 +43,14 @@ namespace Pantheon.Debug
             if (args.Length != 1)
                 return "Please pass only 1 argument.";
 
-            if (!Enum.TryParse(args[0], out ItemID id))
-                return "Item not found.";
-
-            ItemDef item = Database.GetItem(id);
-            Game.GetPlayer().AddItem(new Item(item));
-
-            return $"Giving {item.DisplayName}...";
+            if (Database.Contains(args[0]))
+            {
+                ItemDef item = Database.Get<ItemDef>(args[0]);
+                Game.GetPlayer().AddItem(new Item(item));
+                return $"Giving {item.DisplayName}...";
+            }
+            else
+                return $"{args[0]} not found.";
         }
 
         public static string LearnSpell(string[] args)
@@ -57,13 +58,14 @@ namespace Pantheon.Debug
             if (args.Length != 1)
                 return "Please pass only 1 argument.";
 
-            if (Enum.TryParse(args[0], out SpellID spellType))
+            if (Database.Contains(args[0]))
             {
-                Game.GetPlayer().Spells.Add(Database.GetSpell(spellType));
-                return $"You have learned {spellType.ToString()}";
+                Spell spell = Database.Get<Spell>(args[0]);
+                Game.GetPlayer().Spells.Add(spell);
+                return $"You have learned {spell.DisplayName}.";
             }
             else
-                return $"Spell of type {args[0]} could not be found";
+                return $"{args[0]} not found.";
         }
 
         public static string AddTrait(string[] args)
@@ -130,7 +132,7 @@ namespace Pantheon.Debug
             Connection sanctumPortal = new Connection(
                 Game.instance.activeLevel,
                 Game.GetPlayer().Cell,
-                FeatureID.Portal,
+                ID.Feature._portal,
                 $"sanctum_{idolRef}_0");
             sanctumPortal.OneWay = true;
             sanctumPortal.DisplayName = $"a portal to {idol.DisplayName}'s" +
@@ -256,10 +258,11 @@ namespace Pantheon.Debug
             if (args.Length != 1)
                 return "Please supply an item base type.";
 
-            if (!Enum.TryParse(args[0], out ItemID id))
-                return "Item not found.";
-
-            ItemDef item = Database.GetItem(id);
+            ItemDef item;
+            if (Database.Contains(args[0]))
+                item = Database.Get<ItemDef>(args[0]);
+            else
+                return $"{args[0]} not found.";
 
             Item relic = new Item(item);
             Enchant.EnchantItem(relic, true);

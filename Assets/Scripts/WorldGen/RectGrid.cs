@@ -50,8 +50,8 @@ namespace Pantheon.WorldGen
             List<LevelRect> rects)
         {
             foreach (LevelRect rect in rects)
-                GenerateRoom(level, rect, TerrainID.StoneWall,
-                    TerrainID.StoneFloor);
+                GenerateRoom(level, rect, ID.Terrain._stoneWall,
+                   ID.Terrain._stoneFloor);
         }
     }
 }

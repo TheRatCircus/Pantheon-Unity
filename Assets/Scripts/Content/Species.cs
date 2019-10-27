@@ -12,33 +12,17 @@ namespace Pantheon
     /// </summary>
     [CreateAssetMenu(fileName = "New Species",
         menuName = "Pantheon/Content/Species")]
-    public class Species : ScriptableObject
+    public class Species : Content
     {
         [SerializeField] private string displayName = "NO_NAME";
-        [SerializeField] private SpeciesID id = SpeciesID.Default;
         [SerializeField] private Sprite sprite = null;
         [SerializeField] private List<AppendageDef> parts = null;
         [SerializeField] private Defenses defenses = null;
 
         // Properties
         public string DisplayName { get => displayName; }
-        public SpeciesID ID { get => id; }
         public Sprite Sprite { get => sprite; }
         public List<AppendageDef> Appendages { get => parts; }
-        public Defenses Defenses { get => defenses; set => defenses = value; }
-    }
-
-    public enum SpeciesID
-    {
-        Default,
-        Human,
-        Swine,
-        Goose,
-        DreadHamster,
-        Pigman,
-        Coyote,
-        GiantBumblebee
+        public Defenses Defenses { get => defenses; }
     }
 }
-
-
