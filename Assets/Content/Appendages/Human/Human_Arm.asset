@@ -12,14 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f722665428e7474bb25c60fc2f0e67e, type: 3}
   m_Name: Human_Arm
   m_EditorClassIdentifier: 
-  species: 1
   type: 2
   displayName: human arm
   sprite: {fileID: 21300000, guid: cb67a466aaf1e0f489049c91e1758247, type: 3}
   strength: 3
   moveTime: -1
   prehensile: 1
-  inherentlyDexterous: 0
+  inherentlyDexterous: 1
   melee:
     minDamage: 2
     maxDamage: 4
