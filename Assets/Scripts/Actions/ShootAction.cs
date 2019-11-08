@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Pantheon.Actions
 {
-    public sealed class ShootAction : BaseAction
+    public sealed class ShootAction : Command
     {
         private List<Cell> targetLine;
 

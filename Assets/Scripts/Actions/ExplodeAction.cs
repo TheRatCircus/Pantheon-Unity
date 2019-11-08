@@ -12,7 +12,7 @@ using UnityEngine;
 namespace Pantheon.Actions
 {
     [Serializable]
-    public sealed class ExplodeAction : BaseAction
+    public sealed class ExplodeAction : Command
     {
         [SerializeField] private GameObject fxPrefab = null;
 

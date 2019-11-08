@@ -10,7 +10,7 @@ namespace Pantheon.Actions
     /// <summary>
     /// An attempt by a creature to move into a new cell.
     /// </summary>
-    public sealed class MoveAction : BaseAction
+    public sealed class MoveAction : Command
     {
         private Cell destination;
         private Cell previous;

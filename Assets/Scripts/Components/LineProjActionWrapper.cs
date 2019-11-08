@@ -13,7 +13,7 @@ namespace Pantheon
     {
         [SerializeField] private LineProjAction LineProjAction = null;
 
-        public override BaseAction GetAction(Actor actor)
+        public override Command GetAction(Actor actor)
         {
             LineProjAction.Actor = actor;
             return LineProjAction;

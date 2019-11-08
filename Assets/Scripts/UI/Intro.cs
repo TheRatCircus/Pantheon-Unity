@@ -94,7 +94,10 @@ namespace Pantheon
             SceneManager.LoadSceneAsync(Scenes.Game, LoadSceneMode.Additive).
                 completed += (AsyncOperation op) =>
                 {
-                    Core.Game.instance.NewGame(PlayerName, StartingWeapon);
+                    //Core.Game.instance.NewGame(PlayerName, StartingWeapon);
+                    Scene gameScene = SceneManager.GetSceneByName(Scenes.Game);
+                    SceneManager.SetActiveScene(gameScene);
+                    ECS.GameController.NewGame(PlayerName);
                     SceneManager.UnloadSceneAsync(Scenes.Intro);
                 };
         }

@@ -8,7 +8,7 @@ using System;
 
 namespace Pantheon.Actions
 {
-    public sealed class WearAction : BaseAction
+    public sealed class WearAction : Command
     {
         private Item item;
 

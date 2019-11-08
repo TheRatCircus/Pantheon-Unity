@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 3651872728
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: pantheon
+      Dependencies: {}

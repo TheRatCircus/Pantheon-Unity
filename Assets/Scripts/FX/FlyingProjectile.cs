@@ -33,7 +33,7 @@ namespace Pantheon
         public bool Pierces { get; set; } = false;
 
         // What happens when the projectile lands?
-        public BaseAction OnLandAction;
+        public Command OnLandAction;
 
         private void Start()
         {

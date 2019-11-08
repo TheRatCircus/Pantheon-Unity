@@ -2,7 +2,6 @@
 // Jerome Martina
 
 using Pantheon.Actions;
-using Pantheon.Components;
 using Pantheon.Core;
 using Pantheon.Utils;
 using Pantheon.World;
@@ -60,7 +59,7 @@ namespace Pantheon.Actors
         [SerializeField] protected Sprite corpseSprite;
 
         public Actor Master { get; set; } // For thralls
-        [SerializeField] [ReadOnly] protected BaseAction nextAction;
+        [SerializeField] [ReadOnly] protected Command nextAction;
 
         #region Properties
 
@@ -72,7 +71,7 @@ namespace Pantheon.Actors
         public int Energy { get => energy; set => energy = value; }
         public Cell Cell { get => cell; set => cell = value; }
         public Vector2Int Position { get => cell.Position; }
-        public BaseAction NextAction
+        public Command NextAction
         {
             get => nextAction;
             set => nextAction = value;

@@ -13,7 +13,7 @@ namespace Pantheon
     {
         [SerializeField] private HealAction HealAction = null;
 
-        public override BaseAction GetAction(Actor actor)
+        public override Command GetAction(Actor actor)
         {
             HealAction.Actor = actor;
             return HealAction;

@@ -10,7 +10,7 @@ namespace Pantheon.Actions
     /// <summary>
     /// Base class for all actions in Pantheon's system of commands.
     /// </summary>
-    public abstract class BaseAction
+    public abstract class Command
     {
         // Callback which can be run after completion of an action
         public delegate void OnConfirm();
@@ -18,7 +18,7 @@ namespace Pantheon.Actions
 
         public Actor Actor { get; set; } = null;
 
-        public BaseAction(Actor actor) => Actor = actor;
+        public Command(Actor actor) => Actor = actor;
 
         // Assign this action to an actor, causing it to be called by
         // scheduler. Use for async actions; else just construct
@@ -44,5 +44,5 @@ namespace Pantheon.Actions
 /// </summary>
 public abstract class ActionWrapper : ScriptableObject
 {
-    public abstract BaseAction GetAction(Actor actor);
+    public abstract Command GetAction(Actor actor);
 }

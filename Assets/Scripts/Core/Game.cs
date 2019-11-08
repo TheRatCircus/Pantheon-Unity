@@ -43,7 +43,7 @@ namespace Pantheon.Core
         private bool currentActorRemoved;
 
         // Once 100 energy has been spent by the player,
-        //  a turn is considered to have passed
+        // a turn is considered to have passed
         [ReadOnly] [SerializeField] private int turnProgress;
         [ReadOnly] [SerializeField] private int turns;
 
@@ -282,7 +282,7 @@ namespace Pantheon.Core
                 return false;
 
             if (queue.Count <= 0)
-                throw new Exception("Turn queue should not be empty");
+                throw new Exception("Turn queue should not be empty.");
 
             Actor actor = queue[0];
             if (actor == null)
@@ -308,7 +308,7 @@ namespace Pantheon.Core
 
                 if (actionCost == 0)
                     UnityEngine.Debug.LogWarning
-                        ("An action with 0 energy cost was scheduled");
+                        ("An action with 0 energy cost was scheduled.");
 
                 ActorDebugEvent?.Invoke(actor);
 
@@ -466,8 +466,8 @@ namespace Pantheon.Core
                             newLevel.DownConnections[i].SetDestination
                                 (prevLevel.UpConnections[i]);
                         else
-                            throw new Exception("Other has no compatible" +
-                                "upwards connection.");
+                            throw new Exception(
+                                "Other has no compatible upwards connection.");
                     }
                 }
             }

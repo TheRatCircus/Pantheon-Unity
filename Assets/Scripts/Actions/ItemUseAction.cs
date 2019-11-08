@@ -8,14 +8,14 @@ namespace Pantheon.Actions
     /// <summary>
     /// Attempt to use an item.
     /// </summary>
-    public sealed class ItemUseAction : BaseAction
+    public sealed class ItemUseAction : Command
     {
         private readonly Item item;
-        private readonly BaseAction onUse;
+        private readonly Command onUse;
 
         private readonly int useTime;
 
-        public ItemUseAction(Actor actor, Item item, BaseAction onUse)
+        public ItemUseAction(Actor actor, Item item, Command onUse)
             : base(actor)
         {
             this.item = item;

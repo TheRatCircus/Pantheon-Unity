@@ -5,10 +5,10 @@ using Pantheon.Actors;
 
 namespace Pantheon.Actions
 {
-    public sealed class CastAction : BaseAction
+    public sealed class CastAction : Command
     {
         private readonly Spell spell;
-        private readonly BaseAction onCast;
+        private readonly Command onCast;
 
         private readonly int castTime;
 

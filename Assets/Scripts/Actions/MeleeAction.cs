@@ -13,7 +13,7 @@ namespace Pantheon.Actions
     /// <summary>
     /// Try to land a melee hit on an actor.
     /// </summary>
-    public sealed class MeleeAction : BaseAction
+    public sealed class MeleeAction : Command
     {
         private Cell target;
 

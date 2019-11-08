@@ -13,7 +13,7 @@ namespace Pantheon
     {
         [SerializeField] private ExplodeAction explodeAction = null;
 
-        public override BaseAction GetAction(Actor actor)
+        public override Command GetAction(Actor actor)
         {
             explodeAction.Actor = actor;
             return explodeAction;

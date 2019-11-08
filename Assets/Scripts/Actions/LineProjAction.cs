@@ -22,7 +22,7 @@ namespace Pantheon.Actions
     /// Prepare and fire a projectile in a line.
     /// </summary>
     [Serializable]
-    public sealed class LineProjAction : BaseAction
+    public sealed class LineProjAction : Command
     {
         [SerializeField] private string projName;
         [SerializeField] private GameObject fxPrefab;
@@ -30,7 +30,7 @@ namespace Pantheon.Actions
         [SerializeField] private Item item = null;
         [SerializeField] private bool spins;
         [SerializeField] private bool returns;
-        private BaseAction OnLandAction;
+        private Command OnLandAction;
 
         [SerializeField] private int minDamage = -1;
         [SerializeField] private int maxDamage = -1;
@@ -66,7 +66,7 @@ namespace Pantheon.Actions
 
         public LineProjAction(Actor actor, string projName,
             GameObject fxPrefab, ProjBehaviour projBehaviour,
-            BaseAction onLand) : base(actor)
+            Command onLand) : base(actor)
         {
             this.projName = projName;
             this.fxPrefab = fxPrefab;

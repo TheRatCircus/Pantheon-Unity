@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Pantheon.Actions
 {
-    public sealed class TossAction : BaseAction
+    public sealed class TossAction : Command
     {
         private Item item;
         private GameObject tossFXPrefab;

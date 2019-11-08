@@ -4,19 +4,23 @@
 using UnityEditor;
 using System.IO;
 
-public static class CreateAssetBundles
+namespace PantheonEditor
 {
-    [MenuItem("Assets/Build AssetBundles")]
-    private static void BuildAllAssetBundles()
+    public static class CreateAssetBundles
     {
-        string assetBundleDir = "Assets/AssetBundles";
-        if (!Directory.Exists(assetBundleDir))
+        [MenuItem("Assets/Build AssetBundles")]
+        private static void BuildAllAssetBundles()
         {
-            Directory.CreateDirectory(assetBundleDir);
+            string assetBundleDir = "Assets/AssetBundles";
+            if (!Directory.Exists(assetBundleDir))
+            {
+                Directory.CreateDirectory(assetBundleDir);
+            }
+            BuildPipeline.BuildAssetBundles(
+                "Assets/StreamingAssets",
+                BuildAssetBundleOptions.None,
+                BuildTarget.StandaloneWindows64);
+            UnityEngine.Debug.Log("Finished building AssetBundles.");
         }
-        BuildPipeline.BuildAssetBundles(
-            "Assets/StreamingAssets",
-            BuildAssetBundleOptions.None,
-            BuildTarget.StandaloneWindows64);
     }
 }

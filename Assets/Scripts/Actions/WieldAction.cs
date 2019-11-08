@@ -11,7 +11,7 @@ namespace Pantheon.Actions
     /// <summary>
     /// An actor attempts to wield an item in one or more prehensile appendages.
     /// </summary>
-    public sealed class WieldAction : BaseAction
+    public sealed class WieldAction : Command
     {
         private readonly Item item;
         private readonly Appendage[] appendages;

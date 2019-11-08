@@ -10,7 +10,7 @@ namespace Pantheon.Actions
     /// Heal an actor.
     /// </summary>
     [System.Serializable]
-    public sealed class HealAction : BaseAction
+    public sealed class HealAction : Command
     {
         [SerializeField] private int healAmount;
         [SerializeField] private float healPercent;

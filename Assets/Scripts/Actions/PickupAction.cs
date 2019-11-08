@@ -11,7 +11,7 @@ namespace Pantheon.Actions
     /// <summary>
     /// An actor tries to pick an item up off the ground.
     /// </summary>
-    public sealed class PickupAction : BaseAction
+    public sealed class PickupAction : Command
     {
         private Cell cell;
         private Item item;
