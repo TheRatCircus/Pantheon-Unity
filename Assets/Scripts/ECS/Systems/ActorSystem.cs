@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Pantheon.ECS.Systems
 {
-    public sealed class ActorSystem : MonoBehaviour
+    public sealed class ActorSystem : ComponentSystem
     {
         public const int TurnTime = 100; // One standard turn
 
@@ -27,8 +27,9 @@ namespace Pantheon.ECS.Systems
         public event Action<int> OnClockTickEvent;
         public event Action<int> OnPlayerActionEvent;
         public event Action<Actor> ActorDebugEvent;
+        public event Action ActionDoneEvent;
 
-        private void Update()
+        public override void UpdateComponents()
         {
             for (int i = 0; i < queue.Count; i++)
                 if (!Tick())
@@ -89,7 +90,9 @@ namespace Pantheon.ECS.Systems
                 if (actionCost < 0)
                     return false;
 
+                // An action has just been done
                 actor.Energy -= actionCost;
+                ActionDoneEvent?.Invoke();
 
                 if (actor.PlayerControlled)
                 {

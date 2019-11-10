@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 951579348
+CRC: 1852053062
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b8cdf6395e539780363b8e91f72884dc
+    Hash: af305afb118df636ae4fdfb883a52702
   TypeTreeHash:
     serializedVersion: 2
-    Hash: d98f795c284a8159cc6bc14f5aa99755
+    Hash: cd0013560214ef49039b368191162a3c
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -19,22 +19,10 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 48
   Script: {instanceID: 0}
-- Class: 114
-  Script: {fileID: 11500000, guid: d3455431d232fd442a62460dd28b3961, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 4564d8b13644750498ab0589c2e10517, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-- Class: 115
-  Script: {instanceID: 0}
 - Class: 212
   Script: {instanceID: 0}
 - Class: 213
   Script: {instanceID: 0}
-- Class: 222
-  Script: {instanceID: 0}
-- Class: 224
-  Script: {instanceID: 0}
 Assets:
-- Assets/Prefabs/Actors/GenericNPC.prefab
+- Assets/Prefabs/Actors/GameObjectPrefab.prefab
 Dependencies: []

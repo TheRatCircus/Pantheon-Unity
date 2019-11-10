@@ -14,6 +14,8 @@ namespace Pantheon.ECS.Templates
         [SerializeField] private Actor actor = default;
         [SerializeField] private Player player = default;
         [SerializeField] private UnityGameObject gameObj = default;
+        [SerializeField] private Blocking blocking = default;
+        [SerializeField] private Position position = default;
 
         public override BaseComponent[] Unload()
         {
@@ -22,7 +24,9 @@ namespace Pantheon.ECS.Templates
                 sprite,
                 actor,
                 player,
-                gameObj
+                gameObj,
+                blocking,
+                position
             };
         }
     }

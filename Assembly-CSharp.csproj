@@ -10,7 +10,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{D8FF56EA-5D97-32BB-196E-D0BA45FA9996}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -93,6 +94,10 @@
     <Compile Include="Assets\Scripts\Actors\Traits.cs" />
     <Compile Include="Assets\Scripts\Assets.cs" />
     <Compile Include="Assets\Scripts\CameraControl.cs" />
+    <Compile Include="Assets\Scripts\Commands\Command.cs" />
+    <Compile Include="Assets\Scripts\Commands\MeleeCommand.cs" />
+    <Compile Include="Assets\Scripts\Commands\MoveCommand.cs" />
+    <Compile Include="Assets\Scripts\Commands\WaitCommand.cs" />
     <Compile Include="Assets\Scripts\Components\AmmoWrapper.cs" />
     <Compile Include="Assets\Scripts\Components\Components.cs" />
     <Compile Include="Assets\Scripts\Components\ComponentWrapper.cs" />
@@ -126,26 +131,33 @@
     <Compile Include="Assets\Scripts\Debug\DebugInfo.cs" />
     <Compile Include="Assets\Scripts\Debug\Visualisation.cs" />
     <Compile Include="Assets\Scripts\DijkstraMap.cs" />
-    <Compile Include="Assets\Scripts\ECS\Cell.cs" />
+    <Compile Include="Assets\Cell.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\Actor.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\BaseComponent.cs" />
+    <Compile Include="Assets\Scripts\ECS\Components\Blocking.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\Health.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\Position.cs" />
+    <Compile Include="Assets\Scripts\ECS\Components\Spawn.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\Sprite.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\UnityGameObject.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\UnityTile.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\Walkable.cs" />
     <Compile Include="Assets\Scripts\ECS\Entity.cs" />
     <Compile Include="Assets\Scripts\ECS\EntityFactory.cs" />
-    <Compile Include="Assets\Scripts\ECS\GameController.cs" />
-    <Compile Include="Assets\Scripts\ECS\Level.cs" />
+    <Compile Include="Assets\GameController.cs" />
+    <Compile Include="Assets\Level.cs" />
+    <Compile Include="Assets\Scripts\ECS\Manager.cs" />
     <Compile Include="Assets\Scripts\ECS\Messages\AIRequestMessage.cs" />
     <Compile Include="Assets\Scripts\ECS\Messages\ComponentMessage.cs" />
     <Compile Include="Assets\Scripts\ECS\Systems\ActorSystem.cs" />
+    <Compile Include="Assets\Scripts\ECS\Systems\HealthSystem.cs" />
     <Compile Include="Assets\Scripts\ECS\Systems\PlayerSystem.cs" />
+    <Compile Include="Assets\Scripts\ECS\Systems\PositionSystem.cs" />
+    <Compile Include="Assets\Scripts\ECS\Systems\ComponentSystem.cs" />
+    <Compile Include="Assets\Scripts\ECS\Systems\SystemManager.cs" />
     <Compile Include="Assets\Scripts\ECS\Templates\PlayerTemplate.cs" />
     <Compile Include="Assets\Scripts\ECS\Templates\Template.cs" />
-    <Compile Include="Assets\Scripts\ECS\World.cs" />
+    <Compile Include="Assets\World.cs" />
     <Compile Include="Assets\Scripts\Enchant.cs" />
     <Compile Include="Assets\Scripts\Enums\CardinalDirection.cs" />
     <Compile Include="Assets\Scripts\Enums\DamageType.cs" />

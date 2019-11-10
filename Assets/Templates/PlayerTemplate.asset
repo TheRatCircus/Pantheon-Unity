@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d6ddc83d616dbe4aa750180281fdbca, type: 3}
   m_Name: PlayerTemplate
   m_EditorClassIdentifier: 
+  entityName: the hero
   sprite:
     sprite: {fileID: 21300000, guid: bb9d050798791354ca7e6fab61cd78e6, type: 3}
   actor:
     speed: 100
     energy: 100
+  blocking:
+    IsBlocking: 1

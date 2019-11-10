@@ -11,6 +11,6 @@ namespace Pantheon.ECS.Components
     [System.Serializable]
     public sealed class UnityGameObject : BaseComponent
     {
-        public GameObject GameObject { get; private set; }
+        public GameObject GameObject { get; set; }
     }
 }

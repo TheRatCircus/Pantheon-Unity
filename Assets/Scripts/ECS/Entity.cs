@@ -12,19 +12,21 @@ namespace Pantheon.ECS
     [Serializable]
     public sealed class Entity
     {
+        public string Name { get; private set; }
+        public int GUID { get; private set; }
         [UnityEngine.SerializeField]
-        //[ReadOnly]
+        [ReadOnly]
         private Dictionary<Type, BaseComponent> components
             = new Dictionary<Type, BaseComponent>();
         public Dictionary<Type, BaseComponent> Components => components;
 
-        public Entity(params BaseComponent[] components)
+        public Entity(string name, params BaseComponent[] components)
         {
             foreach (BaseComponent c in components)
                 Components.Add(c.GetType(), c);
         }
 
-        public Entity(Template template)
+        public Entity(string name, Template template)
         {
             foreach (BaseComponent c in template.Unload())
                 Components.Add(c.GetType(), c); 
@@ -32,20 +34,34 @@ namespace Pantheon.ECS
 
         public T GetComponent<T>() where T : BaseComponent
         {
-            if (!components.TryGetValue(typeof(T), out BaseComponent ret))
+            if (components.TryGetValue(typeof(T), out BaseComponent ret))
+                return (T)ret;
+            else
                 throw new ArgumentException(
                     $"Component of type {typeof(T)} not found.");
+        }
+
+        public bool TryGetComponent<T>(out T ret)
+            where T : BaseComponent
+        {
+            if (!components.TryGetValue(typeof(T), out BaseComponent c))
+            {
+                ret = null;
+                return false;
+            }
             else
-                return (T)ret;
+            {
+                ret = (T)c;
+                return true;
+            }
         }
 
         public bool HasComponent<T>() where T : BaseComponent
-        {
-            return components.ContainsKey(typeof(T));
-        }
+            => components.ContainsKey(typeof(T));
 
         public void AddComponent(BaseComponent component)
         {
+            component.AssignToEntity(this);
             component.MessageEvent += Message;
             components.Add(component.GetType(), component);
         }

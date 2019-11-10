@@ -1,7 +1,7 @@
 ﻿// Actor.cs
 // Jerome Martina
 
-using Pantheon.Actions;
+using Pantheon.Commands;
 using Pantheon.ECS.Messages;
 using Pantheon.ECS.Systems;
 using UnityEngine;
@@ -37,7 +37,7 @@ namespace Pantheon.ECS.Components
         {
             if (Command != null)
             {
-                int cost = Command.DoAction();
+                int cost = Command.Execute();
                 Command = null;
                 return cost;
             }
@@ -45,54 +45,48 @@ namespace Pantheon.ECS.Components
         }
 
         /// <summary>
-        /// Request that nextAction be set by an AI component.
+        /// Request that the next command be set by an AI component.
         /// </summary>
         public void RequestAICommand()
             => Message<AI>(new AIRequestMessage(this));
+
+        public bool HostileTo(Entity other)
+        {
+            if (PlayerControlled)
+            {
+                if (other.HasComponent<AI>())
+                    return true;
+                else
+                    return false;
+            }
+            else if (AIControlled)
+            {
+                if (other.HasComponent<Player>())
+                    return true;
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
     }
 
     [System.Serializable]
     public sealed class Player : BaseComponent
     {
+        private Entity entity;
         private Actor actor;
 
         public void SendInput(InputMessage msg)
         {
-            switch (msg.axis)
+            switch (msg.type)
             {
-                case InputAxis.Up:
-                    {
-                        break;
-                    }
-                case InputAxis.Right:
-                    {
-                        break;
-                    }
-                case InputAxis.Down:
-                    {
-                        break;
-                    }
-                case InputAxis.Left:
-                    {
-                        break;
-                    }
-                case InputAxis.UpRight:
-                    {
-                        break;
-                    }
-                case InputAxis.DownRight:
-                    {
-                        break;
-                    }
-                case InputAxis.DownLeft:
-                    {
-                        break;
-                    }
-                case InputAxis.UpLeft:
-                    {
-                        break;
-                    }
-                default:
+                case InputType.Direction:
+                    actor.Command = new MoveCommand(entity, msg.vector,
+                        ActorSystem.TurnTime);
+                    break;
+                case InputType.Wait:
+                    actor.Command = new WaitCommand(entity);
                     break;
             }
         }
