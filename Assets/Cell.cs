@@ -47,5 +47,10 @@ namespace Pantheon.ECS
 
             return entities.Remove(entity);
         }
+
+        public override string ToString()
+        {
+            return $"Cell at {Position}";
+        }
     }
 }

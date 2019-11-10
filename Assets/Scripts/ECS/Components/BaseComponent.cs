@@ -8,6 +8,7 @@ namespace Pantheon.ECS.Components
     public abstract class BaseComponent
     {
         public int GUID { get; private set; } = -1;
+        public bool Enabled { get; set; }
         public event System.Action<ComponentMessage> MessageEvent;
 
         public void AssignToEntity(Entity e)

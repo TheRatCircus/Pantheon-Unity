@@ -9,45 +9,55 @@ namespace Pantheon.Commands
 {
     public sealed class MoveCommand : Command
     {
-        public Level Level { get; private set; }
-        public Cell Destination { get; private set; }
+        public Level DestinationLevel { get; private set; }
+        public Cell DestinationCell { get; private set; }
         public int MoveTime { get; private set; }
 
         public MoveCommand(Entity entity, Cell destination, int moveTime)
             : base(entity)
         {
-            Destination = destination;
+            DestinationCell = destination;
             MoveTime = moveTime;
-            Level = entity.GetComponent<Position>().Level;
+            DestinationLevel = entity.GetComponent<Position>().Level;
         }
 
         public MoveCommand(Entity entity, Vector2Int dir, int moveTime)
             : base(entity)
         {
             MoveTime = moveTime;
-            Level = entity.GetComponent<Position>().Level;
-            if (!Level.Map.TryGetValue(dir, out Cell c))
-                Destination = null;
+            Position pos = entity.GetComponent<Position>();
+            DestinationLevel = pos.Level;
+
+            if (DestinationLevel.Map.TryGetValue(pos.Cell.Position + dir, out Cell c))
+                DestinationCell = c;
             else
-                Destination = c;
+                DestinationCell = null;
         }
 
         public override int Execute()
         {
-            if (Destination == null)
+            if (DestinationCell == null)
                 return -1;
 
-            if (Destination.Blocked)
+            if (DestinationCell.Blocked)
             {
-                if (Entity.GetComponent<Actor>().HostileTo(Destination.Blocker))
-                    return new MeleeCommand(Entity, Destination).Execute();
+                if (Entity.GetComponent<Actor>().HostileTo(DestinationCell.Blocker))
+                    return new MeleeCommand(Entity, DestinationCell).Execute();
                 else if (Entity.HasComponent<AI>())
                     return new WaitCommand(Entity).Execute();
                 else
                     return -1;
             }
-            Entity.GetComponent<Position>().Move(Entity, Level, Destination);
+
+            Entity.GetComponent<Position>().SetDestination(DestinationLevel,
+                DestinationCell);
+
             return MoveTime;
+        }
+
+        public override string ToString()
+        {
+            return $"{Entity.ToString()} is moving to {DestinationCell}";
         }
     }
 }

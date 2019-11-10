@@ -14,7 +14,7 @@ namespace Pantheon.Commands
         public delegate void OnConfirm();
         public OnConfirm onConfirm = null;
 
-        public Entity Entity { get; set; } = null;
+        public Entity Entity { get; private set; } = null;
 
         public Command(Entity entity) => Entity = entity;
 

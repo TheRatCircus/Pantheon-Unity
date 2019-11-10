@@ -5,7 +5,9 @@ namespace Pantheon.ECS.Systems
 {
     public abstract class ComponentSystem
     {
-        protected Manager mgr;
+        protected EntityManager mgr;
+
+        public ComponentSystem(EntityManager mgr) => this.mgr = mgr;
 
         public abstract void UpdateComponents();
     }

@@ -2,31 +2,35 @@
 // Jerome Martina
 
 using UnityEngine;
-using System.Collections.Generic;
 
 namespace Pantheon.ECS.Systems
 {
     public sealed class SystemManager : MonoBehaviour
     {
-        private PlayerSystem playerSystem;
+        public PlayerSystem PlayerSystem { get; private set; }
         private ActorSystem actorSystem;
 
-        HashSet<ComponentSystem> systems;
+        private ComponentSystem[] systems = new ComponentSystem[2];
 
-        private void Awake()
+        public void Initialize(EntityManager mgr)
         {
+            PlayerSystem = new PlayerSystem(mgr);
+            actorSystem = new ActorSystem(mgr);
             actorSystem.ActionDoneEvent += UpdatePerTurnSystems;
+
+            systems[0] = new HealthSystem(mgr);
+            systems[1] = new PositionSystem(mgr);
         }
 
         private void Update() => UpdatePerFrameSystems();
 
         private void UpdatePerFrameSystems()
         {
-            playerSystem.UpdateComponents();
+            PlayerSystem.UpdateComponents();
             actorSystem.UpdateComponents();
         }
 
-        private void UpdatePerTurnSystems()
+        public void UpdatePerTurnSystems()
         {
             foreach (ComponentSystem sys in systems)
                 sys.UpdateComponents();

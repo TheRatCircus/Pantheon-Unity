@@ -17,20 +17,25 @@ namespace Pantheon.ECS.Systems
         // a turn is considered to have passed
         [ReadOnly] [SerializeField] private int turnProgress = 0;
         [ReadOnly] [SerializeField] private int turns = 0;
+
         [ReadOnly] [SerializeField] private int lockCount = 0;
-        private List<Actor> queue = new List<Actor>();
+        private List<Actor> queue = null;
         private Actor currentActor = null;
         private bool currentActorRemoved = false;
 
-        // Events
-        public event Action OnTurnChangeEvent;
-        public event Action<int> OnClockTickEvent;
-        public event Action<int> OnPlayerActionEvent;
+        public event Action TurnChangeEvent;
+        public event Action<int> ClockTickEvent;
+        public event Action<int> PlayerActionEvent;
         public event Action<Actor> ActorDebugEvent;
         public event Action ActionDoneEvent;
 
+        public ActorSystem(EntityManager mgr) : base(mgr) { }
+
         public override void UpdateComponents()
         {
+            if (queue == null)
+                queue = mgr.ActorComponents;
+
             for (int i = 0; i < queue.Count; i++)
                 if (!Tick())
                     break;
@@ -43,11 +48,12 @@ namespace Pantheon.ECS.Systems
             if (lockCount > 0)
                 return false;
 
-            if (queue.Count <= 0)
-                throw new Exception(
-                    "Turn queue should not be empty");
+            //if (queue.Count <= 0)
+            //    throw new Exception(
+            //        "Turn queue should not be empty");
 
             Actor actor = queue[0];
+            
             if (actor == null)
                 return false;
 
@@ -62,8 +68,11 @@ namespace Pantheon.ECS.Systems
                 currentActor = actor;
                 switch (actor.ActorControl)
                 {
-                    case ActorControl.None:
-                        return false;
+                    case ActorControl.None: // Skip any uncontrolled actor
+                        Actor a = queue[0];
+                        queue.RemoveAt(0);
+                        queue.Add(a);
+                        return true;
                     case ActorControl.Player:
                         break;
                     case ActorControl.AI:
@@ -104,11 +113,11 @@ namespace Pantheon.ECS.Systems
                         turnProgress %= TurnTime;
 
                         for (int i = 0; i < turnsPassed; i++)
-                            OnTurnChangeEvent?.Invoke();
-                        OnClockTickEvent?.Invoke(turns);
+                            TurnChangeEvent?.Invoke();
+                        ClockTickEvent?.Invoke(turns);
                     }
                     // Signals a successful player action to HUD
-                    OnPlayerActionEvent?.Invoke(actor.Energy);
+                    PlayerActionEvent?.Invoke(actor.Energy);
                 }
                 // Action may have added a lock
                 if (lockCount > 0)
@@ -120,7 +129,7 @@ namespace Pantheon.ECS.Systems
 
             // Update HUD again to reflect refill
             if (actor.PlayerControlled)
-                OnPlayerActionEvent?.Invoke(actor.Energy);
+                PlayerActionEvent?.Invoke(actor.Energy);
 
             Actor dequeued = queue[0];
             queue.RemoveAt(0);

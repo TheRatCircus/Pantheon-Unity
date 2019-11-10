@@ -6,11 +6,14 @@ using UnityEngine;
 
 namespace Pantheon.ECS.Systems
 {
+    /// <summary>
+    /// Player input handler.
+    /// </summary>
     public sealed class PlayerSystem : ComponentSystem
     {
         public Action<InputMessage> InputMessageEvent;
 
-        private void Awake() => UnityEngine.Debug.Log("Player system awake.");
+        public PlayerSystem(EntityManager mgr) : base(mgr) { }
 
         public override void UpdateComponents()
         {

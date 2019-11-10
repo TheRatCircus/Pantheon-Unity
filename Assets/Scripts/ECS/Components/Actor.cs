@@ -74,19 +74,19 @@ namespace Pantheon.ECS.Components
     [System.Serializable]
     public sealed class Player : BaseComponent
     {
-        private Entity entity;
-        private Actor actor;
+        public Entity Entity { get; set; }
+        public Actor Actor { get; set; }
 
         public void SendInput(InputMessage msg)
         {
             switch (msg.type)
             {
                 case InputType.Direction:
-                    actor.Command = new MoveCommand(entity, msg.vector,
+                    Actor.Command = new MoveCommand(Entity, msg.vector,
                         ActorSystem.TurnTime);
                     break;
                 case InputType.Wait:
-                    actor.Command = new WaitCommand(entity);
+                    Actor.Command = new WaitCommand(Entity);
                     break;
             }
         }

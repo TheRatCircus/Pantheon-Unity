@@ -1,8 +1,6 @@
 ﻿// Position.cs
 // Jerome Martina
 
-using Pantheon.Utils;
-
 namespace Pantheon.ECS.Components
 {
     [System.Serializable]
@@ -20,19 +18,10 @@ namespace Pantheon.ECS.Components
             Cell = cell;
         }
 
-        public void Move(Entity entity, Level level, Cell destination)
+        public void SetDestination(Level destinationLevel, Cell destinationCell)
         {
-            if (Cell != null)
-                Cell.RemoveEntity(entity);
-
-            if (entity.TryGetComponent(out UnityGameObject go))
-                go.GameObject.transform.position = Helpers.V2IToV3(
-                    Cell.Position);
-
-            destination.AddEntity(entity);
-
-            Level = level;
-            Cell = destination;
+            DestinationLevel = destinationLevel;
+            DestinationCell = destinationCell;
         }
     }
 }

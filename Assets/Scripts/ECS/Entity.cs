@@ -2,8 +2,8 @@
 // Jerome Martina
 
 using Pantheon.ECS.Components;
-using Pantheon.ECS.Templates;
 using Pantheon.ECS.Messages;
+using Pantheon.ECS.Templates;
 using System;
 using System.Collections.Generic;
 
@@ -12,7 +12,7 @@ namespace Pantheon.ECS
     [Serializable]
     public sealed class Entity
     {
-        public string Name { get; private set; }
+        public string Name { get; private set; } = "DEFAULT_ENTITY_NAME";
         public int GUID { get; private set; }
         [UnityEngine.SerializeField]
         [ReadOnly]
@@ -22,14 +22,37 @@ namespace Pantheon.ECS
 
         public Entity(string name, params BaseComponent[] components)
         {
+            Name = name;
             foreach (BaseComponent c in components)
-                Components.Add(c.GetType(), c);
+                AddComponent(c);
+            ConnectComponents();
         }
 
         public Entity(string name, Template template)
         {
+            Name = name;
             foreach (BaseComponent c in template.Unload())
-                Components.Add(c.GetType(), c); 
+                AddComponent(c);
+            ConnectComponents();
+        }
+
+        // Some components are interdependent,
+        // so hook them up after construction
+        private void ConnectComponents()
+        {
+            if (components.TryGetValue(typeof(Player), out BaseComponent c))
+            {
+                Player p = (Player)c;
+                p.Entity = this;
+                p.Actor = GetComponent<Actor>();
+            }
+        }
+
+        public void SetGUID(int guid)
+        {
+            GUID = guid;
+            foreach (BaseComponent c in components.Values)
+                c.AssignToEntity(this);
         }
 
         public T GetComponent<T>() where T : BaseComponent
@@ -81,5 +104,13 @@ namespace Pantheon.ECS
             else
                 target.Receive(msg);
         }
+
+        public void SetEnabled(bool enabled)
+        {
+            foreach (BaseComponent c in components.Values)
+                c.Enabled = enabled;
+        }
+
+        public override string ToString() => Name;
     }
 }

@@ -9,7 +9,11 @@ namespace Pantheon.ECS
 {
     public sealed class EntityFactory
     {
-        public static Entity NewEntity(Template template)
+        private EntityManager mgr;
+
+        public EntityFactory(EntityManager mgr) => this.mgr = mgr;
+
+        public Entity NewEntity(Template template)
         {
             Entity e = new Entity(template.Name, template);
 
@@ -24,15 +28,19 @@ namespace Pantheon.ECS
                 obj.name = template.Name;
             }
 
+            mgr.AddEntity(e);
             return e;
         }
 
-        public static Entity NewEntityAt(Template template, Level level,
+        public Entity NewEntityAt(Template template, Level level,
             Cell cell)
         {
             Entity e = NewEntity(template);
-            if (!e.HasComponent<Position>())
+            if (!e.TryGetComponent(out Position pos))
                 e.AddComponent(new Position(level, cell));
+            else
+                pos.SetDestination(level, cell);
+
             return e;
         }
     }

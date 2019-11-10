@@ -8,6 +8,8 @@ namespace Pantheon.ECS.Systems
 {
     public sealed class HealthSystem : ComponentSystem
     {
+        public HealthSystem(EntityManager mgr) : base(mgr) { }
+
         public override void UpdateComponents()
         {
             foreach (Health health in mgr.HealthComponents)
