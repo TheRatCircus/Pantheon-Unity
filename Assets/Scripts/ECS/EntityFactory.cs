@@ -5,6 +5,7 @@ using Pantheon.ECS.Components;
 using Pantheon.ECS.Templates;
 using Pantheon.World;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Pantheon.ECS
 {
@@ -35,7 +36,7 @@ namespace Pantheon.ECS
                 sr.sprite = e.GetComponent<GameObjectSprite>().Sprite;
                 obj.name = template.Name;
             }
-
+            
             return e;
         }
 

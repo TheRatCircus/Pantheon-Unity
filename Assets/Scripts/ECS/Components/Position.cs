@@ -14,6 +14,8 @@ namespace Pantheon.ECS.Components
         public Level DestinationLevel { get; set; }
         public Cell DestinationCell { get; set; }
 
+        public Position() { }
+
         public Position(Level level, Cell cell)
         {
             Level = level;
@@ -24,6 +26,11 @@ namespace Pantheon.ECS.Components
         {
             DestinationLevel = destinationLevel;
             DestinationCell = destinationCell;
+        }
+
+        public override BaseComponent Clone()
+        {
+            return new Position();
         }
 
         public override string ToString()

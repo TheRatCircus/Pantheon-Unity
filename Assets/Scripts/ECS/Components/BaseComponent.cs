@@ -28,5 +28,7 @@ namespace Pantheon.ECS.Components
             throw new System.NotImplementedException(
                 "This component does not support messaging.");
         }
+
+        public abstract BaseComponent Clone();
     }
 }

@@ -29,6 +29,12 @@ namespace Pantheon.ECS.Components
         public bool PlayerControlled => ActorControl == ActorControl.Player;
         public bool AIControlled => ActorControl == ActorControl.AI;
 
+        public Actor(int speed, int energy)
+        {
+            this.speed = speed;
+            this.energy = energy;
+        }
+
         /// <summary>
         /// Consume this actor's action.
         /// </summary>
@@ -69,6 +75,11 @@ namespace Pantheon.ECS.Components
             else
                 return false;
         }
+
+        public override BaseComponent Clone()
+        {
+            return new Actor(speed, energy);
+        }
     }
 
     [System.Serializable]
@@ -90,6 +101,11 @@ namespace Pantheon.ECS.Components
                     break;
             }
         }
+
+        public override BaseComponent Clone()
+        {
+            return new Player();
+        }
     }
 
     [System.Serializable]
@@ -100,6 +116,11 @@ namespace Pantheon.ECS.Components
         private void Act()
         {
 
+        }
+
+        public override BaseComponent Clone()
+        {
+            return new AI();
         }
     }
 }

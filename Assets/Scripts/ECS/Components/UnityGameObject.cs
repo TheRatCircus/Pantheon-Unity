@@ -12,5 +12,10 @@ namespace Pantheon.ECS.Components
     public sealed class UnityGameObject : BaseComponent
     {
         public GameObject GameObject { get; set; }
+
+        public override BaseComponent Clone()
+        {
+            return new UnityGameObject();
+        }
     }
 }

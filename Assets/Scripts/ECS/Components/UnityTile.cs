@@ -23,5 +23,10 @@ namespace Pantheon.ECS.Components
         {
             this.tile = tile;
         }
+
+        public override BaseComponent Clone()
+        {
+            return new UnityTile(tile);
+        }
     }
 }

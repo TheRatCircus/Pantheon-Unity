@@ -20,5 +20,17 @@ namespace Pantheon.ECS.Components
         {
             get => regenProgress; set => regenProgress = value;
         }
+
+        public Health(int max, int regenRate)
+        {
+            this.max = max;
+            current = this.max;
+            this.regenRate = regenRate;
+        }
+
+        public override BaseComponent Clone()
+        {
+            return new Health(max, regenRate);
+        }
     }
 }

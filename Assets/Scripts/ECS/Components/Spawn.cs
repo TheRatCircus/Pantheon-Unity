@@ -10,5 +10,10 @@ namespace Pantheon.ECS.Components
     public sealed class Spawn : BaseComponent
     {
         public EntityFactory Factory { get; private set; }
+
+        public override BaseComponent Clone()
+        {
+            return new Spawn();
+        }
     }
 }

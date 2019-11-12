@@ -45,7 +45,7 @@ namespace Pantheon.ECS
             Name = name;
             Archetype = template.Archetype;
             foreach (BaseComponent c in template.Unload())
-                AddComponent(c.DeepClone());
+                AddComponent(c.Clone());
             ConnectComponents();
         }
 

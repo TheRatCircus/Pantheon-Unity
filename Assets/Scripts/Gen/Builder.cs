@@ -25,7 +25,7 @@ namespace Pantheon.Gen
         public Level Run(EntityFactory factory)
         {
             Level level = new Level(displayName, id);
-            plan.Run(level, 20, 20, factory);
+            plan.Run(level, 200, 200, factory);
             return level;
         }
     }
