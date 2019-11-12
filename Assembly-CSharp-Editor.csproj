@@ -62,8 +62,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Editor\BuilderPlanGenerator.cs" />
     <Compile Include="Assets\Editor\CreateAssetBundles.cs" />
-    <Compile Include="Assets\Editor\Database.cs" />
     <Compile Include="Assets\Editor\EnumOrderDrawer.cs" />
     <Compile Include="Assets\Editor\OnPlayMode.cs" />
     <Compile Include="Assets\Editor\ReadOnlyDrawer.cs" />
@@ -331,6 +331,9 @@
     </Reference>
     <Reference Include="UnityEditor.Purchasing">
       <HintPath>D:/Misc/Development/unity/Pantheon/Library/PackageCache/com.unity.purchasing@2.0.6/Editor/UnityEditor.Purchasing.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>D:/Misc/Development/unity/Pantheon/Library/PackageCache/jillejr.newtonsoft.json-for-unity@12.0.1-patch-001/Plugins/Newtonsoft.Json Editor/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>D:/Misc/Development/unity/Pantheon/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>

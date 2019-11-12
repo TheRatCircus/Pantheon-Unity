@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1852053062
+CRC: 2573906760
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: af305afb118df636ae4fdfb883a52702
+    Hash: 34c7686ce08f56a63a79cbebaa822a9a
   TypeTreeHash:
     serializedVersion: 2
-    Hash: cd0013560214ef49039b368191162a3c
+    Hash: 1ada985054983fb12f81c75a39e8f544
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -19,10 +19,23 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 48
   Script: {instanceID: 0}
+- Class: 49
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 9a7970a28fc8bc845aa7527e2d73a16f, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 9859a4d6c0e2e2e4184e5e8418ed8345, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
 - Class: 212
   Script: {instanceID: 0}
 - Class: 213
   Script: {instanceID: 0}
 Assets:
+- Assets/Templates/Ground_Grass.asset
+- Assets/Templates/Wall_StoneWall.asset
 - Assets/Prefabs/Actors/GameObjectPrefab.prefab
+- Assets/BuilderPlans/Plan_Valley.json
 Dependencies: []

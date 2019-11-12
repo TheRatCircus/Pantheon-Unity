@@ -23,31 +23,31 @@ namespace Pantheon.UI
             SceneManager.LoadScene(Scenes.Intro, LoadSceneMode.Single);
         }
 
-        public void OpenLoadMenu()
-        {
-            mainTitle.SetActive(false);
-            loadMenu.SetActive(true);
+        //public void OpenLoadMenu()
+        //{
+        //    mainTitle.SetActive(false);
+        //    loadMenu.SetActive(true);
 
-            string[] saveFiles = Directory.GetFiles
-                (Application.persistentDataPath, "*.save",
-                SearchOption.AllDirectories);
+        //    string[] saveFiles = Directory.GetFiles
+        //        (Application.persistentDataPath, "*.save",
+        //        SearchOption.AllDirectories);
 
-            BinaryFormatter formatter = new BinaryFormatter();
-            foreach (string filePath in saveFiles)
-            {
-                FileStream stream = new FileStream(filePath, FileMode.Open);
-                Save save = formatter.Deserialize(stream) as Save;
-                GameObject saveOption = Instantiate(saveOptionPrefab,
-                    saveOptionsList);
-                Button saveOptionBtn = saveOption.GetComponent<Button>();
-                Text saveOptionLabel
-                    = saveOption.GetComponentInChildren<Text>();
-                saveOptionLabel.text = save.SaveName;
+        //    BinaryFormatter formatter = new BinaryFormatter();
+        //    foreach (string filePath in saveFiles)
+        //    {
+        //        FileStream stream = new FileStream(filePath, FileMode.Open);
+        //        Save save = formatter.Deserialize(stream) as Save;
+        //        GameObject saveOption = Instantiate(saveOptionPrefab,
+        //            saveOptionsList);
+        //        Button saveOptionBtn = saveOption.GetComponent<Button>();
+        //        Text saveOptionLabel
+        //            = saveOption.GetComponentInChildren<Text>();
+        //        saveOptionLabel.text = save.SaveName;
 
-                saveOptionBtn.onClick.AddListener
-                    (delegate { StartCoroutine(LoadGame(save)); });
-            }
-        }
+        //        saveOptionBtn.onClick.AddListener
+        //            (delegate { StartCoroutine(LoadGame(save)); });
+        //    }
+        //}
 
         public void ToTitle()
         {
@@ -55,20 +55,19 @@ namespace Pantheon.UI
             mainTitle.SetActive(true);
         }
 
-        public System.Collections.IEnumerator LoadGame(Save save)
-        {
-            AsyncOperation load = SceneManager.LoadSceneAsync(Scenes.Game);
+        //public System.Collections.IEnumerator LoadGame(Save save)
+        //{
+        //    AsyncOperation load = SceneManager.LoadSceneAsync(Scenes.Game);
 
-            while (!load.isDone)
-                yield return null;
+        //    while (!load.isDone)
+        //        yield return null;
 
-            SceneManager.LoadSceneAsync(Scenes.Game, LoadSceneMode.Additive).
-                completed += (AsyncOperation op) =>
-                {
-                    Core.Game.LoadGame(save);
-                    SceneManager.UnloadSceneAsync(gameObject.scene);
-                };
-        }
+        //    SceneManager.LoadSceneAsync(Scenes.Game, LoadSceneMode.Additive).
+        //        completed += (AsyncOperation op) =>
+        //        {
+        //            SceneManager.UnloadSceneAsync(gameObject.scene);
+        //        };
+        //}
 
         public void Quit() =>
 #if UNITY_EDITOR

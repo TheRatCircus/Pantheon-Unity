@@ -1,0 +1,27 @@
+﻿// WallTemplate.cs
+// Jerome Martina
+
+using Pantheon.ECS.Components;
+using UnityEngine;
+
+namespace Pantheon.ECS.Templates
+{
+    [CreateAssetMenu(fileName = "New WallTemplate",
+        menuName = "Pantheon/Templates/Wall")]
+    public sealed class WallTemplate : Template
+    {
+        [SerializeField] private UnityTile tile = default;
+        [SerializeField] private Blocking blocking = default;
+        [SerializeField] private Position position = default;
+
+        public override BaseComponent[] Unload()
+        {
+            return new BaseComponent[]
+            {
+                tile,
+                blocking,
+                position
+            };
+        }
+    }
+}

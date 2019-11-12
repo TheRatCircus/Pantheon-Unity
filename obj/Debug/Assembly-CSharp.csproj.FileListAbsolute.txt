@@ -285,3 +285,6 @@ D:\Misc\Development\unity\Pantheon\Temp\bin\Debug\UnityEngine.VehiclesModule.xml
 D:\Misc\Development\unity\Pantheon\Temp\bin\Debug\UnityEngine.VideoModule.xml
 D:\Misc\Development\unity\Pantheon\Temp\bin\Debug\UnityEngine.WindModule.xml
 D:\Misc\Development\unity\Pantheon\Temp\bin\Debug\UnityEngine.XRModule.xml
+D:\Misc\Development\unity\Pantheon\Temp\bin\Debug\Newtonsoft.Json.dll
+D:\Misc\Development\unity\Pantheon\Temp\bin\Debug\Newtonsoft.Json.pdb
+D:\Misc\Development\unity\Pantheon\Temp\bin\Debug\Newtonsoft.Json.xml

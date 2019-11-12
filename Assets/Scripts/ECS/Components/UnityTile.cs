@@ -9,7 +9,15 @@ namespace Pantheon.ECS.Components
     public sealed class UnityTile : BaseComponent
     {
         [SerializeField] private RuleTile tile = default;
-        public RuleTile Tile { get => tile; set => tile = value; }
+        public RuleTile Tile {
+            get
+            {
+                if (tile == null)
+                    throw new System.Exception();
+                else
+                    return tile;
+            }
+        }
 
         public UnityTile(RuleTile tile)
         {

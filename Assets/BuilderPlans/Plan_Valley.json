@@ -1,0 +1,17 @@
+{
+  "$type": "Pantheon.Gen.BuilderPlan, Assembly-CSharp",
+  "steps": {
+    "$type": "Pantheon.Gen.BuilderStep[], Assembly-CSharp",
+    "$values": [
+      {
+        "$type": "Pantheon.Gen.Fill, Assembly-CSharp",
+        "fillEntityID": "Ground_Grass"
+      },
+      {
+        "$type": "Pantheon.Gen.RandomFill, Assembly-CSharp",
+        "percent": 50,
+        "fillEntityID": "Wall_StoneWall"
+      }
+    ]
+  }
+}

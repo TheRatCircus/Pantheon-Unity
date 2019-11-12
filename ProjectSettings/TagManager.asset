@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Intro
   - EventSystem
+  - GameWorld
   layers:
   - Default
   - TransparentFX

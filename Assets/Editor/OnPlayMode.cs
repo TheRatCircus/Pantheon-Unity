@@ -33,6 +33,7 @@ public static class EditorScenes
 
     private static void CloseScenes()
     {
+        EditorSceneManager.SaveOpenScenes();
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {
             Scene scene = SceneManager.GetSceneAt(i);

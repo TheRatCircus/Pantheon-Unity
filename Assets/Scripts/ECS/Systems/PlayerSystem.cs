@@ -11,17 +11,22 @@ namespace Pantheon.ECS.Systems
     /// </summary>
     public sealed class PlayerSystem : ComponentSystem
     {
+        public bool InputToCharacter { get; set; } = true;
+
         public Action<InputMessage> InputMessageEvent;
 
         public PlayerSystem(EntityManager mgr) : base(mgr) { }
 
         public override void UpdateComponents()
         {
-            InputType axis = InputType.None;
-            Vector2Int inputVector = Vector2Int.zero;
+            if (!InputToCharacter)
+                return;
 
             if (!Input.anyKeyDown)
                 return;
+
+            InputType axis = InputType.None;
+            Vector2Int inputVector = Vector2Int.zero;
 
             if (Input.GetButtonDown("Up"))
             {

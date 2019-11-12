@@ -111,6 +111,14 @@ namespace Pantheon.ECS
                 c.Enabled = enabled;
         }
 
+        public string ListComponents()
+        {
+            string ret = "";
+            foreach (BaseComponent c in components.Values)
+                ret += c;
+            return ret;
+        }
+
         public override string ToString() => Name;
     }
 }

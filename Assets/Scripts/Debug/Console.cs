@@ -1,11 +1,12 @@
 ﻿// Console.cs
 // Jerome Martina
 
+using Pantheon.Core;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Pantheon.Core;
 using static Pantheon.Debug.ConsoleCommandFunctions;
 
 namespace Pantheon.Debug
@@ -15,37 +16,32 @@ namespace Pantheon.Debug
     /// </summary>
     public class Console : MonoBehaviour
     {
-        [SerializeField] private GameObject console = null;
-        [SerializeField] private Text consoleLog = null;
-        [SerializeField] private InputField input = null;
+        [SerializeField] private GameController controller = default;
+        [SerializeField] private GameObject console = default;
+        [SerializeField] private Text consoleLog = default;
+        [SerializeField] private InputField input = default;
 
         private List<string> logEntries = new List<string>();
 
-        private Dictionary<string, ConsoleCommand> consoleCommands;
+        private Dictionary<string, ConsoleCommand> consoleCommands =
+            new Dictionary<string, ConsoleCommand>()
+            {
+                { "list_layers", new ConsoleCommand(ListLayers) },
+                { "list_levels", new ConsoleCommand(ListLevels) },
+                { "where_am_i", new ConsoleCommand(WhereAmI) }
+            };
 
         private void Awake()
         {
-            consoleCommands = new Dictionary<string, ConsoleCommand>()
+            Scene game = SceneManager.GetSceneByName(Utils.Scenes.Game);
+            foreach (GameObject go in game.GetRootGameObjects())
             {
-                { "reveal_level", new ConsoleCommand(RevealLevel) },
-                { "reveal_map", new ConsoleCommand(RevealLevel) },
-                { "apply_status", new ConsoleCommand(ApplyStatus) },
-                { "give_item", new ConsoleCommand(GiveItem) },
-                { "learn_spell", new ConsoleCommand(LearnSpell) },
-                { "add_trait", new ConsoleCommand(AddTrait) },
-                { "kill_level", new ConsoleCommand(KillLevel) },
-                { "idolmode", new ConsoleCommand(IdolMode) },
-                { "open_sanctum", new ConsoleCommand(OpenSanctum) },
-                { "list_religions", new ConsoleCommand(ListReligions) },
-                { "join_religion", new ConsoleCommand(JoinReligion) },
-                { "list_levels", new ConsoleCommand(ListLevels) },
-                { "list_idols", new ConsoleCommand(ListIdols) },
-                { "where_am_i", new ConsoleCommand(WhereAmI) },
-                { "add_trait_points", new ConsoleCommand(AddTraitPoints) },
-                { "see_all", new ConsoleCommand(SeeAll) },
-                { "level_up", new ConsoleCommand(LevelUp) },
-                { "relic", new ConsoleCommand(Relic) }
-            };
+                if (go.tag == "GameController")
+                {
+                    controller = go.GetComponent<GameController>();
+                    break;
+                }
+            }
         }
 
         // Update is called once per frame
@@ -57,14 +53,14 @@ namespace Pantheon.Debug
                 {
                     input.text = "";
                     console.SetActive(false);
-                    Game.GetPlayer().Input.SetInputState(InputState.Move);
+                    controller.AllowInputToCharacter(false);
                 }
                 else
                 {
                     console.SetActive(true);
                     input.Select();
                     input.ActivateInputField();
-                    Game.GetPlayer().Input.SetInputState(InputState.Console);
+                    controller.AllowInputToCharacter(false);
                 }
             }
 
@@ -91,7 +87,7 @@ namespace Pantheon.Debug
                 string[] args = new string[tokens.Length - 1];
                 Array.Copy(tokens, 1, args, 0, tokens.Length - 1);
 
-                output = cmd.action?.Invoke(args);
+                output = cmd.action.Invoke(args, controller);
             }
 
             logEntries.Add(output);
@@ -109,9 +105,9 @@ namespace Pantheon.Debug
 
     public class ConsoleCommand
     {
-        public Func<string[], string> action;
+        public Func<string[], GameController, string> action;
 
-        public ConsoleCommand(Func<string[], string> action)
+        public ConsoleCommand(Func<string[], GameController, string> action)
             => this.action = action;
     }
 }

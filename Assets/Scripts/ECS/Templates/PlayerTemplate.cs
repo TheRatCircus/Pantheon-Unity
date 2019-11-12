@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Pantheon.ECS.Templates
 {
     [CreateAssetMenu(fileName = "PlayerTemplate",
-        menuName = "Pantheon/Entity Template/Player")]
+        menuName = "Pantheon/Templates/Player")]
     public sealed class PlayerTemplate : Template
     {
         [SerializeField] private GameObjectSprite sprite = default;

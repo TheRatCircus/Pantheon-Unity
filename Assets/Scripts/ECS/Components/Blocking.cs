@@ -6,6 +6,6 @@ namespace Pantheon.ECS.Components
     [System.Serializable]
     public sealed class Blocking : BaseComponent
     {
-        public bool IsBlocking = true;
+        public bool IsBlocking = true; // Switch on/off for doors, etc.
     }
 }

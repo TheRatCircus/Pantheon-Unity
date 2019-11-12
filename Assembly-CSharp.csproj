@@ -10,8 +10,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{D8FF56EA-5D97-32BB-196E-D0BA45FA9996}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -63,88 +62,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Cell.cs" />
-    <Compile Include="Assets\GameController.cs" />
-    <Compile Include="Assets\Level.cs" />
-    <Compile Include="Assets\Save.cs" />
-    <Compile Include="Assets\Scripts\Actions\BaseAction.cs" />
-    <Compile Include="Assets\Scripts\Actions\CastAction.cs" />
-    <Compile Include="Assets\Scripts\Actions\DropAction.cs" />
-    <Compile Include="Assets\Scripts\Actions\ExplodeAction.cs" />
-    <Compile Include="Assets\Scripts\Actions\HealAction.cs" />
-    <Compile Include="Assets\Scripts\Actions\ItemUseAction.cs" />
-    <Compile Include="Assets\Scripts\Actions\LineProjAction.cs" />
-    <Compile Include="Assets\Scripts\Actions\MeleeAction.cs" />
-    <Compile Include="Assets\Scripts\Actions\MoveAction.cs" />
-    <Compile Include="Assets\Scripts\Actions\PickupAction.cs" />
-    <Compile Include="Assets\Scripts\Actions\ShootAction.cs" />
-    <Compile Include="Assets\Scripts\Actions\TossAction.cs" />
-    <Compile Include="Assets\Scripts\Actions\WaitAction.cs" />
-    <Compile Include="Assets\Scripts\Actions\WearAction.cs" />
-    <Compile Include="Assets\Scripts\Actions\WieldAction.cs" />
-    <Compile Include="Assets\Scripts\Actors\Actor.cs" />
-    <Compile Include="Assets\Scripts\Actors\Appendage.cs" />
-    <Compile Include="Assets\Scripts\Actors\Attributes.cs" />
-    <Compile Include="Assets\Scripts\Actors\Body.cs" />
-    <Compile Include="Assets\Scripts\Actors\Defenses.cs" />
-    <Compile Include="Assets\Scripts\Actors\Equipment.cs" />
-    <Compile Include="Assets\Scripts\Actors\Idol.cs" />
-    <Compile Include="Assets\Scripts\Actors\Inventory.cs" />
-    <Compile Include="Assets\Scripts\Actors\NPC.cs" />
-    <Compile Include="Assets\Scripts\Actors\Player.cs" />
-    <Compile Include="Assets\Scripts\Actors\StatusEffect.cs" />
-    <Compile Include="Assets\Scripts\Actors\Trait.cs" />
-    <Compile Include="Assets\Scripts\Actors\TraitEffects.cs" />
-    <Compile Include="Assets\Scripts\Actors\Traits.cs" />
-    <Compile Include="Assets\Scripts\Assets.cs" />
+    <Compile Include="Assets\Scripts\AssetLoader.cs" />
     <Compile Include="Assets\Scripts\CameraControl.cs" />
     <Compile Include="Assets\Scripts\Commands\Command.cs" />
     <Compile Include="Assets\Scripts\Commands\MeleeCommand.cs" />
     <Compile Include="Assets\Scripts\Commands\MoveCommand.cs" />
     <Compile Include="Assets\Scripts\Commands\WaitCommand.cs" />
-    <Compile Include="Assets\Scripts\Components\AmmoWrapper.cs" />
-    <Compile Include="Assets\Scripts\Components\Components.cs" />
-    <Compile Include="Assets\Scripts\Components\ComponentWrapper.cs" />
-    <Compile Include="Assets\Scripts\Components\DefensesWrapper.cs" />
-    <Compile Include="Assets\Scripts\Components\EquipmentWrapper.cs" />
-    <Compile Include="Assets\Scripts\Components\ExplodeActionWrapper.cs" />
-    <Compile Include="Assets\Scripts\Components\HealActionWrapper.cs" />
-    <Compile Include="Assets\Scripts\Components\LineProjActionWrapper.cs" />
-    <Compile Include="Assets\Scripts\Components\RangedWrapper.cs" />
-    <Compile Include="Assets\Scripts\Content\AppendageDef.cs" />
-    <Compile Include="Assets\Scripts\Content\FeatureDef.cs" />
-    <Compile Include="Assets\Scripts\Content\ItemDef.cs" />
-    <Compile Include="Assets\Scripts\Content\NPCWrapper.cs" />
-    <Compile Include="Assets\Scripts\Content\Species.cs" />
-    <Compile Include="Assets\Scripts\Content\Spell.cs" />
-    <Compile Include="Assets\Scripts\Content\TerrainDef.cs" />
-    <Compile Include="Assets\Scripts\Core\Aspect.cs" />
-    <Compile Include="Assets\Scripts\Core\CellDrawer.cs" />
-    <Compile Include="Assets\Scripts\Core\Database.cs" />
-    <Compile Include="Assets\Scripts\Core\Faction.cs" />
-    <Compile Include="Assets\Scripts\Core\Game.cs" />
-    <Compile Include="Assets\Scripts\Core\GameLog.cs" />
-    <Compile Include="Assets\Scripts\Core\Occupation.cs" />
-    <Compile Include="Assets\Scripts\Core\Pantheon.cs" />
-    <Compile Include="Assets\Scripts\Core\PlayerInput.cs" />
-    <Compile Include="Assets\Scripts\Core\Save.cs" />
-    <Compile Include="Assets\Scripts\Core\SaveLoad.cs" />
-    <Compile Include="Assets\Scripts\Core\Spawn.cs" />
     <Compile Include="Assets\Scripts\Debug\Console.cs" />
     <Compile Include="Assets\Scripts\Debug\ConsoleCommandFunctions.cs" />
-    <Compile Include="Assets\Scripts\Debug\DebugInfo.cs" />
-    <Compile Include="Assets\Scripts\Debug\Visualisation.cs" />
-    <Compile Include="Assets\Scripts\DijkstraMap.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\Actor.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\BaseComponent.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\Blocking.cs" />
+    <Compile Include="Assets\Scripts\ECS\Components\GameObjectSprite.cs" />
+    <Compile Include="Assets\Scripts\ECS\Components\Ground.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\Health.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\Position.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\Spawn.cs" />
-    <Compile Include="Assets\Scripts\ECS\Components\Sprite.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\UnityGameObject.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\UnityTile.cs" />
-    <Compile Include="Assets\Scripts\ECS\Components\Walkable.cs" />
     <Compile Include="Assets\Scripts\ECS\Entity.cs" />
     <Compile Include="Assets\Scripts\ECS\EntityFactory.cs" />
     <Compile Include="Assets\Scripts\ECS\EntityManager.cs" />
@@ -156,74 +91,38 @@
     <Compile Include="Assets\Scripts\ECS\Systems\PlayerSystem.cs" />
     <Compile Include="Assets\Scripts\ECS\Systems\PositionSystem.cs" />
     <Compile Include="Assets\Scripts\ECS\Systems\SystemManager.cs" />
+    <Compile Include="Assets\Scripts\ECS\Templates\GroundTemplate.cs" />
     <Compile Include="Assets\Scripts\ECS\Templates\PlayerTemplate.cs" />
     <Compile Include="Assets\Scripts\ECS\Templates\Template.cs" />
-    <Compile Include="Assets\Scripts\Enchant.cs" />
+    <Compile Include="Assets\Scripts\ECS\Templates\WallTemplate.cs" />
     <Compile Include="Assets\Scripts\Enums\CardinalDirection.cs" />
     <Compile Include="Assets\Scripts\Enums\DamageType.cs" />
     <Compile Include="Assets\Scripts\Enums\Gender.cs" />
-    <Compile Include="Assets\Scripts\FX\FlyingProjectile.cs" />
-    <Compile Include="Assets\Scripts\FX\SplatFX.cs" />
+    <Compile Include="Assets\Scripts\GameController.cs" />
+    <Compile Include="Assets\Scripts\Gen\BinarySpacePartition.cs" />
+    <Compile Include="Assets\Scripts\Gen\Builder.cs" />
+    <Compile Include="Assets\Scripts\Gen\BuilderPlan.cs" />
+    <Compile Include="Assets\Scripts\Gen\BuilderStep.cs" />
+    <Compile Include="Assets\Scripts\Gen\Fill.cs" />
+    <Compile Include="Assets\Scripts\Gen\LevelGenerator.cs" />
     <Compile Include="Assets\Scripts\Hit.cs" />
-    <Compile Include="Assets\Scripts\IDescriptor.cs" />
     <Compile Include="Assets\Scripts\Inspector\EnumOrder.cs" />
     <Compile Include="Assets\Scripts\Inspector\ReadOnlyAttribute.cs" />
-    <Compile Include="Assets\Scripts\Item.cs" />
-    <Compile Include="Assets\Scripts\Node.cs" />
-    <Compile Include="Assets\Scripts\Pathfinder.cs" />
-    <Compile Include="Assets\Scripts\UI\DescriptionMenu.cs" />
-    <Compile Include="Assets\Scripts\UI\GUIClickController.cs" />
-    <Compile Include="Assets\Scripts\UI\HUD.cs" />
+    <Compile Include="Assets\Scripts\Save.cs" />
     <Compile Include="Assets\Scripts\UI\Intro.cs" />
-    <Compile Include="Assets\Scripts\UI\InventorySlot.cs" />
-    <Compile Include="Assets\Scripts\UI\InventoryUI.cs" />
     <Compile Include="Assets\Scripts\UI\MainMenu.cs" />
-    <Compile Include="Assets\Scripts\UI\ModalList\AppendageModalList.cs" />
-    <Compile Include="Assets\Scripts\UI\ModalList\AppendageModalListOption.cs" />
-    <Compile Include="Assets\Scripts\UI\ModalList\ItemModalList.cs" />
-    <Compile Include="Assets\Scripts\UI\ModalList\ItemModalListOption.cs" />
-    <Compile Include="Assets\Scripts\UI\ModalList\ModalList.cs" />
-    <Compile Include="Assets\Scripts\UI\ModalList\ModalListOption.cs" />
-    <Compile Include="Assets\Scripts\UI\ModalList\SpellModalList.cs" />
-    <Compile Include="Assets\Scripts\UI\ModalList\SpellModalListOption.cs" />
-    <Compile Include="Assets\Scripts\UI\OnScreenHealthBar.cs" />
-    <Compile Include="Assets\Scripts\UI\TraitMenu.cs" />
-    <Compile Include="Assets\Scripts\UI\TraitStar.cs" />
-    <Compile Include="Assets\Scripts\UI\WorldMap.cs" />
-    <Compile Include="Assets\Scripts\Utils\Algorithms.cs" />
-    <Compile Include="Assets\Scripts\Utils\Bresenhams.cs" />
     <Compile Include="Assets\Scripts\Utils\Colours.cs" />
     <Compile Include="Assets\Scripts\Utils\Helpers.cs" />
     <Compile Include="Assets\Scripts\Utils\ID.cs" />
     <Compile Include="Assets\Scripts\Utils\LevelRect.cs" />
     <Compile Include="Assets\Scripts\Utils\Markov.cs" />
+    <Compile Include="Assets\Scripts\Utils\ObjectExtensions.cs" />
     <Compile Include="Assets\Scripts\Utils\RandomUtils.cs" />
     <Compile Include="Assets\Scripts\Utils\Scenes.cs" />
-    <Compile Include="Assets\Scripts\Utils\StatusFactory.cs" />
-    <Compile Include="Assets\Scripts\Utils\Strings.cs" />
     <Compile Include="Assets\Scripts\World\Cell.cs" />
-    <Compile Include="Assets\Scripts\World\Connection.cs" />
-    <Compile Include="Assets\Scripts\World\Feature.cs" />
-    <Compile Include="Assets\Scripts\World\FOV.cs" />
     <Compile Include="Assets\Scripts\World\Layer.cs" />
     <Compile Include="Assets\Scripts\World\Level.cs" />
-    <Compile Include="Assets\Scripts\World\Zone.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\BinarySpacePartition.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\CellularAutomata.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\Connect.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\Items.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\Landmark.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\LayerBuild.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\Layout.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\LevelBuilder.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\NPCPops.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\NPCSpawner.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\RectGrid.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\Relic.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\Weights.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\Zones.cs" />
-    <Compile Include="Assets\Scripts\WorldGen\ZoneTheme.cs" />
-    <Compile Include="Assets\World.cs" />
+    <Compile Include="Assets\Scripts\World\World.cs" />
     <None Include="Assets\ScriptCalculator\Readme.txt" />
     <None Include="Assets\RelicNames.txt" />
     <Reference Include="Unity.Timeline.Editor">
@@ -453,6 +352,9 @@
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
       <HintPath>D:/Misc/Development/unity/Pantheon/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>D:/Misc/Development/unity/Pantheon/Library/PackageCache/jillejr.newtonsoft.json-for-unity@12.0.1-patch-001/Plugins/Newtonsoft.Json Editor/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>D:/Program Files/Unity/Hub/Editor/2019.2.6f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

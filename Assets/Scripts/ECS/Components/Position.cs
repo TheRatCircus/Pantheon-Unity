@@ -1,6 +1,8 @@
 ﻿// Position.cs
 // Jerome Martina
 
+using Pantheon.World;
+
 namespace Pantheon.ECS.Components
 {
     [System.Serializable]
@@ -22,6 +24,11 @@ namespace Pantheon.ECS.Components
         {
             DestinationLevel = destinationLevel;
             DestinationCell = destinationCell;
+        }
+
+        public override string ToString()
+        {
+            return $"{Cell} in level {Level.ID}";
         }
     }
 }

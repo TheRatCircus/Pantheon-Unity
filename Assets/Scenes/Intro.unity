@@ -432,7 +432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 2.0454545
+  m_AspectRatio: 2.008117
 --- !u!114 &420544337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,11 +561,10 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 420544333}
         m_MethodName: SelectBackground
-        m_Mode: 2
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 4eb6ca40a1b113149b2cc240abe40420,
-            type: 2}
-          m_ObjectArgumentAssemblyTypeName: Pantheon.ItemDef, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

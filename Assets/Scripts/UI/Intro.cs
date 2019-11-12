@@ -1,6 +1,7 @@
 ﻿// Intro.cs
 // Jerome Martina
 
+using Pantheon.Core;
 using Pantheon.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -34,7 +35,6 @@ namespace Pantheon
         [SerializeField] private GameObject backgroundSelect = null;
 
         public string PlayerName { get; private set; }
-        public ItemDef StartingWeapon { get; private set; }
 
 #if UNITY_EDITOR
         private void Start()
@@ -85,19 +85,20 @@ namespace Pantheon
             }
         }
 
-        public void SelectBackground(ItemDef item)
+        public void SelectBackground()
         {
-            StartingWeapon = item;
             backgroundSelect.SetActive(false);
             audioListener.enabled = false;
 
+            
             SceneManager.LoadSceneAsync(Scenes.Game, LoadSceneMode.Additive).
                 completed += (AsyncOperation op) =>
                 {
                     //Core.Game.instance.NewGame(PlayerName, StartingWeapon);
                     Scene gameScene = SceneManager.GetSceneByName(Scenes.Game);
                     SceneManager.SetActiveScene(gameScene);
-                    ECS.GameController.NewGame(PlayerName);
+                    SceneManager.LoadSceneAsync(Scenes.Debug, LoadSceneMode.Additive);
+                    GameController.NewGame(PlayerName);
                     SceneManager.UnloadSceneAsync(Scenes.Intro);
                 };
         }

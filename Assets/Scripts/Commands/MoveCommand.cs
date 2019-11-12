@@ -3,6 +3,7 @@
 
 using Pantheon.ECS;
 using Pantheon.ECS.Components;
+using Pantheon.World;
 using UnityEngine;
 
 namespace Pantheon.Commands
@@ -26,9 +27,10 @@ namespace Pantheon.Commands
         {
             MoveTime = moveTime;
             Position pos = entity.GetComponent<Position>();
+            UnityEngine.Debug.Log(pos.Level);
             DestinationLevel = pos.Level;
 
-            if (DestinationLevel.Map.TryGetValue(pos.Cell.Position + dir, out Cell c))
+            if (DestinationLevel.TryGetCell(pos.Cell.Position + dir, out Cell c))
                 DestinationCell = c;
             else
                 DestinationCell = null;
@@ -37,10 +39,20 @@ namespace Pantheon.Commands
         public override int Execute()
         {
             if (DestinationCell == null)
+            {
+                UnityEngine.Debug.Log("Destination cell does not exist.");
                 return -1;
+            } 
 
+            if (DestinationCell.Terrain == null)
+            {
+                UnityEngine.Debug.Log("Destination cell has no terrain.");
+                return -1;
+            }
+                
             if (DestinationCell.Blocked)
             {
+                UnityEngine.Debug.Log("Destination cell is blocked.");
                 if (Entity.GetComponent<Actor>().HostileTo(DestinationCell.Blocker))
                     return new MeleeCommand(Entity, DestinationCell).Execute();
                 else if (Entity.HasComponent<AI>())

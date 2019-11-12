@@ -30,10 +30,13 @@ namespace Pantheon.ECS.Systems
                     // so check for a destination level here
                     if (p.DestinationLevel != null)
                     {
-                        // Verify that destination cell 
+                        // Verify that destination cell
                         // belongs to destination level
                         if (!p.DestinationLevel.Map.ContainsKey(p.Cell.Position))
-                            throw new Exception();
+                            throw new Exception(
+                                $"{p.DestinationLevel} does not contain {p.Cell}.");
+                        //if (p.DestinationLevel.Map[p.Cell.Position.x, p.Cell.Position.y] == null)
+                        //    throw new Exception();
 
                         p.Level = p.DestinationLevel;
                         p.DestinationLevel = null;

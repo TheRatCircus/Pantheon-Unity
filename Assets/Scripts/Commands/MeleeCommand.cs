@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Pantheon.ECS;
+using Pantheon.World;
 
 namespace Pantheon.Commands
 {

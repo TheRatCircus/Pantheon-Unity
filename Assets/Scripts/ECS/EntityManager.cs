@@ -13,6 +13,7 @@ namespace Pantheon.ECS
     {
         public Dictionary<int, Entity> Entities { get; private set; }
             = new Dictionary<int, Entity>();
+        public Entity Player { get; private set; }
 
         public HashSet<Health> HealthComponents { get; private set; }
             = new HashSet<Health>();
@@ -31,10 +32,7 @@ namespace Pantheon.ECS
 
         public void AddEntity(Entity entity)
         {
-            int i = 0;
-            while (Entities.ContainsKey(i++)) ;
-
-            entity.SetGUID(i);
+            entity.SetGUID(Entities.Count);
 
             if (entity.TryGetComponent(out Health h))
                 HealthComponents.Add(h);
@@ -42,6 +40,9 @@ namespace Pantheon.ECS
                 PositionComponents.Add(p);
             if (entity.TryGetComponent(out Actor a))
                 ActorComponents.Add(a);
+
+            if (entity.HasComponent<Player>())
+                Player = entity;
 
             Entities.Add(entity.GUID, entity);
         }

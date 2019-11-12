@@ -1,178 +1,76 @@
 ﻿// Cell.cs
 // Jerome Martina
 
-using Pantheon.Actors;
-using Pantheon.Core;
+using Pantheon.ECS;
+using Pantheon.ECS.Components;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Pantheon.World
 {
-    /// <summary>
-    /// The fundamental component of levels, containing terrain, items, and up
-    /// to one actor.
-    /// </summary>
-    [System.Serializable]
     public sealed class Cell
     {
-        // Statics
-        // The offset of each tile from Unity's true grid coords
-        public const float TileOffsetX = .5f;
-        public const float TileOffsetY = .5f;
+        public Vector2Int Position { get; private set; }
+        private List<Entity> entities = new List<Entity>();
+        public Entity Blocker { get; private set; }
+        public Entity Terrain { get; private set; }
+        public bool Blocked => Blocker != null;
 
-        [SerializeField] [ReadOnly] private Vector2Int position;
+        public bool Visible { get; set; }
+        public bool Revealed { get; set; }
 
-        [SerializeField] [ReadOnly] private TerrainDef terrain;
-        // Can cell be moved through?
-        [SerializeField] [ReadOnly] private bool blocked = true;
-        // Can cell be seen through?
-        [SerializeField] [ReadOnly] private bool opaque = true;
-        [SerializeField] [ReadOnly] private Connection connection;
+        public Cell(Vector2Int position) => Position = position;
 
-        // Status
-        // Is this cell within view?
-        [SerializeField] private bool visible = false;
-        // Is this cell known?
-        [SerializeField] private bool revealed = false;
-
-        // Contents of cell
-        [SerializeField] [ReadOnly] private Actor actor = null;
-        [SerializeField] [ReadOnly] List<Item> items = new List<Item>();
-        public Feature Feature { get; private set; } = null;
-        public Altar Altar { get; set; } = null;
-        public bool Splattered { get; set; } = false;
-
-        #region Properties
-
-        public Vector2Int Position { get => position; set => position = value; }
-        public bool Blocked
+        public void AddEntity(Entity entity)
         {
-            get
+            if (entities.Contains(entity))
+                throw new ArgumentException(
+                    "Attempt to add duplicate entity.");
+
+            if (entity.HasComponent<Blocking>())
             {
-                if (Feature != null)
-                    return (blocked || Feature.Blocked);
+                if (Blocker == null)
+                    Blocker = entity;
                 else
-                    return blocked;
+                    throw new Exception(
+                        "Cell can only contain one blocking entity.");
             }
-        }
-        public bool Opaque
-        {
-            get
+
+            if (entity.HasComponent<Ground>())
             {
-                if (Feature != null)
-                    return (opaque || Feature.Opaque);
+
+                if (Terrain == null)
+                    Terrain = entity;
                 else
-                    return opaque;
+                    throw new Exception(
+                        "Cell can only contain one terrain entity.");
             }
-            set => opaque = value;
+
+            entities.Add(entity);
         }
-        public bool Visible => visible;
-        public bool Revealed { get => revealed; set => revealed = value; }
-        public Actor Actor { get => actor; set => actor = value; }
-        public List<Item> Items => items;
-        public TerrainDef Terrain { get => terrain; }
-        public Connection Connection { get => connection; set => connection = value; }
 
-        #endregion
-
-        public Cell(Vector2Int position) => this.position = position;
-
-        public void SetVisibility(bool visible, int fallOff)
+        public bool RemoveEntity(Entity entity)
         {
-            if (!visible)
+            if (entity.HasComponent<Blocking>())
             {
-                this.visible = false;
-                return;
-            }
-            else
-            {
-                if (fallOff > 100)
-                    this.visible = false;
+                if (Blocker == null)
+                    throw new Exception("A blocker was not cached.");
                 else
-                {
-                    this.visible = true;
-                    revealed = true;
-                }
-            }
-        }
-
-        public void Reveal() => revealed = true;
-
-        public void SetTerrain(string terrainID)
-        {
-            if (Feature != null)
-                SetFeature(null);
-
-            if (terrainID == null)
-                return;
-
-            TerrainDef terrainDef = Database.Get<TerrainDef>(terrainID);
-            terrain = terrainDef;
-            opaque = terrainDef.Opaque;
-            blocked = terrainDef.Blocked;
-        }
-
-        public void SetTerrain(TerrainDef terrain)
-        {
-            if (Feature != null)
-                SetFeature(null);
-
-            if (terrain == null)
-                return;
-
-            this.terrain = terrain;
-            opaque = terrain.Opaque;
-            blocked = terrain.Blocked;
-        }
-
-        /// <summary>
-        /// Set this cell's feature type and adjust its attributes accordingly.
-        /// </summary>
-        /// <param name="featureData">This cell's new Feature (can be null).</param>
-        public void SetFeature(string featID)
-        {
-            if (featID == null)
-            {
-                Feature = null;
-                opaque = terrain.Opaque;
-                blocked = terrain.Blocked;
-                return;
+                    Blocker = null;
             }
 
-            FeatureDef featureData = Database.Get<FeatureDef>(featID);
-
-            Feature = new Feature(featureData);
-            opaque = featureData.Opaque;
-            blocked = featureData.Blocked;
-        }
-
-        public void SetAltar(Altar altar)
-        {
-            Altar = altar;
-            Feature = new Feature(altar.Feature);
-            Feature.DisplayName
-                = $"{altar.Feature.DisplayName} to {altar.Idol.DisplayName}";
-        }
-
-        public override string ToString()
-        {
-            string ret;
-
-            if (!revealed)
-                ret = "Unknown terrain";
-            else
+            if (entity.HasComponent<Ground>())
             {
-                if (actor != null)
-                    ret = actor.ActorName;
-                else if (Feature != null)
-                    ret = Feature.DisplayName;
-                else if (Items.Count > 0)
-                    ret = Items[0].DisplayName;
+                if (Terrain == null)
+                    throw new Exception("Terrain was not cached.");
                 else
-                    ret = terrain.DisplayName;
+                    Terrain = null;
             }
 
-            return ret;
+            return entities.Remove(entity);
         }
+
+        public override string ToString() => $"cell at {Position}";
     }
 }
