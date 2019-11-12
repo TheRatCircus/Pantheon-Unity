@@ -29,12 +29,16 @@ namespace Pantheon.World
             }
         }
 
-        public void RequestLevel(Vector2Int pos)
+        public Level RequestLevel(Vector2Int pos)
         {
-            if (Levels.TryGetValue(pos, out Level level))
-                ; // Do something here
-            else
+            if (!Levels.ContainsKey(pos))
                 LevelRequestEvent?.Invoke(this, pos);
+
+            if (Levels.TryGetValue(pos, out Level ret))
+                return ret;
+            else
+                throw new System.ArgumentException(
+                    $"No level found at {pos} following generation.");
         }
     }
 }

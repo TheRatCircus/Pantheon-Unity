@@ -11,8 +11,12 @@ namespace Pantheon.World
 {
     public sealed class Cell
     {
+        // The offset of each tile from Unity's true grid coords
+        public const float TileOffsetX = .5f;
+        public const float TileOffsetY = .5f;
+
         public Vector2Int Position { get; private set; }
-        private List<Entity> entities = new List<Entity>();
+        public List<Entity> Entities { get; } = new List<Entity>();
         public Entity Blocker { get; private set; }
         public Entity Terrain { get; private set; }
         public bool Blocked => Blocker != null;
@@ -24,9 +28,16 @@ namespace Pantheon.World
 
         public void AddEntity(Entity entity)
         {
-            if (entities.Contains(entity))
+            if (Entities.Contains(entity))
                 throw new ArgumentException(
                     "Attempt to add duplicate entity.");
+
+            // Walls take priority
+            if (entity.Archetype == EntityArchetype.Wall)
+                Terrain = entity;
+            else if (entity.Archetype == EntityArchetype.Ground)
+                if (Terrain == null)
+                    Terrain = entity;
 
             if (entity.HasComponent<Blocking>())
             {
@@ -37,17 +48,7 @@ namespace Pantheon.World
                         "Cell can only contain one blocking entity.");
             }
 
-            if (entity.HasComponent<Ground>())
-            {
-
-                if (Terrain == null)
-                    Terrain = entity;
-                else
-                    throw new Exception(
-                        "Cell can only contain one terrain entity.");
-            }
-
-            entities.Add(entity);
+            Entities.Add(entity);
         }
 
         public bool RemoveEntity(Entity entity)
@@ -60,15 +61,10 @@ namespace Pantheon.World
                     Blocker = null;
             }
 
-            if (entity.HasComponent<Ground>())
-            {
-                if (Terrain == null)
-                    throw new Exception("Terrain was not cached.");
-                else
-                    Terrain = null;
-            }
+            if (entity == Terrain)
+                Terrain = null;
 
-            return entities.Remove(entity);
+            return Entities.Remove(entity);
         }
 
         public override string ToString() => $"cell at {Position}";

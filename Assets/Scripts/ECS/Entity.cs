@@ -9,13 +9,25 @@ using System.Collections.Generic;
 
 namespace Pantheon.ECS
 {
+    public enum EntityArchetype
+    {
+        None,
+        Player,
+        NPC,
+        Ground,
+        Wall,
+        Item
+    }
+
     [Serializable]
     public sealed class Entity
     {
         public string Name { get; private set; } = "DEFAULT_ENTITY_NAME";
         public int GUID { get; private set; }
+        public EntityArchetype Archetype { get; private set; }
+            = EntityArchetype.None;
+
         [UnityEngine.SerializeField]
-        [ReadOnly]
         private Dictionary<Type, BaseComponent> components
             = new Dictionary<Type, BaseComponent>();
         public Dictionary<Type, BaseComponent> Components => components;
@@ -31,8 +43,9 @@ namespace Pantheon.ECS
         public Entity(string name, Template template)
         {
             Name = name;
+            Archetype = template.Archetype;
             foreach (BaseComponent c in template.Unload())
-                AddComponent(c);
+                AddComponent(c.DeepClone());
             ConnectComponents();
         }
 

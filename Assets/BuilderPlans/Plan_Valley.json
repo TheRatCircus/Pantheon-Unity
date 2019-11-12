@@ -9,7 +9,7 @@
       },
       {
         "$type": "Pantheon.Gen.RandomFill, Assembly-CSharp",
-        "percent": 50,
+        "percent": 20,
         "fillEntityID": "Wall_StoneWall"
       }
     ]

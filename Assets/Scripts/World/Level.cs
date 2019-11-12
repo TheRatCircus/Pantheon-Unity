@@ -92,6 +92,7 @@ namespace Pantheon.World
                     Map.TryGetValue(new Vector2Int(x, y), out Cell c);
                     if (c.Terrain != null)
                     {
+                        //UnityEngine.Debug.Log(c.Terrain);
                         RuleTile tile = c.Terrain.GetComponent<UnityTile>().Tile;
                         Terrain.SetTile(new Vector3Int(x, y, 0), tile);
                     }

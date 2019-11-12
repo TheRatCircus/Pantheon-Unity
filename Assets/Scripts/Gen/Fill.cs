@@ -56,10 +56,8 @@ namespace Pantheon.Gen
                 for (int y = 0; y < level.Size.y; y++)
                 {
                     if (Random.Range(0, 100) < percent)
-                    {
                         if (level.TryGetCell(x, y, out Cell c))
                             factory.NewEntityAt(template, level, c);
-                    }
                 }
 
             loader.Unload(false);

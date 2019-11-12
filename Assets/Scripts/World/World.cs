@@ -34,7 +34,7 @@ namespace Pantheon.World
                 "valley_0_0_0", plan);
             gen.LayerLevelBuilders.Add(Vector3Int.zero, builder);
             Layers.Add(surface.ZLevel, surface);
-            surface.RequestLevel(Vector2Int.zero);
+            ActiveLevel = surface.RequestLevel(Vector2Int.zero);
             gen.LayerLevelBuilders.Remove(Vector3Int.zero);
         }
 

@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Pantheon.Core;
+using Pantheon.ECS;
 using Pantheon.ECS.Components;
 using Pantheon.Utils;
 using Pantheon.World;
@@ -33,6 +34,50 @@ namespace Pantheon.Debug
         {
             Position playerPos = ctrl.Manager.Player.GetComponent<Position>();
             return playerPos.ToString();
+        }
+
+        public static string DescribeCell(string[] args, GameController ctrl)
+        {
+            Cell c = ctrl.Cursor.HoveredCell;
+            string ret = "";
+            foreach (Entity e in c.Entities)
+                ret += $"{e}{Environment.NewLine}";
+            ret += $"Tile: {c.Terrain}";
+            return ret;
+        }
+
+        public static string FindEntities(string[] args, GameController ctrl)
+        {
+            if (args.Length < 1)
+                return "Please supply a search key.";
+
+            string key = string.Join(" ", args);
+            string ret = "";
+            foreach (Entity e in ctrl.Manager.Entities.Values)
+                if (e.Name == key)
+                    ret += $"{e.Name} ({e.GUID}){Environment.NewLine}";
+
+            if (ret == "")
+                return $"Nothing found.";
+
+            return ret;
+        }
+
+        public static string DescribeEntity(string[] args, GameController ctrl)
+        {
+            if (args.Length != 1)
+                return "Please supply exactly 1 argument.";
+
+            int guid = int.Parse(args[0]);
+            if (ctrl.Manager.Entities.TryGetValue(guid, out Entity e))
+            {
+                string ret = $"{e.Name} ({e.GUID}){Environment.NewLine}";
+                foreach (BaseComponent bc in e.Components.Values)
+                    ret += bc.ToString() + Environment.NewLine;
+                return ret;
+            }
+            else
+                return "GUID not found.";
         }
     }
 }

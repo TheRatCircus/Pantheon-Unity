@@ -18,9 +18,9 @@ namespace Pantheon.ECS.Templates
         {
             return new BaseComponent[]
             {
-                tile.DeepClone(),
-                position.DeepClone(),
-                ground.DeepClone()
+                tile,
+                position,
+                ground
             };
         }
     }

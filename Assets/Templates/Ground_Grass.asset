@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Ground_Grass
   m_EditorClassIdentifier: 
   entityName: grass
+  archetype: 3
   tile:
     tile: {fileID: 11400000, guid: e77f516da07575b4da68f53fa176f170, type: 2}

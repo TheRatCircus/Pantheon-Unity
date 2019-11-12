@@ -19,6 +19,8 @@ namespace Pantheon.Core
         [SerializeField] private Template playerTemplate = default;
 
         [SerializeField] private Camera cam = default;
+        [SerializeField] private UI.Cursor cursor = default;
+        public UI.Cursor Cursor => cursor;
         [SerializeField] private SystemManager systems = default;
 
         public GameWorld World { get; private set; } = default;
@@ -46,10 +48,11 @@ namespace Pantheon.Core
             // Spawn the player
             ctrl.World.Layers.TryGetValue(0, out Layer surface);
             surface.Levels.TryGetValue(Vector2Int.zero, out Level level);
+            ctrl.cursor.Level = level;
             level.TryGetCell(10, 10, out Cell c);
 
             Entity playerEntity = ctrl.EntityFactory.NewEntityAt(
-                ctrl.playerTemplate, ctrl.World.ActiveLevel, c);
+                ctrl.playerTemplate, level, c);
             playerEntity.GetComponent<Actor>().ActorControl = ActorControl.Player;
             Player player = playerEntity.GetComponent<Player>();
             PlayerSystem sys =

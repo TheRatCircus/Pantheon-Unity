@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Wall_StoneWall
   m_EditorClassIdentifier: 
   entityName: stone wall
+  archetype: 4
   tile:
     tile: {fileID: 11400000, guid: 406192b1fbc4b00448c6617553e990ab, type: 2}
   blocking:

@@ -28,7 +28,10 @@ namespace Pantheon.Debug
             {
                 { "list_layers", new ConsoleCommand(ListLayers) },
                 { "list_levels", new ConsoleCommand(ListLevels) },
-                { "where_am_i", new ConsoleCommand(WhereAmI) }
+                { "where_am_i", new ConsoleCommand(WhereAmI) },
+                { "describe_cell", new ConsoleCommand(DescribeCell) },
+                { "find_entities", new ConsoleCommand(FindEntities) },
+                { "describe", new ConsoleCommand(DescribeEntity) }
             };
 
         private void Awake()

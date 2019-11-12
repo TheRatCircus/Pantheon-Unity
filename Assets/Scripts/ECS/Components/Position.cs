@@ -28,7 +28,9 @@ namespace Pantheon.ECS.Components
 
         public override string ToString()
         {
-            return $"{Cell} in level {Level.ID}";
+            string current = $"{(Cell != null ? Cell.ToString() : "No cell")};";
+            string destination = $"destination: {(DestinationCell != null ? DestinationCell.ToString() : "Nowhere")}";
+            return $"{current} {destination}";
         }
     }
 }

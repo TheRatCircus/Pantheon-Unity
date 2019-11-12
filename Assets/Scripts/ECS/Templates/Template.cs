@@ -10,6 +10,9 @@ namespace Pantheon.ECS.Templates
     {
         [SerializeField] private string entityName = "DEFAULT_ENTITY_NAME";
         public string Name => entityName;
+        [SerializeField] private EntityArchetype archetype = default;
+
+        public EntityArchetype Archetype => archetype;
         public abstract BaseComponent[] Unload();
     }
 }

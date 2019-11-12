@@ -109,6 +109,7 @@
     <Compile Include="Assets\Scripts\Inspector\EnumOrder.cs" />
     <Compile Include="Assets\Scripts\Inspector\ReadOnlyAttribute.cs" />
     <Compile Include="Assets\Scripts\Save.cs" />
+    <Compile Include="Assets\Scripts\UI\Cursor.cs" />
     <Compile Include="Assets\Scripts\UI\Intro.cs" />
     <Compile Include="Assets\Scripts\UI\MainMenu.cs" />
     <Compile Include="Assets\Scripts\Utils\Colours.cs" />
