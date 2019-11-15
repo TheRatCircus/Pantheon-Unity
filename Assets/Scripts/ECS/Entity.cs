@@ -23,14 +23,19 @@ namespace Pantheon.ECS
     public sealed class Entity
     {
         public string Name { get; private set; } = "DEFAULT_ENTITY_NAME";
-        public int GUID { get; private set; }
+        public int GUID { get; private set; } = -1;
+
+        [NonSerialized]
+        private Template flyweight = null;
+        public Template Flyweight { get => flyweight; private set => flyweight = value; }
+        public string FlyweightID { get; private set; } = "DEFAULT_FLYWEIGHT_ID";
+
         public EntityArchetype Archetype { get; private set; }
             = EntityArchetype.None;
         public bool HasGameObject => HasComponent<Actor>();
-        public string TemplateID { get; private set; } = "DEFAULT_TEMPLATE_ID";
 
-        public Dictionary<Type, BaseComponent> Components { get; }
-            = new Dictionary<Type, BaseComponent>();
+        public Dictionary<Type, BaseComponent> Components { get; private set; }
+            = null;
 
         public Entity(string name, params BaseComponent[] components)
         {
@@ -42,14 +47,25 @@ namespace Pantheon.ECS
             ConnectComponents();
         }
 
-        public Entity(string name, Template template)
+        /// <summary>
+        /// Construct a new entity from a template.
+        /// </summary>
+        /// <param name="template"></param>
+        /// <param name="flyweightOnly">Is this entity only a reference to a flyweight?</param>
+        public Entity(Template template, bool flyweightOnly)
         {
-            Name = name;
+            Name = template.EntityName;
+            Flyweight = template;
+            FlyweightID = Flyweight.name;
             Archetype = template.Archetype;
-            TemplateID = template.name;
-            foreach (BaseComponent c in template.Unload())
-                AddComponent(c.Clone());
-            ConnectComponents();
+
+            if (!flyweightOnly)
+            {
+                Components = new Dictionary<Type, BaseComponent>();
+                foreach (BaseComponent c in template.Unload())
+                    AddComponent(c.Clone());
+                ConnectComponents();
+            }
         }
 
         // Some components are interdependent,
@@ -96,7 +112,12 @@ namespace Pantheon.ECS
         }
 
         public bool HasComponent<T>() where T : BaseComponent
-            => Components.ContainsKey(typeof(T));
+        {
+            if (Components == null)
+                return false;
+            else
+                return Components.ContainsKey(typeof(T));
+        }
 
         public void AddComponent(BaseComponent component)
         {

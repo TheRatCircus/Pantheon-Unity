@@ -32,7 +32,7 @@ namespace Pantheon.Gen
             for (; x < level.Size.x; x++)
                 for (int y = 0; y < level.Size.y; y++)
                     if (level.TryGetCell(x, y, out Cell c))
-                        factory.NewEntityAt(template, level, c);
+                        factory.FlyweightEntityAt(template, level, c);
         }
     }
 
@@ -62,7 +62,7 @@ namespace Pantheon.Gen
                 {
                     if (Random.Range(0, 100) < percent)
                         if (level.TryGetCell(x, y, out Cell c))
-                            factory.NewEntityAt(template, level, c);
+                            factory.FlyweightEntityAt(template, level, c);
                 }
         }
 

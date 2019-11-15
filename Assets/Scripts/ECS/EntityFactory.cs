@@ -22,19 +22,19 @@ namespace Pantheon.ECS
             this.posSystem = posSystem;
         }
 
-        private Entity NewEntity(Template template)
+        private Entity NewEntity(Template template, bool flyweightOnly)
         {
-            Entity e = new Entity(template.EntityName, template);
+            Entity e = new Entity(template, flyweightOnly);
 
             return e;
         }
 
         public Entity NewEntityAt(Template template, Level level,
-            Cell cell)
+            Cell cell, bool flyweightOnly)
         {
             GameController ctrl = GetControllerEvent.Invoke();
             EntityManager mgr = ctrl.Manager;
-            Entity e = NewEntity(template);
+            Entity e = NewEntity(template, flyweightOnly);
 
             if (ctrl.World != null &&
                 level == ctrl.World.ActiveLevel) // Never true during level generation
@@ -66,6 +66,18 @@ namespace Pantheon.ECS
                 posSystem.UpdatePosition(pos);
             }
 
+            return e;
+        }
+
+        public Entity FlyweightEntityAt(Template template, Level level,
+            Cell cell)
+        {
+            GameController ctrl = GetControllerEvent.Invoke();
+            EntityManager mgr = ctrl.Manager;
+            Entity e = NewEntity(template, true);
+
+            // Entity has no position, so bypass position system
+            cell.AddEntity(e);
             return e;
         }
     }

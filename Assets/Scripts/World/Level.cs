@@ -96,9 +96,7 @@ namespace Pantheon.World
         {
             if (cell.Terrain != null)
             {
-                Template template = (Template)AssetRequestEvent.Invoke(
-                    cell.Terrain.TemplateID);    
-                terrain.SetTile((Vector3Int)cell.Position, template.Tile);
+                terrain.SetTile((Vector3Int)cell.Position, cell.Terrain.Flyweight.Tile);
             }
         }
 

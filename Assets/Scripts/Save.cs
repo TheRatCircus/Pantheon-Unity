@@ -16,7 +16,7 @@ namespace Pantheon.Core
         public Save(string name, GameWorld world, EntityManager manager)
         {
             Name = name;
-            World = world;
+            //World = world;
             Manager = manager;
         }
     }

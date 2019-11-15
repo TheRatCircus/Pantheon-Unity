@@ -56,7 +56,7 @@ namespace Pantheon.Core
 
             // Spawn the player
             Entity playerEntity = ctrl.EntityFactory.NewEntityAt(
-                ctrl.playerTemplate, level, level.RandomCell(true));
+                ctrl.playerTemplate, level, level.RandomCell(true), false);
             playerEntity.GetComponent<Actor>().ActorControl = ActorControl.Player;
             Player player = playerEntity.GetComponent<Player>();
             PlayerSystem sys =
@@ -95,8 +95,7 @@ namespace Pantheon.Core
                     GameObject gameObj = Instantiate(gameObjectPrefab,
                         level.LevelObj.transform);
                     gameObj.name = cell.Blocker.Name;
-                    gameObj.GetComponent<SpriteRenderer>().sprite =
-                        Loader.Load<Template>(cell.Blocker.TemplateID).Sprite;
+                    gameObj.GetComponent<SpriteRenderer>().sprite = cell.Blocker.Flyweight.Sprite;
                     gameObj.transform.position = Helpers.V2IToV3(cell.Position);
                     go.GameObject = gameObj;
                 }
