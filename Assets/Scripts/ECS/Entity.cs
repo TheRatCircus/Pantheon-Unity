@@ -6,6 +6,7 @@ using Pantheon.ECS.Messages;
 using Pantheon.ECS.Templates;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Pantheon.ECS
 {
@@ -99,7 +100,12 @@ namespace Pantheon.ECS
         public bool TryGetComponent<T>(out T ret)
             where T : BaseComponent
         {
-            if (!Components.TryGetValue(typeof(T), out BaseComponent c))
+            if (Components == null)
+            {
+                ret = Flyweight.Unload().OfType<T>().SingleOrDefault();
+                return Flyweight.Unload().OfType<T>().Any();
+            }
+            else if (!Components.TryGetValue(typeof(T), out BaseComponent c))
             {
                 ret = null;
                 return false;
@@ -114,7 +120,7 @@ namespace Pantheon.ECS
         public bool HasComponent<T>() where T : BaseComponent
         {
             if (Components == null)
-                return false;
+                return Flyweight.Unload().OfType<T>().Any();
             else
                 return Components.ContainsKey(typeof(T));
         }
