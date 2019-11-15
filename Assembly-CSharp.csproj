@@ -121,6 +121,7 @@
     <Compile Include="Assets\Scripts\Utils\RandomUtils.cs" />
     <Compile Include="Assets\Scripts\Utils\Scenes.cs" />
     <Compile Include="Assets\Scripts\World\Cell.cs" />
+    <Compile Include="Assets\Scripts\World\FOV.cs" />
     <Compile Include="Assets\Scripts\World\GameWorld.cs" />
     <Compile Include="Assets\Scripts\World\Layer.cs" />
     <Compile Include="Assets\Scripts\World\Level.cs" />

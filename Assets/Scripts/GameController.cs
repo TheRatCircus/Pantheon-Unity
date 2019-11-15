@@ -117,6 +117,7 @@ namespace Pantheon.Core
         {
             World.ActiveLevel = level;
             level.AssetRequestEvent += Loader.Load<Object>;
+            FOV.RefreshFOV(level, Manager.Player.GetComponent<Position>().Cell.Position);
             VisualizeLevel(level);
             cursor.Level = level;
         }

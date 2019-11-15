@@ -68,6 +68,20 @@ namespace Pantheon.World
                 return false;
         }
 
+        public Cell GetCell(Vector2Int pos)
+        {
+            if (Map.TryGetValue(pos, out Cell c))
+                return c;
+            else
+                throw new ArgumentException(
+                    $"Level {ID} has no cell at {pos}.");
+        }
+
+        public bool Contains(Vector2Int pos)
+        {
+            return Map.ContainsKey(pos);
+        }
+
         public Cell RandomCell(bool open)
         {
             Cell cell;
@@ -100,7 +114,15 @@ namespace Pantheon.World
                 if (cell.Terrain.Flyweight == null)
                     cell.Terrain.Flyweight = (Template)AssetRequestEvent.Invoke(cell.Terrain.FlyweightID);
 
-                terrain.SetTile((Vector3Int)cell.Position, cell.Terrain.Flyweight.Tile);
+                if (!cell.Revealed)
+                    return;
+                else
+                {
+                    terrain.SetColor((Vector3Int)cell.Position,
+                        cell.Visible ? Color.white : Color.grey);
+                    terrain.SetTile((Vector3Int)cell.Position,
+                        cell.Terrain.Flyweight.Tile);
+                }
             }
         }
 

@@ -68,6 +68,25 @@ namespace Pantheon.World
             return Entities.Remove(entity);
         }
 
+        public void SetVisibility(bool visible, int fallOff)
+        {
+            if (!visible)
+            {
+                Visible = false;
+                return;
+            }
+            else
+            {
+                if (fallOff > 100)
+                    Visible = false;
+                else
+                {
+                    Visible = true;
+                    Revealed = true;
+                }
+            }
+        }
+
         public override string ToString() => $"cell at {Position}";
     }
 }

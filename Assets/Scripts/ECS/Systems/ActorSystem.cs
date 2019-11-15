@@ -3,6 +3,7 @@
 // Turn scheduler courtesy of Dan Korostelev
 
 using Pantheon.ECS.Components;
+using Pantheon.Core;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -90,8 +91,8 @@ namespace Pantheon.ECS.Systems
                 }
 
                 if (actionCost == 0)
-                    UnityEngine.Debug.LogWarning
-                        ("An action with 0 energy cost was scheduled");
+                    UnityEngine.Debug.LogWarning(
+                        "An action with 0 energy cost was scheduled");
 
                 ActorDebugEvent?.Invoke(actor);
 
@@ -118,6 +119,8 @@ namespace Pantheon.ECS.Systems
                     }
                     // Signals a successful player action to HUD
                     PlayerActionEvent?.Invoke(actor.Energy);
+                    Position pos = mgr.Player.GetComponent<Position>();
+                    FOV.RefreshFOV(pos.Level, pos.Cell.Position);
                 }
                 // Action may have added a lock
                 if (lockCount > 0)
