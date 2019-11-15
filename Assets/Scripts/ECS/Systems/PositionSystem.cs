@@ -13,39 +13,43 @@ namespace Pantheon.ECS.Systems
 
         public override void UpdateComponents()
         {
-            foreach (Position p in mgr.PositionComponents)
+            foreach (Position pos in mgr.PositionComponents)
+                UpdatePosition(pos);
+        }
+
+        public void UpdatePosition(Position pos)
+        {
+            if (pos.DestinationCell != null)
             {
-                if (p.DestinationCell != null)
+                Entity e = mgr.GetEntity(pos.GUID);
+
+                if (pos.Cell != null)
+                    pos.Cell.RemoveEntity(e);
+
+                pos.Cell = pos.DestinationCell;
+                pos.DestinationCell = null;
+                pos.Cell.AddEntity(e);
+
+                // Level change always comes with a cell change, 
+                // so check for a destination level here
+                if (pos.DestinationLevel != null)
                 {
-                    Entity e = mgr.GetEntity(p.GUID);
+                    // Verify that destination cell
+                    // belongs to destination level
+                    if (!pos.DestinationLevel.Map.ContainsKey(pos.Cell.Position))
+                        throw new Exception(
+                            $"{pos.DestinationLevel} does not contain {pos.Cell}.");
+                    //if (p.DestinationLevel.Map[p.Cell.Position.x, p.Cell.Position.y] == null)
+                    //    throw new Exception();
 
-                    if (p.Cell != null)
-                        p.Cell.RemoveEntity(e);
-
-                    p.Cell = p.DestinationCell;
-                    p.DestinationCell = null;
-                    p.Cell.AddEntity(e);
-
-                    // Level change always comes with a cell change, 
-                    // so check for a destination level here
-                    if (p.DestinationLevel != null)
-                    {
-                        // Verify that destination cell
-                        // belongs to destination level
-                        if (!p.DestinationLevel.Map.ContainsKey(p.Cell.Position))
-                            throw new Exception(
-                                $"{p.DestinationLevel} does not contain {p.Cell}.");
-                        //if (p.DestinationLevel.Map[p.Cell.Position.x, p.Cell.Position.y] == null)
-                        //    throw new Exception();
-
-                        p.Level = p.DestinationLevel;
-                        p.DestinationLevel = null;
-                    }
-
-                    if (e.TryGetComponent(out UnityGameObject go))
-                        go.GameObject.transform.position = Helpers.V2IToV3(
-                            p.Cell.Position);
+                    pos.Level = pos.DestinationLevel;
+                    pos.DestinationLevel = null;
                 }
+
+                if (e.TryGetComponent(out UnityGameObject go)
+                    && go.GameObject != null)
+                    go.GameObject.transform.position = Helpers.V2IToV3(
+                        pos.Cell.Position);
             }
         }
     }

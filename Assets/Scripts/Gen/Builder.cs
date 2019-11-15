@@ -22,10 +22,10 @@ namespace Pantheon.Gen
             this.plan = plan;
         }
 
-        public Level Run(EntityFactory factory)
+        public Level Run(AssetLoader loader, EntityFactory factory)
         {
             Level level = new Level(displayName, id);
-            plan.Run(level, 200, 200, factory);
+            plan.Run(level, 200, 200, loader, factory);
             return level;
         }
     }

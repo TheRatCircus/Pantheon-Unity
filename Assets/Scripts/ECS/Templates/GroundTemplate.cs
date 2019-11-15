@@ -10,7 +10,6 @@ namespace Pantheon.ECS.Templates
         menuName = "Pantheon/Templates/Ground")]
     public sealed class GroundTemplate : Template
     {
-        [SerializeField] private UnityTile tile = default;
         [SerializeField] private Position position = default;
         [SerializeField] private Ground ground = default;
 
@@ -18,7 +17,6 @@ namespace Pantheon.ECS.Templates
         {
             return new BaseComponent[]
             {
-                tile,
                 position,
                 ground
             };

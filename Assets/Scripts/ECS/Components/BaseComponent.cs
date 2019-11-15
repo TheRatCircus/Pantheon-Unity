@@ -5,6 +5,7 @@ using Pantheon.ECS.Messages;
 
 namespace Pantheon.ECS.Components
 {
+    [System.Serializable]
     public abstract class BaseComponent
     {
         public int GUID { get; private set; } = -1;

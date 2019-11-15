@@ -12,6 +12,9 @@ namespace Pantheon.Gen
     [System.Serializable]
     public abstract class BuilderStep
     {
-        public abstract void Run(Level level, EntityFactory factory);
+        public abstract void Run(
+            Level level,
+            AssetLoader loader,
+            EntityFactory factory);
     }
 }

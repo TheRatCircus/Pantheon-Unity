@@ -73,13 +73,11 @@
     <Compile Include="Assets\Scripts\ECS\Components\Actor.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\BaseComponent.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\Blocking.cs" />
-    <Compile Include="Assets\Scripts\ECS\Components\GameObjectSprite.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\Ground.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\Health.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\Position.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\Spawn.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\UnityGameObject.cs" />
-    <Compile Include="Assets\Scripts\ECS\Components\UnityTile.cs" />
     <Compile Include="Assets\Scripts\ECS\Entity.cs" />
     <Compile Include="Assets\Scripts\ECS\EntityFactory.cs" />
     <Compile Include="Assets\Scripts\ECS\EntityManager.cs" />
@@ -109,6 +107,8 @@
     <Compile Include="Assets\Scripts\Inspector\EnumOrder.cs" />
     <Compile Include="Assets\Scripts\Inspector\ReadOnlyAttribute.cs" />
     <Compile Include="Assets\Scripts\Save.cs" />
+    <Compile Include="Assets\Scripts\SaveLoad.cs" />
+    <Compile Include="Assets\Scripts\SerializationSurrogate.cs" />
     <Compile Include="Assets\Scripts\UI\Cursor.cs" />
     <Compile Include="Assets\Scripts\UI\Intro.cs" />
     <Compile Include="Assets\Scripts\UI\MainMenu.cs" />
@@ -121,9 +121,9 @@
     <Compile Include="Assets\Scripts\Utils\RandomUtils.cs" />
     <Compile Include="Assets\Scripts\Utils\Scenes.cs" />
     <Compile Include="Assets\Scripts\World\Cell.cs" />
+    <Compile Include="Assets\Scripts\World\GameWorld.cs" />
     <Compile Include="Assets\Scripts\World\Layer.cs" />
     <Compile Include="Assets\Scripts\World\Level.cs" />
-    <Compile Include="Assets\Scripts\World\World.cs" />
     <None Include="Assets\ScriptCalculator\Readme.txt" />
     <None Include="Assets\RelicNames.txt" />
     <Reference Include="Unity.Timeline.Editor">

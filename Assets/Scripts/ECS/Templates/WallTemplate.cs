@@ -10,7 +10,6 @@ namespace Pantheon.ECS.Templates
         menuName = "Pantheon/Templates/Wall")]
     public sealed class WallTemplate : Template
     {
-        [SerializeField] private UnityTile tile = default;
         [SerializeField] private Blocking blocking = default;
         [SerializeField] private Position position = default;
 
@@ -18,7 +17,6 @@ namespace Pantheon.ECS.Templates
         {
             return new BaseComponent[]
             {
-                tile,
                 blocking,
                 position
             };

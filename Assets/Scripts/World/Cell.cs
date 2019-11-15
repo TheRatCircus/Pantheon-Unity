@@ -9,13 +9,14 @@ using UnityEngine;
 
 namespace Pantheon.World
 {
+    [Serializable]
     public sealed class Cell
     {
         // The offset of each tile from Unity's true grid coords
         public const float TileOffsetX = .5f;
         public const float TileOffsetY = .5f;
 
-        public Vector2Int Position { get; private set; }
+        public Vector2Int Position { get; set; }
         public List<Entity> Entities { get; } = new List<Entity>();
         public Entity Blocker { get; private set; }
         public Entity Terrain { get; private set; }

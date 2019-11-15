@@ -9,6 +9,7 @@ namespace Pantheon.ECS
     /// <summary>
     /// Holds all entities and components in the running game.
     /// </summary>
+    [System.Serializable]
     public sealed class EntityManager
     {
         public Dictionary<int, Entity> Entities { get; private set; }

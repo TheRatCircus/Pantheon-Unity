@@ -2,7 +2,9 @@
 // Jerome Martina
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Vector2Int = UnityEngine.Vector2Int;
 
 namespace Pantheon.Utils
 {

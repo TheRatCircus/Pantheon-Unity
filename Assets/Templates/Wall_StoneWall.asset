@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Wall_StoneWall
   m_EditorClassIdentifier: 
   entityName: stone wall
+  sprite: {fileID: -6593625488433000433, guid: c06518a1be8e4794ea9af7195c7f8eba, type: 3}
+  tile: {fileID: 11400000, guid: 406192b1fbc4b00448c6617553e990ab, type: 2}
   archetype: 4
-  tile:
-    tile: {fileID: 11400000, guid: 406192b1fbc4b00448c6617553e990ab, type: 2}
   blocking:
     IsBlocking: 1

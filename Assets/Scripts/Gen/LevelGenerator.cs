@@ -1,51 +1,61 @@
 ﻿// LevelGenerator.cs
 // Jerome Martina
 
-using Pantheon.ECS;
+using Newtonsoft.Json;
+using Pantheon.Core;
 using Pantheon.World;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Pantheon.Gen
 {
+    [Serializable]
     public sealed class LevelGenerator
     {
-        private GameObject levelPrefab;
-        private GameObject worldObj;
-        private EntityFactory factory;
+        public event Func<GameController> GetControllerEvent;
 
         public Dictionary<Vector3Int, Builder> LayerLevelBuilders
         { get; private set; } = new Dictionary<Vector3Int, Builder>();
         public Dictionary<string, Builder> IDLevelBuilders
         { get; private set; } = new Dictionary<string, Builder>();
 
-        public LevelGenerator(EntityFactory factory, GameObject levelPrefab,
-            GameObject worldObj)
+        public LevelGenerator(GameController ctrl)
         {
-            this.factory = factory;
-            this.worldObj = worldObj;
-            this.levelPrefab = levelPrefab;
+            GetControllerEvent += ctrl.Get;
         }
 
-        public void RegisterLayer(Layer layer)
+        public void GenerateWorldOrigin()
         {
-            layer.LevelRequestEvent += GenerateLayerLevel;
+            GameController ctrl = GetControllerEvent.Invoke();
+            TextAsset json = ctrl.Loader.Load<TextAsset>("Plan_Valley");
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.TypeNameHandling = TypeNameHandling.All;
+            BuilderPlan plan = JsonConvert.DeserializeObject<BuilderPlan>(
+                json.text, settings);
+            Builder builder = new Builder("Valley of Beginnings",
+                "valley_0_0_0", plan);
+            LayerLevelBuilders.Add(Vector3Int.zero, builder);
         }
 
-        public void GenerateLayerLevel(Layer layer, Vector2Int pos)
+        public Level GenerateLayerLevel(Vector3Int pos)
         {
             if (!LayerLevelBuilders.TryGetValue(
-                new Vector3Int(pos.x, pos.y, layer.ZLevel),
+                new Vector3Int(pos.x, pos.y, pos.z),
                 out Builder builder))
-                throw new System.ArgumentException(
-                    $"No level builder at {pos} on layer {layer.ZLevel}.");
+                throw new ArgumentException(
+                    $"No level builder at {pos} on layer {pos.z}.");
             else
             {
-                Level level = builder.Run(factory);
+                GameController ctrl = GetControllerEvent.Invoke();
+                Level level = builder.Run(ctrl.Loader, ctrl.EntityFactory);
                 GameObject levelObj = Object.Instantiate(
-                    levelPrefab, worldObj.transform);
+                    ctrl.LevelPrefab, ctrl.WorldGameObject.transform);
+                levelObj.name = level.ID;
                 level.SetLevelObject(levelObj);
-                layer.Levels.Add(pos, level);
+                LayerLevelBuilders.Remove(pos);
+                return level;
             }
         }
     }

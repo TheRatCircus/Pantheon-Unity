@@ -23,7 +23,8 @@ namespace Pantheon.ECS.Components
         [SerializeField] private int energy = -1;
         public int Energy { get => energy; set => energy = value; }
 
-        public Command Command { get; set; } = null;
+        [System.NonSerialized] private Command command = null;
+        public Command Command { get => command; set => command = value; }
 
         public ActorControl ActorControl { get; set; } = ActorControl.None;
         public bool PlayerControlled => ActorControl == ActorControl.Player;

@@ -31,7 +31,8 @@ namespace Pantheon.Debug
                 { "where_am_i", new ConsoleCommand(WhereAmI) },
                 { "describe_cell", new ConsoleCommand(DescribeCell) },
                 { "find_entities", new ConsoleCommand(FindEntities) },
-                { "describe", new ConsoleCommand(DescribeEntity) }
+                { "describe", new ConsoleCommand(DescribeEntity) },
+                { "loaded_assets", new ConsoleCommand(LoadedAssets) }
             };
 
         private void Awake()

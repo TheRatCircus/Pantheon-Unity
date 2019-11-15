@@ -1,54 +1,71 @@
 ﻿// EntityFactory.cs
 // Jerome Martina
 
+using Pantheon.Core;
 using Pantheon.ECS.Components;
+using Pantheon.ECS.Systems;
 using Pantheon.ECS.Templates;
 using Pantheon.World;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace Pantheon.ECS
 {
     public sealed class EntityFactory
     {
-        private GameObject gameObjectPrefab;
+        private PositionSystem posSystem;
 
-        private EntityManager mgr;
+        private event System.Func<GameController> GetControllerEvent;
 
-        public EntityFactory(EntityManager mgr)
+        public EntityFactory(GameController ctrl, PositionSystem posSystem)
         {
-            this.mgr = mgr;
-
-            AssetLoader loader = new AssetLoader();
-            gameObjectPrefab = loader.Load<GameObject>("GameObjectPrefab");
-            loader.Unload(false);
+            GetControllerEvent += ctrl.Get;
+            this.posSystem = posSystem;
         }
 
         private Entity NewEntity(Template template)
         {
-            Entity e = new Entity(template.Name, template);
+            Entity e = new Entity(template.EntityName, template);
 
-            if (e.TryGetComponent(out UnityGameObject go))
-            {
-                GameObject obj = Object.Instantiate(gameObjectPrefab);
-                go.GameObject = obj;
-                SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
-                sr.sprite = e.GetComponent<GameObjectSprite>().Sprite;
-                obj.name = template.Name;
-            }
-            
             return e;
         }
 
         public Entity NewEntityAt(Template template, Level level,
             Cell cell)
         {
+            GameController ctrl = GetControllerEvent.Invoke();
+            EntityManager mgr = ctrl.Manager;
             Entity e = NewEntity(template);
+
+            if (ctrl.World != null &&
+                level == ctrl.World.ActiveLevel) // Never true during level generation
+            {
+                // New entity needs visualization
+                if (e.TryGetComponent(out UnityGameObject go))
+                {
+                    GameObject obj = Object.Instantiate(ctrl.GameObjectPrefab);
+                    go.GameObject = obj;
+                    SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
+                    sr.sprite = template.Sprite;
+                    obj.name = template.EntityName;
+                    // GameObject position gets updated by PositionSystem
+                }
+            }
+
             if (!e.TryGetComponent(out Position pos))
-                e.AddComponent(new Position(level, cell));
+            {
+                Position newPos = new Position(level, cell);
+                e.AddComponent(newPos);
+                mgr.AddEntity(e);
+                // Pos update must always follow manager add
+                posSystem.UpdatePosition(newPos);
+            }
             else
+            {
                 pos.SetDestination(level, cell);
-            mgr.AddEntity(e);
+                mgr.AddEntity(e);
+                posSystem.UpdatePosition(pos);
+            }
+
             return e;
         }
     }

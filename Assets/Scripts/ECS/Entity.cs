@@ -26,15 +26,17 @@ namespace Pantheon.ECS
         public int GUID { get; private set; }
         public EntityArchetype Archetype { get; private set; }
             = EntityArchetype.None;
+        public bool HasGameObject => HasComponent<Actor>();
+        public string TemplateID { get; private set; } = "DEFAULT_TEMPLATE_ID";
 
-        [UnityEngine.SerializeField]
-        private Dictionary<Type, BaseComponent> components
+        public Dictionary<Type, BaseComponent> Components { get; }
             = new Dictionary<Type, BaseComponent>();
-        public Dictionary<Type, BaseComponent> Components => components;
 
         public Entity(string name, params BaseComponent[] components)
         {
             Name = name;
+            // TODO: Based on composition, resolve
+            // archetype and find a flyweight
             foreach (BaseComponent c in components)
                 AddComponent(c);
             ConnectComponents();
@@ -44,6 +46,7 @@ namespace Pantheon.ECS
         {
             Name = name;
             Archetype = template.Archetype;
+            TemplateID = template.name;
             foreach (BaseComponent c in template.Unload())
                 AddComponent(c.Clone());
             ConnectComponents();
@@ -53,7 +56,7 @@ namespace Pantheon.ECS
         // so hook them up after construction
         private void ConnectComponents()
         {
-            if (components.TryGetValue(typeof(Player), out BaseComponent c))
+            if (Components.TryGetValue(typeof(Player), out BaseComponent c))
             {
                 Player p = (Player)c;
                 p.Entity = this;
@@ -64,13 +67,13 @@ namespace Pantheon.ECS
         public void SetGUID(int guid)
         {
             GUID = guid;
-            foreach (BaseComponent c in components.Values)
+            foreach (BaseComponent c in Components.Values)
                 c.AssignToEntity(this);
         }
 
         public T GetComponent<T>() where T : BaseComponent
         {
-            if (components.TryGetValue(typeof(T), out BaseComponent ret))
+            if (Components.TryGetValue(typeof(T), out BaseComponent ret))
                 return (T)ret;
             else
                 throw new ArgumentException(
@@ -80,7 +83,7 @@ namespace Pantheon.ECS
         public bool TryGetComponent<T>(out T ret)
             where T : BaseComponent
         {
-            if (!components.TryGetValue(typeof(T), out BaseComponent c))
+            if (!Components.TryGetValue(typeof(T), out BaseComponent c))
             {
                 ret = null;
                 return false;
@@ -93,25 +96,25 @@ namespace Pantheon.ECS
         }
 
         public bool HasComponent<T>() where T : BaseComponent
-            => components.ContainsKey(typeof(T));
+            => Components.ContainsKey(typeof(T));
 
         public void AddComponent(BaseComponent component)
         {
             component.AssignToEntity(this);
             component.MessageEvent += Message;
-            components.Add(component.GetType(), component);
+            Components.Add(component.GetType(), component);
         }
 
         public void RemoveComponent<T>() where T : BaseComponent
         {
-            components.TryGetValue(typeof(T), out BaseComponent c);
+            Components.TryGetValue(typeof(T), out BaseComponent c);
             c.MessageEvent -= Message;
-            components.Remove(typeof(T));
+            Components.Remove(typeof(T));
         }
 
         private void Message(ComponentMessage msg)
         {
-            if (!components.TryGetValue(msg.Target, out BaseComponent target))
+            if (!Components.TryGetValue(msg.Target, out BaseComponent target))
                 throw new Exception(
                     $"Component of type {msg.Target} not found.");
             else
@@ -120,14 +123,14 @@ namespace Pantheon.ECS
 
         public void SetEnabled(bool enabled)
         {
-            foreach (BaseComponent c in components.Values)
+            foreach (BaseComponent c in Components.Values)
                 c.Enabled = enabled;
         }
 
         public string ListComponents()
         {
             string ret = "";
-            foreach (BaseComponent c in components.Values)
+            foreach (BaseComponent c in Components.Values)
                 ret += c;
             return ret;
         }

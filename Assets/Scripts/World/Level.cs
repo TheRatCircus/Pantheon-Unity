@@ -1,21 +1,25 @@
 ﻿// Level.cs
 // Jerome Martina
 
-using Pantheon.ECS.Components;
+using Pantheon.ECS.Templates;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace Pantheon.World
 {
-    [System.Serializable]
+    [Serializable]
     public sealed class Level
     {
-        public GameObject LevelObject { get; private set; }
+        [NonSerialized] private GameObject levelObj;
+        public GameObject LevelObj => levelObj;
 
-        public Tilemap Terrain { get; private set; } = default;
-        public Tilemap Splatter { get; private set; } = default;
-        public Tilemap Items { get; private set; } = default;
+        [NonSerialized] private Tilemap terrain;
+        [NonSerialized] private Tilemap splatter;
+        [NonSerialized] private Tilemap items;
 
         public Dictionary<Vector2Int, Cell> Map { get; private set; }
             = new Dictionary<Vector2Int, Cell>();
@@ -23,10 +27,13 @@ namespace Pantheon.World
         public string DisplayName { get; private set; } = "DEFAULT_LEVEL_NAME";
         public string ID { get; private set; }
 
-        public Vector3Int Position { get; set; }
+        public Vector3Int Position { get; private set; }
         public Vector2Int Size { get; set; }
 
-        public event System.Action<Level> FirstEntryEvent;
+        public List<string> AssetIDCache { get; private set; }
+            = new List<string>();
+
+        public event Func<string, Object> AssetRequestEvent;
 
         public Level(string displayName, string id)
         {
@@ -36,28 +43,17 @@ namespace Pantheon.World
 
         public void SetLevelObject(GameObject levelObj)
         {
-            LevelObject = levelObj;
+            this.levelObj = levelObj;
             Transform terrainTransform = levelObj.transform.Find("Terrain");
             Transform splatterTransform = levelObj.transform.Find("Splatter");
             Transform itemsTransform = levelObj.transform.Find("Items");
-            Terrain = terrainTransform.GetComponent<Tilemap>();
-            Splatter = splatterTransform.GetComponent<Tilemap>();
-            Items = itemsTransform.GetComponent<Tilemap>();
+            terrain = terrainTransform.GetComponent<Tilemap>();
+            splatter = splatterTransform.GetComponent<Tilemap>();
+            items = itemsTransform.GetComponent<Tilemap>();
         }
 
         public bool TryGetCell(int x, int y, out Cell cell)
         {
-            //if (Map[x, y] == null)
-            //{
-            //    cell = null;
-            //    return false;
-            //}
-            //else
-            //{
-            //    cell = Map[x, y];
-            //    return true;
-            //}
-
             if (Map.TryGetValue(new Vector2Int(x, y), out cell))
                 return true;
             else
@@ -66,37 +62,44 @@ namespace Pantheon.World
 
         public bool TryGetCell(Vector2Int pos, out Cell cell)
         {
-            //    if (Map[pos.x, pos.y] == null)
-            //    {
-            //        cell = null;
-            //        return false;
-            //    }
-            //    else
-            //    {
-            //        cell = Map[pos.x, pos.y];
-            //        return true;
-            //    }
-
             if (Map.TryGetValue(pos, out cell))
                 return true;
             else
                 return false;
         }
 
-        public void Render()
+        public Cell RandomCell(bool open)
         {
-            int x = 0;
-            for (; x < Size.x; x++)
-                for (int y = 0; y < Size.y; y++)
-                {
-                    Map.TryGetValue(new Vector2Int(x, y), out Cell c);
-                    if (c.Terrain != null)
-                    {
-                        //UnityEngine.Debug.Log(c.Terrain);
-                        RuleTile tile = c.Terrain.GetComponent<UnityTile>().Tile;
-                        Terrain.SetTile(new Vector3Int(x, y, 0), tile);
-                    }
-                }
+            Cell cell;
+            int tries = 0;
+            do
+            {
+                if (tries >= 500)
+                    throw new Exception(
+                        $"No eligible cell found after {tries} attempts.");
+
+                Vector2Int pos = new Vector2Int(Random.Range(0, Size.x),
+                    Random.Range(0, Size.y));
+                if (!TryGetCell(pos, out cell))
+                    continue;
+
+                if (!open || !cell.Blocked)
+                    break;
+
+                tries++;
+
+            } while (true);
+            return cell;
+        }
+
+        public void VisualizeTile(Cell cell)
+        {
+            if (cell.Terrain != null)
+            {
+                Template template = (Template)AssetRequestEvent.Invoke(
+                    cell.Terrain.TemplateID);    
+                terrain.SetTile((Vector3Int)cell.Position, template.Tile);
+            }
         }
 
         public override string ToString() => $"{DisplayName} ({Position})";

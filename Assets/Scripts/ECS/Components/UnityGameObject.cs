@@ -1,6 +1,7 @@
 ﻿// UnityGameObject.cs
 // Jerome Martina
 
+using System;
 using UnityEngine;
 
 namespace Pantheon.ECS.Components
@@ -8,10 +9,11 @@ namespace Pantheon.ECS.Components
     /// <summary>
     /// Holds a reference to a Unity GameObject representing an entity.
     /// </summary>
-    [System.Serializable]
+    [Serializable]
     public sealed class UnityGameObject : BaseComponent
     {
-        public GameObject GameObject { get; set; }
+        [NonSerialized] private GameObject gameObject;
+        public GameObject GameObject { get => gameObject; set => gameObject = value; }
 
         public override BaseComponent Clone()
         {

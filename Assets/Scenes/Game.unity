@@ -2323,7 +2323,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelPrefab: {fileID: 6154924382102744613, guid: fdbd0fda9e16a9941a64a3cff39f6593,
     type: 3}
+  gameObjectPrefab: {fileID: 1008646114880207100, guid: 93e0fc7c934bdc7448da7456a2c6a472,
+    type: 3}
   playerTemplate: {fileID: 11400000, guid: a86ed2ac106e6c040a761d708350ff67, type: 2}
+  worldGameObject: {fileID: 914664005}
   cam: {fileID: 1307850252}
   cursor: {fileID: 599566653}
   systems: {fileID: 880408041}

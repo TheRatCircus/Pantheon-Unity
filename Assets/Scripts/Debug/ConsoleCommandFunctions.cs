@@ -4,10 +4,9 @@
 using Pantheon.Core;
 using Pantheon.ECS;
 using Pantheon.ECS.Components;
-using Pantheon.Utils;
 using Pantheon.World;
 using System;
-using System.Collections.Generic;
+using UnityEngine;
 
 namespace Pantheon.Debug
 {
@@ -78,6 +77,17 @@ namespace Pantheon.Debug
             }
             else
                 return "GUID not found.";
+        }
+
+        public static string LoadedAssets(string[] args, GameController ctrl)
+        {
+            string ret = "";
+
+            foreach (AssetBundle bundle in AssetBundle.GetAllLoadedAssetBundles())
+                foreach (string name in bundle.GetAllAssetNames())
+                    ret += $"{name}{Environment.NewLine}";
+
+            return ret;
         }
     }
 }

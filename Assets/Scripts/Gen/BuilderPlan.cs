@@ -21,23 +21,12 @@ namespace Pantheon.Gen
             this.steps = steps;
         }
 
-        public static BuilderPlan Load(string name)
-        {
-            AssetLoader loader = new AssetLoader();
-            TextAsset json = loader.Load<TextAsset>(name);
-            JsonSerializerSettings settings = new JsonSerializerSettings();
-            settings.TypeNameHandling = TypeNameHandling.All;
-            BuilderPlan plan = JsonConvert.DeserializeObject<BuilderPlan>(
-                json.text, settings);
-            loader.Unload(true);
-            return plan;
-        }
-
-        public void Run(Level level, int sizeX, int sizeY, EntityFactory factory)
+        public void Run(Level level, int sizeX, int sizeY, AssetLoader loader,
+            EntityFactory factory)
         {
             InitializeMap(level, sizeX, sizeY);
             foreach (BuilderStep step in steps)
-                step.Run(level, factory);
+                step.Run(level, loader, factory);
         }
 
         /// <summary>

@@ -1,15 +1,16 @@
 ﻿// Layer.cs
 // Jerome Martina
 
-using Pantheon.Gen;
-using UnityEngine;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Pantheon.World
 {
     /// <summary>
     /// A horizontal slice of the game world.
     /// </summary>
+    [Serializable]
     public sealed class Layer
     {
         public int ZLevel { get; private set; }
@@ -17,7 +18,7 @@ namespace Pantheon.World
         public Dictionary<Vector2Int, Level> Levels { get; private set; }
             = new Dictionary<Vector2Int, Level>();
 
-        public event System.Action<Layer, Vector2Int> LevelRequestEvent;
+        public event Func<Vector3Int, Level> LevelRequestEvent;
 
         public Layer(int z)
         {
@@ -32,13 +33,17 @@ namespace Pantheon.World
         public Level RequestLevel(Vector2Int pos)
         {
             if (!Levels.ContainsKey(pos))
-                LevelRequestEvent?.Invoke(this, pos);
-
-            if (Levels.TryGetValue(pos, out Level ret))
-                return ret;
+            {
+                Level newLevel = LevelRequestEvent?.Invoke(
+                    new Vector3Int(pos.x, pos.y, ZLevel));
+                Levels.Add(pos, newLevel);
+                return newLevel;
+            }
             else
-                throw new System.ArgumentException(
-                    $"No level found at {pos} following generation.");
+            {
+                Levels.TryGetValue(pos, out Level ret);
+                return ret;
+            }
         }
     }
 }

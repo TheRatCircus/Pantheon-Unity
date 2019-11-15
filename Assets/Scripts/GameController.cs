@@ -16,8 +16,13 @@ namespace Pantheon.Core
     public sealed class GameController : MonoBehaviour
     {
         [SerializeField] private GameObject levelPrefab = default;
+        public GameObject LevelPrefab => levelPrefab;
+        [SerializeField] private GameObject gameObjectPrefab = default;
+        public GameObject GameObjectPrefab => gameObjectPrefab;
         [SerializeField] private Template playerTemplate = default;
 
+        [SerializeField] private GameObject worldGameObject = default;
+        public GameObject WorldGameObject => worldGameObject;
         [SerializeField] private Camera cam = default;
         [SerializeField] private UI.Cursor cursor = default;
         public UI.Cursor Cursor => cursor;
@@ -26,6 +31,7 @@ namespace Pantheon.Core
         public GameWorld World { get; private set; } = default;
         public EntityFactory EntityFactory { get; private set; } = default;
         public EntityManager Manager { get; private set; }
+        public AssetLoader Loader { get; private set; }
 
         public static void NewGame(string playerName)
         {
@@ -35,33 +41,72 @@ namespace Pantheon.Core
             GameController ctrl = obj.GetComponent<GameController>();
 
             // Start all subsystems
+            ctrl.Loader = new AssetLoader();
             ctrl.Manager = new EntityManager();
-            ctrl.EntityFactory = new EntityFactory(ctrl.Manager);
             ctrl.systems.Initialize(ctrl.Manager);
             ctrl.systems.enabled = true;
+            ctrl.EntityFactory = new EntityFactory(
+                ctrl, ctrl.systems.GetSystem<PositionSystem>());
 
             // Place the world centre
             GameObject worldObj = GameObject.FindGameObjectWithTag("GameWorld");
-            ctrl.World = new GameWorld(new LevelGenerator(
-                ctrl.EntityFactory, ctrl.levelPrefab, worldObj));
-
-            // Spawn the player
+            ctrl.World = new GameWorld(new LevelGenerator(ctrl));
             ctrl.World.Layers.TryGetValue(0, out Layer surface);
             surface.Levels.TryGetValue(Vector2Int.zero, out Level level);
-            ctrl.cursor.Level = level;
-            level.TryGetCell(10, 10, out Cell c);
 
+            // Spawn the player
             Entity playerEntity = ctrl.EntityFactory.NewEntityAt(
-                ctrl.playerTemplate, level, c);
+                ctrl.playerTemplate, level, level.RandomCell(true));
             playerEntity.GetComponent<Actor>().ActorControl = ActorControl.Player;
             Player player = playerEntity.GetComponent<Player>();
             PlayerSystem sys =
-                ctrl.GetComponentInChildren<SystemManager>().PlayerSystem;
+                ctrl.GetComponentInChildren<SystemManager>().
+                GetSystem<PlayerSystem>();
             sys.InputMessageEvent += player.SendInput;
+            
+            ctrl.LoadLevel(level);
             ctrl.MoveCameraTo(playerEntity);
+        }
 
-            ctrl.systems.UpdatePerTurnSystems();
-            level.Render();
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SaveGame();
+                QuitToTitle();
+            }
+        }
+
+        public GameController Get()
+        {
+            return this;
+        }
+
+        private void LoadLevel(Level level)
+        {
+            World.ActiveLevel = level;
+            level.AssetRequestEvent += Loader.GetAsset;
+            foreach (Cell cell in level.Map.Values)
+            {
+                level.VisualizeTile(cell);
+                if (cell.Blocked &&
+                    cell.Blocker.TryGetComponent(out UnityGameObject go))
+                {
+                    GameObject gameObj = Instantiate(gameObjectPrefab,
+                        level.LevelObj.transform);
+                    gameObj.name = cell.Blocker.Name;
+                    gameObj.GetComponent<SpriteRenderer>().sprite =
+                        Loader.Load<Template>(cell.Blocker.TemplateID).Sprite;
+                    gameObj.transform.position = Helpers.V2IToV3(cell.Position);
+                    go.GameObject = gameObj;
+                }
+            }
+            cursor.Level = level;
+        }
+
+        private void UnloadLevel(Level level)
+        {
+
         }
 
         // Move the camera to a new transform when the Player 
@@ -75,7 +120,25 @@ namespace Pantheon.Core
 
         public void AllowInputToCharacter(bool allow)
         {
-            systems.PlayerSystem.InputToCharacter = allow;
+            systems.GetSystem<PlayerSystem>().InputToCharacter = allow;
+        }
+
+        public void SaveGame()
+        {
+            Save save = new Save(Manager.Player.Name, World, Manager);
+            SaveLoad.Save(save);
+        }
+
+        public static void LoadGame(string path)
+        {
+            Save save = SaveLoad.Load(path);
+
+            // Find the GameController
+            GameObject obj = GameObject.FindGameObjectWithTag("GameController");
+            GameController ctrl = obj.GetComponent<GameController>();
+
+            ctrl.World = save.World;
+            ctrl.Manager = save.Manager;
         }
 
         public static void QuitToTitle()
