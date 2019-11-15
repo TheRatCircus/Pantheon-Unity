@@ -90,7 +90,6 @@ namespace Pantheon
             backgroundSelect.SetActive(false);
             audioListener.enabled = false;
 
-            
             SceneManager.LoadSceneAsync(Scenes.Game, LoadSceneMode.Additive).
                 completed += (AsyncOperation op) =>
                 {

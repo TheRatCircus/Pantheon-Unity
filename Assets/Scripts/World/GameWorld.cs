@@ -5,6 +5,7 @@ using Pantheon.Gen;
 using UnityEngine;
 using System.Collections.Generic;
 using Pantheon.Core;
+using System.Runtime.Serialization;
 
 namespace Pantheon.World
 {
@@ -33,8 +34,9 @@ namespace Pantheon.World
             Level origin = surface.RequestLevel(Vector2Int.zero);
         }
 
-        public GameWorld(Save save)
+        public GameWorld(Save save, LevelGenerator gen)
         {
+            LevelRequestEvent += gen.GenerateLayerLevel;
             Layers = save.World.Layers;
             levels = save.World.levels;
             ActiveLevel = save.World.ActiveLevel;
@@ -62,6 +64,13 @@ namespace Pantheon.World
 
             throw new System.ArgumentException(
                 $"Invalid position for level: {pos}");
+        }
+
+        [OnSerializing]
+        private void OnSerializing()
+        {
+            // Release the level generator upon serialization
+            LevelRequestEvent = null;
         }
     }
 }

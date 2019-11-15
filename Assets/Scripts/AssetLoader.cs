@@ -2,20 +2,16 @@
 // Jerome Martina
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace Pantheon
 {
-    [Serializable]
     public sealed class AssetLoader
     {
         [NonSerialized] private AssetBundle bundle;
-
-        //public Dictionary<string, Object> Assets { get; }
-        //    = new Dictionary<string, Object>();
+        public AssetBundle Bundle => bundle;
 
         public AssetLoader()
         {

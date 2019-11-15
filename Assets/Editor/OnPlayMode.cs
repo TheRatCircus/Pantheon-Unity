@@ -3,6 +3,7 @@
 
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -18,7 +19,11 @@ public static class EditorScenes
 
     private static void OnPlayModeStateChanged(PlayModeStateChange state)
     {
-        if (state == PlayModeStateChange.EnteredEditMode) OpenScenes();
+        if (state == PlayModeStateChange.EnteredEditMode)
+        {
+            OpenScenes();
+            AssetBundle.UnloadAllAssetBundles(true);
+        }
         if (state == PlayModeStateChange.ExitingEditMode) CloseScenes();
     }
 

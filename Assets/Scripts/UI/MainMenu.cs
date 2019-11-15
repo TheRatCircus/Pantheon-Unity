@@ -1,6 +1,7 @@
 ﻿// MainMenu.cs
 // Jerome Martina
 
+using Pantheon.Core;
 using Pantheon.Utils;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -23,31 +24,47 @@ namespace Pantheon.UI
             SceneManager.LoadScene(Scenes.Intro, LoadSceneMode.Single);
         }
 
-        //public void OpenLoadMenu()
-        //{
-        //    mainTitle.SetActive(false);
-        //    loadMenu.SetActive(true);
+        public void OpenLoadMenu()
+        {
+            mainTitle.SetActive(false);
+            loadMenu.SetActive(true);
 
-        //    string[] saveFiles = Directory.GetFiles
-        //        (Application.persistentDataPath, "*.save",
-        //        SearchOption.AllDirectories);
+            string[] saveFiles = Directory.GetFiles
+                (Application.persistentDataPath, "*.save",
+                SearchOption.AllDirectories);
 
-        //    BinaryFormatter formatter = new BinaryFormatter();
-        //    foreach (string filePath in saveFiles)
-        //    {
-        //        FileStream stream = new FileStream(filePath, FileMode.Open);
-        //        Save save = formatter.Deserialize(stream) as Save;
-        //        GameObject saveOption = Instantiate(saveOptionPrefab,
-        //            saveOptionsList);
-        //        Button saveOptionBtn = saveOption.GetComponent<Button>();
-        //        Text saveOptionLabel
-        //            = saveOption.GetComponentInChildren<Text>();
-        //        saveOptionLabel.text = save.SaveName;
+            BinaryFormatter formatter = new BinaryFormatter();
+            formatter.SurrogateSelector = Serialization.GetSurrogateSelector();
 
-        //        saveOptionBtn.onClick.AddListener
-        //            (delegate { StartCoroutine(LoadGame(save)); });
-        //    }
-        //}
+            foreach (string filePath in saveFiles)
+            {
+                FileStream stream = new FileStream(filePath, FileMode.Open);
+                Save save = formatter.Deserialize(stream) as Save;
+                GameObject saveOption = Instantiate(saveOptionPrefab,
+                    saveOptionsList);
+                Button saveOptionBtn = saveOption.GetComponent<Button>();
+                Text saveOptionLabel
+                    = saveOption.GetComponentInChildren<Text>();
+                saveOptionLabel.text = save.Name;
+
+                saveOptionBtn.onClick.AddListener
+                    (delegate { LoadGame(save); });
+                stream.Close();
+            }
+        }
+
+        public void LoadGame(Save save)
+        {
+            SceneManager.LoadSceneAsync(Scenes.Game, LoadSceneMode.Additive).
+                completed += (AsyncOperation op) =>
+                {
+                    Scene gameScene = SceneManager.GetSceneByName(Scenes.Game);
+                    SceneManager.SetActiveScene(gameScene);
+                    SceneManager.LoadSceneAsync(Scenes.Debug, LoadSceneMode.Additive);
+                    GameController.LoadGame(save);
+                    SceneManager.UnloadSceneAsync(Scenes.MainMenu);
+                };
+        }
 
         public void ToTitle()
         {

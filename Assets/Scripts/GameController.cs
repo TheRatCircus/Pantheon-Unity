@@ -32,10 +32,10 @@ namespace Pantheon.Core
         public EntityFactory EntityFactory { get; private set; } = default;
         public EntityManager Manager { get; private set; }
         public AssetLoader Loader { get; private set; }
+        public LevelGenerator LevelGenerator { get; private set; }
 
         public static void NewGame(string playerName)
         {
-            // TODO: TEST CODE
             // Find the GameController
             GameObject obj = GameObject.FindGameObjectWithTag("GameController");
             GameController ctrl = obj.GetComponent<GameController>();
@@ -47,10 +47,10 @@ namespace Pantheon.Core
             ctrl.systems.enabled = true;
             ctrl.EntityFactory = new EntityFactory(
                 ctrl, ctrl.systems.GetSystem<PositionSystem>());
+            ctrl.LevelGenerator = new LevelGenerator(ctrl);
 
             // Place the world centre
-            GameObject worldObj = GameObject.FindGameObjectWithTag("GameWorld");
-            ctrl.World = new GameWorld(new LevelGenerator(ctrl));
+            ctrl.World = new GameWorld(ctrl.LevelGenerator);
             ctrl.World.Layers.TryGetValue(0, out Layer surface);
             surface.Levels.TryGetValue(Vector2Int.zero, out Level level);
 
@@ -66,6 +66,37 @@ namespace Pantheon.Core
             
             ctrl.LoadLevel(level);
             ctrl.MoveCameraTo(playerEntity);
+        }
+
+        public static void LoadGame(Save save)
+        {
+            // Find the GameController
+            GameObject obj = GameObject.FindGameObjectWithTag("GameController");
+            GameController ctrl = obj.GetComponent<GameController>();
+
+            // Start all subsystems
+            ctrl.Loader = new AssetLoader();
+            ctrl.Manager = save.Manager;
+            ctrl.systems.Initialize(ctrl.Manager);
+            ctrl.systems.enabled = true;
+            ctrl.EntityFactory = new EntityFactory(
+                ctrl, ctrl.systems.GetSystem<PositionSystem>());
+            ctrl.LevelGenerator = new LevelGenerator(ctrl);
+
+            // Place the world centre
+            ctrl.World = new GameWorld(save, ctrl.LevelGenerator);
+            ctrl.cursor.Level = ctrl.World.ActiveLevel;
+            ctrl.World.ActiveLevel.AssetRequestEvent += ctrl.Loader.Load<Object>;
+            
+            foreach (Layer layer in ctrl.World.Layers.Values)
+            {
+                foreach (Level level in layer.Levels.Values)
+                {
+                    ctrl.LevelGenerator.CreateLevelGameObject(level, ctrl);
+                }
+            }
+            ctrl.VisualizeLevel(ctrl.World.ActiveLevel);
+            ctrl.MoveCameraTo(ctrl.Manager.Player);
         }
 
         private void Update()
@@ -85,22 +116,32 @@ namespace Pantheon.Core
         private void LoadLevel(Level level)
         {
             World.ActiveLevel = level;
-            level.AssetRequestEvent += Loader.GetAsset;
+            level.AssetRequestEvent += Loader.Load<Object>;
+            VisualizeLevel(level);
+            cursor.Level = level;
+        }
+
+        private void VisualizeLevel(Level level)
+        {
             foreach (Cell cell in level.Map.Values)
             {
                 level.VisualizeTile(cell);
                 if (cell.Blocked &&
                     cell.Blocker.TryGetComponent(out UnityGameObject go))
                 {
+                    Entity e = cell.Blocker;
+
+                    if (e.Flyweight == null)
+                        e.Flyweight = (Template)Loader.Load<Object>(e.FlyweightID);
+
                     GameObject gameObj = Instantiate(gameObjectPrefab,
                         level.LevelObj.transform);
-                    gameObj.name = cell.Blocker.Name;
-                    gameObj.GetComponent<SpriteRenderer>().sprite = cell.Blocker.Flyweight.Sprite;
+                    gameObj.name = e.Name;
+                    gameObj.GetComponent<SpriteRenderer>().sprite = e.Flyweight.Sprite;
                     gameObj.transform.position = Helpers.V2IToV3(cell.Position);
                     go.GameObject = gameObj;
                 }
             }
-            cursor.Level = level;
         }
 
         private void UnloadLevel(Level level)
@@ -124,7 +165,7 @@ namespace Pantheon.Core
 
         public void SaveGame()
         {
-            Save save = new Save(Manager.Player.Name, World, Manager);
+            Save save = new Save(Manager.Player.Name, World, Manager, LevelGenerator);
             SaveLoad.Save(save);
         }
 
@@ -142,6 +183,7 @@ namespace Pantheon.Core
 
         public static void QuitToTitle()
         {
+            AssetBundle.UnloadAllAssetBundles(true);
             SceneManager.LoadScene(Scenes.MainMenu, LoadSceneMode.Single);
         }
     }

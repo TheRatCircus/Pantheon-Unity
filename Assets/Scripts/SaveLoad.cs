@@ -2,8 +2,8 @@
 // Jerome Martina
 
 using Pantheon.Core;
+using Pantheon.Utils;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
@@ -14,18 +14,7 @@ namespace Pantheon
         public static void Save(Save save)
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            SurrogateSelector selector = new SurrogateSelector();
-
-            Vector3IntSerializationSurrogate vector3ISS = 
-                new Vector3IntSerializationSurrogate();
-            Vector2IntSerializationSurrogate vector2ISS =
-                new Vector2IntSerializationSurrogate();
-            selector.AddSurrogate(typeof(Vector3Int),
-                new StreamingContext(StreamingContextStates.All), vector3ISS);
-            selector.AddSurrogate(typeof(Vector2Int),
-                new StreamingContext(StreamingContextStates.All), vector2ISS);
-
-            formatter.SurrogateSelector = selector;
+            formatter.SurrogateSelector = Serialization.GetSurrogateSelector();
 
             string path = Path.Combine(Application.persistentDataPath,
                 $"{save.Name.ToLower()}.save");
@@ -39,6 +28,8 @@ namespace Pantheon
             if (File.Exists(path))
             {
                 BinaryFormatter formatter = new BinaryFormatter();
+                formatter.SurrogateSelector = Serialization.GetSurrogateSelector();
+
                 FileStream stream = new FileStream(path, FileMode.Open);
                 Save save = formatter.Deserialize(stream) as Save;
                 stream.Close();

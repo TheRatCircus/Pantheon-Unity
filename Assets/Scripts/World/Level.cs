@@ -1,13 +1,14 @@
 ﻿// Level.cs
 // Jerome Martina
 
-using Pantheon.ECS.Templates;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
+using Object = UnityEngine.Object;
+using Pantheon.ECS.Templates;
+using System.Runtime.Serialization;
 
 namespace Pantheon.World
 {
@@ -30,10 +31,9 @@ namespace Pantheon.World
         public Vector3Int Position { get; private set; }
         public Vector2Int Size { get; set; }
 
+        public Func<string, Object> AssetRequestEvent;
         public List<string> AssetIDCache { get; private set; }
             = new List<string>();
-
-        public event Func<string, Object> AssetRequestEvent;
 
         public Level(string displayName, string id)
         {
@@ -96,8 +96,18 @@ namespace Pantheon.World
         {
             if (cell.Terrain != null)
             {
+                // Re-assign flyweights if level is being loaded from a save
+                if (cell.Terrain.Flyweight == null)
+                    cell.Terrain.Flyweight = (Template)AssetRequestEvent.Invoke(cell.Terrain.FlyweightID);
+
                 terrain.SetTile((Vector3Int)cell.Position, cell.Terrain.Flyweight.Tile);
             }
+        }
+
+        [OnSerializing]
+        private void OnSerializing()
+        {
+            AssetRequestEvent = null;
         }
 
         public override string ToString() => $"{DisplayName} ({Position})";

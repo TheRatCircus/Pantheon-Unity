@@ -27,7 +27,7 @@ namespace Pantheon.ECS
 
         [NonSerialized]
         private Template flyweight = null;
-        public Template Flyweight { get => flyweight; private set => flyweight = value; }
+        public Template Flyweight { get => flyweight; set => flyweight = value; }
         public string FlyweightID { get; private set; } = "DEFAULT_FLYWEIGHT_ID";
 
         public EntityArchetype Archetype { get; private set; }
