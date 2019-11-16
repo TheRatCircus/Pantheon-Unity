@@ -7,6 +7,9 @@ using Pantheon.Core;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
+using Pantheon.Commands;
+using Pantheon.World;
 
 namespace Pantheon.ECS.Systems
 {
@@ -30,13 +33,13 @@ namespace Pantheon.ECS.Systems
         public event Action<Actor> ActorDebugEvent;
         public event Action ActionDoneEvent;
 
-        public ActorSystem(EntityManager mgr) : base(mgr) { }
+        public ActorSystem(EntityManager mgr) : base(mgr)
+        {
+            queue = mgr.ActorComponents;
+        }
 
         public override void UpdateComponents()
         {
-            if (queue == null)
-                queue = mgr.ActorComponents;
-
             for (int i = 0; i < queue.Count; i++)
                 if (!Tick())
                     break;
@@ -48,10 +51,6 @@ namespace Pantheon.ECS.Systems
         {
             if (lockCount > 0)
                 return false;
-
-            //if (queue.Count <= 0)
-            //    throw new Exception(
-            //        "Turn queue should not be empty");
 
             Actor actor = queue[0];
             
@@ -67,7 +66,7 @@ namespace Pantheon.ECS.Systems
             while (actor.Energy > 0)
             {
                 currentActor = actor;
-                switch (actor.ActorControl)
+                switch (actor.Control)
                 {
                     case ActorControl.None: // Skip any uncontrolled actor
                         Actor a = queue[0];
@@ -75,9 +74,16 @@ namespace Pantheon.ECS.Systems
                         queue.Add(a);
                         return true;
                     case ActorControl.Player:
+                        Entity e = mgr.GetEntity(actor.GUID);
+                        Player p = e.GetComponent<Player>();
+                        if (p.AutoMovePath.Count > 0)
+                        {
+                            actor.Command = new MoveCommand(e, p.AutoMovePath[0], TurnTime);
+                            p.AutoMovePath.RemoveAt(0);
+                        }
                         break;
                     case ActorControl.AI:
-                        actor.RequestAICommand();
+                        UpdateAI(actor);
                         break;
                 }
 
@@ -92,7 +98,7 @@ namespace Pantheon.ECS.Systems
 
                 if (actionCost == 0)
                     UnityEngine.Debug.LogWarning(
-                        "An action with 0 energy cost was scheduled");
+                        "A command with 0 energy cost was scheduled");
 
                 ActorDebugEvent?.Invoke(actor);
 
@@ -139,6 +145,45 @@ namespace Pantheon.ECS.Systems
             queue.Add(dequeued);
 
             return true;
+        }
+
+        // AI is updated sequentially, and thus has no system
+        public void UpdateAI(Actor actor)
+        {
+            Entity e = mgr.GetEntity(actor.GUID);
+            AI ai = e.GetComponent<AI>();
+            Position pos = e.GetComponent<Position>();
+            UnityEngine.Debug.Log($"{e.Name} is acting...");
+
+            // Random energy
+            int r = Random.Range(0, 21);
+            if (r >= 18)
+                actor.Energy += actor.Speed / 10;
+            else if (r <= 2)
+                actor.Energy -= actor.Speed / 10;
+
+            if (ai.Target != null) // Player detected
+            {
+                Cell targetCell = ai.Target.GetComponent<Position>().Cell;
+
+                if (pos.Level.AdjacentTo(pos.Cell, targetCell))
+                    actor.Command = new MeleeCommand(e, targetCell);
+                else
+                    actor.Command = MoveCommand.MoveOrWait(e, targetCell);
+            }
+            else // Player not encountered yet
+            {
+                if (pos.Cell.Visible) // Detect player and begin approach
+                {
+                    ai.Target = mgr.Player;
+                    actor.Command = MoveCommand.MoveOrWait(e, 
+                        ai.Target.GetComponent<Position>().Cell);
+                }
+                else // Sleep
+                    actor.Command = new WaitCommand(e);
+            }
+
+            UnityEngine.Debug.Log(actor.Command);
         }
 
         // Temporarily lock and then unlock the scheduler recursively to allow

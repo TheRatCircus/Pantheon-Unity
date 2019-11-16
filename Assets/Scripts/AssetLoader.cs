@@ -32,22 +32,13 @@ namespace Pantheon
                     $"{name} not found in bundle {bundle.name}.");
 
             T obj = bundle.LoadAsset<T>(name);
-            //Assets.Add(obj.name, obj);
             return obj;
         }
-    }
 
-    public static class Assets
-    {
-        public static T Load<T>(string name) where T : Object
+        public T TryLoad<T>(string name) where T : Object
         {
-            AssetBundle bundle = AssetBundle.LoadFromFile(Path.Combine(
-                Application.streamingAssetsPath, "pantheon"));
-            System.Diagnostics.Debug.Assert(bundle != null);
-
             if (!bundle.Contains(name))
-                throw new ArgumentException(
-                    $"{name} not found in bundle {bundle.name}.");
+                return null;
 
             T obj = bundle.LoadAsset<T>(name);
             return obj;

@@ -59,12 +59,13 @@ namespace Pantheon.ECS
             Flyweight = template;
             FlyweightID = Flyweight.name;
             Archetype = template.Archetype;
-
+            
             if (!flyweightOnly)
             {
                 Components = new Dictionary<Type, BaseComponent>();
                 foreach (BaseComponent c in template.Unload())
                     AddComponent(c.Clone());
+
                 ConnectComponents();
             }
         }

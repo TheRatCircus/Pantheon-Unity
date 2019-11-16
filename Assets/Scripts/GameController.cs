@@ -27,6 +27,7 @@ namespace Pantheon.Core
         [SerializeField] private UI.Cursor cursor = default;
         public UI.Cursor Cursor => cursor;
         [SerializeField] private SystemManager systems = default;
+        public SystemManager Systems => systems;
 
         public GameWorld World { get; private set; } = default;
         public EntityFactory EntityFactory { get; private set; } = default;
@@ -56,13 +57,12 @@ namespace Pantheon.Core
 
             // Spawn the player
             Entity playerEntity = ctrl.EntityFactory.NewEntityAt(
-                ctrl.playerTemplate, level, level.RandomCell(true), false);
-            playerEntity.GetComponent<Actor>().ActorControl = ActorControl.Player;
+                ctrl.playerTemplate, level, level.RandomCell(true));
             Player player = playerEntity.GetComponent<Player>();
             PlayerSystem sys =
                 ctrl.GetComponentInChildren<SystemManager>().
                 GetSystem<PlayerSystem>();
-            sys.InputMessageEvent += player.SendInput;
+            //sys.InputMessageEvent += player.SendInput;
             
             ctrl.LoadLevel(level);
             ctrl.MoveCameraTo(playerEntity);
@@ -161,7 +161,7 @@ namespace Pantheon.Core
 
         public void AllowInputToCharacter(bool allow)
         {
-            systems.GetSystem<PlayerSystem>().InputToCharacter = allow;
+            systems.GetSystem<PlayerSystem>().SendingToActor = allow;
         }
 
         public void SaveGame()

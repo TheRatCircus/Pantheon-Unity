@@ -26,6 +26,7 @@ namespace Pantheon.Gen
         {
             Level level = new Level(displayName, id);
             plan.Run(level, 200, 200, loader, factory);
+            level.RebuildPathfinder();
             return level;
         }
     }

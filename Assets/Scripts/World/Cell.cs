@@ -19,8 +19,18 @@ namespace Pantheon.World
         public Vector2Int Position { get; set; }
         public List<Entity> Entities { get; } = new List<Entity>();
         public Entity Blocker { get; private set; }
-        public Entity Terrain { get; private set; }
+        public Entity Terrain { get; private set; } // What tile gets drawn?
         public bool Blocked => Blocker != null;
+        public bool Walled
+        {
+            get
+            {
+                if (Terrain == null)
+                    return false;
+                else
+                    return Terrain.Archetype == EntityArchetype.Wall;
+            }
+        }
 
         public bool Visible { get; set; }
         public bool Revealed { get; set; }

@@ -1,8 +1,9 @@
 ﻿// PlayerSystem.cs
 // Jerome Martina
 
-using System;
+using Pantheon.ECS.Components;
 using UnityEngine;
+using Cursor = Pantheon.UI.Cursor;
 
 namespace Pantheon.ECS.Systems
 {
@@ -11,69 +12,82 @@ namespace Pantheon.ECS.Systems
     /// </summary>
     public sealed class PlayerSystem : ComponentSystem
     {
-        public bool InputToCharacter { get; set; } = true;
+        public bool SendingToActor { get; set; } = true;
 
-        public Action<InputMessage> InputMessageEvent;
+        private Cursor cursor;
 
-        public PlayerSystem(EntityManager mgr) : base(mgr) { }
+        public PlayerSystem(EntityManager mgr, Cursor cursor) : base(mgr)
+        {
+            this.cursor = cursor;
+        }
 
         public override void UpdateComponents()
         {
-            if (!InputToCharacter)
+            if (!SendingToActor)
                 return;
 
             if (!Input.anyKeyDown)
                 return;
 
-            InputType axis = InputType.None;
+            InputType type = InputType.None;
             Vector2Int inputVector = Vector2Int.zero;
+            
+            // Set automove path
+            if (Input.GetMouseButtonDown(0))
+            {
+                Entity player = mgr.Player;
+                Position pos = player.GetComponent<Position>();
+                player.GetComponent<Player>().AutoMovePath = pos.Level.GetPathTo(
+                    pos.Cell, cursor.HoveredCell);
+                return;
+            }
 
             if (Input.GetButtonDown("Up"))
             {
-                axis = InputType.Direction;
+                type = InputType.Direction;
                 inputVector = Vector2Int.up;
             }
             else if (Input.GetButtonDown("Down"))
             {
-                axis = InputType.Direction;
+                type = InputType.Direction;
                 inputVector = Vector2Int.down;
             }
             else if (Input.GetButtonDown("Left"))
             {
-                axis = InputType.Direction;
+                type = InputType.Direction;
                 inputVector = Vector2Int.left;
             }
             else if (Input.GetButtonDown("Right"))
             {
-                axis = InputType.Direction;
+                type = InputType.Direction;
                 inputVector = Vector2Int.right;
             }
             else if (Input.GetButtonDown("Up Left"))
             {
-                axis = InputType.Direction;
+                type = InputType.Direction;
                 inputVector = new Vector2Int(-1, 1);
             }
             else if (Input.GetButtonDown("Up Right"))
             {
-                axis = InputType.Direction;
+                type = InputType.Direction;
                 inputVector = new Vector2Int(1, 1);
             }
             else if (Input.GetButtonDown("Down Left"))
             {
-                axis = InputType.Direction;
+                type = InputType.Direction;
                 inputVector = new Vector2Int(-1, -1);
             }
             else if (Input.GetButtonDown("Down Right"))
             {
-                axis = InputType.Direction;
+                type = InputType.Direction;
                 inputVector = new Vector2Int(1, -1);
             }
             else if (Input.GetButtonDown("Wait"))
-                axis = InputType.Wait;
+                type = InputType.Wait;
 
-            InputMessage msg = new InputMessage(axis, inputVector, false,
+            InputMessage msg = new InputMessage(type, inputVector, false,
                 false, false);
-            InputMessageEvent?.Invoke(msg);
+            mgr.Player.GetComponent<Player>().SendInput(msg);
         }
     }
 
@@ -92,10 +106,10 @@ namespace Pantheon.ECS.Systems
         public readonly bool shift;
         public readonly bool alt;
 
-        public InputMessage(InputType axis, Vector2Int vector, bool ctrl,
+        public InputMessage(InputType type, Vector2Int vector, bool ctrl,
             bool shift, bool alt)
         {
-            this.type = axis;
+            this.type = type;
             this.vector = vector;
             this.ctrl = ctrl;
             this.shift = shift;

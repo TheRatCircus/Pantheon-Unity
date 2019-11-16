@@ -4,6 +4,7 @@
 using Pantheon.Core;
 using Pantheon.ECS;
 using Pantheon.ECS.Components;
+using Pantheon.ECS.Templates;
 using Pantheon.World;
 using System;
 using UnityEngine;
@@ -88,6 +89,18 @@ namespace Pantheon.Debug
                     ret += $"{name}{Environment.NewLine}";
 
             return ret;
+        }
+
+        public static string Spawn(string[] args, GameController ctrl)
+        {
+            Template template = ctrl.Loader.Load<Template>(args[0]);
+            if (template == null)
+                return $"{args[0]} not found.";
+
+            ctrl.EntityFactory.NewEntityAt(template, ctrl.World.ActiveLevel, 
+                ctrl.Cursor.HoveredCell);
+
+            return $"Spawned {template.name}";
         }
     }
 }

@@ -32,7 +32,8 @@ namespace Pantheon.Debug
                 { "describe_cell", new ConsoleCommand(DescribeCell) },
                 { "find_entities", new ConsoleCommand(FindEntities) },
                 { "describe", new ConsoleCommand(DescribeEntity) },
-                { "loaded_assets", new ConsoleCommand(LoadedAssets) }
+                { "loaded_assets", new ConsoleCommand(LoadedAssets) },
+                { "spawn", new ConsoleCommand(Spawn) }
             };
 
         private void Awake()
@@ -57,7 +58,7 @@ namespace Pantheon.Debug
                 {
                     input.text = "";
                     console.SetActive(false);
-                    controller.AllowInputToCharacter(false);
+                    controller.AllowInputToCharacter(true);
                 }
                 else
                 {

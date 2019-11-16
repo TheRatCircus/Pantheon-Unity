@@ -1,14 +1,14 @@
 ﻿// Level.cs
 // Jerome Martina
 
+using Pantheon.ECS.Templates;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Random = UnityEngine.Random;
 using Object = UnityEngine.Object;
-using Pantheon.ECS.Templates;
-using System.Runtime.Serialization;
+using Random = UnityEngine.Random;
 
 namespace Pantheon.World
 {
@@ -24,6 +24,9 @@ namespace Pantheon.World
 
         public Dictionary<Vector2Int, Cell> Map { get; private set; }
             = new Dictionary<Vector2Int, Cell>();
+
+        [NonSerialized] private Pathfinder pf;
+        public Pathfinder PF => pf;
 
         public string DisplayName { get; private set; } = "DEFAULT_LEVEL_NAME";
         public string ID { get; private set; }
@@ -50,6 +53,11 @@ namespace Pantheon.World
             terrain = terrainTransform.GetComponent<Tilemap>();
             splatter = splatterTransform.GetComponent<Tilemap>();
             items = itemsTransform.GetComponent<Tilemap>();
+        }
+
+        public void RebuildPathfinder()
+        {
+            pf = new Pathfinder(this);
         }
 
         public bool TryGetCell(int x, int y, out Cell cell)
@@ -82,6 +90,16 @@ namespace Pantheon.World
             return Map.ContainsKey(pos);
         }
 
+        public int Distance(Cell a, Cell b)
+        {
+            int dx = b.Position.x - a.Position.x;
+            int dy = b.Position.y - a.Position.y;
+
+            return (int)Mathf.Sqrt(Mathf.Pow(dx, 2) + Mathf.Pow(dy, 2));
+        }
+
+        public bool AdjacentTo(Cell a, Cell b) => Distance(a, b) <= 1;
+
         public Cell RandomCell(bool open)
         {
             Cell cell;
@@ -105,6 +123,9 @@ namespace Pantheon.World
             } while (true);
             return cell;
         }
+
+        public List<Cell> GetPathTo(Cell origin, Cell target)
+            => PF.CellPathList(origin.Position, target.Position);
 
         public void VisualizeTile(Cell cell)
         {

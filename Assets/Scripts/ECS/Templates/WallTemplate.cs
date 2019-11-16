@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Pantheon.ECS.Templates
 {
-    [CreateAssetMenu(fileName = "New WallTemplate",
+    [CreateAssetMenu(fileName = "New Wall Template",
         menuName = "Pantheon/Templates/Wall")]
     public sealed class WallTemplate : Template
     {

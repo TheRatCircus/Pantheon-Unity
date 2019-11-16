@@ -4,6 +4,9 @@
 using Pantheon.Commands;
 using Pantheon.ECS.Messages;
 using Pantheon.ECS.Systems;
+using Pantheon.World;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Pantheon.ECS.Components
@@ -15,7 +18,7 @@ namespace Pantheon.ECS.Components
         Player
     }
 
-    [System.Serializable]
+    [Serializable]
     public sealed class Actor : BaseComponent
     {
         [SerializeField] private int speed = -1;
@@ -23,17 +26,24 @@ namespace Pantheon.ECS.Components
         [SerializeField] private int energy = -1;
         public int Energy { get => energy; set => energy = value; }
 
-        [System.NonSerialized] private Command command = null;
+        [NonSerialized] private Command command = null;
         public Command Command { get => command; set => command = value; }
 
-        public ActorControl ActorControl { get; set; } = ActorControl.None;
-        public bool PlayerControlled => ActorControl == ActorControl.Player;
-        public bool AIControlled => ActorControl == ActorControl.AI;
+        [SerializeField] public ActorControl control = default;
+        public ActorControl Control
+        {
+            get => control;
+            set => control = value;
+        }
 
-        public Actor(int speed, int energy)
+        public bool PlayerControlled => Control == ActorControl.Player;
+        public bool AIControlled => Control == ActorControl.AI;
+
+        public Actor(int speed, int energy, ActorControl control)
         {
             this.speed = speed;
             this.energy = energy;
+            this.control = control;
         }
 
         /// <summary>
@@ -78,16 +88,19 @@ namespace Pantheon.ECS.Components
         }
 
         public override BaseComponent Clone()
-        {
-            return new Actor(speed, energy);
-        }
+            => new Actor(speed, energy, control);
+
+        public override string ToString()
+            => $"Controller: {Control} Command: {Command}";
     }
 
-    [System.Serializable]
+    [Serializable]
     public sealed class Player : BaseComponent
     {
         public Entity Entity { get; set; }
         public Actor Actor { get; set; }
+        public List<Cell> AutoMovePath { get; set; }
+            = new List<Cell>();
 
         public void SendInput(InputMessage msg)
         {
@@ -103,25 +116,14 @@ namespace Pantheon.ECS.Components
             }
         }
 
-        public override BaseComponent Clone()
-        {
-            return new Player();
-        }
+        public override BaseComponent Clone() => new Player();
     }
 
-    [System.Serializable]
+    [Serializable]
     public sealed class AI : BaseComponent
     {
-        private Actor actor;
+        public Entity Target { get; set; }
 
-        private void Act()
-        {
-
-        }
-
-        public override BaseComponent Clone()
-        {
-            return new AI();
-        }
+        public override BaseComponent Clone() => new AI();
     }
 }

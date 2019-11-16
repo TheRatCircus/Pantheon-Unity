@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Pantheon.ECS.Templates
 {
-    [CreateAssetMenu(fileName = "New GroundTemplate",
+    [CreateAssetMenu(fileName = "New Ground Template",
         menuName = "Pantheon/Templates/Ground")]
     public sealed class GroundTemplate : Template
     {

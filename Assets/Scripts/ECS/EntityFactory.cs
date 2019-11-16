@@ -29,12 +29,11 @@ namespace Pantheon.ECS
             return e;
         }
 
-        public Entity NewEntityAt(Template template, Level level,
-            Cell cell, bool flyweightOnly)
+        public Entity NewEntityAt(Template template, Level level, Cell cell)
         {
             GameController ctrl = GetControllerEvent.Invoke();
             EntityManager mgr = ctrl.Manager;
-            Entity e = NewEntity(template, flyweightOnly);
+            Entity e = NewEntity(template, false);
 
             if (ctrl.World != null &&
                 level == ctrl.World.ActiveLevel) // Never true during level generation

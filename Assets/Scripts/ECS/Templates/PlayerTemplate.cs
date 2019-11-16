@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Pantheon.ECS.Templates
 {
-    [CreateAssetMenu(fileName = "PlayerTemplate",
+    [CreateAssetMenu(fileName = "New Player Template",
         menuName = "Pantheon/Templates/Player")]
     public sealed class PlayerTemplate : Template
     {

@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 256565785
+CRC: 3453231620
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 87038ce0047fb2eef9b9491ed40e297a
+    Hash: 84661a535d6a720cdc8eaaea0d34cb2d
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 109f01333216bc3af73c93f885c679ee
+    Hash: 11666c0d230832c292b628977092eefb
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -29,6 +29,8 @@ ClassTypes:
   Script: {fileID: 11500000, guid: 6d6ddc83d616dbe4aa750180281fdbca, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 9859a4d6c0e2e2e4184e5e8418ed8345, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: a7066e56448452348a8d38eceb64643e, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 212
@@ -41,4 +43,5 @@ Assets:
 - Assets/Prefabs/Actors/GameObjectPrefab.prefab
 - Assets/Templates/PlayerTemplate.asset
 - Assets/BuilderPlans/Plan_Valley.json
+- Assets/Templates/NPC_RagingGoose.asset
 Dependencies: []

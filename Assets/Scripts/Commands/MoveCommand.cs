@@ -3,7 +3,9 @@
 
 using Pantheon.ECS;
 using Pantheon.ECS.Components;
+using Pantheon.ECS.Systems;
 using Pantheon.World;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Pantheon.Commands
@@ -13,6 +15,17 @@ namespace Pantheon.Commands
         public Level DestinationLevel { get; private set; }
         public Cell DestinationCell { get; private set; }
         public int MoveTime { get; private set; }
+
+        public static Command MoveOrWait(Entity e, Cell target)
+        {
+            Position pos = e.GetComponent<Position>();
+            List<Cell> path = pos.Level.GetPathTo(pos.Cell, target);
+
+            if (path.Count > 0)
+                return new MoveCommand(e, path[0], ActorSystem.TurnTime);
+            else
+                return new WaitCommand(e);
+        }
 
         public MoveCommand(Entity entity, Cell destination, int moveTime)
             : base(entity)
