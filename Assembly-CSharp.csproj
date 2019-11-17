@@ -62,7 +62,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\DebugInfo.cs" />
     <Compile Include="Assets\Scripts\AssetLoader.cs" />
     <Compile Include="Assets\Scripts\CameraControl.cs" />
     <Compile Include="Assets\Scripts\Commands\Command.cs" />
@@ -71,6 +70,7 @@
     <Compile Include="Assets\Scripts\Commands\WaitCommand.cs" />
     <Compile Include="Assets\Scripts\Debug\Console.cs" />
     <Compile Include="Assets\Scripts\Debug\ConsoleCommandFunctions.cs" />
+    <Compile Include="Assets\Scripts\Debug\DebugInfo.cs" />
     <Compile Include="Assets\Scripts\Debug\Visualisation.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\Actor.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\BaseComponent.cs" />
@@ -115,6 +115,7 @@
     <Compile Include="Assets\Scripts\SaveLoad.cs" />
     <Compile Include="Assets\Scripts\SerializationSurrogate.cs" />
     <Compile Include="Assets\Scripts\UI\Cursor.cs" />
+    <Compile Include="Assets\Scripts\UI\GameLog.cs" />
     <Compile Include="Assets\Scripts\UI\Intro.cs" />
     <Compile Include="Assets\Scripts\UI\MainMenu.cs" />
     <Compile Include="Assets\Scripts\Utils\Colours.cs" />

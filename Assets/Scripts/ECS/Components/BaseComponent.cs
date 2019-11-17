@@ -2,20 +2,22 @@
 // Jerome Martina
 
 using Pantheon.ECS.Messages;
+using Pantheon.UI;
+using System;
 
 namespace Pantheon.ECS.Components
 {
-    [System.Serializable]
+    [Serializable]
     public abstract class BaseComponent
     {
         public int GUID { get; private set; } = -1;
         public bool Enabled { get; set; } // Do systems update this component?
-        public event System.Action<ComponentMessage> MessageEvent;
+        public event Action<ComponentMessage> MessageEvent;
 
-        public void AssignToEntity(Entity e)
-        {
-            GUID = e.GUID;
-        }
+        private static GameLog log;
+        protected GameLog Log => log;
+
+        public void AssignToEntity(Entity e) => GUID = e.GUID;
 
         public void Message<T>(ComponentMessage msg)
             where T : BaseComponent
@@ -26,7 +28,7 @@ namespace Pantheon.ECS.Components
 
         public virtual void Receive(ComponentMessage msg)
         {
-            throw new System.NotImplementedException(
+            throw new NotImplementedException(
                 "This component does not support messaging.");
         }
 

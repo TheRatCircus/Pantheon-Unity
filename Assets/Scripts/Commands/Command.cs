@@ -10,10 +10,6 @@ namespace Pantheon.Commands
     /// </summary>
     public abstract class Command
     {
-        // Callback which can be run after completion of an action
-        public delegate void OnConfirm();
-        public OnConfirm onConfirm = null;
-
         public Entity Entity { get; private set; } = null;
 
         public Command(Entity entity) => Entity = entity;

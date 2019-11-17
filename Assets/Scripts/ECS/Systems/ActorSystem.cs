@@ -2,14 +2,16 @@
 // Jerome Martina
 // Turn scheduler courtesy of Dan Korostelev
 
-using Pantheon.ECS.Components;
+using Pantheon.Commands;
 using Pantheon.Core;
+using Pantheon.ECS.Components;
+using Pantheon.UI;
+using Pantheon.Utils;
+using Pantheon.World;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using Pantheon.Commands;
-using Pantheon.World;
 
 namespace Pantheon.ECS.Systems
 {
@@ -17,13 +19,15 @@ namespace Pantheon.ECS.Systems
     {
         public const int TurnTime = 100; // One standard turn
 
+        private GameLog log;
+
         // Once 100 energy has been spent by the player,
         // a turn is considered to have passed
         [ReadOnly] [SerializeField] private int turnProgress = 0;
         [ReadOnly] [SerializeField] private int turns = 0;
 
-        [ReadOnly] [SerializeField] private int lockCount = 0;
         private List<Actor> queue = null;
+        [ReadOnly] [SerializeField] private int lockCount = 0;
         private Actor currentActor = null;
         private bool currentActorRemoved = false;
 
@@ -33,9 +37,11 @@ namespace Pantheon.ECS.Systems
         public event Action<Actor> ActorDebugEvent;
         public event Action ActionDoneEvent;
 
-        public ActorSystem(EntityManager mgr) : base(mgr)
+        public ActorSystem(EntityManager mgr, GameLog log)
+            : base(mgr)
         {
             queue = mgr.ActorComponents;
+            this.log = log;
         }
 
         public override void UpdateComponents()
@@ -153,7 +159,6 @@ namespace Pantheon.ECS.Systems
             Entity e = mgr.GetEntity(actor.GUID);
             AI ai = e.GetComponent<AI>();
             Position pos = e.GetComponent<Position>();
-            UnityEngine.Debug.Log($"{e.Name} is acting...");
 
             // Random energy
             int r = Random.Range(0, 21);
@@ -178,12 +183,11 @@ namespace Pantheon.ECS.Systems
                     ai.Target = mgr.Player;
                     actor.Command = MoveCommand.MoveOrWait(e, 
                         ai.Target.GetComponent<Position>().Cell);
+                    log.Send($"The {e.Name} notices you!", Colours._orange);
                 }
                 else // Sleep
                     actor.Command = new WaitCommand(e);
             }
-
-            UnityEngine.Debug.Log(actor.Command);
         }
 
         // Temporarily lock and then unlock the scheduler recursively to allow

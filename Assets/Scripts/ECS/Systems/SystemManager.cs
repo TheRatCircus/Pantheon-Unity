@@ -1,6 +1,7 @@
 ﻿// SystemManager.cs
 // Jerome Martina
 
+using Pantheon.UI;
 using UnityEngine;
 using Cursor = Pantheon.UI.Cursor;
 
@@ -8,16 +9,16 @@ namespace Pantheon.ECS.Systems
 {
     public sealed class SystemManager : MonoBehaviour
     {
-        [SerializeField] private Cursor cursor;
+        [SerializeField] private Cursor cursor = default;
         private PlayerSystem playerSystem;
         public ActorSystem ActorSystem { get; private set; }
 
         private ComponentSystem[] systems = new ComponentSystem[2];
 
-        public void Initialize(EntityManager mgr)
+        public void Initialize(EntityManager mgr, GameLog log)
         {
             playerSystem = new PlayerSystem(mgr, cursor);
-            ActorSystem = new ActorSystem(mgr);
+            ActorSystem = new ActorSystem(mgr, log);
             ActorSystem.ActionDoneEvent += UpdatePerTurnSystems;
 
             systems[0] = new HealthSystem(mgr);

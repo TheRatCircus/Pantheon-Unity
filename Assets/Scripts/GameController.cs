@@ -6,6 +6,7 @@ using Pantheon.ECS.Components;
 using Pantheon.ECS.Systems;
 using Pantheon.ECS.Templates;
 using Pantheon.Gen;
+using Pantheon.UI;
 using Pantheon.Utils;
 using Pantheon.World;
 using UnityEngine;
@@ -28,6 +29,7 @@ namespace Pantheon.Core
         public UI.Cursor Cursor => cursor;
         [SerializeField] private SystemManager systems = default;
         public SystemManager Systems => systems;
+        [SerializeField] private GameLog log;
 
         public GameWorld World { get; private set; } = default;
         public EntityFactory EntityFactory { get; private set; } = default;
@@ -44,7 +46,7 @@ namespace Pantheon.Core
             // Start all subsystems
             ctrl.Loader = new AssetLoader();
             ctrl.Manager = new EntityManager();
-            ctrl.systems.Initialize(ctrl.Manager);
+            ctrl.systems.Initialize(ctrl.Manager, ctrl.log);
             ctrl.systems.enabled = true;
             ctrl.EntityFactory = new EntityFactory(
                 ctrl, ctrl.systems.GetSystem<PositionSystem>());
@@ -62,8 +64,7 @@ namespace Pantheon.Core
             PlayerSystem sys =
                 ctrl.GetComponentInChildren<SystemManager>().
                 GetSystem<PlayerSystem>();
-            //sys.InputMessageEvent += player.SendInput;
-            
+
             ctrl.LoadLevel(level);
             ctrl.MoveCameraTo(playerEntity);
         }
@@ -77,7 +78,7 @@ namespace Pantheon.Core
             // Start all subsystems
             ctrl.Loader = new AssetLoader();
             ctrl.Manager = save.Manager;
-            ctrl.systems.Initialize(ctrl.Manager);
+            ctrl.systems.Initialize(ctrl.Manager, ctrl.log);
             ctrl.systems.enabled = true;
             ctrl.EntityFactory = new EntityFactory(
                 ctrl, ctrl.systems.GetSystem<PositionSystem>());

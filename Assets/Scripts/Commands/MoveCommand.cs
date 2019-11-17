@@ -16,6 +16,12 @@ namespace Pantheon.Commands
         public Cell DestinationCell { get; private set; }
         public int MoveTime { get; private set; }
 
+        /// <summary>
+        /// Given an AI entity, move to a target only if possible.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
         public static Command MoveOrWait(Entity e, Cell target)
         {
             Position pos = e.GetComponent<Position>();
