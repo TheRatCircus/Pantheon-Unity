@@ -1,6 +1,8 @@
 ﻿// Entity.cs
 // Jerome Martina
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Pantheon.ECS.Components;
 using Pantheon.ECS.Messages;
 using Pantheon.ECS.Templates;
@@ -10,6 +12,7 @@ using System.Linq;
 
 namespace Pantheon.ECS
 {
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum EntityArchetype
     {
         None,
@@ -37,12 +40,14 @@ namespace Pantheon.ECS
 
         public Dictionary<Type, BaseComponent> Components { get; private set; }
             = null;
+        public bool FlyweightOnly => Components == null;
 
         public Entity(string name, params BaseComponent[] components)
         {
             Name = name;
             // TODO: Based on composition, resolve
             // archetype and find a flyweight
+            Components = new Dictionary<Type, BaseComponent>();
             foreach (BaseComponent c in components)
                 AddComponent(c);
             ConnectComponents();

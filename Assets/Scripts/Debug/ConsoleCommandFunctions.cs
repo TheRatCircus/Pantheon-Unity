@@ -54,7 +54,7 @@ namespace Pantheon.Debug
             string key = string.Join(" ", args);
             string ret = "";
             foreach (Entity e in ctrl.Manager.Entities.Values)
-                if (e.Name == key)
+                if (e.Name.Contains(key))
                     ret += $"{e.Name} ({e.GUID}){Environment.NewLine}";
 
             if (ret == "")
@@ -101,6 +101,17 @@ namespace Pantheon.Debug
                 ctrl.Cursor.HoveredCell);
 
             return $"Spawned {template.name}";
+        }
+
+        public static string RevealLevel(string[] args, GameController ctrl)
+        {
+            foreach (Cell c in ctrl.World.ActiveLevel.Map.Values)
+            {
+                c.Revealed = true;
+                ctrl.World.ActiveLevel.VisualizeTile(c);
+            }
+
+            return "Level revealed.";
         }
     }
 }

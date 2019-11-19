@@ -29,7 +29,7 @@ namespace Pantheon.Core
         public UI.Cursor Cursor => cursor;
         [SerializeField] private SystemManager systems = default;
         public SystemManager Systems => systems;
-        [SerializeField] private GameLog log;
+        [SerializeField] private GameLog log = default;
 
         public GameWorld World { get; private set; } = default;
         public EntityFactory EntityFactory { get; private set; } = default;
@@ -65,7 +65,7 @@ namespace Pantheon.Core
                 ctrl.GetComponentInChildren<SystemManager>().
                 GetSystem<PlayerSystem>();
 
-            ctrl.LoadLevel(level);
+            ctrl.LoadLevel(level, true);
             ctrl.MoveCameraTo(playerEntity);
         }
 
@@ -83,20 +83,9 @@ namespace Pantheon.Core
             ctrl.EntityFactory = new EntityFactory(
                 ctrl, ctrl.systems.GetSystem<PositionSystem>());
             ctrl.LevelGenerator = new LevelGenerator(ctrl);
-
-            // Place the world centre
             ctrl.World = new GameWorld(save, ctrl.LevelGenerator);
-            ctrl.cursor.Level = ctrl.World.ActiveLevel;
-            ctrl.World.ActiveLevel.AssetRequestEvent += ctrl.Loader.Load<Object>;
-            
-            foreach (Layer layer in ctrl.World.Layers.Values)
-            {
-                foreach (Level level in layer.Levels.Values)
-                {
-                    ctrl.LevelGenerator.CreateLevelGameObject(level, ctrl);
-                }
-            }
-            ctrl.VisualizeLevel(ctrl.World.ActiveLevel);
+
+            ctrl.LoadLevel(ctrl.World.ActiveLevel, false);
             ctrl.MoveCameraTo(ctrl.Manager.Player);
         }
 
@@ -114,41 +103,56 @@ namespace Pantheon.Core
             return this;
         }
 
-        private void LoadLevel(Level level)
+        /// <summary>
+        /// Visualize level, update entity manager, update Unity layer accordingly.
+        /// </summary>
+        /// <param name="level">The level to load.</param>
+        /// <param name="refreshFOV">False if loading a save.</param>
+        private void LoadLevel(Level level, bool refreshFOV)
         {
             World.ActiveLevel = level;
             level.AssetRequestEvent += Loader.Load<Object>;
-            FOV.RefreshFOV(level, Manager.Player.GetComponent<Position>().Cell.Position);
-            VisualizeLevel(level);
-            cursor.Level = level;
-        }
 
-        private void VisualizeLevel(Level level)
-        {
+            GameObject levelObj = Instantiate(LevelPrefab, WorldGameObject.transform);
+            levelObj.name = level.ID;
+            level.SetLevelObject(levelObj);
+
+            if (refreshFOV)
+                FOV.RefreshFOV(level, Manager.Player.GetComponent<Position>().Cell.Position);
+            
             foreach (Cell cell in level.Map.Values)
             {
+                // Draw tilemap graphics
                 level.VisualizeTile(cell);
-                if (cell.Blocked &&
-                    cell.Blocker.TryGetComponent(out UnityGameObject go))
-                {
-                    Entity e = cell.Blocker;
 
+                foreach (Entity e in cell.Entities)
+                {
+                    // Re-assign flyweights
                     if (e.Flyweight == null)
                         e.Flyweight = (Template)Loader.Load<Object>(e.FlyweightID);
 
-                    GameObject gameObj = Instantiate(gameObjectPrefab,
+                    // Register entities as active
+                    if (!e.FlyweightOnly)
+                        Manager.ActiveEntities.Add(e);
+
+                    if (e.TryGetComponent(out UnityGameObject go))
+                    {
+                        GameObject gameObj = Instantiate(gameObjectPrefab,
                         level.LevelObj.transform);
-                    gameObj.name = e.Name;
-                    gameObj.GetComponent<SpriteRenderer>().sprite = e.Flyweight.Sprite;
-                    gameObj.transform.position = Helpers.V2IToV3(cell.Position);
-                    go.GameObject = gameObj;
+                        gameObj.name = e.Name;
+                        gameObj.GetComponent<SpriteRenderer>().sprite = e.Flyweight.Sprite;
+                        gameObj.transform.position = Helpers.V2IToV3(cell.Position);
+                        go.GameObject = gameObj;
+                    }
                 }
             }
+            cursor.Level = level;
         }
 
         private void UnloadLevel(Level level)
         {
-
+            World.ActiveLevel = null;
+            level.AssetRequestEvent -= Loader.Load<Object>;
         }
 
         // Move the camera to a new transform when the Player 

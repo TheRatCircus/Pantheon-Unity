@@ -61,12 +61,6 @@ namespace Pantheon.ECS.Components
             else return -1;
         }
 
-        /// <summary>
-        /// Request that the next command be set by an AI component.
-        /// </summary>
-        public void RequestAICommand()
-            => Message<AI>(new AIRequestMessage(this));
-
         public bool HostileTo(Entity other)
         {
             if (PlayerControlled)

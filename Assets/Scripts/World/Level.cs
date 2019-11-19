@@ -131,18 +131,14 @@ namespace Pantheon.World
         {
             if (cell.Terrain != null)
             {
-                // Re-assign flyweights if level is being loaded from a save
-                if (cell.Terrain.Flyweight == null)
-                    cell.Terrain.Flyweight = (Template)AssetRequestEvent.Invoke(cell.Terrain.FlyweightID);
-
                 if (!cell.Revealed)
                     return;
                 else
                 {
-                    terrain.SetColor((Vector3Int)cell.Position,
-                        cell.Visible ? Color.white : Color.grey);
                     terrain.SetTile((Vector3Int)cell.Position,
                         cell.Terrain.Flyweight.Tile);
+                    terrain.SetColor((Vector3Int)cell.Position,
+                        cell.Visible ? Color.white : Color.grey);
                 }
             }
         }

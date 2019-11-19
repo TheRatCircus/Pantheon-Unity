@@ -14,7 +14,7 @@ namespace Pantheon
         public static void Save(Save save)
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            formatter.SurrogateSelector = Serialization.GetSurrogateSelector();
+            formatter.SurrogateSelector = Utils.Serialization.GetSurrogateSelector();
 
             string path = Path.Combine(Application.persistentDataPath,
                 $"{save.Name.ToLower()}.save");
@@ -28,7 +28,7 @@ namespace Pantheon
             if (File.Exists(path))
             {
                 BinaryFormatter formatter = new BinaryFormatter();
-                formatter.SurrogateSelector = Serialization.GetSurrogateSelector();
+                formatter.SurrogateSelector = Utils.Serialization.GetSurrogateSelector();
 
                 FileStream stream = new FileStream(path, FileMode.Open);
                 Save save = formatter.Deserialize(stream) as Save;

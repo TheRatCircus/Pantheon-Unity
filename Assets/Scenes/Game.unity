@@ -291,6 +291,7 @@ GameObject:
   m_Component:
   - component: {fileID: 600936734}
   - component: {fileID: 600936735}
+  - component: {fileID: 600936736}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -335,6 +336,19 @@ MonoBehaviour:
   cursor: {fileID: 599566653}
   systems: {fileID: 880408041}
   log: {fileID: 1733098148}
+--- !u!114 &600936736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600936733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98bbc2c1e63e98543830eec78d976795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedGuid: 67499598e9f0d741876d556f4007e3ec
 --- !u!1 &880408039
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,7 +470,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00033569336, y: -0.000020409545}
+  m_AnchoredPosition: {x: 0.00033569336, y: 0}
   m_SizeDelta: {x: 623, y: 151.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1195091517
@@ -804,8 +818,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 112129662}
   m_HandleRect: {fileID: 112129661}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.9999856
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

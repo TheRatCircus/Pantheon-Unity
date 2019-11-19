@@ -20,18 +20,15 @@ namespace Pantheon
             System.Diagnostics.Debug.Assert(bundle != null);
         }
 
-        public Object GetAsset(string name)
-        {
-            return Load<Object>(name);
-        }
-
         public T Load<T>(string name) where T : Object
         {
+            UnityEngine.Profiling.Profiler.BeginSample("Pantheon");
             if (!bundle.Contains(name))
                 throw new ArgumentException(
                     $"{name} not found in bundle {bundle.name}.");
 
             T obj = bundle.LoadAsset<T>(name);
+            UnityEngine.Profiling.Profiler.EndSample();
             return obj;
         }
 

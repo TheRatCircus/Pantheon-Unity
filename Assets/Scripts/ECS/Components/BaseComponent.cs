@@ -2,7 +2,6 @@
 // Jerome Martina
 
 using Pantheon.ECS.Messages;
-using Pantheon.UI;
 using System;
 
 namespace Pantheon.ECS.Components
@@ -10,12 +9,9 @@ namespace Pantheon.ECS.Components
     [Serializable]
     public abstract class BaseComponent
     {
-        public int GUID { get; private set; } = -1;
+        [Newtonsoft.Json.JsonIgnore] public int GUID { get; private set; } = -1;
         public bool Enabled { get; set; } // Do systems update this component?
         public event Action<ComponentMessage> MessageEvent;
-
-        private static GameLog log;
-        protected GameLog Log => log;
 
         public void AssignToEntity(Entity e) => GUID = e.GUID;
 

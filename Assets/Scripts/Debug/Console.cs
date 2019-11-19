@@ -5,7 +5,7 @@ using Pantheon.Core;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.Profiling;
 using UnityEngine.UI;
 using static Pantheon.Debug.ConsoleCommandFunctions;
 
@@ -16,6 +16,7 @@ namespace Pantheon.Debug
     /// </summary>
     public class Console : MonoBehaviour
     {
+        [SerializeField] private GuidReference ctrlRef = default;
         [SerializeField] private GameController controller = default;
         [SerializeField] private GameObject console = default;
         [SerializeField] private Text consoleLog = default;
@@ -30,23 +31,19 @@ namespace Pantheon.Debug
                 { "list_levels", new ConsoleCommand(ListLevels) },
                 { "where_am_i", new ConsoleCommand(WhereAmI) },
                 { "describe_cell", new ConsoleCommand(DescribeCell) },
-                { "find_entities", new ConsoleCommand(FindEntities) },
+                { "find", new ConsoleCommand(FindEntities) },
                 { "describe", new ConsoleCommand(DescribeEntity) },
                 { "loaded_assets", new ConsoleCommand(LoadedAssets) },
-                { "spawn", new ConsoleCommand(Spawn) }
+                { "spawn", new ConsoleCommand(Spawn) },
+                { "reveal_level", new ConsoleCommand(RevealLevel) }
             };
 
         private void Awake()
         {
-            Scene game = SceneManager.GetSceneByName(Utils.Scenes.Game);
-            foreach (GameObject go in game.GetRootGameObjects())
-            {
-                if (go.tag == "GameController")
-                {
-                    controller = go.GetComponent<GameController>();
-                    break;
-                }
-            }
+            Profiler.BeginSample("Console.Awake()");
+            GameObject ctrlObj = ctrlRef.gameObject;
+            controller = ctrlObj.GetComponent<GameController>();
+            Profiler.EndSample();
         }
 
         // Update is called once per frame
@@ -70,10 +67,8 @@ namespace Pantheon.Debug
             }
 
             if (Input.GetButtonDown("Submit"))
-            {
                 if (input.text != "")
                     SubmitCommand(input.text);
-            }
         }
 
         void SubmitCommand(string input)

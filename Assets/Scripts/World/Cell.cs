@@ -32,8 +32,8 @@ namespace Pantheon.World
             }
         }
 
-        public bool Visible { get; set; }
-        public bool Revealed { get; set; }
+        public bool Visible { get; set; } = false;
+        public bool Revealed { get; set; } = false;
 
         public Cell(Vector2Int position) => Position = position;
 

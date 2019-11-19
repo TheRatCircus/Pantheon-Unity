@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Pantheon.ECS.Components;
+using System;
 using System.Collections.Generic;
 
 namespace Pantheon.ECS
@@ -9,23 +10,25 @@ namespace Pantheon.ECS
     /// <summary>
     /// Holds all entities and components in the running game.
     /// </summary>
-    [System.Serializable]
+    [Serializable]
     public sealed class EntityManager
     {
+        private int id = 0;
+
         public Dictionary<int, Entity> Entities { get; private set; }
             = new Dictionary<int, Entity>();
         public Entity Player { get; private set; }
 
-        public HashSet<Health> HealthComponents { get; private set; }
-            = new HashSet<Health>();
-        public HashSet<Position> PositionComponents { get; private set; }
-            = new HashSet<Position>();
+        public HashSet<Entity> ActiveEntities { get; private set; }
+            = new HashSet<Entity>();
+
         public List<Actor> ActorComponents { get; private set; }
-            = new List<Actor>(); // List so we can use it like a queue
+            = new List<Actor>(); // List so it can be used like a queue
+
         public Entity GetEntity(int guid)
         {
             if (!Entities.TryGetValue(guid, out Entity ret))
-                throw new System.ArgumentException(
+                throw new ArgumentException(
                     $"Entity of GUID {guid} not found.");
             else
                 return ret;
@@ -33,12 +36,8 @@ namespace Pantheon.ECS
 
         public void AddEntity(Entity entity)
         {
-            entity.SetGUID(Entities.Count);
+            entity.SetGUID(id++);
 
-            if (entity.TryGetComponent(out Health h))
-                HealthComponents.Add(h);
-            if (entity.TryGetComponent(out Position p))
-                PositionComponents.Add(p);
             if (entity.TryGetComponent(out Actor a))
                 ActorComponents.Add(a);
 

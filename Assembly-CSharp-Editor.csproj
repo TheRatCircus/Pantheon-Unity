@@ -62,6 +62,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\CrossSceneReference\Editor\GuidComponentDrawer.cs" />
+    <Compile Include="Assets\CrossSceneReference\Editor\GuidReferenceDrawer.cs" />
+    <Compile Include="Assets\CrossSceneReference\Tests\Editor\GuidReferenceTests.cs" />
     <Compile Include="Assets\Editor\BuilderPlanGenerator.cs" />
     <Compile Include="Assets\Editor\CreateAssetBundles.cs" />
     <Compile Include="Assets\Editor\EnumOrderDrawer.cs" />

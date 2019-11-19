@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Pantheon.Gen
 {
@@ -26,9 +25,7 @@ namespace Pantheon.Gen
         { get; private set; } = new Dictionary<string, Builder>();
 
         public LevelGenerator(GameController ctrl)
-        {
-            GetControllerEvent += ctrl.Get;
-        }
+            => GetControllerEvent += ctrl.Get;
 
         public LevelGenerator(Save save, GameController ctrl)
         {
@@ -41,13 +38,17 @@ namespace Pantheon.Gen
         public void GenerateWorldOrigin()
         {
             GameController ctrl = GetControllerEvent.Invoke();
+
             TextAsset json = ctrl.Loader.Load<TextAsset>("Plan_Valley");
             JsonSerializerSettings settings = new JsonSerializerSettings
             {
-                TypeNameHandling = TypeNameHandling.All
+                TypeNameHandling = TypeNameHandling.Auto,
+                SerializationBinder = Serialization._builderStepBinder,
+                Formatting = Formatting.Indented
             };
             BuilderPlan plan = JsonConvert.DeserializeObject<BuilderPlan>(
                 json.text, settings);
+
             Builder builder = new Builder("Valley of Beginnings",
                 "valley_0_0_0", plan);
             LayerLevelBuilders.Add(Vector3Int.zero, builder);
@@ -58,30 +59,20 @@ namespace Pantheon.Gen
             if (!LayerLevelBuilders.TryGetValue(
                 new Vector3Int(pos.x, pos.y, pos.z),
                 out Builder builder))
+            {
                 throw new ArgumentException(
                     $"No level builder at {pos} on layer {pos.z}.");
+            }
             else
             {
                 GameController ctrl = GetControllerEvent.Invoke();
                 Level level = builder.Run(ctrl.Loader, ctrl.EntityFactory);
-                CreateLevelGameObject(level, ctrl);
                 LayerLevelBuilders.Remove(pos);
                 return level;
             }
         }
 
-        public void CreateLevelGameObject(Level level, GameController ctrl)
-        {
-            GameObject levelObj = Object.Instantiate(
-                    ctrl.LevelPrefab, ctrl.WorldGameObject.transform);
-            levelObj.name = level.ID;
-            level.SetLevelObject(levelObj);
-        }
-
         [OnSerializing]
-        private void OnSerializing()
-        {
-            GetControllerEvent = null;
-        }
+        private void OnSerializing() => GetControllerEvent = null;
     }
 }

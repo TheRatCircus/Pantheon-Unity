@@ -62,7 +62,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\CrossSceneReference\Runtime\GuidComponent.cs" />
+    <Compile Include="Assets\CrossSceneReference\Runtime\GuidManager.cs" />
+    <Compile Include="Assets\CrossSceneReference\Runtime\GuidReference.cs" />
+    <Compile Include="Assets\CrossSceneReference\Samples\LoadScenes.cs" />
+    <Compile Include="Assets\CrossSceneReference\Samples\TestCrossScene.cs" />
     <Compile Include="Assets\Scripts\AssetLoader.cs" />
+    <Compile Include="Assets\Scripts\Attack.cs" />
     <Compile Include="Assets\Scripts\CameraControl.cs" />
     <Compile Include="Assets\Scripts\Commands\Command.cs" />
     <Compile Include="Assets\Scripts\Commands\MeleeCommand.cs" />
@@ -75,15 +81,17 @@
     <Compile Include="Assets\Scripts\ECS\Components\Actor.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\BaseComponent.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\Blocking.cs" />
+    <Compile Include="Assets\Scripts\ECS\Components\Body.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\Ground.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\Health.cs" />
+    <Compile Include="Assets\Scripts\ECS\Components\Melee.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\Position.cs" />
+    <Compile Include="Assets\Scripts\ECS\Components\Ranged.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\Spawn.cs" />
     <Compile Include="Assets\Scripts\ECS\Components\UnityGameObject.cs" />
     <Compile Include="Assets\Scripts\ECS\Entity.cs" />
     <Compile Include="Assets\Scripts\ECS\EntityFactory.cs" />
     <Compile Include="Assets\Scripts\ECS\EntityManager.cs" />
-    <Compile Include="Assets\Scripts\ECS\Messages\AIRequestMessage.cs" />
     <Compile Include="Assets\Scripts\ECS\Messages\ComponentMessage.cs" />
     <Compile Include="Assets\Scripts\ECS\Systems\ActorSystem.cs" />
     <Compile Include="Assets\Scripts\ECS\Systems\ComponentSystem.cs" />
@@ -91,6 +99,8 @@
     <Compile Include="Assets\Scripts\ECS\Systems\PlayerSystem.cs" />
     <Compile Include="Assets\Scripts\ECS\Systems\PositionSystem.cs" />
     <Compile Include="Assets\Scripts\ECS\Systems\SystemManager.cs" />
+    <Compile Include="Assets\Scripts\ECS\Templates\AppendageTemplate.cs" />
+    <Compile Include="Assets\Scripts\ECS\Templates\EntityTemplate.cs" />
     <Compile Include="Assets\Scripts\ECS\Templates\GroundTemplate.cs" />
     <Compile Include="Assets\Scripts\ECS\Templates\NPCTemplate.cs" />
     <Compile Include="Assets\Scripts\ECS\Templates\PlayerTemplate.cs" />
@@ -113,6 +123,7 @@
     <Compile Include="Assets\Scripts\Pathfinder.cs" />
     <Compile Include="Assets\Scripts\Save.cs" />
     <Compile Include="Assets\Scripts\SaveLoad.cs" />
+    <Compile Include="Assets\Scripts\Serialization.cs" />
     <Compile Include="Assets\Scripts\SerializationSurrogate.cs" />
     <Compile Include="Assets\Scripts\UI\Cursor.cs" />
     <Compile Include="Assets\Scripts\UI\GameLog.cs" />

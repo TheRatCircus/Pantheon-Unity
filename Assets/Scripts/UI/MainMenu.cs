@@ -34,7 +34,7 @@ namespace Pantheon.UI
                 SearchOption.AllDirectories);
 
             BinaryFormatter formatter = new BinaryFormatter();
-            formatter.SurrogateSelector = Serialization.GetSurrogateSelector();
+            formatter.SurrogateSelector = Utils.Serialization.GetSurrogateSelector();
 
             foreach (string filePath in saveFiles)
             {
