@@ -70,6 +70,10 @@
     <Compile Include="Assets\Scripts\AssetLoader.cs" />
     <Compile Include="Assets\Scripts\Attack.cs" />
     <Compile Include="Assets\Scripts\CameraControl.cs" />
+    <Compile Include="Assets\Scripts\Commands\Command.cs" />
+    <Compile Include="Assets\Scripts\Commands\MeleeCommand.cs" />
+    <Compile Include="Assets\Scripts\Commands\MoveCommand.cs" />
+    <Compile Include="Assets\Scripts\Commands\WaitCommand.cs" />
     <Compile Include="Assets\Scripts\Debug\Console.cs" />
     <Compile Include="Assets\Scripts\Debug\ConsoleCommandFunctions.cs" />
     <Compile Include="Assets\Scripts\Debug\DebugInfo.cs" />

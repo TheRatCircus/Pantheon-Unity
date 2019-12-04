@@ -1,6 +1,7 @@
 ﻿// Actor.cs
 // Jerome Martina
 
+using Pantheon.Commands;
 using Pantheon.World;
 using System;
 using System.Collections.Generic;
