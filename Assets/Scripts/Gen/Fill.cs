@@ -2,8 +2,6 @@
 // Jerome Martina
 
 using Newtonsoft.Json;
-using Pantheon.ECS;
-using Pantheon.ECS.Templates;
 using Pantheon.World;
 using System;
 using Random = UnityEngine.Random;
@@ -20,19 +18,9 @@ namespace Pantheon.Gen
             this.fillEntityID = fillEntityID;
         }
 
-        public override void Run(Level level, AssetLoader loader,
-            EntityFactory factory)
+        public override void Run(Level level, AssetLoader loader)
         {
-            Template template = loader.Load<Template>(fillEntityID);
 
-            if (!level.AssetIDCache.Contains(fillEntityID))
-                    level.AssetIDCache.Add(fillEntityID);
-
-            int x = 0;
-            for (; x < level.Size.x; x++)
-                for (int y = 0; y < level.Size.y; y++)
-                    if (level.TryGetCell(x, y, out Cell c))
-                        factory.FlyweightEntityAt(template, level, c);
         }
     }
 
@@ -48,22 +36,9 @@ namespace Pantheon.Gen
             this.fillEntityID = fillEntityID;
         }
 
-        public override void Run(Level level, AssetLoader loader,
-            EntityFactory factory)
+        public override void Run(Level level, AssetLoader loader)
         {
-            Template template = loader.Load<Template>(fillEntityID);
 
-            if (!level.AssetIDCache.Contains(fillEntityID))
-                level.AssetIDCache.Add(fillEntityID);
-
-            int x = 0;
-            for (; x < level.Size.x; x++)
-                for (int y = 0; y < level.Size.y; y++)
-                {
-                    if (Random.Range(0, 100) < percent)
-                        if (level.TryGetCell(x, y, out Cell c))
-                            factory.FlyweightEntityAt(template, level, c);
-                }
         }
 
         public override string ToString()

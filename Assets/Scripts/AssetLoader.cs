@@ -22,7 +22,7 @@ namespace Pantheon
 
         public T Load<T>(string name) where T : Object
         {
-            UnityEngine.Profiling.Profiler.BeginSample("Pantheon");
+            UnityEngine.Profiling.Profiler.BeginSample("AssetLoader.Load()");
             if (!bundle.Contains(name))
                 throw new ArgumentException(
                     $"{name} not found in bundle {bundle.name}.");

@@ -24,9 +24,6 @@ namespace Pantheon.Core
                 List<Cell> refreshed = ShadowOctant(level,
                     origin, octant);
 
-                foreach (Cell c in refreshed)
-                    level.VisualizeTile(c);
-
                 allRefreshed.AddRange(refreshed);
             }
             //Game.GetPlayer().UpdateVisibleCells(allRefreshed);
@@ -108,8 +105,7 @@ namespace Pantheon.Core
                             fallOff);
 
                         // Add any opaque tiles to the shadow map
-                        if (visible && level.GetCell(pos).Terrain.Archetype
-                            == ECS.EntityArchetype.Wall)
+                        if (visible && level.GetCell(pos).Opaque)
                         {
                             line.AddShadow(projection);
                             fullShadow = line.IsFullShadow();

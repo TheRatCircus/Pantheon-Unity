@@ -66,7 +66,7 @@ namespace Pantheon.Gen
             else
             {
                 GameController ctrl = GetControllerEvent.Invoke();
-                Level level = builder.Run(ctrl.Loader, ctrl.EntityFactory);
+                Level level = builder.Run(ctrl.Loader);
                 LayerLevelBuilders.Remove(pos);
                 return level;
             }

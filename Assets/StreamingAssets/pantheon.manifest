@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1388072792
+CRC: 1332974148
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 5488bc9716fa54c63a996c44c1ec1986
+    Hash: 0159a3216906a90435b024a705101849
   TypeTreeHash:
     serializedVersion: 2
     Hash: d0466af23b228060337c9801cc3b494a
@@ -40,8 +40,10 @@ ClassTypes:
 Assets:
 - Assets/Templates/Ground_Grass.asset
 - Assets/Templates/Wall_StoneWall.asset
+- Assets/Sprites/Actors/Swine.png
 - Assets/Prefabs/Actors/GameObjectPrefab.prefab
 - Assets/Templates/PlayerTemplate.asset
 - Assets/BuilderPlans/Plan_Valley.json
 - Assets/Templates/NPC_RagingGoose.asset
+- Assets/Tiles/Ground_Grass.asset
 Dependencies: []

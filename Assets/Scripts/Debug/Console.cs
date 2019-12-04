@@ -29,12 +29,7 @@ namespace Pantheon.Debug
             {
                 { "list_layers", new ConsoleCommand(ListLayers) },
                 { "list_levels", new ConsoleCommand(ListLevels) },
-                { "where_am_i", new ConsoleCommand(WhereAmI) },
-                { "describe_cell", new ConsoleCommand(DescribeCell) },
-                { "find", new ConsoleCommand(FindEntities) },
-                { "describe", new ConsoleCommand(DescribeEntity) },
                 { "loaded_assets", new ConsoleCommand(LoadedAssets) },
-                { "spawn", new ConsoleCommand(Spawn) },
                 { "reveal_level", new ConsoleCommand(RevealLevel) }
             };
 

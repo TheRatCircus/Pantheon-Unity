@@ -1,0 +1,19 @@
+{
+  "$type": "EntityTemplate",
+  "ID": "DEFAULT_TEMPLATE_ID",
+  "EntityName": "DEFAULT_ENTITY_NAME",
+  "Archetype": "None",
+  "Components": {
+    "$type": "Dictionary`2",
+    "Weight": {},
+    "Health": {
+      "Current": 100,
+      "Max": 100,
+      "RegenRate": 1500,
+      "RegenProgress": 0
+    },
+    "Species": "Species_Goose"
+  },
+  "Sprite": null,
+  "Tile": null
+}

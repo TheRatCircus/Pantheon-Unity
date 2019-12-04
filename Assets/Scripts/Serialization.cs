@@ -1,12 +1,13 @@
 ﻿// Serialization.cs
 // Jerome Martina
 
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Pantheon.ECS.Components;
 using Pantheon.Gen;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Pantheon
 {
@@ -27,9 +28,6 @@ namespace Pantheon
             {
                 KnownTypes = new List<Type>()
                 {
-                    typeof(Health),
-                    typeof(Melee),
-                    typeof(Actor)
                 }
             };
     }
@@ -49,5 +47,31 @@ namespace Pantheon
         {
             return KnownTypes.SingleOrDefault(t => t.Name == typeName);
         }
+    }
+
+    public interface IAssetLoadConverter
+    {
+        AssetLoader Loader { get; set; }
+    }
+
+    public sealed class SpriteConverter : JsonConverter<Sprite>, IAssetLoadConverter
+    {
+        public AssetLoader Loader { get; set; }
+
+        public override Sprite ReadJson(JsonReader reader,
+            Type objectType, Sprite existingValue,
+            bool hasExistingValue, JsonSerializer serializer)
+        {
+            return Loader.Load<Sprite>((string)reader.Value);
+        }
+
+        public override void WriteJson(JsonWriter writer, Sprite value,
+            JsonSerializer serializer)
+        {
+            writer.WriteValue(value.name);
+        }
+
+        public override bool CanRead => true;
+        public override bool CanWrite => true;
     }
 }

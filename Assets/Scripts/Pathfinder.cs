@@ -72,7 +72,7 @@ namespace Pantheon
                 throw new ArgumentException(
                     $"No node at {targetPos}.");
 
-            if (targetNode.Cell.Walled)
+            if (targetNode.Cell.Blocked)
                 return null;
 
             List<Node> openSet = new List<Node>();
@@ -107,7 +107,7 @@ namespace Pantheon
                 Profiler.BeginSample("Pathfind: Neighbour Search");
                 foreach (Node neighbour in GetNeighbours(currentNode))
                 {
-                    if (neighbour.Cell.Walled || closedSet.Contains(neighbour))
+                    if (neighbour.Cell.Blocked || closedSet.Contains(neighbour))
                         continue;
 
                     int newMoveCostToNeighbour = currentNode.GCost +

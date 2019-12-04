@@ -2,7 +2,6 @@
 // Jerome Martina
 
 using Newtonsoft.Json;
-using Pantheon.ECS;
 using Pantheon.World;
 using UnityEngine;
 
@@ -21,12 +20,11 @@ namespace Pantheon.Gen
             this.steps = steps;
         }
 
-        public void Run(Level level, int sizeX, int sizeY, AssetLoader loader,
-            EntityFactory factory)
+        public void Run(Level level, int sizeX, int sizeY, AssetLoader loader)
         {
             InitializeMap(level, sizeX, sizeY);
             foreach (BuilderStep step in steps)
-                step.Run(level, loader, factory);
+                step.Run(level, loader);
         }
 
         /// <summary>

@@ -1,7 +1,6 @@
 ﻿// BuilderStep.cs
 // Jerome Martina
 
-using Pantheon.ECS;
 using Pantheon.World;
 
 namespace Pantheon.Gen
@@ -14,7 +13,6 @@ namespace Pantheon.Gen
     {
         public abstract void Run(
             Level level,
-            AssetLoader loader,
-            EntityFactory factory);
+            AssetLoader loader);
     }
 }

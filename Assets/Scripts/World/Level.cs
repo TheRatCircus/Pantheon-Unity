@@ -1,7 +1,6 @@
 ﻿// Level.cs
 // Jerome Martina
 
-using Pantheon.ECS.Templates;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -100,48 +99,8 @@ namespace Pantheon.World
 
         public bool AdjacentTo(Cell a, Cell b) => Distance(a, b) <= 1;
 
-        public Cell RandomCell(bool open)
-        {
-            Cell cell;
-            int tries = 0;
-            do
-            {
-                if (tries >= 500)
-                    throw new Exception(
-                        $"No eligible cell found after {tries} attempts.");
-
-                Vector2Int pos = new Vector2Int(Random.Range(0, Size.x),
-                    Random.Range(0, Size.y));
-                if (!TryGetCell(pos, out cell))
-                    continue;
-
-                if (!open || !cell.Blocked)
-                    break;
-
-                tries++;
-
-            } while (true);
-            return cell;
-        }
-
         public List<Cell> GetPathTo(Cell origin, Cell target)
             => PF.CellPathList(origin.Position, target.Position);
-
-        public void VisualizeTile(Cell cell)
-        {
-            if (cell.Terrain != null)
-            {
-                if (!cell.Revealed)
-                    return;
-                else
-                {
-                    terrain.SetTile((Vector3Int)cell.Position,
-                        cell.Terrain.Flyweight.Tile);
-                    terrain.SetColor((Vector3Int)cell.Position,
-                        cell.Visible ? Color.white : Color.grey);
-                }
-            }
-        }
 
         [OnSerializing]
         private void OnSerializing()

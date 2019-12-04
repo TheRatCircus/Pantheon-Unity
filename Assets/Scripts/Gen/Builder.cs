@@ -1,7 +1,6 @@
 ﻿// Builder.cs
 // Jerome Martina
 
-using Pantheon.ECS;
 using Pantheon.World;
 
 namespace Pantheon.Gen
@@ -22,10 +21,10 @@ namespace Pantheon.Gen
             this.plan = plan;
         }
 
-        public Level Run(AssetLoader loader, EntityFactory factory)
+        public Level Run(AssetLoader loader)
         {
             Level level = new Level(displayName, id);
-            plan.Run(level, 200, 200, loader, factory);
+            plan.Run(level, 200, 200, loader);
             level.RebuildPathfinder();
             return level;
         }
