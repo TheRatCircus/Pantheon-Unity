@@ -1,8 +1,6 @@
 ﻿// MoveCommand.cs
 // Jerome Martina
 
-using Pantheon.ECS;
-using Pantheon.ECS.Components;
 using Pantheon.World;
 using System.Collections.Generic;
 using UnityEngine;
@@ -53,7 +51,7 @@ namespace Pantheon.Commands
                 DestinationCell = null;
         }
 
-        public override int Execute()
+        public override void Execute()
         {
             if (DestinationCell == null)
                 return -1;
@@ -73,8 +71,6 @@ namespace Pantheon.Commands
 
             Entity.GetComponent<Position>().SetDestination(DestinationLevel,
                 DestinationCell);
-
-            return MoveTime;
         }
 
         public override string ToString()

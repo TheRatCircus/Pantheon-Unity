@@ -1,7 +1,6 @@
 ﻿// MeleeCommand.cs
 // Jerome Martina
 
-using Pantheon.ECS;
 using Pantheon.World;
 
 namespace Pantheon.Commands
@@ -10,12 +9,12 @@ namespace Pantheon.Commands
     {
         public Cell Target { get; private set; }
 
-        public MeleeCommand(Entity attacker, Cell target) : base(attacker)
+        public MeleeCommand(Cell target) : base()
         {
             Target = target;
         }
 
-        public override int Execute()
+        public override void Execute()
         {
             throw new System.NotImplementedException();
         }

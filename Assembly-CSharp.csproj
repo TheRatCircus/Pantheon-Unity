@@ -78,16 +78,6 @@
     <Compile Include="Assets\Scripts\Debug\ConsoleCommandFunctions.cs" />
     <Compile Include="Assets\Scripts\Debug\DebugInfo.cs" />
     <Compile Include="Assets\Scripts\Debug\Visualisation.cs" />
-    <Compile Include="Assets\Scripts\ECS\Components\Actor.cs" />
-    <Compile Include="Assets\Scripts\ECS\Components\BaseComponent.cs" />
-    <Compile Include="Assets\Scripts\ECS\Components\Body.cs" />
-    <Compile Include="Assets\Scripts\ECS\Components\Health.cs" />
-    <Compile Include="Assets\Scripts\ECS\Components\Species.cs" />
-    <Compile Include="Assets\Scripts\ECS\Entity.cs" />
-    <Compile Include="Assets\Scripts\ECS\Templates\EntityTemplate.cs" />
-    <Compile Include="Assets\Scripts\ECS\Templates\NPCTemplate.cs" />
-    <Compile Include="Assets\Scripts\ECS\Templates\PlayerTemplate.cs" />
-    <Compile Include="Assets\Scripts\ECS\Templates\Template.cs" />
     <Compile Include="Assets\Scripts\Enums\CardinalDirection.cs" />
     <Compile Include="Assets\Scripts\Enums\DamageType.cs" />
     <Compile Include="Assets\Scripts\Enums\Gender.cs" />
