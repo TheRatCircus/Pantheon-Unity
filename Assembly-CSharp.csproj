@@ -93,6 +93,7 @@
     <Compile Include="Assets\Scripts\SaveLoad.cs" />
     <Compile Include="Assets\Scripts\Serialization.cs" />
     <Compile Include="Assets\Scripts\SerializationSurrogate.cs" />
+    <Compile Include="Assets\Scripts\TerrainDefinition.cs" />
     <Compile Include="Assets\Scripts\UI\Cursor.cs" />
     <Compile Include="Assets\Scripts\UI\GameLog.cs" />
     <Compile Include="Assets\Scripts\UI\Intro.cs" />

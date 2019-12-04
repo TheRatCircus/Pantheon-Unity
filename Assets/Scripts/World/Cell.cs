@@ -17,8 +17,11 @@ namespace Pantheon.World
 
         public bool Visible { get; set; } = false;
         public bool Revealed { get; set; } = false;
-        public bool Opaque { get; set; } = false;
-        public bool Blocked { get; set; } = false;
+
+        public TerrainDefinition Terrain { get; set; }
+
+        public bool Opaque => Terrain.Opaque;
+        public bool Blocked => Terrain.Opaque;
 
         public Cell(Vector2Int position) => Position = position;
 
@@ -41,6 +44,6 @@ namespace Pantheon.World
             }
         }
 
-        public override string ToString() => $"cell at {Position}";
+        public override string ToString() => $"Cell: {Position}";
     }
 }
