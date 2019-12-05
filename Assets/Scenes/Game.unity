@@ -295,6 +295,7 @@ GameObject:
   - component: {fileID: 600936737}
   - component: {fileID: 600936738}
   - component: {fileID: 600936739}
+  - component: {fileID: 600936740}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -330,7 +331,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 1307850252}
   cursor: {fileID: 599566653}
-  log: {fileID: 1733098148}
+  log: {fileID: 600936740}
   world: {fileID: 914664006}
   loader: {fileID: 600936737}
   gen: {fileID: 600936738}
@@ -385,6 +386,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67ed9e85063c2764b84b83c85a269dd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turnProgress: 0
+  turns: 0
+  lockCount: 0
+--- !u!114 &600936740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600936733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03975ec8d18722e40a6f605088d0a0a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logTransform: {fileID: 1195091516}
+  msgPrefab: {fileID: 7268154770388237488, guid: e946b974cd25e7044a0764f94b38d501,
+    type: 3}
 --- !u!1 &914664005
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,7 +475,7 @@ GameObject:
   - component: {fileID: 1195091518}
   - component: {fileID: 1195091517}
   m_Layer: 5
-  m_Name: Content
+  m_Name: LogContent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -478,7 +497,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00033569336, y: -0.000004119501}
+  m_AnchoredPosition: {x: 0.00033569336, y: 0.0002689064}
   m_SizeDelta: {x: 623, y: 151.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1195091517
@@ -1133,7 +1152,6 @@ GameObject:
   - component: {fileID: 1733098147}
   - component: {fileID: 1733098146}
   - component: {fileID: 1733098145}
-  - component: {fileID: 1733098148}
   m_Layer: 5
   m_Name: Log
   m_TagString: Untagged
@@ -1228,21 +1246,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1733098143}
   m_CullTransparentMesh: 0
---- !u!114 &1733098148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1733098143}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03975ec8d18722e40a6f605088d0a0a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  logTransform: {fileID: 1195091516}
-  msgPrefab: {fileID: 7268154770388237488, guid: e946b974cd25e7044a0764f94b38d501,
-    type: 3}
 --- !u!1 &1969758115
 GameObject:
   m_ObjectHideFlags: 0

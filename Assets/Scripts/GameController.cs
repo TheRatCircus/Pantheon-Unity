@@ -19,11 +19,23 @@ namespace Pantheon.Core
 
         [SerializeField] GameWorld world = default;
         public GameWorld World => world;
-        [SerializeField] private AssetLoader loader;
-        [SerializeField] private LevelGenerator gen;
+        [SerializeField] private AssetLoader loader = default;
+        [SerializeField] private LevelGenerator gen = default;
+        private TurnScheduler scheduler;
+
+        public Actor Player { get; set; }
+
+        private void OnEnable()
+        {
+            scheduler = GetComponent<TurnScheduler>();
+        }
 
         public void NewGame(string playerName)
         {
+            AI.Init(Player, log);
+            Pantheon.Player.Init(cursor);
+            Spawn.Init(scheduler);
+
             // Place the world centre
             world.NewLayer(0);
             world.Layers.TryGetValue(0, out Layer surface);
@@ -33,10 +45,9 @@ namespace Pantheon.Core
 
             // Spawn the player
             GameObject playerPrefab = loader.Load<GameObject>("Player");
-            GameObject playerObj = Instantiate(playerPrefab, level.transform.Find("Entities"));
-            MoveCameraTo(playerObj.transform);
-            Actor playerActor = playerObj.GetComponent<Actor>();
-            playerActor.Move(level, level.RandomCell(true));
+            Actor playerActor = Spawn.SpawnActor(playerPrefab, level, level.RandomCell(true));
+            MoveCameraTo(playerActor.transform);
+            Player = playerActor;
 
             FOV.RefreshFOV(level, playerActor.Cell.Position);
             LoadLevel(level, true);

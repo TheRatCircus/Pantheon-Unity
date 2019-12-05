@@ -62,14 +62,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Actor.cs" />
     <Compile Include="Assets\CrossSceneReference\Runtime\GuidComponent.cs" />
     <Compile Include="Assets\CrossSceneReference\Runtime\GuidManager.cs" />
     <Compile Include="Assets\CrossSceneReference\Runtime\GuidReference.cs" />
     <Compile Include="Assets\CrossSceneReference\Samples\LoadScenes.cs" />
     <Compile Include="Assets\CrossSceneReference\Samples\TestCrossScene.cs" />
-    <Compile Include="Assets\Player.cs" />
-    <Compile Include="Assets\Scripts\AI.cs" />
+    <Compile Include="Assets\Scripts\Actor\Actor.cs" />
+    <Compile Include="Assets\Scripts\Actor\AI.cs" />
+    <Compile Include="Assets\Scripts\Actor\Player.cs" />
     <Compile Include="Assets\Scripts\AssetLoader.cs" />
     <Compile Include="Assets\Scripts\Attack.cs" />
     <Compile Include="Assets\Scripts\Commands\ActorCommand.cs" />
@@ -100,6 +100,7 @@
     <Compile Include="Assets\Scripts\SaveLoad.cs" />
     <Compile Include="Assets\Scripts\Serialization.cs" />
     <Compile Include="Assets\Scripts\SerializationSurrogate.cs" />
+    <Compile Include="Assets\Scripts\Spawn.cs" />
     <Compile Include="Assets\Scripts\TerrainDefinition.cs" />
     <Compile Include="Assets\Scripts\TurnScheduler.cs" />
     <Compile Include="Assets\Scripts\UI\CameraControl.cs" />

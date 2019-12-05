@@ -123,6 +123,15 @@ namespace Pantheon.World
             }
         }
 
+        public void Draw(IEnumerable<Cell> cells)
+        {
+            foreach (Cell c in cells)
+            {
+                terrain.SetTile((Vector3Int)c.Position, c.Terrain.Tile);
+                terrain.SetColor((Vector3Int)c.Position, c.Visible ? Color.white : Color.grey);
+            }
+        }
+
         public override string ToString() => $"{DisplayName} ({Position})";
     }
 }

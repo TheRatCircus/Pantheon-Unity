@@ -4,15 +4,14 @@
 using Pantheon.Gen;
 using UnityEngine;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace Pantheon.World
 {
     public sealed class GameWorld : MonoBehaviour
     {
-        [SerializeField] GameObject layerPrefab;
+        [SerializeField] GameObject layerPrefab = default;
 
-        [SerializeField] LevelGenerator gen;
+        [SerializeField] LevelGenerator gen = default;
 
         public Dictionary<int, Layer> Layers { get; private set; }
             = new Dictionary<int, Layer>();
@@ -20,9 +19,6 @@ namespace Pantheon.World
             = new Dictionary<string, Level>();
 
         public Level ActiveLevel { get; set; }
-
-        // Request level from level generator
-        public event System.Func<Vector3Int, Level> LevelRequestEvent;
 
         public void NewLayer(int z)
         {

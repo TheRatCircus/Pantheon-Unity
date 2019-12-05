@@ -12,7 +12,7 @@ namespace Pantheon.Gen
         menuName = "Pantheon/Builder Step/Fill")]
     public sealed class Fill : BuilderStep
     {
-        [JsonProperty] [SerializeField] private TerrainDefinition terrain;
+        [JsonProperty] [SerializeField] private TerrainDefinition terrain = default;
 
         public override void Run(Level level)
         {
@@ -32,8 +32,8 @@ namespace Pantheon.Gen
         menuName = "Pantheon/Builder Step/Random Fill")]
     public sealed class RandomFill : BuilderStep
     {
-        [JsonProperty] [SerializeField] private int percent; // 0...100
-        [JsonProperty] [SerializeField] private TerrainDefinition terrain;
+        [JsonProperty] [SerializeField] private int percent = 50; // 0...100
+        [JsonProperty] [SerializeField] private TerrainDefinition terrain = default;
         
         public override void Run(Level level)
         {

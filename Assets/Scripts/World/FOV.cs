@@ -13,9 +13,9 @@ namespace Pantheon.Core
         public const int FOVRadius = 15;
 
         /// <summary>
-        /// Change visibility and reveal new cells.
-        /// Only call when a player acts.
+        /// Change visibility and reveal new cells. Only call when a player acts.
         /// <param name="level"></param>
+        /// </summary>
         public static List<Cell> RefreshFOV(Level level, Vector2Int origin)
         {
             List<Cell> allRefreshed = new List<Cell>();
@@ -26,11 +26,8 @@ namespace Pantheon.Core
 
                 allRefreshed.AddRange(refreshed);
             }
-            //Game.GetPlayer().UpdateVisibleCells(allRefreshed);
 
-            //foreach (NPC e in level.NPCs)
-            //    e.UpdateVisibility();
-
+            level.Draw(allRefreshed);
             return allRefreshed;
         }
 

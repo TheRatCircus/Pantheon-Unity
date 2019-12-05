@@ -19,7 +19,7 @@ namespace Pantheon.Commands
         /// <param name="actor"></param>
         /// <param name="target"></param>
         /// <returns></returns>
-        public static Command MoveOrWait(Actor actor, Cell target)
+        public static ActorCommand MoveOrWait(Actor actor, Cell target)
         {
             List<Cell> path = actor.Level.GetPathTo(actor.Cell, target);
 
