@@ -32,9 +32,14 @@ namespace Pantheon.Core
             cursor.Level = level;
 
             // Spawn the player
+            GameObject playerPrefab = loader.Load<GameObject>("Player");
+            GameObject playerObj = Instantiate(playerPrefab, level.transform.Find("Entities"));
+            MoveCameraTo(playerObj.transform);
+            Actor playerActor = playerObj.GetComponent<Actor>();
+            playerActor.Move(level, level.RandomCell(true));
 
+            FOV.RefreshFOV(level, playerActor.Cell.Position);
             LoadLevel(level, true);
-            UnityEngine.Debug.Log("Game initialized.");
         }
 
         public void LoadGame(Save save)

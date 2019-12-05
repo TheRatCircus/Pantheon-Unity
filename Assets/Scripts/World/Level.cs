@@ -90,12 +90,36 @@ namespace Pantheon.World
         public List<Cell> GetPathTo(Cell origin, Cell target)
             => PF.CellPathList(origin.Position, target.Position);
 
+        public Cell RandomCell(bool open)
+        {
+            Cell cell;
+            int tries = 0;
+            do
+            {
+                if (tries >= 500)
+                    throw new Exception(
+                        $"No eligible cell found after {tries} attempts.");
+
+                Vector2Int pos = new Vector2Int(Random.Range(0, Size.x),
+                    Random.Range(0, Size.y));
+                if (!TryGetCell(pos, out cell))
+                    continue;
+
+                if (!open || !cell.Blocked)
+                    break;
+
+                tries++;
+
+            } while (true);
+            return cell;
+        }
+
         public void Draw()
         {
             foreach (Cell c in Map.Values)
             {
-                //UnityEngine.Debug.Log($"Drawing tile at {c.Position}...");
                 terrain.SetTile((Vector3Int)c.Position, c.Terrain.Tile);
+                terrain.SetColor((Vector3Int)c.Position, c.Visible ? Color.white : Color.grey);
             }
         }
 
