@@ -2,7 +2,6 @@
 // Jerome Martina
 
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using Vector2Int = UnityEngine.Vector2Int;
 
@@ -13,20 +12,10 @@ namespace Pantheon.Utils
     /// </summary>
     public static class Helpers
     {
-        /// <summary>
-        /// Vector2Int to Vector3.
-        /// </summary>
-        /// <param name="v2i"></param>
-        /// <returns></returns>
-        public static Vector3 V2IToV3(Vector2Int v2i)
+        public static Vector3 ToVector3(this Vector2Int v2i)
             => new Vector3(v2i.x, v2i.y);
 
-        /// <summary>
-        /// Vector3Int to Vector2Int.
-        /// </summary>
-        /// <param name="v3i"></param>
-        /// <returns></returns>
-        public static Vector2Int V3IToV2I(Vector3Int v3i)
+        public static Vector2Int V3IToV2I(this Vector3Int v3i)
             => new Vector2Int(v3i.x, v3i.y);
 
         // Swap two references

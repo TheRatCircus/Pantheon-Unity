@@ -5,11 +5,12 @@ using Pantheon.World;
 
 namespace Pantheon.Commands
 {
-    public sealed class MeleeCommand : Command
+    public sealed class MeleeCommand : ActorCommand
     {
         public Cell Target { get; private set; }
 
-        public MeleeCommand(Cell target) : base()
+        public MeleeCommand(Actor actor, int attackTime, Cell target)
+            : base(actor, attackTime)
         {
             Target = target;
         }

@@ -18,7 +18,7 @@ namespace Pantheon.Debug
         /// <param name="cell"></param>
         public static void MarkCell(Cell cell, float duration)
         {
-            Vector3 start = Helpers.V2IToV3(cell.Position);
+            Vector3 start = cell.Position.ToVector3();
             Vector3 end = new Vector3(start.x + .2f, start.y + .2f);
             UnityEngine.Debug.DrawLine(start, end, Color.cyan, duration);
             start.y += 1f;
@@ -32,7 +32,7 @@ namespace Pantheon.Debug
         /// <param name="pos"></param>
         public static void MarkPos(Vector2Int pos, Color color, float duration)
         {
-            Vector3 start = Helpers.V2IToV3(pos);
+            Vector3 start = pos.ToVector3();
             start.x -= .5f; // Offset to put center of x on actual position
             start.y -= .5f;
             Vector3 end = new Vector3(start.x + 1f, start.y + 1f);

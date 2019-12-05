@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Pantheon.Commands
 {
-    public sealed class MoveCommand : Command
+    public sealed class MoveCommand : ActorCommand
     {
         public Level DestinationLevel { get; private set; }
         public Cell DestinationCell { get; private set; }
@@ -16,36 +16,34 @@ namespace Pantheon.Commands
         /// <summary>
         /// Given an AI entity, move to a target only if possible.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="actor"></param>
         /// <param name="target"></param>
         /// <returns></returns>
-        public static Command MoveOrWait(Entity e, Cell target)
+        public static Command MoveOrWait(Actor actor, Cell target)
         {
-            Position pos = e.GetComponent<Position>();
-            List<Cell> path = pos.Level.GetPathTo(pos.Cell, target);
+            List<Cell> path = actor.Level.GetPathTo(actor.Cell, target);
 
             if (path.Count > 0)
-                return new MoveCommand(e, path[0], ActorSystem.TurnTime);
+                return new MoveCommand(actor, path[0], TurnScheduler.TurnTime);
             else
-                return new WaitCommand(e);
+                return new WaitCommand(actor);
         }
 
-        public MoveCommand(Entity entity, Cell destination, int moveTime)
-            : base(entity)
+        public MoveCommand(Actor actor, Cell destination, int moveTime)
+            : base(actor, moveTime)
         {
             DestinationCell = destination;
             MoveTime = moveTime;
-            DestinationLevel = entity.GetComponent<Position>().Level;
+            DestinationLevel = Actor.Level;
         }
 
-        public MoveCommand(Entity entity, Vector2Int dir, int moveTime)
-            : base(entity)
+        public MoveCommand(Actor actor, Vector2Int dir, int moveTime)
+            : base(actor, moveTime)
         {
             MoveTime = moveTime;
-            Position pos = entity.GetComponent<Position>();
-            DestinationLevel = pos.Level;
+            DestinationLevel = Actor.Level;
 
-            if (DestinationLevel.TryGetCell(pos.Cell.Position + dir, out Cell c))
+            if (DestinationLevel.TryGetCell(Actor.Cell.Position + dir, out Cell c))
                 DestinationCell = c;
             else
                 DestinationCell = null;
@@ -54,28 +52,27 @@ namespace Pantheon.Commands
         public override void Execute()
         {
             if (DestinationCell == null)
-                return -1;
+                return;
 
             if (DestinationCell.Terrain == null)
-                return -1;
+                return;
                 
             if (DestinationCell.Blocked)
             {
-                if (Entity.GetComponent<Actor>().HostileTo(DestinationCell.Blocker))
-                    return new MeleeCommand(Entity, DestinationCell).Execute();
-                else if (Entity.HasComponent<AI>())
-                    return new WaitCommand(Entity).Execute();
-                else
-                    return -1;
+                if (Actor.HostileTo(DestinationCell.Actor))
+                    Actor.Command = new MeleeCommand(Actor, TurnScheduler.TurnTime, DestinationCell);
+                else if (Actor.GetComponent<AI>())
+                    Actor.Command = new WaitCommand(Actor);
+
+                return;
             }
 
-            Entity.GetComponent<Position>().SetDestination(DestinationLevel,
-                DestinationCell);
+            Actor.Move(DestinationLevel, DestinationCell);
         }
 
         public override string ToString()
         {
-            return $"{Entity.ToString()} is moving to {DestinationCell}";
+            return $"{Actor.ToString()} moving to {DestinationCell}";
         }
     }
 }
