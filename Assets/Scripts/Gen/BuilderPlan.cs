@@ -10,21 +10,24 @@ namespace Pantheon.Gen
     /// <summary>
     /// An invocable set of instructions for procedurally generating levels.
     /// </summary>
-    [System.Serializable]
-    public sealed class BuilderPlan
+    [CreateAssetMenu(fileName = "New Builder Plan",
+        menuName = "Pantheon/Builder Plan")]
+    public sealed class BuilderPlan : ScriptableObject
     {
-        [JsonProperty] private BuilderStep[] steps;
+        [JsonProperty] [SerializeField] private BuilderStep[] steps;
 
-        public BuilderPlan(params BuilderStep[] steps)
+        public static BuilderPlan NewBuilderPlan(params BuilderStep[] steps)
         {
-            this.steps = steps;
+            BuilderPlan plan = CreateInstance<BuilderPlan>();
+            plan.steps = steps;
+            return plan;
         }
 
-        public void Run(Level level, int sizeX, int sizeY, AssetLoader loader)
+        public void Run(Level level, int sizeX, int sizeY)
         {
             InitializeMap(level, sizeX, sizeY);
             foreach (BuilderStep step in steps)
-                step.Run(level, loader);
+                step.Run(level);
         }
 
         /// <summary>

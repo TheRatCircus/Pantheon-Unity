@@ -5,10 +5,9 @@ using Pantheon.World;
 
 namespace Pantheon.Gen
 {
-    [System.Serializable]
     public sealed class BinarySpacePartition : BuilderStep
     {
-        public override void Run(Level level, AssetLoader loader)
+        public override void Run(Level level)
         {
             throw new System.NotImplementedException();
         }

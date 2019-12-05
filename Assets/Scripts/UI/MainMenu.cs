@@ -13,11 +13,12 @@ namespace Pantheon.UI
 {
     public sealed class MainMenu : MonoBehaviour
     {
-        [SerializeField] private GameObject saveOptionPrefab = null;
+        [SerializeField] private GameObject saveOptionPrefab = default;
 
-        [SerializeField] private GameObject mainTitle = null;
-        [SerializeField] private GameObject loadMenu = null;
-        [SerializeField] private Transform saveOptionsList = null;
+        [SerializeField] private GuidReference ctrlRef = default;
+        [SerializeField] private GameObject mainTitle = default;
+        [SerializeField] private GameObject loadMenu = default;
+        [SerializeField] private Transform saveOptionsList = default;
 
         public void NewGame()
         {
@@ -61,7 +62,7 @@ namespace Pantheon.UI
                     Scene gameScene = SceneManager.GetSceneByName(Scenes.Game);
                     SceneManager.SetActiveScene(gameScene);
                     SceneManager.LoadSceneAsync(Scenes.Debug, LoadSceneMode.Additive);
-                    GameController.LoadGame(save);
+                    ctrlRef.gameObject.GetComponent<GameController>().LoadGame(save);
                     SceneManager.UnloadSceneAsync(Scenes.MainMenu);
                 };
         }

@@ -2,17 +2,15 @@
 // Jerome Martina
 
 using Pantheon.World;
+using UnityEngine;
 
 namespace Pantheon.Gen
 {
     /// <summary>
     /// A stage in a level builder.
     /// </summary>
-    [System.Serializable]
-    public abstract class BuilderStep
+    public abstract class BuilderStep : ScriptableObject
     {
-        public abstract void Run(
-            Level level,
-            AssetLoader loader);
+        public abstract void Run(Level level);
     }
 }

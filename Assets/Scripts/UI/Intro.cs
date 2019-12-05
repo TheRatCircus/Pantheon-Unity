@@ -16,21 +16,19 @@ public enum IntroState
 
 namespace Pantheon
 {
-    /// <summary>
-    /// Controller for intro screens.
-    /// </summary>
+    /// <summary> Controller for intro screens. </summary>
     public sealed class Intro : MonoBehaviour
     {
         public IntroState IntroState { get; set; }
             = IntroState.IntroText;
 
-        [SerializeField] private AudioListener audioListener = null;
+        [SerializeField] private GuidReference ctrlRef = default;
 
-        [SerializeField] private GameObject introText = null;
-
-        [SerializeField] private GameObject nameInput = null;
-        [SerializeField] private InputField inputField = null;
-        [SerializeField] private Text nameSelectPrompt = null;
+        [SerializeField] private AudioListener audioListener = default;
+        [SerializeField] private GameObject introText = default;
+        [SerializeField] private GameObject nameInput = default;
+        [SerializeField] private InputField inputField = default;
+        [SerializeField] private Text nameSelectPrompt = default;
 
         public string PlayerName { get; private set; }
 
@@ -58,7 +56,7 @@ namespace Pantheon
                     Scene gameScene = SceneManager.GetSceneByName(Scenes.Game);
                     SceneManager.SetActiveScene(gameScene);
                     SceneManager.LoadSceneAsync(Scenes.Debug, LoadSceneMode.Additive);
-                    GameController.NewGame(PlayerName);
+                    ctrlRef.gameObject.GetComponent<GameController>().NewGame(PlayerName);
                     SceneManager.UnloadSceneAsync(Scenes.Intro);
                 };
             }

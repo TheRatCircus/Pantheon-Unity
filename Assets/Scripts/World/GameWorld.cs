@@ -4,14 +4,16 @@
 using Pantheon.Gen;
 using UnityEngine;
 using System.Collections.Generic;
-using Pantheon.Core;
 using System.Runtime.Serialization;
 
 namespace Pantheon.World
 {
-    [System.Serializable]
-    public sealed class GameWorld
+    public sealed class GameWorld : MonoBehaviour
     {
+        [SerializeField] GameObject layerPrefab;
+
+        [SerializeField] LevelGenerator gen;
+
         public Dictionary<int, Layer> Layers { get; private set; }
             = new Dictionary<int, Layer>();
         private Dictionary<string, Level> levels
@@ -22,33 +24,11 @@ namespace Pantheon.World
         // Request level from level generator
         public event System.Func<Vector3Int, Level> LevelRequestEvent;
 
-        /// <summary>
-        /// Build a fresh world for a new game.
-        /// </summary>
-        public GameWorld(LevelGenerator gen)
+        public void NewLayer(int z)
         {
-            LevelRequestEvent += gen.GenerateLayerLevel;
-            Layer surface = new Layer(0);
-            AddLayer(surface);
-            gen.GenerateWorldOrigin();
-            Level origin = surface.RequestLevel(Vector2Int.zero);
-        }
-
-        public GameWorld(Save save, LevelGenerator gen)
-        {
-            LevelRequestEvent += gen.GenerateLayerLevel;
-            Layers = save.World.Layers;
-            levels = save.World.levels;
-            ActiveLevel = save.World.ActiveLevel;
-        }
-
-        /// <summary>
-        /// Add a layer to the world and register its level request event.
-        /// </summary>
-        /// <param name="layer"></param>
-        private void AddLayer(Layer layer)
-        {
+            Layer layer = Instantiate(layerPrefab, transform).GetComponent<Layer>();
             layer.LevelRequestEvent += RequestLevel;
+            layer.ZLevel = z;
             Layers.Add(layer.ZLevel, layer);
         }
 
@@ -60,17 +40,13 @@ namespace Pantheon.World
         /// <returns></returns>
         public Level RequestLevel(Vector3Int pos)
         {
-            return LevelRequestEvent.Invoke(pos);
+            Level level = gen.GenerateLayerLevel(pos);
+            Layers.TryGetValue(pos.z, out Layer layer);
+            level.transform.SetParent(layer.transform);
+            return level;
 
             throw new System.ArgumentException(
                 $"Invalid position for level: {pos}");
-        }
-
-        [OnSerializing]
-        private void OnSerializing()
-        {
-            // Release the level generator upon serialization
-            LevelRequestEvent = null;
         }
     }
 }

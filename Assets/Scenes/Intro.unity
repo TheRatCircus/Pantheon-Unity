@@ -229,12 +229,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d867bca30dc8e784d884add1fdf17cc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ctrlRef:
+    serializedGuid: 67499598e9f0d741876d556f4007e3ec
+    cachedName: GameController
+    cachedScene: {fileID: 102900000, guid: d01598137d8b30145b49e628001256b8, type: 3}
   audioListener: {fileID: 1380913697}
   introText: {fileID: 970593576}
   nameInput: {fileID: 1504593563}
   inputField: {fileID: 1845967291}
   nameSelectPrompt: {fileID: 1484530636}
-  backgroundSelect: {fileID: 0}
 --- !u!223 &420544334
 Canvas:
   m_ObjectHideFlags: 0
@@ -291,7 +294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 2.0809062
+  m_AspectRatio: 2.0775445
 --- !u!114 &420544337
 MonoBehaviour:
   m_ObjectHideFlags: 0

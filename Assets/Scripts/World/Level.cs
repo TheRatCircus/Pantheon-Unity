@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Object = UnityEngine.Object;
@@ -11,20 +10,16 @@ using Random = UnityEngine.Random;
 
 namespace Pantheon.World
 {
-    [Serializable]
-    public sealed class Level
+    public sealed class Level : MonoBehaviour
     {
-        [NonSerialized] private GameObject levelObj;
-        public GameObject LevelObj => levelObj;
-
-        [NonSerialized] private Tilemap terrain;
-        [NonSerialized] private Tilemap splatter;
-        [NonSerialized] private Tilemap items;
+        private Tilemap terrain;
+        private Tilemap splatter;
+        private Tilemap items;
 
         public Dictionary<Vector2Int, Cell> Map { get; private set; }
             = new Dictionary<Vector2Int, Cell>();
 
-        [NonSerialized] private Pathfinder pf;
+        private Pathfinder pf;
         public Pathfinder PF => pf;
 
         public string DisplayName { get; private set; } = "DEFAULT_LEVEL_NAME";
@@ -37,18 +32,11 @@ namespace Pantheon.World
         public List<string> AssetIDCache { get; private set; }
             = new List<string>();
 
-        public Level(string displayName, string id)
+        void OnEnable()
         {
-            DisplayName = displayName;
-            ID = id;
-        }
-
-        public void SetLevelObject(GameObject levelObj)
-        {
-            this.levelObj = levelObj;
-            Transform terrainTransform = levelObj.transform.Find("Terrain");
-            Transform splatterTransform = levelObj.transform.Find("Splatter");
-            Transform itemsTransform = levelObj.transform.Find("Items");
+            Transform terrainTransform = transform.Find("Terrain");
+            Transform splatterTransform = transform.Find("Splatter");
+            Transform itemsTransform = transform.Find("Items");
             terrain = terrainTransform.GetComponent<Tilemap>();
             splatter = splatterTransform.GetComponent<Tilemap>();
             items = itemsTransform.GetComponent<Tilemap>();
@@ -102,10 +90,13 @@ namespace Pantheon.World
         public List<Cell> GetPathTo(Cell origin, Cell target)
             => PF.CellPathList(origin.Position, target.Position);
 
-        [OnSerializing]
-        private void OnSerializing()
+        public void Draw()
         {
-            AssetRequestEvent = null;
+            foreach (Cell c in Map.Values)
+            {
+                //UnityEngine.Debug.Log($"Drawing tile at {c.Position}...");
+                terrain.SetTile((Vector3Int)c.Position, c.Terrain.Tile);
+            }
         }
 
         public override string ToString() => $"{DisplayName} ({Position})";

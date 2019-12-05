@@ -1,16 +1,10 @@
 ﻿// Save.cs
 // Jerome Martina
 
-using Pantheon.Gen;
-using Pantheon.World;
-
-namespace Pantheon.Core
+namespace Pantheon
 {
-    [System.Serializable]
     public sealed class Save
     {
-        public string Name { get; private set; }
-        public GameWorld World { get; private set; }
-        public LevelGenerator Generator { get; private set; }
+        public string Name { get; set; }
     }
 }

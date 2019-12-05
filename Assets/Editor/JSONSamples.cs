@@ -16,13 +16,9 @@ namespace PantheonEditor
     internal static class JSONSamples
     {
         [MenuItem("Assets/Pantheon/JSON Samples/Builder Plan")]
-        private static void SampleBuilderPlan()
+        static void SampleBuilderPlan()
         {
-            BuilderPlan plan = new BuilderPlan(new BuilderStep[]
-                {
-                    new Fill("Ground_Grass"),
-                    new RandomFill(50, "Wall_StoneWall")
-                });
+            BuilderPlan plan = BuilderPlan.NewBuilderPlan();
 
             JsonSerializerSettings settings = new JsonSerializerSettings
             {

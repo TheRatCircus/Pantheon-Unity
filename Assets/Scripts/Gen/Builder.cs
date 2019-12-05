@@ -21,12 +21,10 @@ namespace Pantheon.Gen
             this.plan = plan;
         }
 
-        public Level Run(AssetLoader loader)
+        public void Run(Level level)
         {
-            Level level = new Level(displayName, id);
-            plan.Run(level, 200, 200, loader);
+            plan.Run(level, 200, 200);
             level.RebuildPathfinder();
-            return level;
         }
     }
 }

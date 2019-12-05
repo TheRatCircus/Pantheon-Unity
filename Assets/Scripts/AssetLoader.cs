@@ -8,12 +8,11 @@ using Object = UnityEngine.Object;
 
 namespace Pantheon
 {
-    public sealed class AssetLoader
+    public sealed class AssetLoader : MonoBehaviour
     {
-        [NonSerialized] private AssetBundle bundle;
-        public AssetBundle Bundle => bundle;
+        private AssetBundle bundle;
 
-        public AssetLoader()
+        private void Awake()
         {
             bundle = AssetBundle.LoadFromFile(Path.Combine(
                 Application.streamingAssetsPath, "pantheon"));

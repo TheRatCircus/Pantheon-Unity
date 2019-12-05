@@ -72,7 +72,6 @@
     <Compile Include="Assets\Scripts\AI.cs" />
     <Compile Include="Assets\Scripts\AssetLoader.cs" />
     <Compile Include="Assets\Scripts\Attack.cs" />
-    <Compile Include="Assets\Scripts\CameraControl.cs" />
     <Compile Include="Assets\Scripts\Commands\ActorCommand.cs" />
     <Compile Include="Assets\Scripts\Commands\Command.cs" />
     <Compile Include="Assets\Scripts\Commands\MeleeCommand.cs" />
@@ -103,6 +102,7 @@
     <Compile Include="Assets\Scripts\SerializationSurrogate.cs" />
     <Compile Include="Assets\Scripts\TerrainDefinition.cs" />
     <Compile Include="Assets\Scripts\TurnScheduler.cs" />
+    <Compile Include="Assets\Scripts\UI\CameraControl.cs" />
     <Compile Include="Assets\Scripts\UI\Cursor.cs" />
     <Compile Include="Assets\Scripts\UI\GameLog.cs" />
     <Compile Include="Assets\Scripts\UI\Intro.cs" />

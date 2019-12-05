@@ -15,7 +15,7 @@ namespace Pantheon.Utils
         public static Vector3 ToVector3(this Vector2Int v2i)
             => new Vector3(v2i.x, v2i.y);
 
-        public static Vector2Int V3IToV2I(this Vector3Int v3i)
+        public static Vector2Int ToVector2Int(this Vector3Int v3i)
             => new Vector2Int(v3i.x, v3i.y);
 
         // Swap two references

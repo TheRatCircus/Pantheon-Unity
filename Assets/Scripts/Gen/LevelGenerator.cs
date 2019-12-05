@@ -2,11 +2,9 @@
 // Jerome Martina
 
 using Newtonsoft.Json;
-using Pantheon.Core;
 using Pantheon.World;
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using UnityEngine;
 
 namespace Pantheon.Gen
@@ -14,40 +12,32 @@ namespace Pantheon.Gen
     /// <summary>
     /// Holds all level builders and executes them upon request.
     /// </summary>
-    [Serializable]
-    public sealed class LevelGenerator
+    public sealed class LevelGenerator : MonoBehaviour
     {
-        public event Func<GameController> GetControllerEvent;
+        [SerializeField] private GameObject levelPrefab = default;
+
+        private AssetLoader loader;
 
         public Dictionary<Vector3Int, Builder> LayerLevelBuilders
         { get; private set; } = new Dictionary<Vector3Int, Builder>();
         public Dictionary<string, Builder> IDLevelBuilders
         { get; private set; } = new Dictionary<string, Builder>();
 
-        public LevelGenerator(GameController ctrl)
-            => GetControllerEvent += ctrl.Get;
-
-        public LevelGenerator(Save save, GameController ctrl)
+        private void Start()
         {
-            LayerLevelBuilders = save.Generator.LayerLevelBuilders;
-            IDLevelBuilders = save.Generator.IDLevelBuilders;
-
-            GetControllerEvent += ctrl.Get;
+            loader = GetComponent<AssetLoader>();
         }
 
         public void GenerateWorldOrigin()
         {
-            GameController ctrl = GetControllerEvent.Invoke();
-
-            TextAsset json = ctrl.Loader.Load<TextAsset>("Plan_Valley");
-            JsonSerializerSettings settings = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Serialization._builderStepBinder,
-                Formatting = Formatting.Indented
-            };
-            BuilderPlan plan = JsonConvert.DeserializeObject<BuilderPlan>(
-                json.text, settings);
+            //Builder json = loader.Load<TextAsset>("Plan_Valley");
+            //JsonSerializerSettings settings = new JsonSerializerSettings
+            //{
+            //    TypeNameHandling = TypeNameHandling.Auto,
+            //    SerializationBinder = Serialization._builderStepBinder,
+            //    Formatting = Formatting.Indented
+            //};
+            BuilderPlan plan = Resources.Load<BuilderPlan>("Plan_Valley");
 
             Builder builder = new Builder("Valley of Beginnings",
                 "valley_0_0_0", plan);
@@ -65,14 +55,12 @@ namespace Pantheon.Gen
             }
             else
             {
-                GameController ctrl = GetControllerEvent.Invoke();
-                Level level = builder.Run(ctrl.Loader);
+                GameObject levelObj = Instantiate(levelPrefab);
+                Level level = levelObj.GetComponent<Level>();
+                builder.Run(level);
                 LayerLevelBuilders.Remove(pos);
                 return level;
             }
         }
-
-        [OnSerializing]
-        private void OnSerializing() => GetControllerEvent = null;
     }
 }
