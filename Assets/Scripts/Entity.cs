@@ -62,9 +62,12 @@ namespace Pantheon
 
         public void Move(Level level, Cell cell)
         {
+            Cell prev = Cell;
+            prev.Actor = null;
             Level = level;
             Cell = cell;
             GameObjects[0].transform.position = cell.Position.ToVector3();
+            cell.Actor = this;
         }
     }
 }
