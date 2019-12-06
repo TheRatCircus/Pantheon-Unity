@@ -10,7 +10,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{8976FB5C-5AF4-9F4C-A35D-8B005B94FF40}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -62,16 +63,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\CrossSceneReference\Editor\GuidComponentDrawer.cs" />
-    <Compile Include="Assets\CrossSceneReference\Editor\GuidReferenceDrawer.cs" />
-    <Compile Include="Assets\CrossSceneReference\Tests\Editor\GuidReferenceTests.cs" />
     <Compile Include="Assets\Editor\CreateAssetBundles.cs" />
     <Compile Include="Assets\Editor\EnumOrderDrawer.cs" />
     <Compile Include="Assets\Editor\JSONSamples.cs" />
     <Compile Include="Assets\Editor\OnPlayMode.cs" />
     <Compile Include="Assets\Editor\ReadOnlyDrawer.cs" />
     <Compile Include="Assets\Editor\TemplateEditor.cs" />
-    <Compile Include="Assets\ScriptCalculator\Editor\ScriptCalculator.cs" />
     <Reference Include="UnityEditor.TestRunner">
       <HintPath>D:/Misc/Development/unity/Pantheon/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
     </Reference>
