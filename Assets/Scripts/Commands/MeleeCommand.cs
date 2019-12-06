@@ -9,8 +9,8 @@ namespace Pantheon.Commands
     {
         public Cell Target { get; private set; }
 
-        public MeleeCommand(Actor actor, int attackTime, Cell target)
-            : base(actor, attackTime)
+        public MeleeCommand(Entity entity, int attackTime, Cell target)
+            : base(entity, attackTime)
         {
             Target = target;
         }

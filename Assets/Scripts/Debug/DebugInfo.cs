@@ -15,7 +15,12 @@ namespace Pantheon.Debug
 
         private void Awake()
         {
+            
+        }
 
+        private void Update()
+        {
+            
         }
     }
 }

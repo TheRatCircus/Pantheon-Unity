@@ -23,7 +23,7 @@ namespace Pantheon.World
         public bool Opaque => Terrain.Opaque;
         public bool Blocked => Terrain.Opaque;
 
-        public Actor Actor { get; set; }
+        public Entity Actor { get; set; }
 
         public Cell(Vector2Int position) => Position = position;
 

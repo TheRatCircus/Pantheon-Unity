@@ -3,14 +3,15 @@
 
 namespace Pantheon.Commands
 {
+    /// <summary>
+    /// Base class for actor actions (comes with an energy cost).
+    /// </summary>
     public abstract class ActorCommand : Command
     {
-        public Actor Actor { get; private set; }
         public int Cost { get; private set; } // Energy penalty incurred on actor
 
-        public ActorCommand(Actor actor, int cost)
+        public ActorCommand(Entity entity, int cost) : base(entity)
         {
-            Actor = actor;
             Cost = cost;
         }
     }

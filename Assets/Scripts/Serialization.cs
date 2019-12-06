@@ -3,6 +3,7 @@
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Pantheon.Components;
 using Pantheon.Gen;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,7 @@ namespace Pantheon
             {
                 KnownTypes = new List<Type>()
                 {
+                    typeof(Actor)
                 }
             };
     }
@@ -57,6 +59,10 @@ namespace Pantheon
     public sealed class SpriteConverter : JsonConverter<Sprite>, IAssetLoadConverter
     {
         public AssetLoader Loader { get; set; }
+
+        public SpriteConverter() { }
+
+        public SpriteConverter(AssetLoader loader) => Loader = loader;
 
         public override Sprite ReadJson(JsonReader reader,
             Type objectType, Sprite existingValue,

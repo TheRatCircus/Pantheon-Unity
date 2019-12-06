@@ -67,9 +67,6 @@
     <Compile Include="Assets\CrossSceneReference\Runtime\GuidReference.cs" />
     <Compile Include="Assets\CrossSceneReference\Samples\LoadScenes.cs" />
     <Compile Include="Assets\CrossSceneReference\Samples\TestCrossScene.cs" />
-    <Compile Include="Assets\Scripts\Actor\Actor.cs" />
-    <Compile Include="Assets\Scripts\Actor\AI.cs" />
-    <Compile Include="Assets\Scripts\Actor\Player.cs" />
     <Compile Include="Assets\Scripts\AssetLoader.cs" />
     <Compile Include="Assets\Scripts\Attack.cs" />
     <Compile Include="Assets\Scripts\Commands\ActorCommand.cs" />
@@ -77,10 +74,16 @@
     <Compile Include="Assets\Scripts\Commands\MeleeCommand.cs" />
     <Compile Include="Assets\Scripts\Commands\MoveCommand.cs" />
     <Compile Include="Assets\Scripts\Commands\WaitCommand.cs" />
+    <Compile Include="Assets\Scripts\Components\Actor.cs" />
+    <Compile Include="Assets\Scripts\Components\AI.cs" />
+    <Compile Include="Assets\Scripts\Components\EntityComponent.cs" />
     <Compile Include="Assets\Scripts\Debug\Console.cs" />
     <Compile Include="Assets\Scripts\Debug\ConsoleCommandFunctions.cs" />
     <Compile Include="Assets\Scripts\Debug\DebugInfo.cs" />
     <Compile Include="Assets\Scripts\Debug\Visualisation.cs" />
+    <Compile Include="Assets\Scripts\Entity.cs" />
+    <Compile Include="Assets\Scripts\EntityTemplate.cs" />
+    <Compile Include="Assets\Scripts\EntityWrapper.cs" />
     <Compile Include="Assets\Scripts\Enums\CardinalDirection.cs" />
     <Compile Include="Assets\Scripts\Enums\DamageType.cs" />
     <Compile Include="Assets\Scripts\Enums\Gender.cs" />
@@ -96,6 +99,7 @@
     <Compile Include="Assets\Scripts\Inspector\ReadOnlyAttribute.cs" />
     <Compile Include="Assets\Scripts\Node.cs" />
     <Compile Include="Assets\Scripts\Pathfinder.cs" />
+    <Compile Include="Assets\Scripts\PlayerInput.cs" />
     <Compile Include="Assets\Scripts\Save.cs" />
     <Compile Include="Assets\Scripts\SaveLoad.cs" />
     <Compile Include="Assets\Scripts\Serialization.cs" />

@@ -1,41 +1,52 @@
 ﻿// Spawn.cs
 // Jerome Martina
 
+using Pantheon.Components;
 using Pantheon.Utils;
 using Pantheon.World;
 using UnityEngine;
 
 namespace Pantheon.Core
 {
-    /// <summary>
-    /// Functions for spawning GameObject-based entities.
-    /// </summary>
+    /// <summary> Functions for spawning entities. </summary>
     public static class Spawn
     {
+        private static GameObject gameObjPrefab;
         private static TurnScheduler scheduler;
 
-        public static void Init(TurnScheduler scheduler)
+        public static void Init(TurnScheduler scheduler, GameObject gameObjPrefab)
         {
+            Spawn.gameObjPrefab = gameObjPrefab;
             Spawn.scheduler = scheduler;
         }
 
         /// <summary>
-        /// Instantiate an actor at a cell based on a prefab.
+        /// Spawn an actor, add it to the turn scheduler, and give it a GameObject.
         /// </summary>
-        /// <returns>The Actor script component of the new actor.</returns>
-        public static Actor SpawnActor(GameObject npcPrefab, Level level, Cell cell)
+        /// <param name="template"></param>
+        /// <param name="level"></param>
+        /// <param name="cell"></param>
+        /// <returns></returns>
+        public static Entity SpawnActor(EntityTemplate template, Level level, Cell cell)
         {
-            GameObject npcObj = Object.Instantiate(
-                npcPrefab,
+            Entity entity = new Entity(template);
+
+            GameObject entityObj = Object.Instantiate(
+                gameObjPrefab,
                 cell.Position.ToVector3(),
                 new Quaternion(),
                 level.transform);
-            Actor actor = npcObj.GetComponent<Actor>();
-            actor.gameObject.name = actor.Name;
-            actor.Level = level;
-            scheduler.AddActor(actor);
-            actor.Move(level, cell);
-            return actor;
+
+            entityObj.name = entity.Name;
+            EntityWrapper wrapper = entityObj.GetComponent<EntityWrapper>();
+            wrapper.Entity = entity;
+            SpriteRenderer sr = entityObj.GetComponent<SpriteRenderer>();
+            sr.sprite = template.Sprite;
+
+            entity.GameObjects[0] = entityObj;
+            scheduler.AddActor(entity.GetComponent<Actor>());
+            entity.Move(level, cell);
+            return entity;
         }
     }
 }

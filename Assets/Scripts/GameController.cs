@@ -1,6 +1,7 @@
 ﻿// GameController.cs
 // Jerome Martina
 
+using Pantheon.Components;
 using Pantheon.Gen;
 using Pantheon.UI;
 using Pantheon.Utils;
@@ -12,29 +13,32 @@ namespace Pantheon.Core
 {
     public sealed class GameController : MonoBehaviour
     {
+        [SerializeField] private GameObject gameObjectPrefab = default;
         [SerializeField] private Camera cam = default;
         [SerializeField] private UI.Cursor cursor = default;
         public UI.Cursor Cursor => cursor;
         [SerializeField] private GameLog log = default;
+        private PlayerInput playerInput = default;
 
         [SerializeField] GameWorld world = default;
         public GameWorld World => world;
-        [SerializeField] private AssetLoader loader = default;
+        private AssetLoader loader = default;
         [SerializeField] private LevelGenerator gen = default;
         private TurnScheduler scheduler;
 
-        public Actor Player { get; set; }
+        public Entity Player { get; set; }
 
         private void OnEnable()
         {
+            loader = GetComponent<AssetLoader>();
             scheduler = GetComponent<TurnScheduler>();
+            playerInput = GetComponent<PlayerInput>();
         }
 
         public void NewGame(string playerName)
         {
             AI.Init(Player, log);
-            Pantheon.Player.Init(cursor);
-            Spawn.Init(scheduler);
+            Spawn.Init(scheduler, gameObjectPrefab);
 
             // Place the world centre
             world.NewLayer(0);
@@ -44,12 +48,13 @@ namespace Pantheon.Core
             cursor.Level = level;
 
             // Spawn the player
-            GameObject playerPrefab = loader.Load<GameObject>("Player");
-            Actor playerActor = Spawn.SpawnActor(playerPrefab, level, level.RandomCell(true));
-            MoveCameraTo(playerActor.transform);
-            Player = playerActor;
+            EntityTemplate template = loader.LoadTemplate("Player");
+            Entity player = Spawn.SpawnActor(template, level, level.RandomCell(true));
+            playerInput.SetPlayerEntity(player);
+            MoveCameraTo(player.GameObjects[0].transform);
+            Player = player;
 
-            FOV.RefreshFOV(level, playerActor.Cell.Position);
+            FOV.RefreshFOV(level, player.Cell.Position);
             LoadLevel(level, true);
         }
 

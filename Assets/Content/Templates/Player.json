@@ -1,0 +1,13 @@
+{
+  "Name": "Player",
+  "Sprite": "PlayerCharacter",
+  "Components": [
+    {
+      "$type": "Actor",
+      "control": "Player",
+      "Speed": 100,
+      "Energy": 0,
+      "Command": null
+    }
+  ]
+}

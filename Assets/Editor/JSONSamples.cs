@@ -28,8 +28,7 @@ namespace PantheonEditor
             };
 
             string json = JsonConvert.SerializeObject(plan, settings);
-            File.WriteAllText(Path.Combine(
-                Application.dataPath, "/sample_plan.json"), json);
+            File.WriteAllText(Application.dataPath + "sample_plan.json", json);
         }
     }
 }

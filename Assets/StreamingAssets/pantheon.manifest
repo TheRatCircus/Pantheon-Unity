@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1105433949
+CRC: 1409997711
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: e81958410310115f8c58c594b70aff47
+    Hash: 08f75d4d70afc37863876eb53efd492a
   TypeTreeHash:
     serializedVersion: 2
-    Hash: ce9bf50d1c03021cf3df7ba2b7756abf
+    Hash: 46755b4c791e12579660e2e6593ce416
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -19,12 +19,18 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 48
   Script: {instanceID: 0}
+- Class: 49
+  Script: {instanceID: 0}
 - Class: 114
   Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: 20ce14f663cc939449f6a110596a2a29, type: 3}
+  Script: {fileID: 11500000, guid: b5bc4584c6f41714ca6a3cc1c568d2c2, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: 2a2b225d9991b5c428f496b7e888763b, type: 3}
+  Script: {fileID: 11500000, guid: 77361cca67bf70d4fb5a2a3bf6ec4dd7, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7fb65c8bea67fb74a9f45b17f30b482b, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: cb75a9ae5eb5fbf409969eefff25b73d, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 212
@@ -32,8 +38,9 @@ ClassTypes:
 - Class: 213
   Script: {instanceID: 0}
 Assets:
-- Assets/Sprites/Actors/Swine.png
-- Assets/Prefabs/Actors/GameObjectPrefab.prefab
-- Assets/Tiles/Ground_Grass.asset
-- Assets/Prefabs/Actors/Player.prefab
+- Assets/Sprites/Actors/PlayerCharacter.png
+- Assets/Content/Templates/Player.json
+- Assets/Prefabs/EntityGameObject.prefab
+- Assets/Content/Terrain/Terrain_Grass.asset
+- Assets/Resources/Plan_Valley.asset
 Dependencies: []

@@ -5,8 +5,8 @@ namespace Pantheon.Commands
 {
     public sealed class WaitCommand : ActorCommand
     {
-        public WaitCommand(Actor actor, int waitTime = 100)
-            : base(actor, waitTime) { }
+        public WaitCommand(Entity entity, int waitTime = 100)
+            : base(entity, waitTime) { }
 
         public override void Execute() { }
     }

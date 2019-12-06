@@ -1,7 +1,7 @@
 ﻿// TurnScheduler.cs
 // Jerome Martina
 
-using Pantheon.Commands;
+using Pantheon.Components;
 using Pantheon.Core;
 using System;
 using System.Collections.Generic;
@@ -64,26 +64,6 @@ namespace Pantheon
             while (actor.Energy > 0)
             {
                 currentActor = actor;
-                switch (actor.Control)
-                {
-                    case ActorControl.None: // Skip any uncontrolled actor
-                        Actor a = queue[0];
-                        queue.RemoveAt(0);
-                        queue.Add(a);
-                        return true;
-                    case ActorControl.Player:
-                        Player player = actor.GetComponent<Player>();
-                        if (player.AutoMovePath.Count > 0)
-                        {
-                            actor.Command = new MoveCommand(actor, player.AutoMovePath[0], TurnTime);
-                            player.AutoMovePath.RemoveAt(0);
-                        }
-                        break;
-                    case ActorControl.AI:
-                        AI ai = actor.GetComponent<AI>();
-                        ai.DecideCommand();
-                        break;
-                }
 
                 int actionCost = actor.Act();
                 currentActor = null;
@@ -123,7 +103,7 @@ namespace Pantheon
                     }
                     // Signals a successful player action to HUD
                     PlayerActionEvent?.Invoke(actor.Energy);
-                    FOV.RefreshFOV(actor.Level, actor.Cell.Position);
+                    FOV.RefreshFOV(ctrl.Player.Level, ctrl.Player.Cell.Position);
                 }
                 // Action may have added a lock
                 if (lockCount > 0)
