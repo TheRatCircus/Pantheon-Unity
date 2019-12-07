@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1409997711
+CRC: 280055849
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 08f75d4d70afc37863876eb53efd492a
+    Hash: 55e9207c5486a31b24c9c9840d3088d6
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 46755b4c791e12579660e2e6593ce416
+    Hash: ff5d8a1e668779000505bb0c4b3902cd
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -31,6 +31,8 @@ ClassTypes:
   Script: {fileID: 11500000, guid: 7fb65c8bea67fb74a9f45b17f30b482b, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: cb75a9ae5eb5fbf409969eefff25b73d, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 768cebdd7171c384bb346fa3c0083b7b, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 212
@@ -38,9 +40,12 @@ ClassTypes:
 - Class: 213
   Script: {instanceID: 0}
 Assets:
+- Assets/Content/Terrain/Terrain_StoneWall.asset
+- Assets/BuilderPlans/Step_Fill_Grass.asset
 - Assets/Sprites/Actors/PlayerCharacter.png
 - Assets/Content/Templates/Player.json
+- Assets/BuilderPlans/Step_RandomFill_StoneWall.asset
 - Assets/Prefabs/EntityGameObject.prefab
 - Assets/Content/Terrain/Terrain_Grass.asset
-- Assets/Resources/Plan_Valley.asset
+- Assets/BuilderPlans/Plan_Valley.asset
 Dependencies: []

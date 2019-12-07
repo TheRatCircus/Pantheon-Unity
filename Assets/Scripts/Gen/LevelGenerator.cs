@@ -1,6 +1,7 @@
 ﻿// LevelGenerator.cs
 // Jerome Martina
 
+using Pantheon.Core;
 using Pantheon.World;
 using System;
 using System.Collections.Generic;
@@ -14,14 +15,22 @@ namespace Pantheon.Gen
     [Serializable]
     public sealed class LevelGenerator
     {
+        private static GameController ctrl;
+
         public Dictionary<Vector3Int, Builder> LayerLevelBuilders
         { get; private set; } = new Dictionary<Vector3Int, Builder>();
         public Dictionary<string, Builder> IDLevelBuilders
         { get; private set; } = new Dictionary<string, Builder>();
 
+        public static void InjectController(GameController ctrl)
+        {
+            if (LevelGenerator.ctrl == null)
+                LevelGenerator.ctrl = ctrl;
+        }
+
         public void GenerateWorldOrigin()
         {
-            BuilderPlan plan = Resources.Load<BuilderPlan>("Plan_Valley");
+            BuilderPlan plan = ctrl.Loader.Load<BuilderPlan>("Plan_Valley");
 
             Builder builder = new Builder("Valley of Beginnings",
                 "valley_0_0_0", plan);

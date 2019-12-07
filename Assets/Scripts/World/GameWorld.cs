@@ -22,7 +22,8 @@ namespace Pantheon.World
 
         public static void InjectController(GameController ctrl)
         {
-            GameWorld.ctrl = ctrl;
+            if (GameWorld.ctrl == null)
+                GameWorld.ctrl = ctrl;
         }
 
         public void NewLayer(int z)

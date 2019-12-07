@@ -95,6 +95,7 @@
     <Compile Include="Assets\Scripts\Gen\BuilderStep.cs" />
     <Compile Include="Assets\Scripts\Gen\Fill.cs" />
     <Compile Include="Assets\Scripts\Gen\LevelGenerator.cs" />
+    <Compile Include="Assets\Scripts\Gen\RandomFill.cs" />
     <Compile Include="Assets\Scripts\Hit.cs" />
     <Compile Include="Assets\Scripts\Inspector\EnumOrder.cs" />
     <Compile Include="Assets\Scripts\Inspector\ReadOnlyAttribute.cs" />

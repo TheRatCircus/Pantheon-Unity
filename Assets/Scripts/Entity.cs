@@ -17,7 +17,7 @@ namespace Pantheon
 
         public bool Blocking { get; set; }
         [NonSerialized]
-        private GameObject[] gameObjects;
+        private GameObject[] gameObjects = new GameObject[1];
         public GameObject[] GameObjects
         {
             get => gameObjects;

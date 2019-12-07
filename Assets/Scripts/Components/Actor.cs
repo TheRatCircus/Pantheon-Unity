@@ -49,8 +49,7 @@ namespace Pantheon.Components
 
             if (Command != null)
             {
-                int cost = Command.Cost;
-                Command.Execute();
+                int cost = Command.Execute();
                 Command = null;
                 return cost;
             }

@@ -41,11 +41,17 @@ namespace Pantheon.Core
             playerInput = GetComponent<PlayerInput>();
         }
 
-        public void NewGame(string playerName)
+        public void InjectStaticDependencies()
         {
             AI.Init(Player, log);
             Spawn.Init(Scheduler, gameObjectPrefab);
             GameWorld.InjectController(this);
+            LevelGenerator.InjectController(this);
+        }
+
+        public void NewGame(string playerName)
+        {
+            InjectStaticDependencies();
             saveSystem = new SaveWriterReader(Loader);
 
             World = new GameWorld();
@@ -71,9 +77,7 @@ namespace Pantheon.Core
 
         public void LoadGame(string path)
         {
-            AI.Init(Player, log);
-            Spawn.Init(Scheduler, gameObjectPrefab);
-            GameWorld.InjectController(this);
+            InjectStaticDependencies();
             saveSystem = new SaveWriterReader(Loader);
 
             Save save = saveSystem.ReadSave(path);
