@@ -10,8 +10,7 @@ using UnityEngine.UI;
 public enum IntroState
 {
     IntroText,
-    NameInput,
-    Background
+    NameInput
 }
 
 namespace Pantheon
@@ -35,11 +34,19 @@ namespace Pantheon
         // Update is called once per frame
         private void Update()
         {
-            if (Input.anyKeyDown && IntroState == IntroState.IntroText)
+            if (Input.GetButtonDown("Cancel"))
             {
-                introText.SetActive(false);
-                nameInput.SetActive(true);
-                IntroState = IntroState.NameInput;
+                SceneManager.LoadSceneAsync(Scenes.MainMenu, LoadSceneMode.Single);
+            }
+
+            if (IntroState == IntroState.IntroText)
+            {
+                if (Input.anyKeyDown)
+                {
+                    introText.SetActive(false);
+                    nameInput.SetActive(true);
+                    IntroState = IntroState.NameInput;
+                }
             }
         }
 

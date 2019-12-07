@@ -294,7 +294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 2.0775445
+  m_AspectRatio: 2.093949
 --- !u!114 &420544337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -729,15 +729,13 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Today is the day that you begin your quest to fell the Pantheon.\r\n\nFor
-    too long, you have been living a daydream, doing nothing about the cheap changes
-    of destiny that have wronged you countless times before. Not just have you suffered,
-    but so too have all the creatures in the world, and all at the hands of cruel
-    Idols who play games with fate. Now you are awake, and will no longer serve madness
-    through inaction; after all, you could do all of their jobs at once, and with
-    greater competence and benevolence than any of them. \n\nThere can be no compromise:
-    they must be removed, for the good of all living beings.\n\n<color=teal>Press
-    any key to proceed...</color>"
+  m_Text: 'Today you begin your endeavour to take a seat among the godly pantheon.
+
+
+    How difficult could it be?
+
+
+    <color=teal>Press any key to proceed, or ESC to cancel...</color>'
 --- !u!222 &970593579
 CanvasRenderer:
   m_ObjectHideFlags: 0
