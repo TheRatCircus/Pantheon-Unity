@@ -3,6 +3,7 @@
 
 using Pantheon.Components;
 using Pantheon.Gen;
+using Pantheon.SaveLoad;
 using Pantheon.UI;
 using Pantheon.Utils;
 using Pantheon.World;
@@ -13,54 +14,78 @@ namespace Pantheon.Core
 {
     public sealed class GameController : MonoBehaviour
     {
+        [SerializeField] private GameObject levelPrefab = default;
+        public GameObject LevelPrefab => levelPrefab;
         [SerializeField] private GameObject gameObjectPrefab = default;
+        [SerializeField] private Transform worldTransform = default;
+        public Transform WorldTransform => worldTransform;
+
         [SerializeField] private Camera cam = default;
         [SerializeField] private UI.Cursor cursor = default;
         public UI.Cursor Cursor => cursor;
         [SerializeField] private GameLog log = default;
         private PlayerInput playerInput = default;
 
-        [SerializeField] GameWorld world = default;
-        public GameWorld World => world;
-        private AssetLoader loader = default;
-        [SerializeField] private LevelGenerator gen = default;
-        private TurnScheduler scheduler;
+        public GameWorld World { get; private set; }
+        public AssetLoader Loader { get; private set; }
+        public LevelGenerator Generator { get; private set; }
+        public TurnScheduler Scheduler { get; private set; }
+        private SaveWriterReader saveSystem;
 
         public Entity Player { get; set; }
 
         private void OnEnable()
         {
-            loader = GetComponent<AssetLoader>();
-            scheduler = GetComponent<TurnScheduler>();
+            Loader = GetComponent<AssetLoader>();
+            Scheduler = GetComponent<TurnScheduler>();
             playerInput = GetComponent<PlayerInput>();
         }
 
         public void NewGame(string playerName)
         {
             AI.Init(Player, log);
-            Spawn.Init(scheduler, gameObjectPrefab);
+            Spawn.Init(Scheduler, gameObjectPrefab);
+            GameWorld.InjectController(this);
+            saveSystem = new SaveWriterReader(Loader);
 
+            World = new GameWorld();
+            Generator = new LevelGenerator();
+            
             // Place the world centre
-            world.NewLayer(0);
-            world.Layers.TryGetValue(0, out Layer surface);
-            gen.GenerateWorldOrigin();
+            World.NewLayer(0);
+            World.Layers.TryGetValue(0, out Layer surface);
+            Generator.GenerateWorldOrigin();
             Level level = surface.RequestLevel(Vector2Int.zero);
             cursor.Level = level;
 
             // Spawn the player
-            EntityTemplate template = loader.LoadTemplate("Player");
+            EntityTemplate template = Loader.LoadTemplate("Player");
             Entity player = Spawn.SpawnActor(template, level, level.RandomCell(true));
             playerInput.SetPlayerEntity(player);
-            MoveCameraTo(player.GameObjects[0].transform);
+            
             Player = player;
 
-            FOV.RefreshFOV(level, player.Cell.Position);
             LoadLevel(level, true);
+            MoveCameraTo(player.GameObjects[0].transform);
         }
 
-        public void LoadGame(Save save)
+        public void LoadGame(string path)
         {
+            AI.Init(Player, log);
+            Spawn.Init(Scheduler, gameObjectPrefab);
+            GameWorld.InjectController(this);
+            saveSystem = new SaveWriterReader(Loader);
 
+            Save save = saveSystem.ReadSave(path);
+
+            World = save.World;
+            Generator = save.Generator;
+            Player = save.Player;
+
+            playerInput.SetPlayerEntity(Player);
+            LoadLevel(Player.Level, false);
+            MoveCameraTo(Player.GameObjects[0].transform);
+            cursor.Level = Player.Level;
         }
 
         private void Update()
@@ -79,14 +104,26 @@ namespace Pantheon.Core
         /// <param name="refreshFOV"></param>
         private void LoadLevel(Level level, bool refreshFOV)
         {
-            level.gameObject.SetActive(true);
-            level.Draw();
+            level.AssignToGameObject(Instantiate(levelPrefab, worldTransform).transform);
+
+            if (refreshFOV)
+                FOV.RefreshFOV(level, Player.Cell.Position);
+
+            foreach (Cell c in level.Map.Values)
+            {
+                level.DrawTile(c);
+                if (c.Actor != null)
+                {
+                    Spawn.AssignGameObject(c.Actor);
+                    Scheduler.AddActor(c.Actor.GetComponent<Actor>());
+                }
+            }
         }
 
         private void UnloadLevel(Level level)
         {
+            Destroy(level.Transform.gameObject);
             World.ActiveLevel = null;
-            level.AssetRequestEvent -= loader.Load<Object>;
         }
 
         private void MoveCameraTo(Transform transform)
@@ -100,9 +137,10 @@ namespace Pantheon.Core
             
         }
 
-        void SaveGame()
+        private void SaveGame()
         {
-
+            Save save = new Save(Player.Name, World, Generator, Player);
+            saveSystem.WriteSave(save);
         }
 
         public static void QuitToTitle()

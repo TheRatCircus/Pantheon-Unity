@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Pantheon.Core;
+using Pantheon.SaveLoad;
 using Pantheon.Utils;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -35,26 +36,24 @@ namespace Pantheon.UI
                 SearchOption.AllDirectories);
 
             BinaryFormatter formatter = new BinaryFormatter();
-            formatter.SurrogateSelector = Utils.Serialization.GetSurrogateSelector();
 
             foreach (string filePath in saveFiles)
             {
-                FileStream stream = new FileStream(filePath, FileMode.Open);
-                Save save = formatter.Deserialize(stream) as Save;
                 GameObject saveOption = Instantiate(saveOptionPrefab,
                     saveOptionsList);
                 Button saveOptionBtn = saveOption.GetComponent<Button>();
                 Text saveOptionLabel
                     = saveOption.GetComponentInChildren<Text>();
-                saveOptionLabel.text = save.Name;
+                saveOptionLabel.text = Save.ReadSaveName(filePath);
 
                 saveOptionBtn.onClick.AddListener
-                    (delegate { LoadGame(save); });
-                stream.Close();
+                    (delegate {
+                        LoadGame(filePath);
+                    });
             }
         }
 
-        public void LoadGame(Save save)
+        public void LoadGame(string path)
         {
             SceneManager.LoadSceneAsync(Scenes.Game, LoadSceneMode.Additive).
                 completed += (AsyncOperation op) =>
@@ -62,7 +61,7 @@ namespace Pantheon.UI
                     Scene gameScene = SceneManager.GetSceneByName(Scenes.Game);
                     SceneManager.SetActiveScene(gameScene);
                     SceneManager.LoadSceneAsync(Scenes.Debug, LoadSceneMode.Additive);
-                    ctrlRef.gameObject.GetComponent<GameController>().LoadGame(save);
+                    ctrlRef.gameObject.GetComponent<GameController>().LoadGame(path);
                     SceneManager.UnloadSceneAsync(Scenes.MainMenu);
                 };
         }

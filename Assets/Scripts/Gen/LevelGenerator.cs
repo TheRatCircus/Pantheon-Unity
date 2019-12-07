@@ -1,7 +1,6 @@
 ﻿// LevelGenerator.cs
 // Jerome Martina
 
-using Newtonsoft.Json;
 using Pantheon.World;
 using System;
 using System.Collections.Generic;
@@ -12,31 +11,16 @@ namespace Pantheon.Gen
     /// <summary>
     /// Holds all level builders and executes them upon request.
     /// </summary>
-    public sealed class LevelGenerator : MonoBehaviour
+    [Serializable]
+    public sealed class LevelGenerator
     {
-        [SerializeField] private GameObject levelPrefab = default;
-
-        private AssetLoader loader;
-
         public Dictionary<Vector3Int, Builder> LayerLevelBuilders
         { get; private set; } = new Dictionary<Vector3Int, Builder>();
         public Dictionary<string, Builder> IDLevelBuilders
         { get; private set; } = new Dictionary<string, Builder>();
 
-        private void Start()
-        {
-            loader = GetComponent<AssetLoader>();
-        }
-
         public void GenerateWorldOrigin()
         {
-            //Builder json = loader.Load<TextAsset>("Plan_Valley");
-            //JsonSerializerSettings settings = new JsonSerializerSettings
-            //{
-            //    TypeNameHandling = TypeNameHandling.Auto,
-            //    SerializationBinder = Serialization._builderStepBinder,
-            //    Formatting = Formatting.Indented
-            //};
             BuilderPlan plan = Resources.Load<BuilderPlan>("Plan_Valley");
 
             Builder builder = new Builder("Valley of Beginnings",
@@ -51,12 +35,11 @@ namespace Pantheon.Gen
                 out Builder builder))
             {
                 throw new ArgumentException(
-                    $"No level builder at {pos} on layer {pos.z}.");
+                    $"No level builder at {pos}.");
             }
             else
             {
-                GameObject levelObj = Instantiate(levelPrefab);
-                Level level = levelObj.GetComponent<Level>();
+                Level level = new Level();
                 builder.Run(level);
                 LayerLevelBuilders.Remove(pos);
                 return level;

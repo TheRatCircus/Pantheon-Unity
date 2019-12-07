@@ -293,7 +293,6 @@ GameObject:
   - component: {fileID: 600936736}
   - component: {fileID: 600936735}
   - component: {fileID: 600936737}
-  - component: {fileID: 600936738}
   - component: {fileID: 600936739}
   - component: {fileID: 600936740}
   - component: {fileID: 600936741}
@@ -330,14 +329,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abd3db0e8e7307a4aa29a6c437b3bde7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelPrefab: {fileID: 113654762232159162, guid: fdbd0fda9e16a9941a64a3cff39f6593,
+    type: 3}
   gameObjectPrefab: {fileID: 1008646114880207100, guid: 93e0fc7c934bdc7448da7456a2c6a472,
     type: 3}
+  worldTransform: {fileID: 914664008}
   cam: {fileID: 1307850252}
   cursor: {fileID: 599566653}
   log: {fileID: 600936740}
-  world: {fileID: 914664006}
-  loader: {fileID: 600936737}
-  gen: {fileID: 600936738}
 --- !u!114 &600936736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -363,20 +362,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 990002e7014f27e43b6e3beacf8b92c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &600936738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 600936733}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c9131d47963ae448b44276953189cb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelPrefab: {fileID: 113654762232159162, guid: fdbd0fda9e16a9941a64a3cff39f6593,
-    type: 3}
 --- !u!114 &600936739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -430,7 +415,6 @@ GameObject:
   m_Component:
   - component: {fileID: 914664008}
   - component: {fileID: 914664007}
-  - component: {fileID: 914664006}
   m_Layer: 0
   m_Name: World
   m_TagString: GameWorld
@@ -438,21 +422,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &914664006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 914664005}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7a96062d8b7dcd4f80dd7ea31888543, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  layerPrefab: {fileID: 4192349801148554084, guid: ebc14127e83b2584d9db3c2e7cfb546f,
-    type: 3}
-  gen: {fileID: 600936738}
 --- !u!156049354 &914664007
 Grid:
   m_ObjectHideFlags: 0
@@ -513,7 +482,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00033569336, y: -0.000015258789}
+  m_AnchoredPosition: {x: 0.00033569336, y: -0.000022888184}
   m_SizeDelta: {x: 623, y: 151.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1195091517

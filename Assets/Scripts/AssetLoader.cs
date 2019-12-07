@@ -1,6 +1,9 @@
 ﻿// AssetLoader.cs
 // Jerome Martina
 
+#define DEBUG_ASSETLOADER
+#undef DEBUG_ASSETLOADER
+
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -40,8 +43,11 @@ namespace Pantheon
             if (!bundle.Contains(name))
                 throw new ArgumentException(
                     $"{name} not found in bundle {bundle.name}.");
+            LogLoad($"Attempting to load asset '{name}'...");
 
             T obj = bundle.LoadAsset<T>(name);
+
+            LogLoad($"Load result: {obj}");
             UnityEngine.Profiling.Profiler.EndSample();
             return obj;
         }
@@ -66,6 +72,12 @@ namespace Pantheon
 
             T obj = bundle.LoadAsset<T>(name);
             return obj;
+        }
+
+        [System.Diagnostics.Conditional("DEBUG_ASSETLOADER")]
+        public void LogLoad(string str)
+        {
+            UnityEngine.Debug.Log(str);
         }
     }
 }

@@ -5,35 +5,36 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace Pantheon.World
 {
-    public sealed class Level : MonoBehaviour
+    [Serializable]
+    public sealed class Level
     {
-        private Tilemap terrain;
-        private Tilemap splatter;
-        private Tilemap items;
-
-        public Dictionary<Vector2Int, Cell> Map { get; private set; }
-            = new Dictionary<Vector2Int, Cell>();
-
-        private Pathfinder pf;
-        public Pathfinder PF => pf;
-
         public string DisplayName { get; private set; } = "DEFAULT_LEVEL_NAME";
         public string ID { get; private set; }
 
         public Vector3Int Position { get; private set; }
         public Vector2Int Size { get; set; }
 
-        public Func<string, Object> AssetRequestEvent;
-        public List<string> AssetIDCache { get; private set; }
-            = new List<string>();
+        public Dictionary<Vector2Int, Cell> Map { get; private set; }
+            = new Dictionary<Vector2Int, Cell>();
+        public Pathfinder PF { get; private set; }
 
-        void OnEnable()
+        [NonSerialized] private Transform transform;
+        public Transform Transform => transform;
+        [NonSerialized] private Transform entitiesTransform;
+        public Transform EntitiesTransform => entitiesTransform;
+
+        [NonSerialized] private Tilemap terrain;
+        [NonSerialized] private Tilemap splatter;
+        [NonSerialized] private Tilemap items;
+
+        public void AssignToGameObject(Transform transform)
         {
+            this.transform = transform;
+            entitiesTransform = transform.Find("Entities");
             Transform terrainTransform = transform.Find("Terrain");
             Transform splatterTransform = transform.Find("Splatter");
             Transform itemsTransform = transform.Find("Items");
@@ -44,7 +45,7 @@ namespace Pantheon.World
 
         public void RebuildPathfinder()
         {
-            pf = new Pathfinder(this);
+            PF = new Pathfinder(this);
         }
 
         public bool TryGetCell(int x, int y, out Cell cell)
@@ -114,18 +115,21 @@ namespace Pantheon.World
             return cell;
         }
 
-        public void Draw()
-        {
-            foreach (Cell c in Map.Values)
-            {
-                terrain.SetTile((Vector3Int)c.Position, c.Terrain.Tile);
-                terrain.SetColor((Vector3Int)c.Position, c.Visible ? Color.white : Color.grey);
-            }
-        }
-
         public void Draw(IEnumerable<Cell> cells)
         {
             foreach (Cell c in cells)
+            {
+                if (c.Revealed)
+                {
+                    terrain.SetTile((Vector3Int)c.Position, c.Terrain.Tile);
+                    terrain.SetColor((Vector3Int)c.Position, c.Visible ? Color.white : Color.grey);
+                }
+            }
+        }
+
+        public void DrawTile(Cell c)
+        {
+            if (c.Revealed)
             {
                 terrain.SetTile((Vector3Int)c.Position, c.Terrain.Tile);
                 terrain.SetColor((Vector3Int)c.Position, c.Visible ? Color.white : Color.grey);

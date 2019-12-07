@@ -9,6 +9,7 @@ using UnityEngine.Profiling;
 
 namespace Pantheon
 {
+    [Serializable]
     public sealed class Pathfinder
     {
         private Dictionary<Vector2Int, Node> map;

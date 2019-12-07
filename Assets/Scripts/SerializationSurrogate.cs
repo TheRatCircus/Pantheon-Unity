@@ -1,8 +1,9 @@
 ﻿// SerializationSurrogate.cs
-// takatok of the Unity Forums
+// Jerome Martina
 
 using UnityEngine;
 using System.Runtime.Serialization;
+using Pantheon;
 
 namespace Pantheon.Utils
 {
@@ -12,10 +13,8 @@ namespace Pantheon.Utils
         {
             SurrogateSelector selector = new SurrogateSelector();
 
-            Vector3IntSerializationSurrogate vector3ISS =
-                new Vector3IntSerializationSurrogate();
-            Vector2IntSerializationSurrogate vector2ISS =
-                new Vector2IntSerializationSurrogate();
+            Vector3IntSurrogate vector3ISS = new Vector3IntSurrogate();
+            Vector2IntSurrogate vector2ISS = new Vector2IntSurrogate();
             selector.AddSurrogate(typeof(Vector3Int),
                 new StreamingContext(StreamingContextStates.All), vector3ISS);
             selector.AddSurrogate(typeof(Vector2Int),
@@ -26,10 +25,87 @@ namespace Pantheon.Utils
     }
 }
 
-public sealed class Vector3IntSerializationSurrogate : ISerializationSurrogate
+public sealed class ScriptableObjectSurrogate : ISerializationSurrogate
 {
-    public void GetObjectData(object obj,
-        SerializationInfo info,
+    private AssetLoader Loader;
+
+    public ScriptableObjectSurrogate(AssetLoader loader)
+    {
+        Loader = loader;
+    }
+
+    public void GetObjectData(object obj, SerializationInfo info,
+        StreamingContext context)
+    {
+        ScriptableObject so = (ScriptableObject)obj;
+        info.AddValue("id", so.name);
+    }
+
+    public object SetObjectData(object obj, SerializationInfo info,
+        StreamingContext context, ISurrogateSelector selector)
+    {
+        ScriptableObject so = (ScriptableObject)obj;
+        so = Loader.Load<ScriptableObject>((string)info.GetValue("id", typeof(string)));
+        obj = so;
+        return obj;
+    }
+}
+
+public sealed class SpriteSurrogate : ISerializationSurrogate
+{
+    private AssetLoader Loader;
+
+    public SpriteSurrogate(AssetLoader loader)
+    {
+        Loader = loader;
+    }
+
+    public void GetObjectData(object obj, SerializationInfo info,
+        StreamingContext context)
+    {
+        Sprite sprite = (Sprite)obj;
+        info.AddValue("id", sprite.name);
+    }
+
+    public object SetObjectData(object obj, SerializationInfo info,
+        StreamingContext context, ISurrogateSelector selector)
+    {
+        Sprite sprite = (Sprite)obj;
+        sprite = Loader.Load<Sprite>(info.GetString("id"));
+        obj = sprite;
+        return obj;
+    }
+}
+
+public sealed class TerrainDefSurrogate : ISerializationSurrogate
+{
+    private AssetLoader Loader;
+
+    public TerrainDefSurrogate(AssetLoader loader)
+    {
+        Loader = loader;
+    }
+
+    public void GetObjectData(object obj, SerializationInfo info,
+        StreamingContext context)
+    {
+        TerrainDefinition td = (TerrainDefinition)obj;
+        info.AddValue("id", td.name);
+    }
+
+    public object SetObjectData(object obj, SerializationInfo info,
+        StreamingContext context, ISurrogateSelector selector)
+    {
+        TerrainDefinition td = (TerrainDefinition)obj;
+        td = Loader.Load<TerrainDefinition>(info.GetString("id"));
+        obj = td;
+        return obj;
+    }
+}
+
+public sealed class Vector3IntSurrogate : ISerializationSurrogate
+{
+    public void GetObjectData(object obj, SerializationInfo info,
         StreamingContext context)
     {
         Vector3Int v3i = (Vector3Int)obj;
@@ -38,9 +114,8 @@ public sealed class Vector3IntSerializationSurrogate : ISerializationSurrogate
         info.AddValue("z", v3i.z);
     }
 
-    public object SetObjectData(object obj,
-        SerializationInfo info, StreamingContext context,
-        ISurrogateSelector selector)
+    public object SetObjectData(object obj, SerializationInfo info,
+        StreamingContext context, ISurrogateSelector selector)
     {
         Vector3Int v3i = (Vector3Int)obj;
         v3i.x = (int)info.GetValue("x", typeof(int));
@@ -51,7 +126,7 @@ public sealed class Vector3IntSerializationSurrogate : ISerializationSurrogate
     }
 }
 
-public sealed class Vector2IntSerializationSurrogate : ISerializationSurrogate
+public sealed class Vector2IntSurrogate : ISerializationSurrogate
 {
     public void GetObjectData(object obj,
         SerializationInfo info,

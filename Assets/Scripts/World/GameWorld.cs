@@ -1,30 +1,34 @@
 ﻿// GameWorld.cs
 // Jerome Martina
 
-using Pantheon.Gen;
-using UnityEngine;
+using Pantheon.Core;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Pantheon.World
 {
-    public sealed class GameWorld : MonoBehaviour
+    [Serializable]
+    public sealed class GameWorld
     {
-        [SerializeField] GameObject layerPrefab = default;
-
-        [SerializeField] LevelGenerator gen = default;
+        private static GameController ctrl;
 
         public Dictionary<int, Layer> Layers { get; private set; }
             = new Dictionary<int, Layer>();
-        private Dictionary<string, Level> levels
+        public Dictionary<string, Level> Levels { get; private set; }
             = new Dictionary<string, Level>();
 
         public Level ActiveLevel { get; set; }
 
+        public static void InjectController(GameController ctrl)
+        {
+            GameWorld.ctrl = ctrl;
+        }
+
         public void NewLayer(int z)
         {
-            Layer layer = Instantiate(layerPrefab, transform).GetComponent<Layer>();
+            Layer layer = new Layer(z);
             layer.LevelRequestEvent += RequestLevel;
-            layer.ZLevel = z;
             Layers.Add(layer.ZLevel, layer);
         }
 
@@ -36,12 +40,11 @@ namespace Pantheon.World
         /// <returns></returns>
         public Level RequestLevel(Vector3Int pos)
         {
-            Level level = gen.GenerateLayerLevel(pos);
+            Level level = ctrl.Generator.GenerateLayerLevel(pos);
             Layers.TryGetValue(pos.z, out Layer layer);
-            level.transform.SetParent(layer.transform);
             return level;
 
-            throw new System.ArgumentException(
+            throw new ArgumentException(
                 $"Invalid position for level: {pos}");
         }
     }

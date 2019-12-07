@@ -9,6 +9,7 @@ namespace Pantheon
     /// <summary>
     /// A pathfinding node corresponding to a cell.
     /// </summary>
+    [System.Serializable]
     public sealed class Node
     {
         public Cell Cell { get; set; }

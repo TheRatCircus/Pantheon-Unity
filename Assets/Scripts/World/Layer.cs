@@ -10,14 +10,20 @@ namespace Pantheon.World
     /// <summary>
     /// A horizontal slice of the game world.
     /// </summary>
-    public sealed class Layer : MonoBehaviour
+    [System.Serializable]
+    public sealed class Layer
     {
-        public int ZLevel { get; set; }
+        public int ZLevel { get; private set; }
 
         public Dictionary<Vector2Int, Level> Levels { get; private set; }
             = new Dictionary<Vector2Int, Level>();
 
         public event Func<Vector3Int, Level> LevelRequestEvent;
+
+        public Layer(int z)
+        {
+            ZLevel = z;
+        }
 
         public Level RequestLevel(Vector2Int pos)
         {

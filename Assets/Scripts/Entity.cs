@@ -10,25 +10,44 @@ using UnityEngine;
 
 namespace Pantheon
 {
+    [Serializable]
     public sealed class Entity
     {
         public string Name { get; set; }
 
         public bool Blocking { get; set; }
-        public GameObject[] GameObjects { get; private set; }
-            = new GameObject[1];
+        [NonSerialized]
+        private GameObject[] gameObjects;
+        public GameObject[] GameObjects
+        {
+            get => gameObjects;
+            set => gameObjects = value;
+        }
+
+        public Sprite Sprite { get; set; }
 
         public Dictionary<Type, EntityComponent> Components { get; private set; }
             = new Dictionary<Type, EntityComponent>();
 
-        public Cell Cell { get; set; }
-        public Level Level { get; set; }
+        public Cell Cell
+        {
+            get => GetComponent<Location>().Cell;
+            set => GetComponent<Location>().Cell = value;
+        }
+        public Level Level
+        {
+            get => GetComponent<Location>().Level;
+            set => GetComponent<Location>().Level = value;
+        }
 
         public Entity(EntityTemplate template)
         {
             Name = template.Name;
+            Sprite = template.Sprite;
             foreach (EntityComponent component in template.Components)
                 Components.Add(component.GetType(), component);
+
+            Components.Add(typeof(Location), new Location());
         }
 
         public T GetComponent<T>() where T : EntityComponent
@@ -63,10 +82,12 @@ namespace Pantheon
         public void Move(Level level, Cell cell)
         {
             Cell prev = Cell;
-            prev.Actor = null;
+            if (prev != null)
+                prev.Actor = null;
             Level = level;
             Cell = cell;
-            GameObjects[0].transform.position = cell.Position.ToVector3();
+            if (GameObjects.HasElements())
+                GameObjects[0].transform.position = cell.Position.ToVector3();
             cell.Actor = this;
         }
     }

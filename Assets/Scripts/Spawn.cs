@@ -30,23 +30,28 @@ namespace Pantheon.Core
         public static Entity SpawnActor(EntityTemplate template, Level level, Cell cell)
         {
             Entity entity = new Entity(template);
+            scheduler.AddActor(entity.GetComponent<Actor>());
+            entity.Move(level, cell);
+            //entity.GameObjects[0] = AssignGameObject(entity);
+            return entity;
+        }
 
+        public static void AssignGameObject(Entity entity)
+        {
             GameObject entityObj = Object.Instantiate(
                 gameObjPrefab,
-                cell.Position.ToVector3(),
+                entity.Cell.Position.ToVector3(),
                 new Quaternion(),
-                level.transform);
+                entity.Level.EntitiesTransform);
 
             entityObj.name = entity.Name;
             EntityWrapper wrapper = entityObj.GetComponent<EntityWrapper>();
             wrapper.Entity = entity;
             SpriteRenderer sr = entityObj.GetComponent<SpriteRenderer>();
-            sr.sprite = template.Sprite;
+            sr.sprite = entity.Sprite;
 
+            entity.GameObjects = new GameObject[1];
             entity.GameObjects[0] = entityObj;
-            scheduler.AddActor(entity.GetComponent<Actor>());
-            entity.Move(level, cell);
-            return entity;
         }
     }
 }

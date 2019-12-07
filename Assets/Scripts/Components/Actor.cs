@@ -4,6 +4,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Pantheon.Commands;
+using System;
 using UnityEngine;
 
 namespace Pantheon.Components
@@ -16,13 +17,16 @@ namespace Pantheon.Components
         Player
     }
 
-    [System.Serializable]
+    [Serializable]
     public sealed class Actor : EntityComponent
     {
         [SerializeField] private int speed = -1;
         public int Speed { get => speed; set => speed = value; }
         [JsonIgnore] public int Energy { get; set; }
-        [JsonIgnore] public ActorCommand Command { get; set; }
+        [JsonIgnore]
+        [NonSerialized]
+        private ActorCommand command;
+        public ActorCommand Command { get => command; set => command = value; }
 
         [SerializeField] public ActorControl control = default;
         [JsonIgnore] public ActorControl Control

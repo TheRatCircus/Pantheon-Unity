@@ -596,8 +596,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abf5cf07cb03017488c5df9117730ecd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveOptionPrefab: {fileID: 8726524741322985175, guid: 261e2f7a3a22dbe418c016eb123b8cf2,
+  saveOptionPrefab: {fileID: 8726524741322985175, guid: 5febbe53e1a5e484e9340a3998154486,
     type: 3}
+  ctrlRef:
+    serializedGuid: 67499598e9f0d741876d556f4007e3ec
+    cachedName: GameController
+    cachedScene: {fileID: 102900000, guid: d01598137d8b30145b49e628001256b8, type: 3}
   mainTitle: {fileID: 1022136877}
   loadMenu: {fileID: 1151323044}
   saveOptionsList: {fileID: 2043881197}
@@ -1225,7 +1229,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 922032548}
         m_MethodName: ToTitle
         m_Mode: 1
         m_Arguments:

@@ -51,12 +51,12 @@ namespace Pantheon
         }
     }
 
-    public interface IAssetLoadConverter
+    public interface IAssetLoaderModule
     {
         AssetLoader Loader { get; set; }
     }
 
-    public sealed class SpriteConverter : JsonConverter<Sprite>, IAssetLoadConverter
+    public sealed class SpriteConverter : JsonConverter<Sprite>, IAssetLoaderModule
     {
         public AssetLoader Loader { get; set; }
 

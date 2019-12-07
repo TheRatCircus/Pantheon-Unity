@@ -143,8 +143,10 @@ namespace Pantheon.Utils
                 throw new ArgumentException($"Type {typeof(T)} is not nullable.");
 
             foreach (T t in arr)
-                if (arr != null)
+                if (t != null)
+                {
                     return true;
+                }
 
             return false;
         }
