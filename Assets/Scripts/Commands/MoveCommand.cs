@@ -10,9 +10,9 @@ namespace Pantheon.Commands
 {
     public sealed class MoveCommand : ActorCommand
     {
-        public Level DestinationLevel { get; private set; }
-        public Cell DestinationCell { get; private set; }
-        public int MoveTime { get; private set; }
+        private Level destinationLevel;
+        private Cell destinationCell;
+        private int moveTime;
 
         /// <summary>
         /// Given an AI entity, move to a target only if possible.
@@ -33,48 +33,50 @@ namespace Pantheon.Commands
         public MoveCommand(Entity entity, Cell destination, int moveTime)
             : base(entity, moveTime)
         {
-            DestinationCell = destination;
-            MoveTime = moveTime;
-            DestinationLevel = entity.Level;
+            destinationCell = destination;
+            this.moveTime = moveTime;
+            destinationLevel = entity.Level;
         }
 
         public MoveCommand(Entity actor, Vector2Int dir, int moveTime)
             : base(actor, moveTime)
         {
-            MoveTime = moveTime;
-            DestinationLevel = Entity.Level;
+            this.moveTime = moveTime;
+            destinationLevel = Entity.Level;
 
-            if (DestinationLevel.TryGetCell(Entity.Cell.Position + dir, out Cell c))
-                DestinationCell = c;
+            if (destinationLevel.TryGetCell(Entity.Cell.Position + dir, out Cell c))
+                destinationCell = c;
             else
-                DestinationCell = null;
+                destinationCell = null;
         }
 
-        public override void Execute()
+        public override int Execute()
         {
-            if (DestinationCell == null)
-                return;
+            if (destinationCell == null)
+                return -1;
 
-            if (DestinationCell.Terrain == null)
-                return;
-                
-            if (DestinationCell.Blocked)
+            if (destinationCell.Terrain == null)
+                return -1;
+
+            if (destinationCell.Blocked)
+                return -1;
+
+            if (destinationCell.Actor != null)
             {
                 Actor actor = Entity.GetComponent<Actor>();
-                if (actor.HostileTo(DestinationCell.Actor.GetComponent<Actor>()))
-                    actor.Command = new MeleeCommand(Entity, TurnScheduler.TurnTime, DestinationCell);
+                if (actor.HostileTo(destinationCell.Actor.GetComponent<Actor>()))
+                    return new MeleeCommand(Entity, TurnScheduler.TurnTime, destinationCell).Execute();
                 else if (Entity.HasComponent<AI>())
-                    actor.Command = new WaitCommand(Entity);
-
-                return;
+                    return new WaitCommand(Entity).Execute();
             }
 
-            Entity.Move(DestinationLevel, DestinationCell);
+            Entity.Move(destinationLevel, destinationCell);
+            return moveTime;
         }
 
         public override string ToString()
         {
-            return $"{Entity.ToString()} moving to {DestinationCell}";
+            return $"{Entity.ToString()} moving to {destinationCell}";
         }
     }
 }

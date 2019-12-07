@@ -12,10 +12,5 @@ namespace Pantheon.Commands
         public Entity Entity { get; private set; }
 
         public Command(Entity entity) => Entity = entity;
-
-        /// <summary>
-        /// Carry out this commands's effects.
-        /// </summary>
-        public abstract void Execute();
     }
 }

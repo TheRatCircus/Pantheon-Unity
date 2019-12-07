@@ -7,15 +7,15 @@ namespace Pantheon.Commands
 {
     public sealed class MeleeCommand : ActorCommand
     {
-        public Cell Target { get; private set; }
-
+        private Cell target;
+        
         public MeleeCommand(Entity entity, int attackTime, Cell target)
             : base(entity, attackTime)
         {
-            Target = target;
+            this.target = target;
         }
 
-        public override void Execute()
+        public override int Execute()
         {
             throw new System.NotImplementedException();
         }

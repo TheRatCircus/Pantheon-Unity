@@ -14,6 +14,12 @@ namespace Pantheon.Commands
         {
             Cost = cost;
         }
+
+        /// <summary>
+        /// Carry out this commands's effects.
+        /// </summary>
+        /// <returns>The energy cost this action incurs.</returns>
+        public abstract int Execute();
     }
 }
 

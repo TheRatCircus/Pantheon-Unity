@@ -21,7 +21,16 @@ namespace Pantheon.World
         public TerrainDefinition Terrain { get; set; }
 
         public bool Opaque => Terrain.Opaque;
-        public bool Blocked => Terrain.Opaque;
+        public bool Blocked
+        {
+            get
+            {
+                if (Actor == null)
+                    return Terrain.Blocked;
+                else return true;
+
+            }
+        }
 
         public Entity Actor { get; set; }
 
