@@ -4,26 +4,7 @@
 using UnityEngine;
 using System.Runtime.Serialization;
 using Pantheon;
-
-namespace Pantheon.Utils
-{
-    public static class Serialization
-    {
-        public static SurrogateSelector GetSurrogateSelector()
-        {
-            SurrogateSelector selector = new SurrogateSelector();
-
-            Vector3IntSurrogate vector3ISS = new Vector3IntSurrogate();
-            Vector2IntSurrogate vector2ISS = new Vector2IntSurrogate();
-            selector.AddSurrogate(typeof(Vector3Int),
-                new StreamingContext(StreamingContextStates.All), vector3ISS);
-            selector.AddSurrogate(typeof(Vector2Int),
-                new StreamingContext(StreamingContextStates.All), vector2ISS);
-
-            return selector;
-        }
-    }
-}
+using Pantheon.Core;
 
 public sealed class ScriptableObjectSurrogate : ISerializationSurrogate
 {

@@ -5,14 +5,13 @@
 #undef DEBUG_ASSETLOADER
 
 using Newtonsoft.Json;
-using Pantheon.Gen;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Pantheon
+namespace Pantheon.Core
 {
     public sealed class AssetLoader : MonoBehaviour
     {

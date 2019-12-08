@@ -7,7 +7,7 @@ using Pantheon.World;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Pantheon
+namespace Pantheon.Core
 {
     public enum InputType
     {

@@ -2,12 +2,11 @@
 // Jerome Martina
 
 using Pantheon.Components;
-using Pantheon.Core;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Pantheon
+namespace Pantheon.Core
 {
     public sealed class TurnScheduler : MonoBehaviour
     {

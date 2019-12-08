@@ -1,6 +1,8 @@
 ﻿// WaitCommand.cs
 // Jerome Martina
 
+using Pantheon.Core;
+
 namespace Pantheon.Commands
 {
     public sealed class WaitCommand : ActorCommand

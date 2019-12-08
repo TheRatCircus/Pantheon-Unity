@@ -67,7 +67,6 @@
     <Compile Include="Assets\CrossSceneReference\Runtime\GuidReference.cs" />
     <Compile Include="Assets\CrossSceneReference\Samples\LoadScenes.cs" />
     <Compile Include="Assets\CrossSceneReference\Samples\TestCrossScene.cs" />
-    <Compile Include="Assets\Scripts\AssetLoader.cs" />
     <Compile Include="Assets\Scripts\Attack.cs" />
     <Compile Include="Assets\Scripts\Commands\ActorCommand.cs" />
     <Compile Include="Assets\Scripts\Commands\Command.cs" />
@@ -78,6 +77,11 @@
     <Compile Include="Assets\Scripts\Components\AI.cs" />
     <Compile Include="Assets\Scripts\Components\EntityComponent.cs" />
     <Compile Include="Assets\Scripts\Components\Location.cs" />
+    <Compile Include="Assets\Scripts\Core\AssetLoader.cs" />
+    <Compile Include="Assets\Scripts\Core\GameController.cs" />
+    <Compile Include="Assets\Scripts\Core\PlayerInput.cs" />
+    <Compile Include="Assets\Scripts\Core\Spawn.cs" />
+    <Compile Include="Assets\Scripts\Core\TurnScheduler.cs" />
     <Compile Include="Assets\Scripts\Debug\Console.cs" />
     <Compile Include="Assets\Scripts\Debug\ConsoleCommandFunctions.cs" />
     <Compile Include="Assets\Scripts\Debug\DebugInfo.cs" />
@@ -88,7 +92,6 @@
     <Compile Include="Assets\Scripts\Enums\CardinalDirection.cs" />
     <Compile Include="Assets\Scripts\Enums\DamageType.cs" />
     <Compile Include="Assets\Scripts\Enums\Gender.cs" />
-    <Compile Include="Assets\Scripts\GameController.cs" />
     <Compile Include="Assets\Scripts\Gen\BinarySpacePartition.cs" />
     <Compile Include="Assets\Scripts\Gen\Builder.cs" />
     <Compile Include="Assets\Scripts\Gen\BuilderPlan.cs" />
@@ -101,14 +104,11 @@
     <Compile Include="Assets\Scripts\Inspector\ReadOnlyAttribute.cs" />
     <Compile Include="Assets\Scripts\Node.cs" />
     <Compile Include="Assets\Scripts\Pathfinder.cs" />
-    <Compile Include="Assets\Scripts\PlayerInput.cs" />
     <Compile Include="Assets\Scripts\SaveLoad\Save.cs" />
-    <Compile Include="Assets\Scripts\SaveWriterReader.cs" />
+    <Compile Include="Assets\Scripts\SaveLoad\SaveWriterReader.cs" />
     <Compile Include="Assets\Scripts\Serialization.cs" />
     <Compile Include="Assets\Scripts\SerializationSurrogate.cs" />
-    <Compile Include="Assets\Scripts\Spawn.cs" />
     <Compile Include="Assets\Scripts\TerrainDefinition.cs" />
-    <Compile Include="Assets\Scripts\TurnScheduler.cs" />
     <Compile Include="Assets\Scripts\UI\CameraControl.cs" />
     <Compile Include="Assets\Scripts\UI\Cursor.cs" />
     <Compile Include="Assets\Scripts\UI\GameLog.cs" />
