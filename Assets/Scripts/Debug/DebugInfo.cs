@@ -1,6 +1,7 @@
 ﻿// DebugInfo.cs
 // Jerome Martina
 
+using Pantheon.Components;
 using Pantheon.Core;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,18 +10,16 @@ namespace Pantheon.Debug
 {
     public sealed class DebugInfo : MonoBehaviour
     {
-        private GameController controller;
-
         [SerializeField] private Text activeActor = default;
 
-        private void Awake()
+        public void Initialize(GameController ctrl)
         {
-            
+            ctrl.Scheduler.ActorDebugEvent += UpdateActiveActor;
         }
 
-        private void Update()
+        private void UpdateActiveActor(Actor actor)
         {
-            
+            activeActor.text = actor.ToString();
         }
     }
 }

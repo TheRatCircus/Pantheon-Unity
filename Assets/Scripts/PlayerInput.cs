@@ -42,11 +42,16 @@ namespace Pantheon
         private Entity playerEntity;
         private Actor playerActor;
 
+        public bool SendingInput { get; set; } = true;
+
         public List<Cell> AutoMovePath { get; set; }
             = new List<Cell>();
 
         private void Update()
         {
+            if (!SendingInput)
+                return;
+
             if (!Input.anyKeyDown)
                 return;
 

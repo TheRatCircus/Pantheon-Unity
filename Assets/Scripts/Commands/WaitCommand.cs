@@ -12,5 +12,10 @@ namespace Pantheon.Commands
             => this.waitTime = waitTime;
 
         public override int Execute() => waitTime;
+
+        public override string ToString()
+        {
+            return $"{Entity} waiting for {waitTime} ticks.";
+        }
     }
 }

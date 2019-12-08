@@ -1,6 +1,8 @@
 ﻿// Pathfinder.cs
 // Courtesy of Sebastian Lague
 
+#define DEBUG_PF
+
 using Pantheon.World;
 using System;
 using System.Collections.Generic;
@@ -59,7 +61,10 @@ namespace Pantheon
             List<Cell> cellPath = new List<Cell>(nodes.Count);
 
             foreach (Node n in nodes)
+            {
                 cellPath.Add(n.Cell);
+                DebugVisualize(n.Cell);
+            }
 
             return cellPath;
         }
@@ -73,7 +78,8 @@ namespace Pantheon
                 throw new ArgumentException(
                     $"No node at {targetPos}.");
 
-            if (targetNode.Cell.Blocked)
+            // TODO: Find adjacent free node?
+            if (targetNode.Cell.Terrain.Blocked)
                 return null;
 
             List<Node> openSet = new List<Node>();
@@ -108,8 +114,10 @@ namespace Pantheon
                 Profiler.BeginSample("Pathfind: Neighbour Search");
                 foreach (Node neighbour in GetNeighbours(currentNode))
                 {
-                    if (neighbour.Cell.Blocked || closedSet.Contains(neighbour))
+                    if (neighbour.Cell.Terrain.Blocked || closedSet.Contains(neighbour))
                         continue;
+
+                    DebugVisualize(neighbour.Cell);
 
                     int newMoveCostToNeighbour = currentNode.GCost +
                         GetDistance(currentNode, neighbour);
@@ -155,6 +163,12 @@ namespace Pantheon
                 return 14 * dY + 10 * (dX - dY);
             else
                 return 14 * dX + 10 * (dY - dX);
+        }
+
+        [System.Diagnostics.Conditional("DEBUG_PF")]
+        private void DebugVisualize(Cell cell)
+        {
+            Debug.Visualisation.MarkCell(cell, 10);
         }
     }
 }

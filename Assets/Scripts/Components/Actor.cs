@@ -28,6 +28,8 @@ namespace Pantheon.Components
         private ActorCommand command;
         public ActorCommand Command { get => command; set => command = value; }
 
+        public event Action AIDecisionEvent;
+
         [SerializeField] public ActorControl control = default;
         [JsonIgnore] public ActorControl Control
         {
@@ -44,7 +46,7 @@ namespace Pantheon.Components
         {
             if (Control == ActorControl.AI)
             {
-
+                AIDecisionEvent?.Invoke();
             }
 
             if (Command != null)
@@ -61,7 +63,7 @@ namespace Pantheon.Components
 
         public override string ToString()
         {
-            return $"Actor - Speed: {Speed} Command: {Command}";
+            return $"Actor ({Control}) - Energy: {Energy}";
         }
     }
 }

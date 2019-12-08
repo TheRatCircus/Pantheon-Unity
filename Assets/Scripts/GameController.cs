@@ -24,6 +24,7 @@ namespace Pantheon.Core
         [SerializeField] private UI.Cursor cursor = default;
         public UI.Cursor Cursor => cursor;
         [SerializeField] private GameLog log = default;
+        public GameLog Log => log;
         private PlayerInput playerInput = default;
 
         public GameWorld World { get; private set; }
@@ -43,7 +44,7 @@ namespace Pantheon.Core
 
         public void InjectStaticDependencies()
         {
-            AI.Init(Player, log);
+            AI.InjectController(this);
             Spawn.Init(Scheduler, gameObjectPrefab);
             GameWorld.InjectController(this);
             LevelGenerator.InjectController(this);
@@ -108,7 +109,11 @@ namespace Pantheon.Core
         /// <param name="refreshFOV"></param>
         private void LoadLevel(Level level, bool refreshFOV)
         {
-            level.AssignToGameObject(Instantiate(levelPrefab, worldTransform).transform);
+            Scheduler.Queue.Clear();
+
+            World.ActiveLevel = level;
+
+            level.AssignGameObject(Instantiate(levelPrefab, worldTransform).transform);
 
             if (refreshFOV)
                 FOV.RefreshFOV(level, Player.Cell.Position);
@@ -138,7 +143,7 @@ namespace Pantheon.Core
 
         public void AllowInputToCharacter(bool allow)
         {
-            
+            playerInput.SendingInput = allow;
         }
 
         private void SaveGame()

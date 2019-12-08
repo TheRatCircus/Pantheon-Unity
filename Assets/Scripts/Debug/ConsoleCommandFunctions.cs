@@ -1,9 +1,11 @@
 ﻿// ConsoleCommandFunctions.cs
 // Jerome Martina
 
+using Pantheon.Components;
 using Pantheon.Core;
 using Pantheon.World;
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Pantheon.Debug
@@ -46,6 +48,31 @@ namespace Pantheon.Debug
             }
 
             return "Level revealed.";
+        }
+
+        public static string Spawn(string[] args, GameController ctrl)
+        {
+            EntityTemplate template = ctrl.Loader.LoadTemplate(args[0]);
+            if (Array.Exists(template.Components, ec => { return ec is Actor; }))
+            {
+                Entity e = Core.Spawn.SpawnActor(template,
+                    ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell);
+                Core.Spawn.AssignGameObject(e);
+            }                
+            else
+                throw new NotImplementedException();
+
+            return $"Spawned {template.ID} at {ctrl.Cursor.HoveredCell}.";
+        }
+
+        public static string TurnOrder(string[] args, GameController ctrl)
+        {
+            string ret = "";
+
+            foreach (Actor actor in ctrl.Scheduler.Queue)
+                ret += $"{actor}{Environment.NewLine}";
+
+            return ret;
         }
     }
 }

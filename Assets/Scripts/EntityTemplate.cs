@@ -9,7 +9,8 @@ namespace Pantheon
 {
     public sealed class EntityTemplate
     {
-        public string Name { get; set; } = "DEFAULT_TEMPLATE_NAME";
+        public string ID { get; set; } = "DEFAULT_TEMPLATE_ID";
+        public string EntityName { get; set; } = "DEFAULT_ENTITY_NAME";
         public Sprite Sprite { get; set; } = default;
         public EntityComponent[] Components { get; set; }
 
@@ -20,7 +21,7 @@ namespace Pantheon
 
         public override string ToString()
         {
-            string ret = $"{Name}{NewLine}";
+            string ret = $"{EntityName}{NewLine}";
             foreach (EntityComponent bc in Components)
             {
                 ret += bc.ToString();

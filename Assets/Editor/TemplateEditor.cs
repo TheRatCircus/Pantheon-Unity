@@ -20,6 +20,7 @@ namespace PantheonEditor
         }
 
         public string templateName = "Template Name";
+        public string templateID = "Template ID";
         public Sprite sprite = default;
 
         public Actor actor;
@@ -47,6 +48,7 @@ namespace PantheonEditor
             componentsIncluded[0] = EditorGUILayout.Toggle("Actor", componentsIncluded[0]);
             componentsIncluded[1] = EditorGUILayout.Toggle("AI", componentsIncluded[1]);
 
+            EditorGUILayout.PropertyField(obj.FindProperty("templateID"));
             EditorGUILayout.PropertyField(obj.FindProperty("templateName"));
             EditorGUILayout.PropertyField(obj.FindProperty("sprite"));
 
@@ -87,12 +89,14 @@ namespace PantheonEditor
 
             EntityTemplate template = new EntityTemplate(comps.ToArray())
             {
-                Name = templateName,
+                ID = templateID,
+                EntityName = templateName,
                 Sprite = sprite
             };
 
             string json = JsonConvert.SerializeObject(template, settings);
-            File.WriteAllText(Application.dataPath + $"/{name}.json", json);
+            File.WriteAllText(Application.dataPath + $"/{templateID}.json", json);
+            Debug.Log("Wrote template to " + Application.dataPath + $"/{templateID}.json");
         }
     }
 }

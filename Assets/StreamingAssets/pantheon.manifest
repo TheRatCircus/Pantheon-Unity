@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 280055849
+CRC: 2652670940
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 55e9207c5486a31b24c9c9840d3088d6
+    Hash: 8a0ee86e0d725b8dd22df05efa72553b
   TypeTreeHash:
     serializedVersion: 2
     Hash: ff5d8a1e668779000505bb0c4b3902cd
@@ -40,12 +40,14 @@ ClassTypes:
 - Class: 213
   Script: {instanceID: 0}
 Assets:
+- Assets/Sprites/Actors/Sprite_Goose.png
 - Assets/Content/Terrain/Terrain_StoneWall.asset
 - Assets/BuilderPlans/Step_Fill_Grass.asset
-- Assets/Sprites/Actors/PlayerCharacter.png
+- Assets/Sprites/Actors/Sprite_Player.png
 - Assets/Content/Templates/Player.json
 - Assets/BuilderPlans/Step_RandomFill_StoneWall.asset
 - Assets/Prefabs/EntityGameObject.prefab
 - Assets/Content/Terrain/Terrain_Grass.asset
+- Assets/Content/Templates/RagingGoose.json
 - Assets/BuilderPlans/Plan_Valley.asset
 Dependencies: []

@@ -14,13 +14,14 @@ namespace Pantheon.Debug
     /// <summary>
     /// Takes commands for in-game debugging.
     /// </summary>
-    public class Console : MonoBehaviour
+    public sealed class Console : MonoBehaviour
     {
         [SerializeField] private GuidReference ctrlRef = default;
         [SerializeField] private GameController controller = default;
         [SerializeField] private GameObject console = default;
         [SerializeField] private Text consoleLog = default;
         [SerializeField] private InputField input = default;
+        [SerializeField] private DebugInfo debugInfo = default;
 
         private List<string> logEntries = new List<string>();
 
@@ -30,7 +31,9 @@ namespace Pantheon.Debug
                 { "list_layers", new ConsoleCommand(ListLayers) },
                 { "list_levels", new ConsoleCommand(ListLevels) },
                 { "loaded_assets", new ConsoleCommand(LoadedAssets) },
-                { "reveal_level", new ConsoleCommand(RevealLevel) }
+                { "reveal_level", new ConsoleCommand(RevealLevel) },
+                { "spawn", new ConsoleCommand(Spawn) },
+                { "turn_order", new ConsoleCommand(TurnOrder) }
             };
 
         private void Awake()
@@ -39,6 +42,8 @@ namespace Pantheon.Debug
             GameObject ctrlObj = ctrlRef.gameObject;
             controller = ctrlObj.GetComponent<GameController>();
             Profiler.EndSample();
+
+            debugInfo.Initialize(controller);
         }
 
         // Update is called once per frame

@@ -31,7 +31,7 @@ namespace Pantheon.World
         [NonSerialized] private Tilemap splatter;
         [NonSerialized] private Tilemap items;
 
-        public void AssignToGameObject(Transform transform)
+        public void AssignGameObject(Transform transform)
         {
             this.transform = transform;
             entitiesTransform = transform.Find("Entities");
@@ -86,7 +86,13 @@ namespace Pantheon.World
             return (int)Mathf.Sqrt(Mathf.Pow(dx, 2) + Mathf.Pow(dy, 2));
         }
 
-        public bool AdjacentTo(Cell a, Cell b) => Distance(a, b) <= 1;
+        public bool AdjacentTo(Cell a, Cell b)
+        {
+            if (a.Equals(b))
+                throw new ArgumentException("Argument cells are the same.");
+
+            return Distance(a, b) <= 1;
+        }
 
         public List<Cell> GetPathTo(Cell origin, Cell target)
             => PF.CellPathList(origin.Position, target.Position);

@@ -42,12 +42,23 @@ namespace Pantheon
 
         public Entity(EntityTemplate template)
         {
-            Name = template.Name;
+            Name = template.EntityName;
             Sprite = template.Sprite;
             foreach (EntityComponent component in template.Components)
                 Components.Add(component.GetType(), component);
 
             Components.Add(typeof(Location), new Location());
+            ConnectComponents();
+        }
+
+        private void ConnectComponents()
+        {
+            if (TryGetComponent(out AI ai))
+            {
+                ai.Entity = this;
+                Actor actor = GetComponent<Actor>();
+                ai.SetActor(actor);
+            }
         }
 
         public T GetComponent<T>() where T : EntityComponent
@@ -90,5 +101,7 @@ namespace Pantheon
                 GameObjects[0].transform.position = cell.Position.ToVector3();
             cell.Actor = this;
         }
+
+        public override string ToString() => Name;
     }
 }

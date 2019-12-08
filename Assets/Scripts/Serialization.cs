@@ -29,7 +29,8 @@ namespace Pantheon
             {
                 KnownTypes = new List<Type>()
                 {
-                    typeof(Actor)
+                    typeof(Actor),
+                    typeof(AI)
                 }
             };
     }

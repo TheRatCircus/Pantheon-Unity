@@ -1,8 +1,10 @@
 ﻿// AI.cs
 // Jerome Martina
 
+#define DEBUG_AI
+
 using Pantheon.Commands;
-using Pantheon.UI;
+using Pantheon.Core;
 using Pantheon.Utils;
 using Pantheon.World;
 using UnityEngine;
@@ -12,17 +14,21 @@ namespace Pantheon.Components
     [System.Serializable]
     public sealed class AI : EntityComponent
     {
-        private static Entity player;
-        private static GameLog log;
+        private static GameController ctrl;
 
         public Entity Entity { get; set; }
-        public Actor Actor { get; set; }
+        public Actor Actor { get; private set; }
         public Entity Target { get; set; }
 
-        public static void Init(Entity player, GameLog log)
+        public static void InjectController(GameController ctrl)
         {
-            AI.player = player;
-            AI.log = log;
+            AI.ctrl = ctrl;
+        }
+
+        public void SetActor(Actor actor)
+        {
+            Actor = actor;
+            actor.AIDecisionEvent += DecideCommand;
         }
 
         public void DecideCommand()
@@ -36,7 +42,7 @@ namespace Pantheon.Components
 
             if (Target != null) // Player detected
             {
-                Cell targetCell = Entity.Cell;
+                Cell targetCell = Target.Cell;
 
                 if (Entity.Level.AdjacentTo(Entity.Cell, targetCell))
                     Actor.Command = new MeleeCommand(Entity, TurnScheduler.TurnTime, targetCell);
@@ -47,13 +53,20 @@ namespace Pantheon.Components
             {
                 if (Entity.Cell.Visible) // Detect player and begin approach
                 {
-                    Target = player;
+                    Target = ctrl.Player;
                     Actor.Command = MoveCommand.MoveOrWait(Entity, Target.Cell);
-                    log.Send($"The {Entity.Name} notices you!", Colours._orange);
+                    ctrl.Log.Send($"The {Entity.Name} notices you!", Colours._orange);
                 }
-                else // Sleep
-                    Actor.Command = new WaitCommand(Entity);
+                else
+                    Actor.Command = new WaitCommand(Entity); // Sleep
             }
+            LogAI();
+        }
+
+        [System.Diagnostics.Conditional("DEBUG_AI")]
+        private void LogAI()
+        {
+            UnityEngine.Debug.Log($"{Entity} command: {Actor.Command}");
         }
     }
 }

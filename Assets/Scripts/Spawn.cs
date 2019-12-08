@@ -32,7 +32,6 @@ namespace Pantheon.Core
             Entity entity = new Entity(template);
             scheduler.AddActor(entity.GetComponent<Actor>());
             entity.Move(level, cell);
-            //entity.GameObjects[0] = AssignGameObject(entity);
             return entity;
         }
 

@@ -1,0 +1,19 @@
+{
+  "ID": "RagingGoose",
+  "EntityName": "raging goose",
+  "Sprite": "Sprite_Goose",
+  "Components": [
+    {
+      "$type": "Actor",
+      "control": "AI",
+      "Speed": 100,
+      "Command": null
+    },
+    {
+      "$type": "AI",
+      "Entity": null,
+      "Actor": null,
+      "Target": null
+    }
+  ]
+}
