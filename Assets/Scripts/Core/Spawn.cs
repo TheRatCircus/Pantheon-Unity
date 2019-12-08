@@ -11,13 +11,12 @@ namespace Pantheon.Core
     /// <summary> Functions for spawning entities. </summary>
     public static class Spawn
     {
-        private static GameObject gameObjPrefab;
-        private static TurnScheduler scheduler;
+        private static GameController ctrl;
 
-        public static void Init(TurnScheduler scheduler, GameObject gameObjPrefab)
+        public static void InjectController(GameController ctrl)
         {
-            Spawn.gameObjPrefab = gameObjPrefab;
-            Spawn.scheduler = scheduler;
+            if (Spawn.ctrl == null)
+                Spawn.ctrl = ctrl;
         }
 
         /// <summary>
@@ -30,15 +29,17 @@ namespace Pantheon.Core
         public static Entity SpawnActor(EntityTemplate template, Level level, Cell cell)
         {
             Entity entity = new Entity(template);
-            scheduler.AddActor(entity.GetComponent<Actor>());
+            ctrl.Scheduler.AddActor(entity.GetComponent<Actor>());
             entity.Move(level, cell);
+            if (entity.Cell.Visible)
+                ctrl.PlayerControl.VisibleActors.Add(entity);
             return entity;
         }
 
         public static void AssignGameObject(Entity entity)
         {
             GameObject entityObj = Object.Instantiate(
-                gameObjPrefab,
+                ctrl.GameObjectPrefab,
                 entity.Cell.Position.ToVector3(),
                 new Quaternion(),
                 entity.Level.EntitiesTransform);
@@ -48,6 +49,9 @@ namespace Pantheon.Core
             wrapper.Entity = entity;
             SpriteRenderer sr = entityObj.GetComponent<SpriteRenderer>();
             sr.sprite = entity.Flyweight.Sprite;
+
+            if (!entity.Cell.Visible)
+                sr.enabled = false; 
 
             entity.GameObjects = new GameObject[1];
             entity.GameObjects[0] = entityObj;

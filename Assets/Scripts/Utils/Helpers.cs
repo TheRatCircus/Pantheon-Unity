@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Vector2Int = UnityEngine.Vector2Int;
 
@@ -18,7 +19,6 @@ namespace Pantheon.Utils
         public static Vector2Int ToVector2Int(this Vector3Int v3i)
             => new Vector2Int(v3i.x, v3i.y);
 
-        // Swap two references
         public static void Swap<T>(ref T lhs, ref T rhs)
         {
             T temp;
@@ -190,6 +190,28 @@ namespace Pantheon.Utils
 
         public static Vector2Int Quotient(this Vector2Int vector, int divisor)
             => new Vector2Int(vector.x / divisor, vector.y / divisor);
+
+        public static void SetSpriteVisibility(this GameObject gameObject, bool visible)
+        {
+            gameObject.GetComponent<SpriteRenderer>().enabled = visible;
+        }
+
+        /// <summary>
+        /// Add a collection of items to a HashSet.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="set"></param>
+        /// <param name="add"></param>
+        /// <returns>The number of successful additions.</returns>
+        public static int AddMany<T>(this HashSet<T> set, IEnumerable<T> add)
+        {
+            int adds = 0;
+            foreach (T t in add)
+            {
+                if (set.Add(t))
+                    adds++;
+            }
+            return adds;
+        }
     }
 }
-

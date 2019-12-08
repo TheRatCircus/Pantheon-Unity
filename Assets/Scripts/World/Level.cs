@@ -1,6 +1,7 @@
 ﻿// Level.cs
 // Jerome Martina
 
+using Pantheon.Utils;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -124,21 +125,18 @@ namespace Pantheon.World
         public void Draw(IEnumerable<Cell> cells)
         {
             foreach (Cell c in cells)
-            {
-                if (c.Revealed)
-                {
-                    terrain.SetTile((Vector3Int)c.Position, c.Terrain.Tile);
-                    terrain.SetColor((Vector3Int)c.Position, c.Visible ? Color.white : Color.grey);
-                }
-            }
+                DrawTile(c);
         }
 
-        public void DrawTile(Cell c)
+        public void DrawTile(Cell cell)
         {
-            if (c.Revealed)
+            if (cell.Revealed)
             {
-                terrain.SetTile((Vector3Int)c.Position, c.Terrain.Tile);
-                terrain.SetColor((Vector3Int)c.Position, c.Visible ? Color.white : Color.grey);
+                terrain.SetTile((Vector3Int)cell.Position, cell.Terrain.Tile);
+                terrain.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
+
+                if (cell.Actor != null)
+                    cell.Actor.GameObjects[0].SetSpriteVisibility(cell.Visible);
             }
         }
 

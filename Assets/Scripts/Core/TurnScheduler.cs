@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Pantheon.Components;
+using Pantheon.World;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -87,6 +88,15 @@ namespace Pantheon.Core
                 // An action has just been done
                 actor.Energy -= actionCost;
                 ActionDoneEvent?.Invoke();
+                
+                // If actor was player or visible, refresh FOV
+                if (actor.Control == ActorControl.Player ||
+                    ctrl.PlayerControl.ActorIsVisible(actor))
+                {
+                    HashSet<Cell> refreshed = FOV.RefreshFOV(
+                        ctrl.Player.Level, ctrl.Player.Cell.Position, true);
+                    ctrl.PlayerControl.RecalculateVisible(refreshed);
+                }
 
                 if (actor.Control == ActorControl.Player)
                 {
@@ -103,7 +113,6 @@ namespace Pantheon.Core
                     }
                     // Signals a successful player action to HUD
                     PlayerActionEvent?.Invoke(actor.Energy);
-                    FOV.RefreshFOV(ctrl.Player.Level, ctrl.Player.Cell.Position);
                 }
                 // Action may have added a lock
                 if (lockCount > 0)

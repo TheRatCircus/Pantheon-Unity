@@ -17,6 +17,7 @@ namespace Pantheon.Core
         [SerializeField] private GameObject levelPrefab = default;
         public GameObject LevelPrefab => levelPrefab;
         [SerializeField] private GameObject gameObjectPrefab = default;
+        public GameObject GameObjectPrefab => gameObjectPrefab;
         [SerializeField] private Transform worldTransform = default;
         public Transform WorldTransform => worldTransform;
 
@@ -25,7 +26,7 @@ namespace Pantheon.Core
         public UI.Cursor Cursor => cursor;
         [SerializeField] private GameLog log = default;
         public GameLog Log => log;
-        private PlayerInput playerInput = default;
+        public PlayerControl PlayerControl { get; private set; }
 
         public GameWorld World { get; private set; }
         public AssetLoader Loader { get; private set; }
@@ -33,19 +34,23 @@ namespace Pantheon.Core
         public TurnScheduler Scheduler { get; private set; }
         private SaveWriterReader saveSystem;
 
-        public Entity Player { get; set; }
+        public Entity Player
+        {
+            get => PlayerControl.PlayerEntity;
+            set => PlayerControl.PlayerEntity = value;
+        }
 
         private void OnEnable()
         {
             Loader = GetComponent<AssetLoader>();
             Scheduler = GetComponent<TurnScheduler>();
-            playerInput = GetComponent<PlayerInput>();
+            PlayerControl = GetComponent<PlayerControl>();
         }
 
         public void InjectStaticDependencies()
         {
             AI.InjectController(this);
-            Spawn.Init(Scheduler, gameObjectPrefab);
+            Spawn.InjectController(this);
             GameWorld.InjectController(this);
             LevelGenerator.InjectController(this);
         }
@@ -68,8 +73,7 @@ namespace Pantheon.Core
             // Spawn the player
             EntityTemplate template = Loader.LoadTemplate("Player");
             Entity player = Spawn.SpawnActor(template, level, level.RandomCell(true));
-            playerInput.SetPlayerEntity(player);
-            
+
             Player = player;
 
             LoadLevel(level, true);
@@ -87,7 +91,6 @@ namespace Pantheon.Core
             Generator = save.Generator;
             Player = save.Player;
 
-            playerInput.SetPlayerEntity(Player);
             LoadLevel(Player.Level, false);
             MoveCameraTo(Player.GameObjects[0].transform);
             cursor.Level = Player.Level;
@@ -103,7 +106,7 @@ namespace Pantheon.Core
         }
 
         /// <summary>
-        /// 
+        /// Clear turn queue, set active level, create GameObject, draw level.
         /// </summary>
         /// <param name="level"></param>
         /// <param name="refreshFOV"></param>
@@ -116,16 +119,16 @@ namespace Pantheon.Core
             level.AssignGameObject(Instantiate(levelPrefab, worldTransform).transform);
 
             if (refreshFOV)
-                FOV.RefreshFOV(level, Player.Cell.Position);
+                FOV.RefreshFOV(level, Player.Cell.Position, false);
 
             foreach (Cell c in level.Map.Values)
             {
-                level.DrawTile(c);
                 if (c.Actor != null)
                 {
                     Spawn.AssignGameObject(c.Actor);
                     Scheduler.AddActor(c.Actor.GetComponent<Actor>());
                 }
+                level.DrawTile(c);
             }
         }
 
@@ -143,7 +146,7 @@ namespace Pantheon.Core
 
         public void AllowInputToCharacter(bool allow)
         {
-            playerInput.SendingInput = allow;
+            PlayerControl.SendingInput = allow;
         }
 
         private void SaveGame()

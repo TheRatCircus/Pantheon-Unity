@@ -1,4 +1,4 @@
-﻿// PlayerInput.cs
+﻿// PlayerControl.cs
 // Jerome Martina
 
 using Pantheon.Commands;
@@ -35,15 +35,26 @@ namespace Pantheon.Core
         }
     }
 
-    public sealed class PlayerInput : MonoBehaviour
+    public sealed class PlayerControl : MonoBehaviour
     {
         [SerializeField] private UI.Cursor cursor = default;
 
-        private Entity playerEntity;
-        private Actor playerActor;
-
         public bool SendingInput { get; set; } = true;
 
+        private Entity playerEntity;
+        public Entity PlayerEntity
+        {
+            get => playerEntity;
+            set
+            {
+                playerEntity = value;
+                playerActor = value.GetComponent<Actor>();
+            }
+        }
+        private Actor playerActor;
+
+        public HashSet<Entity> VisibleActors { get; private set; }
+            = new HashSet<Entity>();
         public List<Cell> AutoMovePath { get; set; }
             = new List<Cell>();
 
@@ -61,7 +72,7 @@ namespace Pantheon.Core
             // Set automove path
             if (Input.GetMouseButtonDown(0))
             {
-                AutoMovePath = playerEntity.Level.GetPathTo(playerEntity.Cell, cursor.HoveredCell);
+                AutoMovePath = PlayerEntity.Level.GetPathTo(PlayerEntity.Cell, cursor.HoveredCell);
                 return;
             }
 
@@ -118,19 +129,33 @@ namespace Pantheon.Core
             switch (msg.type)
             {
                 case InputType.Direction:
-                    playerActor.Command = new MoveCommand(playerEntity, msg.vector,
+                    playerActor.Command = new MoveCommand(PlayerEntity, msg.vector,
                         TurnScheduler.TurnTime);
                     break;
                 case InputType.Wait:
-                    playerActor.Command = new WaitCommand(playerEntity);
+                    playerActor.Command = new WaitCommand(PlayerEntity);
                     break;
             }
         }
 
-        public void SetPlayerEntity(Entity playerEntity)
+        public void RecalculateVisible(IEnumerable<Cell> cells)
         {
-            this.playerEntity = playerEntity;
-            playerActor = this.playerEntity.GetComponent<Actor>();
+            VisibleActors.Clear();
+            foreach (Cell c in cells)
+            {
+                if (c.Actor != null
+                    && c.Actor.GetComponent<Actor>().Control != ActorControl.Player)
+                    VisibleActors.Add(c.Actor);
+            }
+        }
+
+        public bool ActorIsVisible(Actor actor)
+        {
+            foreach (Entity visibleActor in VisibleActors)
+                if (visibleActor.GetComponent<Actor>() == actor)
+                    return true;
+
+            return false;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿// FOV.cs
 // Courtesy of Bob Nystrom
 
+using Pantheon.Utils;
 using Pantheon.World;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,21 +14,25 @@ namespace Pantheon.Core
         public const int FOVRadius = 15;
 
         /// <summary>
-        /// Change visibility and reveal new cells. Only call when a player acts.
+        /// Change visibility and reveal new cells.
         /// <param name="level"></param>
         /// </summary>
-        public static List<Cell> RefreshFOV(Level level, Vector2Int origin)
+        /// <returns>A HashSet of all cells affected by the refresh.</returns>
+        public static HashSet<Cell> RefreshFOV(Level level, Vector2Int origin,
+            bool drawChanges)
         {
-            List<Cell> allRefreshed = new List<Cell>();
+            HashSet<Cell> allRefreshed = new HashSet<Cell>();
             for (int octant = 0; octant < 8; octant++)
             {
                 List<Cell> refreshed = ShadowOctant(level,
                     origin, octant);
 
-                allRefreshed.AddRange(refreshed);
+                allRefreshed.AddMany(refreshed);
             }
 
-            level.Draw(allRefreshed);
+            if (drawChanges)
+                level.Draw(allRefreshed);
+
             return allRefreshed;
         }
 

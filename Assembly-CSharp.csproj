@@ -79,7 +79,7 @@
     <Compile Include="Assets\Scripts\Components\Location.cs" />
     <Compile Include="Assets\Scripts\Core\AssetLoader.cs" />
     <Compile Include="Assets\Scripts\Core\GameController.cs" />
-    <Compile Include="Assets\Scripts\Core\PlayerInput.cs" />
+    <Compile Include="Assets\Scripts\Core\PlayerControl.cs" />
     <Compile Include="Assets\Scripts\Core\Spawn.cs" />
     <Compile Include="Assets\Scripts\Core\TurnScheduler.cs" />
     <Compile Include="Assets\Scripts\Debug\Console.cs" />
