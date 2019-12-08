@@ -1,6 +1,7 @@
 {
   "Name": "Player",
   "Sprite": "Sprite_Player",
+  "Tile": "Tile_Player",
   "Components": [
     {
       "$type": "Actor",

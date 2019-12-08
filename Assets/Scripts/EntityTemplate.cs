@@ -4,6 +4,7 @@
 using static System.Environment;
 using Pantheon.Components;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Pantheon
 {
@@ -12,6 +13,7 @@ namespace Pantheon
         public string ID { get; set; } = "DEFAULT_TEMPLATE_ID";
         public string EntityName { get; set; } = "DEFAULT_ENTITY_NAME";
         public Sprite Sprite { get; set; } = default;
+        public Tile Tile { get; set; } = default;
         public EntityComponent[] Components { get; set; }
 
         public EntityTemplate(params EntityComponent[] components)

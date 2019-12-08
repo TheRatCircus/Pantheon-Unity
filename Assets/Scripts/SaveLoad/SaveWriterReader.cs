@@ -28,7 +28,7 @@ namespace Pantheon.SaveLoad
                 new Vector2IntSurrogate());
             selector.AddSurrogate(typeof(ScriptableObject),
                 new StreamingContext(StreamingContextStates.All),
-                new ScriptableObjectSurrogate(loader));
+                new EntityTemplateSurrogate(loader));
             selector.AddSurrogate(typeof(TerrainDefinition),
                 new StreamingContext(StreamingContextStates.All),
                 new TerrainDefSurrogate(loader));

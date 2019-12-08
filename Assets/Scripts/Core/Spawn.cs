@@ -47,7 +47,7 @@ namespace Pantheon.Core
             EntityWrapper wrapper = entityObj.GetComponent<EntityWrapper>();
             wrapper.Entity = entity;
             SpriteRenderer sr = entityObj.GetComponent<SpriteRenderer>();
-            sr.sprite = entity.Sprite;
+            sr.sprite = entity.Flyweight.Sprite;
 
             entity.GameObjects = new GameObject[1];
             entity.GameObjects[0] = entityObj;

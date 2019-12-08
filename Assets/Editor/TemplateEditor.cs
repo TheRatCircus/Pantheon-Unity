@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace PantheonEditor
 {
@@ -22,6 +23,7 @@ namespace PantheonEditor
         public string templateName = "Template Name";
         public string templateID = "Template ID";
         public Sprite sprite = default;
+        public Tile tile = default;
 
         public Actor actor;
         public AI ai;
@@ -51,6 +53,7 @@ namespace PantheonEditor
             EditorGUILayout.PropertyField(obj.FindProperty("templateID"));
             EditorGUILayout.PropertyField(obj.FindProperty("templateName"));
             EditorGUILayout.PropertyField(obj.FindProperty("sprite"));
+            EditorGUILayout.PropertyField(obj.FindProperty("tile"));
 
             if (componentsIncluded[0])
                 EditorGUILayout.PropertyField(obj.FindProperty("actor"), new GUIContent("Actor"), true);
@@ -91,7 +94,8 @@ namespace PantheonEditor
             {
                 ID = templateID,
                 EntityName = templateName,
-                Sprite = sprite
+                Sprite = sprite,
+                Tile = tile
             };
 
             string json = JsonConvert.SerializeObject(template, settings);

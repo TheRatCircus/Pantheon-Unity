@@ -2,6 +2,7 @@
   "ID": "RagingGoose",
   "EntityName": "raging goose",
   "Sprite": "Sprite_Goose",
+  "Tile": "Tile_Goose",
   "Components": [
     {
       "$type": "Actor",

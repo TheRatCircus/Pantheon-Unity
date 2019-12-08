@@ -24,7 +24,7 @@ namespace Pantheon
             set => gameObjects = value;
         }
 
-        public Sprite Sprite { get; set; }
+        public EntityTemplate Flyweight { get; set; }
 
         public Dictionary<Type, EntityComponent> Components { get; private set; }
             = new Dictionary<Type, EntityComponent>();
@@ -43,7 +43,7 @@ namespace Pantheon
         public Entity(EntityTemplate template)
         {
             Name = template.EntityName;
-            Sprite = template.Sprite;
+            Flyweight = template;
             foreach (EntityComponent component in template.Components)
                 Components.Add(component.GetType(), component);
 

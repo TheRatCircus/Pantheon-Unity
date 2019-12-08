@@ -6,11 +6,14 @@ using System.Runtime.Serialization;
 using Pantheon;
 using Pantheon.Core;
 
-public sealed class ScriptableObjectSurrogate : ISerializationSurrogate
+// Classes used to allow types not marked with SerializableAttribute to pass
+// through the BinaryFormatter used in game saves.
+
+public sealed class EntityTemplateSurrogate : ISerializationSurrogate
 {
     private AssetLoader Loader;
 
-    public ScriptableObjectSurrogate(AssetLoader loader)
+    public EntityTemplateSurrogate(AssetLoader loader)
     {
         Loader = loader;
     }
@@ -18,16 +21,16 @@ public sealed class ScriptableObjectSurrogate : ISerializationSurrogate
     public void GetObjectData(object obj, SerializationInfo info,
         StreamingContext context)
     {
-        ScriptableObject so = (ScriptableObject)obj;
-        info.AddValue("id", so.name);
+        EntityTemplate et = (EntityTemplate)obj;
+        info.AddValue("id", et.ID);
     }
 
     public object SetObjectData(object obj, SerializationInfo info,
         StreamingContext context, ISurrogateSelector selector)
     {
-        ScriptableObject so = (ScriptableObject)obj;
-        so = Loader.Load<ScriptableObject>((string)info.GetValue("id", typeof(string)));
-        obj = so;
+        EntityTemplate et = (EntityTemplate)obj;
+        et = Loader.LoadTemplate(info.GetString("id"));
+        obj = et;
         return obj;
     }
 }
