@@ -79,6 +79,7 @@
     <Compile Include="Assets\Scripts\Components\Health.cs" />
     <Compile Include="Assets\Scripts\Components\Location.cs" />
     <Compile Include="Assets\Scripts\Core\AssetLoader.cs" />
+    <Compile Include="Assets\Scripts\Core\FOV.cs" />
     <Compile Include="Assets\Scripts\Core\GameController.cs" />
     <Compile Include="Assets\Scripts\Core\PlayerControl.cs" />
     <Compile Include="Assets\Scripts\Core\Spawn.cs" />
@@ -124,7 +125,6 @@
     <Compile Include="Assets\Scripts\Utils\RandomUtils.cs" />
     <Compile Include="Assets\Scripts\Utils\Scenes.cs" />
     <Compile Include="Assets\Scripts\World\Cell.cs" />
-    <Compile Include="Assets\Scripts\World\FOV.cs" />
     <Compile Include="Assets\Scripts\World\GameWorld.cs" />
     <Compile Include="Assets\Scripts\World\Layer.cs" />
     <Compile Include="Assets\Scripts\World\Level.cs" />
