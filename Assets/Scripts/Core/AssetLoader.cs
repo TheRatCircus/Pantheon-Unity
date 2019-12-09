@@ -32,7 +32,8 @@ namespace Pantheon.Core
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
-                    new SpriteConverter(this)
+                    new SpriteConverter(this),
+                    new RuleTileConverter(this)
                 }
             };
         }

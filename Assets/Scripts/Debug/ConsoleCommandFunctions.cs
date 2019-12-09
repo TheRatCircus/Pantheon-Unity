@@ -74,5 +74,21 @@ namespace Pantheon.Debug
 
             return ret;
         }
+
+        public static string DescribeComponent(string[] args, GameController ctrl)
+        {
+            Entity e = ctrl.Cursor.HoveredCell.Actor;
+            switch (args[0].ToLower())
+            {
+                case "actor":
+                    return e.GetComponent<Actor>().ToString();
+                case "ai":
+                    return e.GetComponent<AI>().ToString();
+                case "health":
+                    return e.GetComponent<Health>().ToString();
+                default:
+                    return $"Component of type \"{args[0]}\" not found.";
+            }
+        }
     }
 }

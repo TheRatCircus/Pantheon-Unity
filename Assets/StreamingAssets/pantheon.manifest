@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2652670940
+CRC: 2075233486
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8a0ee86e0d725b8dd22df05efa72553b
+    Hash: 39d058433a12e0b5aebfd6bf213e9611
   TypeTreeHash:
     serializedVersion: 2
-    Hash: ff5d8a1e668779000505bb0c4b3902cd
+    Hash: f6f4fde2ec1350b22b413a3751014170
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -30,9 +30,9 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: 7fb65c8bea67fb74a9f45b17f30b482b, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: cb75a9ae5eb5fbf409969eefff25b73d, type: 3}
-- Class: 114
   Script: {fileID: 11500000, guid: 768cebdd7171c384bb346fa3c0083b7b, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: cb75a9ae5eb5fbf409969eefff25b73d, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 212
@@ -40,14 +40,14 @@ ClassTypes:
 - Class: 213
   Script: {instanceID: 0}
 Assets:
-- Assets/Sprites/Actors/Sprite_Goose.png
+- Assets/Sprites/Actor/Sprite_Goose.png
 - Assets/Content/Terrain/Terrain_StoneWall.asset
 - Assets/BuilderPlans/Step_Fill_Grass.asset
-- Assets/Sprites/Actors/Sprite_Player.png
+- Assets/Sprites/Actor/Sprite_Player.png
 - Assets/Content/Templates/Player.json
 - Assets/BuilderPlans/Step_RandomFill_StoneWall.asset
 - Assets/Prefabs/EntityGameObject.prefab
 - Assets/Content/Terrain/Terrain_Grass.asset
-- Assets/Content/Templates/RagingGoose.json
+- Assets/Content/Templates/NPC/RagingGoose.json
 - Assets/BuilderPlans/Plan_Valley.asset
 Dependencies: []

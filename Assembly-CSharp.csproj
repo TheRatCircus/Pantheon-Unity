@@ -76,6 +76,7 @@
     <Compile Include="Assets\Scripts\Components\Actor.cs" />
     <Compile Include="Assets\Scripts\Components\AI.cs" />
     <Compile Include="Assets\Scripts\Components\EntityComponent.cs" />
+    <Compile Include="Assets\Scripts\Components\Health.cs" />
     <Compile Include="Assets\Scripts\Components\Location.cs" />
     <Compile Include="Assets\Scripts\Core\AssetLoader.cs" />
     <Compile Include="Assets\Scripts\Core\GameController.cs" />

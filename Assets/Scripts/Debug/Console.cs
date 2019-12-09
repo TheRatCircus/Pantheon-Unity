@@ -33,7 +33,8 @@ namespace Pantheon.Debug
                 { "loaded_assets", new ConsoleCommand(LoadedAssets) },
                 { "reveal_level", new ConsoleCommand(RevealLevel) },
                 { "spawn", new ConsoleCommand(Spawn) },
-                { "turn_order", new ConsoleCommand(TurnOrder) }
+                { "turn_order", new ConsoleCommand(TurnOrder) },
+                { "describe_component", new ConsoleCommand(DescribeComponent) }
             };
 
         private void Awake()

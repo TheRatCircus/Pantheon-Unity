@@ -9,6 +9,12 @@
       "Speed": 100,
       "Energy": 0,
       "Command": null
+    },
+    {
+      "$type": "Health",
+      "Max": 10,
+      "RegenTime": 800,
+      "Regenerating": true
     }
   ]
 }

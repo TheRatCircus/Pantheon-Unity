@@ -23,23 +23,22 @@ namespace PantheonEditor
         public string templateName = "Template Name";
         public string templateID = "Template ID";
         public Sprite sprite = default;
-        public Tile tile = default;
+        public RuleTile tile = default;
 
-        public Actor actor;
-        public AI ai;
+        public Actor actor = new Actor();
+        public AI ai = new AI();
+        public Health health = new Health();
 
         private EntityComponent[] components;
-        private bool[] componentsIncluded = new bool[2];
+        private bool[] componentsIncluded = new bool[3];
 
         private void Awake()
         {
-            actor = new Actor();
-            ai = new AI();
-
             components = new EntityComponent[]
             {
                 actor,
-                ai
+                ai,
+                health
             };
         }
 
@@ -49,6 +48,7 @@ namespace PantheonEditor
 
             componentsIncluded[0] = EditorGUILayout.Toggle("Actor", componentsIncluded[0]);
             componentsIncluded[1] = EditorGUILayout.Toggle("AI", componentsIncluded[1]);
+            componentsIncluded[2] = EditorGUILayout.Toggle("Health", componentsIncluded[2]);
 
             EditorGUILayout.PropertyField(obj.FindProperty("templateID"));
             EditorGUILayout.PropertyField(obj.FindProperty("templateName"));
@@ -59,6 +59,8 @@ namespace PantheonEditor
                 EditorGUILayout.PropertyField(obj.FindProperty("actor"), new GUIContent("Actor"), true);
             if (componentsIncluded[1])
                 EditorGUILayout.PropertyField(obj.FindProperty("ai"), new GUIContent("AI"), true);
+            if (componentsIncluded[2])
+                EditorGUILayout.PropertyField(obj.FindProperty("health"), new GUIContent("Health"), true);
 
             obj.ApplyModifiedProperties();
 
@@ -70,8 +72,6 @@ namespace PantheonEditor
 
         private void Serialize()
         {
-            SpriteConverter spriteConverter = new SpriteConverter();
-
             JsonSerializerSettings settings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
@@ -79,7 +79,8 @@ namespace PantheonEditor
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
-                    spriteConverter
+                    new SpriteConverter(),
+                    new RuleTileConverter()
                 }
             };
 
@@ -99,8 +100,9 @@ namespace PantheonEditor
             };
 
             string json = JsonConvert.SerializeObject(template, settings);
-            File.WriteAllText(Application.dataPath + $"/{templateID}.json", json);
-            Debug.Log("Wrote template to " + Application.dataPath + $"/{templateID}.json");
+            string path = Application.dataPath + $"/Content/Templates/{templateID}.json";
+            File.WriteAllText(path, json);
+            Debug.Log($"Wrote template to {path}.");
         }
     }
 }

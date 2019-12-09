@@ -1,0 +1,26 @@
+{
+  "ID": "Coyote",
+  "EntityName": "coyote",
+  "Sprite": "Sprite_Coyote",
+  "Tile": null,
+  "Components": [
+    {
+      "$type": "Actor",
+      "control": "AI",
+      "Speed": 100,
+      "Command": null
+    },
+    {
+      "$type": "AI",
+      "Entity": null,
+      "Actor": null,
+      "Target": null
+    },
+    {
+      "$type": "Health",
+      "Max": 6,
+      "RegenTime": 800,
+      "Regenerating": true
+    }
+  ]
+}
