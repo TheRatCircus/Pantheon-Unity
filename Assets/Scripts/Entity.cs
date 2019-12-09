@@ -45,7 +45,7 @@ namespace Pantheon
             Name = template.EntityName;
             Flyweight = template;
             foreach (EntityComponent component in template.Components)
-                Components.Add(component.GetType(), component);
+                Components.Add(component.GetType(), component.Clone());
 
             Components.Add(typeof(Location), new Location());
             ConnectComponents();

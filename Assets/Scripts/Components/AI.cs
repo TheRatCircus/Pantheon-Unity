@@ -64,6 +64,8 @@ namespace Pantheon.Components
             LogAI();
         }
 
+        public override EntityComponent Clone() => new AI();
+
         [System.Diagnostics.Conditional("DEBUG_AI")]
         private void LogAI()
         {

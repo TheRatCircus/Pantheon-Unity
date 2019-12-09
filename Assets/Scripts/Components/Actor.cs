@@ -30,16 +30,20 @@ namespace Pantheon.Components
 
         public event Action AIDecisionEvent;
 
-        [SerializeField] public ActorControl control = default;
+        [SerializeField] private ActorControl control = default;
         [JsonIgnore] public ActorControl Control
         {
             get => control;
             set => control = value;
         }
 
-        private void Awake()
+        public Actor() => Energy = speed;
+
+        [JsonConstructor]
+        public Actor(int speed, ActorControl control) : this()
         {
-            Energy = speed;
+            this.speed = speed;
+            this.control = control;
         }
 
         public int Act()
@@ -60,6 +64,8 @@ namespace Pantheon.Components
         }
 
         public bool HostileTo(Actor other) => true;
+
+        public override EntityComponent Clone() => new Actor(speed, control);
 
         public override string ToString()
         {

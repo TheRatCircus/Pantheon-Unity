@@ -53,6 +53,8 @@ namespace Pantheon.Components
             }
         }
 
+        public override EntityComponent Clone() => new Health(max, regenTime);
+
         public override string ToString()
         {
             return $"Health: {Current}/{Max}, Regenerating: {Regenerating}";
