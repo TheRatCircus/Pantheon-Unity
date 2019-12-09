@@ -91,13 +91,8 @@ namespace PantheonEditor
                     comps.Add(components[i]);
             }
 
-            EntityTemplate template = new EntityTemplate(comps.ToArray())
-            {
-                ID = templateID,
-                EntityName = templateName,
-                Sprite = sprite,
-                Tile = tile
-            };
+            EntityTemplate template = new EntityTemplate(
+                templateID, templateName, sprite, comps.ToArray());
 
             string json = JsonConvert.SerializeObject(template, settings);
             string path = Application.dataPath + $"/Content/Templates/{templateID}.json";

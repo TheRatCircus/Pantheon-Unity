@@ -4,20 +4,31 @@
 using static System.Environment;
 using Pantheon.Components;
 using UnityEngine;
+using Newtonsoft.Json;
 
 namespace Pantheon
 {
     public sealed class EntityTemplate
     {
-        public string ID { get; set; } = "DEFAULT_TEMPLATE_ID";
-        public string EntityName { get; set; } = "DEFAULT_ENTITY_NAME";
-        public Sprite Sprite { get; set; } = default;
-        public RuleTile Tile { get; set; } = default;
-        public EntityComponent[] Components { get; set; }
+        public string ID { get; private set; } = "DEFAULT_TEMPLATE_ID";
+        public string EntityName { get; private set; } = "DEFAULT_ENTITY_NAME";
+        public Sprite Sprite { get; private set; } = default;
+        public RuleTile Tile { get; private set; } = default;
+        public EntityComponent[] Components { get; private set; }
 
-        public EntityTemplate(params EntityComponent[] components)
+        [JsonConstructor]
+        public EntityTemplate(string id, string name, Sprite sprite,
+            params EntityComponent[] components)
         {
+            ID = id;
+            EntityName = name;
+            Sprite = sprite;
             Components = components;
+            if (Tile == null)
+            {
+                Tile = ScriptableObject.CreateInstance<RuleTile>();
+                Tile.m_DefaultSprite = Sprite;
+            }
         }
 
         public override string ToString()
