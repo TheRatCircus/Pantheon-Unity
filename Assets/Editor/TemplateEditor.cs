@@ -38,13 +38,13 @@ namespace PantheonEditor
 
         private SerializedObject obj;
 
-        public TextAsset jsonFile;
+        public TextAsset jsonFile = default;
         public JObject template;
 
         // Components
-        public Actor actor;
+        public Actor actor = default;
 
-        public Species species;
+        public Species species = default;
         public string speciesID;
 
         public EntityComponent[] components;
