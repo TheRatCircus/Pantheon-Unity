@@ -5,6 +5,8 @@
 #undef DEBUG_ASSETLOADER
 
 using Newtonsoft.Json;
+using Pantheon.Serialization.Json;
+using Pantheon.Serialization.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,15 +30,16 @@ namespace Pantheon.Core
             jsonSettings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Serialization._entityBinder,
+                SerializationBinder = Binders._entityBinder,
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
                     new SpriteConverter(this),
-                    new RuleTileConverter(this)
+                    new RuleTileConverter(this),
+                    new SpeciesDefinitionConverter(this)
                 }
             };
-        }
+    }
 
         public T Load<T>(string name) where T : Object
         {
@@ -64,6 +67,19 @@ namespace Pantheon.Core
             UnityEngine.Profiling.Profiler.EndSample();
 
             return JsonConvert.DeserializeObject<EntityTemplate>(text.text, jsonSettings);
+        }
+
+        public SpeciesDefinition LoadSpeciesDef(string name)
+        {
+            UnityEngine.Profiling.Profiler.BeginSample("AssetLoader.Load()");
+            if (!bundle.Contains(name))
+                throw new ArgumentException(
+                    $"{name} not found in bundle {bundle.name}.");
+
+            TextAsset text = bundle.LoadAsset<TextAsset>(name);
+            UnityEngine.Profiling.Profiler.EndSample();
+
+            return JsonConvert.DeserializeObject<SpeciesDefinition>(text.text, jsonSettings);
         }
 
         public T TryLoad<T>(string name) where T : Object

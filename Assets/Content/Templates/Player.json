@@ -15,6 +15,10 @@
       "Max": 10,
       "RegenTime": 800,
       "Regenerating": true
+    },
+    {
+	  "$type": "Species",
+      "SpeciesDef": "Species_Human"
     }
   ]
 }

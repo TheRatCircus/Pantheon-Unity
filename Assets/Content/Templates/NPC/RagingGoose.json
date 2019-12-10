@@ -21,6 +21,10 @@
       "Max": 6,
       "RegenTime": 800,
       "Regenerating": true
+    },
+    {
+      "$type": "Species",
+      "SpeciesDef": "Species_Goose"
     }
   ]
 }

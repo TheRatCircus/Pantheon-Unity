@@ -4,6 +4,8 @@
 using Newtonsoft.Json;
 using Pantheon;
 using Pantheon.Components;
+using Pantheon.Serialization.Json;
+using Pantheon.Serialization.Json.Converters;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -18,6 +20,21 @@ namespace PantheonEditor
         {
             TemplateGenerator editor = GetWindow<TemplateGenerator>();
         }
+
+        private static readonly JsonSerializerSettings jsonSettings
+            = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto,
+            SerializationBinder = Binders._entityBinder,
+            Formatting = Formatting.Indented,
+            Converters = new List<JsonConverter>()
+                {
+                    new SpriteConverter(),
+                    new RuleTileConverter(),
+                    new SpeciesConverter(),
+                    new SpeciesDefinitionConverter()
+                }
+        };
 
         public string templateName = "Template Name";
         public string templateID = "Template ID";
@@ -71,18 +88,6 @@ namespace PantheonEditor
 
         private void Serialize()
         {
-            JsonSerializerSettings settings = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Serialization._entityBinder,
-                Formatting = Formatting.Indented,
-                Converters = new List<JsonConverter>()
-                {
-                    new SpriteConverter(),
-                    new RuleTileConverter()
-                }
-            };
-
             List<EntityComponent> comps = new List<EntityComponent>();
             for (int i = 0; i < componentsIncluded.Length; i++)
             {
@@ -93,7 +98,7 @@ namespace PantheonEditor
             EntityTemplate template = new EntityTemplate(
                 templateID, templateName, sprite, comps.ToArray());
 
-            string json = JsonConvert.SerializeObject(template, settings);
+            string json = JsonConvert.SerializeObject(template, jsonSettings);
             string path = Application.dataPath + $"/Content/Templates/{templateID}.json";
             File.WriteAllText(path, json);
             Debug.Log($"Wrote template to {path}.");

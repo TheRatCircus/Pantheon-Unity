@@ -2,13 +2,13 @@
 // Jerome Martina
 
 using Newtonsoft.Json;
+using Pantheon.Serialization.Json.Converters;
 
 namespace Pantheon.Components
 {
     [System.Serializable]
     public sealed class Species : EntityComponent
     {
-        [JsonConverter(typeof(SpeciesDefinitionConverter))]
         public SpeciesDefinition SpeciesDef { get; set; }
 
         public Species(SpeciesDefinition def)

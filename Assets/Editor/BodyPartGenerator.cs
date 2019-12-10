@@ -3,6 +3,8 @@
 
 using Newtonsoft.Json;
 using Pantheon;
+using Pantheon.Serialization.Json;
+using Pantheon.Serialization.Json.Converters;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -18,6 +20,19 @@ namespace PantheonEditor
         {
             BodyPartGenerator editor = GetWindow<BodyPartGenerator>();
         }
+
+        private static readonly JsonSerializerSettings jsonSettings
+            = new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                SerializationBinder = Binders._entityBinder,
+                Formatting = Formatting.Indented,
+                Converters = new List<JsonConverter>()
+                {
+                    new SpriteConverter(),
+                    new RuleTileConverter()
+                }
+            };
 
         public BodyPart part;
 
@@ -38,19 +53,7 @@ namespace PantheonEditor
 
         private void Serialize(SerializedObject obj)
         {
-            JsonSerializerSettings settings = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Serialization._builderStepBinder,
-                Formatting = Formatting.Indented,
-                Converters = new List<JsonConverter>()
-                {
-                    new SpriteConverter(),
-                    new RuleTileConverter()
-                }
-            };
-
-            string json = JsonConvert.SerializeObject(part, settings);
+            string json = JsonConvert.SerializeObject(part, jsonSettings);
             string path = Application.dataPath + $"/Content/BodyParts/{part.ID}.json";
             File.WriteAllText(path, json);
             Debug.Log($"Wrote body part definition to {path}.");

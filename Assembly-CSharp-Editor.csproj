@@ -69,7 +69,6 @@
     <Compile Include="Assets\Editor\CreateAssetBundles.cs" />
     <Compile Include="Assets\Editor\EnumOrderDrawer.cs" />
     <Compile Include="Assets\Editor\GenerateTiles.cs" />
-    <Compile Include="Assets\Editor\JSONSamples.cs" />
     <Compile Include="Assets\Editor\OnPlayMode.cs" />
     <Compile Include="Assets\Editor\ReadOnlyDrawer.cs" />
     <Compile Include="Assets\Editor\TemplateEditor.cs" />

@@ -1,9 +1,13 @@
 ﻿// TemplateEditor.cs
 // Jerome Martina
 
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Pantheon;
 using Pantheon.Components;
+using Pantheon.Serialization.Json;
+using Pantheon.Serialization.Json.Converters;
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -17,6 +21,20 @@ namespace PantheonEditor
         {
             TemplateEditor editor = GetWindow<TemplateEditor>();
         }
+
+        private static readonly JsonSerializerSettings jsonSettings
+            = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Objects,
+            SerializationBinder = Binders._entityBinder,
+            Formatting = Formatting.Indented,
+            Converters = new List<JsonConverter>()
+            {
+                new SpriteConverter(),
+                new RuleTileConverter(),
+                new SpeciesDefinitionConverter()
+            }
+        };
 
         private SerializedObject obj;
 
@@ -84,9 +102,11 @@ namespace PantheonEditor
                 template = JObject.Parse(jsonFile.text);
                 JArray jComponents = (JArray)template["Components"];
 
+                string json = JsonConvert.SerializeObject(
+                    components[selectedComponent], jsonSettings);
+                jComponents.Add(JToken.Parse(json));
+
                 string path = AssetDatabase.GetAssetPath(jsonFile);
-                JObject jo = JObject.FromObject(components[selectedComponent]);
-                jComponents.Add(jo);
                 File.WriteAllText(path, template.ToString());
                 Debug.Log($"Added {components[selectedComponent]} to {jsonFile.name}.");
             }
