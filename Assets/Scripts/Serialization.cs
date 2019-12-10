@@ -32,7 +32,9 @@ namespace Pantheon
                 {
                     typeof(Actor),
                     typeof(AI),
-                    typeof(Health)
+                    typeof(Health),
+                    typeof(Melee),
+                    typeof(Species)
                 }
             };
     }
@@ -104,6 +106,59 @@ namespace Pantheon
             JsonSerializer serializer)
         {
             writer.WriteValue(value.name);
+        }
+
+        public override bool CanRead => true;
+        public override bool CanWrite => true;
+    }
+
+    public sealed class SpeciesConverter : JsonConverter<Species>
+    {
+        public AssetLoader Loader { get; set; }
+
+        public SpeciesConverter() { }
+
+        public SpeciesConverter(AssetLoader loader) => Loader = loader;
+
+        public override void WriteJson(JsonWriter writer, Species value,
+            JsonSerializer serializer)
+        {
+            writer.WriteValue(value.SpeciesDef.ID);
+        }
+
+        public override Species ReadJson(JsonReader reader, Type objectType,
+            Species existingValue, bool hasExistingValue,
+            JsonSerializer serializer)
+        {
+            Species species = reader.Value as Species;
+            string defID = species.SpeciesDef.ID; // ID-only species def here
+            species.SpeciesDef = Loader.LoadSpeciesDef(defID); // Fully-populated def
+            return species;
+        }
+
+        public override bool CanRead => true;
+        public override bool CanWrite => true;
+    }
+
+    public sealed class SpeciesDefinitionConverter : JsonConverter<SpeciesDefinition>
+    {
+        public AssetLoader Loader { get; set; }
+
+        public SpeciesDefinitionConverter() { }
+
+        public SpeciesDefinitionConverter(AssetLoader loader) => Loader = loader;
+
+        public override void WriteJson(JsonWriter writer, SpeciesDefinition value,
+            JsonSerializer serializer)
+        {
+            writer.WriteValue(value.ID);
+        }
+
+        public override SpeciesDefinition ReadJson(JsonReader reader, Type objectType,
+            SpeciesDefinition existingValue, bool hasExistingValue,
+            JsonSerializer serializer)
+        {
+            return Loader.LoadSpeciesDef((string)reader.Value);
         }
 
         public override bool CanRead => true;

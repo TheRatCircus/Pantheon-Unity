@@ -21,5 +21,13 @@ namespace Pantheon
             Sprite = sprite;
             Parts = parts;
         }
+
+        /// <summary>
+        /// Construct an ID-only species for use by a JSON writer.
+        /// </summary>
+        /// <param name="id">Asset ID of the species definition.</param>
+        public SpeciesDefinition(string id) => ID = id;
+
+        public override string ToString() => ID;
     }
 }
