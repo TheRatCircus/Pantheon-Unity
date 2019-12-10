@@ -1,103 +1,70 @@
 ﻿// TemplateEditor.cs
 // Jerome Martina
 
-using Newtonsoft.Json;
-using Pantheon;
+using Newtonsoft.Json.Linq;
 using Pantheon.Components;
-using System.Collections.Generic;
-using System.IO;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 namespace PantheonEditor
 {
     internal sealed class TemplateEditor : EditorWindow
     {
-        [MenuItem("Tools/Template Editor")]
+        [MenuItem("Tools/Pantheon/Template Editor")]
         public static void Open()
         {
             TemplateEditor editor = GetWindow<TemplateEditor>();
         }
 
-        public string templateName = "Template Name";
-        public string templateID = "Template ID";
-        public Sprite sprite = default;
-        public RuleTile tile = default;
+        private SerializedObject obj;
 
-        public Actor actor = new Actor();
-        public AI ai = new AI();
-        public Health health = new Health();
+        public TextAsset jsonFile;
+        public JObject template;
 
-        private EntityComponent[] components;
-        private bool[] componentsIncluded = new bool[3];
+        public EntityComponent[] components = new EntityComponent[]
+            {
+                new Actor(),
+                new AI(),
+                new Health(),
+                new Melee()
+            };
+        int selectedComponent = -1;
 
         private void Awake()
         {
-            components = new EntityComponent[]
-            {
-                actor,
-                ai,
-                health
-            };
+            obj = new SerializedObject(this);
         }
 
         private void OnGUI()
         {
-            SerializedObject obj = new SerializedObject(this);
-
-            componentsIncluded[0] = EditorGUILayout.Toggle("Actor", componentsIncluded[0]);
-            componentsIncluded[1] = EditorGUILayout.Toggle("AI", componentsIncluded[1]);
-            componentsIncluded[2] = EditorGUILayout.Toggle("Health", componentsIncluded[2]);
-
-            EditorGUILayout.PropertyField(obj.FindProperty("templateID"));
-            EditorGUILayout.PropertyField(obj.FindProperty("templateName"));
-            EditorGUILayout.PropertyField(obj.FindProperty("sprite"));
-            EditorGUILayout.PropertyField(obj.FindProperty("tile"));
-
-            if (componentsIncluded[0])
-                EditorGUILayout.PropertyField(obj.FindProperty("actor"), new GUIContent("Actor"), true);
-            if (componentsIncluded[1])
-                EditorGUILayout.PropertyField(obj.FindProperty("ai"), new GUIContent("AI"), true);
-            if (componentsIncluded[2])
-                EditorGUILayout.PropertyField(obj.FindProperty("health"), new GUIContent("Health"), true);
-
+            SerializedProperty prop = obj.FindProperty("jsonFile");
+            EditorGUILayout.PropertyField(prop, new GUIContent("Template File"));
             obj.ApplyModifiedProperties();
 
-            if (GUILayout.Button("Serialize"))
+            if (prop.objectReferenceValue == null)
+                return;
+
+            if (GUILayout.Button("Select Component to Add"))
             {
-                Serialize();
+                GenericMenu menu = new GenericMenu();
+                for (int i = 0; i < this.components.Length; i++)
+                {
+                    menu.AddItem(
+                        new GUIContent(this.components[i].GetType().ToString()),
+                        selectedComponent == i,
+                        SelectComponent, i);
+                }
+                menu.ShowAsContext();
             }
+
+            template = JObject.Parse(jsonFile.text);
+            JArray components = (JArray)template["Components"];
+            //components.Add(JToken.FromObject(component));
         }
 
-        private void Serialize()
+        private void SelectComponent(object i)
         {
-            JsonSerializerSettings settings = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Serialization._builderStepBinder,
-                Formatting = Formatting.Indented,
-                Converters = new List<JsonConverter>()
-                {
-                    new SpriteConverter(),
-                    new RuleTileConverter()
-                }
-            };
-
-            List<EntityComponent> comps = new List<EntityComponent>();
-            for (int i = 0; i < componentsIncluded.Length; i++)
-            {
-                if (componentsIncluded[i])
-                    comps.Add(components[i]);
-            }
-
-            EntityTemplate template = new EntityTemplate(
-                templateID, templateName, sprite, comps.ToArray());
-
-            string json = JsonConvert.SerializeObject(template, settings);
-            string path = Application.dataPath + $"/Content/Templates/{templateID}.json";
-            File.WriteAllText(path, json);
-            Debug.Log($"Wrote template to {path}.");
+            selectedComponent = (int)i;
         }
     }
 }
