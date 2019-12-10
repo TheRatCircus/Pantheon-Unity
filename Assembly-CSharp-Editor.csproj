@@ -65,6 +65,7 @@
     <Compile Include="Assets\CrossSceneReference\Editor\GuidComponentDrawer.cs" />
     <Compile Include="Assets\CrossSceneReference\Editor\GuidReferenceDrawer.cs" />
     <Compile Include="Assets\CrossSceneReference\Tests\Editor\GuidReferenceTests.cs" />
+    <Compile Include="Assets\Editor\BodyPartGenerator.cs" />
     <Compile Include="Assets\Editor\CreateAssetBundles.cs" />
     <Compile Include="Assets\Editor\EnumOrderDrawer.cs" />
     <Compile Include="Assets\Editor\GenerateTiles.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Assets\Editor\OnPlayMode.cs" />
     <Compile Include="Assets\Editor\ReadOnlyDrawer.cs" />
     <Compile Include="Assets\Editor\TemplateEditor.cs" />
+    <Compile Include="Assets\Editor\TemplateGenerator.cs" />
     <Compile Include="Assets\ScriptCalculator\Editor\ScriptCalculator.cs" />
     <Reference Include="UnityEditor.TestRunner">
       <HintPath>D:/Misc/Development/unity/Pantheon/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>

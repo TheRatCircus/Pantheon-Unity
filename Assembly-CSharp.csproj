@@ -68,6 +68,7 @@
     <Compile Include="Assets\CrossSceneReference\Samples\LoadScenes.cs" />
     <Compile Include="Assets\CrossSceneReference\Samples\TestCrossScene.cs" />
     <Compile Include="Assets\Scripts\Attack.cs" />
+    <Compile Include="Assets\Scripts\BodyPart.cs" />
     <Compile Include="Assets\Scripts\Commands\ActorCommand.cs" />
     <Compile Include="Assets\Scripts\Commands\Command.cs" />
     <Compile Include="Assets\Scripts\Commands\MeleeCommand.cs" />
@@ -78,6 +79,8 @@
     <Compile Include="Assets\Scripts\Components\EntityComponent.cs" />
     <Compile Include="Assets\Scripts\Components\Health.cs" />
     <Compile Include="Assets\Scripts\Components\Location.cs" />
+    <Compile Include="Assets\Scripts\Components\Melee.cs" />
+    <Compile Include="Assets\Scripts\Components\Species.cs" />
     <Compile Include="Assets\Scripts\Core\AssetLoader.cs" />
     <Compile Include="Assets\Scripts\Core\FOV.cs" />
     <Compile Include="Assets\Scripts\Core\GameController.cs" />
@@ -110,6 +113,7 @@
     <Compile Include="Assets\Scripts\SaveLoad\SaveWriterReader.cs" />
     <Compile Include="Assets\Scripts\Serialization.cs" />
     <Compile Include="Assets\Scripts\SerializationSurrogate.cs" />
+    <Compile Include="Assets\Scripts\SpeciesDefinition.cs" />
     <Compile Include="Assets\Scripts\TerrainDefinition.cs" />
     <Compile Include="Assets\Scripts\UI\CameraControl.cs" />
     <Compile Include="Assets\Scripts\UI\Cursor.cs" />
