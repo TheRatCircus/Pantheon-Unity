@@ -31,6 +31,11 @@ namespace Pantheon
 
         public BodyPart() { }
 
+        public BodyPart(string id)
+        {
+            this.id = id;
+        }
+
         public BodyPart(string id, string name, BodyPartType type,
             int moveSpeedModifier, Melee melee)
         {

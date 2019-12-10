@@ -71,6 +71,7 @@
     <Compile Include="Assets\Editor\GenerateTiles.cs" />
     <Compile Include="Assets\Editor\OnPlayMode.cs" />
     <Compile Include="Assets\Editor\ReadOnlyDrawer.cs" />
+    <Compile Include="Assets\Editor\SpeciesGenerator.cs" />
     <Compile Include="Assets\Editor\TemplateEditor.cs" />
     <Compile Include="Assets\Editor\TemplateGenerator.cs" />
     <Compile Include="Assets\ScriptCalculator\Editor\ScriptCalculator.cs" />

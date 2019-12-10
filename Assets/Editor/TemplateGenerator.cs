@@ -81,9 +81,7 @@ namespace PantheonEditor
             obj.ApplyModifiedProperties();
 
             if (GUILayout.Button("Serialize"))
-            {
                 Serialize();
-            }
         }
 
         private void Serialize()

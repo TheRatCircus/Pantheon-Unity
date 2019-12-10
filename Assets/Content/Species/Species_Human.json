@@ -1,0 +1,10 @@
+{
+  "ID": "Species_Human",
+  "Name": "human",
+  "Sprite": "Sprite_Human",
+  "Parts": [
+    "Part_Human_Head",
+    "Part_Human_Arms",
+    "Part_Human_Legs"
+  ]
+}

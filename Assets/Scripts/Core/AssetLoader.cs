@@ -36,7 +36,8 @@ namespace Pantheon.Core
                 {
                     new SpriteConverter(this),
                     new RuleTileConverter(this),
-                    new SpeciesDefinitionConverter(this)
+                    new SpeciesDefinitionConverter(this),
+                    new BodyPartConverter(this)
                 }
             };
     }
@@ -80,6 +81,19 @@ namespace Pantheon.Core
             UnityEngine.Profiling.Profiler.EndSample();
 
             return JsonConvert.DeserializeObject<SpeciesDefinition>(text.text, jsonSettings);
+        }
+
+        public BodyPart LoadBodyPart(string name)
+        {
+            UnityEngine.Profiling.Profiler.BeginSample("AssetLoader.Load()");
+            if (!bundle.Contains(name))
+                throw new ArgumentException(
+                    $"{name} not found in bundle {bundle.name}.");
+
+            TextAsset text = bundle.LoadAsset<TextAsset>(name);
+            UnityEngine.Profiling.Profiler.EndSample();
+
+            return JsonConvert.DeserializeObject<BodyPart>(text.text, jsonSettings);
         }
 
         public T TryLoad<T>(string name) where T : Object

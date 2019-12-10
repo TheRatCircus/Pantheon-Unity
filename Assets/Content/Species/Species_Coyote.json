@@ -1,0 +1,10 @@
+{
+  "ID": "Species_Coyote",
+  "Name": "coyote",
+  "Sprite": "Sprite_Coyote",
+  "Parts": [
+    "Part_Coyote_Head",
+    "Part_Coyote_Legs",
+    "Part_Canine_Teeth"
+  ]
+}
