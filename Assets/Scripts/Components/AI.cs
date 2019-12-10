@@ -4,6 +4,7 @@
 #define DEBUG_AI
 #undef DEBUG_AI
 
+using Newtonsoft.Json;
 using Pantheon.Commands;
 using Pantheon.Core;
 using Pantheon.Utils;
@@ -17,9 +18,9 @@ namespace Pantheon.Components
     {
         private static GameController ctrl;
 
-        public Entity Entity { get; set; }
-        public Actor Actor { get; private set; }
-        public Entity Target { get; set; }
+        [JsonIgnore] public Entity Entity { get; set; }
+        [JsonIgnore] public Actor Actor { get; private set; }
+        [JsonIgnore] public Entity Target { get; set; }
 
         public static void InjectController(GameController ctrl)
         {
