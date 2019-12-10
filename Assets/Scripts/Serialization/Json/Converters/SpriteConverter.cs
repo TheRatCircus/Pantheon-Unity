@@ -1,4 +1,6 @@
-﻿
+﻿// SpriteConverter.cs
+// Jerome Martina
+
 using Newtonsoft.Json;
 using Pantheon.Core;
 using System;
@@ -8,17 +10,17 @@ namespace Pantheon.Serialization.Json.Converters
 {
     public sealed class SpriteConverter : JsonConverter<Sprite>
     {
-        public AssetLoader Loader { get; set; }
+        private AssetLoader loader;
 
         public SpriteConverter() { }
 
-        public SpriteConverter(AssetLoader loader) => Loader = loader;
+        public SpriteConverter(AssetLoader loader) => this.loader = loader;
 
         public override Sprite ReadJson(JsonReader reader,
             Type objectType, Sprite existingValue,
             bool hasExistingValue, JsonSerializer serializer)
         {
-            return Loader.Load<Sprite>((string)reader.Value);
+            return loader.Load<Sprite>((string)reader.Value);
         }
 
         public override void WriteJson(JsonWriter writer, Sprite value,

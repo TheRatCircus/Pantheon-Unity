@@ -119,7 +119,6 @@
     <Compile Include="Assets\Scripts\Serialization\Json\Binders.cs" />
     <Compile Include="Assets\Scripts\Serialization\Json\Converters\BodyPartConverter.cs" />
     <Compile Include="Assets\Scripts\Serialization\Json\Converters\RuleTileConverter.cs" />
-    <Compile Include="Assets\Scripts\Serialization\Json\Converters\SpeciesConverter.cs" />
     <Compile Include="Assets\Scripts\Serialization\Json\Converters\SpeciesDefinitionConverter.cs" />
     <Compile Include="Assets\Scripts\Serialization\Json\Converters\SpriteConverter.cs" />
     <Compile Include="Assets\Scripts\Serialization\Json\SerializationBinder.cs" />

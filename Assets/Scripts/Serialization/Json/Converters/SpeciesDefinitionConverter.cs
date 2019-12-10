@@ -9,11 +9,11 @@ namespace Pantheon.Serialization.Json.Converters
 {
     public sealed class SpeciesDefinitionConverter : JsonConverter<SpeciesDefinition>
     {
-        public AssetLoader Loader { get; set; }
+        private AssetLoader loader;
 
         public SpeciesDefinitionConverter() { }
 
-        public SpeciesDefinitionConverter(AssetLoader loader) => Loader = loader;
+        public SpeciesDefinitionConverter(AssetLoader loader) => this.loader = loader;
 
         public override void WriteJson(JsonWriter writer, SpeciesDefinition value,
             JsonSerializer serializer)
@@ -25,7 +25,7 @@ namespace Pantheon.Serialization.Json.Converters
             SpeciesDefinition existingValue, bool hasExistingValue,
             JsonSerializer serializer)
         {
-            return Loader.LoadSpeciesDef((string)reader.Value);
+            return loader.LoadSpeciesDef((string)reader.Value);
         }
 
         public override bool CanRead => true;

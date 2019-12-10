@@ -31,7 +31,6 @@ namespace PantheonEditor
                 {
                     new SpriteConverter(),
                     new RuleTileConverter(),
-                    new SpeciesConverter(),
                     new SpeciesDefinitionConverter()
                 }
         };

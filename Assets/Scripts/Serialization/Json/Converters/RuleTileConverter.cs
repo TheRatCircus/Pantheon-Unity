@@ -1,4 +1,6 @@
-﻿
+﻿// RuleTileConverter.cs
+// Jerome Martina
+
 using Newtonsoft.Json;
 using Pantheon.Core;
 using System;
@@ -8,11 +10,11 @@ namespace Pantheon.Serialization.Json.Converters
 {
     public sealed class RuleTileConverter : JsonConverter<RuleTile>
     {
-        public AssetLoader Loader { get; set; }
+        private AssetLoader loader;
 
         public RuleTileConverter() { }
 
-        public RuleTileConverter(AssetLoader loader) => Loader = loader;
+        public RuleTileConverter(AssetLoader loader) => this.loader = loader;
 
         public override RuleTile ReadJson(JsonReader reader,
             Type objectType, RuleTile existingValue,
