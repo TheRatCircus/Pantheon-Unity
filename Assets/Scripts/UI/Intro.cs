@@ -31,6 +31,23 @@ namespace Pantheon
 
         public string PlayerName { get; private set; }
 
+#if UNITY_EDITOR
+        private void Awake()
+        {
+            PlayerName = "DEBUG_PLAYER_NAME";
+            audioListener.enabled = false;
+            SceneManager.LoadSceneAsync(Scenes.Game, LoadSceneMode.Additive).
+            completed += (AsyncOperation op) =>
+            {
+                Scene gameScene = SceneManager.GetSceneByName(Scenes.Game);
+                SceneManager.SetActiveScene(gameScene);
+                SceneManager.LoadSceneAsync(Scenes.Debug, LoadSceneMode.Additive);
+                ctrlRef.gameObject.GetComponent<GameController>().NewGame(PlayerName);
+                SceneManager.UnloadSceneAsync(Scenes.Intro);
+            };
+        }
+#endif
+
         // Update is called once per frame
         private void Update()
         {

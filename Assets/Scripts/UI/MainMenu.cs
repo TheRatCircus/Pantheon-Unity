@@ -21,6 +21,10 @@ namespace Pantheon.UI
         [SerializeField] private GameObject loadMenu = default;
         [SerializeField] private Transform saveOptionsList = default;
 
+#if UNITY_EDITOR
+        private void Awake() => NewGame();
+#endif
+
         public void NewGame()
         {
             SceneManager.LoadScene(Scenes.Intro, LoadSceneMode.Single);
