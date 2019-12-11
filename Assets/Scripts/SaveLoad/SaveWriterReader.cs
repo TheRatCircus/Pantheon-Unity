@@ -20,27 +20,21 @@ namespace Pantheon.SaveLoad
                 throw new System.ArgumentNullException();
 
             selector = new SurrogateSelector();
+            StreamingContext ctxt = new StreamingContext(StreamingContextStates.All);
 
-            selector.AddSurrogate(typeof(Vector3Int),
-                new StreamingContext(StreamingContextStates.All),
+            selector.AddSurrogate(typeof(Vector3Int), ctxt, 
                 new Vector3IntSurrogate());
-            selector.AddSurrogate(typeof(Vector2Int),
-                new StreamingContext(StreamingContextStates.All),
+            selector.AddSurrogate(typeof(Vector2Int), ctxt, 
                 new Vector2IntSurrogate());
-            selector.AddSurrogate(typeof(ScriptableObject),
-                new StreamingContext(StreamingContextStates.All),
+            selector.AddSurrogate(typeof(ScriptableObject), ctxt, 
                 new EntityTemplateSurrogate(loader));
-            selector.AddSurrogate(typeof(TerrainDefinition),
-                new StreamingContext(StreamingContextStates.All),
+            selector.AddSurrogate(typeof(TerrainDefinition), ctxt, 
                 new TerrainDefSurrogate(loader));
-            selector.AddSurrogate(typeof(Sprite),
-               new StreamingContext(StreamingContextStates.All),
-               new SpriteSurrogate(loader));
-            selector.AddSurrogate(typeof(SpeciesDefinition),
-                new StreamingContext(StreamingContextStates.All),
+            selector.AddSurrogate(typeof(Sprite), ctxt, 
+                new SpriteSurrogate(loader));
+            selector.AddSurrogate(typeof(SpeciesDefinition), ctxt, 
                 new SpeciesDefSurrogate(loader));
-            selector.AddSurrogate(typeof(EntityTemplate),
-                new StreamingContext(StreamingContextStates.All),
+            selector.AddSurrogate(typeof(EntityTemplate), ctxt, 
                 new EntityTemplateSurrogate(loader));
         }
 
