@@ -20,13 +20,19 @@ namespace Pantheon.Core
         private AssetBundle bundle;
 
         private JsonSerializerSettings jsonSettings;
+        private JsonSerializerSettings speciesSettings;
+        private JsonSerializerSettings genericSettings;
 
         private void Awake()
         {
             bundle = AssetBundle.LoadFromFile(Path.Combine(
                 Application.streamingAssetsPath, "pantheon"));
             System.Diagnostics.Debug.Assert(bundle != null);
+            ConstructSettings();
+        }
 
+        private void ConstructSettings()
+        {
             jsonSettings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto,
@@ -40,7 +46,32 @@ namespace Pantheon.Core
                     new BodyPartConverter(this)
                 }
             };
-    }
+
+            speciesSettings = new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                SerializationBinder = Binders._entityBinder,
+                Formatting = Formatting.Indented,
+                Converters = new List<JsonConverter>()
+                {
+                    new SpriteConverter(this),
+                    new RuleTileConverter(this),
+                    new BodyPartConverter(this)
+                }
+            };
+
+            genericSettings = new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                SerializationBinder = Binders._entityBinder,
+                Formatting = Formatting.Indented,
+                Converters = new List<JsonConverter>()
+                {
+                    new SpriteConverter(this),
+                    new RuleTileConverter(this)
+                }
+            };
+        }
 
         public T Load<T>(string name) where T : Object
         {
@@ -52,7 +83,6 @@ namespace Pantheon.Core
 
             T obj = bundle.LoadAsset<T>(name);
 
-            LogLoad($"Load result: {obj}");
             UnityEngine.Profiling.Profiler.EndSample();
             return obj;
         }
@@ -63,6 +93,7 @@ namespace Pantheon.Core
             if (!bundle.Contains(name))
                 throw new ArgumentException(
                     $"{name} not found in bundle {bundle.name}.");
+            LogLoad($"Attempting to load asset '{name}'...");
 
             TextAsset text = bundle.LoadAsset<TextAsset>(name);
             UnityEngine.Profiling.Profiler.EndSample();
@@ -76,11 +107,12 @@ namespace Pantheon.Core
             if (!bundle.Contains(name))
                 throw new ArgumentException(
                     $"{name} not found in bundle {bundle.name}.");
+            LogLoad($"Attempting to load asset '{name}'...");
 
             TextAsset text = bundle.LoadAsset<TextAsset>(name);
             UnityEngine.Profiling.Profiler.EndSample();
 
-            return JsonConvert.DeserializeObject<SpeciesDefinition>(text.text, jsonSettings);
+            return JsonConvert.DeserializeObject<SpeciesDefinition>(text.text, speciesSettings);
         }
 
         public BodyPart LoadBodyPart(string name)
@@ -89,11 +121,12 @@ namespace Pantheon.Core
             if (!bundle.Contains(name))
                 throw new ArgumentException(
                     $"{name} not found in bundle {bundle.name}.");
+            LogLoad($"Attempting to load asset '{name}'...");
 
             TextAsset text = bundle.LoadAsset<TextAsset>(name);
             UnityEngine.Profiling.Profiler.EndSample();
 
-            return JsonConvert.DeserializeObject<BodyPart>(text.text, jsonSettings);
+            return JsonConvert.DeserializeObject<BodyPart>(text.text, genericSettings);
         }
 
         public T TryLoad<T>(string name) where T : Object

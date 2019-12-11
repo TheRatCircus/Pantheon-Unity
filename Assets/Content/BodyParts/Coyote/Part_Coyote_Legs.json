@@ -1,0 +1,9 @@
+{
+  "ID": "Part_Coyote_Legs",
+  "Name": "coyote legs",
+  "Type": 2,
+  "MoveSpeedModifier": 10,
+  "Melee": {
+    "Attacks": []
+  }
+}

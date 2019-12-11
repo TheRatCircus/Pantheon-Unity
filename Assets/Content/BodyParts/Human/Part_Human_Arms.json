@@ -1,0 +1,16 @@
+{
+  "ID": "Part_Human_Arms",
+  "Name": "human arms",
+  "Type": 1,
+  "MoveSpeedModifier": 0,
+  "Melee": {
+    "Attacks": [
+      {
+        "MinDamage": 2,
+        "MaxDamage": 4,
+        "Accuracy": 80,
+        "Time": 100
+      }
+    ]
+  }
+}

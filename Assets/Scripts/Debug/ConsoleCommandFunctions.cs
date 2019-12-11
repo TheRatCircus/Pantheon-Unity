@@ -86,6 +86,8 @@ namespace Pantheon.Debug
                     return e.GetComponent<AI>().ToString();
                 case "health":
                     return e.GetComponent<Health>().ToString();
+                case "species":
+                    return e.GetComponent<Species>().ToString();
                 default:
                     return $"Component of type \"{args[0]}\" not found.";
             }

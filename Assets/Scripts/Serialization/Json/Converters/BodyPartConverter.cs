@@ -1,9 +1,9 @@
 ﻿// BodyPartConverter.cs
 // Jerome Martina
 
-using System;
 using Newtonsoft.Json;
 using Pantheon.Core;
+using System;
 
 namespace Pantheon.Serialization.Json.Converters
 {

@@ -1,0 +1,9 @@
+{
+  "ID": "Part_Goose_Head",
+  "Name": "goose head",
+  "Type": 0,
+  "MoveSpeedModifier": 0,
+  "Melee": {
+    "Attacks": []
+  }
+}

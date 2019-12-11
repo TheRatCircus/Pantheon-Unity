@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2075233486
+CRC: 3284806918
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 39d058433a12e0b5aebfd6bf213e9611
+    Hash: 627053eb8f49c2a146a9c8fe6eb4a0a9
   TypeTreeHash:
     serializedVersion: 2
     Hash: f6f4fde2ec1350b22b413a3751014170
@@ -40,14 +40,40 @@ ClassTypes:
 - Class: 213
   Script: {instanceID: 0}
 Assets:
+- Assets/Sprites/Item/Grenade.png
+- Assets/Sprites/Item/CuirassSteel.png
+- Assets/Sprites/Item/Dagger.png
+- Assets/Content/BodyParts/Human/Part_Human_Head.json
+- Assets/Sprites/Actor/Sprite_GiantBumblebee.png
+- Assets/Content/BodyParts/Coyote/Part_Coyote_Legs.json
 - Assets/Sprites/Actor/Sprite_Goose.png
 - Assets/Content/Terrain/Terrain_StoneWall.asset
-- Assets/BuilderPlans/Step_Fill_Grass.asset
+- Assets/Content/BodyParts/Human/Part_Human_Legs.json
+- Assets/Content/BuilderPlans/Step_Fill_Grass.asset
+- Assets/Content/BodyParts/Human/Part_Human_Arms.json
+- Assets/Content/BodyParts/Coyote/Part_Coyote_Head.json
+- Assets/Sprites/Item/Hatchet.png
+- Assets/Content/BodyParts/Goose/Part_Goose_Legs.json
+- Assets/Sprites/Item/FlaskHealing.png
+- Assets/Sprites/Item/Scroll.png
 - Assets/Sprites/Actor/Sprite_Player.png
+- Assets/Sprites/Actor/Sprite_Swine.png
+- Assets/Content/Species/Species_Human.json
 - Assets/Content/Templates/Player.json
-- Assets/BuilderPlans/Step_RandomFill_StoneWall.asset
+- Assets/Content/BuilderPlans/Step_RandomFill_StoneWall.asset
+- Assets/Sprites/Actor/Sprite_Pigman.png
+- Assets/Sprites/Item/Corpse.png
+- Assets/Sprites/Actor/Sprite_Human.png
+- Assets/Content/BodyParts/Goose/Part_Goose_Head.json
+- Assets/Sprites/Item/Carbine.png
+- Assets/Content/Templates/NPC/Coyote.json
+- Assets/Sprites/Item/Prejudice.png
 - Assets/Prefabs/EntityGameObject.prefab
 - Assets/Content/Terrain/Terrain_Grass.asset
+- Assets/Sprites/Item/Cartridges.png
+- Assets/Sprites/Actor/Sprite_Coyote.png
 - Assets/Content/Templates/NPC/RagingGoose.json
-- Assets/BuilderPlans/Plan_Valley.asset
+- Assets/Sprites/Actor/Sprite_GenericNPC.png
+- Assets/Content/Species/Species_Coyote.json
+- Assets/Content/BuilderPlans/Plan_Valley.asset
 Dependencies: []

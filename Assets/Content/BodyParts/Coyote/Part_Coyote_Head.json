@@ -1,0 +1,9 @@
+{
+  "ID": "Part_Coyote_Head",
+  "Name": "coyote head",
+  "Type": 0,
+  "MoveSpeedModifier": 0,
+  "Melee": {
+    "Attacks": []
+  }
+}
