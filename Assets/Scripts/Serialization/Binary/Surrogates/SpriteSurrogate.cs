@@ -12,11 +12,11 @@ namespace Pantheon.Serialization.Binary.Surrogates
     /// </summary>
     public sealed class SpriteSurrogate : ISerializationSurrogate
     {
-        private AssetLoader Loader;
+        private AssetLoader loader;
 
         public SpriteSurrogate(AssetLoader loader)
         {
-            Loader = loader;
+            this.loader = loader;
         }
 
         public void GetObjectData(object obj, SerializationInfo info,
@@ -30,7 +30,7 @@ namespace Pantheon.Serialization.Binary.Surrogates
             StreamingContext context, ISurrogateSelector selector)
         {
             Sprite sprite = (Sprite)obj;
-            sprite = Loader.Load<Sprite>(info.GetString("id"));
+            sprite = loader.Load<Sprite>(info.GetString("id"));
             obj = sprite;
             return obj;
         }

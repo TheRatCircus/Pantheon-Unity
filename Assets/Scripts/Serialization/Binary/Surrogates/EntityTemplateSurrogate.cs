@@ -8,11 +8,11 @@ namespace Pantheon.Serialization.Binary.Surrogates
 {
     public sealed class EntityTemplateSurrogate : ISerializationSurrogate
     {
-        private AssetLoader Loader;
+        private AssetLoader loader;
 
         public EntityTemplateSurrogate(AssetLoader loader)
         {
-            Loader = loader;
+            this.loader = loader;
         }
 
         public void GetObjectData(object obj, SerializationInfo info,
@@ -26,7 +26,7 @@ namespace Pantheon.Serialization.Binary.Surrogates
             StreamingContext context, ISurrogateSelector selector)
         {
             EntityTemplate et = (EntityTemplate)obj;
-            et = Loader.LoadTemplate(info.GetString("id"));
+            et = loader.LoadTemplate(info.GetString("id"));
             obj = et;
             return obj;
         }

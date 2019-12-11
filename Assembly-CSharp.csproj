@@ -112,6 +112,7 @@
     <Compile Include="Assets\Scripts\SaveLoad\Save.cs" />
     <Compile Include="Assets\Scripts\SaveLoad\SaveWriterReader.cs" />
     <Compile Include="Assets\Scripts\Serialization\Binary\Surrogates\EntityTemplateSurrogate.cs" />
+    <Compile Include="Assets\Scripts\Serialization\Binary\Surrogates\SpeciesDefSurrogate.cs" />
     <Compile Include="Assets\Scripts\Serialization\Binary\Surrogates\SpriteSurrogate.cs" />
     <Compile Include="Assets\Scripts\Serialization\Binary\Surrogates\TerrainDefSurrogate.cs" />
     <Compile Include="Assets\Scripts\Serialization\Binary\Surrogates\Vector2IntSurrogate.cs" />

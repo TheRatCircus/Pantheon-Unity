@@ -11,11 +11,11 @@ namespace Pantheon.Serialization.Binary.Surrogates
     /// </summary>
     public sealed class TerrainDefSurrogate : ISerializationSurrogate
     {
-        private AssetLoader Loader;
+        private AssetLoader loader;
 
         public TerrainDefSurrogate(AssetLoader loader)
         {
-            Loader = loader;
+            this.loader = loader;
         }
 
         public void GetObjectData(object obj, SerializationInfo info,
@@ -29,7 +29,7 @@ namespace Pantheon.Serialization.Binary.Surrogates
             StreamingContext context, ISurrogateSelector selector)
         {
             TerrainDefinition td = (TerrainDefinition)obj;
-            td = Loader.Load<TerrainDefinition>(info.GetString("id"));
+            td = loader.Load<TerrainDefinition>(info.GetString("id"));
             obj = td;
             return obj;
         }
