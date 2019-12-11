@@ -87,7 +87,7 @@ namespace Pantheon.World
 
         public bool Contains(int x, int y)
         {
-            if (x > Size.x || y > Size.y)
+            if (x >= Size.x || y >= Size.y)
                 return false;
             else if (x < 0 || y < 0)
                 return false;
