@@ -19,8 +19,7 @@ namespace Pantheon.World
         public Vector3Int Position { get; private set; }
         public Vector2Int Size { get; set; }
 
-        public Dictionary<Vector2Int, Cell> Map { get; private set; }
-            = new Dictionary<Vector2Int, Cell>();
+        public Cell[,] Map { get; set; }
         public Pathfinder PF { get; private set; }
 
         [NonSerialized] private Transform transform;
@@ -51,32 +50,59 @@ namespace Pantheon.World
 
         public bool TryGetCell(int x, int y, out Cell cell)
         {
-            if (Map.TryGetValue(new Vector2Int(x, y), out cell))
+            if (Contains(x, y))
+            {
+                cell = Map[x, y];
                 return true;
+            }
             else
+            {
+                cell = null;
                 return false;
+            }
         }
 
         public bool TryGetCell(Vector2Int pos, out Cell cell)
         {
-            if (Map.TryGetValue(pos, out cell))
+            if (Contains(pos))
+            {
+                cell = Map[pos.x, pos.y];
                 return true;
+            }
             else
+            {
+                cell = null;
                 return false;
+            }
         }
 
         public Cell GetCell(Vector2Int pos)
         {
-            if (Map.TryGetValue(pos, out Cell c))
-                return c;
+            if (Map[pos.x, pos.y] != null)
+                return Map[pos.x, pos.y];
             else
                 throw new ArgumentException(
                     $"Level {ID} has no cell at {pos}.");
         }
 
+        public bool Contains(int x, int y)
+        {
+            if (x > Size.x || y > Size.y)
+                return false;
+            else if (x < 0 || y < 0)
+                return false;
+            else
+                return Map[x, y] != null;
+        }
+
         public bool Contains(Vector2Int pos)
         {
-            return Map.ContainsKey(pos);
+            if (pos.x > Size.x || pos.y > Size.y)
+                return false;
+            else if (pos.x < 0 || pos.y < 0)
+                return false;
+            else
+                return Map[pos.x, pos.y] != null;
         }
 
         public int Distance(Cell a, Cell b)
@@ -104,7 +130,7 @@ namespace Pantheon.World
             int tries = 0;
             do
             {
-                if (tries >= 500)
+                if (++tries >= 500)
                     throw new Exception(
                         $"No eligible cell found after {tries} attempts.");
 
@@ -115,8 +141,6 @@ namespace Pantheon.World
 
                 if (!open || !cell.Blocked)
                     break;
-
-                tries++;
 
             } while (true);
             return cell;

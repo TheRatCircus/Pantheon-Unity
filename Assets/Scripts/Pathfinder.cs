@@ -18,13 +18,13 @@ namespace Pantheon
 
         public Pathfinder(Level level)
         {
-            map = new Dictionary<Vector2Int, Node>(level.Map.Count);
+            map = new Dictionary<Vector2Int, Node>(level.Map.Length);
             GetMap(level);
         }
 
         void GetMap(Level level)
         {
-            foreach (Cell c in level.Map.Values)
+            foreach (Cell c in level.Map)
                 map.Add(c.Position, new Node(c));
         }
 

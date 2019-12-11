@@ -42,7 +42,7 @@ namespace Pantheon.Debug
 
         public static string RevealLevel(string[] args, GameController ctrl)
         {
-            foreach (Cell c in ctrl.World.ActiveLevel.Map.Values)
+            foreach (Cell c in ctrl.World.ActiveLevel.Map)
             {
                 c.Revealed = true;
             }

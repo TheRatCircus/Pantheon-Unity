@@ -20,7 +20,7 @@ namespace Pantheon.Core
         }
 
         /// <summary>
-        /// Spawn an actor, add it to the turn scheduler, and give it a GameObject.
+        /// Spawn an actor, add it to the turn scheduler.
         /// </summary>
         /// <param name="template"></param>
         /// <param name="level"></param>

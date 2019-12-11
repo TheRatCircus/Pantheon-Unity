@@ -36,14 +36,12 @@ namespace Pantheon.Gen
         private void InitializeMap(Level level, int sizeX, int sizeY)
         {
             level.Size = new Vector2Int(sizeX, sizeY);
+            level.Map = new Cell[sizeX, sizeY];
 
             int x = 0;
             for (; x < sizeX; x++)
                 for (int y = 0; y < sizeY; y++)
-                {
-                    Cell cell = new Cell(new Vector2Int(x, y));
-                    level.Map.Add(cell.Position, cell);
-                }
+                    level.Map[x, y] = new Cell(new Vector2Int(x, y));
         }
 
         public override string ToString()

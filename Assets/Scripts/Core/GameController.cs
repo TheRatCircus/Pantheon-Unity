@@ -121,7 +121,7 @@ namespace Pantheon.Core
             if (refreshFOV)
                 FOV.RefreshFOV(level, Player.Cell.Position, false);
 
-            foreach (Cell c in level.Map.Values)
+            foreach (Cell c in level.Map)
             {
                 if (c.Actor != null)
                 {
