@@ -87,7 +87,7 @@ namespace Pantheon.World
 
         public bool Contains(int x, int y)
         {
-            if (x > Size.x || y > Size.y)
+            if (x >= Size.x || y >= Size.y)
                 return false;
             else if (x < 0 || y < 0)
                 return false;
@@ -97,7 +97,7 @@ namespace Pantheon.World
 
         public bool Contains(Vector2Int pos)
         {
-            if (pos.x > Size.x || pos.y > Size.y)
+            if (pos.x >= Size.x || pos.y >= Size.y)
                 return false;
             else if (pos.x < 0 || pos.y < 0)
                 return false;
