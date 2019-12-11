@@ -169,7 +169,7 @@ namespace Pantheon.Utils
                     (vector.y * Math.Sin(1.5708)));
                 rotX = Math.Round(rotX);
                 rotY = (
-                    (vector.x * Math.Sin(1.5708)) + 
+                    (vector.x * Math.Sin(1.5708)) +
                     (vector.y * Math.Cos(1.5708)));
                 rotY = Math.Round(rotY);
             }
@@ -212,6 +212,20 @@ namespace Pantheon.Utils
                     adds++;
             }
             return adds;
+        }
+
+        public static bool TryGet<T>(this T[,] array, out T ret, int x, int y)
+        {
+            if (array[x, y] != null)
+            {
+                ret = array[x, y];
+                return true;
+            }
+            else
+            {
+                ret = default;
+                return false;
+            }
         }
     }
 }

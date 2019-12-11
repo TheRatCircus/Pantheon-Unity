@@ -3,6 +3,7 @@
 
 #define DEBUG_PF
 
+using Pantheon.Utils;
 using Pantheon.World;
 using System;
 using System.Collections.Generic;
@@ -14,18 +15,18 @@ namespace Pantheon
     [Serializable]
     public sealed class Pathfinder
     {
-        private Dictionary<Vector2Int, Node> map;
+        private Node[,] map;
 
         public Pathfinder(Level level)
         {
-            map = new Dictionary<Vector2Int, Node>(level.Map.Length);
+            map = new Node[level.Size.x, level.Size.y];
             GetMap(level);
         }
 
         void GetMap(Level level)
         {
             foreach (Cell c in level.Map)
-                map.Add(c.Position, new Node(c));
+                map[c.Position.x, c.Position.y] = new Node(c);
         }
 
         public HashSet<Node> GetNeighbours(Node node)
@@ -39,9 +40,8 @@ namespace Pantheon
                         continue;
                     else
                     {
-                        if (map.TryGetValue(new Vector2Int(node.Position.x + x,
-                            node.Position.y + y), out Node n))
-                            neighbours.Add(n);
+                        if (map[node.Position.x + x, node.Position.y + y] != null)
+                            neighbours.Add(map[node.Position.x + x, node.Position.y + y]);
                     }
 
             Profiler.EndSample();
@@ -71,10 +71,10 @@ namespace Pantheon
 
         List<Node> FindPath(Vector2Int startPos, Vector2Int targetPos)
         {
-            if (!map.TryGetValue(startPos, out Node startNode))
+            if (!map.TryGet(out Node startNode, startPos.x, startPos.y))
                 throw new ArgumentException(
                     $"No node at {startPos}.");
-            if (!map.TryGetValue(targetPos, out Node targetNode))
+            if (!map.TryGet(out Node targetNode, targetPos.x, targetPos.y))
                 throw new ArgumentException(
                     $"No node at {targetPos}.");
 
@@ -82,31 +82,21 @@ namespace Pantheon
             if (targetNode.Cell.Terrain.Blocked)
                 return null;
 
-            List<Node> openSet = new List<Node>();
+            Heap<Node> openSet = new Heap<Node>(map.Length);
             HashSet<Node> closedSet = new HashSet<Node>();
             openSet.Add(startNode);
 
             int j = 0;
-            while (openSet.Count > 0)
+            while (openSet.CurrentItemCount > 0)
             {
                 if (j >= 10000)
                     throw new Exception(
                         $"Pathfinder iterated {j} times.");
 
-                Node currentNode = openSet[0];
                 Profiler.BeginSample("Pathfind: Cost Evaluation");
-                for (int i = 1; i < openSet.Count; i++)
-                {
-                    if (openSet[i].FCost < currentNode.FCost
-                        || openSet[i].FCost == currentNode.FCost
-                        && openSet[i].HCost < currentNode.HCost)
-                    {
-                        currentNode = openSet[i];
-                    }
-                }
-                Profiler.EndSample();
-                openSet.Remove(currentNode);
+                Node currentNode = openSet.RemoveFirst();
                 closedSet.Add(currentNode);
+                Profiler.EndSample();
 
                 if (currentNode == targetNode)
                     return RetracePath(startNode, targetNode);

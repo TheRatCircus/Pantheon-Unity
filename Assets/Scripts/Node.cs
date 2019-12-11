@@ -10,7 +10,7 @@ namespace Pantheon
     /// A pathfinding node corresponding to a cell.
     /// </summary>
     [System.Serializable]
-    public sealed class Node
+    public sealed class Node : IHeapItem<Node>
     {
         public Cell Cell { get; set; }
 
@@ -20,8 +20,20 @@ namespace Pantheon
         public Node Parent { get; set; }
         public Vector2Int Position => Cell.Position;
 
+        public int HeapIndex { get; set; }
+
         public Node(Cell cell) => Cell = cell;
 
         public override string ToString() => $"{Position}";
+
+        public int CompareTo(Node other)
+        {
+            int compare = FCost.CompareTo(other.FCost);
+
+            if (compare == 0)
+                compare = HCost.CompareTo(other.HCost);
+
+            return -compare;
+        }
     }
 }
