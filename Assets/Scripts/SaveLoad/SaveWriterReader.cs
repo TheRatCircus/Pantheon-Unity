@@ -39,6 +39,9 @@ namespace Pantheon.SaveLoad
             selector.AddSurrogate(typeof(SpeciesDefinition),
                 new StreamingContext(StreamingContextStates.All),
                 new SpeciesDefSurrogate(loader));
+            selector.AddSurrogate(typeof(EntityTemplate),
+                new StreamingContext(StreamingContextStates.All),
+                new EntityTemplateSurrogate(loader));
         }
 
         public void WriteSave(Save save)
