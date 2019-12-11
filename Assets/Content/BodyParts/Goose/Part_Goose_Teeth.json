@@ -1,0 +1,16 @@
+{
+  "ID": "Part_Goose_Teeth",
+  "Name": "goose teeth",
+  "Type": "Teeth",
+  "MoveSpeedModifier": 0,
+  "Melee": {
+    "Attacks": [
+      {
+        "MinDamage": 1,
+        "MaxDamage": 2,
+        "Accuracy": 70,
+        "Time": 120
+      }
+    ]
+  }
+}

@@ -1,7 +1,7 @@
 {
   "ID": "Part_Human_Legs",
   "Name": "human legs",
-  "Type": 2,
+  "Type": "Legs",
   "MoveSpeedModifier": 0,
   "Melee": {
     "Attacks": []

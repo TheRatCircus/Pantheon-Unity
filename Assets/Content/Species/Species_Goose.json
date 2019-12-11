@@ -1,0 +1,11 @@
+{
+  "ID": "Species_Goose",
+  "Name": "goose",
+  "Sprite": "Sprite_Goose",
+  "Parts": [
+    "Part_Goose_Head",
+    "Part_Goose_Wings",
+    "Part_Goose_Legs",
+    "Part_Goose_Teeth"
+  ]
+}

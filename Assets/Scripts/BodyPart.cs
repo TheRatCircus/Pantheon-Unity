@@ -1,17 +1,21 @@
 ﻿// BodyPart.cs
 // Jerome Martina
 
-using UnityEngine;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Pantheon.Components;
+using UnityEngine;
 
 namespace Pantheon
 {
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum BodyPartType
     {
         Head,
         Arms,
         Legs,
-        Teeth
+        Teeth,
+        Wings
     }
 
     [System.Serializable]

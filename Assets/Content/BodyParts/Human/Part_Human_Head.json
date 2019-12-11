@@ -1,7 +1,7 @@
 {
   "ID": "Part_Human_Head",
   "Name": "human head",
-  "Type": 0,
+  "Type": "Head",
   "MoveSpeedModifier": 0,
   "Melee": {
     "Attacks": []

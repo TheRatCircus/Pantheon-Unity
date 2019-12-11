@@ -1,7 +1,7 @@
 {
   "ID": "Part_Human_Arms",
   "Name": "human arms",
-  "Type": 1,
+  "Type": "Arms",
   "MoveSpeedModifier": 0,
   "Melee": {
     "Attacks": [
