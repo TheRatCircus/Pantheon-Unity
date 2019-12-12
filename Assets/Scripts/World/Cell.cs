@@ -1,6 +1,7 @@
 ﻿// Cell.cs
 // Jerome Martina
 
+using Pantheon.ECS;
 using System;
 using UnityEngine;
 
@@ -31,10 +32,23 @@ namespace Pantheon.World
 
             }
         }
-
         public Entity Actor { get; set; }
 
         public Cell(Vector2Int position) => Position = position;
+
+        public static bool Walkable(Cell cell)
+        {
+            if (cell == null)
+                return false;
+
+            if (cell.Terrain == null)
+                return false;
+
+            if (cell.Blocked)
+                return false;
+
+            return true;
+        }
 
         public void SetVisibility(bool visible, int fallOff)
         {

@@ -1,7 +1,8 @@
 ﻿// GameController.cs
 // Jerome Martina
 
-using Pantheon.Components;
+using Pantheon.ECS.Components;
+using Pantheon.ECS;
 using Pantheon.Gen;
 using Pantheon.SaveLoad;
 using Pantheon.UI;
@@ -34,11 +35,9 @@ namespace Pantheon.Core
         public TurnScheduler Scheduler { get; private set; }
         private SaveWriterReader saveSystem;
 
-        public Entity Player
-        {
-            get => PlayerControl.PlayerEntity;
-            set => PlayerControl.PlayerEntity = value;
-        }
+        // ECS
+        public EntityManager EntityManager { get; private set; }
+        public SystemManager SysManager { get; private set; }
 
         private void OnEnable()
         {
@@ -49,8 +48,6 @@ namespace Pantheon.Core
 
         public void InjectStaticDependencies()
         {
-            AI.InjectController(this);
-            Spawn.InjectController(this);
             GameWorld.InjectController(this);
             LevelGenerator.InjectController(this);
         }
@@ -58,7 +55,14 @@ namespace Pantheon.Core
         public void NewGame(string playerName)
         {
             InjectStaticDependencies();
+
+            EntityManager = new EntityManager();
+            EntityManager.NewActorEvent += OnNewActor;
+            PlayerControl.Initialize(EntityManager);
+
+            SysManager = new SystemManager(EntityManager, log, Scheduler);
             saveSystem = new SaveWriterReader(Loader);
+            Scheduler.ActionDoneEvent += SysManager.Update;
 
             World = new GameWorld();
             Generator = new LevelGenerator();
@@ -72,12 +76,12 @@ namespace Pantheon.Core
 
             // Spawn the player
             EntityTemplate template = Loader.LoadTemplate("Player");
-            Entity player = Spawn.SpawnActor(template, level, level.RandomCell(true));
-
-            Player = player;
+            Entity player = EntityManager.NewEntity(
+                template, level, level.RandomCell(true));
+            EntityManager.Player = player;
 
             LoadLevel(level, true);
-            MoveCameraTo(player.GameObjects[0].transform);
+            MoveCameraTo(EntityManager.Player.GameObjects[0].transform);
         }
 
         public void LoadGame(string path)
@@ -89,11 +93,11 @@ namespace Pantheon.Core
 
             World = save.World;
             Generator = save.Generator;
-            Player = save.Player;
+            EntityManager.Player = save.Player;
 
-            LoadLevel(Player.Level, false);
-            MoveCameraTo(Player.GameObjects[0].transform);
-            cursor.Level = Player.Level;
+            LoadLevel(EntityManager.LevelOfPlayer(), false);
+            MoveCameraTo(EntityManager.Player.GameObjects[0].transform);
+            cursor.Level = EntityManager.LevelOfPlayer();
         }
 
         private void Update()
@@ -119,14 +123,15 @@ namespace Pantheon.Core
             level.AssignGameObject(Instantiate(levelPrefab, worldTransform).transform);
 
             if (refreshFOV)
-                FOV.RefreshFOV(level, Player.Cell.Position, false);
+                FOV.RefreshFOV(level,
+                    EntityManager.CellOfPlayer().Position, false);
 
             foreach (Cell c in level.Map)
             {
                 if (c.Actor != null)
                 {
-                    Spawn.AssignGameObject(c.Actor);
-                    Scheduler.AddActor(c.Actor.GetComponent<Actor>());
+                    AssignGameObject(c.Actor);
+                    Scheduler.AddActor(EntityManager.Actors[c.Actor.GUID]);
                 }
                 level.DrawTile(c);
             }
@@ -136,6 +141,40 @@ namespace Pantheon.Core
         {
             Destroy(level.Transform.gameObject);
             World.ActiveLevel = null;
+        }
+
+        public void AssignGameObject(Entity entity)
+        {
+            GameObject entityObj = Instantiate(GameObjectPrefab,
+                EntityManager.CellOf(entity).Position.ToVector3(),
+                new Quaternion(),
+                EntityManager.LevelOf(entity).EntitiesTransform);
+
+            entityObj.name = entity.Name;
+            EntityWrapper wrapper = entityObj.GetComponent<EntityWrapper>();
+            wrapper.Entity = entity;
+            SpriteRenderer sr = entityObj.GetComponent<SpriteRenderer>();
+            sr.sprite = entity.Flyweight.Sprite;
+
+            if (!EntityManager.CellOf(entity).Visible)
+                sr.enabled = false;
+
+            entity.GameObjects = new GameObject[1];
+            entity.GameObjects[0] = entityObj;
+        }
+
+        /// <summary>
+        /// Schedule a new actor for turns if its level is active.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="level"></param>
+        /// <param name="visible">If the new actor's cell is visible.</param>
+        private void OnNewActor(Actor actor, Level level, bool visible)
+        {
+            if (level == World.ActiveLevel)
+                Scheduler.AddActor(actor);
+            //if (visible)
+            //    PlayerControl.VisibleActors.Add()
         }
 
         private void MoveCameraTo(Transform transform)
@@ -151,7 +190,8 @@ namespace Pantheon.Core
 
         private void SaveGame()
         {
-            Save save = new Save(Player.Name, World, Generator, Player);
+            Save save = new Save(EntityManager.Player.Name, World, Generator,
+                EntityManager.Player);
             saveSystem.WriteSave(save);
         }
 

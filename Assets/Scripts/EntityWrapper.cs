@@ -1,6 +1,7 @@
 ﻿// EntityWrapper.cs
 // Jerome Martina
 
+using Pantheon.ECS;
 using UnityEngine;
 
 namespace Pantheon

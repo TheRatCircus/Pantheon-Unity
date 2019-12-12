@@ -1,9 +1,9 @@
 ﻿// Visualisation.cs
 // Jerome Martina
 
-using UnityEngine;
-using Pantheon.World;
 using Pantheon.Utils;
+using Pantheon.World;
+using UnityEngine;
 
 namespace Pantheon.Debug
 {

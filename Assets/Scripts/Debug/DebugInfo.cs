@@ -1,7 +1,7 @@
 ﻿// DebugInfo.cs
 // Jerome Martina
 
-using Pantheon.Components;
+using Pantheon.ECS.Components;
 using Pantheon.Core;
 using UnityEngine;
 using UnityEngine.UI;

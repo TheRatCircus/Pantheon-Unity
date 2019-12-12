@@ -34,7 +34,9 @@ namespace Pantheon.Debug
                 { "reveal_level", new ConsoleCommand(RevealLevel) },
                 { "spawn", new ConsoleCommand(Spawn) },
                 { "turn_order", new ConsoleCommand(TurnOrder) },
-                { "describe_component", new ConsoleCommand(DescribeComponent) }
+                { "find_entity", new ConsoleCommand(FindEntity) },
+                { "entities_here", new ConsoleCommand(EntitiesHere) },
+                { "components_of", new ConsoleCommand(ComponentsOf) }
             };
 
         private void Awake()

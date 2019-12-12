@@ -5,6 +5,7 @@
 #undef DEBUG_ASSETLOADER
 
 using Newtonsoft.Json;
+using Pantheon.ECS;
 using Pantheon.Serialization.Json;
 using Pantheon.Serialization.Json.Converters;
 using System;

@@ -1,7 +1,7 @@
 ﻿// TurnScheduler.cs
-// Jerome Martina
+// Courtesy of Dan Korostelev
 
-using Pantheon.Components;
+using Pantheon.ECS.Components;
 using Pantheon.World;
 using System;
 using System.Collections.Generic;
@@ -19,27 +19,23 @@ namespace Pantheon.Core
         // a turn is considered to have passed
         [ReadOnly] [SerializeField] private int turnProgress = 0;
         [ReadOnly] [SerializeField] private int turns = 0;
-
-        private List<Actor> queue = new List<Actor>();
-        public List<Actor> Queue => queue;
+        public List<Actor> Queue { get; } = new List<Actor>();
         [ReadOnly] [SerializeField] private int lockCount = 0;
         private Actor currentActor = null;
         private bool currentActorRemoved = false;
 
+        public event Action<int> AITurnEvent; // Send to AISystem
         public event Action TurnChangeEvent;
         public event Action<int> ClockTickEvent;
         public event Action<int> PlayerActionEvent;
         public event Action<Actor> ActorDebugEvent;
         public event Action ActionDoneEvent;
 
-        private void Start()
-        {
-            ctrl = GetComponent<GameController>();
-        }
+        private void Start() => ctrl = GetComponent<GameController>();
 
         void Update()
         {
-            for (int i = 0; i < queue.Count; i++)
+            for (int i = 0; i < Queue.Count; i++)
                 if (!Tick())
                     break;
         }
@@ -51,7 +47,7 @@ namespace Pantheon.Core
             if (lockCount > 0)
                 return false;
 
-            Actor actor = queue[0];
+            Actor actor = Queue[0];
 
             if (actor == null)
                 return false;
@@ -65,6 +61,21 @@ namespace Pantheon.Core
             while (actor.Energy > 0)
             {
                 currentActor = actor;
+
+                switch (actor.Control)
+                {
+                    case ActorControl.Player:
+                        // Either PlayerControl sends an action or does not
+                        break;
+                    case ActorControl.AI:
+                        AITurnEvent.Invoke(actor.GUID);
+                        break;
+                    case ActorControl.None:
+                        Actor deq = Queue[0];
+                        Queue.RemoveAt(0);
+                        Queue.Add(deq);
+                        return true;
+                }
 
                 int actionCost = actor.Act();
                 currentActor = null;
@@ -91,11 +102,12 @@ namespace Pantheon.Core
                 
                 // If actor was player or visible, refresh FOV
                 if (actor.Control == ActorControl.Player ||
-                    ctrl.PlayerControl.ActorIsVisible(actor))
+                    ctrl.EntityManager.CellOf(actor).Visible)
                 {
                     HashSet<Cell> refreshed = FOV.RefreshFOV(
-                        ctrl.Player.Level, ctrl.Player.Cell.Position, true);
-                    ctrl.PlayerControl.RecalculateVisible(refreshed);
+                        ctrl.World.ActiveLevel,
+                        ctrl.EntityManager.CellOf(ctrl.EntityManager.Player).Position, true);
+                    //ctrl.PlayerControl.RecalculateVisible(refreshed);
                 }
 
                 if (actor.Control == ActorControl.Player)
@@ -126,9 +138,9 @@ namespace Pantheon.Core
             if (actor.Control == ActorControl.Player)
                 PlayerActionEvent?.Invoke(actor.Energy);
 
-            Actor dequeued = queue[0];
-            queue.RemoveAt(0);
-            queue.Add(dequeued);
+            Actor dequeued = Queue[0];
+            Queue.RemoveAt(0);
+            Queue.Add(dequeued);
 
             return true;
         }
@@ -145,10 +157,10 @@ namespace Pantheon.Core
         }
 
         // Add and remove actors from the queue
-        public void AddActor(Actor actor) => queue.Add(actor);
+        public void AddActor(Actor actor) => Queue.Add(actor);
         public void RemoveActor(Actor actor)
         {
-            queue.Remove(actor);
+            Queue.Remove(actor);
 
             if (currentActor == actor)
                 currentActorRemoved = true;
