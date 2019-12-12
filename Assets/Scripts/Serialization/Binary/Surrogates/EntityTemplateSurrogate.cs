@@ -3,7 +3,6 @@
 
 using System.Runtime.Serialization;
 using Pantheon.Core;
-using Pantheon.ECS;
 
 namespace Pantheon.Serialization.Binary.Surrogates
 {

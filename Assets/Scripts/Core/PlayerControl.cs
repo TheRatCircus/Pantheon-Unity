@@ -1,8 +1,8 @@
 ﻿// PlayerControl.cs
 // Jerome Martina
 
-using Pantheon.ECS.Components;
-using Pantheon.ECS;
+using Pantheon.Commands;
+using Pantheon.Components;
 using Pantheon.World;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,19 +39,24 @@ namespace Pantheon.Core
     {
         [SerializeField] private UI.Cursor cursor = default;
 
-        private EntityManager mgr;
-
         public bool SendingInput { get; set; } = true;
+
+        private Entity playerEntity;
+        public Entity PlayerEntity
+        {
+            get => playerEntity;
+            set
+            {
+                playerEntity = value;
+                playerActor = value.GetComponent<Actor>();
+            }
+        }
+        private Actor playerActor;
 
         public HashSet<Entity> VisibleActors { get; private set; }
             = new HashSet<Entity>();
         public List<Cell> AutoMovePath { get; set; }
             = new List<Cell>();
-
-        public void Initialize(EntityManager mgr)
-        {
-            this.mgr = mgr;
-        }
 
         private void Update()
         {
@@ -67,7 +72,7 @@ namespace Pantheon.Core
             // Set automove path
             if (Input.GetMouseButtonDown(0))
             {
-                AutoMovePath = mgr.LevelOfPlayer().GetPathTo(mgr.CellOfPlayer(), cursor.HoveredCell);
+                AutoMovePath = PlayerEntity.Level.GetPathTo(PlayerEntity.Cell, cursor.HoveredCell);
                 return;
             }
 
@@ -124,13 +129,33 @@ namespace Pantheon.Core
             switch (msg.type)
             {
                 case InputType.Direction:
-                    if (mgr.PlayerLocation().Walk(msg.vector))
-                        mgr.PlayerActor.ActionCost = TurnScheduler.TurnTime;
+                    playerActor.Command = new MoveCommand(PlayerEntity, msg.vector,
+                        TurnScheduler.TurnTime);
                     break;
                 case InputType.Wait:
-                    mgr.PlayerActor.ActionCost = TurnScheduler.TurnTime;
+                    playerActor.Command = new WaitCommand(PlayerEntity);
                     break;
             }
+        }
+
+        public void RecalculateVisible(IEnumerable<Cell> cells)
+        {
+            VisibleActors.Clear();
+            foreach (Cell c in cells)
+            {
+                if (c.Actor != null
+                    && c.Actor.GetComponent<Actor>().Control != ActorControl.Player)
+                    VisibleActors.Add(c.Actor);
+            }
+        }
+
+        public bool ActorIsVisible(Actor actor)
+        {
+            foreach (Entity visibleActor in VisibleActors)
+                if (visibleActor.GetComponent<Actor>() == actor)
+                    return true;
+
+            return false;
         }
     }
 }

@@ -2,8 +2,8 @@
 // Jerome Martina
 
 using Newtonsoft.Json;
-using Pantheon.ECS;
-using Pantheon.ECS.Components;
+using Pantheon;
+using Pantheon.Components;
 using Pantheon.Serialization.Json;
 using Pantheon.Serialization.Json.Converters;
 using System.Collections.Generic;

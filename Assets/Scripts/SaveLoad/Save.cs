@@ -1,7 +1,6 @@
 ﻿// Save.cs
 // Jerome Martina
 
-using Pantheon.ECS;
 using Pantheon.Gen;
 using Pantheon.World;
 using System.IO;

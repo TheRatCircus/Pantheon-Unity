@@ -1,13 +1,14 @@
 {
-  "ID": "Player",
-  "EntityName": "the hero",
+  "Name": "Player",
   "Sprite": "Sprite_Player",
-  "Tile": null,
+  "Tile": "Tile_Player",
   "Components": [
     {
       "$type": "Actor",
-	  "control": "Player",
-      "Speed": 100
+      "control": "Player",
+      "Speed": 100,
+      "Energy": 0,
+      "Command": null
     },
     {
       "$type": "Health",

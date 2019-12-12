@@ -1,7 +1,7 @@
 ﻿// Binders.cs
 // Jerome Martina
 
-using Pantheon.ECS.Components;
+using Pantheon.Components;
 using Pantheon.Gen;
 using System;
 using System.Collections.Generic;
