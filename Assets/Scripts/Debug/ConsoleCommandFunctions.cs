@@ -92,5 +92,15 @@ namespace Pantheon.Debug
                     return $"Component of type \"{args[0]}\" not found.";
             }
         }
+
+        public static string Destroy(string[] args, GameController ctrl)
+        {
+            Entity e = ctrl.Cursor.HoveredCell.Actor;
+            if (e == null)
+                return $"Nothing under the cursor to destroy.";
+            e.Destroy();
+
+            return $"Destroyed entity {e.ToString()}";
+        }
     }
 }

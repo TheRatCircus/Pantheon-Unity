@@ -2,6 +2,8 @@
 // Jerome Martina
 
 using Pantheon.Components;
+using Pantheon.Core;
+using Pantheon.UI;
 using Pantheon.Utils;
 using Pantheon.World;
 using System;
@@ -137,13 +139,24 @@ namespace Pantheon
                 }
         }
 
-        private void Destroy()
+        public void Destroy()
         {
             // TODO: OnDestroyEvent
             // ???
-            UnityEngine.Object.Destroy(GameObjects[0]);
             Cell.Actor = null;
-            // TODO: Remove from turn scheduler
+            if (TryGetComponent(out Actor actor))
+            {
+                SchedulerLocator._scheduler.RemoveActor(actor);
+
+                if (actor.Control == ActorControl.Player)
+                {
+                    Transform camTransform = GameObjects[0].transform.Find("MainCamera");
+                    camTransform.SetParent(null);
+                    SchedulerLocator._scheduler.Lock();
+                    LogLocator._log.Send($"You perish...", Color.magenta);
+                }
+            }
+            UnityEngine.Object.Destroy(GameObjects[0]);
         }
 
         public string ToSubjectString(bool sentenceStart)
