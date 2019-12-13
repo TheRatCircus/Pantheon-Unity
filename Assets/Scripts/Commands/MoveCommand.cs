@@ -53,13 +53,7 @@ namespace Pantheon.Commands
 
         public override int Execute()
         {
-            if (destinationCell == null)
-                return -1;
-
-            if (destinationCell.Terrain == null)
-                return -1;
-
-            if (destinationCell.Blocked)
+            if (!Cell.Walkable(destinationCell))
                 return -1;
 
             if (destinationCell.Actor != null)

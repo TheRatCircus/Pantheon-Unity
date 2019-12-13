@@ -28,11 +28,18 @@ namespace Pantheon.World
                 if (Actor == null)
                     return Terrain.Blocked;
                 else return true;
-
             }
         }
 
         public Entity Actor { get; set; }
+
+        /// <summary>
+        /// Whether a cell can be walked on at all (does not factor entities).
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <returns>True if cell exists, has ground, and is not blocked.</returns>
+        public static bool Walkable(Cell cell)
+            => cell != null && cell.Terrain != null && !cell.Terrain.Blocked;
 
         public Cell(Vector2Int position) => Position = position;
 
