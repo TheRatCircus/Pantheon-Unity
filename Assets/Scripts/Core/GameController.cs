@@ -44,7 +44,9 @@ namespace Pantheon.Core
         {
             Loader = GetComponent<AssetLoader>();
             Scheduler = GetComponent<TurnScheduler>();
+            TurnSchedulerLocator.Provide(Scheduler);
             PlayerControl = GetComponent<PlayerControl>();
+            LogLocator.Provide(Log);
         }
 
         public void InjectStaticDependencies()

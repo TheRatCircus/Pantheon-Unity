@@ -6,7 +6,7 @@ using TMPro;
 
 namespace Pantheon.UI
 {
-    public sealed class GameLog : MonoBehaviour
+    public sealed class GameLog : MonoBehaviour, IGameLog
     {
         [SerializeField] private Transform logTransform = default;
         [SerializeField] private GameObject msgPrefab = default;

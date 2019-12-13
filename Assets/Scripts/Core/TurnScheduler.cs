@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Pantheon.Core
 {
-    public sealed class TurnScheduler : MonoBehaviour
+    public sealed class TurnScheduler : MonoBehaviour, ITurnScheduler
     {
         public const int TurnTime = 100;
 

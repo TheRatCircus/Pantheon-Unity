@@ -84,9 +84,11 @@
     <Compile Include="Assets\Scripts\Core\AssetLoader.cs" />
     <Compile Include="Assets\Scripts\Core\FOV.cs" />
     <Compile Include="Assets\Scripts\Core\GameController.cs" />
+    <Compile Include="Assets\Scripts\Core\ITurnScheduler.cs" />
     <Compile Include="Assets\Scripts\Core\PlayerControl.cs" />
     <Compile Include="Assets\Scripts\Core\Spawn.cs" />
     <Compile Include="Assets\Scripts\Core\TurnScheduler.cs" />
+    <Compile Include="Assets\Scripts\Core\TurnSchedulerLocator.cs" />
     <Compile Include="Assets\Scripts\Damage.cs" />
     <Compile Include="Assets\Scripts\Debug\Console.cs" />
     <Compile Include="Assets\Scripts\Debug\ConsoleCommandFunctions.cs" />
@@ -130,7 +132,9 @@
     <Compile Include="Assets\Scripts\UI\CameraControl.cs" />
     <Compile Include="Assets\Scripts\UI\Cursor.cs" />
     <Compile Include="Assets\Scripts\UI\GameLog.cs" />
+    <Compile Include="Assets\Scripts\UI\IGameLog.cs" />
     <Compile Include="Assets\Scripts\UI\Intro.cs" />
+    <Compile Include="Assets\Scripts\UI\LogLocator.cs" />
     <Compile Include="Assets\Scripts\UI\MainMenu.cs" />
     <Compile Include="Assets\Scripts\Utils\Colours.cs" />
     <Compile Include="Assets\Scripts\Utils\Helpers.cs" />
