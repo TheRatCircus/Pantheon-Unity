@@ -40,8 +40,10 @@ namespace Pantheon
                         continue;
                     else
                     {
-                        if (map[node.Position.x + x, node.Position.y + y] != null)
-                            neighbours.Add(map[node.Position.x + x, node.Position.y + y]);
+                        if (map.TryGet(out Node n,
+                            node.Position.x + x,
+                            node.Position.y + y))
+                            neighbours.Add(n);
                     }
 
             Profiler.EndSample();
