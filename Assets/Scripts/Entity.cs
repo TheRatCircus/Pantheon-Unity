@@ -39,6 +39,29 @@ namespace Pantheon
             get => GetComponent<Location>().Level;
             set => GetComponent<Location>().Level = value;
         }
+        // Address in third-person if not player entity
+        public bool ThirdPerson
+        {
+            get
+            {
+                if (TryGetComponent(out Actor actor))
+                    return actor.Control != ActorControl.Player;
+                else
+                    return true;
+            }
+        }
+
+        /// <summary>
+        /// Construct a temporary pretend entity from a TerrainDef.
+        /// </summary>
+        /// <param name="terrain"></param>
+        /// <returns></returns>
+        public static Entity VirtualEntity(TerrainDefinition terrain)
+        {
+            return new Entity(terrain.DisplayName);
+        }
+
+        public Entity(string name) => Name = name;
 
         public Entity(EntityTemplate template)
         {
@@ -121,6 +144,16 @@ namespace Pantheon
             UnityEngine.Object.Destroy(GameObjects[0]);
             Cell.Actor = null;
             // TODO: Remove from turn scheduler
+        }
+
+        public string ToSubjectString(bool sentenceStart)
+        {
+            Actor a = GetComponent<Actor>();
+
+            if (a.Control == ActorControl.Player)
+                return sentenceStart ? "You" : "you";
+            else
+                return sentenceStart ? $"The {Name}" : $"the {Name}";
         }
 
         public override string ToString() => Name;

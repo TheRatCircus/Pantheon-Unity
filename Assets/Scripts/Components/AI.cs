@@ -58,7 +58,9 @@ namespace Pantheon.Components
                 {
                     Target = ctrl.Player;
                     Actor.Command = MoveCommand.MoveOrWait(Entity, Target.Cell);
-                    LogLocator._log.Send($"The {Entity.Name} notices you!", Colours._orange);
+                    LogLocator._log.Send(
+                        $"{Entity.ToSubjectString(true)} notices you!",
+                        Colours._orange);
                 }
                 else
                     Actor.Command = new WaitCommand(Entity); // Sleep

@@ -2,6 +2,8 @@
 // Jerome Martina
 
 using Pantheon.Components;
+using Pantheon.UI;
+using Pantheon.Util;
 using Pantheon.World;
 using UnityEngine;
 
@@ -19,7 +21,12 @@ namespace Pantheon.Commands
 
         public override int Execute()
         {
-            Entity defender = target.Actor != null ? target.Actor : null;
+            Entity defender;
+
+            if (target.Actor != null)
+                defender = target.Actor;
+            else
+                defender = null;
 
             SpeciesDefinition species = Entity.GetComponent<Species>().SpeciesDef;
 
@@ -40,14 +47,16 @@ namespace Pantheon.Commands
 
                     if (atk.Accuracy < Random.Range(0, 101))
                     {
-                        // TODO: Log miss
+                        LogLocator._log.Send(
+                            Strings.Miss(Entity, defender), Color.grey);
                         continue;
                     }
                     
                     if (defender != null)
                     {
-                        // TODO: Log hit
                         Hit hit = new Hit(atk.Damages);
+                        LogLocator._log.Send(
+                            Strings.Hit(Entity, defender, hit), Color.white);
                         defender.TakeHit(Entity, hit);
                     }
                 }

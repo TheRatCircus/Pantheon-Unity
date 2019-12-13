@@ -144,6 +144,7 @@
     <Compile Include="Assets\Scripts\Utils\ObjectExtensions.cs" />
     <Compile Include="Assets\Scripts\Utils\RandomUtils.cs" />
     <Compile Include="Assets\Scripts\Utils\Scenes.cs" />
+    <Compile Include="Assets\Scripts\Utils\Strings.cs" />
     <Compile Include="Assets\Scripts\World\Cell.cs" />
     <Compile Include="Assets\Scripts\World\GameWorld.cs" />
     <Compile Include="Assets\Scripts\World\Layer.cs" />
