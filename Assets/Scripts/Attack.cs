@@ -11,14 +11,19 @@ namespace Pantheon
     [System.Serializable]
     public sealed class Attack
     {
-        [SerializeField] private int minDamage = -1;
-        [SerializeField] private int maxDamage = -1;
+        [SerializeField] private Damage[] damages = default;
         [SerializeField] private int accuracy = -1; // 0...100
         [SerializeField] private int time = -1;
 
-        public int MinDamage => minDamage;
-        public int MaxDamage => maxDamage;
+        public Damage[] Damages => damages;
         public int Accuracy => accuracy;
         public int Time => time;
+
+        public Attack(Damage[] damages, int accuracy, int time)
+        {
+            this.damages = damages;
+            this.accuracy = accuracy;
+            this.time = time;
+        }
     }
 }

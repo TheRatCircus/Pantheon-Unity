@@ -32,13 +32,40 @@ namespace Pantheon.Components
             RegenProgress = this.regenTime;
         }
 
-        public void ModifyHealth(int change)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="change"></param>
+        /// <returns>True if entity ran out of health.</returns>
+        private bool ModifyHealth(int change)
         {
+            // TODO: OnHealthChangeEvent
             Current += change;
+            if (Current <= 0)
+                return true;
+            else
+                return false;
         }
 
+        public void Heal(int healing)
+        {
+            // TODO: OnHealEvent
+            ModifyHealth(healing);
+        }
+
+        public bool Damage(int damage)
+        {
+            // TODO: OnDamageEvent
+            return ModifyHealth(-damage);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>True if the entity regenerated at all.</returns>
         public bool Regen()
         {
+            // TODO: OnRegenEvent
             if (RegenTime == 0) // Does not regenerate
                 return false;
             else
@@ -47,7 +74,7 @@ namespace Pantheon.Components
                 if (RegenProgress <= 0)
                 {
                     RegenProgress = RegenTime;
-                    ModifyHealth(1);
+                    Heal(1);
                 }
                 return true;
             }

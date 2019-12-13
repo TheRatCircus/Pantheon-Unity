@@ -5,13 +5,13 @@ namespace Pantheon
 {
     public struct Hit
     {
-        public readonly Damage[] damages;
-    }
+        public readonly HitDamage[] damages;
 
-    public sealed class Damage
-    {
-        public DamageType Type { get; set; }
-        public int Min { get; set; }
-        public int Max { get; set; }
+        public Hit(Damage[] damages)
+        {
+            this.damages = new HitDamage[damages.Length];
+            for (int i = 0; i < this.damages.Length; i++)
+                this.damages[i] = new HitDamage(damages[i]);
+        }
     }
 }

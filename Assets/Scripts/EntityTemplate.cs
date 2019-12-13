@@ -17,11 +17,11 @@ namespace Pantheon
         public EntityComponent[] Components { get; private set; }
 
         [JsonConstructor]
-        public EntityTemplate(string id, string name, Sprite sprite,
+        public EntityTemplate(string id, string entityName, Sprite sprite,
             params EntityComponent[] components)
         {
             ID = id;
-            EntityName = name;
+            EntityName = entityName;
             Sprite = sprite;
             Components = components;
             if (Tile == null)

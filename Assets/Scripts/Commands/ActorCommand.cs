@@ -8,7 +8,7 @@ namespace Pantheon.Commands
     /// </summary>
     public abstract class ActorCommand : Command
     {
-        public int Cost { get; private set; } // Energy penalty incurred on actor
+        public int Cost { get; private set; } // XXX: Doesn't do anything right now
 
         public ActorCommand(Entity entity, int cost) : base(entity)
         {

@@ -102,6 +102,27 @@ namespace Pantheon
             cell.Actor = this;
         }
 
+        public void TakeHit(Entity hitter, Hit hit)
+        {
+            // TODO: OnHitEvent
+            Health health = GetComponent<Health>();
+            foreach (HitDamage damage in hit.damages)
+                if (health.Damage(damage.amount))
+                {
+                    Destroy();
+                    break;
+                }
+        }
+
+        private void Destroy()
+        {
+            // TODO: OnDestroyEvent
+            // ???
+            UnityEngine.Object.Destroy(GameObjects[0]);
+            Cell.Actor = null;
+            // TODO: Remove from turn scheduler
+        }
+
         public override string ToString() => Name;
     }
 }

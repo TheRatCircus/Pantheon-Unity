@@ -62,13 +62,13 @@ namespace Pantheon.Components
                 else
                     Actor.Command = new WaitCommand(Entity); // Sleep
             }
-            LogAI();
+            DebugLogAI();
         }
 
         public override EntityComponent Clone() => new AI();
 
         [System.Diagnostics.Conditional("DEBUG_AI")]
-        private void LogAI()
+        private void DebugLogAI()
         {
             UnityEngine.Debug.Log($"{Entity} command: {Actor.Command}");
         }

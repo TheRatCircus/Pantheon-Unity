@@ -40,6 +40,7 @@ namespace Pantheon
             this.id = id;
         }
 
+        [JsonConstructor]
         public BodyPart(string id, string name, BodyPartType type,
             int moveSpeedModifier, Melee melee)
         {

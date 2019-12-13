@@ -22,6 +22,7 @@ namespace Pantheon.Core
 
         private List<Actor> queue = new List<Actor>();
         public List<Actor> Queue => queue;
+
         [ReadOnly] [SerializeField] private int lockCount = 0;
         private Actor currentActor = null;
         private bool currentActorRemoved = false;

@@ -6,10 +6,15 @@
   "Melee": {
     "Attacks": [
       {
-        "MinDamage": 1,
-        "MaxDamage": 2,
+        "Damages": [
+          {
+            "Type": 2,
+            "Min": 1,
+            "Max": 2
+          }
+        ],
         "Accuracy": 70,
-        "Time": 120
+        "Time": 100
       }
     ]
   }

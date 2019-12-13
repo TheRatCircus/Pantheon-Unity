@@ -10,9 +10,8 @@ namespace Pantheon.Components
 
         public Attack[] Attacks => attacks;
 
-        public override EntityComponent Clone()
-        {
-            throw new System.NotImplementedException();
-        }
+        public Melee(Attack[] attacks) => this.attacks = attacks;
+
+        public override EntityComponent Clone() => new Melee(attacks);
     }
 }
