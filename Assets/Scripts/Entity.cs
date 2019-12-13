@@ -53,6 +53,8 @@ namespace Pantheon
             }
         }
 
+        public event Action OnDestroyedEvent;
+
         /// <summary>
         /// Construct a temporary pretend entity from a TerrainDef.
         /// </summary>
@@ -154,6 +156,7 @@ namespace Pantheon
                     camTransform.SetParent(null);
                     SchedulerLocator._scheduler.Lock();
                     LogLocator._log.Send($"You perish...", Color.magenta);
+                    OnDestroyedEvent.Invoke();
                 }
             }
             UnityEngine.Object.Destroy(GameObjects[0]);

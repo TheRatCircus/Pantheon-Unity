@@ -12,6 +12,12 @@ using UnityEngine.SceneManagement;
 
 namespace Pantheon.Core
 {
+    public enum GameState
+    {
+        Default,
+        PlayerDead
+    }
+
     public sealed class GameController : MonoBehaviour
     {
         [SerializeField] private GameObject levelPrefab = default;
@@ -34,6 +40,7 @@ namespace Pantheon.Core
         public TurnScheduler Scheduler { get; private set; }
         private SaveWriterReader saveSystem;
 
+        public GameState State { get; private set; } = GameState.Default;
         public Entity Player
         {
             get => PlayerControl.PlayerEntity;
@@ -75,6 +82,7 @@ namespace Pantheon.Core
             // Spawn the player
             EntityTemplate template = Loader.LoadTemplate("Player");
             Entity player = Spawn.SpawnActor(template, level, level.RandomCell(true));
+            player.OnDestroyedEvent += OnPlayerDeath;
 
             Player = player;
 
@@ -155,6 +163,11 @@ namespace Pantheon.Core
         {
             Save save = new Save(Player.Name, World, Generator, Player);
             saveSystem.WriteSave(save);
+        }
+
+        private void OnPlayerDeath()
+        {
+            State = GameState.PlayerDead;
         }
 
         public static void QuitToTitle()
