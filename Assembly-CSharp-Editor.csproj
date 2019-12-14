@@ -62,9 +62,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\CrossSceneReference\Editor\GuidComponentDrawer.cs" />
-    <Compile Include="Assets\CrossSceneReference\Editor\GuidReferenceDrawer.cs" />
-    <Compile Include="Assets\CrossSceneReference\Tests\Editor\GuidReferenceTests.cs" />
     <Compile Include="Assets\Editor\BodyPartGenerator.cs" />
     <Compile Include="Assets\Editor\CreateAssetBundles.cs" />
     <Compile Include="Assets\Editor\EnumOrderDrawer.cs" />
@@ -728,9 +725,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{D8FF56EA-5D97-32BB-196E-D0BA45FA9996}</Project>
-      <Name>Assembly-CSharp</Name>
+    <ProjectReference Include="Scripts.csproj">
+      <Project>{AF7FFA80-3B66-13B7-9228-0B1A524F7576}</Project>
+      <Name>Scripts</Name>
+    </ProjectReference>
+    <ProjectReference Include="CrossSceneReference.csproj">
+      <Project>{6414A4A1-599C-F67C-131D-1580D313A044}</Project>
+      <Name>CrossSceneReference</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

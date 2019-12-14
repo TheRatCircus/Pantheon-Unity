@@ -67,88 +67,6 @@
     <Compile Include="Assets\CrossSceneReference\Runtime\GuidReference.cs" />
     <Compile Include="Assets\CrossSceneReference\Samples\LoadScenes.cs" />
     <Compile Include="Assets\CrossSceneReference\Samples\TestCrossScene.cs" />
-    <Compile Include="Assets\Scripts\Attack.cs" />
-    <Compile Include="Assets\Scripts\BodyPart.cs" />
-    <Compile Include="Assets\Scripts\Commands\ActorCommand.cs" />
-    <Compile Include="Assets\Scripts\Commands\Command.cs" />
-    <Compile Include="Assets\Scripts\Commands\MeleeCommand.cs" />
-    <Compile Include="Assets\Scripts\Commands\MoveCommand.cs" />
-    <Compile Include="Assets\Scripts\Commands\WaitCommand.cs" />
-    <Compile Include="Assets\Scripts\Components\Actor.cs" />
-    <Compile Include="Assets\Scripts\Components\AI.cs" />
-    <Compile Include="Assets\Scripts\Components\EntityComponent.cs" />
-    <Compile Include="Assets\Scripts\Components\Health.cs" />
-    <Compile Include="Assets\Scripts\Components\Location.cs" />
-    <Compile Include="Assets\Scripts\Components\Melee.cs" />
-    <Compile Include="Assets\Scripts\Components\Species.cs" />
-    <Compile Include="Assets\Scripts\Core\AssetLoader.cs" />
-    <Compile Include="Assets\Scripts\Core\FOV.cs" />
-    <Compile Include="Assets\Scripts\Core\GameController.cs" />
-    <Compile Include="Assets\Scripts\Core\ITurnScheduler.cs" />
-    <Compile Include="Assets\Scripts\Core\PlayerControl.cs" />
-    <Compile Include="Assets\Scripts\Core\SchedulerLocator.cs" />
-    <Compile Include="Assets\Scripts\Core\Spawn.cs" />
-    <Compile Include="Assets\Scripts\Core\TurnScheduler.cs" />
-    <Compile Include="Assets\Scripts\Damage.cs" />
-    <Compile Include="Assets\Scripts\Debug\Console.cs" />
-    <Compile Include="Assets\Scripts\Debug\ConsoleCommandFunctions.cs" />
-    <Compile Include="Assets\Scripts\Debug\DebugInfo.cs" />
-    <Compile Include="Assets\Scripts\Debug\Visualisation.cs" />
-    <Compile Include="Assets\Scripts\Entity.cs" />
-    <Compile Include="Assets\Scripts\EntityTemplate.cs" />
-    <Compile Include="Assets\Scripts\EntityWrapper.cs" />
-    <Compile Include="Assets\Scripts\Enums\CardinalDirection.cs" />
-    <Compile Include="Assets\Scripts\Enums\DamageType.cs" />
-    <Compile Include="Assets\Scripts\Enums\Gender.cs" />
-    <Compile Include="Assets\Scripts\Gen\BinarySpacePartition.cs" />
-    <Compile Include="Assets\Scripts\Gen\Builder.cs" />
-    <Compile Include="Assets\Scripts\Gen\BuilderPlan.cs" />
-    <Compile Include="Assets\Scripts\Gen\BuilderStep.cs" />
-    <Compile Include="Assets\Scripts\Gen\Fill.cs" />
-    <Compile Include="Assets\Scripts\Gen\LevelGenerator.cs" />
-    <Compile Include="Assets\Scripts\Gen\RandomFill.cs" />
-    <Compile Include="Assets\Scripts\Heap.cs" />
-    <Compile Include="Assets\Scripts\Hit.cs" />
-    <Compile Include="Assets\Scripts\Inspector\EnumOrder.cs" />
-    <Compile Include="Assets\Scripts\Inspector\ReadOnlyAttribute.cs" />
-    <Compile Include="Assets\Scripts\Node.cs" />
-    <Compile Include="Assets\Scripts\Pathfinder.cs" />
-    <Compile Include="Assets\Scripts\SaveLoad\Save.cs" />
-    <Compile Include="Assets\Scripts\SaveLoad\SaveWriterReader.cs" />
-    <Compile Include="Assets\Scripts\Serialization\Binary\Surrogates\EntityTemplateSurrogate.cs" />
-    <Compile Include="Assets\Scripts\Serialization\Binary\Surrogates\SpeciesDefSurrogate.cs" />
-    <Compile Include="Assets\Scripts\Serialization\Binary\Surrogates\SpriteSurrogate.cs" />
-    <Compile Include="Assets\Scripts\Serialization\Binary\Surrogates\TerrainDefSurrogate.cs" />
-    <Compile Include="Assets\Scripts\Serialization\Binary\Surrogates\Vector2IntSurrogate.cs" />
-    <Compile Include="Assets\Scripts\Serialization\Binary\Surrogates\Vector3IntSurrogate.cs" />
-    <Compile Include="Assets\Scripts\Serialization\Json\Binders.cs" />
-    <Compile Include="Assets\Scripts\Serialization\Json\Converters\BodyPartConverter.cs" />
-    <Compile Include="Assets\Scripts\Serialization\Json\Converters\RuleTileConverter.cs" />
-    <Compile Include="Assets\Scripts\Serialization\Json\Converters\SpeciesDefinitionConverter.cs" />
-    <Compile Include="Assets\Scripts\Serialization\Json\Converters\SpriteConverter.cs" />
-    <Compile Include="Assets\Scripts\Serialization\Json\SerializationBinder.cs" />
-    <Compile Include="Assets\Scripts\SpeciesDefinition.cs" />
-    <Compile Include="Assets\Scripts\TerrainDefinition.cs" />
-    <Compile Include="Assets\Scripts\UI\CameraControl.cs" />
-    <Compile Include="Assets\Scripts\UI\Cursor.cs" />
-    <Compile Include="Assets\Scripts\UI\GameLog.cs" />
-    <Compile Include="Assets\Scripts\UI\IGameLog.cs" />
-    <Compile Include="Assets\Scripts\UI\Intro.cs" />
-    <Compile Include="Assets\Scripts\UI\LogLocator.cs" />
-    <Compile Include="Assets\Scripts\UI\MainMenu.cs" />
-    <Compile Include="Assets\Scripts\Utils\Colours.cs" />
-    <Compile Include="Assets\Scripts\Utils\Helpers.cs" />
-    <Compile Include="Assets\Scripts\Utils\ID.cs" />
-    <Compile Include="Assets\Scripts\Utils\LevelRect.cs" />
-    <Compile Include="Assets\Scripts\Utils\Markov.cs" />
-    <Compile Include="Assets\Scripts\Utils\ObjectExtensions.cs" />
-    <Compile Include="Assets\Scripts\Utils\RandomUtils.cs" />
-    <Compile Include="Assets\Scripts\Utils\Scenes.cs" />
-    <Compile Include="Assets\Scripts\Utils\Strings.cs" />
-    <Compile Include="Assets\Scripts\World\Cell.cs" />
-    <Compile Include="Assets\Scripts\World\GameWorld.cs" />
-    <Compile Include="Assets\Scripts\World\Layer.cs" />
-    <Compile Include="Assets\Scripts\World\Level.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\ScriptCalculator\Readme.txt" />
@@ -781,6 +699,12 @@
     <Reference Include="Boo.Lang">
       <HintPath>D:/Program Files/Unity/Hub/Editor/2019.2.6f1/Editor/Data/MonoBleedingEdge/lib/mono/unityscript/Boo.Lang.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Scripts.csproj">
+      <Project>{AF7FFA80-3B66-13B7-9228-0B1A524F7576}</Project>
+      <Name>Scripts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
