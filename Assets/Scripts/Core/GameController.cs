@@ -9,6 +9,7 @@ using Pantheon.Utils;
 using Pantheon.World;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Cursor = Pantheon.UI.Cursor;
 
 namespace Pantheon.Core
 {
@@ -28,8 +29,9 @@ namespace Pantheon.Core
         public Transform WorldTransform => worldTransform;
 
         [SerializeField] private Camera cam = default;
-        [SerializeField] private UI.Cursor cursor = default;
-        public UI.Cursor Cursor => cursor;
+        [SerializeField] private Cursor cursor = default;
+        [SerializeField] private HUD hud = default;
+        public Cursor Cursor => cursor;
         [SerializeField] private GameLog log = default;
         public GameLog Log => log;
         public PlayerControl PlayerControl { get; private set; }
@@ -77,17 +79,18 @@ namespace Pantheon.Core
             World.Layers.TryGetValue(0, out Layer surface);
             Generator.GenerateWorldOrigin();
             Level level = surface.RequestLevel(Vector2Int.zero);
-            cursor.Level = level;
-
+            
             // Spawn the player
             EntityTemplate template = Loader.LoadTemplate("Player");
             Entity player = Spawn.SpawnActor(template, level, level.RandomCell(true));
-            player.OnDestroyedEvent += OnPlayerDeath;
+            player.DestroyedEvent += OnPlayerDeath;
 
             Player = player;
 
+            hud.Initialize(Player);
             LoadLevel(level, true);
             MoveCameraTo(player.GameObjects[0].transform);
+            cursor.Level = level;
         }
 
         public void LoadGame(string path)

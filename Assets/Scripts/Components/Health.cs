@@ -2,21 +2,34 @@
 // Jerome Martina
 
 using Newtonsoft.Json;
+using System;
 using UnityEngine;
 
 namespace Pantheon.Components
 {
-    [System.Serializable]
+    [Serializable]
     public sealed class Health : EntityComponent
     {
         [SerializeField] private int max = 10;
         [SerializeField] private int regenTime = 800; // Time in ticks to regen 1 HP
 
-        [JsonIgnore] public int Current { get; set; }
-        public int Max { get => max; set => max = value; }
+        [JsonIgnore] public int Current { get; private set; }
+        public int Max
+        {
+            get => max;
+            set
+            {
+                int prev = value;
+                max = value;
+                MaxHealthChangeEvent?.Invoke(this);
+            }
+        }
         public int RegenTime { get => regenTime; set => regenTime = value; }
         [JsonIgnore] public int RegenProgress { get; set; } // Ticks down from regenTime until 0
         public bool Regenerating { get; set; } = true; // Status, not intrinsic
+
+        public event Action<Health> HealthChangeEvent; // Prev, new
+        public event Action<Health> MaxHealthChangeEvent; // Prev, new
 
         public Health()
         {
@@ -39,8 +52,9 @@ namespace Pantheon.Components
         /// <returns>True if entity ran out of health.</returns>
         private bool ModifyHealth(int change)
         {
-            // TODO: OnHealthChangeEvent
+            int prev = Current;
             Current += change;
+            HealthChangeEvent?.Invoke(this);
             if (Current <= 0)
                 return true;
             else

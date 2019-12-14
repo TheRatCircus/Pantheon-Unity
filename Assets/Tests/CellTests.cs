@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace PantheonTests
 {
-    public class CellTests
+    internal sealed class CellTests
     {
         /// <summary>
         /// Test that a default cell with a default terrain and an actor is

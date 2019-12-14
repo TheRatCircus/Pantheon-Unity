@@ -5,7 +5,6 @@ using Pantheon.Components;
 using Pantheon.Core;
 using Pantheon.World;
 using System;
-using System.Linq;
 using UnityEngine;
 
 namespace Pantheon.Debug
@@ -43,9 +42,7 @@ namespace Pantheon.Debug
         public static string RevealLevel(string[] args, GameController ctrl)
         {
             foreach (Cell c in ctrl.World.ActiveLevel.Map)
-            {
                 c.Revealed = true;
-            }
 
             return "Level revealed.";
         }

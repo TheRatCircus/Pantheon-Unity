@@ -53,7 +53,7 @@ namespace Pantheon
             }
         }
 
-        public event Action OnDestroyedEvent;
+        public event Action DestroyedEvent;
 
         /// <summary>
         /// Construct a temporary pretend entity from a TerrainDef.
@@ -66,6 +66,12 @@ namespace Pantheon
         }
 
         public Entity(string name) => Name = name;
+
+        public Entity(params EntityComponent[] components)
+        {
+            foreach (EntityComponent ec in components)
+                Components.Add(ec.GetType(), ec);
+        }
 
         public Entity(EntityTemplate template)
         {
@@ -156,7 +162,7 @@ namespace Pantheon
                     camTransform.SetParent(null);
                     SchedulerLocator._scheduler.Lock();
                     LogLocator._log.Send($"You perish...", Color.magenta);
-                    OnDestroyedEvent.Invoke();
+                    DestroyedEvent.Invoke();
                 }
             }
             UnityEngine.Object.Destroy(GameObjects[0]);
