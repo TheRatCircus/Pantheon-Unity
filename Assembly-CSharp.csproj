@@ -62,9 +62,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\CrossSceneReference\Runtime\GuidComponent.cs" />
-    <Compile Include="Assets\CrossSceneReference\Runtime\GuidManager.cs" />
-    <Compile Include="Assets\CrossSceneReference\Runtime\GuidReference.cs" />
     <Compile Include="Assets\CrossSceneReference\Samples\LoadScenes.cs" />
     <Compile Include="Assets\CrossSceneReference\Samples\TestCrossScene.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
@@ -704,6 +701,18 @@
     <ProjectReference Include="Scripts.csproj">
       <Project>{AF7FFA80-3B66-13B7-9228-0B1A524F7576}</Project>
       <Name>Scripts</Name>
+    </ProjectReference>
+    <ProjectReference Include="Editor.csproj">
+      <Project>{BFA55D54-4E9D-E1E4-8E1D-70388EDDAE7D}</Project>
+      <Name>Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="CrossSceneReference.Editor.csproj">
+      <Project>{DCA391AA-BF7E-B08C-F5C6-9D77260AD86B}</Project>
+      <Name>CrossSceneReference.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="CrossSceneReference.csproj">
+      <Project>{6414A4A1-599C-F67C-131D-1580D313A044}</Project>
+      <Name>CrossSceneReference</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -5,11 +5,8 @@ using UnityEngine;
 
 namespace Pantheon
 {
-    /// <summary>
-    /// An attack feasible by a Melee or Ranged component.
-    /// </summary>
     [System.Serializable]
-    public sealed class Attack
+    public class Attack
     {
         [SerializeField] private Damage[] damages = default;
         [SerializeField] private int accuracy = -1; // 0...100
@@ -25,5 +22,25 @@ namespace Pantheon
             this.accuracy = accuracy;
             this.time = time;
         }
+    }
+
+    [System.Serializable]
+    public sealed class MeleeAttack : Attack
+    {
+        [SerializeField] private int range = 1;
+        public int Range => range;
+
+        public MeleeAttack(Damage[] damages, int accuracy, int time)
+            : base(damages, accuracy, time) { }
+    }
+
+    [System.Serializable]
+    public sealed class RangedAttack : Attack
+    {
+        [SerializeField] private int sweetSpot = 5;
+        public int SweetSpot => sweetSpot;
+
+        public RangedAttack(Damage[] damages, int accuracy, int time)
+            : base(damages, accuracy, time) { }
     }
 }
