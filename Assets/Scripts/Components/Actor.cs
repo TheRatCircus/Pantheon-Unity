@@ -21,8 +21,21 @@ namespace Pantheon.Components
     public sealed class Actor : EntityComponent
     {
         [SerializeField] private int speed = -1;
-        public int Speed { get => speed; set => speed = value; }
-        [JsonIgnore] public int Energy { get; set; }
+        public int Speed
+        {
+            get => speed;
+            set { speed = value; SpeedChangedEvent?.Invoke(this); }
+        }
+        [JsonIgnore] private int energy;
+        public int Energy
+        {
+            get => energy;
+            set
+            {
+                energy = value;
+                EnergyChangedEvent?.Invoke(this);
+            }
+        }
         [JsonIgnore]
         [NonSerialized]
         private ActorCommand command;
@@ -36,6 +49,9 @@ namespace Pantheon.Components
             get => control;
             set => control = value;
         }
+
+        public event Action<Actor> EnergyChangedEvent;
+        public event Action<Actor> SpeedChangedEvent;
 
         public Actor() => Energy = speed;
 

@@ -19,7 +19,6 @@ namespace Pantheon.Components
             get => max;
             set
             {
-                int prev = value;
                 max = value;
                 MaxHealthChangeEvent?.Invoke(this);
             }
