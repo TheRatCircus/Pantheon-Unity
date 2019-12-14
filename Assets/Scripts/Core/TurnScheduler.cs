@@ -19,6 +19,7 @@ namespace Pantheon.Core
         // a turn is considered to have passed
         [ReadOnly] [SerializeField] private int turnProgress = 0;
         [ReadOnly] [SerializeField] private int turns = 0;
+        public int Turns => turns;
 
         private List<Actor> queue = new List<Actor>();
         public List<Actor> Queue => queue;
@@ -27,8 +28,8 @@ namespace Pantheon.Core
         private Actor currentActor = null;
         private bool currentActorRemoved = false;
 
-        public event Action TurnChangeEvent;
-        public event Action<int> ClockTickEvent;
+        public event Action ClockTickEvent; // 100 time units have passed
+        public event Action<int> TimeChangeEvent; // Track time units passed in game
         public event Action<int> PlayerActionEvent;
         public event Action<Actor> ActorDebugEvent;
         public event Action ActionDoneEvent;
@@ -109,8 +110,9 @@ namespace Pantheon.Core
                         turnProgress %= TurnTime;
 
                         for (int i = 0; i < turnsPassed; i++)
-                            TurnChangeEvent?.Invoke();
-                        ClockTickEvent?.Invoke(turns);
+                            ClockTickEvent?.Invoke();
+
+                        TimeChangeEvent?.Invoke(turns);
                     }
                     // Signals a successful player action to HUD
                     PlayerActionEvent?.Invoke(actor.Energy);

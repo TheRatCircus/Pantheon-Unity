@@ -49,6 +49,8 @@ namespace Pantheon.Core
             set => PlayerControl.PlayerEntity = value;
         }
 
+        public event System.Action<Level> LevelChangeEvent;
+
         private void OnEnable()
         {
             Loader = GetComponent<AssetLoader>();
@@ -87,7 +89,7 @@ namespace Pantheon.Core
 
             Player = player;
 
-            hud.Initialize(Player);
+            hud.Initialize(Scheduler, Player, level, LevelChangeEvent);
             LoadLevel(level, true);
             MoveCameraTo(player.GameObjects[0].transform);
             cursor.Level = level;
@@ -104,6 +106,7 @@ namespace Pantheon.Core
             Generator = save.Generator;
             Player = save.Player;
 
+            hud.Initialize(Scheduler, Player, World.ActiveLevel, LevelChangeEvent);
             LoadLevel(Player.Level, false);
             MoveCameraTo(Player.GameObjects[0].transform);
             cursor.Level = Player.Level;
@@ -143,6 +146,8 @@ namespace Pantheon.Core
                 }
                 level.DrawTile(c);
             }
+
+            LevelChangeEvent?.Invoke(level);
         }
 
         private void UnloadLevel(Level level)
