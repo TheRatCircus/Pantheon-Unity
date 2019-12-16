@@ -82,7 +82,7 @@ namespace Pantheon.Components
         public bool Regen()
         {
             // TODO: OnRegenEvent
-            if (RegenTime == 0) // Does not regenerate
+            if (RegenTime == 0 || !Regenerating)
                 return false;
             else
             {
