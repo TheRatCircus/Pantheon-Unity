@@ -35,7 +35,8 @@ namespace Pantheon.Debug
                 { "spawn", new ConsoleCommand(Spawn) },
                 { "turn_order", new ConsoleCommand(TurnOrder) },
                 { "describe_component", new ConsoleCommand(DescribeComponent) },
-                { "destroy", new ConsoleCommand(ConsoleCommandFunctions.Destroy) }
+                { "destroy", new ConsoleCommand(ConsoleCommandFunctions.Destroy) },
+                { "explode", new ConsoleCommand(Explode) }
             };
 
         private void Awake()

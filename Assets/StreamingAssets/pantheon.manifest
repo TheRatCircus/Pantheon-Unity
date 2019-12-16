@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1974091214
+CRC: 66762894
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 7cb88cb30b54c536b323c59e2642308a
+    Hash: dc8e086d7de61f8841e1e32e8bed6cfb
   TypeTreeHash:
     serializedVersion: 2
-    Hash: d85f01a8a2edaf731e531a803bac936e
+    Hash: 872e06ca7bbd69b98f982780e13f8c19
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -21,6 +21,10 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 49
   Script: {instanceID: 0}
+- Class: 82
+  Script: {instanceID: 0}
+- Class: 83
+  Script: {instanceID: 0}
 - Class: 114
   Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
 - Class: 114
@@ -33,7 +37,13 @@ ClassTypes:
   Script: {fileID: 11500000, guid: 768cebdd7171c384bb346fa3c0083b7b, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: cb75a9ae5eb5fbf409969eefff25b73d, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 6b2f0a044eb88b444bbf028609a9586c, type: 3}
 - Class: 115
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
   Script: {instanceID: 0}
 - Class: 212
   Script: {instanceID: 0}
@@ -57,6 +67,7 @@ Assets:
 - Assets/Sprites/Item/Hatchet.png
 - Assets/Content/BodyParts/Goose/Part_Goose_Legs.json
 - Assets/Sprites/Item/FlaskHealing.png
+- Assets/Prefabs/FX/FX_HandGrenade.prefab
 - Assets/Sprites/Item/Scroll.png
 - Assets/Sprites/Actor/Sprite_Player.png
 - Assets/Sprites/Actor/Sprite_Swine.png

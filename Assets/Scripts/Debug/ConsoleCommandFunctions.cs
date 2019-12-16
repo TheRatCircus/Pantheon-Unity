@@ -1,6 +1,7 @@
 ﻿// ConsoleCommandFunctions.cs
 // Jerome Martina
 
+using Pantheon.Commands;
 using Pantheon.Components;
 using Pantheon.Core;
 using Pantheon.World;
@@ -98,6 +99,15 @@ namespace Pantheon.Debug
             e.Destroy();
 
             return $"Destroyed entity {e.ToString()}";
+        }
+
+        public static string Explode(string[] args, GameController ctrl)
+        {
+            Entity e = ctrl.Cursor.HoveredCell.Actor;
+            GameObject explPrefab = ctrl.Loader.Load<GameObject>("FX_HandGrenade");
+            ExplodeCommand cmd = new ExplodeCommand(e, explPrefab, ExplosionPattern.Point);
+            cmd.Execute();
+            return $"Blew up {e.Name}.";
         }
     }
 }

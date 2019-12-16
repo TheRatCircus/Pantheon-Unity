@@ -25,6 +25,7 @@ namespace Pantheon.Core
 
         private void Awake()
         {
+            enabled = false;
             bundle = AssetBundle.LoadFromFile(Path.Combine(
                 Application.streamingAssetsPath, "pantheon"));
             System.Diagnostics.Debug.Assert(bundle != null);
