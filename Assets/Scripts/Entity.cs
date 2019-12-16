@@ -170,11 +170,6 @@ namespace Pantheon
         {
             DestroyedEvent?.Invoke();
 
-            Cell.Actor = null;
-            Cell = null;
-            Level = null;
-            components = null;
-            
             if (TryGetComponent(out Actor actor))
             {
                 SchedulerLocator._scheduler.RemoveActor(actor);
@@ -195,6 +190,12 @@ namespace Pantheon
                         $"{ToSubjectString(true)} is destroyed.",
                         Color.grey);
             }
+
+            Cell.Actor = null;
+            Cell = null;
+            Level = null;
+            components = null;
+
             UnityEngine.Object.Destroy(GameObjects[0]);
         }
 

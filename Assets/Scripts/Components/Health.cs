@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Newtonsoft.Json;
+using Pantheon.Core;
 using System;
 using UnityEngine;
 
@@ -36,6 +37,7 @@ namespace Pantheon.Components
         {
             Current = max;
             RegenProgress = regenTime;
+            SchedulerLocator._scheduler.ClockTickEvent += Regen;
         }
 
         public Health(int max, int regenTime)
@@ -44,6 +46,7 @@ namespace Pantheon.Components
             Current = this.max;
             this.regenTime = regenTime;
             RegenProgress = this.regenTime;
+            SchedulerLocator._scheduler.ClockTickEvent += Regen;
         }
 
         /// <summary>
@@ -53,8 +56,7 @@ namespace Pantheon.Components
         /// <returns>True if entity ran out of health.</returns>
         private bool ModifyHealth(int change)
         {
-            int prev = Current;
-            Current += change;
+            Current = Mathf.Clamp(Current + change, 0, Max);
             HealthChangeEvent?.Invoke(this);
             if (Current <= 0)
                 return true;
@@ -78,12 +80,11 @@ namespace Pantheon.Components
             return ModifyHealth(-damage.amount);
         }
 
-        /// <returns>True if the entity regenerated at all.</returns>
-        public bool Regen()
+        public void Regen()
         {
             // TODO: OnRegenEvent
             if (RegenTime == 0 || !Regenerating)
-                return false;
+                return;
             else
             {
                 RegenProgress -= 100;
@@ -92,7 +93,7 @@ namespace Pantheon.Components
                     RegenProgress = RegenTime;
                     Heal(1);
                 }
-                return true;
+                return;
             }
         }
 
