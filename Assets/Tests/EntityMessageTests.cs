@@ -1,0 +1,33 @@
+﻿// EntityMessageTests.cs
+// Jerome Martina
+
+using NUnit.Framework;
+using Pantheon;
+using Pantheon.Commands;
+using Pantheon.Components;
+using Pantheon.UI;
+
+namespace PantheonTests
+{
+    internal sealed class EntityMessageTests
+    {
+        /// <summary>
+        /// Test that an entity broadcasts messages between components.
+        /// </summary>
+        [Test]
+        public void EntityReceivesMessages()
+        {
+            LogLocator.Provide(new MockGameLog());
+
+            Entity entity = new Entity();
+            Actor actor = new Actor(100, ActorControl.AI);
+            entity.AddComponent(actor);
+            Health health = new Health(10, 800);
+            entity.AddComponent(health);
+            entity.AddComponent(new OnDamageTaken(
+                new ActorControlCommand(entity, null, ActorControl.Player)));
+            health.Damage(new HitDamage(DamageType.Slashing, 5));
+            Assert.True(actor.Control == ActorControl.Player);
+        }
+    }
+}

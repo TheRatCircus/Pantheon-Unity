@@ -33,7 +33,7 @@ namespace Pantheon.Components
             Actor = actor;
             actor.AIDecisionEvent += DecideCommand;
         }
-
+        
         public void DecideCommand()
         {
             // Random energy

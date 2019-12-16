@@ -29,6 +29,7 @@ namespace Pantheon.Components
 
         public event Action<Health> HealthChangeEvent; // Prev, new
         public event Action<Health> MaxHealthChangeEvent; // Prev, new
+        public event Action DamagedEvent;
 
         public Health()
         {
@@ -66,15 +67,13 @@ namespace Pantheon.Components
             ModifyHealth(healing);
         }
 
-        public bool Damage(int damage)
+        public bool Damage(HitDamage damage)
         {
-            // TODO: OnDamageEvent
-            return ModifyHealth(-damage);
+            DamagedEvent?.Invoke();
+            Message(new DamageEventMessage(this));
+            return ModifyHealth(-damage.amount);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <returns>True if the entity regenerated at all.</returns>
         public bool Regen()
         {

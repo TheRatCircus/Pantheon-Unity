@@ -3,11 +3,11 @@
 
 using UnityEngine;
 
-/// <summary>
-/// Pantheon's colour constants.
-/// </summary>
 namespace Pantheon.Utils
-{
+{   
+    /// <summary>
+    /// Pantheon's colour constants.
+    /// </summary>
     public static class Colours
     {
         public static readonly Color UIBackground = new Color(.18f, .18f, .18f);

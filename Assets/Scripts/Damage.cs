@@ -34,5 +34,11 @@ namespace Pantheon
             type = damage.Type;
             amount = Random.Range(damage.Min, damage.Max + 1);
         }
+
+        public HitDamage(DamageType type, int amount)
+        {
+            this.type = type;
+            this.amount = amount;
+        }
     }
 }
