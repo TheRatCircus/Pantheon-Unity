@@ -4,6 +4,7 @@
 using Pantheon.Components;
 using Pantheon.Core;
 using Pantheon.UI;
+using Pantheon.Util;
 using Pantheon.Utils;
 using Pantheon.World;
 using System;
@@ -160,16 +161,20 @@ namespace Pantheon
             foreach (HitDamage damage in hit.damages)
                 if (health.Damage(damage))
                 {
-                    Destroy();
+                    Destroy(hitter);
                     break;
                 }
         }
 
-        public void Destroy()
+        public void Destroy(Entity destroyer)
         {
-            // TODO: OnDestroyEvent
-            // ???
+            DestroyedEvent?.Invoke();
+
             Cell.Actor = null;
+            Cell = null;
+            Level = null;
+            components = null;
+            
             if (TryGetComponent(out Actor actor))
             {
                 SchedulerLocator._scheduler.RemoveActor(actor);
@@ -180,8 +185,15 @@ namespace Pantheon
                     camTransform.SetParent(null);
                     SchedulerLocator._scheduler.Lock();
                     LogLocator._log.Send($"You perish...", Color.magenta);
-                    DestroyedEvent.Invoke();
                 }
+                else if (actor.Control == ActorControl.AI)
+                {
+                    LogLocator._log.Send(Strings.Kill(destroyer, this), Color.white);
+                }
+                else
+                    LogLocator._log.Send(
+                        $"{ToSubjectString(true)} is destroyed.",
+                        Color.grey);
             }
             UnityEngine.Object.Destroy(GameObjects[0]);
         }

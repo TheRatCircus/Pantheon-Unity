@@ -26,6 +26,7 @@ namespace Pantheon.Components
         public int RegenTime { get => regenTime; set => regenTime = value; }
         [JsonIgnore] public int RegenProgress { get; set; } // Ticks down from regenTime until 0
         public bool Regenerating { get; set; } = true; // Status, not intrinsic
+        public bool Invincible { get; set; } = false;
 
         public event Action<Health> HealthChangeEvent; // Prev, new
         public event Action<Health> MaxHealthChangeEvent; // Prev, new
@@ -69,6 +70,9 @@ namespace Pantheon.Components
 
         public bool Damage(HitDamage damage)
         {
+            if (Invincible)
+                return false;
+
             DamagedEvent?.Invoke();
             Message(new DamageEventMessage(this));
             return ModifyHealth(-damage.amount);

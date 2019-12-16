@@ -18,11 +18,21 @@ namespace Pantheon.Util
         public static string Hit(Entity attacker, Entity defender, Hit hit)
         {
             string verb = attacker.ThirdPerson ? "hits" : "hit";
-            string ret = 
+            return
                 $"{attacker.ToSubjectString(true)} {verb} " +
                 $"{defender.ToSubjectString(false)} " +
                 $"for {hit.TotalDamage()} damage.";
-            return ret;
+        }
+
+        public static string Kill(Entity killer, Entity killed)
+        {
+            if (killer == null)
+                return $"{killed.ToSubjectString(true)} is killed!";
+
+            string verb = killer.ThirdPerson ? "kills" : "kill";
+            return
+                $"{killer.ToSubjectString(true)} {verb} " +
+                $"{killed.ToSubjectString(false)}!";
         }
     }
 }

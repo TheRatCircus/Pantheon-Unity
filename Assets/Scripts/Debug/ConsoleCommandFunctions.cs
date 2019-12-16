@@ -4,6 +4,7 @@
 using Pantheon.Commands;
 using Pantheon.Components;
 using Pantheon.Core;
+using Pantheon.Utils;
 using Pantheon.World;
 using System;
 using UnityEngine;
@@ -96,7 +97,7 @@ namespace Pantheon.Debug
             Entity e = ctrl.Cursor.HoveredCell.Actor;
             if (e == null)
                 return $"Nothing under the cursor to destroy.";
-            e.Destroy();
+            e.Destroy(null);
 
             return $"Destroyed entity {e.ToString()}";
         }
@@ -108,6 +109,22 @@ namespace Pantheon.Debug
             ExplodeCommand cmd = new ExplodeCommand(e, explPrefab, ExplosionPattern.Point);
             cmd.Execute();
             return $"Blew up {e.Name}.";
+        }
+
+        public static string ToggleIdolMode(string[] args, GameController ctrl)
+        {
+            Health health = ctrl.Player.GetComponent<Health>();
+
+            if (!health.Invincible)
+            {
+                health.Invincible = true;
+                return $"Idol mode enabled; you are indestructible.";
+            }
+            else
+            {
+                health.Invincible = false;
+                return $"Idol mode disabled; you are mortal again.";
+            }
         }
     }
 }
