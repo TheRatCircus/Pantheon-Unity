@@ -57,6 +57,7 @@ namespace Pantheon.Core
             Scheduler = GetComponent<TurnScheduler>();
             SchedulerLocator.Provide(Scheduler);
             PlayerControl = GetComponent<PlayerControl>();
+            InputLocator._Svc = PlayerControl;
             LogLocator.Provide(Log);
         }
 
@@ -164,7 +165,7 @@ namespace Pantheon.Core
 
         public void AllowInputToCharacter(bool allow)
         {
-            PlayerControl.SendingInput = allow;
+            InputLocator._Svc.Mode = allow ? InputMode.Default : InputMode.None;
         }
 
         private void SaveGame()

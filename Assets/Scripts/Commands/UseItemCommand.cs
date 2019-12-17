@@ -9,7 +9,8 @@ namespace Pantheon.Commands
     {
         private Entity item;
 
-        public UseItemCommand(Entity user, Entity item) : base(user) { }
+        public UseItemCommand(Entity user, Entity item)
+            : base(user) => this.item = item;
 
         public override int Execute()
         {

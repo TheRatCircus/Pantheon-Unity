@@ -4,7 +4,6 @@
 using Pantheon.Commands;
 using Pantheon.Components;
 using Pantheon.Core;
-using Pantheon.Utils;
 using Pantheon.World;
 using System;
 using UnityEngine;
@@ -125,6 +124,18 @@ namespace Pantheon.Debug
                 health.Invincible = false;
                 return $"Idol mode disabled; you are mortal again.";
             }
+        }
+
+        public static string FragWand(string[] args, GameController ctrl)
+        {
+            GameObject fxPrefab = ctrl.Loader.Load<GameObject>("FX_HandGrenade");
+            ExplodeCommand expl = new ExplodeCommand(ctrl.Player, fxPrefab, ExplosionPattern.Point);
+            PointEffectCommand pec = new PointEffectCommand(ctrl.Player, expl);
+            OnUse onUse = new OnUse(TurnScheduler.TurnTime, pec);
+            Entity entity = new Entity(onUse);
+            entity.Name = "Wand of Fragmentation";
+            entity.Move(ctrl.World.ActiveLevel, ctrl.Player.Cell);
+            return "Spawned the Wand of Fragmentation.";
         }
     }
 }

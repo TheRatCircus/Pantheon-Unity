@@ -37,7 +37,8 @@ namespace Pantheon.Debug
                 { "describe_component", new ConsoleCommand(DescribeComponent) },
                 { "destroy", new ConsoleCommand(ConsoleCommandFunctions.Destroy) },
                 { "explode", new ConsoleCommand(Explode) },
-                { "idolmode", new ConsoleCommand(ToggleIdolMode) }
+                { "idolmode", new ConsoleCommand(ToggleIdolMode) },
+                { "fragwand", new ConsoleCommand(FragWand) }
             };
 
         private void Awake()

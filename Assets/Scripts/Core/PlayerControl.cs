@@ -9,11 +9,21 @@ using UnityEngine;
 
 namespace Pantheon.Core
 {
+    public enum InputMode
+    {
+        None,
+        Default,
+        Point,
+        Line,
+        Path
+    }
+
     public enum InputType
     {
         None,
         Direction,
-        Wait
+        Wait,
+        Use
     }
 
     public struct InputMessage
@@ -35,11 +45,11 @@ namespace Pantheon.Core
         }
     }
 
-    public sealed class PlayerControl : MonoBehaviour
+    public sealed class PlayerControl : MonoBehaviour, IPlayerControl
     {
         [SerializeField] private UI.Cursor cursor = default;
 
-        public bool SendingInput { get; set; } = true;
+        public InputMode Mode { get; set; } = InputMode.Default;
 
         private Entity playerEntity;
         public Entity PlayerEntity
@@ -58,9 +68,11 @@ namespace Pantheon.Core
         public List<Cell> AutoMovePath { get; set; }
             = new List<Cell>();
 
+        public System.Action<Cell> PointConfirmDelegate { get; set; }
+
         private void Update()
         {
-            if (!SendingInput)
+            if (Mode == InputMode.None)
                 return;
 
             if (!Input.anyKeyDown)
@@ -69,10 +81,20 @@ namespace Pantheon.Core
             InputType type = InputType.None;
             Vector2Int inputVector = Vector2Int.zero;
 
+            switch (Mode)
+            {
+                case InputMode.Default:
+                    break;
+                case InputMode.Point:
+                    PointSelect();
+                    return;
+            }
+
             // Set automove path
             if (Input.GetMouseButtonDown(0))
             {
-                AutoMovePath = PlayerEntity.Level.GetPathTo(PlayerEntity.Cell, cursor.HoveredCell);
+                AutoMovePath = PlayerEntity.Level.GetPathTo(
+                    PlayerEntity.Cell, cursor.HoveredCell);
                 return;
             }
 
@@ -118,10 +140,26 @@ namespace Pantheon.Core
             }
             else if (Input.GetButtonDown("Wait"))
                 type = InputType.Wait;
+            else if (Input.GetButtonDown("Use"))
+                type = InputType.Use;
 
             InputMessage msg = new InputMessage(type, inputVector, false,
                 false, false);
             SendInput(msg);
+        }
+
+        private void PointSelect()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                PointConfirmDelegate?.Invoke(cursor.HoveredCell);
+                Mode = InputMode.Default;
+            }
+            else if (Input.GetMouseButtonDown(1))
+            {
+                PointConfirmDelegate = null;
+                Mode = InputMode.Default;
+            }
         }
 
         private void SendInput(InputMessage msg)
@@ -133,6 +171,10 @@ namespace Pantheon.Core
                     break;
                 case InputType.Wait:
                     playerActor.Command = new WaitCommand(PlayerEntity);
+                    break;
+                case InputType.Use:
+                    playerActor.Command = new UseItemCommand(PlayerEntity,
+                        PlayerEntity.Cell.Entities[1]);
                     break;
             }
         }

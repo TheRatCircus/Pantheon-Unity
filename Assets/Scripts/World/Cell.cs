@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Pantheon.World
@@ -32,6 +33,7 @@ namespace Pantheon.World
         }
 
         public Entity Actor { get; set; }
+        public List<Entity> Entities { get; set; } = new List<Entity>();
 
         /// <summary>
         /// Whether a cell can be walked on at all (does not factor entities).

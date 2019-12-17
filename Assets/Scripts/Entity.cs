@@ -18,7 +18,7 @@ namespace Pantheon
     {
         public string Name { get; set; }
 
-        public bool Blocking { get; set; }
+        public bool Blocking { get; set; } = false;
         [NonSerialized]
         private GameObject[] gameObjects = new GameObject[1];
         public GameObject[] GameObjects
@@ -52,6 +52,16 @@ namespace Pantheon
                     return true;
             }
         }
+        public bool PlayerControlled
+        {
+            get
+            {
+                if (TryGetComponent(out Actor actor))
+                    return actor.Control == ActorControl.Player;
+                else
+                    return false;
+            }
+        }
 
         public event Action DestroyedEvent;
 
@@ -65,7 +75,13 @@ namespace Pantheon
             return new Entity(terrain.DisplayName);
         }
 
-        public Entity(string name) => Name = name;
+        public Entity(string name)
+        {
+            Name = name;
+            components = new Dictionary<Type, EntityComponent>();
+            AddComponent(new Location());
+            ConnectComponents();
+        }
 
         public Entity(params EntityComponent[] components)
         {
@@ -74,6 +90,7 @@ namespace Pantheon
             foreach (EntityComponent ec in components)
                 AddComponent(ec.Clone());
 
+            AddComponent(new Location());
             ConnectComponents();
         }
 
@@ -145,13 +162,22 @@ namespace Pantheon
         public void Move(Level level, Cell cell)
         {
             Cell prev = Cell;
+
             if (prev != null)
-                prev.Actor = null;
+                prev.Entities.Remove(this);
+
             Level = level;
             Cell = cell;
             if (GameObjects.HasElements())
                 GameObjects[0].transform.position = cell.Position.ToVector3();
-            cell.Actor = this;
+
+            if (HasComponent<Actor>())
+            {
+                if (prev != null)
+                    prev.Actor = null;
+                Cell.Actor = this;
+            }
+            Cell.Entities.Add(this);
         }
 
         public void TakeHit(Entity hitter, Hit hit)

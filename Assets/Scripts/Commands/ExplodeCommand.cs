@@ -16,10 +16,10 @@ namespace Pantheon.Commands
         Square
     }
 
-    public sealed class ExplodeCommand : NonActorCommand
+    public sealed class ExplodeCommand : NonActorCommand, ICellTargetedCommand
     {
         private ExplosionPattern pattern;
-        public Cell Origin { get; set; }
+        public Cell Cell { get; set; }
         private GameObject prefab;
         
         public ExplodeCommand(Entity entity, GameObject prefab,
@@ -32,16 +32,16 @@ namespace Pantheon.Commands
         public override void Execute()
         {
             // Fall back on assumption that entity itself is exploding
-            if (Origin == null)
-                Origin = Entity.Cell;
+            if (Cell == null)
+                Cell = Entity.Cell;
 
             switch (pattern)
             {
                 case ExplosionPattern.Point:
                     GameObject explObj = Object.Instantiate(
-                        prefab, Origin.Position.ToVector3(), new Quaternion(), null);
+                        prefab, Cell.Position.ToVector3(), new Quaternion(), null);
                     PointExplosion expl = explObj.GetComponent<PointExplosion>();
-                    expl.Initialize(Entity, Origin);
+                    expl.Initialize(Entity, Cell);
                     expl.Fire();
                     Object.Destroy(explObj, 5f);
                     break;
