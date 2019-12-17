@@ -1,6 +1,7 @@
 ﻿// Cell.cs
 // Jerome Martina
 
+using Pantheon.Components;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,7 +34,7 @@ namespace Pantheon.World
         }
 
         public Entity Actor { get; set; }
-        public List<Entity> Entities { get; set; } = new List<Entity>();
+        public List<Entity> Items { get; set; } = new List<Entity>();
 
         /// <summary>
         /// Whether a cell can be walked on at all (does not factor entities).
@@ -62,6 +63,38 @@ namespace Pantheon.World
                     Revealed = true;
                 }
             }
+        }
+
+        /// <summary>
+        /// Determine where to store a new entity based on its archetype.
+        /// </summary>
+        /// <param name="entity"></param>
+        public void AllocateEntity(Entity entity)
+        {
+            if (entity.HasComponent<Actor>())
+            {
+                if (Actor != null)
+                    throw new Exception(
+                        "Cannot allocate 2 actors to one cell.");
+                else
+                    Actor = entity;
+                return;
+            }
+
+            // Else, assume entity is an item
+            Items.Add(entity);
+        }
+
+        /// <summary>
+        /// Remove an entity from storage based on its archetype.
+        /// </summary>
+        /// <param name="entity"></param>
+        public void DeallocateEntity(Entity entity)
+        {
+            if (entity == Actor)
+                Actor = null;
+            else
+                Items.Remove(entity);
         }
 
         public override string ToString() => $"Cell: {Position}";

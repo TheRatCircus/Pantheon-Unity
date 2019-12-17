@@ -164,20 +164,14 @@ namespace Pantheon
             Cell prev = Cell;
 
             if (prev != null)
-                prev.Entities.Remove(this);
+                prev.DeallocateEntity(this);
 
             Level = level;
             Cell = cell;
             if (GameObjects.HasElements())
                 GameObjects[0].transform.position = cell.Position.ToVector3();
 
-            if (HasComponent<Actor>())
-            {
-                if (prev != null)
-                    prev.Actor = null;
-                Cell.Actor = this;
-            }
-            Cell.Entities.Add(this);
+            Cell.AllocateEntity(this);
         }
 
         public void TakeHit(Entity hitter, Hit hit)
@@ -217,7 +211,7 @@ namespace Pantheon
                         Color.grey);
             }
 
-            Cell.Actor = null;
+            Cell.DeallocateEntity(this);
             Cell = null;
             Level = null;
             components = null;

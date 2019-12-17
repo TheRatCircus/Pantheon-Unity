@@ -174,7 +174,7 @@ namespace Pantheon.Core
                     break;
                 case InputType.Use:
                     playerActor.Command = new UseItemCommand(PlayerEntity,
-                        PlayerEntity.Cell.Entities[1]);
+                        PlayerEntity.Cell.Items[0]);
                     break;
             }
         }
