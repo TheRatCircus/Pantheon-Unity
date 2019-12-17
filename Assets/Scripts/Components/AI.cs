@@ -48,7 +48,7 @@ namespace Pantheon.Components
                 Cell targetCell = Target.Cell;
 
                 if (Entity.Level.AdjacentTo(Entity.Cell, targetCell))
-                    Actor.Command = new MeleeCommand(Entity, TurnScheduler.TurnTime, targetCell);
+                    Actor.Command = new MeleeCommand(Entity, targetCell);
                 else
                     Actor.Command = MoveCommand.MoveOrWait(Entity, targetCell);
             }

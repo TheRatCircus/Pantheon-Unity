@@ -12,12 +12,9 @@ namespace Pantheon.Commands
     public sealed class MeleeCommand : ActorCommand
     {
         private Cell target;
-        
-        public MeleeCommand(Entity entity, int attackTime, Cell target)
-            : base(entity, attackTime)
-        {
-            this.target = target;
-        }
+
+        public MeleeCommand(Entity entity, Cell target)
+            : base(entity) => this.target = target;
 
         public override int Execute()
         {

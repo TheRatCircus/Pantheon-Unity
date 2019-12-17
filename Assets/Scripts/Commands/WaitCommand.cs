@@ -7,17 +7,13 @@ namespace Pantheon.Commands
 {
     public sealed class WaitCommand : ActorCommand
     {
-        private int waitTime = TurnScheduler.TurnTime;
+        public WaitCommand(Entity entity) : base(entity) { }
 
-        public WaitCommand(Entity entity, int waitTime = TurnScheduler.TurnTime)
-            : base(entity, waitTime)
-            => this.waitTime = waitTime;
-
-        public override int Execute() => waitTime;
+        public override int Execute() => TurnScheduler.TurnTime;
 
         public override string ToString()
         {
-            return $"{Entity} waiting for {waitTime} ticks.";
+            return $"{Entity} waiting for 100 ticks.";
         }
     }
 }

@@ -129,8 +129,7 @@ namespace Pantheon.Core
             switch (msg.type)
             {
                 case InputType.Direction:
-                    playerActor.Command = new MoveCommand(PlayerEntity, msg.vector,
-                        TurnScheduler.TurnTime);
+                    playerActor.Command = new MoveCommand(PlayerEntity, msg.vector);
                     break;
                 case InputType.Wait:
                     playerActor.Command = new WaitCommand(PlayerEntity);

@@ -9,7 +9,7 @@ namespace Pantheon.Commands
     public abstract class Command
     {
         // Entity responsible for command, if any exists
-        public Entity Entity { get; private set; }
+        public Entity Entity { get; set; }
 
         public Command(Entity entity) => Entity = entity;
     }
