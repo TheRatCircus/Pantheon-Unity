@@ -27,9 +27,9 @@ namespace Pantheon.World
         [NonSerialized] private Transform entitiesTransform;
         public Transform EntitiesTransform => entitiesTransform;
 
-        [NonSerialized] private Tilemap terrain;
-        [NonSerialized] private Tilemap splatter;
-        [NonSerialized] private Tilemap items;
+        [NonSerialized] private Tilemap terrainTilemap;
+        [NonSerialized] private Tilemap splatterTilemap;
+        [NonSerialized] private Tilemap itemTilemap;
 
         public void AssignGameObject(Transform transform)
         {
@@ -38,9 +38,9 @@ namespace Pantheon.World
             Transform terrainTransform = transform.Find("Terrain");
             Transform splatterTransform = transform.Find("Splatter");
             Transform itemsTransform = transform.Find("Items");
-            terrain = terrainTransform.GetComponent<Tilemap>();
-            splatter = splatterTransform.GetComponent<Tilemap>();
-            items = itemsTransform.GetComponent<Tilemap>();
+            terrainTilemap = terrainTransform.GetComponent<Tilemap>();
+            splatterTilemap = splatterTransform.GetComponent<Tilemap>();
+            itemTilemap = itemsTransform.GetComponent<Tilemap>();
         }
 
         public void RebuildPathfinder()
@@ -156,11 +156,21 @@ namespace Pantheon.World
         {
             if (cell.Revealed)
             {
-                terrain.SetTile((Vector3Int)cell.Position, cell.Terrain.Tile);
-                terrain.SetColor((Vector3Int)cell.Position, cell.Visible ? Color.white : Color.grey);
+                terrainTilemap.SetTile((Vector3Int)cell.Position,
+                    cell.Terrain.Tile);
+                terrainTilemap.SetColor((Vector3Int)cell.Position,
+                    cell.Visible ? Color.white : Color.grey);
 
                 if (cell.Actor != null)
                     cell.Actor.GameObjects[0].SetSpriteVisibility(cell.Visible);
+
+                if (cell.Items.Count > 0)
+                {
+                    itemTilemap.SetTile((Vector3Int)cell.Position,
+                        cell.Items[0].Flyweight.Tile);
+                    itemTilemap.SetColor((Vector3Int)cell.Position,
+                        cell.Visible ? Color.white : Color.grey);
+                }
             }
         }
 

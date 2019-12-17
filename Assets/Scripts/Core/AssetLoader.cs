@@ -42,6 +42,7 @@ namespace Pantheon.Core
                 Converters = new List<JsonConverter>()
                 {
                     new SpriteConverter(this),
+                    new TileConverter(),
                     new RuleTileConverter(this),
                     new SpeciesDefinitionConverter(this),
                     new BodyPartConverter(this)

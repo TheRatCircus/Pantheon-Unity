@@ -132,9 +132,13 @@ namespace Pantheon.Debug
             ExplodeCommand expl = new ExplodeCommand(ctrl.Player, fxPrefab, ExplosionPattern.Point);
             PointEffectCommand pec = new PointEffectCommand(ctrl.Player, expl);
             OnUse onUse = new OnUse(TurnScheduler.TurnTime, pec);
-            Entity entity = new Entity(onUse);
-            entity.Name = "Wand of Fragmentation";
+            EntityTemplate template = new EntityTemplate(
+                "WAND_FRAG", "Wand of Fragmentation",
+                ctrl.Loader.Load<Sprite>("Sprite_Prejudice"),
+                onUse);
+            Entity entity = new Entity(template);
             entity.Move(ctrl.World.ActiveLevel, ctrl.Player.Cell);
+            FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.Player.Cell.Position, true);
             return "Spawned the Wand of Fragmentation.";
         }
     }

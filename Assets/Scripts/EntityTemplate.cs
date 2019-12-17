@@ -5,6 +5,7 @@ using static System.Environment;
 using Pantheon.Components;
 using UnityEngine;
 using Newtonsoft.Json;
+using UnityEngine.Tilemaps;
 
 namespace Pantheon
 {
@@ -13,7 +14,7 @@ namespace Pantheon
         public string ID { get; private set; } = "DEFAULT_TEMPLATE_ID";
         public string EntityName { get; private set; } = "DEFAULT_ENTITY_NAME";
         public Sprite Sprite { get; private set; } = default;
-        public RuleTile Tile { get; private set; } = default;
+        public Tile Tile { get; private set; } = default;
         public EntityComponent[] Components { get; private set; }
 
         [JsonConstructor]
@@ -26,8 +27,8 @@ namespace Pantheon
             Components = components;
             if (Tile == null)
             {
-                Tile = ScriptableObject.CreateInstance<RuleTile>();
-                Tile.m_DefaultSprite = Sprite;
+                Tile = ScriptableObject.CreateInstance<Tile>();
+                Tile.sprite = Sprite;
             }
         }
 

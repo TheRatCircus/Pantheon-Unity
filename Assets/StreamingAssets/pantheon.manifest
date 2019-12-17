@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 66762894
+CRC: 3532832002
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: dc8e086d7de61f8841e1e32e8bed6cfb
+    Hash: 9022d43e4ab70dc17ab24e4571f04573
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 872e06ca7bbd69b98f982780e13f8c19
+    Hash: e341e2f23fa29039de12bc68c6e7b118
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -28,6 +28,8 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: 6b2f0a044eb88b444bbf028609a9586c, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: b5bc4584c6f41714ca6a3cc1c568d2c2, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 77361cca67bf70d4fb5a2a3bf6ec4dd7, type: 3}
@@ -37,8 +39,6 @@ ClassTypes:
   Script: {fileID: 11500000, guid: 768cebdd7171c384bb346fa3c0083b7b, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: cb75a9ae5eb5fbf409969eefff25b73d, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 6b2f0a044eb88b444bbf028609a9586c, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 198
@@ -50,9 +50,9 @@ ClassTypes:
 - Class: 213
   Script: {instanceID: 0}
 Assets:
-- Assets/Sprites/Item/Grenade.png
-- Assets/Sprites/Item/CuirassSteel.png
-- Assets/Sprites/Item/Dagger.png
+- Assets/Sprites/Item/Sprite_Grenade.png
+- Assets/Sprites/Item/Sprite_Cuirass.png
+- Assets/Sprites/Item/Sprite_Dagger.png
 - Assets/Content/BodyParts/Human/Part_Human_Head.json
 - Assets/Content/Species/Species_Goose.json
 - Assets/Sprites/Actor/Sprite_GiantBumblebee.png
@@ -64,28 +64,28 @@ Assets:
 - Assets/Content/BodyParts/Human/Part_Human_Arms.json
 - Assets/Content/BodyParts/Coyote/Part_Coyote_Head.json
 - Assets/Content/BodyParts/Coyote/Part_Canine_Teeth.json
-- Assets/Sprites/Item/Hatchet.png
+- Assets/Sprites/Item/Sprite_Hatchet.png
 - Assets/Content/BodyParts/Goose/Part_Goose_Legs.json
-- Assets/Sprites/Item/FlaskHealing.png
+- Assets/Sprites/Item/Sprite_Flask.png
 - Assets/Prefabs/FX/FX_HandGrenade.prefab
-- Assets/Sprites/Item/Scroll.png
+- Assets/Sprites/Item/Sprite_Scroll.png
 - Assets/Sprites/Actor/Sprite_Player.png
 - Assets/Sprites/Actor/Sprite_Swine.png
 - Assets/Content/Species/Species_Human.json
 - Assets/Content/Templates/Player.json
 - Assets/Content/BuilderPlans/Step_RandomFill_StoneWall.asset
 - Assets/Sprites/Actor/Sprite_Pigman.png
-- Assets/Sprites/Item/Corpse.png
+- Assets/Sprites/Item/Sprite_Corpse.png
 - Assets/Content/BodyParts/Goose/Part_Goose_Wings.json
 - Assets/Content/BodyParts/Goose/Part_Goose_Teeth.json
 - Assets/Sprites/Actor/Sprite_Human.png
 - Assets/Content/BodyParts/Goose/Part_Goose_Head.json
-- Assets/Sprites/Item/Carbine.png
+- Assets/Sprites/Item/Sprite_Carbine.png
 - Assets/Content/Templates/NPC/Coyote.json
-- Assets/Sprites/Item/Prejudice.png
+- Assets/Sprites/Item/Sprite_Prejudice.png
 - Assets/Prefabs/EntityGameObject.prefab
 - Assets/Content/Terrain/Terrain_Grass.asset
-- Assets/Sprites/Item/Cartridges.png
+- Assets/Sprites/Item/Sprite_Cartridges.png
 - Assets/Sprites/Actor/Sprite_Coyote.png
 - Assets/Content/Templates/NPC/RagingGoose.json
 - Assets/Sprites/Actor/Sprite_GenericNPC.png
