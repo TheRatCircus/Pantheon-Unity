@@ -13,7 +13,6 @@ namespace Pantheon.Commands
     {
         private Level destinationLevel;
         private Cell destinationCell;
-        private int moveTime;
 
         /// <summary>
         /// Given an AI entity, move to a target only if possible.
@@ -26,23 +25,21 @@ namespace Pantheon.Commands
             List<Cell> path = entity.Level.GetPathTo(entity.Cell, target);
 
             if (path.Count > 0)
-                return new MoveCommand(entity, path[0], TurnScheduler.TurnTime);
+                return new MoveCommand(entity, path[0]);
             else
                 return new WaitCommand(entity);
         }
 
-        public MoveCommand(Entity entity, Cell destination, int moveTime)
-            : base(entity, moveTime)
+        public MoveCommand(Entity entity, Cell destination)
+            : base(entity)
         {
             destinationCell = destination;
-            this.moveTime = moveTime;
             destinationLevel = entity.Level;
         }
 
-        public MoveCommand(Entity actor, Vector2Int dir, int moveTime)
-            : base(actor, moveTime)
+        public MoveCommand(Entity actor, Vector2Int dir)
+            : base(actor)
         {
-            this.moveTime = moveTime;
             destinationLevel = Entity.Level;
 
             if (destinationLevel.TryGetCell(Entity.Cell.Position + dir, out Cell c))
@@ -60,13 +57,13 @@ namespace Pantheon.Commands
             {
                 Actor actor = Entity.GetComponent<Actor>();
                 if (actor.HostileTo(destinationCell.Actor.GetComponent<Actor>()))
-                    return new MeleeCommand(Entity, TurnScheduler.TurnTime, destinationCell).Execute();
+                    return new MeleeCommand(Entity, destinationCell).Execute();
                 else if (Entity.HasComponent<AI>())
                     return new WaitCommand(Entity).Execute();
             }
 
             Entity.Move(destinationLevel, destinationCell);
-            return moveTime;
+            return TurnScheduler.TurnTime;
         }
 
         public override string ToString()
