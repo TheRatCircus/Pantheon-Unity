@@ -171,6 +171,9 @@ namespace Pantheon
             if (GameObjects.HasElements())
                 GameObjects[0].transform.position = cell.Position.ToVector3();
 
+            if (TryGetComponent(out Inventory inv))
+                inv.Move(level, cell);
+
             Cell.AllocateEntity(this);
         }
 

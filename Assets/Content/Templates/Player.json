@@ -17,6 +17,10 @@
       "RegenTime": 800,
       "Regenerating": true
     },
+	{
+	  "$type": "Inventory",
+	  "Size": 40
+	},
     {
 	  "$type": "Species",
       "SpeciesDef": "Species_Human"

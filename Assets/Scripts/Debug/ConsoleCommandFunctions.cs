@@ -63,6 +63,22 @@ namespace Pantheon.Debug
             return $"Spawned {template.ID} at {ctrl.Cursor.HoveredCell}.";
         }
 
+        public static string Give(string[] args, GameController ctrl)
+        {
+            Entity receiver = ctrl.Cursor.HoveredCell.Actor;
+            
+            if (!receiver.TryGetComponent(out Inventory inv))
+                return $"{receiver.Name} has no inventory.";
+            else
+            {
+                EntityTemplate template = ctrl.Loader.LoadTemplate(args[0]);
+                Entity item = new Entity(template);
+                item.Move(receiver.Level, receiver.Cell);
+                inv.AddItem(item);
+                return $"Gave {item.Name} to {receiver.Name}.";
+            }
+        }
+
         public static string TurnOrder(string[] args, GameController ctrl)
         {
             string ret = "";
@@ -136,10 +152,11 @@ namespace Pantheon.Debug
                 "WAND_FRAG", "Wand of Fragmentation",
                 ctrl.Loader.Load<Sprite>("Sprite_Prejudice"),
                 onUse);
-            Entity entity = new Entity(template);
-            entity.Move(ctrl.World.ActiveLevel, ctrl.Player.Cell);
-            FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.Player.Cell.Position, true);
-            return "Spawned the Wand of Fragmentation.";
+            Entity wand = new Entity(template);
+            wand.Move(ctrl.Player.Level, ctrl.Player.Cell);
+            Inventory inv = ctrl.Player.GetComponent<Inventory>();
+            inv.AddItem(wand);
+            return "Placed the Wand of Fragmentation in your inventory.";
         }
     }
 }

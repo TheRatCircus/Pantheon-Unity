@@ -31,8 +31,13 @@ namespace Pantheon.Serialization.Json
                     typeof(Actor),
                     typeof(AI),
                     typeof(Health),
+                    typeof(Inventory),
                     typeof(Melee),
-                    typeof(Species)
+                    typeof(OnDamageTaken),
+                    typeof(OnUse),
+                    typeof(Size),
+                    typeof(Species),
+                    typeof(Weight)
                 }
             };
     }
