@@ -1,16 +1,18 @@
-﻿// CreateAssetBundles.cs
+﻿// BuildAssetBundles.cs
 // Unity Technologies
 
-using UnityEditor;
+using System.Diagnostics;
 using System.IO;
+using UnityEditor;
 
 namespace PantheonEditor
 {
-    public static class CreateAssetBundles
+    public static class BuildAssetBundles
     {
         [MenuItem("Assets/Build AssetBundles")]
         private static void BuildAllAssetBundles()
         {
+            Stopwatch stopwatch = Stopwatch.StartNew();
             string assetBundleDir = "Assets/AssetBundles";
             if (!Directory.Exists(assetBundleDir))
             {
@@ -20,7 +22,9 @@ namespace PantheonEditor
                 "Assets/StreamingAssets",
                 BuildAssetBundleOptions.None,
                 BuildTarget.StandaloneWindows64);
-            UnityEngine.Debug.Log("Finished building AssetBundles.");
+            stopwatch.Stop();
+            UnityEngine.Debug.Log(
+                $"Finished building AssetBundles in {stopwatch.ElapsedMilliseconds} ms.");
         }
     }
 }
