@@ -1,11 +1,12 @@
 {
-    "name": "Scripts",
+    "name": "Pantheon.Editor",
     "references": [
-        "GUID:6055be8ebefd69e48b49212b09b47b2f",
-        "GUID:613783dc1674e844b87788ea74ede0f6",
-        "GUID:3f505f9a7f84b564198502bbb1c70d6d"
+        "GUID:478cdff9f8e647f48b622c6950f3a085",
+        "GUID:613783dc1674e844b87788ea74ede0f6"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
