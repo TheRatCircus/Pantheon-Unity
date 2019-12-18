@@ -19,6 +19,6 @@ namespace Pantheon.Components
 
         public Weight(int value) => this.value = value;
 
-        public override EntityComponent Clone() => new Weight(value);
+        public override EntityComponent Clone(bool full) => new Weight(value);
     }
 }

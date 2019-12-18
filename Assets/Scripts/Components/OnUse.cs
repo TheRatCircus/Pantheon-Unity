@@ -35,6 +35,6 @@ namespace Pantheon.Components
             return result;
         }
 
-        public override EntityComponent Clone() => new OnUse(UseTime, commands);
+        public override EntityComponent Clone(bool full) => new OnUse(UseTime, commands);
     }
 }

@@ -84,7 +84,8 @@ namespace Pantheon.Components
 
         public bool HostileTo(Actor other) => true;
 
-        public override EntityComponent Clone() => new Actor(speed, control);
+        public override EntityComponent Clone(bool full)
+            => new Actor(speed, control);
 
         public override string ToString()
         {

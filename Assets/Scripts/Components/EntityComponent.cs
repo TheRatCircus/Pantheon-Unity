@@ -14,7 +14,7 @@ namespace Pantheon.Components
 
         public virtual void Receive(IComponentMessage msg) { } // Nothing by default
 
-        public abstract EntityComponent Clone();
+        public abstract EntityComponent Clone(bool full);
     }
 
     public interface IComponentMessage

@@ -19,6 +19,12 @@ namespace Pantheon.Components
             Level = level;
         }
 
-        public override EntityComponent Clone() => new Location(Cell, Level);
+        public override EntityComponent Clone(bool full)
+        {
+            if (full)
+                return new Location(Cell, Level);
+            else
+                return new Location();
+        }
     }
 }

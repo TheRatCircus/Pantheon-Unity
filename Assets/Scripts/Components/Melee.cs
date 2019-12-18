@@ -12,6 +12,6 @@ namespace Pantheon.Components
 
         public Melee(MeleeAttack[] attacks) => this.attacks = attacks;
 
-        public override EntityComponent Clone() => new Melee(attacks);
+        public override EntityComponent Clone(bool full) => new Melee(attacks);
     }
 }

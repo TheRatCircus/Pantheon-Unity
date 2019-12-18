@@ -22,7 +22,7 @@ namespace Pantheon.Components
         public Inventory(int size, List<Entity> items)
         {
             Size = size;
-            this.Items = items;
+            Items = items;
         }
 
         public void AddItem(Entity entity)
@@ -46,9 +46,12 @@ namespace Pantheon.Components
                 items.Move(level, cell);
         }
 
-        public override EntityComponent Clone()
+        public override EntityComponent Clone(bool full)
         {
-            return new Inventory(Size);
+            if (full)
+                return new Inventory(Size, Items);
+            else
+                return new Inventory(Size);
         }
     }
 }

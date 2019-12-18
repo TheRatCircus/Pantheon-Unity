@@ -15,7 +15,7 @@ namespace Pantheon.Components
             SpeciesDef = def;
         }
 
-        public override EntityComponent Clone()
+        public override EntityComponent Clone(bool full)
         {
             return new Species(SpeciesDef);
         }

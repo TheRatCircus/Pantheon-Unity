@@ -32,6 +32,25 @@ namespace Pantheon.Content
             }
         }
 
+        public EntityTemplate(Entity entity)
+        {
+            EntityName = entity.Name;
+            Sprite = entity.Flyweight.Sprite;
+            Components = new EntityComponent[entity.Components.Count];
+            int i = 0;
+            foreach (EntityComponent ec in entity.Components.Values)
+            {
+                Components[i++] = ec.Clone(false);
+            }
+            if (entity.Flyweight.Tile != null)
+                Tile = entity.Flyweight.Tile;
+            else
+            {
+                Tile = ScriptableObject.CreateInstance<Tile>();
+                Tile.sprite = Sprite;
+            }
+        }
+
         public override string ToString()
         {
             string ret = $"{EntityName}{NewLine}";

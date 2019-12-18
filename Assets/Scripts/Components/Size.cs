@@ -34,6 +34,6 @@ namespace Pantheon.Components
 
         public Size(int value) => this.value = value;
 
-        public override EntityComponent Clone() => new Size(value);
+        public override EntityComponent Clone(bool full) => new Size(value);
     }
 }

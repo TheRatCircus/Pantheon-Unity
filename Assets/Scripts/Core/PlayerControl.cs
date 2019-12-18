@@ -146,7 +146,7 @@ namespace Pantheon.Core
             {
                 selectedCell = null;
                 Mode = InputMode.Cancelling;
-                LogLocator.Service.Send("Targeting cancelled.", Color.cyan);
+                LogLocator.Service.Send("Targeting cancelled.", Color.blue);
             }
         }
 

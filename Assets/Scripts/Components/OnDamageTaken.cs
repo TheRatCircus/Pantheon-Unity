@@ -21,6 +21,6 @@ namespace Pantheon.Components
                     nac.Execute();
         }
 
-        public override EntityComponent Clone() => new OnDamageTaken(Commands);
+        public override EntityComponent Clone(bool full) => new OnDamageTaken(Commands);
     }
 }

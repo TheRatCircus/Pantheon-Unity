@@ -42,6 +42,7 @@ namespace Pantheon.Components
             SchedulerLocator.Service.ClockTickEvent += Regen;
         }
 
+        [JsonConstructor]
         public Health(int max, int regenTime)
         {
             this.max = max;
@@ -50,6 +51,18 @@ namespace Pantheon.Components
             RegenProgress = this.regenTime;
             SchedulerLocator.Service.ClockTickEvent += Regen;
         }
+
+        public Health(int max, int regenTime,
+            int current, int regenProgress, bool regenerating, bool invincible)
+            : this(max, regenTime)
+        {
+            Current = current;
+            RegenTime = regenTime;
+            RegenProgress = regenProgress;
+            Regenerating = regenerating;
+            Invincible = invincible;
+        }
+
 
         /// <summary>
         /// 
@@ -99,7 +112,13 @@ namespace Pantheon.Components
             }
         }
 
-        public override EntityComponent Clone() => new Health(max, regenTime);
+        public override EntityComponent Clone(bool full)
+        {
+            if (full)
+                return new Health(Max, RegenTime, Current, RegenProgress, Regenerating, Invincible);
+            else
+                return new Health(Max, RegenTime);
+        }
 
         public override string ToString()
         {

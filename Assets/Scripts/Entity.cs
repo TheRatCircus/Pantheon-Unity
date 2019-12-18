@@ -29,7 +29,7 @@ namespace Pantheon
 
         public EntityTemplate Flyweight { get; set; }
 
-        private Dictionary<Type, EntityComponent> components;
+        public Dictionary<Type, EntityComponent> Components { get; private set; }
 
         public Cell Cell
         {
@@ -78,17 +78,17 @@ namespace Pantheon
         public Entity(string name)
         {
             Name = name;
-            components = new Dictionary<Type, EntityComponent>();
+            Components = new Dictionary<Type, EntityComponent>();
             AddComponent(new Location());
             ConnectComponents();
         }
 
         public Entity(params EntityComponent[] components)
         {
-            this.components = new Dictionary<Type, EntityComponent>();
+            Components = new Dictionary<Type, EntityComponent>();
 
             foreach (EntityComponent ec in components)
-                AddComponent(ec.Clone());
+                AddComponent(ec.Clone(false));
 
             AddComponent(new Location());
             ConnectComponents();
@@ -99,10 +99,10 @@ namespace Pantheon
             Name = template.EntityName;
             Flyweight = template;
 
-            components = new Dictionary<Type, EntityComponent>();
+            Components = new Dictionary<Type, EntityComponent>();
 
             foreach (EntityComponent component in template.Components)
-                AddComponent(component.Clone());
+                AddComponent(component.Clone(false));
 
             AddComponent(new Location());
             ConnectComponents();
@@ -120,7 +120,7 @@ namespace Pantheon
 
         public T GetComponent<T>() where T : EntityComponent
         {
-            if (components.TryGetValue(typeof(T), out EntityComponent ret))
+            if (Components.TryGetValue(typeof(T), out EntityComponent ret))
                 return (T)ret;
             else
                 throw new ArgumentException(
@@ -130,7 +130,7 @@ namespace Pantheon
         public bool TryGetComponent<T>(out T ret)
             where T : EntityComponent
         {
-            if (!components.TryGetValue(typeof(T), out EntityComponent c))
+            if (!Components.TryGetValue(typeof(T), out EntityComponent c))
             {
                 ret = null;
                 return false;
@@ -145,17 +145,17 @@ namespace Pantheon
         public void AddComponent(EntityComponent ec)
         {
             ec.MessageEvent += RelayMessage;
-            components.Add(ec.GetType(), ec);
+            Components.Add(ec.GetType(), ec);
         }
 
         public bool HasComponent<T>() where T : EntityComponent
         {
-            return components.ContainsKey(typeof(T));
+            return Components.ContainsKey(typeof(T));
         }
 
         private void RelayMessage(IComponentMessage msg)
         {
-            foreach (EntityComponent ec in components.Values)
+            foreach (EntityComponent ec in Components.Values)
                 ec.Receive(msg);
         }
 
@@ -217,7 +217,7 @@ namespace Pantheon
             Cell.DeallocateEntity(this);
             Cell = null;
             Level = null;
-            components = null;
+            Components = null;
 
             UnityEngine.Object.Destroy(GameObjects[0]);
         }
