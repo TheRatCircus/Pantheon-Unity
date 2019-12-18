@@ -56,7 +56,7 @@ namespace Pantheon.Debug
             {
                 Entity entity = Core.Spawn.SpawnActor(template,
                     ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell);
-                Core.Spawn.AssignGameObject(entity);
+                ctrl.AssignGameObject(entity);
                 return $"Spawned {entity} at {ctrl.Cursor.HoveredCell}.";
             }
             else

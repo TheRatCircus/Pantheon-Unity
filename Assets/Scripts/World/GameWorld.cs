@@ -1,7 +1,7 @@
 ﻿// GameWorld.cs
 // Jerome Martina
 
-using Pantheon.Core;
+using Pantheon.Gen;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +11,7 @@ namespace Pantheon.World
     [Serializable]
     public sealed class GameWorld
     {
-        private static GameController ctrl;
+        private LevelGenerator gen;
 
         public Dictionary<int, Layer> Layers { get; private set; }
             = new Dictionary<int, Layer>();
@@ -20,11 +20,7 @@ namespace Pantheon.World
 
         public Level ActiveLevel { get; set; }
 
-        public static void InjectController(GameController ctrl)
-        {
-            if (GameWorld.ctrl == null)
-                GameWorld.ctrl = ctrl;
-        }
+        public GameWorld(LevelGenerator gen) => this.gen = gen;
 
         public void NewLayer(int z)
         {
@@ -41,7 +37,7 @@ namespace Pantheon.World
         /// <returns></returns>
         public Level RequestLevel(Vector3Int pos)
         {
-            Level level = ctrl.Generator.GenerateLayerLevel(pos);
+            Level level = gen.GenerateLayerLevel(pos);
             Layers.TryGetValue(pos.z, out Layer layer);
             return level;
 

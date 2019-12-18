@@ -62,22 +62,13 @@ namespace Pantheon.Core
             LogLocator.Service = Log;
         }
 
-        public void InjectStaticDependencies()
-        {
-            AI.InjectController(this);
-            Spawn.InjectController(this);
-            GameWorld.InjectController(this);
-            LevelGenerator.InjectController(this);
-        }
-
         public void NewGame(string playerName)
         {
-            InjectStaticDependencies();
             saveSystem = new SaveWriterReader(Loader);
 
-            World = new GameWorld();
-            Generator = new LevelGenerator();
-            
+            Generator = new LevelGenerator(Loader);
+            World = new GameWorld(Generator);
+
             // Place the world centre
             World.NewLayer(0);
             World.Layers.TryGetValue(0, out Layer surface);
@@ -99,7 +90,6 @@ namespace Pantheon.Core
 
         public void LoadGame(string path)
         {
-            InjectStaticDependencies();
             saveSystem = new SaveWriterReader(Loader);
 
             Save save = saveSystem.ReadSave(path);
@@ -143,13 +133,34 @@ namespace Pantheon.Core
             {
                 if (c.Actor != null)
                 {
-                    Spawn.AssignGameObject(c.Actor);
+                    AssignGameObject(c.Actor);
                     Scheduler.AddActor(c.Actor.GetComponent<Actor>());
                 }
                 level.DrawTile(c);
             }
 
             LevelChangeEvent?.Invoke(level);
+        }
+
+        public void AssignGameObject(Entity entity)
+        {
+            GameObject entityObj = Instantiate(
+                GameObjectPrefab,
+                entity.Cell.Position.ToVector3(),
+                new Quaternion(),
+                entity.Level.EntitiesTransform);
+
+            entityObj.name = entity.Name;
+            EntityWrapper wrapper = entityObj.GetComponent<EntityWrapper>();
+            wrapper.Entity = entity;
+            SpriteRenderer sr = entityObj.GetComponent<SpriteRenderer>();
+            sr.sprite = entity.Flyweight.Sprite;
+
+            if (!entity.Cell.Visible)
+                sr.enabled = false;
+
+            entity.GameObjects = new GameObject[1];
+            entity.GameObjects[0] = entityObj;
         }
 
         private void UnloadLevel(Level level)

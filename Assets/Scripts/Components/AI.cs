@@ -16,16 +16,9 @@ namespace Pantheon.Components
     [System.Serializable]
     public sealed class AI : EntityComponent
     {
-        private static GameController ctrl;
-
         [JsonIgnore] public Entity Entity { get; set; }
         [JsonIgnore] public Actor Actor { get; private set; }
         [JsonIgnore] public Entity Target { get; set; }
-
-        public static void InjectController(GameController ctrl)
-        {
-            AI.ctrl = ctrl;
-        }
 
         public void SetActor(Actor actor)
         {
@@ -55,7 +48,7 @@ namespace Pantheon.Components
             {
                 if (Entity.Cell.Visible) // Detect player and begin approach
                 {
-                    Target = ctrl.Player;
+                    Target = InputLocator.Service.PlayerEntity;
                     Actor.Command = MoveCommand.MoveOrWait(Entity, Target.Cell);
                     LogLocator.Service.Send(
                         $"{Entity.ToSubjectString(true)} notices you!",
