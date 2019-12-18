@@ -27,6 +27,7 @@ namespace Pantheon.Components
 
         public void AddItem(Entity entity)
         {
+            entity.InInventory = true;
             items.Add(entity);
         }
 

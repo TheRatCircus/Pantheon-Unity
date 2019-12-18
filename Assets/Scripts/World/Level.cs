@@ -171,6 +171,8 @@ namespace Pantheon.World
                     itemTilemap.SetColor((Vector3Int)cell.Position,
                         cell.Visible ? Color.white : Color.grey);
                 }
+                else
+                    itemTilemap.SetTile((Vector3Int)cell.Position, null);
             }
         }
 

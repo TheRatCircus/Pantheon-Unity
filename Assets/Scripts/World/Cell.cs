@@ -71,6 +71,10 @@ namespace Pantheon.World
         /// <param name="entity"></param>
         public void AllocateEntity(Entity entity)
         {
+            // Don't store the entity if it's in an inventory
+            if (entity.InInventory)
+                return;
+
             if (entity.HasComponent<Actor>())
             {
                 if (Actor != null)

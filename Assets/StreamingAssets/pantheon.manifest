@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3667672331
+CRC: 2364758938
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 65733a1a20fdd40edda4acc21ea9df1d
+    Hash: 5741efa9933508b1a121c5406444cc47
   TypeTreeHash:
     serializedVersion: 2
     Hash: e341e2f23fa29039de12bc68c6e7b118
@@ -56,6 +56,7 @@ Assets:
 - Assets/Content/BodyParts/Human/Part_Human_Head.json
 - Assets/Content/Species/Species_Goose.json
 - Assets/Sprites/Actor/Sprite_GiantBumblebee.png
+- Assets/Content/Templates/Item/Fragwand.json
 - Assets/Content/BodyParts/Coyote/Part_Coyote_Legs.json
 - Assets/Sprites/Actor/Sprite_Goose.png
 - Assets/Content/Terrain/Terrain_StoneWall.asset

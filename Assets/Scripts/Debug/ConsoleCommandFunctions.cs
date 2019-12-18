@@ -53,14 +53,18 @@ namespace Pantheon.Debug
             EntityTemplate template = ctrl.Loader.LoadTemplate(args[0]);
             if (Array.Exists(template.Components, ec => { return ec is Actor; }))
             {
-                Entity e = Core.Spawn.SpawnActor(template,
+                Entity entity = Core.Spawn.SpawnActor(template,
                     ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell);
-                Core.Spawn.AssignGameObject(e);
-            }                
+                Core.Spawn.AssignGameObject(entity);
+                return $"Spawned {entity} at {ctrl.Cursor.HoveredCell}.";
+            }
             else
-                throw new NotImplementedException();
-
-            return $"Spawned {template.ID} at {ctrl.Cursor.HoveredCell}.";
+            {
+                Entity entity = new Entity(template);
+                entity.Move(ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell);
+                FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.Player.Cell.Position, true);
+                return $"Spawned {entity} at {ctrl.Cursor.HoveredCell}.";
+            }
         }
 
         public static string Give(string[] args, GameController ctrl)
