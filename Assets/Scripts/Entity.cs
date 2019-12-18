@@ -224,10 +224,13 @@ namespace Pantheon
 
         public string ToSubjectString(bool sentenceStart)
         {
-            Actor a = GetComponent<Actor>();
-
-            if (a.Control == ActorControl.Player)
-                return sentenceStart ? "You" : "you";
+            if (TryGetComponent(out Actor actor))
+            {
+                if (actor.Control == ActorControl.Player)
+                    return sentenceStart ? "You" : "you";
+                else
+                    return sentenceStart ? $"The {Name}" : $"the {Name}";
+            }
             else
                 return sentenceStart ? $"The {Name}" : $"the {Name}";
         }

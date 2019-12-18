@@ -1,5 +1,6 @@
 ﻿// TurnScheduler.cs
-// Jerome Martina
+// Courtesy of Dan Korostelev
+// with modifications by Jerome Martina
 
 using Pantheon.Components;
 using Pantheon.World;
@@ -120,6 +121,16 @@ namespace Pantheon.Core
                 // Action may have added a lock
                 if (lockCount > 0)
                     return false;
+            }
+
+            // It's possible that scheduler was locked, all energy was burned,
+            // and then scheduler was unlocked again, so refresh one more time
+            if (actor.Control == ActorControl.Player ||
+                ctrl.PlayerControl.ActorIsVisible(actor))
+            {
+                HashSet<Cell> refreshed = FOV.RefreshFOV(
+                    ctrl.Player.Level, ctrl.Player.Cell, true);
+                ctrl.PlayerControl.RecalculateVisible(refreshed);
             }
 
             // Give the actor their speed value's worth of energy back

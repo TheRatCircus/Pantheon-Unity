@@ -12,5 +12,6 @@ namespace Pantheon.Core
         InputMode Mode { get; set; }
         HashSet<Entity> VisibleActors { get; }
         InputMode RequestCell(out Cell cell, int range);
+        InputMode RequestLine(out List<Cell> line, int range);
     }
 }

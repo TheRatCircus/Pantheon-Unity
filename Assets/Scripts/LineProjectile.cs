@@ -1,0 +1,113 @@
+﻿// LinePojectile.cs
+// Jerome Martina
+
+using Pantheon.Components;
+using Pantheon.Utils;
+using Pantheon.World;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Pantheon
+{
+    public sealed class LineProjectile : MonoBehaviour
+    {
+        [SerializeField] private string projName = "DEFAULT_LINE_PROJ_NAME";
+        [SerializeField] private Damage[] damages = default;
+        [SerializeField] private bool spins = false;
+        [SerializeField] private bool pierces;
+
+        private Entity tosser;
+        private Cell target;
+        private Entity[] debris;
+
+        public void InitializeToss(Entity tosser, Entity entity, List<Cell> line)
+        {
+            GetComponent<SpriteRenderer>().sprite = entity.Flyweight.Sprite;
+            projName = entity.ToSubjectString(true);
+            this.tosser = tosser;
+            debris = new Entity[] { entity };
+
+            if (entity.TryGetComponent(out Melee melee))
+            {
+                damages = melee.Attacks[0].Damages;
+            }
+            else
+            {
+                damages = new Damage[1];
+                damages[0] = new Damage()
+                {
+                    // TODO: Base on weight
+                    Type = DamageType.Bludgeoning,
+                    Min = 1,
+                    Max = 3
+                };
+            }
+
+            pierces = false;
+            spins = true;
+
+            target = line[line.Count - 1];
+        }
+
+        public void Fire()
+        {
+            SchedulerLocator.Service.Lock();
+            StartCoroutine(Fly());
+        } 
+
+        private IEnumerator Fly()
+        {
+            Vector3 targetPos = target.Position.ToVector3();
+            
+            // Move to target
+            while (transform.position != targetPos)
+            {
+                transform.position =
+                    Vector3.MoveTowards(transform.position, targetPos, .3f);
+
+                if (spins)
+                    transform.Rotate(0, 0, 8, Space.Self);
+
+                yield return new WaitForSeconds(.01f);
+            }
+
+            if (debris != null)
+                foreach (Entity e in debris)
+                    e.Move(tosser.Level, target);
+
+            SchedulerLocator.Service.Unlock();
+            Destroy(gameObject);
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            Cell collisionCell;
+            EntityWrapper wrapper = collision.gameObject.GetComponent<EntityWrapper>();
+            if (wrapper)
+            {
+                Entity entity = wrapper.Entity;
+                collisionCell = entity.Cell;
+                if (entity == tosser)
+                    return;
+
+                Hit hit = new Hit(damages);
+                LogLocator.Service.Send(
+                    $"{projName} hits {entity.ToSubjectString(false)}!",
+                    Color.white);
+                entity.TakeHit(tosser, hit);
+            }
+            else return;
+
+            if (!pierces)
+            {
+                if (debris != null)
+                    foreach (Entity e in debris)
+                        e.Move(tosser.Level, collisionCell);
+
+                SchedulerLocator.Service.Unlock();
+                Destroy(gameObject);
+            }
+        }
+    }
+}

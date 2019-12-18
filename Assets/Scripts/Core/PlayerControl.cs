@@ -43,6 +43,7 @@ namespace Pantheon.Core
 
         private int targetingRange;
         private Cell selectedCell;
+        private List<Cell> selectedLine = new List<Cell>();
         public HashSet<Entity> VisibleActors { get; private set; }
             = new HashSet<Entity>();
         public List<Cell> AutoMovePath { get; set; }
@@ -65,6 +66,11 @@ namespace Pantheon.Core
                 case InputMode.Point:
                     PointSelect();
                     return;
+                case InputMode.Line:
+                    LineSelect();
+                    return;
+                default:
+                    throw new System.NotImplementedException();
             }
 
             // Set automove path
@@ -118,6 +124,9 @@ namespace Pantheon.Core
                 playerActor.Command = new PickupCommand(PlayerEntity);
             else if (Input.GetButtonDown("Inventory"))
                 playerActor.Command = new DropCommand(PlayerEntity);
+            else if (Input.GetButtonDown("Toss"))
+                playerActor.Command = new TossCommand(PlayerEntity,
+                    PlayerEntity.GetComponent<Inventory>().Items[0]);
         }
 
         private void PointSelect()
@@ -145,6 +154,45 @@ namespace Pantheon.Core
             else if (Input.GetMouseButtonDown(1))
             {
                 selectedCell = null;
+                Mode = InputMode.Cancelling;
+                LogLocator.Service.Send("Targeting cancelled.", Color.blue);
+            }
+        }
+
+        private void LineSelect()
+        {
+            bool withinRange = PlayerEntity.Level.Distance(
+                PlayerEntity.Cell, cursor.HoveredCell) < targetingRange;
+
+            CleanOverlays();
+
+            List<Cell> line = new List<Cell>();
+
+            if (withinRange)
+            {
+                line = Bresenhams.GetLine(
+                    PlayerEntity.Level,
+                    PlayerEntity.Cell,
+                    cursor.HoveredCell);
+                foreach (Cell c in line)
+                {
+                   GameObject overlayObj = Instantiate(
+                       targetOverlay,
+                       c.Position.ToVector3(),
+                       new Quaternion());
+
+                    targetOverlays.Add(overlayObj);
+                }
+            }
+
+            if (Input.GetMouseButtonDown(0) && withinRange)
+            {
+                selectedLine = line;
+                Mode = InputMode.Default;
+            }
+            else if (Input.GetMouseButtonDown(1))
+            {
+                selectedLine.Clear();
                 Mode = InputMode.Cancelling;
                 LogLocator.Service.Send("Targeting cancelled.", Color.blue);
             }
@@ -195,6 +243,40 @@ namespace Pantheon.Core
                         Mode = InputMode.Default;
                         cell = selectedCell;
                         selectedCell = null;
+                        CleanOverlays();
+                    }
+                    return Mode;
+                default:
+                    throw new System.Exception(
+                        "PlayerControl is in an illegal input mode.");
+            }
+        }
+
+        public InputMode RequestLine(out List<Cell> line, int range)
+        {
+            switch (Mode)
+            {
+                case InputMode.Default: // Start polling for line
+                    targetingRange = range;
+                    Mode = InputMode.Line;
+                    LineSelect();
+                    line = null;
+                    return Mode;
+                case InputMode.Cancelling: // Stop polling for line
+                    Mode = InputMode.Default;
+                    line = null;
+                    CleanOverlays();
+                    return InputMode.Cancelling;
+                case InputMode.Line:
+                    if (selectedLine.Count < 1)
+                        // Still no selection
+                        line = null;
+                    else
+                    {
+                        // Selection made
+                        Mode = InputMode.Default;
+                        line = new List<Cell>(selectedLine);
+                        selectedLine.Clear();
                         CleanOverlays();
                     }
                     return Mode;
