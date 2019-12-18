@@ -41,6 +41,7 @@ namespace Pantheon.Core
         }
         private Actor playerActor;
 
+        private int targetingRange;
         private Cell selectedCell;
         public HashSet<Entity> VisibleActors { get; private set; }
             = new HashSet<Entity>();
@@ -121,17 +122,22 @@ namespace Pantheon.Core
 
         private void PointSelect()
         {
+            bool withinRange = PlayerEntity.Level.Distance(
+                PlayerEntity.Cell, cursor.HoveredCell) < targetingRange;
+
             CleanOverlays();
 
-            GameObject overlayObj = 
-                Instantiate(
-                    targetOverlay, 
-                    cursor.HoveredCell.Position.ToVector3(),
-                    new Quaternion());
+            if (withinRange)
+            {
+                GameObject overlayObj = Instantiate(
+                   targetOverlay,
+                   cursor.HoveredCell.Position.ToVector3(),
+                   new Quaternion());
 
-            targetOverlays.Add(overlayObj);
+                targetOverlays.Add(overlayObj);
+            }
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && withinRange)
             {
                 selectedCell = cursor.HoveredCell;
                 Mode = InputMode.Default;
@@ -164,11 +170,12 @@ namespace Pantheon.Core
             return false;
         }
 
-        public InputMode RequestCell(out Cell cell)
+        public InputMode RequestCell(out Cell cell, int range)
         {
             switch (Mode)
             {
                 case InputMode.Default: // Start polling for cell
+                    targetingRange = range;
                     Mode = InputMode.Point;
                     PointSelect();
                     cell = null;

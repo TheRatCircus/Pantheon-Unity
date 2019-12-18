@@ -11,6 +11,6 @@ namespace Pantheon.Core
         Entity PlayerEntity { get; }
         InputMode Mode { get; set; }
         HashSet<Entity> VisibleActors { get; }
-        InputMode RequestCell(out Cell cell);
+        InputMode RequestCell(out Cell cell, int range);
     }
 }
