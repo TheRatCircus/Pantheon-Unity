@@ -155,12 +155,10 @@ namespace Pantheon.Debug
             OnUse onUse = new OnUse(TurnScheduler.TurnTime, pec);
             EntityTemplate template = new EntityTemplate(
                 "WAND_FRAG", "Wand of Fragmentation",
-                ctrl.Loader.Load<Sprite>("Sprite_Prejudice"),
-                onUse);
+                ctrl.Loader.Load<Sprite>("Sprite_Prejudice"), onUse);
             Entity wand = new Entity(template);
             wand.Move(ctrl.Player.Level, ctrl.Player.Cell);
-            Inventory inv = ctrl.Player.GetComponent<Inventory>();
-            inv.AddItem(wand);
+            ctrl.Player.GetComponent<Inventory>().AddItem(wand);
             return "Placed the Wand of Fragmentation in your inventory.";
         }
 

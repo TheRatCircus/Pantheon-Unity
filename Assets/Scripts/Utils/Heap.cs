@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Pantheon
+namespace Pantheon.Utils
 {
     public sealed class Heap<T> where T : IHeapItem<T>
     {
