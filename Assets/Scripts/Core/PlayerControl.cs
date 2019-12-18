@@ -25,7 +25,8 @@ namespace Pantheon.Core
         Direction,
         Wait,
         Use,
-        Pickup
+        Pickup,
+        Drop
     }
 
     public struct InputMessage
@@ -145,6 +146,8 @@ namespace Pantheon.Core
                 type = InputType.Use;
             else if (Input.GetButtonDown("Pickup"))
                 type = InputType.Pickup;
+            else if (Input.GetButtonDown("Inventory"))
+                type = InputType.Drop;
 
             InputMessage msg = new InputMessage(type, inputVector, false,
                 false, false);
@@ -181,6 +184,9 @@ namespace Pantheon.Core
                     break;
                 case InputType.Pickup:
                     playerActor.Command = new PickupCommand(PlayerEntity);
+                    break;
+                case InputType.Drop:
+                    playerActor.Command = new DropCommand(PlayerEntity);
                     break;
             }
         }

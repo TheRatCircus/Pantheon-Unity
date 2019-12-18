@@ -10,25 +10,31 @@ namespace Pantheon.Components
     public sealed class Inventory : EntityComponent
     {
         public int Size { get; set; } = 10;
-        private List<Entity> items;
+        public List<Entity> Items { get; private set; }
 
         [Newtonsoft.Json.JsonConstructor]
         public Inventory(int size)
         {
             Size = size;
-            items = new List<Entity>(Size);
+            Items = new List<Entity>(Size);
         }
 
         public Inventory(int size, List<Entity> items)
         {
             Size = size;
-            this.items = items;
+            this.Items = items;
         }
 
         public void AddItem(Entity entity)
         {
             entity.InInventory = true;
-            items.Add(entity);
+            Items.Add(entity);
+        }
+
+        public void RemoveItem(Entity entity)
+        {
+            entity.InInventory = false;
+            Items.Remove(entity);
         }
 
         /// <summary>
@@ -36,7 +42,7 @@ namespace Pantheon.Components
         /// </summary>
         public void Move(Level level, Cell cell)
         {
-            foreach (Entity items in items)
+            foreach (Entity items in Items)
                 items.Move(level, cell);
         }
 
