@@ -38,7 +38,7 @@ namespace Pantheon.World
         public Level RequestLevel(Vector3Int pos)
         {
             Level level = gen.GenerateLayerLevel(pos);
-            Layers.TryGetValue(pos.z, out Layer layer);
+            Levels.Add(level.ID, level);
             return level;
 
             throw new ArgumentException(

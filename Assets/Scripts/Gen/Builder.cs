@@ -23,6 +23,8 @@ namespace Pantheon.Gen
 
         public void Run(Level level)
         {
+            level.DisplayName = displayName;
+            level.ID = id;
             plan.Run(level, 200, 200);
             level.RebuildPathfinder();
         }

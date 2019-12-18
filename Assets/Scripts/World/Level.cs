@@ -13,8 +13,8 @@ namespace Pantheon.World
     [Serializable]
     public sealed class Level
     {
-        public string DisplayName { get; private set; } = "DEFAULT_LEVEL_NAME";
-        public string ID { get; private set; }
+        public string DisplayName { get; set; } = "DEFAULT_LEVEL_NAME";
+        public string ID { get; set; }
 
         public Vector3Int Position { get; private set; }
         public Vector2Int Size { get; set; }
