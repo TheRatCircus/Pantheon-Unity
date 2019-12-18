@@ -4,7 +4,9 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Pantheon.Commands;
+using Pantheon.Utils;
 using System;
+using System.Runtime.Serialization;
 using UnityEngine;
 
 namespace Pantheon.Components
@@ -87,6 +89,13 @@ namespace Pantheon.Components
         public override string ToString()
         {
             return $"Actor ({Control}) - Energy: {Energy}";
+        }
+
+        [OnSerializing]
+        private void OnSerializing(StreamingContext ctxt)
+        {
+            Helpers.ClearNonSerializableDelegates(ref EnergyChangedEvent);
+            Helpers.ClearNonSerializableDelegates(ref SpeedChangedEvent);
         }
     }
 }

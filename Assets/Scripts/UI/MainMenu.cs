@@ -1,6 +1,9 @@
 ﻿// MainMenu.cs
 // Jerome Martina
 
+#define QUICKSTART
+#undef QUICKSTART
+
 using Pantheon.Core;
 using Pantheon.SaveLoad;
 using Pantheon.Utils;
@@ -21,7 +24,7 @@ namespace Pantheon.UI
         [SerializeField] private GameObject loadMenu = default;
         [SerializeField] private Transform saveOptionsList = default;
 
-#if UNITY_EDITOR
+#if QUICKSTART
         private void Awake() => NewGame();
 #endif
 

@@ -227,5 +227,37 @@ namespace Pantheon.Utils
                 return false;
             }
         }
+
+        public static void ClearNonSerializableDelegates(Action action)
+        {
+            Delegate[] delegates = action.GetInvocationList();
+            for (int i = 0; i < delegates.Length; i++)
+            {
+                Type type = delegates[i].Target.GetType();
+                if (!Attribute.IsDefined(type, typeof(SerializableAttribute)))
+                {
+                    action -= delegates[i] as Action;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Clears subscriptions to events by non-serializable classes.
+        /// Call when saving the game.
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <param name="action"></param>
+        public static void ClearNonSerializableDelegates<T1>(ref Action<T1> action)
+        {
+            Delegate[] delegates = action.GetInvocationList();
+            for (int i = 0; i < delegates.Length; i++)
+            {
+                Type type = delegates[i].Target.GetType();
+                if (!Attribute.IsDefined(type, typeof(SerializableAttribute)))
+                {
+                    action -= delegates[i] as Action<T1>;
+                }
+            }
+        }
     }
 }

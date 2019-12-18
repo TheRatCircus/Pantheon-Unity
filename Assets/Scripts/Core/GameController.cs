@@ -96,7 +96,9 @@ namespace Pantheon.Core
 
             World = save.World;
             Generator = save.Generator;
+            Generator.Loader = Loader;
             Player = save.Player;
+            Player.DestroyedEvent += OnPlayerDeath;
 
             hud.Initialize(Scheduler, Player, World.ActiveLevel, LevelChangeEvent);
             LoadLevel(Player.Level, false);

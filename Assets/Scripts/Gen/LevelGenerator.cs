@@ -15,18 +15,20 @@ namespace Pantheon.Gen
     [Serializable]
     public sealed class LevelGenerator
     {
+        [NonSerialized]
         private AssetLoader loader;
+        public AssetLoader Loader { get => loader; set => loader = value; }
 
         public Dictionary<Vector3Int, Builder> LayerLevelBuilders
         { get; private set; } = new Dictionary<Vector3Int, Builder>();
         public Dictionary<string, Builder> IDLevelBuilders
         { get; private set; } = new Dictionary<string, Builder>();
 
-        public LevelGenerator(AssetLoader loader) => this.loader = loader;
+        public LevelGenerator(AssetLoader loader) => Loader = loader;
 
         public void GenerateWorldOrigin()
         {
-            BuilderPlan plan = loader.Load<BuilderPlan>("Plan_Valley");
+            BuilderPlan plan = Loader.Load<BuilderPlan>("Plan_Valley");
 
             Builder builder = new Builder("Valley of Beginnings",
                 "valley_0_0_0", plan);

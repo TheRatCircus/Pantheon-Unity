@@ -232,6 +232,12 @@ namespace Pantheon
                 return sentenceStart ? $"The {Name}" : $"the {Name}";
         }
 
+        [System.Runtime.Serialization.OnSerializing]
+        private void OnSerializing()
+        {
+            DestroyedEvent = null;
+        }
+
         public override string ToString() => Name;
     }
 }
