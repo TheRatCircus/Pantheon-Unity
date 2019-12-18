@@ -1,6 +1,6 @@
 {
   "ID": "Player",
-  "Name": "the Hero",
+  "EntityName": "the Hero",
   "Sprite": "Sprite_Player",
   "Tile": "Tile_Player",
   "Components": [
