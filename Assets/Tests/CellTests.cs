@@ -3,6 +3,7 @@
 
 using NUnit.Framework;
 using Pantheon;
+using Pantheon.Content;
 using Pantheon.World;
 using UnityEngine;
 

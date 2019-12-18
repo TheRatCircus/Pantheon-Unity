@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Newtonsoft.Json;
+using Pantheon.Content;
 using Pantheon.World;
 using UnityEngine;
 
@@ -11,7 +12,8 @@ namespace Pantheon.Gen
         menuName = "Pantheon/Builder Step/Fill")]
     public sealed class Fill : BuilderStep
     {
-        [JsonProperty] [SerializeField] private TerrainDefinition terrain = default;
+        [JsonProperty] [SerializeField]
+        private TerrainDefinition terrain = default;
 
         public override void Run(Level level)
         {

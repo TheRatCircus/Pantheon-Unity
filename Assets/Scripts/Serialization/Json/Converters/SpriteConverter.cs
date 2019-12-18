@@ -12,9 +12,8 @@ namespace Pantheon.Serialization.Json.Converters
     {
         private AssetLoader loader;
 
-        public SpriteConverter() { }
-
-        public SpriteConverter(AssetLoader loader) => this.loader = loader;
+        public SpriteConverter(AssetLoader loader = null)
+            => this.loader = loader;
 
         public override Sprite ReadJson(JsonReader reader,
             Type objectType, Sprite existingValue,

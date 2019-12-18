@@ -1,8 +1,7 @@
 ﻿// Species.cs
 // Jerome Martina
 
-using Newtonsoft.Json;
-using Pantheon.Serialization.Json.Converters;
+using Pantheon.Content;
 
 namespace Pantheon.Components
 {

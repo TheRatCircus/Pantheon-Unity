@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Pantheon.Components;
+using Pantheon.Content;
 using Pantheon.Util;
 using Pantheon.Utils;
 using Pantheon.World;

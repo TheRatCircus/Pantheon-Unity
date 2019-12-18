@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Newtonsoft.Json;
+using Pantheon.Content;
 using Pantheon.Core;
 using System;
 
@@ -11,9 +12,8 @@ namespace Pantheon.Serialization.Json.Converters
     {
         private AssetLoader loader;
 
-        public SpeciesDefinitionConverter() { }
-
-        public SpeciesDefinitionConverter(AssetLoader loader) => this.loader = loader;
+        public SpeciesDefinitionConverter(AssetLoader loader = null)
+            => this.loader = loader;
 
         public override void WriteJson(JsonWriter writer, SpeciesDefinition value,
             JsonSerializer serializer)

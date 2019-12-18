@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Pantheon.Components;
+using Pantheon.Content;
 using System;
 using System.Collections.Generic;
 using UnityEngine;

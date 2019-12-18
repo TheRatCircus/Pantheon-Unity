@@ -9,9 +9,8 @@ namespace Pantheon.Serialization.Json.Converters
     {
         private AssetLoader loader;
 
-        public GameObjectConverter() { }
-
-        public GameObjectConverter(AssetLoader loader) => this.loader = loader;
+        public GameObjectConverter(AssetLoader loader = null)
+            => this.loader = loader;
 
         public override GameObject ReadJson(JsonReader reader, Type objectType,
             GameObject existingValue, bool hasExistingValue,

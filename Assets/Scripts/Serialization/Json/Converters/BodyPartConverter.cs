@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Newtonsoft.Json;
+using Pantheon.Content;
 using Pantheon.Core;
 using System;
 
@@ -11,9 +12,7 @@ namespace Pantheon.Serialization.Json.Converters
     {
         private AssetLoader loader;
 
-        public BodyPartConverter() { }
-
-        public BodyPartConverter(AssetLoader loader) => this.loader = loader;
+        public BodyPartConverter(AssetLoader loader = null) => this.loader = loader;
 
         public override BodyPart ReadJson(JsonReader reader, Type objectType,
             BodyPart existingValue, bool hasExistingValue, JsonSerializer serializer)

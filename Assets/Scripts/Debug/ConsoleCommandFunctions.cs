@@ -3,6 +3,7 @@
 
 using Pantheon.Commands;
 using Pantheon.Components;
+using Pantheon.Content;
 using Pantheon.Core;
 using Pantheon.World;
 using System;

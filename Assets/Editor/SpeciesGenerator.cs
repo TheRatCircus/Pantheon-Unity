@@ -4,11 +4,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using Pantheon;
 using Newtonsoft.Json;
 using Pantheon.Serialization.Json.Converters;
 using System.IO;
-using BodyPart = Pantheon.BodyPart;
+using BodyPart = Pantheon.Content.BodyPart;
+using Pantheon.Content;
 
 namespace PantheonEditor
 {

@@ -1,6 +1,7 @@
 ﻿// SaveWriterReader.cs
 // Jerome Martina
 
+using Pantheon.Content;
 using Pantheon.Core;
 using Pantheon.Serialization.Binary.Surrogates;
 using System.IO;

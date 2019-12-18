@@ -12,9 +12,8 @@ namespace Pantheon.Serialization.Json.Converters
     {
         private AssetLoader loader;
 
-        public RuleTileConverter() { }
-
-        public RuleTileConverter(AssetLoader loader) => this.loader = loader;
+        public RuleTileConverter(AssetLoader loader = null)
+            => this.loader = loader;
 
         public override RuleTile ReadJson(JsonReader reader,
             Type objectType, RuleTile existingValue,

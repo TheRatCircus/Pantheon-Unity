@@ -12,6 +12,7 @@ namespace Pantheon.Serialization.Json.Converters
         public override Tile ReadJson(JsonReader reader, Type objectType,
             Tile existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
+            // Tiles are generated programatically during template construction
             return null;
         }
 

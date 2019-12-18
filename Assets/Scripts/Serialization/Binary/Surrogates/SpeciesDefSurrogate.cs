@@ -1,6 +1,7 @@
 ﻿// SpeciesDefSurrogate.cs
 // Jerome Martina
 
+using Pantheon.Content;
 using Pantheon.Core;
 using System.Runtime.Serialization;
 

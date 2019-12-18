@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using System.Runtime.Serialization;
+using Pantheon.Content;
 using Pantheon.Core;
 
 namespace Pantheon.Serialization.Binary.Surrogates
