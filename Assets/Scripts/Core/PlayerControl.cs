@@ -3,6 +3,7 @@
 
 using Pantheon.Commands;
 using Pantheon.Components;
+using Pantheon.Utils;
 using Pantheon.World;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,7 +22,10 @@ namespace Pantheon.Core
 
     public sealed class PlayerControl : MonoBehaviour, IPlayerControl
     {
+        [SerializeField] private GameObject targetOverlay = default;
+
         [SerializeField] private UI.Cursor cursor = default;
+        private List<GameObject> targetOverlays = new List<GameObject>(10);
 
         public InputMode Mode { get; set; } = InputMode.Default;
 
@@ -48,7 +52,9 @@ namespace Pantheon.Core
             if (Mode == InputMode.None)
                 return;
 
-            if (!Input.anyKeyDown)
+            if (!Input.anyKeyDown &&
+                Input.GetAxis("MouseX") == 0 &&
+                Input.GetAxis("MouseY") == 0)
                 return;
 
             switch (Mode)
@@ -115,6 +121,16 @@ namespace Pantheon.Core
 
         private void PointSelect()
         {
+            CleanOverlays();
+
+            GameObject overlayObj = 
+                Instantiate(
+                    targetOverlay, 
+                    cursor.HoveredCell.Position.ToVector3(),
+                    new Quaternion());
+
+            targetOverlays.Add(overlayObj);
+
             if (Input.GetMouseButtonDown(0))
             {
                 selectedCell = cursor.HoveredCell;
@@ -124,6 +140,7 @@ namespace Pantheon.Core
             {
                 selectedCell = null;
                 Mode = InputMode.Cancelling;
+                LogLocator.Service.Send("Targeting cancelled.", Color.cyan);
             }
         }
 
@@ -153,11 +170,13 @@ namespace Pantheon.Core
             {
                 case InputMode.Default: // Start polling for cell
                     Mode = InputMode.Point;
+                    PointSelect();
                     cell = null;
                     return Mode;
                 case InputMode.Cancelling: // Stop polling for cell
                     Mode = InputMode.Default;
                     cell = null;
+                    CleanOverlays();
                     return Mode;
                 case InputMode.Point:
                     if (selectedCell == null)
@@ -169,12 +188,20 @@ namespace Pantheon.Core
                         Mode = InputMode.Default;
                         cell = selectedCell;
                         selectedCell = null;
+                        CleanOverlays();
                     }
                     return Mode;
                 default:
                     throw new System.Exception(
                         "PlayerControl is in an illegal input mode.");
             }
+        }
+
+        private void CleanOverlays()
+        {
+            foreach (GameObject go in targetOverlays)
+                Destroy(go);
+            targetOverlays.Clear();
         }
     }
 }
