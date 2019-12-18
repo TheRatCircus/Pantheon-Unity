@@ -2,7 +2,6 @@
 // Jerome Martina
 
 using Pantheon.Components;
-using Pantheon.UI;
 using Pantheon.Util;
 using Pantheon.World;
 using UnityEngine;
@@ -44,7 +43,7 @@ namespace Pantheon.Commands
 
                     if (atk.Accuracy < Random.Range(0, 101))
                     {
-                        LogLocator._log.Send(
+                        LogLocator.Service.Send(
                             Strings.Miss(Entity, defender), Color.grey);
                         continue;
                     }
@@ -52,7 +51,7 @@ namespace Pantheon.Commands
                     if (defender != null)
                     {
                         Hit hit = new Hit(atk.Damages);
-                        LogLocator._log.Send(
+                        LogLocator.Service.Send(
                             Strings.Hit(Entity, defender, hit), Color.white);
                         defender.TakeHit(Entity, hit);
                     }

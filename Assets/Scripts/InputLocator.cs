@@ -7,6 +7,6 @@ namespace Pantheon
 {
     public static class InputLocator
     {
-        public static IPlayerControl _Svc { get; set; }
+        public static IPlayerControl Service { get; set; }
     }
 }

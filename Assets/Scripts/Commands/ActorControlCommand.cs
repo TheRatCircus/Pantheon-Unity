@@ -2,9 +2,8 @@
 // Jerome Martina
 
 using Pantheon.Components;
-using Pantheon.UI;
-using UnityEngine;
 using System;
+using UnityEngine;
 
 namespace Pantheon.Commands
 {
@@ -29,13 +28,13 @@ namespace Pantheon.Commands
                     {
                         if (newControl == ActorControl.None)
                         {
-                            LogLocator._log.Send(
+                            LogLocator.Service.Send(
                                 $"{Entity.ToSubjectString(true)} goes limp...",
                                 Color.cyan);
                         }
                         else if (newControl == ActorControl.Player)
                         {
-                            LogLocator._log.Send(
+                            LogLocator.Service.Send(
                                 $"You possess {Entity.ToSubjectString(false)}!",
                                 Color.cyan);
                         }
@@ -49,14 +48,14 @@ namespace Pantheon.Commands
                     {
                         if (newControl == ActorControl.None)
                         {
-                            LogLocator._log.Send(
+                            LogLocator.Service.Send(
                                 $"You lose control of your physical body!",
                                 Color.magenta);
 
                         }
                         else if (newControl == ActorControl.AI)
                         {
-                            LogLocator._log.Send(
+                            LogLocator.Service.Send(
                                 $"You are possessed by {possessor.ToSubjectString(false)}!",
                                 Color.magenta);
                         }
@@ -70,13 +69,13 @@ namespace Pantheon.Commands
                     {
                         if (newControl == ActorControl.Player)
                         {
-                            LogLocator._log.Send(
+                            LogLocator.Service.Send(
                                 $"You possess {Entity.ToSubjectString(false)}",
                                 Color.cyan);
                         }
                         else if (newControl == ActorControl.AI)
                         {
-                            LogLocator._log.Send(
+                            LogLocator.Service.Send(
                                 $"{Entity.ToSubjectString(true)} takes on a new vigour!",
                                 Color.cyan);
                         }

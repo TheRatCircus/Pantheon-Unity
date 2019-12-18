@@ -7,7 +7,6 @@
 using Newtonsoft.Json;
 using Pantheon.Commands;
 using Pantheon.Core;
-using Pantheon.UI;
 using Pantheon.Utils;
 using Pantheon.World;
 using UnityEngine;
@@ -58,7 +57,7 @@ namespace Pantheon.Components
                 {
                     Target = ctrl.Player;
                     Actor.Command = MoveCommand.MoveOrWait(Entity, Target.Cell);
-                    LogLocator._log.Send(
+                    LogLocator.Service.Send(
                         $"{Entity.ToSubjectString(true)} notices you!",
                         Colours._orange);
                 }

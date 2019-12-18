@@ -2,7 +2,6 @@
 // Jerome Martina
 
 using Pantheon.Components;
-using Pantheon.UI;
 using UnityEngine;
 
 namespace Pantheon.Commands
@@ -23,7 +22,7 @@ namespace Pantheon.Commands
             {
                 cost = -1;
                 if (player)
-                    LogLocator._log.Send(
+                    LogLocator.Service.Send(
                         "There is nothing here to take.",
                         Color.grey);
                 return CommandResult.Cancelled;
@@ -34,7 +33,7 @@ namespace Pantheon.Commands
             inv.AddItem(item);
             cost = Core.TurnScheduler.TurnTime;
             if (player)
-                LogLocator._log.Send(
+                LogLocator.Service.Send(
                     $"You pick up a {item}.",
                     Color.grey);
             return CommandResult.Succeeded;

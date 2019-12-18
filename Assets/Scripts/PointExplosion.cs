@@ -1,7 +1,6 @@
 ﻿// PointExplosion.cs
 // Jerome Martina
 
-using Pantheon.UI;
 using Pantheon.World;
 using UnityEngine;
 
@@ -25,7 +24,7 @@ namespace Pantheon
             if (cell.Actor != null)
             {
                 Hit hit = new Hit(damages);
-                LogLocator._log.Send(
+                LogLocator.Service.Send(
                     $"{cell.Actor.ToSubjectString(true)} is caught in the blast!",
                     Color.white);
                 cell.Actor.TakeHit(source, hit);

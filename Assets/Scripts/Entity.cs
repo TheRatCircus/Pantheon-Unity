@@ -2,8 +2,6 @@
 // Jerome Martina
 
 using Pantheon.Components;
-using Pantheon.Core;
-using Pantheon.UI;
 using Pantheon.Util;
 using Pantheon.Utils;
 using Pantheon.World;
@@ -196,21 +194,21 @@ namespace Pantheon
 
             if (TryGetComponent(out Actor actor))
             {
-                SchedulerLocator._scheduler.RemoveActor(actor);
+                SchedulerLocator.Service.RemoveActor(actor);
 
                 if (actor.Control == ActorControl.Player)
                 {
                     Transform camTransform = GameObjects[0].transform.Find("MainCamera");
                     camTransform.SetParent(null);
-                    SchedulerLocator._scheduler.Lock();
-                    LogLocator._log.Send($"You perish...", Color.magenta);
+                    SchedulerLocator.Service.Lock();
+                    LogLocator.Service.Send($"You perish...", Color.magenta);
                 }
                 else if (actor.Control == ActorControl.AI)
                 {
-                    LogLocator._log.Send(Strings.Kill(destroyer, this), Color.white);
+                    LogLocator.Service.Send(Strings.Kill(destroyer, this), Color.white);
                 }
                 else
-                    LogLocator._log.Send(
+                    LogLocator.Service.Send(
                         $"{ToSubjectString(true)} is destroyed.",
                         Color.grey);
             }

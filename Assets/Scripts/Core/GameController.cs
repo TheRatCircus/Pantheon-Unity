@@ -55,10 +55,10 @@ namespace Pantheon.Core
         {
             Loader = GetComponent<AssetLoader>();
             Scheduler = GetComponent<TurnScheduler>();
-            SchedulerLocator.Provide(Scheduler);
+            SchedulerLocator.Service = Scheduler;
             PlayerControl = GetComponent<PlayerControl>();
-            InputLocator._Svc = PlayerControl;
-            LogLocator.Provide(Log);
+            InputLocator.Service = PlayerControl;
+            LogLocator.Service = Log;
         }
 
         public void InjectStaticDependencies()
@@ -165,7 +165,7 @@ namespace Pantheon.Core
 
         public void AllowInputToCharacter(bool allow)
         {
-            InputLocator._Svc.Mode = allow ? InputMode.Default : InputMode.None;
+            InputLocator.Service.Mode = allow ? InputMode.Default : InputMode.None;
         }
 
         private void SaveGame()

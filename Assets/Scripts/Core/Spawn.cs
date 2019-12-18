@@ -29,7 +29,7 @@ namespace Pantheon.Core
         public static Entity SpawnActor(EntityTemplate template, Level level, Cell cell)
         {
             Entity entity = new Entity(template);
-            SchedulerLocator._scheduler.AddActor(entity.GetComponent<Actor>());
+            SchedulerLocator.Service.AddActor(entity.GetComponent<Actor>());
             entity.Move(level, cell);
             if (entity.Cell.Visible)
                 ctrl.PlayerControl.VisibleActors.Add(entity);

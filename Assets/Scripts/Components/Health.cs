@@ -37,7 +37,7 @@ namespace Pantheon.Components
         {
             Current = max;
             RegenProgress = regenTime;
-            SchedulerLocator._scheduler.ClockTickEvent += Regen;
+            SchedulerLocator.Service.ClockTickEvent += Regen;
         }
 
         public Health(int max, int regenTime)
@@ -46,7 +46,7 @@ namespace Pantheon.Components
             Current = this.max;
             this.regenTime = regenTime;
             RegenProgress = this.regenTime;
-            SchedulerLocator._scheduler.ClockTickEvent += Regen;
+            SchedulerLocator.Service.ClockTickEvent += Regen;
         }
 
         /// <summary>

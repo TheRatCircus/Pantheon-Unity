@@ -17,7 +17,7 @@ namespace PantheonTests
         [Test]
         public void EntityReceivesMessages()
         {
-            LogLocator.Provide(new MockGameLog());
+            LogLocator.Service = new MockGameLog();
 
             Entity entity = new Entity();
             Actor actor = new Actor(100, ActorControl.AI);
