@@ -19,35 +19,6 @@ namespace Pantheon.Core
         Path
     }
 
-    public enum InputType
-    {
-        None,
-        Direction,
-        Wait,
-        Use,
-        Pickup,
-        Drop
-    }
-
-    public struct InputMessage
-    {
-        public readonly InputType type;
-        public readonly Vector2Int vector;
-        public readonly bool ctrl;
-        public readonly bool shift;
-        public readonly bool alt;
-
-        public InputMessage(InputType type, Vector2Int vector, bool ctrl,
-            bool shift, bool alt)
-        {
-            this.type = type;
-            this.vector = vector;
-            this.ctrl = ctrl;
-            this.shift = shift;
-            this.alt = alt;
-        }
-    }
-
     public sealed class PlayerControl : MonoBehaviour, IPlayerControl
     {
         [SerializeField] private UI.Cursor cursor = default;
@@ -80,9 +51,6 @@ namespace Pantheon.Core
             if (!Input.anyKeyDown)
                 return;
 
-            InputType type = InputType.None;
-            Vector2Int inputVector = Vector2Int.zero;
-
             switch (Mode)
             {
                 case InputMode.Default:
@@ -102,56 +70,47 @@ namespace Pantheon.Core
 
             if (Input.GetButtonDown("Up"))
             {
-                type = InputType.Direction;
-                inputVector = Vector2Int.up;
+                playerActor.Command = new MoveCommand(PlayerEntity, Vector2Int.up);
             }
             else if (Input.GetButtonDown("Down"))
             {
-                type = InputType.Direction;
-                inputVector = Vector2Int.down;
+                playerActor.Command = new MoveCommand(PlayerEntity, Vector2Int.down);
             }
             else if (Input.GetButtonDown("Left"))
             {
-                type = InputType.Direction;
-                inputVector = Vector2Int.left;
+                playerActor.Command = new MoveCommand(PlayerEntity, Vector2Int.left);
             }
             else if (Input.GetButtonDown("Right"))
             {
-                type = InputType.Direction;
-                inputVector = Vector2Int.right;
+                playerActor.Command = new MoveCommand(PlayerEntity, Vector2Int.right);
             }
             else if (Input.GetButtonDown("Up Left"))
             {
-                type = InputType.Direction;
-                inputVector = new Vector2Int(-1, 1);
+                playerActor.Command = new MoveCommand(PlayerEntity, new Vector2Int(-1, 1));
             }
             else if (Input.GetButtonDown("Up Right"))
             {
-                type = InputType.Direction;
-                inputVector = new Vector2Int(1, 1);
+                playerActor.Command = new MoveCommand(PlayerEntity, new Vector2Int(1, 1));
             }
             else if (Input.GetButtonDown("Down Left"))
             {
-                type = InputType.Direction;
-                inputVector = new Vector2Int(-1, -1);
+                playerActor.Command = new MoveCommand(PlayerEntity, new Vector2Int(-1, -1));
             }
             else if (Input.GetButtonDown("Down Right"))
             {
-                type = InputType.Direction;
-                inputVector = new Vector2Int(1, -1);
+                playerActor.Command = new MoveCommand(PlayerEntity, new Vector2Int(1, -1));
             }
             else if (Input.GetButtonDown("Wait"))
-                type = InputType.Wait;
+                playerActor.Command = new WaitCommand(PlayerEntity);
             else if (Input.GetButtonDown("Use"))
-                type = InputType.Use;
+            {
+                playerActor.Command = new UseItemCommand(PlayerEntity,
+                    PlayerEntity.GetComponent<Inventory>().Items[0]);
+            }
             else if (Input.GetButtonDown("Pickup"))
-                type = InputType.Pickup;
+                playerActor.Command = new PickupCommand(PlayerEntity);
             else if (Input.GetButtonDown("Inventory"))
-                type = InputType.Drop;
-
-            InputMessage msg = new InputMessage(type, inputVector, false,
-                false, false);
-            SendInput(msg);
+                playerActor.Command = new DropCommand(PlayerEntity);
         }
 
         private void PointSelect()
@@ -165,29 +124,6 @@ namespace Pantheon.Core
             {
                 selectedCell = null;
                 Mode = InputMode.Cancelling;
-            }
-        }
-
-        private void SendInput(InputMessage msg)
-        {
-            switch (msg.type)
-            {
-                case InputType.Direction:
-                    playerActor.Command = new MoveCommand(PlayerEntity, msg.vector);
-                    break;
-                case InputType.Wait:
-                    playerActor.Command = new WaitCommand(PlayerEntity);
-                    break;
-                case InputType.Use:
-                    playerActor.Command = new UseItemCommand(PlayerEntity,
-                        PlayerEntity.GetComponent<Inventory>().Items[0]);
-                    break;
-                case InputType.Pickup:
-                    playerActor.Command = new PickupCommand(PlayerEntity);
-                    break;
-                case InputType.Drop:
-                    playerActor.Command = new DropCommand(PlayerEntity);
-                    break;
             }
         }
 
