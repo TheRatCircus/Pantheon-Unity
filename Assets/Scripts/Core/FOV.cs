@@ -11,27 +11,40 @@ namespace Pantheon.Core
     public static class FOV
     {
         // Not in terms of cells
-        public const int FOVRadius = 15;
+        public const int FOVRadius = 11;
+
+        private static Cell prev;
 
         /// <summary>
         /// Change visibility and reveal new cells.
         /// <param name="level"></param>
         /// </summary>
         /// <returns>A HashSet of all cells affected by the refresh.</returns>
-        public static HashSet<Cell> RefreshFOV(Level level, Vector2Int origin,
+        public static HashSet<Cell> RefreshFOV(Level level, Cell origin,
             bool drawChanges)
         {
+            // Hide cells at the last refresh position
+            if (prev != null)
+            {
+                List<Cell> cells = level.GetSquare(prev, FOVRadius);
+                foreach (Cell c in cells)
+                    c.Visible = false;
+                level.Draw(cells);
+            }   
+
             HashSet<Cell> allRefreshed = new HashSet<Cell>();
             for (int octant = 0; octant < 8; octant++)
             {
                 List<Cell> refreshed = ShadowOctant(level,
-                    origin, octant);
+                    origin.Position, octant);
 
                 allRefreshed.AddMany(refreshed);
             }
 
             if (drawChanges)
                 level.Draw(allRefreshed);
+
+            prev = origin;
 
             return allRefreshed;
         }
@@ -51,7 +64,7 @@ namespace Pantheon.Core
         };
 
         // Generate an octant of shadows, and return the FOV area to be redrawn
-        public static List<Cell> ShadowOctant(Level level, Vector2Int origin,
+        private static List<Cell> ShadowOctant(Level level, Vector2Int origin,
             int octant)
         {
             // Increments based off of octantCoordinates
@@ -62,7 +75,7 @@ namespace Pantheon.Core
             bool fullShadow = false;
             List<Cell> ret = new List<Cell>();
 
-            for (int row = 0; row < FOVRadius - 4; row++)
+            for (int row = 0; row < FOVRadius; row++)
             {
                 // Record position
                 Vector2Int pos = origin + (rowInc * row);
@@ -142,7 +155,7 @@ namespace Pantheon.Core
     }
 
     // Generate a line of shadows
-    public sealed class ShadowLine
+    sealed class ShadowLine
     {
         public readonly List<Shadow> Shadows = new List<Shadow>();
 
@@ -221,7 +234,7 @@ namespace Pantheon.Core
     /// Represents the 1D projection of a 2D shadow onto a normalized line.
     /// In other words, a range from 0.0 to 1.0.
     /// </summary>
-    public sealed class Shadow
+    sealed class Shadow
     {
         public float Start { get; set; }
         public float End { get; set; }

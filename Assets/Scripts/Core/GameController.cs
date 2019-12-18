@@ -127,7 +127,7 @@ namespace Pantheon.Core
             level.AssignGameObject(Instantiate(levelPrefab, worldTransform).transform);
 
             if (refreshFOV)
-                FOV.RefreshFOV(level, Player.Cell.Position, false);
+                FOV.RefreshFOV(level, Player.Cell, false);
 
             foreach (Cell c in level.Map)
             {

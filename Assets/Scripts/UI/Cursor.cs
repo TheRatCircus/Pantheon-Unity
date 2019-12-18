@@ -28,6 +28,11 @@ namespace Pantheon.UI
                 Vector3 cursorPos = new Vector3(c.Position.x, c.Position.y);
                 cursor.transform.position = cursorPos;
             }
+
+            if (Input.GetMouseButtonDown(2))
+            {
+                LogLocator.Service.Send(HoveredCell.ToString(), Color.white);
+            }
         }
     }
 }

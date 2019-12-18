@@ -96,7 +96,7 @@ namespace Pantheon.Core
                     ctrl.PlayerControl.ActorIsVisible(actor))
                 {
                     HashSet<Cell> refreshed = FOV.RefreshFOV(
-                        ctrl.Player.Level, ctrl.Player.Cell.Position, true);
+                        ctrl.Player.Level, ctrl.Player.Cell, true);
                     ctrl.PlayerControl.RecalculateVisible(refreshed);
                 }
 

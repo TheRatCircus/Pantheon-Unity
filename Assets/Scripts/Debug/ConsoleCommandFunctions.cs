@@ -63,7 +63,7 @@ namespace Pantheon.Debug
             {
                 Entity entity = new Entity(template);
                 entity.Move(ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell);
-                FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.Player.Cell.Position, true);
+                FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.Player.Cell, true);
                 return $"Spawned {entity} at {ctrl.Cursor.HoveredCell}.";
             }
         }
@@ -162,6 +162,19 @@ namespace Pantheon.Debug
             Inventory inv = ctrl.Player.GetComponent<Inventory>();
             inv.AddItem(wand);
             return "Placed the Wand of Fragmentation in your inventory.";
+        }
+
+        public static string Teleport(string[] args, GameController ctrl)
+        {
+            Cell cell = ctrl.Cursor.HoveredCell;
+            if (Cell.Walkable(cell))
+            {
+                ctrl.Player.Move(ctrl.Player.Level, cell);
+                FOV.RefreshFOV(ctrl.Player.Level, ctrl.Player.Cell, true);
+                return $"Teleported player to {cell}.";
+            }
+            else
+                return "Targeted cell is not walkable.";
         }
     }
 }

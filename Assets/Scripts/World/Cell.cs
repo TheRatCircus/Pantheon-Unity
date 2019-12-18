@@ -102,6 +102,7 @@ namespace Pantheon.World
                 Items.Remove(entity);
         }
 
-        public override string ToString() => $"Cell: {Position}";
+        public override string ToString()
+            => $"{Terrain.DisplayName} ({(Visible ? "vis" : "non-vis")}) at {Position}";
     }
 }

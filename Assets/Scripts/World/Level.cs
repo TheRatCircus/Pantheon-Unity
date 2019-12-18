@@ -113,6 +113,22 @@ namespace Pantheon.World
             return (int)Mathf.Sqrt(Mathf.Pow(dx, 2) + Mathf.Pow(dy, 2));
         }
 
+        public List<Cell> GetSquare(Cell origin, int radius)
+        {
+            int dim = (radius * 2) - 1;
+            int delta = radius - 1;
+            List<Cell> ret = new List<Cell>();
+            for (int x = origin.Position.x - delta; x < origin.Position.x + delta; x++)
+            {
+                for (int y = origin.Position.y - delta; y < origin.Position.y + delta; y++)
+                {
+                    if (TryGetCell(x, y, out Cell c))
+                        ret.Add(c);
+                }
+            }
+            return ret;
+        }
+
         public bool AdjacentTo(Cell a, Cell b)
         {
             if (a.Equals(b))
