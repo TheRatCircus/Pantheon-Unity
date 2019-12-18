@@ -25,7 +25,7 @@ namespace Pantheon.Commands
                     LogLocator.Service.Send(
                         "There is nothing here to take.",
                         Color.grey);
-                return CommandResult.Cancelled;
+                return CommandResult.Failed;
             }
 
             Entity item = Entity.Cell.Items[0];

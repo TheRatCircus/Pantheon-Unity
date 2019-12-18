@@ -53,7 +53,7 @@ namespace Pantheon.Commands
             if (!Cell.Walkable(destinationCell))
             {
                 cost = -1;
-                return CommandResult.Cancelled;
+                return CommandResult.Failed;
             }
 
             if (destinationCell.Actor != null)

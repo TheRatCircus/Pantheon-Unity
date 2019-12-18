@@ -27,7 +27,7 @@ namespace Pantheon.Commands
                     $"You have nothing in your inventory to drop.",
                     Color.grey);
                 cost = -1;
-                return CommandResult.Cancelled;
+                return CommandResult.Failed;
             }
 
             Entity item = inv.Items[0];

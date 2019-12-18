@@ -17,12 +17,14 @@ namespace Pantheon.Commands
             if (!item.TryGetComponent(out OnUse onUse))
             {
                 cost = -1;
-                return CommandResult.Cancelled;
+                return CommandResult.Failed;
             }
             else
             {
                 CommandResult result = onUse.Invoke(Entity);
-                if (result == CommandResult.InProgress)
+                if (result == CommandResult.InProgress ||
+                    result == CommandResult.Failed ||
+                    result == CommandResult.Cancelled)
                     cost = -1;
                 else
                     cost = onUse.UseTime;

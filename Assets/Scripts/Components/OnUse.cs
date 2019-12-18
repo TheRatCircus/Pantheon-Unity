@@ -24,8 +24,12 @@ namespace Pantheon.Components
             foreach (NonActorCommand nac in commands)
             {
                 nac.Entity = user;
-                if (nac.Execute() == CommandResult.InProgress)
+                CommandResult r = nac.Execute();
+
+                if (r == CommandResult.InProgress)
                     result = CommandResult.InProgress;
+                if (r == CommandResult.Cancelled)
+                    result = CommandResult.Cancelled;
             }
 
             return result;

@@ -177,7 +177,7 @@ namespace Pantheon.Core
                     Mode = InputMode.Default;
                     cell = null;
                     CleanOverlays();
-                    return Mode;
+                    return InputMode.Cancelling;
                 case InputMode.Point:
                     if (selectedCell == null)
                         // Still no selection

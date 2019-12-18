@@ -16,6 +16,7 @@ namespace Pantheon.Commands
 
     public enum CommandResult
     {
+        Failed,
         Cancelled,
         InProgress,
         Succeeded
