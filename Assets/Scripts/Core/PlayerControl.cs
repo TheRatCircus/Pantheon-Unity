@@ -180,7 +180,7 @@ namespace Pantheon.Core
                     break;
                 case InputType.Use:
                     playerActor.Command = new UseItemCommand(PlayerEntity,
-                        PlayerEntity.Cell.Items[0]);
+                        PlayerEntity.GetComponent<Inventory>().Items[0]);
                     break;
                 case InputType.Pickup:
                     playerActor.Command = new PickupCommand(PlayerEntity);
