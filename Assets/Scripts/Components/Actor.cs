@@ -71,8 +71,9 @@ namespace Pantheon.Components
 
             if (Command != null)
             {
-                int cost = Command.Execute();
-                Command = null;
+                CommandResult result = Command.Execute(out int cost);
+                if (result != CommandResult.InProgress)
+                    Command = null;
                 return cost;
             }
             else

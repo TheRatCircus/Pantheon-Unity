@@ -3,6 +3,7 @@
 
 using Pantheon.Core;
 using Pantheon.World;
+using System;
 
 namespace Pantheon.Commands
 {
@@ -20,23 +21,32 @@ namespace Pantheon.Commands
             this.cmd = cmd;
         }
 
-        public override void Execute()
+        public override CommandResult Execute()
         {
             if (Entity.PlayerControlled)
             {
-                InputLocator._Svc.Mode = InputMode.Point;
-                InputLocator._Svc.PointConfirmDelegate = delegate (Cell c)
+                switch (InputLocator._Svc.RequestCell(out Cell cell))
                 {
-                    if (cmd is ICellTargetedCommand ctc)
-                        ctc.Cell = c;
-                    if (cmd is IEntityTargetedCommand etc)
-                        etc.Target = c.Actor;
-
-                    cmd.Execute();
-                };
+                    case InputMode.Cancelling:
+                        return CommandResult.Cancelled;
+                    case InputMode.Point:
+                        return CommandResult.InProgress;
+                    case InputMode.Default:
+                        {
+                            // Point has come through
+                            if (cmd is ICellTargetedCommand ctc)
+                                ctc.Cell = cell;
+                            if (cmd is IEntityTargetedCommand etc)
+                                etc.Target = cell.Actor;
+                            cmd.Execute();
+                            return CommandResult.Succeeded;
+                        }
+                    default:
+                        throw new Exception("Illegal InputMode returned.");
+                }
             }
             else
-                throw new System.NotImplementedException();
+                throw new NotImplementedException();
         }
     }
 }

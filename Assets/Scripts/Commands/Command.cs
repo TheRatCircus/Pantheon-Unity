@@ -13,4 +13,11 @@ namespace Pantheon.Commands
 
         public Command(Entity entity) => Entity = entity;
     }
+
+    public enum CommandResult
+    {
+        Cancelled,
+        InProgress,
+        Succeeded
+    }
 }

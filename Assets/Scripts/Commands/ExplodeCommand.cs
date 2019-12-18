@@ -29,7 +29,7 @@ namespace Pantheon.Commands
             this.pattern = pattern;
         }
 
-        public override void Execute()
+        public override CommandResult Execute()
         {
             // Fall back on assumption that entity itself is exploding
             if (Cell == null)
@@ -48,6 +48,8 @@ namespace Pantheon.Commands
                 default:
                     throw new System.NotImplementedException();
             }
+
+            return CommandResult.Succeeded;
         }
     }
 }

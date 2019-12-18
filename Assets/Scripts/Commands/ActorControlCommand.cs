@@ -20,7 +20,7 @@ namespace Pantheon.Commands
             this.newControl = newControl;
         }
 
-        public override void Execute()
+        public override CommandResult Execute()
         {
             Actor actor = Entity.GetComponent<Actor>();
             switch (actor.Control)
@@ -88,6 +88,7 @@ namespace Pantheon.Commands
                     }
             }
             actor.Control = newControl;
+            return CommandResult.Succeeded;
         }
     }
 }

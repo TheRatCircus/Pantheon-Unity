@@ -7,9 +7,14 @@ namespace Pantheon.Commands
 {
     public sealed class WaitCommand : ActorCommand
     {
-        public WaitCommand(Entity entity) : base(entity) { }
+        public WaitCommand(Entity entity)
+            : base(entity) { }
 
-        public override int Execute() => TurnScheduler.TurnTime;
+        public override CommandResult Execute(out int cost)
+        {
+            cost = TurnScheduler.TurnTime;
+            return CommandResult.Succeeded;
+        }
 
         public override string ToString()
         {

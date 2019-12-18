@@ -12,6 +12,7 @@ namespace Pantheon.Core
     public enum InputMode
     {
         None,
+        Cancelling,
         Default,
         Point,
         Line,
@@ -63,12 +64,11 @@ namespace Pantheon.Core
         }
         private Actor playerActor;
 
+        private Cell selectedCell;
         public HashSet<Entity> VisibleActors { get; private set; }
             = new HashSet<Entity>();
         public List<Cell> AutoMovePath { get; set; }
             = new List<Cell>();
-
-        public System.Action<Cell> PointConfirmDelegate { get; set; }
 
         private void Update()
         {
@@ -152,13 +152,13 @@ namespace Pantheon.Core
         {
             if (Input.GetMouseButtonDown(0))
             {
-                PointConfirmDelegate?.Invoke(cursor.HoveredCell);
+                selectedCell = cursor.HoveredCell;
                 Mode = InputMode.Default;
             }
             else if (Input.GetMouseButtonDown(1))
             {
-                PointConfirmDelegate = null;
-                Mode = InputMode.Default;
+                selectedCell = null;
+                Mode = InputMode.Cancelling;
             }
         }
 
@@ -197,6 +197,36 @@ namespace Pantheon.Core
                     return true;
 
             return false;
+        }
+
+        public InputMode RequestCell(out Cell cell)
+        {
+            switch (Mode)
+            {
+                case InputMode.Default: // Start polling for cell
+                    Mode = InputMode.Point;
+                    cell = null;
+                    return Mode;
+                case InputMode.Cancelling: // Stop polling for cell
+                    Mode = InputMode.Default;
+                    cell = null;
+                    return Mode;
+                case InputMode.Point:
+                    if (selectedCell == null)
+                        // Still no selection
+                        cell = null;
+                    else
+                    {
+                        // Selection made
+                        Mode = InputMode.Default;
+                        cell = selectedCell;
+                        selectedCell = null;
+                    }
+                    return Mode;
+                default:
+                    throw new System.Exception(
+                        "PlayerControl is in an illegal input mode.");
+            }
         }
     }
 }

@@ -48,22 +48,32 @@ namespace Pantheon.Commands
                 destinationCell = null;
         }
 
-        public override int Execute()
+        public override CommandResult Execute(out int cost)
         {
             if (!Cell.Walkable(destinationCell))
-                return -1;
+            {
+                cost = -1;
+                return CommandResult.Cancelled;
+            }
 
             if (destinationCell.Actor != null)
             {
                 Actor actor = Entity.GetComponent<Actor>();
                 if (actor.HostileTo(destinationCell.Actor.GetComponent<Actor>()))
-                    return new MeleeCommand(Entity, destinationCell).Execute();
+                {
+                    ActorCommand cmd = new MeleeCommand(Entity, destinationCell);
+                    return cmd.Execute(out cost);
+                }
                 else if (Entity.HasComponent<AI>())
-                    return new WaitCommand(Entity).Execute();
+                {
+                    ActorCommand cmd = new WaitCommand(Entity);
+                    return cmd.Execute(out cost);
+                }
             }
 
             Entity.Move(destinationLevel, destinationCell);
-            return TurnScheduler.TurnTime;
+            cost = TurnScheduler.TurnTime;
+            return CommandResult.Succeeded;
         }
 
         public override string ToString()

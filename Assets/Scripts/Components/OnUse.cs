@@ -9,7 +9,7 @@ namespace Pantheon.Components
     [System.Serializable]
     public sealed class OnUse : EntityComponent
     {
-        private int useTime = TurnScheduler.TurnTime;
+        public int UseTime { get; private set; } = TurnScheduler.TurnTime;
         private NonActorCommand[] commands;
 
         public OnUse(int useTime, params NonActorCommand[] commands)
@@ -17,16 +17,20 @@ namespace Pantheon.Components
             this.commands = commands;
         }
 
-        public int Invoke(Entity user)
+        public CommandResult Invoke(Entity user)
         {
+            CommandResult result = CommandResult.Succeeded;
+
             foreach (NonActorCommand nac in commands)
             {
                 nac.Entity = user;
-                nac.Execute();
+                if (nac.Execute() == CommandResult.InProgress)
+                    result = CommandResult.InProgress;
             }
-            return useTime;
+
+            return result;
         }
 
-        public override EntityComponent Clone() => new OnUse(useTime, commands);
+        public override EntityComponent Clone() => new OnUse(UseTime, commands);
     }
 }

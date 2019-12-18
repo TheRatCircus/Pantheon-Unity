@@ -10,11 +10,7 @@ namespace Pantheon.Commands
     {
         public ActorCommand(Entity entity) : base(entity) { }
 
-        /// <summary>
-        /// Carry out this commands's effects.
-        /// </summary>
-        /// <returns>The energy cost this action incurs.</returns>
-        public abstract int Execute();
+        public abstract CommandResult Execute(out int cost);
     }
 }
 

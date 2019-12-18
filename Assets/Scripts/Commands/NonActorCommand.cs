@@ -10,6 +10,6 @@ namespace Pantheon.Commands
     {
         public NonActorCommand(Entity entity) : base(entity) { }
 
-        public abstract void Execute();
+        public abstract CommandResult Execute();
     }
 }

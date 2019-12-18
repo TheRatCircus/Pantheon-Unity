@@ -16,7 +16,7 @@ namespace Pantheon.Commands
         public MeleeCommand(Entity entity, Cell target)
             : base(entity) => this.target = target;
 
-        public override int Execute()
+        public override CommandResult Execute(out int cost)
         {
             Entity defender;
 
@@ -59,7 +59,8 @@ namespace Pantheon.Commands
                 }
             }
 
-            return attackTime;
+            cost = attackTime;
+            return CommandResult.Succeeded;
         }
     }
 }

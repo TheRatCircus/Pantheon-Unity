@@ -8,6 +8,6 @@ namespace Pantheon.Core
     public interface IPlayerControl
     {
         InputMode Mode { get; set; }
-        System.Action<Cell> PointConfirmDelegate { get; set; }
+        InputMode RequestCell(out Cell cell);
     }
 }

@@ -12,12 +12,22 @@ namespace Pantheon.Commands
         public UseItemCommand(Entity user, Entity item)
             : base(user) => this.item = item;
 
-        public override int Execute()
+        public override CommandResult Execute(out int cost)
         {
             if (!item.TryGetComponent(out OnUse onUse))
-                return -1;
+            {
+                cost = -1;
+                return CommandResult.Cancelled;
+            }
             else
-                return onUse.Invoke(Entity);
+            {
+                CommandResult result = onUse.Invoke(Entity);
+                if (result == CommandResult.InProgress)
+                    cost = -1;
+                else
+                    cost = onUse.UseTime;
+                return result;
+            }
         }
     }
 }
