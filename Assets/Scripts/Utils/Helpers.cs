@@ -249,6 +249,9 @@ namespace Pantheon.Utils
         /// <param name="action"></param>
         public static void ClearNonSerializableDelegates<T1>(ref Action<T1> action)
         {
+            if (action == null)
+                return;
+
             Delegate[] delegates = action.GetInvocationList();
             for (int i = 0; i < delegates.Length; i++)
             {

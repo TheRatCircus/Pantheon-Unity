@@ -63,11 +63,6 @@ namespace Pantheon.Components
             Invincible = invincible;
         }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="change"></param>
         /// <returns>True if entity ran out of health.</returns>
         private bool ModifyHealth(int change)
         {

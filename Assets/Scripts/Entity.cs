@@ -8,6 +8,7 @@ using Pantheon.Utils;
 using Pantheon.World;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEngine;
 
 namespace Pantheon
@@ -235,8 +236,8 @@ namespace Pantheon
                 return sentenceStart ? $"The {Name}" : $"the {Name}";
         }
 
-        [System.Runtime.Serialization.OnSerializing]
-        private void OnSerializing()
+        [OnSerializing]
+        private void OnSerializing(StreamingContext ctxt)
         {
             DestroyedEvent = null;
         }
