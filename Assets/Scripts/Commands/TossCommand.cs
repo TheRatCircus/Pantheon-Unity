@@ -21,9 +21,6 @@ namespace Pantheon.Commands
 
         public override CommandResult Execute(out int cost)
         {
-            if (item.InInventory)
-                Entity.GetComponent<Inventory>().RemoveItem(item);
-
             if (Entity.PlayerControlled)
             {
                 switch (InputLocator.Service.RequestLine(out List<Cell> line, 7))
@@ -36,6 +33,9 @@ namespace Pantheon.Commands
                         return CommandResult.InProgress;
                     case InputMode.Default:
                         {
+                            if (item.InInventory)
+                                Entity.GetComponent<Inventory>().RemoveItem(item);
+
                             // Line has come through
                             GameObject tossFXObj = Object.Instantiate(
                                 PrefabProvider.TossFXPrefab,
