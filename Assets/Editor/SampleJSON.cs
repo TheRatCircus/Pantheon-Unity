@@ -41,7 +41,7 @@ namespace PantheonEditor
             EntityComponent[] components = new EntityComponent[]
             {
                 new Actor(),
-                new AI(),
+                new AI(new DefaultStrategy()),
                 new Health(),
                 new Inventory(20),
                 new Location(),
@@ -64,6 +64,9 @@ namespace PantheonEditor
             };
 
             string path = Application.dataPath + $"/sample_components.json";
+
+            if (File.Exists(path))
+                File.Delete(path);
 
             foreach (EntityComponent ec in components)
             {

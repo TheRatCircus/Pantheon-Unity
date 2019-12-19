@@ -16,7 +16,7 @@ using Object = UnityEngine.Object;
 
 namespace Pantheon.Core
 {
-    public sealed class AssetLoader : MonoBehaviour
+    public sealed class AssetLoader : MonoBehaviour, IAssetLoader
     {
         private AssetBundle bundle;
 
@@ -130,15 +130,6 @@ namespace Pantheon.Core
             UnityEngine.Profiling.Profiler.EndSample();
 
             return JsonConvert.DeserializeObject<BodyPart>(text.text, genericSettings);
-        }
-
-        public T TryLoad<T>(string name) where T : Object
-        {
-            if (!bundle.Contains(name))
-                return null;
-
-            T obj = bundle.LoadAsset<T>(name);
-            return obj;
         }
 
         [System.Diagnostics.Conditional("DEBUG_ASSETLOADER")]

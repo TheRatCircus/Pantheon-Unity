@@ -3,14 +3,12 @@
   "Speed": -1,
   "Energy": -1,
   "Command": null
-}{
-  "$type": "Actor",
-  "Speed": -1,
-  "Energy": -1,
-  "Command": null
 }
 {
-  "$type": "AI"
+  "$type": "AI",
+  "Strategy": {
+    "$type": "DefaultStrategy"
+  }
 }
 {
   "$type": "Health",

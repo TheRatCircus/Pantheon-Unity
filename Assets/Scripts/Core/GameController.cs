@@ -55,6 +55,7 @@ namespace Pantheon.Core
         private void OnEnable()
         {
             Loader = GetComponent<AssetLoader>();
+            LoaderLocator.Service = Loader;
             Scheduler = GetComponent<TurnScheduler>();
             SchedulerLocator.Service = Scheduler;
             PlayerControl = GetComponent<PlayerControl>();
