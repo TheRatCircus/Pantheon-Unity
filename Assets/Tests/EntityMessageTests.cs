@@ -26,7 +26,7 @@ namespace PantheonTests
             entity.AddComponent(health);
             entity.AddComponent(new OnDamageTaken(
                 new ActorControlCommand(entity, null, ActorControl.Player)));
-            health.Damage(new HitDamage(DamageType.Slashing, 5));
+            health.Damage(null, new HitDamage(DamageType.Slashing, 5));
             Assert.True(actor.Control == ActorControl.Player);
         }
     }

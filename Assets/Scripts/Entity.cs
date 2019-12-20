@@ -183,7 +183,7 @@ namespace Pantheon
             // TODO: OnHitEvent
             Health health = GetComponent<Health>();
             foreach (HitDamage damage in hit.damages)
-                if (health.Damage(damage))
+                if (health.Damage(hitter, damage))
                 {
                     Destroy(hitter);
                     break;

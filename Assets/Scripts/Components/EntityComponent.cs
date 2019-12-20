@@ -20,13 +20,18 @@ namespace Pantheon.Components
 
     public interface IComponentMessage
     {
-        EntityComponent source { get; }
+        EntityComponent Source { get; }
     }
 
     public struct DamageEventMessage : IComponentMessage
     {
-        public EntityComponent source { get; private set; }
+        public EntityComponent Source { get; private set; }
+        public Entity Damager { get; private set; }
 
-        public DamageEventMessage(EntityComponent source) => this.source = source;
+        public DamageEventMessage(EntityComponent source, Entity damager)
+        {
+            Source = source;
+            Damager = damager;
+        }
     }
 }

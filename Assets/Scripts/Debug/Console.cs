@@ -40,7 +40,8 @@ namespace Pantheon.Debug
                 { "idolmode", new ConsoleCommand(ToggleIdolMode) },
                 { "fragwand", new ConsoleCommand(FragWand) },
                 { "give", new ConsoleCommand(Give) },
-                { "teleport", new ConsoleCommand(Teleport) }
+                { "teleport", new ConsoleCommand(Teleport) },
+                { "strategy", new ConsoleCommand(Strategy) }
             };
 
         private void Awake()

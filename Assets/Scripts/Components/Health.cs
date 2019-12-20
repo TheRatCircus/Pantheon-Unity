@@ -80,13 +80,13 @@ namespace Pantheon.Components
             ModifyHealth(healing);
         }
 
-        public bool Damage(HitDamage damage)
+        public bool Damage(Entity damager, HitDamage damage)
         {
             if (Invincible)
                 return false;
 
             DamagedEvent?.Invoke();
-            Message(new DamageEventMessage(this));
+            Message(new DamageEventMessage(this, damager));
             return ModifyHealth(-damage.amount);
         }
 

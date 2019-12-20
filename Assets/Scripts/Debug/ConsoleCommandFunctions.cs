@@ -177,5 +177,29 @@ namespace Pantheon.Debug
             else
                 return "Targeted cell is not walkable.";
         }
+
+        public static string Strategy(string[] args, GameController ctrl)
+        {
+            if (ctrl.Cursor.HoveredCell.Actor == null)
+                return "No NPC in selected cell.";
+
+            if (!ctrl.Cursor.HoveredCell.Actor.TryGetComponent(out AI ai))
+                return "Entity in selected cell has no AI.";
+
+            switch (args[0])
+            {
+                case "Default":
+                    ai.Strategy = new DefaultStrategy();
+                    return $"Changed strategy of {ai.Entity} to Default.";
+                case "Wander":
+                    ai.Strategy = new WanderStrategy();
+                    return $"Changed strategy of {ai.Entity} to Wander.";
+                case "Sleep":
+                    ai.Strategy = new SleepStrategy();
+                    return $"Changed strategy of {ai.Entity} to Sleep.";
+                default:
+                    return $"Strategy {args[0]} does not exist.";
+            }
+        }
     }
 }
