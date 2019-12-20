@@ -3,10 +3,12 @@
 
 using Pantheon.Commands;
 using Pantheon.Components;
+using Pantheon.UI;
 using Pantheon.Utils;
 using Pantheon.World;
 using System.Collections.Generic;
 using UnityEngine;
+using Cursor = Pantheon.UI.Cursor;
 
 namespace Pantheon.Core
 {
@@ -17,14 +19,16 @@ namespace Pantheon.Core
         Default,
         Point,
         Line,
-        Path
+        Path,
+        Menu
     }
 
     public sealed class PlayerControl : MonoBehaviour, IPlayerControl
     {
         [SerializeField] private GameObject targetOverlay = default;
 
-        [SerializeField] private UI.Cursor cursor = default;
+        [SerializeField] private Cursor cursor = default;
+        [SerializeField] private HUD hud = default;
         private List<GameObject> targetOverlays = new List<GameObject>(10);
 
         public InputMode Mode { get; set; } = InputMode.Default;
@@ -62,6 +66,7 @@ namespace Pantheon.Core
             switch (Mode)
             {
                 case InputMode.Default:
+                case InputMode.Menu:
                     break;
                 case InputMode.Point:
                     PointSelect();
@@ -123,7 +128,31 @@ namespace Pantheon.Core
             else if (Input.GetButtonDown("Pickup"))
                 playerActor.Command = new PickupCommand(PlayerEntity);
             else if (Input.GetButtonDown("Inventory"))
-                playerActor.Command = new DropCommand(PlayerEntity);
+            {
+                if (Mode == InputMode.Menu) // Clear modal if already in one
+                {
+                    hud.ClearModalList();
+                    Mode = InputMode.Default;
+                    return;
+                }
+                
+                Mode = InputMode.Menu;
+                Inventory inv = PlayerEntity.GetComponent<Inventory>();
+                ModalList ml = hud.OpenModalList();
+                ml.SetPrompt("Inventory");
+                ml.Populate(inv.Items.Count);
+                for (int i = 0; i < inv.Items.Count; i++)
+                {
+                    ml.SetOptionImage(i, inv.Items[i].Flyweight.Sprite);
+                    ml.SetOptionText(i, inv.Items[i].Name);
+                    ml.SetOptionCallback(i, delegate (int optionNo)
+                    {
+                        Entity e = inv.Items[optionNo];
+                        playerActor.Command = new UseItemCommand(PlayerEntity, e);
+                        Mode = InputMode.Default;
+                    });
+                }
+            }
             else if (Input.GetButtonDown("Toss"))
                 playerActor.Command = new TossCommand(PlayerEntity,
                     PlayerEntity.GetComponent<Inventory>().Items[0]);

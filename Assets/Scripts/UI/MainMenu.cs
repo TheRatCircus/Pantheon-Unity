@@ -78,20 +78,6 @@ namespace Pantheon.UI
             mainTitle.SetActive(true);
         }
 
-        //public System.Collections.IEnumerator LoadGame(Save save)
-        //{
-        //    AsyncOperation load = SceneManager.LoadSceneAsync(Scenes.Game);
-
-        //    while (!load.isDone)
-        //        yield return null;
-
-        //    SceneManager.LoadSceneAsync(Scenes.Game, LoadSceneMode.Additive).
-        //        completed += (AsyncOperation op) =>
-        //        {
-        //            SceneManager.UnloadSceneAsync(gameObject.scene);
-        //        };
-        //}
-
         public void Quit() =>
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
