@@ -113,7 +113,6 @@ namespace Pantheon
         {
             if (TryGetComponent(out AI ai))
             {
-                ai.Entity = this;
                 Actor actor = GetComponent<Actor>();
                 ai.SetActor(actor);
             }
@@ -145,6 +144,7 @@ namespace Pantheon
 
         public void AddComponent(EntityComponent ec)
         {
+            ec.GetEntityEvent += delegate { return this; };
             ec.MessageEvent += RelayMessage;
             Components.Add(ec.GetType(), ec);
         }

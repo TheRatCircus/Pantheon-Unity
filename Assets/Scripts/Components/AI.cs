@@ -15,7 +15,6 @@ namespace Pantheon.Components
     [System.Serializable]
     public sealed class AI : EntityComponent
     {
-        [JsonIgnore] public Entity Entity { get; set; }
         [JsonIgnore] public Actor Actor { get; private set; }
 
         public AIStrategy Strategy { get; set; } = new DefaultStrategy();

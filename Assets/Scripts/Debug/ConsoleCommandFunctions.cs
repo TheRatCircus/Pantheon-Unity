@@ -51,6 +51,9 @@ namespace Pantheon.Debug
 
         public static string Spawn(string[] args, GameController ctrl)
         {
+            if (!ctrl.Loader.AssetExists(args[0]))
+                return $"No template named \"{args[0]}\" exists.";
+
             EntityTemplate template = ctrl.Loader.LoadTemplate(args[0]);
             if (Array.Exists(template.Components, ec => { return ec is Actor; }))
             {

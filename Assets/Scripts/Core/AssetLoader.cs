@@ -76,6 +76,8 @@ namespace Pantheon.Core
             };
         }
 
+        public bool AssetExists(string name) => bundle.Contains(name);
+
         public T Load<T>(string name) where T : Object
         {
             UnityEngine.Profiling.Profiler.BeginSample("AssetLoader.Load()");
