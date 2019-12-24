@@ -46,9 +46,9 @@ namespace Pantheon.Gen
         {
             GameObject fxPrefab = LoaderLocator.Service.Load<GameObject>(
                 Tables.explosionFXIDs.Random());
-            ExplodeCommand expl = new ExplodeCommand(null, fxPrefab, ExplosionPattern.Point);
+            ExplodeCommand expl;
             NonActorCommand nac;
-
+            
             int r = Random.Range(0, 3);
             switch (r)
             {
@@ -56,6 +56,15 @@ namespace Pantheon.Gen
                 case 1: // Line effect
                 case 2: // Point effect
                 default:
+                    expl = new ExplodeCommand(
+                        null, fxPrefab,
+                        ExplosionPattern.Point,
+                        new Damage()
+                        {
+                            Min = 7,
+                            Max = 14,
+                            Type = DamageType.Piercing
+                        });
                     nac = new PointEffectCommand(null, expl);
                     break;
             }

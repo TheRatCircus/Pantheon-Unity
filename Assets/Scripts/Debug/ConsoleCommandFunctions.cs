@@ -150,21 +150,6 @@ namespace Pantheon.Debug
             }
         }
 
-        public static string FragWand(string[] args, GameController ctrl)
-        {
-            GameObject fxPrefab = ctrl.Loader.Load<GameObject>("FX_HandGrenade");
-            ExplodeCommand expl = new ExplodeCommand(ctrl.Player, fxPrefab, ExplosionPattern.Point);
-            PointEffectCommand pec = new PointEffectCommand(ctrl.Player, expl);
-            OnUse onUse = new OnUse(TurnScheduler.TurnTime, pec);
-            EntityTemplate template = new EntityTemplate(
-                "WAND_FRAG", "Wand of Fragmentation",
-                ctrl.Loader.Load<Sprite>("Sprite_Prejudice"), onUse);
-            Entity wand = new Entity(template);
-            wand.Move(ctrl.Player.Level, ctrl.Player.Cell);
-            ctrl.Player.GetComponent<Inventory>().AddItem(wand);
-            return "Placed the Wand of Fragmentation in your inventory.";
-        }
-
         public static string Teleport(string[] args, GameController ctrl)
         {
             Cell cell = ctrl.Cursor.HoveredCell;

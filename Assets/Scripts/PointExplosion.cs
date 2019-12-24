@@ -8,8 +8,6 @@ namespace Pantheon
 {
     public sealed class PointExplosion : MonoBehaviour
     {
-        [SerializeField] private Damage[] damages = default;
-
         private Entity source;
         private Cell cell;
 
@@ -19,7 +17,7 @@ namespace Pantheon
             cell = origin;
         }
 
-        public void Fire()
+        public void Fire(Damage[] damages)
         {
             if (cell.Actor != null)
             {

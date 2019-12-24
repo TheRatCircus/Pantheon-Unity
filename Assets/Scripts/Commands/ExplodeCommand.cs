@@ -18,13 +18,15 @@ namespace Pantheon.Commands
 
     public sealed class ExplodeCommand : NonActorCommand, ICellTargetedCommand
     {
+        private Damage[] damages;
         private ExplosionPattern pattern;
         public Cell Cell { get; set; }
         private GameObject prefab;
         
         public ExplodeCommand(Entity entity, GameObject prefab,
-            ExplosionPattern pattern) : base(entity)
+            ExplosionPattern pattern, params Damage[] damages) : base(entity)
         {
+            this.damages = damages;
             this.prefab = prefab;
             this.pattern = pattern;
         }
@@ -42,7 +44,7 @@ namespace Pantheon.Commands
                         prefab, Cell.Position.ToVector3(), new Quaternion(), null);
                     PointExplosion expl = explObj.GetComponent<PointExplosion>();
                     expl.Initialize(Entity, Cell);
-                    expl.Fire();
+                    expl.Fire(damages);
                     Object.Destroy(explObj, 5f);
                     break;
                 default:

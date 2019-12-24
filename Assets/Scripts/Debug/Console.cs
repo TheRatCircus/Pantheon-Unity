@@ -38,7 +38,6 @@ namespace Pantheon.Debug
                 { "destroy", new ConsoleCommand(ConsoleCommandFunctions.Destroy) },
                 { "explode", new ConsoleCommand(Explode) },
                 { "idolmode", new ConsoleCommand(ToggleIdolMode) },
-                { "fragwand", new ConsoleCommand(FragWand) },
                 { "give", new ConsoleCommand(Give) },
                 { "teleport", new ConsoleCommand(Teleport) },
                 { "strategy", new ConsoleCommand(Strategy) }
