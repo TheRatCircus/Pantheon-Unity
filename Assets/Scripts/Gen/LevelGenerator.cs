@@ -1,7 +1,9 @@
 ﻿// LevelGenerator.cs
 // Jerome Martina
 
+using Pantheon.Content;
 using Pantheon.Core;
+using Pantheon.Utils;
 using Pantheon.World;
 using System;
 using System.Collections.Generic;
@@ -47,9 +49,44 @@ namespace Pantheon.Gen
             else
             {
                 Level level = new Level();
-                builder.Run(level);
+                level.DisplayName = builder.DisplayName;
+                level.ID = builder.ID;
+                InitializeMap(level, 200, 200);
+                foreach (BuilderStep step in builder.Plan.Steps)
+                    step.Run(level);
+                PopulateItems(level);
+                level.RebuildPathfinder();
                 LayerLevelBuilders.Remove(pos);
                 return level;
+            }
+        }
+
+        private void InitializeMap(Level level, int sizeX, int sizeY)
+        {
+            level.Size = new Vector2Int(sizeX, sizeY);
+            level.Map = new Cell[sizeX, sizeY];
+
+            int x = 0;
+            for (; x < sizeX; x++)
+                for (int y = 0; y < sizeY; y++)
+                    level.Map[x, y] = new Cell(new Vector2Int(x, y));
+        }
+
+        private void PopulateItems(Level level)
+        {
+            int points = 100;
+            while (points > 0)
+            {
+                Cell cell = level.RandomCell(true);
+                EntityTemplate basic = Loader.LoadTemplate(Tables.basicItems.Random());
+                Entity item = new Entity(basic);
+                item.Move(level, cell);
+                if (RandomUtils.OneChanceIn(3)) // Relic
+                {
+                    Relic.MakeRelic(item);
+                    points -= 9; // Relics take a total of 10 points
+                }
+                points--;
             }
         }
     }

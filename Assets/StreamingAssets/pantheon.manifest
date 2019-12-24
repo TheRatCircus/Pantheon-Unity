@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1441289146
+CRC: 1226108634
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 257f8768985e6e42ae53c4a0e079a543
+    Hash: 078f879b868cf0ebb5a2c38457db809e
   TypeTreeHash:
     serializedVersion: 2
     Hash: 8bc283d3124e1c322649467a6d529a95
@@ -60,7 +60,7 @@ Assets:
 - Assets/Content/BodyParts/Human/Part_Human_Head.json
 - Assets/Content/Species/Species_Goose.json
 - Assets/Sprites/Actor/Sprite_GiantBumblebee.png
-- Assets/Content/Templates/Item/Fragwand.json
+- Assets/Content/Templates/Item/Item_Sceptre.json
 - Assets/Content/BodyParts/Coyote/Part_Coyote_Legs.json
 - Assets/Sprites/Actor/Sprite_Goose.png
 - Assets/Content/Terrain/Terrain_StoneWall.asset
@@ -72,7 +72,7 @@ Assets:
 - Assets/Sprites/Item/Sprite_Hatchet.png
 - Assets/Content/BodyParts/Goose/Part_Goose_Legs.json
 - Assets/Sprites/Item/Sprite_Flask.png
-- Assets/Prefabs/FX/FX_HandGrenade.prefab
+- Assets/Prefabs/FX/FX_Shrapnel.prefab
 - Assets/Sprites/Item/Sprite_Scroll.png
 - Assets/Sprites/Actor/Sprite_Player.png
 - Assets/Sprites/Actor/Sprite_Swine.png

@@ -74,7 +74,7 @@ namespace Pantheon.Utils
         private string GetSuffix(string prefix)
         {
             dict.TryGetValue(prefix, out List<string> l);
-            return l.Random(true);
+            return l.Random();
         }
 
         public string GetName()
