@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 472259222
+CRC: 2724564087
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 70d18938e34b1aeb62397acd2e3c6e8a
+    Hash: ea5ab2a03c2828a2cc7c2744085392c3
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 3fe526580822447daedd4babd0eaf366
+    Hash: 0d1885b8caff46f930e0bd45a1c82c3b
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -56,6 +56,7 @@ ClassTypes:
 Assets:
 - Assets/Sprites/Item/Sprite_Grenade.png
 - Assets/Sprites/Item/Sprite_Cuirass.png
+- Assets/CharacterNames.txt
 - Assets/Sprites/Item/Sprite_Dagger.png
 - Assets/Content/BodyParts/Human/Part_Human_Head.json
 - Assets/Content/Species/Species_Goose.json

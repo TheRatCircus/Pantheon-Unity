@@ -1,33 +1,26 @@
 ﻿// Markov.cs
-// Jerome Martina
+// Courtesy of Peter Corbett
 
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Pantheon.Utils
 {
     public sealed class Markov
     {
-        // Credit to Peter Corbett
-        public static readonly string[] baseNames = {"Almy", "Arkwright",
-            "Aronow", "Astrand", "Bornite", "Brouwer", "Brume", "Chandalar",
-            "Chason", "Cutler", "Darcy", "Delahunty", "Devender", "Dorn",
-            "Engber", "Fenlason", "Gambell", "Grayling", "Hafting", "Haggerty",
-            "Hairston", "Hamel", "Henzell", "Ignacy", "Iwaarden", "Kneller",
-            "Kompel","Larn", "Laskin", "Laufer", "LeRoy", "Lee", "Lennan",
-            "Linhart", "Linley", "Lorber", "Luick", "Margulies", "Martel",
-            "McGrath", "Meluch", "Menke", "Modrall", "Moria", "Nystrom",
-            "Olson", "Opstus", "Oren", "Palmer", "Rankin", "Rupley", "Rupley",
-            "Samon", "Sapir", "Scarmer", "Seibert", "Stiker", "Swanson",
-            "Thome", "Walz", "Waratah", "Warwick", "Willow", "Yuval" };
-
-        Dictionary<string, List<string>> dict;
-        List<string> oldNames;
-        int chainLength;
+        private Dictionary<string, List<string>> dict;
+        private List<string> oldNames;
+        private int chainLength;
 
         public Markov(int chainLength = 2)
         {
+            TextAsset nameSet = LoaderLocator.Service.Load<TextAsset>("CharacterNames");
+            string[] baseNames = nameSet.text.Split(
+                new[] { Environment.NewLine },
+                StringSplitOptions.RemoveEmptyEntries);
+
             if (chainLength < 1 || chainLength > 10)
             {
                 throw new ArgumentException

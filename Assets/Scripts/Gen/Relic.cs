@@ -81,14 +81,80 @@ namespace Pantheon.Gen
             string[] tokens = nameAsset.text.Split(new[] { Environment.NewLine },
                 StringSplitOptions.RemoveEmptyEntries);
             
-            int r = Random.Range(0, 10);
+            int r = Random.Range(0, 11);
             switch (r)
             {
-                default:
-                    string noun = tokens.Random().Split(',')[0];
-                    string adj = tokens.Random().Split(',')[1];
-                    relic.Name = $"{adj} {noun}";
-                    break;
+                case 0: // Noun Noun
+                    {
+                        string noun1 = tokens.Random().Split(',')[0];
+                        string noun2 = tokens.Random().Split(',')[0];
+                        relic.Name = $"{noun1} {noun2}";
+                        break;
+                    }
+                case 1: // Adjective Noun
+                    {
+                        string noun = tokens.Random().Split(',')[0];
+                        string adj = tokens.Random().Split(',')[1];
+                        relic.Name = $"{adj} {noun}";
+                        break;
+                    }
+                case 2: // Name's Noun
+                    {
+                        string noun = tokens.Random().Split(',')[0];
+                        Markov markov = new Markov(3);
+                        relic.Name = $"{markov.GetName()}'s {noun}";
+                        break;
+                    }
+                case 3: // Adjective Number
+                    {
+                        string adj = tokens.Random().Split(',')[1];
+                        relic.Name = $"{adj} {Random.Range(0, 1000)}";
+                        break;
+                    }
+                case 4: // Noun Number
+                    {
+                        string noun = tokens.Random().Split(',')[0];
+                        relic.Name = $"{noun} {Random.Range(0, 1000)}";
+                        break;
+                    }
+                case 5: // Nounmonger
+                    {
+                        string noun = tokens.Random().Split(',')[0];
+                        relic.Name = $"{noun}monger";
+                        break;
+                    }
+                case 6: // Nounbringer
+                    {
+                        string noun = tokens.Random().Split(',')[0];
+                        relic.Name = $"{noun}bringer";
+                        break;
+                    }
+                case 7: // Noun's Noun
+                    {
+                        string noun1 = tokens.Random().Split(',')[0];
+                        string noun2 = tokens.Random().Split(',')[0];
+                        relic.Name = $"{noun1}'s {noun2}";
+                        break;
+                    }
+                case 8: // Nounborn
+                    {
+                        string noun = tokens.Random().Split(',')[0];
+                        relic.Name = $"{noun}born";
+                        break;
+                    }
+                case 9: // Baseitem of Noun
+                    {
+                        string noun = tokens.Random().Split(',')[0];
+                        relic.Name = $"{relic.Flyweight.EntityName} of {noun}";
+                        break;
+                    }
+                default: // The Noun of Name
+                    {
+                        string noun = tokens.Random().Split(',')[0];
+                        Markov markov = new Markov(3);
+                        relic.Name = $"The {noun} of {markov.GetName()}";
+                        break;
+                    }
             }
         }
     }
