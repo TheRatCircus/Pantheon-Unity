@@ -44,8 +44,10 @@ namespace Pantheon.Debug
         public static string RevealLevel(string[] args, GameController ctrl)
         {
             foreach (Cell c in ctrl.World.ActiveLevel.Map)
+            {
                 c.Revealed = true;
-
+                ctrl.World.ActiveLevel.Draw(new[] { c });
+            }
             return "Level revealed.";
         }
 
@@ -185,6 +187,18 @@ namespace Pantheon.Debug
                 default:
                     return $"Strategy {args[0]} does not exist.";
             }
+        }
+
+        public static string Relic(string[] args, GameController ctrl)
+        {
+            Inventory inv = ctrl.Player.GetComponent<Inventory>();
+            if (inv.Items.Count < 1)
+                return "No items in inventory to make into relics.";
+
+            Entity item = inv.Items[0];
+            Gen.Relic.MakeRelic(item);
+
+            return $"Made relic: {item}.";
         }
     }
 }

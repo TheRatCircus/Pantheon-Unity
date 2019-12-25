@@ -30,7 +30,7 @@ namespace Pantheon.Core
                 foreach (Cell c in cells)
                     c.Visible = false;
                 level.Draw(cells);
-            }   
+            }
 
             HashSet<Cell> allRefreshed = new HashSet<Cell>();
             for (int octant = 0; octant < 8; octant++)
