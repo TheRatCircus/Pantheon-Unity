@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1226108634
+CRC: 472259222
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 078f879b868cf0ebb5a2c38457db809e
+    Hash: 70d18938e34b1aeb62397acd2e3c6e8a
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 8bc283d3124e1c322649467a6d529a95
+    Hash: 3fe526580822447daedd4babd0eaf366
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -90,6 +90,7 @@ Assets:
 - Assets/Sprites/Item/Sprite_Prejudice.png
 - Assets/Prefabs/EntityGameObject.prefab
 - Assets/Content/Terrain/Terrain_Grass.asset
+- Assets/RelicNames.txt
 - Assets/Sprites/Item/Sprite_Cartridges.png
 - Assets/Sprites/Actor/Sprite_Coyote.png
 - Assets/Content/Templates/NPC/RagingGoose.json

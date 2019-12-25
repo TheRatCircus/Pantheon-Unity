@@ -1,6 +1,6 @@
 {
-  "ID": "Fragwand",
-  "EntityName": "wand of fragmentation",
+  "ID": "Item_Sceptre",
+  "EntityName": "sceptre",
   "Sprite": "Sprite_Prejudice",
   "Tile": null,
   "Components": []

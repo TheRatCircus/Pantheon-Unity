@@ -1,13 +1,13 @@
 ﻿// Relic.cs
 // Jerome Martina
 
+using Pantheon.Commands;
+using Pantheon.Components;
 using Pantheon.Core;
 using Pantheon.Utils;
 using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using Pantheon.Commands;
-using Pantheon.Components;
 
 namespace Pantheon.Gen
 {
@@ -29,11 +29,12 @@ namespace Pantheon.Gen
                     MakeMagicWeapon(item);
                     break;
             }
+            NameRelic(item);
         }
 
-        public static void MakeMagicWeapon(Entity item)
+        public static void MakeMagicWeapon(Entity relic)
         {
-            MagicWeaponFunctions.Random().Invoke(item);
+            MagicWeaponFunctions.Random().Invoke(relic);
         }
 
         private static readonly Action<Entity>[] MagicWeaponFunctions
@@ -42,35 +43,53 @@ namespace Pantheon.Gen
             ExplosiveMagicWeapon
         };
 
-        private static void ExplosiveMagicWeapon(Entity item)
+        private static void ExplosiveMagicWeapon(Entity relic)
         {
             GameObject fxPrefab = LoaderLocator.Service.Load<GameObject>(
                 Tables.explosionFXIDs.Random());
-            ExplodeCommand expl;
+            ExplodeCommand expl = new ExplodeCommand(null, fxPrefab,
+                RandomUtils.EnumRandom<ExplosionPattern>(),
+                new Damage()
+                {
+                    Min = 7,
+                    Max = 14,
+                    Type = DamageType.Piercing
+                });
             NonActorCommand nac;
-            
+
             int r = Random.Range(0, 3);
             switch (r)
             {
-                case 0: // Path effect
+                case 0: // Point effect
                 case 1: // Line effect
-                case 2: // Point effect
+                case 2: // Path effect
                 default:
-                    expl = new ExplodeCommand(
-                        null, fxPrefab,
-                        ExplosionPattern.Point,
-                        new Damage()
-                        {
-                            Min = 7,
-                            Max = 14,
-                            Type = DamageType.Piercing
-                        });
                     nac = new PointEffectCommand(null, expl);
                     break;
             }
 
             OnUse onUse = new OnUse(TurnScheduler.TurnTime, nac);
-            item.AddComponent(onUse);
+            relic.AddComponent(onUse);
+        }
+
+        private static void NameRelic(Entity relic)
+        {
+            TextAsset nameAsset = LoaderLocator.Service.Load<TextAsset>(
+                "RelicNames");
+            string[] tokens = nameAsset.text.Split(new[] { Environment.NewLine },
+                StringSplitOptions.RemoveEmptyEntries);
+            
+            int r = Random.Range(0, 10);
+            switch (r)
+            {
+                // TODO: Rest of these
+                case 0: // Adj noun
+                default:
+                    string noun = tokens.Random().Split(',')[0];
+                    string adj = tokens.Random().Split(',')[1];
+                    relic.Name = $"{adj} {noun}";
+                    break;
+            }
         }
     }
 }
