@@ -10,6 +10,7 @@ namespace Pantheon
     /// </summary>
     public sealed class EntityWrapper : MonoBehaviour
     {
-        public Entity Entity { get; set; }
+        [SerializeField] [ReadOnly] private Entity entity;
+        public Entity Entity { get => entity; set => entity = value; }
     }
 }

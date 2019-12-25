@@ -8,6 +8,7 @@ using Pantheon.SaveLoad;
 using Pantheon.UI;
 using Pantheon.Utils;
 using Pantheon.World;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cursor = Pantheon.UI.Cursor;

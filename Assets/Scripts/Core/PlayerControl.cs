@@ -78,12 +78,14 @@ namespace Pantheon.Core
                     throw new System.NotImplementedException();
             }
 
+            
+
             // Set automove path
             if (Input.GetMouseButtonDown(0))
             {
-                AutoMovePath = PlayerEntity.Level.GetPathTo(
-                    PlayerEntity.Cell, cursor.HoveredCell);
-                return;
+                //AutoMovePath = PlayerEntity.Level.GetPathTo(
+                //    PlayerEntity.Cell, cursor.HoveredCell);
+                //return;
             }
 
             if (Input.GetButtonDown("Up"))
@@ -135,7 +137,7 @@ namespace Pantheon.Core
                     Mode = InputMode.Default;
                     return;
                 }
-                
+
                 Mode = InputMode.Menu;
                 Inventory inv = PlayerEntity.GetComponent<Inventory>();
                 ModalList ml = hud.OpenModalList();

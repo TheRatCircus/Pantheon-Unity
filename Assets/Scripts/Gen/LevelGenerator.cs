@@ -55,7 +55,7 @@ namespace Pantheon.Gen
                 foreach (BuilderStep step in builder.Plan.Steps)
                     step.Run(level);
                 PopulateItems(level);
-                level.RebuildPathfinder();
+                level.Initialize();
                 LayerLevelBuilders.Remove(pos);
                 return level;
             }

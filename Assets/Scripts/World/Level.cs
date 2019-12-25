@@ -43,7 +43,7 @@ namespace Pantheon.World
             itemTilemap = itemsTransform.GetComponent<Tilemap>();
         }
 
-        public void RebuildPathfinder()
+        public void Initialize()
         {
             PF = new Pathfinder(this);
         }

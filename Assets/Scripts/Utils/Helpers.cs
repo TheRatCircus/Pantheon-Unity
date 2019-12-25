@@ -216,7 +216,17 @@ namespace Pantheon.Utils
 
         public static bool TryGet<T>(this T[,] array, out T ret, int x, int y)
         {
-            if (array[x, y] != null)
+            if (x < 0 || y < 0)
+            {
+                ret = default;
+                return false;
+            }
+            else if (x > array.GetLength(0) || y > array.GetLength(1))
+            {
+                ret = default;
+                return false;
+            }
+            else if (array[x, y] != null)
             {
                 ret = array[x, y];
                 return true;
