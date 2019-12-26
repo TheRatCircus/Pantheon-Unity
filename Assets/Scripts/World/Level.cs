@@ -140,6 +140,79 @@ namespace Pantheon.World
         public List<Cell> GetPathTo(Cell origin, Cell target)
             => PF.CellPathList(origin.Position, target.Position);
 
+        /// <summary>
+        /// Find a cell by position relative to an origin cell.
+        /// </summary>
+        /// <param name="origin">Cell to "translate" to another position.</param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public Cell Translate(Cell origin, int x, int y)
+        {
+            int newX = origin.Position.x + x;
+            int newY = origin.Position.y + y;
+
+            if (newX < 0 || newX >= Map.GetLength(0))
+                return null;
+            if (newY < 0 || newY >= Map.GetLength(1))
+                return null;
+
+            return Map[newX, newY];
+        }
+
+        /// <summary>
+        /// Find the nearest cell passing a predicate using a spiral algorithm.
+        /// </summary>
+        /// <param name="origin"></param>
+        /// <param name="radius"></param>
+        /// <param name="condition"></param>
+        /// <returns>The nearest cell meeting the predicate, or null if none found.</returns>
+        public Cell FindNearest(Cell origin, int radius, Predicate<Cell> condition)
+        {
+            Cell c = origin;
+            if (condition(c))
+                return c;
+
+            for (int i = 0; i < radius; i++)
+            {
+                int j = i + 1;
+                int k = j + 1;
+
+                c = Translate(c, 0, 1); // Up
+                if (condition(c))
+                    return c;
+
+                for (int right = 0; right < (i + j); right++)
+                {
+                    c = Translate(c, 1, 0);
+                    if (condition(c))
+                        return c;
+                }
+
+                for (int down = 0; down < (i + k); down++)
+                {
+                    c = Translate(c, 0, -1);
+                    if (condition(c))
+                        return c;
+                }
+
+                for (int left = 0; left < (i + k); left++)
+                {
+                    c = Translate(c, -1, 0);
+                    if (condition(c))
+                        return c;
+                }
+
+                for (int up = 0; up < (i + k); up++)
+                {
+                    c = Translate(c, 0, 1);
+                    if (condition(c))
+                        return c;
+                }
+            }
+            return null;
+        }
+
         public Cell RandomCell(bool open)
         {
             Cell cell;

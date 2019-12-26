@@ -20,7 +20,19 @@ namespace Pantheon.Components
 
         public DefaultStrategy() { }
 
-        public DefaultStrategy(Entity target) => this.target = target;
+        public DefaultStrategy(Entity target) => SetTarget(target);
+
+        public void SetTarget(Entity target)
+        {
+            this.target = target;
+            target.DestroyedEvent += ClearTarget;
+        }
+
+        private void ClearTarget()
+        {
+            target.DestroyedEvent -= ClearTarget;
+            target = null;
+        }
 
         public override ActorCommand Decide(AI ai)
         {

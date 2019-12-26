@@ -173,17 +173,20 @@ namespace Pantheon.Debug
             if (!ctrl.Cursor.HoveredCell.Actor.TryGetComponent(out AI ai))
                 return "Entity in selected cell has no AI.";
 
-            switch (args[0])
+            switch (args[0].ToLower())
             {
-                case "Default":
+                case "default":
                     ai.Strategy = new DefaultStrategy();
                     return $"Changed strategy of {ai.Entity} to Default.";
-                case "Wander":
+                case "wander":
                     ai.Strategy = new WanderStrategy();
                     return $"Changed strategy of {ai.Entity} to Wander.";
-                case "Sleep":
+                case "sleep":
                     ai.Strategy = new SleepStrategy();
                     return $"Changed strategy of {ai.Entity} to Sleep.";
+                case "thrallfollow":
+                    ai.Strategy = new ThrallFollowStrategy(ctrl.Player.GetComponent<Actor>());
+                    return $"Changed strategy of {ai.Entity} to Thrall Follow.";
                 default:
                     return $"Strategy {args[0]} does not exist.";
             }
@@ -199,6 +202,18 @@ namespace Pantheon.Debug
             Gen.Relic.MakeRelic(item);
 
             return $"Made relic: {item}.";
+        }
+
+        public static string Enthrall(string[] args, GameController ctrl)
+        {
+            if (ctrl.Cursor.HoveredCell.Actor == null)
+                return "No NPC in selected cell.";
+
+            if (!ctrl.Cursor.HoveredCell.Actor.TryGetComponent(out AI ai))
+                return "Entity in selected cell has no AI.";
+
+            ai.Strategy = new ThrallFollowStrategy(ctrl.Player.GetComponent<Actor>());
+            return $"Changed strategy of {ai.Entity} to Thrall Follow.";
         }
     }
 }

@@ -8,9 +8,7 @@ using System.Collections.Generic;
 
 namespace Pantheon.Serialization.Json
 {
-    /// <summary>
-    /// Serialization binders for use with JSON.NET.
-    /// </summary>
+    /// <summary> Serialization binders for use with JSON.NET. </summary>
     public static class Binders
     {
         public static readonly SerializationBinder _builderStepBinder
@@ -31,8 +29,6 @@ namespace Pantheon.Serialization.Json
                     typeof(Actor),
                     typeof(AI),
                     typeof(Ammo),
-                    typeof(AIStrategy),
-                    typeof(DefaultStrategy),
                     typeof(Health),
                     typeof(Inventory),
                     typeof(Melee),
@@ -40,7 +36,12 @@ namespace Pantheon.Serialization.Json
                     typeof(OnUse),
                     typeof(Size),
                     typeof(Species),
-                    typeof(Weight)
+                    typeof(Weight),
+                    // AI strategies
+                    typeof(DefaultStrategy),
+                    typeof(SleepStrategy),
+                    typeof(WanderStrategy),
+                    typeof(ThrallFollowStrategy)
                 }
             };
     }

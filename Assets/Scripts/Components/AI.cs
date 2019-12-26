@@ -14,7 +14,7 @@ namespace Pantheon.Components
     {
         [JsonIgnore] public Actor Actor { get; private set; }
 
-        public AIStrategy Strategy { get; set; } = new SleepStrategy();
+        public AIStrategy Strategy { get; set; }
 
         public AI(AIStrategy strategy) => Strategy = strategy;
 
@@ -35,10 +35,13 @@ namespace Pantheon.Components
             switch (msg)
             {
                 case DamageEventMessage dem:
-                    Strategy = new DefaultStrategy(dem.Damager);
-                    LogLocator.Service.Send(
-                        $"{Entity.ToSubjectString(true)} notices you!",
-                        Colours._orange);
+                    if (!(Strategy is ThrallFollowStrategy))
+                    {
+                        Strategy = new DefaultStrategy(dem.Damager);
+                        LogLocator.Service.Send(
+                            $"{Entity.ToSubjectString(true)} notices you!",
+                            Colours._orange);
+                    }
                     break;
                 default:
                     break;

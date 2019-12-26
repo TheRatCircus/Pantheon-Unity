@@ -197,7 +197,7 @@ namespace Pantheon
             if (TryGetComponent(out Actor actor))
             {
                 SchedulerLocator.Service.RemoveActor(actor);
-
+                
                 if (actor.Control == ActorControl.Player)
                 {
                     Transform camTransform = GameObjects[0].transform.Find("MainCamera");
@@ -218,7 +218,6 @@ namespace Pantheon
             Cell.DeallocateEntity(this);
             Cell = null;
             Level = null;
-            Components = null;
 
             UnityEngine.Object.Destroy(GameObjects[0]);
         }

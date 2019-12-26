@@ -2,6 +2,7 @@
 // Courtesy of Sebastian Lague
 
 #define DEBUG_PF
+#undef DEBUG_PF
 
 using Pantheon.Utils;
 using Pantheon.World;
