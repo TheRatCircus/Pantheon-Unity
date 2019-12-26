@@ -78,8 +78,6 @@ namespace Pantheon.Core
                     throw new System.NotImplementedException();
             }
 
-            
-
             // Set automove path
             if (Input.GetMouseButtonDown(0))
             {
@@ -238,15 +236,6 @@ namespace Pantheon.Core
                     && c.Actor.GetComponent<Actor>().Control != ActorControl.Player)
                     VisibleActors.Add(c.Actor);
             }
-        }
-
-        public bool ActorIsVisible(Actor actor)
-        {
-            foreach (Entity visibleActor in VisibleActors)
-                if (visibleActor.GetComponent<Actor>() == actor)
-                    return true;
-
-            return false;
         }
 
         public InputMode RequestCell(out Cell cell, int range)
