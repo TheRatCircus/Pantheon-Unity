@@ -11,6 +11,28 @@
   }
 }
 {
+  "$type": "Ammo",
+  "Type": 2,
+  "Damages": {
+    "$type": "Damage[]",
+    "$values": [
+      {
+        "$type": "Damage",
+        "Type": 2,
+        "Min": 3,
+        "Max": 7
+      }
+    ]
+  },
+  "OnLandCommand": {
+    "$type": "ExplodeCommand",
+    "Cell": null,
+    "Line": null,
+    "Entity": null
+  },
+  "OnHitCommand": null
+}
+{
   "$type": "Health",
   "Max": 10,
   "RegenTime": 800,

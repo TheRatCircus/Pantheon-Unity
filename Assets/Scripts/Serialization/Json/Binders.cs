@@ -30,6 +30,7 @@ namespace Pantheon.Serialization.Json
                 {
                     typeof(Actor),
                     typeof(AI),
+                    typeof(Ammo),
                     typeof(AIStrategy),
                     typeof(DefaultStrategy),
                     typeof(Health),

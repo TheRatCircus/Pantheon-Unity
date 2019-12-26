@@ -3,6 +3,7 @@
 
 using Newtonsoft.Json;
 using Pantheon;
+using Pantheon.Commands;
 using Pantheon.Components;
 using Pantheon.Core;
 using Pantheon.Serialization.Json;
@@ -42,6 +43,31 @@ namespace PantheonEditor
             {
                 new Actor(),
                 new AI(new DefaultStrategy()),
+                new Ammo()
+                    {
+                        Type = AmmoType.Cartridges,
+                        Damages = new Damage[]
+                            {
+                                new Damage()
+                                {
+                                    Type = DamageType.Piercing,
+                                    Min = 3,
+                                    Max = 7
+                                }
+                            },
+                        OnLandCommand = new ExplodeCommand(
+                            null, new GameObject("FX_Shrapnel"),
+                            ExplosionPattern.Square,
+                            new Damage[]
+                            {
+                                new Damage()
+                                {
+                                    Type = DamageType.Searing,
+                                    Min = 3,
+                                    Max = 7
+                                }
+                            })
+                    },
                 new Health(),
                 new Inventory(20),
                 new Location(),

@@ -6,7 +6,7 @@ namespace Pantheon.Components
     [System.Serializable]
     public sealed class Melee : EntityComponent
     {
-       [UnityEngine.SerializeField] private MeleeAttack[] attacks = default;
+        [UnityEngine.SerializeField] private MeleeAttack[] attacks = default;
 
         public MeleeAttack[] Attacks => attacks;
 
