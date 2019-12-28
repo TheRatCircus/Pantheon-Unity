@@ -30,10 +30,10 @@ namespace Pantheon.Gen
 
         public void GenerateWorldOrigin()
         {
-            BuilderPlan plan = Loader.Load<BuilderPlan>("Plan_Valley");
+            BuilderPlan plan = Loader.LoadPlan("Plan_Subterrane");
 
-            Builder builder = new Builder("Valley of Beginnings",
-                "valley_0_0_0", plan);
+            Builder builder = new Builder("The Subterrane",
+                "sub_0_0_0", plan);
             LayerLevelBuilders.Add(Vector3Int.zero, builder);
         }
 

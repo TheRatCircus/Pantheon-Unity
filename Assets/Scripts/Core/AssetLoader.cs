@@ -6,6 +6,7 @@
 
 using Newtonsoft.Json;
 using Pantheon.Content;
+using Pantheon.Gen;
 using Pantheon.Serialization.Json;
 using Pantheon.Serialization.Json.Converters;
 using System;
@@ -23,6 +24,7 @@ namespace Pantheon.Core
         private JsonSerializerSettings jsonSettings;
         private JsonSerializerSettings speciesSettings;
         private JsonSerializerSettings genericSettings;
+        private JsonSerializerSettings planSettings;
 
         private void Awake()
         {
@@ -38,7 +40,7 @@ namespace Pantheon.Core
             jsonSettings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Binders._entityBinder,
+                SerializationBinder = Binders.entity,
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
@@ -53,7 +55,7 @@ namespace Pantheon.Core
             speciesSettings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Binders._entityBinder,
+                SerializationBinder = Binders.entity,
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
@@ -66,12 +68,23 @@ namespace Pantheon.Core
             genericSettings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Binders._entityBinder,
+                SerializationBinder = Binders.entity,
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
                     new SpriteConverter(this),
                     new RuleTileConverter(this)
+                }
+            };
+
+            planSettings = new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                SerializationBinder = Binders.builder,
+                Formatting = Formatting.Indented,
+                Converters = new List<JsonConverter>()
+                {
+                    new TerrainConverter(this)
                 }
             };
         }
@@ -106,6 +119,20 @@ namespace Pantheon.Core
             return JsonConvert.DeserializeObject<EntityTemplate>(text.text, jsonSettings);
         }
 
+        public BuilderPlan LoadPlan(string name)
+        {
+            UnityEngine.Profiling.Profiler.BeginSample("AssetLoader.Load()");
+            if (!bundle.Contains(name))
+                throw new ArgumentException(
+                    $"{name} not found in bundle {bundle.name}.");
+            LogLoad($"Attempting to load asset '{name}'...");
+
+            TextAsset text = bundle.LoadAsset<TextAsset>(name);
+            UnityEngine.Profiling.Profiler.EndSample();
+
+            return JsonConvert.DeserializeObject<BuilderPlan>(text.text, planSettings);
+        }
+
         public SpeciesDefinition LoadSpeciesDef(string name)
         {
             UnityEngine.Profiling.Profiler.BeginSample("AssetLoader.Load()");
@@ -135,9 +162,9 @@ namespace Pantheon.Core
         }
 
         [System.Diagnostics.Conditional("DEBUG_ASSETLOADER")]
-        public void LogLoad(string str)
+        public void LogLoad(string msg)
         {
-            UnityEngine.Debug.Log(str);
+            UnityEngine.Debug.Log(msg);
         }
     }
 }

@@ -2,7 +2,6 @@
 // Unity Technologies
 
 using System.Diagnostics;
-using System.IO;
 using UnityEditor;
 
 namespace PantheonEditor
@@ -13,11 +12,6 @@ namespace PantheonEditor
         private static void BuildAllAssetBundles()
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
-            string assetBundleDir = "Assets/AssetBundles";
-            if (!Directory.Exists(assetBundleDir))
-            {
-                Directory.CreateDirectory(assetBundleDir);
-            }
             BuildPipeline.BuildAssetBundles(
                 "Assets/StreamingAssets",
                 BuildAssetBundleOptions.None,

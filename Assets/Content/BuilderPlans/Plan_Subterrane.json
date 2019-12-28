@@ -1,0 +1,14 @@
+{
+  "ID": "Plan_Subterrane",
+  "Steps": [
+    {
+      "$type": "Fill",
+      "terrain": "Terrain_StoneFloor"
+    },
+    {
+      "$type": "RandomFill",
+      "percent": 40,
+      "terrain": "Terrain_StoneWall"
+    }
+  ]
+}

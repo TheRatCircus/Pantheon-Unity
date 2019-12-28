@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 112636361
+CRC: 2853185886
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: ca4f5fc91c63270b54b410e9ad901b49
+    Hash: 59c678f0e41f857482481994bb2f3886
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 0d1885b8caff46f930e0bd45a1c82c3b
+    Hash: 4292bb07870ca73f9e2ff7ddaf3d44fe
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -37,12 +37,6 @@ ClassTypes:
   Script: {fileID: 11500000, guid: b5bc4584c6f41714ca6a3cc1c568d2c2, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 77361cca67bf70d4fb5a2a3bf6ec4dd7, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 7fb65c8bea67fb74a9f45b17f30b482b, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 768cebdd7171c384bb346fa3c0083b7b, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: cb75a9ae5eb5fbf409969eefff25b73d, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 198
@@ -66,7 +60,6 @@ Assets:
 - Assets/Sprites/Actor/Sprite_Goose.png
 - Assets/Content/Terrain/Terrain_StoneWall.asset
 - Assets/Content/BodyParts/Human/Part_Human_Legs.json
-- Assets/Content/BuilderPlans/Step_Fill_Grass.asset
 - Assets/Content/BodyParts/Human/Part_Human_Arms.json
 - Assets/Content/BodyParts/Coyote/Part_Coyote_Head.json
 - Assets/Content/BodyParts/Coyote/Part_Canine_Teeth.json
@@ -79,7 +72,6 @@ Assets:
 - Assets/Sprites/Actor/Sprite_Swine.png
 - Assets/Content/Species/Species_Human.json
 - Assets/Content/Templates/Player.json
-- Assets/Content/BuilderPlans/Step_RandomFill_StoneWall.asset
 - Assets/Sprites/Actor/Sprite_Pigman.png
 - Assets/Sprites/Item/Sprite_Corpse.png
 - Assets/Content/BodyParts/Goose/Part_Goose_Wings.json
@@ -97,5 +89,6 @@ Assets:
 - Assets/Content/Templates/NPC/RagingGoose.json
 - Assets/Sprites/Actor/Sprite_GenericNPC.png
 - Assets/Content/Species/Species_Coyote.json
-- Assets/Content/BuilderPlans/Plan_Valley.asset
+- Assets/Content/Terrain/Terrain_StoneFloor.asset
+- Assets/Content/BuilderPlans/Plan_Subterrane.json
 Dependencies: []

@@ -8,12 +8,25 @@ using UnityEngine;
 
 namespace Pantheon.Gen
 {
-    [CreateAssetMenu(fileName = "New Fill Step",
-        menuName = "Pantheon/Builder Step/Fill")]
     public sealed class Fill : BuilderStep
     {
-        [JsonProperty] [SerializeField]
-        private TerrainDefinition terrain = default;
+        [JsonProperty] private TerrainDefinition terrain = default;
+
+        /// <summary>
+        /// ID-only constructor for JSON writing.
+        /// </summary>
+        /// <param name="terrainID"></param>
+        public Fill(string terrainID)
+        {
+            terrain = ScriptableObject.CreateInstance<TerrainDefinition>();
+            terrain.name = terrainID;
+        }
+
+        [JsonConstructor]
+        public Fill(TerrainDefinition terrain)
+        {
+            this.terrain = terrain;
+        }
 
         public override void Run(Level level)
         {

@@ -1,35 +1,16 @@
 ﻿// BuilderPlan.cs
 // Jerome Martina
 
-using Newtonsoft.Json;
-using Pantheon.World;
-using UnityEngine;
-
 namespace Pantheon.Gen
 {
     /// <summary>
     /// An invocable set of instructions for procedurally generating levels.
     /// </summary>
-    [CreateAssetMenu(fileName = "New Builder Plan",
-        menuName = "Pantheon/Builder Plan")]
-    public sealed class BuilderPlan : ScriptableObject
+    public sealed class BuilderPlan
     {
-        [JsonProperty] [SerializeField] private BuilderStep[] steps;
-        public BuilderStep[] Steps => steps;
+        public string ID { get; set; } = "DEFAULT_PLAN_ID";
+        public BuilderStep[] Steps { get; set; }
 
-        public static BuilderPlan NewBuilderPlan(params BuilderStep[] steps)
-        {
-            BuilderPlan plan = CreateInstance<BuilderPlan>();
-            plan.steps = steps;
-            return plan;
-        }
-
-        public override string ToString()
-        {
-            string ret = "";
-            foreach (BuilderStep step in steps)
-                ret += step;
-            return ret;
-        }
+        public override string ToString() => ID;
     }
 }

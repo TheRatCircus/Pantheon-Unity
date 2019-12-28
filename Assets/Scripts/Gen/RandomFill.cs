@@ -8,12 +8,28 @@ using UnityEngine;
 
 namespace Pantheon.Gen
 {
-    [CreateAssetMenu(fileName = "New Random Fill Step",
-        menuName = "Pantheon/Builder Step/Random Fill")]
     public sealed class RandomFill : BuilderStep
     {
-        [JsonProperty] [SerializeField] private int percent = 50; // 0...100
-        [JsonProperty] [SerializeField] private TerrainDefinition terrain = default;
+        [JsonProperty] private int percent = 50; // 0...100
+        [JsonProperty] private TerrainDefinition terrain = default;
+
+        /// <summary>
+        /// ID-only constructor for JSON writing.
+        /// </summary>
+        /// <param name="terrainID"></param>
+        public RandomFill(string terrainID, int percent)
+        {
+            terrain = ScriptableObject.CreateInstance<TerrainDefinition>();
+            terrain.name = terrainID;
+            this.percent = percent;
+        }
+
+        [JsonConstructor]
+        public RandomFill(TerrainDefinition terrain, int percent)
+        {
+            this.terrain = terrain;
+            this.percent = percent;
+        }
 
         public override void Run(Level level)
         {
