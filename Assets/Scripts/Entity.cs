@@ -216,9 +216,6 @@ namespace Pantheon
             }
 
             Cell.DeallocateEntity(this);
-            Cell = null;
-            Level = null;
-
             UnityEngine.Object.Destroy(GameObjects[0]);
         }
 

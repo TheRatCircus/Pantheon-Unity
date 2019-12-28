@@ -192,6 +192,7 @@ namespace Pantheon.Core
 
         private void OnPlayerDeath()
         {
+            PlayerControl.enabled = false;
             State = GameState.PlayerDead;
         }
 
