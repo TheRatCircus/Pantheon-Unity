@@ -41,9 +41,11 @@ namespace Pantheon.Core
             {
                 playerEntity = value;
                 playerActor = value.GetComponent<Actor>();
+                inventory = value.GetComponent<Inventory>();
             }
         }
         private Actor playerActor;
+        private Inventory inventory;
 
         private int targetingRange;
         private Cell selectedCell;
@@ -127,8 +129,7 @@ namespace Pantheon.Core
             }
             else if (Input.GetButtonDown("Autoattack"))
             {
-                playerActor.Command = new EvokeCommand(PlayerEntity,
-                    PlayerEntity.GetComponent<Inventory>().Items[0]); 
+                playerActor.Command = Autoattack();
             }
             else if (Input.GetButtonDown("Pickup"))
                 playerActor.Command = new PickupCommand(PlayerEntity);
@@ -241,6 +242,53 @@ namespace Pantheon.Core
                     && c.Actor.GetComponent<Actor>().Control != ActorControl.Player)
                     VisibleActors.Add(c.Actor);
             }
+        }
+
+        private ActorCommand Autoattack()
+        {
+            HashSet<Entity> visibleEnemies = new HashSet<Entity>();
+
+            foreach (Entity npc in VisibleActors)
+            {
+                if (npc.GetComponent<Actor>().HostileTo(playerActor))
+                    visibleEnemies.Add(npc);
+            }
+
+            if (visibleEnemies.Count < 1)
+            {
+                Locator.Log.Send("No visible enemies.", Color.grey);
+                return null;
+            }
+
+            Entity target = null;
+            int distance = 255;
+
+            foreach (Entity enemy in visibleEnemies)
+            {
+                int d = playerEntity.Level.Distance(enemy.Cell, playerEntity.Cell);
+                if (d < distance)
+                {
+                    distance = d;
+                    target = enemy;
+                }
+            }
+
+            Cell nearestEnemyCell = target.Cell;
+
+            if (!playerEntity.Level.AdjacentTo(playerEntity.Cell, nearestEnemyCell))
+            {
+                List<Cell> path = playerEntity.Level.GetPathTo(playerEntity.Cell, nearestEnemyCell);
+                if (path.Count > 0)
+                    return new MoveCommand(playerEntity, path[0]);
+                else
+                {
+                    Locator.Log.Send(
+                        $"Cannot find a path to {nearestEnemyCell.Actor.ToSubjectString(false)}.",
+                        Color.grey);
+                }
+            }
+
+            return new MeleeCommand(playerEntity, nearestEnemyCell);
         }
 
         public InputMode RequestCell(out Cell cell, int range)

@@ -44,6 +44,8 @@ namespace Pantheon.World
         /// <returns>True if cell exists, has ground, and is not blocked.</returns>
         public static bool Walkable(Cell cell)
             => cell != null && cell.Terrain != null && !cell.Terrain.Blocked;
+        public bool HasEnemyOf(Actor actor)
+            => Actor != null && Actor.GetComponent<Actor>().HostileTo(actor);
 
         public Cell(Vector2Int position) => Position = position;
 

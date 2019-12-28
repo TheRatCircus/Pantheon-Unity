@@ -12,6 +12,8 @@ namespace Pantheon.Components
         public int Size { get; set; } = 10;
         public List<Entity> Items { get; private set; }
 
+        public bool Empty => Items == null || Items.Count < 1;
+
         [Newtonsoft.Json.JsonConstructor]
         public Inventory(int size)
         {
