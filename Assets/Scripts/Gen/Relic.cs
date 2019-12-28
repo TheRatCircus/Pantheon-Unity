@@ -44,7 +44,7 @@ namespace Pantheon.Gen
 
         private static void ExplosiveMagicWeapon(Entity relic)
         {
-            GameObject fxPrefab = LoaderLocator.Service.Load<GameObject>(
+            GameObject fxPrefab = Locator.Loader.Load<GameObject>(
                 Tables.explosionFXIDs.Random());
             NonActorCommand nac;
 
@@ -85,7 +85,7 @@ namespace Pantheon.Gen
 
         private static void NameRelic(Entity relic)
         {
-            TextAsset nameAsset = LoaderLocator.Service.Load<TextAsset>(
+            TextAsset nameAsset = Locator.Loader.Load<TextAsset>(
                 "RelicNames");
             string[] tokens = nameAsset.text.Split(new[] { Environment.NewLine },
                 StringSplitOptions.RemoveEmptyEntries);

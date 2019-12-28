@@ -56,12 +56,12 @@ namespace Pantheon.Core
         private void OnEnable()
         {
             Loader = GetComponent<AssetLoader>();
-            LoaderLocator.Service = Loader;
+            Locator.Loader = Loader;
             Scheduler = GetComponent<TurnScheduler>();
-            SchedulerLocator.Service = Scheduler;
+            Locator.Scheduler = Scheduler;
             PlayerControl = GetComponent<PlayerControl>();
-            InputLocator.Service = PlayerControl;
-            LogLocator.Service = Log;
+            Locator.Player = PlayerControl;
+            Locator.Log = Log;
         }
 
         public void NewGame(string playerName)
@@ -181,7 +181,7 @@ namespace Pantheon.Core
 
         public void AllowInputToCharacter(bool allow)
         {
-            InputLocator.Service.Mode = allow ? InputMode.Default : InputMode.None;
+            Locator.Player.Mode = allow ? InputMode.Default : InputMode.None;
         }
 
         private void SaveGame()

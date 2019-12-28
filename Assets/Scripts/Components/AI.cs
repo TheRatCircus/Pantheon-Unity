@@ -38,7 +38,7 @@ namespace Pantheon.Components
                     if (!(Strategy is ThrallFollowStrategy))
                     {
                         Strategy = new DefaultStrategy(dem.Damager);
-                        LogLocator.Service.Send(
+                        Locator.Log.Send(
                             $"{Entity.ToSubjectString(true)} notices you!",
                             Colours._orange);
                     }

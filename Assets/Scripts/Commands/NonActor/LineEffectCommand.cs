@@ -26,7 +26,7 @@ namespace Pantheon.Commands.NonActor
         {
             if (Entity.PlayerControlled)
             {
-                switch (InputLocator.Service.RequestLine(out List<Cell> line, range))
+                switch (Locator.Player.RequestLine(out List<Cell> line, range))
                 {
                     case InputMode.Cancelling:
                         return CommandResult.Cancelled;

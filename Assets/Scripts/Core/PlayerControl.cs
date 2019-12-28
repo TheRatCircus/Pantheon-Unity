@@ -189,7 +189,7 @@ namespace Pantheon.Core
             {
                 selectedCell = null;
                 Mode = InputMode.Cancelling;
-                LogLocator.Service.Send("Targeting cancelled.", Color.blue);
+                Locator.Log.Send("Targeting cancelled.", Color.blue);
             }
         }
 
@@ -228,7 +228,7 @@ namespace Pantheon.Core
             {
                 selectedLine.Clear();
                 Mode = InputMode.Cancelling;
-                LogLocator.Service.Send("Targeting cancelled.", Color.blue);
+                Locator.Log.Send("Targeting cancelled.", Color.blue);
             }
         }
 

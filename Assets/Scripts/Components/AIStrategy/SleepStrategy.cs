@@ -19,12 +19,12 @@ namespace Pantheon.Components
         {
             if (ai.Entity.Cell.Visible) // Detect player and begin approach
             {
-                ai.Strategy = new DefaultStrategy(InputLocator.Service.PlayerEntity);
-                LogLocator.Service.Send(
+                ai.Strategy = new DefaultStrategy(Locator.Player.PlayerEntity);
+                Locator.Log.Send(
                     $"{ai.Entity.ToSubjectString(true)} notices you!",
                     Colours._orange);
                 return MoveCommand.MoveOrWait(
-                    ai.Entity, InputLocator.Service.PlayerEntity.Cell);
+                    ai.Entity, Locator.Player.PlayerEntity.Cell);
             }
             else
                 return new WaitCommand(ai.Entity);

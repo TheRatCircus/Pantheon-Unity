@@ -29,13 +29,13 @@ namespace Pantheon.Commands.NonActor
                     {
                         if (newControl == ActorControl.None)
                         {
-                            LogLocator.Service.Send(
+                            Locator.Log.Send(
                                 $"{Entity.ToSubjectString(true)} goes limp...",
                                 Color.cyan);
                         }
                         else if (newControl == ActorControl.Player)
                         {
-                            LogLocator.Service.Send(
+                            Locator.Log.Send(
                                 $"You possess {Entity.ToSubjectString(false)}!",
                                 Color.cyan);
                         }
@@ -49,14 +49,14 @@ namespace Pantheon.Commands.NonActor
                     {
                         if (newControl == ActorControl.None)
                         {
-                            LogLocator.Service.Send(
+                            Locator.Log.Send(
                                 $"You lose control of your physical body!",
                                 Color.magenta);
 
                         }
                         else if (newControl == ActorControl.AI)
                         {
-                            LogLocator.Service.Send(
+                            Locator.Log.Send(
                                 $"You are possessed by {possessor.ToSubjectString(false)}!",
                                 Color.magenta);
                         }
@@ -70,13 +70,13 @@ namespace Pantheon.Commands.NonActor
                     {
                         if (newControl == ActorControl.Player)
                         {
-                            LogLocator.Service.Send(
+                            Locator.Log.Send(
                                 $"You possess {Entity.ToSubjectString(false)}",
                                 Color.cyan);
                         }
                         else if (newControl == ActorControl.AI)
                         {
-                            LogLocator.Service.Send(
+                            Locator.Log.Send(
                                 $"{Entity.ToSubjectString(true)} takes on a new vigour!",
                                 Color.cyan);
                         }

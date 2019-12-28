@@ -22,7 +22,7 @@ namespace PantheonEditor
         {
             GameObject mockGo = new GameObject();
             TurnScheduler scheduler = mockGo.AddComponent<TurnScheduler>();
-            SchedulerLocator.Service = scheduler;
+            Locator.Scheduler = scheduler;
 
             JsonSerializerSettings settings = new JsonSerializerSettings()
             {

@@ -20,10 +20,10 @@ namespace Pantheon.Core
         public static Entity SpawnActor(EntityTemplate template, Level level, Cell cell)
         {
             Entity entity = new Entity(template);
-            SchedulerLocator.Service.AddActor(entity.GetComponent<Actor>());
+            Locator.Scheduler.AddActor(entity.GetComponent<Actor>());
             entity.Move(level, cell);
             if (entity.Cell.Visible)
-                InputLocator.Service.VisibleActors.Add(entity);
+                Locator.Player.VisibleActors.Add(entity);
             return entity;
         }
     }

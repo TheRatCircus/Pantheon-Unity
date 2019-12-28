@@ -52,7 +52,7 @@ namespace Pantheon
 
         public void Fire()
         {
-            SchedulerLocator.Service.Lock();
+            Locator.Scheduler.Lock();
             StartCoroutine(Fly());
         } 
 
@@ -76,7 +76,7 @@ namespace Pantheon
                 foreach (Entity e in debris)
                     e.Move(tosser.Level, target);
 
-            SchedulerLocator.Service.Unlock();
+            Locator.Scheduler.Unlock();
             Destroy(gameObject);
         }
 
@@ -92,7 +92,7 @@ namespace Pantheon
                     return;
 
                 Hit hit = new Hit(damages);
-                LogLocator.Service.Send(
+                Locator.Log.Send(
                     $"{projName} hits {entity.ToSubjectString(false)}!",
                     Color.white);
                 entity.TakeHit(tosser, hit);
@@ -105,7 +105,7 @@ namespace Pantheon
                     foreach (Entity e in debris)
                         e.Move(tosser.Level, collisionCell);
 
-                SchedulerLocator.Service.Unlock();
+                Locator.Scheduler.Unlock();
                 Destroy(gameObject);
             }
         }

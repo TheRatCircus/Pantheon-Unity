@@ -16,7 +16,7 @@ namespace Pantheon.Utils
 
         public Markov(int chainLength = 2)
         {
-            TextAsset nameSet = LoaderLocator.Service.Load<TextAsset>("CharacterNames");
+            TextAsset nameSet = Locator.Loader.Load<TextAsset>("CharacterNames");
             string[] baseNames = nameSet.text.Split(
                 new[] { Environment.NewLine },
                 StringSplitOptions.RemoveEmptyEntries);

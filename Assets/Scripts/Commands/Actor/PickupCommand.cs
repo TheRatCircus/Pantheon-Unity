@@ -22,7 +22,7 @@ namespace Pantheon.Commands.Actor
             {
                 cost = -1;
                 if (player)
-                    LogLocator.Service.Send(
+                    Locator.Log.Send(
                         "There is nothing here to take.",
                         Color.grey);
                 return CommandResult.Failed;
@@ -33,7 +33,7 @@ namespace Pantheon.Commands.Actor
             inv.AddItem(item);
             cost = Core.TurnScheduler.TurnTime;
             if (player)
-                LogLocator.Service.Send(
+                Locator.Log.Send(
                     $"You pick up a {item}.",
                     Color.grey);
             return CommandResult.Succeeded;

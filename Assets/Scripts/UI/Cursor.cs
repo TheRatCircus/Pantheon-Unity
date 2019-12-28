@@ -31,7 +31,7 @@ namespace Pantheon.UI
 
             if (Input.GetMouseButtonDown(2))
             {
-                LogLocator.Service.Send(HoveredCell.ToString(), Color.white);
+                Locator.Log.Send(HoveredCell.ToString(), Color.white);
             }
         }
     }

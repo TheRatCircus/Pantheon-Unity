@@ -23,7 +23,7 @@ namespace Pantheon.Commands.Actor
 
             if (inv.Items.Count < 1 && player)
             {
-                LogLocator.Service.Send(
+                Locator.Log.Send(
                     $"You have nothing in your inventory to drop.",
                     Color.grey);
                 cost = -1;
@@ -34,10 +34,10 @@ namespace Pantheon.Commands.Actor
             inv.RemoveItem(item);
             item.Cell.Items.Add(item);
             cost = Core.TurnScheduler.TurnTime;
+
             if (player)
-                LogLocator.Service.Send(
-                    $"You drop a {item}.",
-                    Color.grey);
+                Locator.Log.Send($"You drop a {item}.", Color.grey);
+
             return CommandResult.Succeeded;
         }
     }

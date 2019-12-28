@@ -22,7 +22,7 @@ namespace Pantheon
             if (cell.Actor != null)
             {
                 Hit hit = new Hit(damages);
-                LogLocator.Service.Send(
+                Locator.Log.Send(
                     $"{cell.Actor.ToSubjectString(true)} is caught in the blast!",
                     Color.white);
                 cell.Actor.TakeHit(source, hit);

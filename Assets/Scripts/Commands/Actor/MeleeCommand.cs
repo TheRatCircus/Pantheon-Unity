@@ -44,7 +44,7 @@ namespace Pantheon.Commands.Actor
 
                     if (atk.Accuracy < Random.Range(0, 101))
                     {
-                        LogLocator.Service.Send(
+                        Locator.Log.Send(
                             Strings.Miss(Entity, defender), Color.grey);
                         continue;
                     }
@@ -52,7 +52,7 @@ namespace Pantheon.Commands.Actor
                     if (defender != null)
                     {
                         Hit hit = new Hit(atk.Damages);
-                        LogLocator.Service.Send(
+                        Locator.Log.Send(
                             Strings.Hit(Entity, defender, hit), Color.white);
                         defender.TakeHit(Entity, hit);
                     }

@@ -196,21 +196,21 @@ namespace Pantheon
 
             if (TryGetComponent(out Actor actor))
             {
-                SchedulerLocator.Service.RemoveActor(actor);
+                Locator.Scheduler.RemoveActor(actor);
                 
                 if (actor.Control == ActorControl.Player)
                 {
                     Transform camTransform = GameObjects[0].transform.Find("MainCamera");
                     camTransform.SetParent(null);
-                    SchedulerLocator.Service.Lock();
-                    LogLocator.Service.Send($"You perish...", Color.magenta);
+                    Locator.Scheduler.Lock();
+                    Locator.Log.Send($"You perish...", Color.magenta);
                 }
                 else if (actor.Control == ActorControl.AI)
                 {
-                    LogLocator.Service.Send(Strings.Kill(destroyer, this), Color.white);
+                    Locator.Log.Send(Strings.Kill(destroyer, this), Color.white);
                 }
                 else
-                    LogLocator.Service.Send(
+                    Locator.Log.Send(
                         $"{ToSubjectString(true)} is destroyed.",
                         Color.grey);
             }
