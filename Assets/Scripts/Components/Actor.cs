@@ -1,6 +1,8 @@
 ﻿// Actor.cs
 // Jerome Martina
 
+#define DEBUG_ACTOR
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Pantheon.Commands;
@@ -74,6 +76,7 @@ namespace Pantheon.Components
             if (Command != null)
             {
                 CommandResult result = Command.Execute(out int cost);
+                DebugLogCommand($"{Entity} doing: {Command} ({cost})");
                 if (result != CommandResult.InProgress)
                     Command = null;
                 return cost;
@@ -122,6 +125,12 @@ namespace Pantheon.Components
         {
             Helpers.ClearNonSerializableDelegates(ref EnergyChangedEvent);
             Helpers.ClearNonSerializableDelegates(ref SpeedChangedEvent);
+        }
+
+        [System.Diagnostics.Conditional("DEBUG_ACTOR")]
+        private void DebugLogCommand(string msg)
+        {
+            UnityEngine.Debug.Log(msg);
         }
     }
 }

@@ -125,6 +125,11 @@ namespace Pantheon.Core
                 playerActor.Command = new UseItemCommand(PlayerEntity,
                     PlayerEntity.GetComponent<Inventory>().Items[0]);
             }
+            else if (Input.GetButtonDown("Autoattack"))
+            {
+                playerActor.Command = new EvokeCommand(PlayerEntity,
+                    PlayerEntity.GetComponent<Inventory>().Items[0]); 
+            }
             else if (Input.GetButtonDown("Pickup"))
                 playerActor.Command = new PickupCommand(PlayerEntity);
             else if (Input.GetButtonDown("Inventory"))

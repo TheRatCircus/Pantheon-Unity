@@ -70,8 +70,18 @@ namespace Pantheon.Gen
                     break;
             }
 
-            OnUse onUse = new OnUse(TurnScheduler.TurnTime, nac);
-            relic.AddComponent(onUse);
+            Talent talent = new Talent(nac);
+
+            if (relic.TryGetComponent(out Evocable evoc))
+            {
+                evoc.AddTalent(talent);
+            }
+            else
+            {
+                Evocable newEvoc = new Evocable(talent);
+                newEvoc.AddTalent(talent);
+                relic.AddComponent(newEvoc);
+            }
         }
 
         private static void NameRelic(Entity relic)
