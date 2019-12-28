@@ -1,0 +1,66 @@
+﻿// MeleeCommand.cs
+// Jerome Martina
+
+using Pantheon.Components;
+using Pantheon.Content;
+using Pantheon.Util;
+using Pantheon.World;
+using UnityEngine;
+
+namespace Pantheon.Commands.Actor
+{
+    public sealed class MeleeCommand : ActorCommand
+    {
+        private Cell target;
+
+        public MeleeCommand(Entity entity, Cell target)
+            : base(entity) => this.target = target;
+
+        public override CommandResult Execute(out int cost)
+        {
+            Entity defender;
+
+            if (target.Actor != null)
+                defender = target.Actor;
+            else
+                defender = null;
+
+            SpeciesDefinition species = Entity.GetComponent<Species>().SpeciesDef;
+
+            int attackTime = 0;
+
+            foreach (BodyPart part in species.Parts)
+            {
+                if (part.Melee == null)
+                    continue;
+
+                if (part.Melee.Attacks == null)
+                    continue;
+
+                foreach (Attack atk in part.Melee.Attacks)
+                {
+                    if (atk.Time > attackTime)
+                        attackTime = atk.Time;
+
+                    if (atk.Accuracy < Random.Range(0, 101))
+                    {
+                        LogLocator.Service.Send(
+                            Strings.Miss(Entity, defender), Color.grey);
+                        continue;
+                    }
+                    
+                    if (defender != null)
+                    {
+                        Hit hit = new Hit(atk.Damages);
+                        LogLocator.Service.Send(
+                            Strings.Hit(Entity, defender, hit), Color.white);
+                        defender.TakeHit(Entity, hit);
+                    }
+                }
+            }
+
+            cost = attackTime;
+            return CommandResult.Succeeded;
+        }
+    }
+}

@@ -1,9 +1,8 @@
 ﻿// Relic.cs
 // Jerome Martina
 
-using Pantheon.Commands;
+using Pantheon.Commands.NonActor;
 using Pantheon.Components;
-using Pantheon.Core;
 using Pantheon.Utils;
 using System;
 using UnityEngine;

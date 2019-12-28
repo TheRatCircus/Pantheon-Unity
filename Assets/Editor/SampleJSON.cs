@@ -3,7 +3,7 @@
 
 using Newtonsoft.Json;
 using Pantheon;
-using Pantheon.Commands;
+using Pantheon.Commands.NonActor;
 using Pantheon.Components;
 using Pantheon.Core;
 using Pantheon.Serialization.Json;

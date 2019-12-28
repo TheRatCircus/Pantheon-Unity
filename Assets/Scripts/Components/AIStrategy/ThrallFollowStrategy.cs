@@ -1,7 +1,7 @@
 ﻿// ThrallFollowStrategy.cs
 // Jerome Martina
 
-using Pantheon.Commands;
+using Pantheon.Commands.Actor;
 using Pantheon.World;
 using UnityEngine;
 

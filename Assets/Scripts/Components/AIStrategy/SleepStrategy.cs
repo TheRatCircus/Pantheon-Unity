@@ -4,7 +4,7 @@
 #define DEBUG_AI
 #undef DEBUG_AI
 
-using Pantheon.Commands;
+using Pantheon.Commands.Actor;
 using Pantheon.Utils;
 
 namespace Pantheon.Components

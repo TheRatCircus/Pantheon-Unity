@@ -6,6 +6,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Pantheon.Commands;
+using Pantheon.Commands.Actor;
 using Pantheon.Utils;
 using System;
 using System.Runtime.Serialization;

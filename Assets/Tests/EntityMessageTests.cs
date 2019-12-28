@@ -3,7 +3,7 @@
 
 using NUnit.Framework;
 using Pantheon;
-using Pantheon.Commands;
+using Pantheon.Commands.NonActor;
 using Pantheon.Components;
 using Pantheon.UI;
 

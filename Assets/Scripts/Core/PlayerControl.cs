@@ -1,7 +1,7 @@
 ﻿// PlayerControl.cs
 // Jerome Martina
 
-using Pantheon.Commands;
+using Pantheon.Commands.Actor;
 using Pantheon.Components;
 using Pantheon.UI;
 using Pantheon.Utils;

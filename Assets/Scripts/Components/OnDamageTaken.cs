@@ -1,7 +1,7 @@
 ﻿// OnDamageTaken.cs
 // Jerome Martina
 
-using Pantheon.Commands;
+using Pantheon.Commands.NonActor;
 
 namespace Pantheon.Components
 {
