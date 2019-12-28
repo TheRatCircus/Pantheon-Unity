@@ -36,7 +36,6 @@ namespace Pantheon.Debug
                 { "turn_order", new ConsoleCommand(TurnOrder) },
                 { "describe_component", new ConsoleCommand(DescribeComponent) },
                 { "destroy", new ConsoleCommand(ConsoleCommandFunctions.Destroy) },
-                { "explode", new ConsoleCommand(Explode) },
                 { "idolmode", new ConsoleCommand(ToggleIdolMode) },
                 { "give", new ConsoleCommand(Give) },
                 { "teleport", new ConsoleCommand(Teleport) },

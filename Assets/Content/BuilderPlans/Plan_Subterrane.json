@@ -7,7 +7,7 @@
     },
     {
       "$type": "RandomFill",
-      "percent": 40,
+      "percent": 25,
       "terrain": "Terrain_StoneWall"
     }
   ]

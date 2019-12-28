@@ -127,15 +127,6 @@ namespace Pantheon.Debug
             return $"Destroyed entity {e.ToString()}";
         }
 
-        public static string Explode(string[] args, GameController ctrl)
-        {
-            Entity e = ctrl.Cursor.HoveredCell.Actor;
-            GameObject explPrefab = ctrl.Loader.Load<GameObject>("FX_HandGrenade");
-            ExplodeCommand cmd = new ExplodeCommand(e, explPrefab, ExplosionPattern.Point);
-            cmd.Execute();
-            return $"Blew up {e.Name}.";
-        }
-
         public static string ToggleIdolMode(string[] args, GameController ctrl)
         {
             Health health = ctrl.Player.GetComponent<Health>();

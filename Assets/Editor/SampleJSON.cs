@@ -42,10 +42,11 @@ namespace PantheonEditor
                                     Max = 7
                                 }
                             },
-                        OnLandCommand = new ExplodeCommand(
-                            null, new GameObject("FX_Shrapnel"),
-                            ExplosionPattern.Square,
-                            new Damage[]
+                        OnLandCommand = new ExplodeCommand(null)
+                        {
+                            Prefab = new GameObject("FX_Shrapnel"),
+                            Pattern = ExplosionPattern.Square,
+                            Damages = new Damage[]
                             {
                                 new Damage()
                                 {
@@ -53,7 +54,8 @@ namespace PantheonEditor
                                     Min = 3,
                                     Max = 7
                                 }
-                            })
+                            }
+                        },
                     },
                 new Evocable(),
                 new Health(),

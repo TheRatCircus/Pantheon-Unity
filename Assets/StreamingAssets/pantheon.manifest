@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2853185886
+CRC: 2979341085
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 59c678f0e41f857482481994bb2f3886
+    Hash: 54db53e42041b81638a2e24d0611a283
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 4292bb07870ca73f9e2ff7ddaf3d44fe
+    Hash: 0cc025ecaf5bbb829548b2703b5ff808
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -24,8 +24,6 @@ ClassTypes:
 - Class: 50
   Script: {instanceID: 0}
 - Class: 61
-  Script: {instanceID: 0}
-- Class: 82
   Script: {instanceID: 0}
 - Class: 83
   Script: {instanceID: 0}
@@ -51,6 +49,7 @@ Assets:
 - Assets/Sprites/Item/Sprite_Grenade.png
 - Assets/Sprites/Item/Sprite_Cuirass.png
 - Assets/CharacterNames.txt
+- Assets/Audio/SFX_Toss.ogg
 - Assets/Sprites/Item/Sprite_Dagger.png
 - Assets/Content/BodyParts/Human/Part_Human_Head.json
 - Assets/Content/Species/Species_Goose.json
@@ -60,6 +59,8 @@ Assets:
 - Assets/Sprites/Actor/Sprite_Goose.png
 - Assets/Content/Terrain/Terrain_StoneWall.asset
 - Assets/Content/BodyParts/Human/Part_Human_Legs.json
+- Assets/Audio/SFX_Explosion.ogg
+- Assets/Audio/SFX_Patsons.ogg
 - Assets/Content/BodyParts/Human/Part_Human_Arms.json
 - Assets/Content/BodyParts/Coyote/Part_Coyote_Head.json
 - Assets/Content/BodyParts/Coyote/Part_Canine_Teeth.json

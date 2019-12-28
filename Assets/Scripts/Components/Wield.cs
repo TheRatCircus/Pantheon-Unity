@@ -1,12 +1,15 @@
 ﻿// Wield.cs
 // Jerome Martina
 
+using Pantheon.Utils;
+
 namespace Pantheon.Components
 {
     [System.Serializable]
     public sealed class Wield : EntityComponent
     {
         public Entity[] Items { get; set; }
+        public bool Wielding => Items.HasElements();
 
         public Wield(int max) => Items = new Entity[max];
 

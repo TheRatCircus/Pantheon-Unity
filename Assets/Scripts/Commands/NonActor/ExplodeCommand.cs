@@ -1,6 +1,8 @@
 ﻿// ExplodeCommand.cs
 // Jerome Martina
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Pantheon.Utils;
 using Pantheon.World;
 using System.Collections.Generic;
@@ -8,6 +10,7 @@ using UnityEngine;
 
 namespace Pantheon.Commands.NonActor
 {
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum ExplosionPattern
     {
         Point,
@@ -20,20 +23,15 @@ namespace Pantheon.Commands.NonActor
     public sealed class ExplodeCommand : NonActorCommand,
         ICellTargetedCommand, ILineTargetedCommand
     {
-        private Damage[] damages;
-        private ExplosionPattern pattern;
-        private GameObject prefab;
+        public Damage[] Damages { get; set; }
+        public ExplosionPattern Pattern { get; set; }
+        public GameObject Prefab { get; set; }
+        public AudioClip Sound { get; set; }
 
         public Cell Cell { get; set; }
         public List<Cell> Line { get; set; }
 
-        public ExplodeCommand(Entity entity, GameObject prefab,
-            ExplosionPattern pattern, params Damage[] damages) : base(entity)
-        {
-            this.damages = damages;
-            this.prefab = prefab;
-            this.pattern = pattern;
-        }
+        public ExplodeCommand(Entity entity) : base(entity) { }
 
         public override CommandResult Execute()
         {
@@ -41,15 +39,15 @@ namespace Pantheon.Commands.NonActor
             if (Cell == null)
                 Cell = Entity.Cell;
 
-            switch (pattern)
+            switch (Pattern)
             {
                 case ExplosionPattern.Point:
                     {
                         GameObject explObj = Object.Instantiate(
-                        prefab, Cell.Position.ToVector3(), new Quaternion(), null);
+                        Prefab, Cell.Position.ToVector3(), new Quaternion(), null);
                         PointExplosion expl = explObj.GetComponent<PointExplosion>();
                         expl.Initialize(Entity, Cell);
-                        expl.Fire(damages);
+                        expl.Fire(Damages);
                         Object.Destroy(explObj, 5f);
                         break;
                     }
@@ -62,10 +60,10 @@ namespace Pantheon.Commands.NonActor
                     {
                         Cell c = Line[i];
                         GameObject explObj = Object.Instantiate(
-                        prefab, c.Position.ToVector3(), new Quaternion(), null);
+                        Prefab, c.Position.ToVector3(), new Quaternion(), null);
                         PointExplosion expl = explObj.GetComponent<PointExplosion>();
                         expl.Initialize(Entity, c);
-                        expl.Fire(damages);
+                        expl.Fire(Damages);
                         Object.Destroy(explObj, 5f);
                     }
 
@@ -75,6 +73,7 @@ namespace Pantheon.Commands.NonActor
                     throw new System.NotImplementedException();
             }
 
+            AudioSource.PlayClipAtPoint(Sound, Cell.Position.ToVector3());
             return CommandResult.Succeeded;
         }
     }

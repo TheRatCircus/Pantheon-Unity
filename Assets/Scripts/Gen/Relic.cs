@@ -46,25 +46,32 @@ namespace Pantheon.Gen
         {
             GameObject fxPrefab = Locator.Loader.Load<GameObject>(
                 Tables.explosionFXIDs.Random());
-            NonActorCommand nac;
+            AudioClip sfx = Locator.Loader.Load<AudioClip>("SFX_Explosion");
 
-            int r = Random.Range(0, 3);
+            NonActorCommand nac = null;
+            ExplodeCommand expl = new ExplodeCommand(null)
+            {
+                Prefab = fxPrefab,
+                Sound = sfx,
+                Damages = new Damage[] {
+                            new Damage()
+                            {
+                                Min = 7,
+                                Max = 14,
+                                Type = DamageType.Piercing
+                            }
+                        }
+            };
+
+            int r = Random.Range(0, 2);
             switch (r)
             {
                 case 0:
+                    expl.Pattern = ExplosionPattern.Point;
+                    nac = new PointEffectCommand(null, expl);
+                    break;
                 case 1:
-                    //nac = new PointEffectCommand(null, expl);
-                    //break;
-                case 2:
-                default:
-                    ExplodeCommand expl = new ExplodeCommand(null, fxPrefab,
-                        ExplosionPattern.Line,
-                        new Damage()
-                        {
-                            Min = 7,
-                            Max = 14,
-                            Type = DamageType.Piercing
-                        });
+                    expl.Pattern = ExplosionPattern.Line;
                     nac = new LineEffectCommand(null, expl);
                     break;
             }

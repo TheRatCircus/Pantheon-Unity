@@ -11,7 +11,7 @@ namespace Pantheon.Core
     public static class FOV
     {
         // Not in terms of cells
-        public const int FOVRadius = 11;
+        public const int FOVRadius = 15;
 
         private static Cell prev;
 
