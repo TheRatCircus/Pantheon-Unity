@@ -10,8 +10,9 @@ namespace Pantheon.Commands.NonActor
     /// <summary>
     /// Fire another command in/at a specific cell.
     /// </summary>
-    public sealed class PointEffectCommand : NonActorCommand
+    public sealed class PointEffectCommand : NonActorCommand, ICellTargetedCommand
     {
+        public Cell Cell { get; set; }
         private int range = 5;
         private NonActorCommand cmd;
 
@@ -23,6 +24,16 @@ namespace Pantheon.Commands.NonActor
 
         public override CommandResult Execute()
         {
+            if (Cell != null)
+            {
+                if (cmd is ICellTargetedCommand ctc)
+                    ctc.Cell = Cell;
+                if (cmd is IEntityTargetedCommand etc)
+                    etc.Target = Cell.Actor;
+                cmd.Execute();
+                return CommandResult.Succeeded;
+            }
+
             if (Entity.PlayerControlled)
             {
                 switch (Locator.Player.RequestCell(out Cell cell, range))
@@ -33,7 +44,6 @@ namespace Pantheon.Commands.NonActor
                         return CommandResult.InProgress;
                     case InputMode.Default:
                         {
-                            // Point has come through
                             if (cmd is ICellTargetedCommand ctc)
                                 ctc.Cell = cell;
                             if (cmd is IEntityTargetedCommand etc)

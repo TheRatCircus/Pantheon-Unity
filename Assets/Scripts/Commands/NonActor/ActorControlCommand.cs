@@ -8,15 +8,15 @@ using ActorComp = Pantheon.Components.Actor;
 
 namespace Pantheon.Commands.NonActor
 {
-    public sealed class ActorControlCommand : NonActorCommand
+    public sealed class ActorControlCommand : NonActorCommand, IEntityTargetedCommand
     {
-        private Entity possessor; // Null if nothing possessing target
+        public Entity Target { get; set; } // Null if nothing possessing target
         private ActorControl newControl;
 
         public ActorControlCommand(Entity target, Entity possessor, ActorControl newControl)
             : base(target)
         {
-            this.possessor = possessor;
+            this.Target = possessor;
             this.newControl = newControl;
         }
 
@@ -57,7 +57,7 @@ namespace Pantheon.Commands.NonActor
                         else if (newControl == ActorControl.AI)
                         {
                             Locator.Log.Send(
-                                $"You are possessed by {possessor.ToSubjectString(false)}!",
+                                $"You are possessed by {Target.ToSubjectString(false)}!",
                                 Color.magenta);
                         }
                         else
