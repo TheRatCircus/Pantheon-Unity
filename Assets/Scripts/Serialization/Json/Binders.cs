@@ -1,6 +1,7 @@
 ﻿// Binders.cs
 // Jerome Martina
 
+using Pantheon.Commands.NonActor;
 using Pantheon.Components;
 using Pantheon.Gen;
 using System;
@@ -29,6 +30,7 @@ namespace Pantheon.Serialization.Json
                     typeof(Actor),
                     typeof(AI),
                     typeof(Ammo),
+                    typeof(Evocable),
                     typeof(Health),
                     typeof(Inventory),
                     typeof(Melee),
@@ -37,6 +39,10 @@ namespace Pantheon.Serialization.Json
                     typeof(Size),
                     typeof(Species),
                     typeof(Weight),
+                    // Commands
+                    typeof(ExplodeCommand),
+                    typeof(LineEffectCommand),
+                    typeof(PointEffectCommand),
                     // AI strategies
                     typeof(DefaultStrategy),
                     typeof(SleepStrategy),
