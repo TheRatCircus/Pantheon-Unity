@@ -39,6 +39,7 @@ namespace Pantheon.Serialization.Json
                     typeof(Size),
                     typeof(Species),
                     typeof(Weight),
+                    typeof(Wield),
                     // Commands
                     typeof(ExplodeCommand),
                     typeof(LineEffectCommand),
@@ -47,7 +48,9 @@ namespace Pantheon.Serialization.Json
                     typeof(DefaultStrategy),
                     typeof(SleepStrategy),
                     typeof(WanderStrategy),
-                    typeof(ThrallFollowStrategy)
+                    typeof(ThrallFollowStrategy),
+                    // Misc
+                    typeof(Talent)
                 }
             };
     }

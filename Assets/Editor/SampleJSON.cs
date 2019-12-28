@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Pantheon;
 using Pantheon.Commands.NonActor;
 using Pantheon.Components;
+using Pantheon.Content;
 using Pantheon.Core;
 using Pantheon.Serialization.Json;
 using Pantheon.Serialization.Json.Converters;
@@ -26,7 +27,7 @@ namespace PantheonEditor
 
             JsonSerializerSettings settings = new JsonSerializerSettings()
             {
-                TypeNameHandling = TypeNameHandling.All,
+                TypeNameHandling = TypeNameHandling.Auto,
                 SerializationBinder = Binders._entityBinder,
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
@@ -68,6 +69,7 @@ namespace PantheonEditor
                                 }
                             })
                     },
+                new Evocable(),
                 new Health(),
                 new Inventory(20),
                 new Location(),
@@ -86,20 +88,21 @@ namespace PantheonEditor
                 new OnUse(TurnScheduler.TurnTime),
                 new Size(1),
                 new Species(null),
-                new Weight(50)
+                new Weight(50),
+                new Wield(2)
             };
 
-            string path = Application.dataPath + $"/sample_components.json";
+            EntityTemplate template = new EntityTemplate(
+                "SAMPLE_ID", "SAMPLE_NAME", null, components);
+
+            string path = Application.dataPath + $"/sample_template.json";
 
             if (File.Exists(path))
                 File.Delete(path);
 
-            foreach (EntityComponent ec in components)
-            {
-                File.AppendAllText(path, JsonConvert.SerializeObject(ec, settings));
-                File.AppendAllText(path, System.Environment.NewLine);
-            }
-            Debug.Log($"Wrote samples of all components to {path}.");
+            File.AppendAllText(path, JsonConvert.SerializeObject(template, settings));
+
+            Debug.Log($"Wrote sample template with all components to {path}.");
         }
     }
 }

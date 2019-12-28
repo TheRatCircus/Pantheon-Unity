@@ -1,0 +1,105 @@
+{
+  "ID": "SAMPLE_ID",
+  "EntityName": "SAMPLE_NAME",
+  "Sprite": null,
+  "Tile": "",
+  "Components": [
+    {
+      "$type": "Actor",
+      "Speed": -1,
+      "Energy": -1,
+      "Command": null
+    },
+    {
+      "$type": "AI",
+      "Strategy": {
+        "$type": "DefaultStrategy"
+      }
+    },
+    {
+      "$type": "Ammo",
+      "Type": 2,
+      "Damages": [
+        {
+          "Type": 2,
+          "Min": 3,
+          "Max": 7
+        }
+      ],
+      "OnLandCommand": {
+        "$type": "ExplodeCommand",
+        "Cell": null,
+        "Line": null,
+        "Entity": null
+      },
+      "OnHitCommand": null
+    },
+    {
+      "$type": "Evocable",
+      "EvokeTime": 100,
+      "Talents": []
+    },
+    {
+      "$type": "Health",
+      "Max": 10,
+      "RegenTime": 800,
+      "Regenerating": true,
+      "Invincible": false
+    },
+    {
+      "$type": "Inventory",
+      "Size": 20,
+      "Items": [],
+      "Empty": true
+    },
+    {
+      "$type": "Location",
+      "Cell": null,
+      "Level": null
+    },
+    {
+      "$type": "Melee",
+      "Attacks": [
+        {
+          "Range": 1,
+          "Damages": [
+            {
+              "Type": 1,
+              "Min": 2,
+              "Max": 5
+            }
+          ],
+          "Accuracy": 80,
+          "Time": 120
+        }
+      ]
+    },
+    {
+      "$type": "OnDamageTaken",
+      "Commands": []
+    },
+    {
+      "$type": "OnUse",
+      "UseTime": 100
+    },
+    {
+      "$type": "Size",
+      "Value": 1
+    },
+    {
+      "$type": "Species",
+      "SpeciesDef": null
+    },
+    {
+      "$type": "Weight",
+      "Value": 50
+    },
+    {
+      "$type": "Wield",
+      "Items": [
+        null,
+        null
+      ]
+    }
+  ]
+}

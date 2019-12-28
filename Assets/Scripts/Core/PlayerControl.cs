@@ -162,6 +162,9 @@ namespace Pantheon.Core
             else if (Input.GetButtonDown("Toss"))
                 playerActor.Command = new TossCommand(PlayerEntity,
                     PlayerEntity.GetComponent<Inventory>().Items[0]);
+            else if (Input.GetButtonDown("Wield"))
+                playerActor.Command = new WieldCommand(PlayerEntity,
+                    PlayerEntity.GetComponent<Inventory>().Items[0]);
         }
 
         private void PointSelect()

@@ -6,6 +6,7 @@ using Pantheon.Commands.NonActor;
 
 namespace Pantheon
 {
+    [System.Serializable]
     public sealed class Talent
     {
         public NonActorCommand[] Commands { get; set; }
