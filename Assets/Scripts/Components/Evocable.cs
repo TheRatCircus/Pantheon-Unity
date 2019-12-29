@@ -3,7 +3,9 @@
 
 using Pantheon.Commands;
 using Pantheon.Core;
+using Pantheon.World;
 using System;
+using System.Collections.Generic;
 
 namespace Pantheon.Components
 {
@@ -19,6 +21,12 @@ namespace Pantheon.Components
         public CommandResult Evoke(Entity evoker, int talent)
         {
             return talents[talent].Cast(evoker);
+        }
+
+        public CommandResult Evoke(Entity evoker, int talent,
+            Cell cell, List<Cell> line, List<Cell> path)
+        {
+            return talents[talent].Cast(evoker, cell, line, path);
         }
 
         public void AddTalent(Talent talent)

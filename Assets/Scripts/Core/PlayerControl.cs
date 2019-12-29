@@ -291,22 +291,43 @@ namespace Pantheon.Core
                 }
             }
 
-            Cell nearestEnemyCell = target.Cell;
+            Cell cell = target.Cell;
+            List<Cell> line = Bresenhams.GetLine(playerEntity.Level, playerEntity.Cell, cell);
+            List<Cell> path = playerEntity.Level.GetPathTo(playerEntity.Cell, cell);
 
-            if (!playerEntity.Level.AdjacentTo(playerEntity.Cell, nearestEnemyCell))
+            if (playerEntity.TryGetComponent(out Wield wield))
             {
-                List<Cell> path = playerEntity.Level.GetPathTo(playerEntity.Cell, nearestEnemyCell);
+                Entity[] evocables = wield.GetEvocables();
+                if (evocables.Length > 0)
+                {
+                    Talent talent = evocables[0].GetComponent<Evocable>().Talents[0];
+                    if (talent.Range >= distance)
+                    {
+                        EvokeCommand cmd = new EvokeCommand(playerEntity, evocables[0])
+                        {
+                            Cell = cell,
+                            Line = line,
+                            Path = path
+                        };
+                        return cmd;
+                    }
+                }
+            }
+
+            if (!playerEntity.Level.AdjacentTo(playerEntity.Cell, cell))
+            {
                 if (path.Count > 0)
                     return new MoveCommand(playerEntity, path[0]);
                 else
                 {
                     Locator.Log.Send(
-                        $"Cannot find a path to {nearestEnemyCell.Actor.ToSubjectString(false)}.",
+                        $"Cannot find a path to {cell.Actor.ToSubjectString(false)}.",
                         Color.grey);
+                    return null;
                 }
             }
 
-            return new MeleeCommand(playerEntity, nearestEnemyCell);
+            return new MeleeCommand(playerEntity, cell);
         }
 
         public InputMode RequestCell(out Cell cell, int range)

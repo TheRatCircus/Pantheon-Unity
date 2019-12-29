@@ -26,6 +26,17 @@ namespace Pantheon.Components
             return true;
         }
 
+        public Entity[] GetEvocables()
+        {
+            Entity[] evocables = new Entity[Items.Length];
+            for (int i = 0; i < Items.Length; i++)
+            {
+                if (Items[i] != null && Items[i].HasComponent<Evocable>())
+                    evocables[i] = Items[i];
+            }
+            return evocables.Compress();
+        }
+
         public override EntityComponent Clone(bool full)
         {
             return new Wield(Items.Length);

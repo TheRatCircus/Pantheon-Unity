@@ -272,5 +272,33 @@ namespace Pantheon.Utils
                 }
             }
         }
+
+        /// <summary>
+        /// Use to clean an array of null elements.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="arr"></param>
+        /// <returns></returns>
+        public static T[] Compress<T>(this T[] arr) where T : class
+        {
+            int i = 0;
+            foreach (T t in arr)
+            {
+                if (t != null)
+                    i++;
+            }
+            T[] ret = new T[i];
+
+            i = 0;
+            foreach (T t in arr)
+            {
+                if (t != null)
+                {
+                    ret[i++] = t;
+                }
+            }
+
+            return ret;
+        }
     }
 }

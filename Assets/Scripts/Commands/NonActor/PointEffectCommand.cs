@@ -10,10 +10,11 @@ namespace Pantheon.Commands.NonActor
     /// <summary>
     /// Fire another command in/at a specific cell.
     /// </summary>
-    public sealed class PointEffectCommand : NonActorCommand, ICellTargetedCommand
+    public sealed class PointEffectCommand : NonActorCommand,
+        ICellTargetedCommand, IRangedCommand
     {
         public Cell Cell { get; set; }
-        private int range = 5;
+        public int Range { get; set; } = 5;
         private NonActorCommand cmd;
 
         public PointEffectCommand(Entity entity, NonActorCommand cmd)
@@ -26,6 +27,7 @@ namespace Pantheon.Commands.NonActor
         {
             if (Cell != null)
             {
+                cmd.Entity = Entity;
                 if (cmd is ICellTargetedCommand ctc)
                     ctc.Cell = Cell;
                 if (cmd is IEntityTargetedCommand etc)
@@ -36,7 +38,7 @@ namespace Pantheon.Commands.NonActor
 
             if (Entity.PlayerControlled)
             {
-                switch (Locator.Player.RequestCell(out Cell cell, range))
+                switch (Locator.Player.RequestCell(out Cell cell, Range))
                 {
                     case InputMode.Cancelling:
                         return CommandResult.Cancelled;
@@ -44,6 +46,7 @@ namespace Pantheon.Commands.NonActor
                         return CommandResult.InProgress;
                     case InputMode.Default:
                         {
+                            cmd.Entity = Entity;
                             if (cmd is ICellTargetedCommand ctc)
                                 ctc.Cell = cell;
                             if (cmd is IEntityTargetedCommand etc)

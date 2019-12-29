@@ -37,7 +37,11 @@ namespace Pantheon.Components
                 case DamageEventMessage dem:
                     if (!(Strategy is ThrallFollowStrategy))
                     {
-                        Strategy = new DefaultStrategy(dem.Damager);
+                        if (Strategy is DefaultStrategy ds && ds.Target != dem.Damager)
+                            ds.SetTarget(dem.Damager);
+                        else
+                            Strategy = new DefaultStrategy(dem.Damager);
+
                         Locator.Log.Send(
                             $"{Entity.ToSubjectString(true)} notices you!",
                             Colours._orange);

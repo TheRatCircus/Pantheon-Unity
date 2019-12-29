@@ -16,7 +16,7 @@ namespace Pantheon.Components
     [System.Serializable]
     public sealed class DefaultStrategy : AIStrategy
     {
-        private Entity target;
+        public Entity Target { get; set; }
 
         public DefaultStrategy() { }
 
@@ -24,14 +24,14 @@ namespace Pantheon.Components
 
         public void SetTarget(Entity target)
         {
-            this.target = target;
+            Target = target;
             target.DestroyedEvent += ClearTarget;
         }
 
         private void ClearTarget()
         {
-            target.DestroyedEvent -= ClearTarget;
-            target = null;
+            Target.DestroyedEvent -= ClearTarget;
+            Target = null;
         }
 
         public override ActorCommand Decide(AI ai)
@@ -43,9 +43,9 @@ namespace Pantheon.Components
             else if (r <= 2)
                 ai.Actor.Energy -= ai.Actor.Speed / 10;
 
-            if (target != null) // Player detected
+            if (Target != null) // Player detected
             {
-                Cell targetCell = target.Cell;
+                Cell targetCell = Target.Cell;
 
                 if (ai.Entity.Level.AdjacentTo(ai.Entity.Cell, targetCell))
                     return new MeleeCommand(ai.Entity, targetCell);

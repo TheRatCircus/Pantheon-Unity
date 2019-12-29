@@ -76,7 +76,7 @@ namespace Pantheon.Gen
                     break;
             }
 
-            Talent talent = new Talent(nac);
+            Talent talent = new Talent(5, nac);
 
             if (relic.TryGetComponent(out Evocable evoc))
             {

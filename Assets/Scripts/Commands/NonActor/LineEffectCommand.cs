@@ -11,10 +11,11 @@ namespace Pantheon.Commands.NonActor
     /// <summary>
     /// Fire another command in a line of cells.
     /// </summary>
-    public sealed class LineEffectCommand : NonActorCommand, ILineTargetedCommand
+    public sealed class LineEffectCommand : NonActorCommand,
+        ILineTargetedCommand, IRangedCommand
     {
         public List<Cell> Line { get; set; }
-        private int range = 5;
+        public int Range { get; set; } = 5;
         private NonActorCommand cmd;
 
         public LineEffectCommand(Entity entity, NonActorCommand cmd)
@@ -27,6 +28,7 @@ namespace Pantheon.Commands.NonActor
         {
             if (Line != null)
             {
+                cmd.Entity = Entity;
                 if (cmd is IEntityTargetedCommand etc)
                 {
                     foreach (Cell c in Line)
@@ -50,7 +52,7 @@ namespace Pantheon.Commands.NonActor
 
             if (Entity.PlayerControlled)
             {
-                switch (Locator.Player.RequestLine(out List<Cell> line, range))
+                switch (Locator.Player.RequestLine(out List<Cell> line, Range))
                 {
                     case InputMode.Cancelling:
                         return CommandResult.Cancelled;
@@ -59,6 +61,7 @@ namespace Pantheon.Commands.NonActor
                     case InputMode.Default:
                         {
                             // Line has come through
+                            cmd.Entity = Entity;
                             if (cmd is IEntityTargetedCommand etc)
                             {
                                 foreach (Cell c in line)
