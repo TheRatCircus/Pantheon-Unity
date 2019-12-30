@@ -14,7 +14,7 @@ namespace Pantheon.Core
     {
         public const int TurnTime = 100;
 
-        private GameController ctrl;
+        private IPlayer player;
 
         // Once 100 energy has been spent by the player,
         // a turn is considered to have passed
@@ -37,10 +37,10 @@ namespace Pantheon.Core
 
         private void Start()
         {
-            ctrl = GetComponent<GameController>();
+            player = Locator.Player;
         }
 
-        void Update()
+        private void Update()
         {
             for (int i = 0; i < queue.Count; i++)
                 if (!Tick())
@@ -96,8 +96,8 @@ namespace Pantheon.Core
                 if (actor.Control == ActorControl.Player || actor.Entity.Cell.Visible)
                 {
                     HashSet<Cell> refreshed = FOV.RefreshFOV(
-                        ctrl.Player.Level, ctrl.Player.Cell, true);
-                    ctrl.PlayerControl.RecalculateVisible(refreshed);
+                        player.Entity.Level, player.Entity.Cell, true);
+                    player.RecalculateVisible(refreshed);
                 }
 
                 if (actor.Control == ActorControl.Player)
@@ -127,8 +127,8 @@ namespace Pantheon.Core
             if (actor.Control == ActorControl.Player || actor.Entity.Cell.Visible)
             {
                 HashSet<Cell> refreshed = FOV.RefreshFOV(
-                    ctrl.Player.Level, ctrl.Player.Cell, true);
-                ctrl.PlayerControl.RecalculateVisible(refreshed);
+                    player.Entity.Level, player.Entity.Cell, true);
+                player.RecalculateVisible(refreshed);
             }
 
             // Give the actor their speed value's worth of energy back

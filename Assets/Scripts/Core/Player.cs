@@ -1,4 +1,4 @@
-﻿// PlayerControl.cs
+﻿// Player.cs
 // Jerome Martina
 
 using Pantheon.Commands.Actor;
@@ -23,7 +23,7 @@ namespace Pantheon.Core
         Menu
     }
 
-    public sealed class PlayerControl : MonoBehaviour, IPlayerControl
+    public sealed class Player : MonoBehaviour, IPlayer
     {
         [SerializeField] private GameObject targetOverlay = default;
 
@@ -33,18 +33,18 @@ namespace Pantheon.Core
 
         public InputMode Mode { get; set; } = InputMode.Default;
 
-        private Entity playerEntity;
-        public Entity PlayerEntity
+        private Entity entity;
+        public Entity Entity
         {
-            get => playerEntity;
+            get => entity;
             set
             {
-                playerEntity = value;
-                playerActor = value.GetComponent<Actor>();
+                entity = value;
+                actor = value.GetComponent<Actor>();
                 inventory = value.GetComponent<Inventory>();
             }
         }
-        private Actor playerActor;
+        private Actor actor;
         private Inventory inventory;
 
         private int targetingRange;
@@ -90,49 +90,49 @@ namespace Pantheon.Core
 
             if (Input.GetButtonDown("Up"))
             {
-                playerActor.Command = new MoveCommand(PlayerEntity, Vector2Int.up);
+                actor.Command = new MoveCommand(Entity, Vector2Int.up);
             }
             else if (Input.GetButtonDown("Down"))
             {
-                playerActor.Command = new MoveCommand(PlayerEntity, Vector2Int.down);
+                actor.Command = new MoveCommand(Entity, Vector2Int.down);
             }
             else if (Input.GetButtonDown("Left"))
             {
-                playerActor.Command = new MoveCommand(PlayerEntity, Vector2Int.left);
+                actor.Command = new MoveCommand(Entity, Vector2Int.left);
             }
             else if (Input.GetButtonDown("Right"))
             {
-                playerActor.Command = new MoveCommand(PlayerEntity, Vector2Int.right);
+                actor.Command = new MoveCommand(Entity, Vector2Int.right);
             }
             else if (Input.GetButtonDown("Up Left"))
             {
-                playerActor.Command = new MoveCommand(PlayerEntity, new Vector2Int(-1, 1));
+                actor.Command = new MoveCommand(Entity, new Vector2Int(-1, 1));
             }
             else if (Input.GetButtonDown("Up Right"))
             {
-                playerActor.Command = new MoveCommand(PlayerEntity, new Vector2Int(1, 1));
+                actor.Command = new MoveCommand(Entity, new Vector2Int(1, 1));
             }
             else if (Input.GetButtonDown("Down Left"))
             {
-                playerActor.Command = new MoveCommand(PlayerEntity, new Vector2Int(-1, -1));
+                actor.Command = new MoveCommand(Entity, new Vector2Int(-1, -1));
             }
             else if (Input.GetButtonDown("Down Right"))
             {
-                playerActor.Command = new MoveCommand(PlayerEntity, new Vector2Int(1, -1));
+                actor.Command = new MoveCommand(Entity, new Vector2Int(1, -1));
             }
             else if (Input.GetButtonDown("Wait"))
-                playerActor.Command = new WaitCommand(PlayerEntity);
+                actor.Command = new WaitCommand(Entity);
             else if (Input.GetButtonDown("Use"))
             {
-                playerActor.Command = new UseItemCommand(PlayerEntity,
-                    PlayerEntity.GetComponent<Inventory>().Items[0]);
+                actor.Command = new UseItemCommand(Entity,
+                    Entity.GetComponent<Inventory>().Items[0]);
             }
             else if (Input.GetButtonDown("Autoattack"))
             {
-                playerActor.Command = Autoattack();
+                actor.Command = Autoattack();
             }
             else if (Input.GetButtonDown("Pickup"))
-                playerActor.Command = new PickupCommand(PlayerEntity);
+                actor.Command = new PickupCommand(Entity);
             else if (Input.GetButtonDown("Inventory"))
             {
                 if (Mode == InputMode.Menu) // Clear modal if already in one
@@ -143,7 +143,7 @@ namespace Pantheon.Core
                 }
 
                 Mode = InputMode.Menu;
-                Inventory inv = PlayerEntity.GetComponent<Inventory>();
+                Inventory inv = Entity.GetComponent<Inventory>();
                 ModalList ml = hud.OpenModalList();
                 ml.SetPrompt("Inventory");
                 ml.Populate(inv.Items.Count);
@@ -154,20 +154,20 @@ namespace Pantheon.Core
                     ml.SetOptionCallback(i, delegate (int optionNo)
                     {
                         Entity e = inv.Items[optionNo];
-                        playerActor.Command = new UseItemCommand(PlayerEntity, e);
+                        actor.Command = new UseItemCommand(Entity, e);
                         Mode = InputMode.Default;
                     });
                 }
             }
             else if (Input.GetButtonDown("Toss"))
-                playerActor.Command = new TossCommand(PlayerEntity,
-                    PlayerEntity.GetComponent<Inventory>().Items[0]);
+                actor.Command = new TossCommand(Entity,
+                    Entity.GetComponent<Inventory>().Items[0]);
             else if (Input.GetButtonDown("Wield"))
-                playerActor.Command = new WieldCommand(PlayerEntity,
-                    PlayerEntity.GetComponent<Inventory>().Items[0]);
+                actor.Command = new WieldCommand(Entity,
+                    Entity.GetComponent<Inventory>().Items[0]);
             else if (Input.GetButtonDown("Evoke"))
             {
-                Wield wield = PlayerEntity.GetComponent<Wield>();
+                Wield wield = Entity.GetComponent<Wield>();
                 if (!wield.Wielding)
                 {
                     Locator.Log.Send("You aren't wielding anything.",
@@ -176,16 +176,16 @@ namespace Pantheon.Core
                 }
                 else
                 {
-                    playerActor.Command = new EvokeCommand(
-                        PlayerEntity, wield.Items[0]);
+                    actor.Command = new EvokeCommand(
+                        Entity, wield.Items[0]);
                 }
             }
         }
 
         private void PointSelect()
         {
-            bool withinRange = PlayerEntity.Level.Distance(
-                PlayerEntity.Cell, cursor.HoveredCell) < targetingRange;
+            bool withinRange = Entity.Level.Distance(
+                Entity.Cell, cursor.HoveredCell) < targetingRange;
 
             CleanOverlays();
 
@@ -214,8 +214,8 @@ namespace Pantheon.Core
 
         private void LineSelect()
         {
-            bool withinRange = PlayerEntity.Level.Distance(
-                PlayerEntity.Cell, cursor.HoveredCell) < targetingRange;
+            bool withinRange = Entity.Level.Distance(
+                Entity.Cell, cursor.HoveredCell) < targetingRange;
 
             CleanOverlays();
 
@@ -224,8 +224,8 @@ namespace Pantheon.Core
             if (withinRange)
             {
                 line = Bresenhams.GetLine(
-                    PlayerEntity.Level,
-                    PlayerEntity.Cell,
+                    Entity.Level,
+                    Entity.Cell,
                     cursor.HoveredCell);
                 foreach (Cell c in line)
                 {
@@ -268,7 +268,7 @@ namespace Pantheon.Core
 
             foreach (Entity npc in VisibleActors)
             {
-                if (npc.GetComponent<Actor>().HostileTo(playerActor))
+                if (npc.GetComponent<Actor>().HostileTo(actor))
                     visibleEnemies.Add(npc);
             }
 
@@ -283,7 +283,7 @@ namespace Pantheon.Core
 
             foreach (Entity enemy in visibleEnemies)
             {
-                int d = playerEntity.Level.Distance(enemy.Cell, playerEntity.Cell);
+                int d = entity.Level.Distance(enemy.Cell, entity.Cell);
                 if (d < distance)
                 {
                     distance = d;
@@ -292,10 +292,10 @@ namespace Pantheon.Core
             }
 
             Cell cell = target.Cell;
-            List<Cell> line = Bresenhams.GetLine(playerEntity.Level, playerEntity.Cell, cell);
-            List<Cell> path = playerEntity.Level.GetPathTo(playerEntity.Cell, cell);
+            List<Cell> line = Bresenhams.GetLine(entity.Level, entity.Cell, cell);
+            List<Cell> path = entity.Level.GetPathTo(entity.Cell, cell);
 
-            if (playerEntity.TryGetComponent(out Wield wield))
+            if (entity.TryGetComponent(out Wield wield))
             {
                 Entity[] evocables = wield.GetEvocables();
                 if (evocables.Length > 0)
@@ -303,7 +303,7 @@ namespace Pantheon.Core
                     Talent talent = evocables[0].GetComponent<Evocable>().Talents[0];
                     if (talent.Range >= distance)
                     {
-                        EvokeCommand cmd = new EvokeCommand(playerEntity, evocables[0])
+                        EvokeCommand cmd = new EvokeCommand(entity, evocables[0])
                         {
                             Cell = cell,
                             Line = line,
@@ -314,10 +314,10 @@ namespace Pantheon.Core
                 }
             }
 
-            if (!playerEntity.Level.AdjacentTo(playerEntity.Cell, cell))
+            if (!entity.Level.AdjacentTo(entity.Cell, cell))
             {
                 if (path.Count > 0)
-                    return new MoveCommand(playerEntity, path[0]);
+                    return new MoveCommand(entity, path[0]);
                 else
                 {
                     Locator.Log.Send(
@@ -327,7 +327,7 @@ namespace Pantheon.Core
                 }
             }
 
-            return new MeleeCommand(playerEntity, cell);
+            return new MeleeCommand(entity, cell);
         }
 
         public InputMode RequestCell(out Cell cell, int range)

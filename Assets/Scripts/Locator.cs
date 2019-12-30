@@ -11,6 +11,6 @@ namespace Pantheon
         public static IGameLog Log { get; set; }
         public static IAssetLoader Loader { get; set; }
         public static ITurnScheduler Scheduler { get; set; }
-        public static IPlayerControl Player { get; set; }
+        public static IPlayer Player { get; set; }
     }
 }

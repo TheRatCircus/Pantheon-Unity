@@ -68,7 +68,7 @@ namespace Pantheon.Debug
             {
                 Entity entity = new Entity(template);
                 entity.Move(ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell);
-                FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.Player.Cell, true);
+                FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Cell, true);
                 return $"Spawned {entity} at {ctrl.Cursor.HoveredCell}.";
             }
         }
@@ -129,7 +129,7 @@ namespace Pantheon.Debug
 
         public static string ToggleIdolMode(string[] args, GameController ctrl)
         {
-            Health health = ctrl.Player.GetComponent<Health>();
+            Health health = ctrl.PC.GetComponent<Health>();
 
             if (!health.Invincible)
             {
@@ -148,8 +148,8 @@ namespace Pantheon.Debug
             Cell cell = ctrl.Cursor.HoveredCell;
             if (Cell.Walkable(cell))
             {
-                ctrl.Player.Move(ctrl.Player.Level, cell);
-                FOV.RefreshFOV(ctrl.Player.Level, ctrl.Player.Cell, true);
+                ctrl.PC.Move(ctrl.PC.Level, cell);
+                FOV.RefreshFOV(ctrl.PC.Level, ctrl.PC.Cell, true);
                 return $"Teleported player to {cell}.";
             }
             else
@@ -176,7 +176,7 @@ namespace Pantheon.Debug
                     ai.Strategy = new SleepStrategy();
                     return $"Changed strategy of {ai.Entity} to Sleep.";
                 case "thrallfollow":
-                    ai.Strategy = new ThrallFollowStrategy(ctrl.Player.GetComponent<Actor>());
+                    ai.Strategy = new ThrallFollowStrategy(ctrl.PC.GetComponent<Actor>());
                     return $"Changed strategy of {ai.Entity} to Thrall Follow.";
                 default:
                     return $"Strategy {args[0]} does not exist.";
@@ -187,7 +187,7 @@ namespace Pantheon.Debug
         {
             Entity relic = Gen.Relic.MakeRelic();
             relic.Move(ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell);
-            FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.Player.Cell, true);
+            FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Cell, true);
             return $"Spawned {relic} at {ctrl.Cursor.HoveredCell}.";
         }
 
@@ -212,7 +212,7 @@ namespace Pantheon.Debug
             if (!ctrl.Cursor.HoveredCell.Actor.TryGetComponent(out AI ai))
                 return "Entity in selected cell has no AI.";
 
-            ai.Strategy = new ThrallFollowStrategy(ctrl.Player.GetComponent<Actor>());
+            ai.Strategy = new ThrallFollowStrategy(ctrl.PC.GetComponent<Actor>());
             return $"Changed strategy of {ai.Entity} to Thrall Follow.";
         }
     }

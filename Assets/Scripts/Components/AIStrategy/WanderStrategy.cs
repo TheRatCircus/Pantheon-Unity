@@ -22,7 +22,7 @@ namespace Pantheon.Components
         {
             if (ai.Entity.Cell.Visible) // Detect player and begin approach
             {
-                ai.Strategy = new DefaultStrategy(Locator.Player.PlayerEntity);
+                ai.Strategy = new DefaultStrategy(Locator.Player.Entity);
                 Locator.Log.Send(
                     $"{ai.Entity.ToSubjectString(true)} notices you!",
                     Colours._orange);

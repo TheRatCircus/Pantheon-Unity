@@ -8,7 +8,6 @@ using Pantheon.SaveLoad;
 using Pantheon.UI;
 using Pantheon.Utils;
 using Pantheon.World;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cursor = Pantheon.UI.Cursor;
@@ -36,7 +35,7 @@ namespace Pantheon.Core
         public Cursor Cursor => cursor;
         [SerializeField] private GameLog log = default;
         public GameLog Log => log;
-        public PlayerControl PlayerControl { get; private set; }
+        public Player Player { get; private set; }
 
         public GameWorld World { get; private set; }
         public AssetLoader Loader { get; private set; }
@@ -45,10 +44,10 @@ namespace Pantheon.Core
         private SaveWriterReader saveSystem;
 
         public GameState State { get; private set; } = GameState.Default;
-        public Entity Player
+        public Entity PC
         {
-            get => PlayerControl.PlayerEntity;
-            set => PlayerControl.PlayerEntity = value;
+            get => Player.Entity;
+            set => Player.Entity = value;
         }
 
         public event System.Action<Level> LevelChangeEvent;
@@ -59,8 +58,8 @@ namespace Pantheon.Core
             Locator.Loader = Loader;
             Scheduler = GetComponent<TurnScheduler>();
             Locator.Scheduler = Scheduler;
-            PlayerControl = GetComponent<PlayerControl>();
-            Locator.Player = PlayerControl;
+            Player = GetComponent<Player>();
+            Locator.Player = Player;
             Locator.Log = Log;
         }
 
@@ -82,9 +81,9 @@ namespace Pantheon.Core
             Entity player = Spawn.SpawnActor(template, level, level.RandomCell(true));
             player.DestroyedEvent += OnPlayerDeath;
 
-            Player = player;
+            PC = player;
 
-            hud.Initialize(Scheduler, Player, level, LevelChangeEvent);
+            hud.Initialize(Scheduler, PC, level, LevelChangeEvent);
             LoadLevel(level, true);
             MoveCameraTo(player.GameObjects[0].transform);
             cursor.Level = level;
@@ -99,13 +98,13 @@ namespace Pantheon.Core
             World = save.World;
             Generator = save.Generator;
             Generator.Loader = Loader;
-            Player = save.Player;
-            Player.DestroyedEvent += OnPlayerDeath;
+            PC = save.Player;
+            PC.DestroyedEvent += OnPlayerDeath;
 
-            hud.Initialize(Scheduler, Player, World.ActiveLevel, LevelChangeEvent);
-            LoadLevel(Player.Level, false);
-            MoveCameraTo(Player.GameObjects[0].transform);
-            cursor.Level = Player.Level;
+            hud.Initialize(Scheduler, PC, World.ActiveLevel, LevelChangeEvent);
+            LoadLevel(PC.Level, false);
+            MoveCameraTo(PC.GameObjects[0].transform);
+            cursor.Level = PC.Level;
         }
 
         private void Update()
@@ -131,7 +130,7 @@ namespace Pantheon.Core
             level.AssignGameObject(Instantiate(levelPrefab, worldTransform).transform);
 
             if (refreshFOV)
-                FOV.RefreshFOV(level, Player.Cell, false);
+                FOV.RefreshFOV(level, PC.Cell, false);
 
             foreach (Cell c in level.Map)
             {
@@ -186,13 +185,13 @@ namespace Pantheon.Core
 
         private void SaveGame()
         {
-            Save save = new Save(Player.Name, World, Generator, Player);
+            Save save = new Save(PC.Name, World, Generator, PC);
             saveSystem.WriteSave(save);
         }
 
         private void OnPlayerDeath()
         {
-            PlayerControl.enabled = false;
+            Player.enabled = false;
             State = GameState.PlayerDead;
         }
 
