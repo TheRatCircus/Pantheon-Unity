@@ -6,6 +6,7 @@ using Pantheon.Components;
 using Pantheon.Content;
 using Pantheon.Utils;
 using System;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -202,7 +203,10 @@ namespace Pantheon.Gen
                 case 9: // Baseitem of Noun
                     {
                         string noun = tokens.Random().Split(',')[0];
-                        comp.Name = $"{relic.Flyweight.EntityName} of {noun}";
+                        string basic = 
+                            relic.Flyweight.EntityName.First().ToString().ToUpper() + 
+                            relic.Flyweight.EntityName.Substring(1);
+                        comp.Name = $"{basic} of {noun}";
                         break;
                     }
                 default: // The Noun of Name
