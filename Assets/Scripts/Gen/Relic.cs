@@ -206,7 +206,7 @@ namespace Pantheon.Gen
                         string basic = 
                             relic.Flyweight.EntityName.First().ToString().ToUpper() + 
                             relic.Flyweight.EntityName.Substring(1);
-                        comp.Name = $"{basic} of {noun}";
+                        comp.Name = $"The {basic} of {noun}";
                         break;
                     }
                 default: // The Noun of Name
