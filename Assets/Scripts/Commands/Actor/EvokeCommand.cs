@@ -35,9 +35,7 @@ namespace Pantheon.Commands.Actor
                 else
                     result = evoc.Evoke(Entity, 0);
 
-                if (result == CommandResult.InProgress ||
-                    result == CommandResult.Failed ||
-                    result == CommandResult.Cancelled)
+                if (result != CommandResult.Succeeded)
                     cost = -1;
                 else
                     cost = evoc.EvokeTime;

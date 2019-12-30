@@ -22,9 +22,7 @@ namespace Pantheon.Commands.Actor
             else
             {
                 CommandResult result = onUse.Invoke(Entity);
-                if (result == CommandResult.InProgress ||
-                    result == CommandResult.Failed ||
-                    result == CommandResult.Cancelled)
+                if (result != CommandResult.Succeeded)
                     cost = -1;
                 else
                     cost = onUse.UseTime;
