@@ -12,5 +12,6 @@ namespace Pantheon.Core
         EntityTemplate LoadTemplate(string name);
         SpeciesDefinition LoadSpeciesDef(string name);
         BodyPart LoadBodyPart(string name);
+        bool AssetExists(string name);
     }
 }

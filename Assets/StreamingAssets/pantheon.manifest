@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2249051512
+CRC: 2237377879
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: eebe7a1860d8083611d496564aed4588
+    Hash: 9ad0ff4b99bfd97ca26e7195c1ae044f
   TypeTreeHash:
     serializedVersion: 2
-    Hash: c8be798ca30e242f5ddc31fbe7e31db9
+    Hash: f4e975e0b536c3db41e1befbfdb1812b
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -30,6 +30,8 @@ ClassTypes:
 - Class: 83
   Script: {instanceID: 0}
 - Class: 114
+  Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
+- Class: 114
   Script: {fileID: 11500000, guid: b528da40e02f341499308298e077ae3a, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
@@ -39,6 +41,8 @@ ClassTypes:
   Script: {fileID: 11500000, guid: b5bc4584c6f41714ca6a3cc1c568d2c2, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 77361cca67bf70d4fb5a2a3bf6ec4dd7, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: d94c7c62b7037f44999b9769faf66a83, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 198
@@ -48,6 +52,8 @@ ClassTypes:
 - Class: 212
   Script: {instanceID: 0}
 - Class: 213
+  Script: {instanceID: 0}
+- Class: 1839735485
   Script: {instanceID: 0}
 Assets:
 - Assets/Sprites/Item/Sprite_Grenade.png
@@ -98,6 +104,7 @@ Assets:
 - Assets/Content/Templates/NPC/RagingGoose.json
 - Assets/Sprites/Actor/Sprite_GenericNPC.png
 - Assets/Prefabs/FX/FX_Toss.prefab
+- Assets/Content/Vaults/Vault_Keep.asset
 - Assets/Content/Species/Species_Coyote.json
 - Assets/Content/Terrain/Terrain_StoneFloor.asset
 - Assets/Content/BuilderPlans/Plan_Subterrane.json

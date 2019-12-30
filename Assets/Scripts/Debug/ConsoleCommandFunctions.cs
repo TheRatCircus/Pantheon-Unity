@@ -1,7 +1,6 @@
 ﻿// ConsoleCommandFunctions.cs
 // Jerome Martina
 
-using Pantheon.Commands.NonActor;
 using Pantheon.Components;
 using Pantheon.Content;
 using Pantheon.Core;
@@ -214,6 +213,23 @@ namespace Pantheon.Debug
 
             ai.Strategy = new ThrallFollowStrategy(ctrl.PC.GetComponent<Actor>());
             return $"Changed strategy of {ai.Entity} to Thrall Follow.";
+        }
+
+        public static string Vault(string[] args, GameController ctrl)
+        {
+            if (!Locator.Loader.AssetExists(args[0]))
+                return $"Vault {args[0]} does not exist.";
+
+            string ret;
+            
+            if (!Gen.Vault.Build(args[0], ctrl.World.ActiveLevel,
+                ctrl.Cursor.HoveredCell.Position))
+                ret = $"Failed to build vault {args[0]} at {ctrl.Cursor.HoveredCell.Position}.";
+            else
+                ret = $"Successfully built vault {args[0]} at {ctrl.Cursor.HoveredCell.Position}.";
+
+            FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Cell, true);
+            return ret;
         }
     }
 }

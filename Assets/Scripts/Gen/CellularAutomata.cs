@@ -108,7 +108,7 @@ namespace Pantheon.Gen
                 attempts++;
 
             } while (cavern.Count < threshold);
-            UnityEngine.Debug.Log("Cavern of " + cavern.Count + " found.");
+            
             foreach (Cell cell in level.CellsInRect(rect))
                 if (!cell.Blocked && !cavern.Contains(cell))
                     cell.Terrain = wall;
