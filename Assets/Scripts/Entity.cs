@@ -221,7 +221,9 @@ namespace Pantheon
 
         public string ToSubjectString(bool sentenceStart)
         {
-            if (TryGetComponent(out Actor actor))
+            if (TryGetComponent(out Relic relic))
+                return relic.Name;
+            else if (TryGetComponent(out Actor actor))
             {
                 if (actor.Control == ActorControl.Player)
                     return sentenceStart ? "You" : "you";
@@ -238,6 +240,12 @@ namespace Pantheon
             DestroyedEvent = null;
         }
 
-        public override string ToString() => Name;
+        public override string ToString()
+        {
+            if (TryGetComponent(out Relic relic))
+                return relic.Name;
+            else
+                return Name;
+        }
     }
 }

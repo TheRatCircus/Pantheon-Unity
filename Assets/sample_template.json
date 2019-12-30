@@ -13,7 +13,8 @@
     {
       "$type": "AI",
       "Strategy": {
-        "$type": "DefaultStrategy"
+        "$type": "DefaultStrategy",
+        "Target": null
       }
     },
     {
@@ -21,13 +22,23 @@
       "Type": 2,
       "Damages": [
         {
-          "Type": 2,
+          "Type": "Piercing",
           "Min": 3,
           "Max": 7
         }
       ],
       "OnLandCommand": {
         "$type": "ExplodeCommand",
+        "Damages": [
+          {
+            "Type": "Searing",
+            "Min": 3,
+            "Max": 7
+          }
+        ],
+        "Pattern": "Square",
+        "Prefab": "FX_Shrapnel",
+        "Sound": null,
         "Cell": null,
         "Line": null,
         "Entity": null
@@ -64,7 +75,7 @@
           "Range": 1,
           "Damages": [
             {
-              "Type": 1,
+              "Type": "Slashing",
               "Min": 2,
               "Max": 5
             }
@@ -83,6 +94,10 @@
       "UseTime": 100
     },
     {
+      "$type": "Relic",
+      "Name": "Orb of Zot"
+    },
+    {
       "$type": "Size",
       "Value": 1
     },
@@ -99,7 +114,8 @@
       "Items": [
         null,
         null
-      ]
+      ],
+      "Wielding": false
     }
   ]
 }

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using Relic = Pantheon.Components.Relic;
 
 namespace PantheonEditor
 {
@@ -84,6 +85,7 @@ namespace PantheonEditor
                         }, 80, 120)),
                 new OnDamageTaken(),
                 new OnUse(TurnScheduler.TurnTime),
+                new Relic() { Name = "Orb of Zot" },
                 new Size(1),
                 new Species(null),
                 new Weight(50),
@@ -105,6 +107,7 @@ namespace PantheonEditor
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
+                    new GameObjectConverter(),
                     new SpriteConverter(),
                     new TileConverter(),
                     new RuleTileConverter(),

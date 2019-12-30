@@ -1,0 +1,37 @@
+{
+  "ID": "Myth_MotherOfPearl",
+  "EntityName": "Mother of Pearl",
+  "Sprite": "Sprite_Prejudice",
+  "Tile": null,
+  "Components": [
+    {
+      "$type": "Melee",
+      "Attacks": [
+        {
+          "Range": 1,
+          "Damages": [
+            {
+              "Type": "Bludgeoning",
+              "Min": 2,
+              "Max": 5
+            }
+          ],
+          "Accuracy": 80,
+          "Time": 120
+        }
+      ]
+    },
+    {
+      "$type": "Relic",
+      "Name": "Mother of Pearl"
+    },
+    {
+      "$type": "Size",
+      "Value": 2
+    },
+    {
+      "$type": "Weight",
+      "Value": 50
+    }
+  ]
+}

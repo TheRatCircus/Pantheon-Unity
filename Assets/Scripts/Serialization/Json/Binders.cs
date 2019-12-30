@@ -6,6 +6,7 @@ using Pantheon.Components;
 using Pantheon.Gen;
 using System;
 using System.Collections.Generic;
+using Relic = Pantheon.Components.Relic;
 
 namespace Pantheon.Serialization.Json
 {
@@ -37,6 +38,7 @@ namespace Pantheon.Serialization.Json
                     typeof(Melee),
                     typeof(OnDamageTaken),
                     typeof(OnUse),
+                    typeof(Relic),
                     typeof(Size),
                     typeof(Species),
                     typeof(Weight),

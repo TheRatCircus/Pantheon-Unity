@@ -34,7 +34,7 @@ namespace Pantheon.Commands.Actor
             cost = Core.TurnScheduler.TurnTime;
             if (player)
                 Locator.Log.Send(
-                    $"You pick up a {item}.",
+                    $"You pick up {item.ToSubjectString(false)}.",
                     Color.grey);
             return CommandResult.Succeeded;
         }
