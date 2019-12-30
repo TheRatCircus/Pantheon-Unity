@@ -4,7 +4,6 @@
 using Pantheon.Utils;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using ActorComp = Pantheon.Components.Actor;
 
@@ -54,6 +53,9 @@ namespace Pantheon.Commands.NonActor
                 delegate (Entity e)
                 {
                     if (e == null)
+                        return false;
+
+                    if (!e.Cell.Visible)
                         return false;
 
                     if (!e.TryGetComponent(out ActorComp actor))

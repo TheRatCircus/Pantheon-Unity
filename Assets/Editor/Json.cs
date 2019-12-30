@@ -1,4 +1,4 @@
-﻿// SampleJSON.cs
+﻿// Json.cs
 // Jerome Martina
 
 using Newtonsoft.Json;
@@ -17,9 +17,19 @@ using UnityEngine;
 
 namespace PantheonEditor
 {
-    public static class SampleJSON
+    public static class Json
     {
-        [MenuItem("Assets/Pantheon/Sample JSON/Template")]
+        [MenuItem("Assets/Pantheon/JSON/New File")]
+        private static void NewFile()
+        {
+            string dataPath = Application.dataPath;
+            dataPath = dataPath.Substring(0, dataPath.LastIndexOf("Assets"));
+            string path = dataPath + AssetDatabase.GetAssetPath(Selection.activeObject);
+            File.Create(path + $"/new.json").Close();
+            AssetDatabase.Refresh();
+        }
+
+        [MenuItem("Assets/Pantheon/JSON/Sample/Template")]
         private static void GenerateSampleTemplate()
         {
             GameObject mockGo = new GameObject();
@@ -104,11 +114,11 @@ namespace PantheonEditor
             };
 
             File.AppendAllText(path, JsonConvert.SerializeObject(template, settings));
-
+            AssetDatabase.Refresh();
             Debug.Log($"Wrote sample template with all components to {path}.");
         }
 
-        [MenuItem("Assets/Pantheon/Sample JSON/Builder Plan")]
+        [MenuItem("Assets/Pantheon/JSON/Sample/Builder Plan")]
         private static void GenerateSamplePlan()
         {
             BuilderPlan plan = new BuilderPlan
@@ -137,7 +147,7 @@ namespace PantheonEditor
             };
 
             File.AppendAllText(path, JsonConvert.SerializeObject(plan, settings));
-
+            AssetDatabase.Refresh();
             Debug.Log($"Wrote sample plan with all possible steps to {path}.");
         }
     }
