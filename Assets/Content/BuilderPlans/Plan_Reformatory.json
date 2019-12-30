@@ -1,0 +1,14 @@
+{
+  "ID": "Plan_Subterrane",
+  "Steps": [
+    {
+      "$type": "Fill",
+      "terrain": "Terrain_StoneWall"
+    },
+    {
+      "$type": "BinarySpacePartition",
+      "minRoomSize": 10,
+      "terrain": "Terrain_StoneFloor"
+    }
+  ]
+}

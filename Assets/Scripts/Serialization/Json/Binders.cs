@@ -20,7 +20,8 @@ namespace Pantheon.Serialization.Json
                 {
                     // Steps
                     typeof(Fill),
-                    typeof(RandomFill)
+                    typeof(RandomFill),
+                    typeof(BinarySpacePartition)
                 }
             };
 

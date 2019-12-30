@@ -26,6 +26,14 @@ namespace Pantheon.Utils
             return UnityRandom.Range(0, x + 1) == x;
         }
 
+        /// <summary>
+        /// UnityEngine.Random.Range, but inclusive for readability.
+        /// </summary>
+        public static int RangeInclusive(int min, int max)
+            => UnityRandom.Range(min, max + 1);
+
+        public static bool CoinFlip() => UnityRandom.Range(0, 2) == 0;
+
         public static TEnum EnumRandom<TEnum>()
             where TEnum : struct, IConvertible, IComparable, IFormattable
         {

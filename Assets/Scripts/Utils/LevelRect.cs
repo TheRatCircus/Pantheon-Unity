@@ -10,7 +10,7 @@ namespace Pantheon
     /// <summary>
     /// An abstract rectangle in world space.
     /// </summary>
-    public sealed class LevelRect
+    public class LevelRect
     {
         public int x1, x2, y1, y2;
 

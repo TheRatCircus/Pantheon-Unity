@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3036384893
+CRC: 2892565016
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 1d3319499f35bef0114e95157654c906
+    Hash: 6afd8fcda6d40c5cff8c98cc37f0b4b2
   TypeTreeHash:
     serializedVersion: 2
     Hash: c8be798ca30e242f5ddc31fbe7e31db9
@@ -52,6 +52,7 @@ ClassTypes:
 Assets:
 - Assets/Sprites/Item/Sprite_Grenade.png
 - Assets/Sprites/Item/Sprite_Cuirass.png
+- Assets/Content/BuilderPlans/Plan_Reformatory.json
 - Assets/CharacterNames.txt
 - Assets/Audio/SFX_Toss.ogg
 - Assets/Sprites/Item/Sprite_Dagger.png

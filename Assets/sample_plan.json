@@ -9,6 +9,11 @@
       "$type": "RandomFill",
       "percent": 40,
       "terrain": "Terrain_StoneWall"
+    },
+    {
+      "$type": "BinarySpacePartition",
+      "minRoomSize": 10,
+      "terrain": "Terrain_StoneWall"
     }
   ]
 }
