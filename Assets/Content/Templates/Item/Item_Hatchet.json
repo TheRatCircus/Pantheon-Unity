@@ -1,0 +1,25 @@
+{
+  "ID": "Item_Hatchet",
+  "EntityName": "hatchet",
+  "Sprite": "Sprite_Hatchet",
+  "Tile": null,
+  "Components": [
+	{
+      "$type": "Melee",
+      "Attacks": [
+        {
+          "Range": 1,
+          "Damages": [
+            {
+              "Type": 1,
+              "Min": 4,
+              "Max": 8
+            }
+          ],
+          "Accuracy": 80,
+          "Time": 120
+        }
+      ]
+    }
+  ]
+}

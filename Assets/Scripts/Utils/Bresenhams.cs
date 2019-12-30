@@ -10,9 +10,9 @@ namespace Pantheon.Utils
     public static class Bresenhams
     {
         // Plot a path via Bresenham's Line Algorithm
-        public static List<Cell> GetLine(Level level, Cell origin, Cell target)
+        public static Line GetLine(Level level, Cell origin, Cell target)
         {
-            List<Cell> ret = new List<Cell>();
+            Line ret = new Line();
 
             bool Plot(int cellX, int cellY)
             {

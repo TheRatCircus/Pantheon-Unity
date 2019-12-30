@@ -10,6 +10,17 @@ namespace Pantheon.Gen
             "Item_Sceptre"
         };
 
+        public static readonly string[] basicTossingWeapons = new string[]
+        {
+            "Item_Dagger",
+            "Item_Hatchet"
+        };
+
+        public static readonly string[] basicMagicWeapons = new string[]
+        {
+            "Item_Sceptre"
+        };
+
         public static readonly string[] explosionFXIDs = new string[]
         {
             "FX_Shrapnel"

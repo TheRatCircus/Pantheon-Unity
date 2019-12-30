@@ -1,0 +1,25 @@
+{
+  "ID": "Item_Dagger",
+  "EntityName": "dagger",
+  "Sprite": "Sprite_Dagger",
+  "Tile": null,
+  "Components": [
+	{
+      "$type": "Melee",
+      "Attacks": [
+        {
+          "Range": 1,
+          "Damages": [
+            {
+              "Type": 1,
+              "Min": 2,
+              "Max": 5
+            }
+          ],
+          "Accuracy": 80,
+          "Time": 100
+        }
+      ]
+    }
+  ]
+}

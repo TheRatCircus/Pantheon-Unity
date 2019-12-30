@@ -213,6 +213,62 @@ namespace Pantheon.World
             return null;
         }
 
+        /// <summary>
+        /// Enumerate all entities in an area by distance to an origin.
+        /// </summary>
+        /// <param name="origin"></param>
+        /// <param name="radius"></param>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        public List<Entity> FindBySpiral(Cell origin, int radius, Predicate<Entity> condition)
+        {
+            // Be aware that no null checks are performed on cell entities
+            // so that the predicate can take nulls into account
+            List<Entity> ret = new List<Entity>();
+            Cell c = origin;
+            if (condition(c.Actor))
+                ret.Add(c.Actor);
+
+            for (int i = 0; i < radius; i++)
+            {
+                int j = i + 1;
+                int k = j + 1;
+
+                c = Translate(c, 0, 1); // Up
+                if (condition(c.Actor))
+                    ret.Add(c.Actor);
+
+                for (int right = 0; right < (i + j); right++)
+                {
+                    c = Translate(c, 1, 0);
+                    if (condition(c.Actor))
+                        ret.Add(c.Actor);
+                }
+
+                for (int down = 0; down < (i + k); down++)
+                {
+                    c = Translate(c, 0, -1);
+                    if (condition(c.Actor))
+                        ret.Add(c.Actor);
+                }
+
+                for (int left = 0; left < (i + k); left++)
+                {
+                    c = Translate(c, -1, 0);
+                    if (condition(c.Actor))
+                        ret.Add(c.Actor);
+                }
+
+                for (int up = 0; up < (i + k); up++)
+                {
+                    c = Translate(c, 0, 1);
+                    if (condition(c.Actor))
+                        ret.Add(c.Actor);
+                }
+            }
+            return ret;
+        }
+
         public Cell RandomCell(bool open)
         {
             Cell cell;

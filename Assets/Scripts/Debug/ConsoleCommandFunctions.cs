@@ -185,14 +185,23 @@ namespace Pantheon.Debug
 
         public static string Relic(string[] args, GameController ctrl)
         {
-            Inventory inv = ctrl.Player.GetComponent<Inventory>();
-            if (inv.Items.Count < 1)
-                return "No items in inventory to make into relics.";
+            Entity relic = Gen.Relic.MakeRelic();
+            relic.Move(ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell);
+            FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.Player.Cell, true);
+            return $"Spawned {relic} at {ctrl.Cursor.HoveredCell}.";
+        }
 
-            Entity item = inv.Items[0];
-            Gen.Relic.MakeRelic(item);
+        public static string MakeIntoRelic(string[] args, GameController ctrl)
+        {
+            throw new NotImplementedException();
 
-            return $"Made relic: {item}.";
+            //Inventory inv = ctrl.Player.GetComponent<Inventory>();
+            //if (inv.Items.Count < 1)
+            //    return "No items in inventory to make into relics.";
+
+            //Entity item = inv.Items[0];
+            
+            //return $"Made relic: {item}.";
         }
 
         public static string Enthrall(string[] args, GameController ctrl)

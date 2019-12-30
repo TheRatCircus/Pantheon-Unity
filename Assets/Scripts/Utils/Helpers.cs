@@ -300,5 +300,28 @@ namespace Pantheon.Utils
 
             return ret;
         }
+
+        /// <summary>
+        /// Get the number of cells in a spiral.
+        /// </summary>
+        /// <param name="r"></param>
+        /// <returns></returns>
+        public static int SpiralCount(int r)
+        {
+            int ret = 1;
+            for (int i = 1; i < r; i++)
+            {
+                ret += (8 * i);
+            }
+            return ret;
+        }
+
+        public static T ElementAtOrLast<T>(this IList<T> list, int i)
+        {
+            if (i < list.Count)
+                return list[i];
+            else
+                return list[list.Count - 1];
+        }
     }
 }

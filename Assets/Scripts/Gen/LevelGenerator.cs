@@ -78,14 +78,19 @@ namespace Pantheon.Gen
             while (points > 0)
             {
                 Cell cell = level.RandomCell(true);
-                EntityTemplate basic = Loader.LoadTemplate(Tables.basicItems.Random());
-                Entity item = new Entity(basic);
-                item.Move(level, cell);
+                Entity item;
                 if (RandomUtils.OneChanceIn(3)) // Relic
                 {
-                    Relic.MakeRelic(item);
+                    item = Relic.MakeRelic();
                     points -= 9; // Relics take a total of 10 points
                 }
+                else
+                {
+                    EntityTemplate basic = Loader.LoadTemplate(Tables.basicItems.Random());
+                    item = new Entity(basic);
+                }
+                
+                item.Move(level, cell);
                 points--;
             }
         }

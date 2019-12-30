@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2979341085
+CRC: 218421144
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 54db53e42041b81638a2e24d0611a283
+    Hash: 495f16c4fad2f541bdc8d10fdcfd1684
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 0cc025ecaf5bbb829548b2703b5ff808
+    Hash: c8be798ca30e242f5ddc31fbe7e31db9
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -25,8 +25,12 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 61
   Script: {instanceID: 0}
+- Class: 82
+  Script: {instanceID: 0}
 - Class: 83
   Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: b528da40e02f341499308298e077ae3a, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
 - Class: 114
@@ -64,10 +68,12 @@ Assets:
 - Assets/Content/BodyParts/Human/Part_Human_Arms.json
 - Assets/Content/BodyParts/Coyote/Part_Coyote_Head.json
 - Assets/Content/BodyParts/Coyote/Part_Canine_Teeth.json
+- Assets/Content/Templates/Item/Item_Dagger.json
 - Assets/Sprites/Item/Sprite_Hatchet.png
 - Assets/Content/BodyParts/Goose/Part_Goose_Legs.json
 - Assets/Sprites/Item/Sprite_Flask.png
 - Assets/Prefabs/FX/FX_Shrapnel.prefab
+- Assets/Content/Templates/Item/Item_Hatchet.json
 - Assets/Sprites/Item/Sprite_Scroll.png
 - Assets/Sprites/Actor/Sprite_Player.png
 - Assets/Sprites/Actor/Sprite_Swine.png
@@ -89,6 +95,7 @@ Assets:
 - Assets/Sprites/Actor/Sprite_Coyote.png
 - Assets/Content/Templates/NPC/RagingGoose.json
 - Assets/Sprites/Actor/Sprite_GenericNPC.png
+- Assets/Prefabs/FX/FX_Toss.prefab
 - Assets/Content/Species/Species_Coyote.json
 - Assets/Content/Terrain/Terrain_StoneFloor.asset
 - Assets/Content/BuilderPlans/Plan_Subterrane.json
