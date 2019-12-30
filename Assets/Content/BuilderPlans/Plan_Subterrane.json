@@ -2,13 +2,10 @@
   "ID": "Plan_Subterrane",
   "Steps": [
     {
-      "$type": "Fill",
-      "terrain": "Terrain_StoneFloor"
-    },
-    {
-      "$type": "RandomFill",
-      "percent": 25,
-      "terrain": "Terrain_StoneWall"
+      "$type": "CellularAutomata",
+      "wall": "Terrain_StoneWall",
+      "floor": "Terrain_StoneFloor",
+      "percentWalls": 45
     }
   ]
 }

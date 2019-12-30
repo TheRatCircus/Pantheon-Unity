@@ -19,9 +19,10 @@ namespace Pantheon.Serialization.Json
                 KnownTypes = new List<Type>()
                 {
                     // Steps
+                    typeof(BinarySpacePartition),
+                    typeof(CellularAutomata),
                     typeof(Fill),
                     typeof(RandomFill),
-                    typeof(BinarySpacePartition)
                 }
             };
 

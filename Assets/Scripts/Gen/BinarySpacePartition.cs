@@ -1,5 +1,5 @@
 ﻿// BinarySpacePartition.cs
-// Jerome Martina
+// Courtesy of Timothy Hely
 
 using Newtonsoft.Json;
 using Pantheon.Content;

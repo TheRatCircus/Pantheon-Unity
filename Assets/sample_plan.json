@@ -2,17 +2,23 @@
   "ID": "DEFAULT_PLAN_ID",
   "Steps": [
     {
+      "$type": "BinarySpacePartition",
+      "minRoomSize": 10,
+      "terrain": "Terrain_StoneWall"
+    },
+    {
+      "$type": "CellularAutomata",
+      "wall": "Terrain_StoneWall",
+      "floor": "Terrain_StoneFloor",
+      "percentWalls": 45
+    },
+    {
       "$type": "Fill",
       "terrain": "Terrain_StoneFloor"
     },
     {
       "$type": "RandomFill",
       "percent": 40,
-      "terrain": "Terrain_StoneWall"
-    },
-    {
-      "$type": "BinarySpacePartition",
-      "minRoomSize": 10,
       "terrain": "Terrain_StoneWall"
     }
   ]
