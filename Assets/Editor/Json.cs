@@ -10,6 +10,7 @@ using Pantheon.Core;
 using Pantheon.Gen;
 using Pantheon.Serialization.Json;
 using Pantheon.Serialization.Json.Converters;
+using Pantheon.Utils;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -132,6 +133,11 @@ namespace PantheonEditor
                     new CellularAutomata("Terrain_StoneWall", "Terrain_StoneFloor", 45),
                     new Fill("Terrain_StoneFloor"),
                     new RandomFill("Terrain_StoneWall", 40),
+                },
+                Population = new GenericRandomPick<string>[]
+                {
+                    new GenericRandomPick<string>(512, "Coyote"),
+                    new GenericRandomPick<string>(512, "RagingGoose")
                 }
             };
 
@@ -153,7 +159,7 @@ namespace PantheonEditor
 
             File.AppendAllText(path, JsonConvert.SerializeObject(plan, settings));
             AssetDatabase.Refresh();
-            Debug.Log($"Wrote sample plan with all possible steps to {path}.");
+            Debug.Log($"Wrote sample builder plan to {path}.");
         }
     }
 }

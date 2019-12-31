@@ -5,6 +5,7 @@ using System;
 
 namespace Pantheon.Utils
 {
+    [Serializable]
     public struct GenericRandomPick<T>
     {
         public readonly int Weight; // 0...512

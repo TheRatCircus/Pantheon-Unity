@@ -1,6 +1,9 @@
 ﻿// LevelGenerator.cs
 // Jerome Martina
 
+#define DEBUG_LEVELGEN
+#undef DEBUG_LEVELGEN
+
 using Pantheon.Content;
 using Pantheon.Core;
 using Pantheon.Utils;
@@ -54,6 +57,8 @@ namespace Pantheon.Gen
                 InitializeMap(level, 200, 200);
                 foreach (BuilderStep step in builder.Plan.Steps)
                     step.Run(level);
+                if (builder.Plan.Population != null)
+                    PopulateNPCs(builder.Plan, level);
                 PopulateItems(level);
                 level.Initialize();
                 LayerLevelBuilders.Remove(pos);
@@ -70,6 +75,37 @@ namespace Pantheon.Gen
             for (; x < sizeX; x++)
                 for (int y = 0; y < sizeY; y++)
                     level.Map[x, y] = new Cell(new Vector2Int(x, y));
+        }
+
+        private void PopulateNPCs(BuilderPlan plan, Level level)
+        {
+            int minSpawns = level.Map.Length / 100;
+            int maxSpawns = level.Map.Length / 90;
+
+            int numSpawns = UnityEngine.Random.Range(minSpawns, maxSpawns);
+
+            for (int i = 0; i < numSpawns; i++)
+            {
+                string id = GenericRandomPick<string>.Pick(plan.Population);
+                EntityTemplate template = Locator.Loader.LoadTemplate(id);
+
+                Cell cell;
+                int attempts = 0;
+                do
+                {
+                    if (attempts > 100)
+                        throw new Exception
+                            ($"No valid NPC spawn position found after " +
+                            $"{attempts} tries.");
+
+                    cell = level.RandomCell(true);
+                    attempts++;
+
+                } while (!Cell.Walkable(cell));
+
+                Spawn.SpawnActor(template, level, cell);
+            }
+            DebugLogGeneration($"Spawned {numSpawns} enemies in {level}.");
         }
 
         private void PopulateItems(Level level)
@@ -93,6 +129,12 @@ namespace Pantheon.Gen
                 item.Move(level, cell);
                 points--;
             }
+        }
+
+        [System.Diagnostics.Conditional("DEBUG_LEVELGEN")]
+        private void DebugLogGeneration(string msg)
+        {
+            UnityEngine.Debug.Log(msg);
         }
     }
 }

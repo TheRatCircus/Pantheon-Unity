@@ -30,7 +30,7 @@ namespace Pantheon.Components
 
         private void ClearTarget()
         {
-            Target.DestroyedEvent -= ClearTarget;
+            //Target.DestroyedEvent -= ClearTarget;
             Target = null;
         }
 
