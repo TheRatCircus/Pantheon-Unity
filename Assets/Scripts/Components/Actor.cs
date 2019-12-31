@@ -72,6 +72,12 @@ namespace Pantheon.Components
         {
             if (Control == ActorControl.AI)
             {
+                // Random energy
+                int r = UnityEngine.Random.Range(0, 21);
+                if (r >= 18)
+                    Energy += Speed / 10;
+                else if (r <= 2)
+                    Energy -= Speed / 10;
                 AIDecisionEvent?.Invoke();
             }
 

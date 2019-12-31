@@ -36,13 +36,6 @@ namespace Pantheon.Components
 
         public override ActorCommand Decide(AI ai)
         {
-            // Random energy
-            int r = Random.Range(0, 21);
-            if (r >= 18)
-                ai.Actor.Energy += ai.Actor.Speed / 10;
-            else if (r <= 2)
-                ai.Actor.Energy -= ai.Actor.Speed / 10;
-
             if (Target != null) // Player detected
             {
                 Cell targetCell = Target.Cell;
