@@ -18,6 +18,7 @@ namespace Pantheon
         [SerializeField] private bool pierces;
 
         private Entity sender;
+        private Line line;
         private Cell target;
         private Entity[] debris;
 
@@ -26,6 +27,7 @@ namespace Pantheon
             GetComponent<SpriteRenderer>().sprite = entity.Flyweight.Sprite;
             projName = entity.ToSubjectString(true);
             sender = tosser;
+            this.line = (Line)line;
             debris = new Entity[] { entity };
 
             if (entity.TryGetComponent(out Melee melee))
@@ -91,6 +93,11 @@ namespace Pantheon
             {
                 Entity entity = wrapper.Entity;
                 collisionCell = entity.Cell;
+
+                // Proj can't collide with entity not in the line
+                if (!line.Contains(collisionCell))
+                    return;
+
                 if (entity == sender)
                     return;
 
