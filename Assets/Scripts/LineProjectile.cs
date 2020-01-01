@@ -17,7 +17,7 @@ namespace Pantheon
         [SerializeField] private bool spins = false;
         [SerializeField] private bool pierces;
 
-        private Entity tosser;
+        private Entity sender;
         private Cell target;
         private Entity[] debris;
 
@@ -25,7 +25,7 @@ namespace Pantheon
         {
             GetComponent<SpriteRenderer>().sprite = entity.Flyweight.Sprite;
             projName = entity.ToSubjectString(true);
-            this.tosser = tosser;
+            sender = tosser;
             debris = new Entity[] { entity };
 
             if (entity.TryGetComponent(out Melee melee))
@@ -52,6 +52,9 @@ namespace Pantheon
 
         public void Fire()
         {
+            Physics2D.IgnoreCollision(
+                sender.GameObjects[0].GetComponent<Collider2D>(),
+                GetComponent<Collider2D>());
             Locator.Scheduler.Lock();
             StartCoroutine(Fly());
         } 
@@ -74,7 +77,7 @@ namespace Pantheon
 
             if (debris != null)
                 foreach (Entity e in debris)
-                    e.Move(tosser.Level, target);
+                    e.Move(sender.Level, target);
 
             Locator.Scheduler.Unlock();
             Destroy(gameObject);
@@ -88,14 +91,14 @@ namespace Pantheon
             {
                 Entity entity = wrapper.Entity;
                 collisionCell = entity.Cell;
-                if (entity == tosser)
+                if (entity == sender)
                     return;
 
                 Hit hit = new Hit(damages);
                 Locator.Log.Send(
                     $"{projName} hits {entity.ToSubjectString(false)}!",
                     Color.white);
-                entity.TakeHit(tosser, hit);
+                entity.TakeHit(sender, hit);
             }
             else return;
 
@@ -103,7 +106,7 @@ namespace Pantheon
             {
                 if (debris != null)
                     foreach (Entity e in debris)
-                        e.Move(tosser.Level, collisionCell);
+                        e.Move(sender.Level, collisionCell);
 
                 Locator.Scheduler.Unlock();
                 Destroy(gameObject);

@@ -35,10 +35,7 @@ namespace Pantheon.Core
         public event Action<Actor> ActorDebugEvent;
         public event Action ActionDoneEvent;
 
-        private void Start()
-        {
-            player = Locator.Player;
-        }
+        private void Start() => player = Locator.Player;
 
         private void Update()
         {
