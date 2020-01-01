@@ -24,13 +24,18 @@ namespace Pantheon.Commands.NonActor
 
         public override CommandResult Execute()
         {
-            PrefabProvider.Inst.StartCoroutine(Fire());
-            return CommandResult.Succeeded;
+            Line[] lines = FindTargets();
+            if (lines == null)
+                return CommandResult.Failed;
+            else
+            {
+                PrefabProvider.Inst.StartCoroutine(Fire(lines));
+                return CommandResult.Succeeded;
+            }
         }
 
-        private IEnumerator Fire()
+        private IEnumerator Fire(Line[] lines)
         {
-            Line[] lines = FindTargets();
             Locator.Scheduler.Lock();
             for (int i = 0; i < count; i++)
             {
@@ -66,6 +71,9 @@ namespace Pantheon.Commands.NonActor
 
                     return true;
                 });
+
+            if (enemies.Count < 1)
+                return null;
 
             for (int i = 0; i < count; i++)
             {

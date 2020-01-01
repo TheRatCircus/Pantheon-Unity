@@ -14,7 +14,7 @@ namespace Pantheon
     {
         [SerializeField] private string projName = "DEFAULT_LINE_PROJ_NAME";
         [SerializeField] private Damage[] damages = default;
-        [SerializeField] private bool spins = false;
+        [SerializeField] private bool spins;
         [SerializeField] private bool pierces;
 
         private Entity sender;
