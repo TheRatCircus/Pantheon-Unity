@@ -1,8 +1,8 @@
 ﻿// GameLog.cs
 // Jerome Martina 
 
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Pantheon.UI
@@ -17,7 +17,7 @@ namespace Pantheon.UI
         public void Send(string msg, Color color)
         {
             GameObject msgObj = Instantiate(msgPrefab, logTransform);
-            TextMeshProUGUI msgText = msgObj.GetComponent<TextMeshProUGUI>();
+            Text msgText = msgObj.GetComponent<Text>();
             msgText.text = msg;
             msgText.color = color;
             StartCoroutine(ScrollToBottom());

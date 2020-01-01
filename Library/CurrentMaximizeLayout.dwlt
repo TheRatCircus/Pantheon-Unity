@@ -21,10 +21,10 @@ MonoBehaviour:
     y: 30
     width: 1920
     height: 947
-  m_MinSize: {x: 683, y: 344}
-  m_MaxSize: {x: 12008, y: 8044}
+  m_MinSize: {x: 683, y: 494}
+  m_MaxSize: {x: 14004, y: 14044}
   vertical: 0
-  controlID: 6373
+  controlID: 25861
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -127,10 +127,10 @@ MonoBehaviour:
     y: 0
     width: 1527
     height: 947
-  m_MinSize: {x: 406, y: 344}
-  m_MaxSize: {x: 8006, y: 8044}
+  m_MinSize: {x: 406, y: 494}
+  m_MaxSize: {x: 10002, y: 14044}
   vertical: 1
-  controlID: 6216
+  controlID: 25862
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -155,7 +155,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 222}
   m_MaxSize: {x: 8006, y: 4022}
   vertical: 0
-  controlID: 6217
+  controlID: 25863
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -212,9 +212,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: b0a00000
-      m_LastClickedID: 41136
-      m_ExpandedIDs: e2f7fdff488efeff9cfcfeffde28ffffd277ffffd493ffff00afffffe2f9ffff64fbffff66fbffff68fbffffc0850000d4850000
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: 9c95fdffe2f7fdff488efeff9cfcfeffde28ffffd277ffffd493ffff00afffffe2f9ffff64fbffff66fbffff68fbffffc0850000d4850000daa90000eea90000a6b50000bab5000096c70000aac70000bac70000eec7000098cf0000accf00003ee100004ee1000082e100002ee8000042e8000052e8000086e8000030f0000044f0000054f0000088f00000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -424,7 +424,7 @@ MonoBehaviour:
     height: 651
   m_ViewDataDictionary: {fileID: 0}
   m_VertSplit:
-    ID: 6235
+    ID: 25881
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes: 3d0100003e010000
@@ -446,9 +446,9 @@ MonoBehaviour:
     m_CpuProfilerOptions: 1
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 74000000
-      m_LastClickedID: 116
-      m_ExpandedIDs: 0200000042000000540000007400000076000000770000006c0100007201000073010000
+      m_SelectedIDs: 48000000
+      m_LastClickedID: 72
+      m_ExpandedIDs: 02000000370000003900000042000000480000004c00000054000000680000007300000074000000760000007700000082000000a5000000b4000000c8000000cc000000ce000000cf000000dd000000e1000000fd0000001f010000200100002401000025010000530100006b0100006c0100006e010000720100007301000083010000890100008a010000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -468,7 +468,7 @@ MonoBehaviour:
       m_SearchString: 
     m_MultiColumnHeaderState:
       m_Columns:
-      - width: 200
+      - width: 740
         sortedAscending: 1
       - width: 80
         sortedAscending: 0
@@ -844,14 +844,14 @@ MonoBehaviour:
     y: 670
     width: 1527
     height: 277
-  m_MinSize: {x: 102, y: 122}
-  m_MaxSize: {x: 4002, y: 4022}
-  m_ActualView: {fileID: 14}
+  m_MinSize: {x: 232, y: 272}
+  m_MaxSize: {x: 10002, y: 10022}
+  m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
   - {fileID: 14}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -891,20 +891,20 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Content/BuilderPlans
+    - Assets/Prefabs/UI
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Content/BuilderPlans
+  - Assets/Prefabs/UI
   m_LastFoldersGridSize: 16
   m_LastProjectPath: D:\Misc\Development\unity\Pantheon
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 31}
-    m_SelectedIDs: 5a3b0000
-    m_LastClickedID: 15194
-    m_ExpandedIDs: 00000000a63500001a3a0000f03b0000983c0000ae3c000056400000124100005c4300005e43000060430000624300006443000066430000684300006a430000
+    scrollPos: {x: 0, y: 130}
+    m_SelectedIDs: 84390000
+    m_LastClickedID: 14724
+    m_ExpandedIDs: 00000000a6350000043a00001a3a0000f03b0000983c0000ae3c000056400000124100005c4300005e43000060430000624300006443000066430000684300006a430000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
