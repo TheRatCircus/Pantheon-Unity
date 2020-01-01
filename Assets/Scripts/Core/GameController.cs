@@ -70,10 +70,9 @@ namespace Pantheon.Core
             Generator = new LevelGenerator(Loader);
             World = new GameWorld(Generator);
 
-            // Place the world centre
-            World.NewLayer(0);
-            World.Layers.TryGetValue(0, out Layer surface);
-            Generator.GenerateWorldOrigin();
+            World.NewLayer(-2);
+            World.Layers.TryGetValue(-2, out Layer surface);
+            Generator.PlaceBuilders();
             Level level = surface.RequestLevel(Vector2Int.zero);
             
             // Spawn the player
@@ -121,12 +120,11 @@ namespace Pantheon.Core
         /// </summary>
         /// <param name="level"></param>
         /// <param name="refreshFOV"></param>
-        private void LoadLevel(Level level, bool refreshFOV)
+        public void LoadLevel(Level level, bool refreshFOV)
         {
-            Scheduler.Queue.Clear();
-
+            Level prev = World.ActiveLevel;
             World.ActiveLevel = level;
-
+            Scheduler.Queue.Clear();
             level.AssignGameObject(Instantiate(levelPrefab, worldTransform).transform);
 
             if (refreshFOV)
@@ -143,10 +141,19 @@ namespace Pantheon.Core
             }
 
             LevelChangeEvent?.Invoke(level);
+
+            if (prev != null)
+                Destroy(prev.Transform.gameObject);
         }
 
         public void AssignGameObject(Entity entity)
         {
+            if (entity.GameObjects[0] != null)
+            {
+                entity.GameObjects[0].transform.SetParent(entity.Level.EntitiesTransform);
+                return;
+            }
+
             GameObject entityObj = Instantiate(
                 GameObjectPrefab,
                 entity.Cell.Position.ToVector3(),
@@ -164,12 +171,6 @@ namespace Pantheon.Core
 
             entity.GameObjects = new GameObject[1];
             entity.GameObjects[0] = entityObj;
-        }
-
-        private void UnloadLevel(Level level)
-        {
-            Destroy(level.Transform.gameObject);
-            World.ActiveLevel = null;
         }
 
         private void MoveCameraTo(Transform transform)

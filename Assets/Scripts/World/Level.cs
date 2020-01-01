@@ -401,6 +401,6 @@ namespace Pantheon.World
             }
         }
 
-        public override string ToString() => $"{DisplayName} ({Position})";
+        public override string ToString() => $"{DisplayName} {Position}";
     }
 }
