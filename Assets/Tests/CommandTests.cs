@@ -40,6 +40,30 @@ namespace PantheonTests
         }
 
         /// <summary>
+        /// Test that an entity can pick up an item, changing all necessary
+        /// state in the process.
+        /// </summary>
+        [Test]
+        public void PickupCommandTest()
+        {
+            Cell cell = new Cell(new Vector2Int(0, 0));
+            Entity actor = new Entity(
+                new Inventory(1),
+                new Actor(TurnScheduler.TurnTime, ActorControl.AI))
+            {
+                Name = "TEST_ENTITY"
+            };
+            actor.Move(null, cell);
+            Entity item = new Entity("TEST_ITEM");
+            item.Move(null, cell);
+            PickupCommand cmd = new PickupCommand(actor);
+            CommandResult result = cmd.Execute(out int cost);
+
+            Assert.True(actor.GetComponent<Inventory>().Items.Contains(item));
+            Assert.True(result == CommandResult.Succeeded);
+        }
+
+        /// <summary>
         /// Test that an entity which can be affected by statuses actually
         /// receives and stores one.
         /// </summary>
