@@ -23,7 +23,11 @@ namespace Pantheon.Serialization.Json.Converters
             Type objectType, TerrainDefinition existingValue,
             bool hasExistingValue, JsonSerializer serializer)
         {
-            return loader.Load<TerrainDefinition>((string)reader.Value);
+            string id = (string)reader.Value;
+            if (id == null)
+                return null;
+            else
+                return loader.Load<TerrainDefinition>(id);
         }
 
         public override void WriteJson(JsonWriter writer,

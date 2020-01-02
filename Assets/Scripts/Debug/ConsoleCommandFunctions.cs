@@ -251,6 +251,13 @@ namespace Pantheon.Debug
                         destination = ctrl.World.RequestLevel(new Vector3Int(0, 0, -1));
                     }
                     break;
+                case "floodplain":
+                    if (!ctrl.World.Levels.TryGetValue(
+                        "floodplain_0_0_0", out destination))
+                    {
+                        destination = ctrl.World.RequestLevel(new Vector3Int(0, 0, 0));
+                    }
+                    break;
                 default:
                     return $"Level of ID {args[0]} does not exist.";
             }

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2107738923
+CRC: 3811934104
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: ea0c713bb50afb76632f5fa8a8d14ddc
+    Hash: aa39176834465dacf40d93b81779d5ee
   TypeTreeHash:
     serializedVersion: 2
     Hash: 6d7e2b9597fc3920d74aacf034c1d5a5
@@ -89,6 +89,7 @@ Assets:
 - Assets/Content/Templates/Player.json
 - Assets/Sprites/Actor/Sprite_Pigman.png
 - Assets/Content/Templates/Item/Mythical/Myth_MotherOfPearl.json
+- Assets/Content/BuilderPlans/Plan_FloodPlain.json
 - Assets/Sprites/Item/Sprite_Corpse.png
 - Assets/Content/BodyParts/Goose/Part_Goose_Wings.json
 - Assets/Content/BodyParts/Goose/Part_Goose_Teeth.json

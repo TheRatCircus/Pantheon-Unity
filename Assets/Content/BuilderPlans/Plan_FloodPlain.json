@@ -1,0 +1,15 @@
+{
+  "ID": "Plan_FloodPlain",
+  "Steps": [
+    {
+      "$type": "Fill",
+      "ground": "Terrain_Water",
+      "wall": null
+    },
+    {
+      "$type": "BinarySpacePartition",
+      "minRoomSize": 10,
+      "terrain": "Terrain_Grass"
+    }
+  ]
+}
