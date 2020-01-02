@@ -262,5 +262,15 @@ namespace Pantheon.Debug
             ctrl.LoadLevel(destination, true);
             return $"Moved to {destination}.";
         }
+
+        public static string KillLevel(string[] args, GameController ctrl)
+        {
+            foreach (Cell c in ctrl.World.ActiveLevel.Map)
+            {
+                if (c.Actor != null && !c.Actor.PlayerControlled)
+                    c.Actor.Destroy(null);
+            }
+            return $"Killed all NPCs in {ctrl.World.ActiveLevel}.";
+        }
     }
 }

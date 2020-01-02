@@ -43,7 +43,8 @@ namespace Pantheon.Debug
                 { "relic", new ConsoleCommand(Relic) },
                 { "enthrall", new ConsoleCommand(Enthrall) },
                 { "vault", new ConsoleCommand(Vault) },
-                { "travel", new ConsoleCommand(Travel) }
+                { "travel", new ConsoleCommand(Travel) },
+                { "kill_level", new ConsoleCommand(KillLevel) }
             };
 
         private void Awake()
