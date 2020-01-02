@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pantheon.Editor", "Pantheon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{8976FB5C-5AF4-9F4C-A35D-8B005B94FF40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests.csproj", "{AFF07B79-6CC7-392F-E65A-FEA0571CC579}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pantheon.EditorTests", "Pantheon.EditorTests.csproj", "{327A71E9-80C3-73F6-2820-3874FA790762}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossSceneReference.Editor", "CrossSceneReference.Editor.csproj", "{DCA391AA-BF7E-B08C-F5C6-9D77260AD86B}"
 EndProject
@@ -41,10 +41,10 @@ Global
 		{8976FB5C-5AF4-9F4C-A35D-8B005B94FF40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8976FB5C-5AF4-9F4C-A35D-8B005B94FF40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8976FB5C-5AF4-9F4C-A35D-8B005B94FF40}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AFF07B79-6CC7-392F-E65A-FEA0571CC579}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AFF07B79-6CC7-392F-E65A-FEA0571CC579}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AFF07B79-6CC7-392F-E65A-FEA0571CC579}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AFF07B79-6CC7-392F-E65A-FEA0571CC579}.Release|Any CPU.Build.0 = Release|Any CPU
+		{327A71E9-80C3-73F6-2820-3874FA790762}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{327A71E9-80C3-73F6-2820-3874FA790762}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{327A71E9-80C3-73F6-2820-3874FA790762}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{327A71E9-80C3-73F6-2820-3874FA790762}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DCA391AA-BF7E-B08C-F5C6-9D77260AD86B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DCA391AA-BF7E-B08C-F5C6-9D77260AD86B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCA391AA-BF7E-B08C-F5C6-9D77260AD86B}.Release|Any CPU.ActiveCfg = Release|Any CPU

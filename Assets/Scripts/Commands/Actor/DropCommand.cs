@@ -21,18 +21,23 @@ namespace Pantheon.Commands.Actor
                 throw new System.Exception(
                     $"{Entity} has no inventory.");
 
-            if (inv.Items.Count < 1 && player)
+            if (inv.Items.Count < 1)
             {
-                Locator.Log.Send(
-                    $"You have nothing in your inventory to drop.",
-                    Color.grey);
+                if (player)
+                    Locator.Log.Send(
+                        $"You have nothing in your inventory to drop.",
+                        Color.grey);
+                else
+                    UnityEngine.Debug.LogWarning(
+                        $"NPC {Entity} tried to drop from an empty inventory.");
+
                 cost = -1;
                 return CommandResult.Failed;
             }
 
             Entity item = inv.Items[0];
             inv.RemoveItem(item);
-            item.Cell.Items.Add(item);
+            item.Cell.AllocateEntity(item);
             cost = Core.TurnScheduler.TurnTime;
 
             if (player)
