@@ -399,7 +399,7 @@ namespace Pantheon.World
                 if (cell.Items.Count > 0)
                 {
                     itemTilemap.SetTile((Vector3Int)cell.Position,
-                        cell.Items[0].Flyweight.Tile);
+                        cell.Items[0].Tile);
                     itemTilemap.SetColor((Vector3Int)cell.Position,
                         cell.Visible ? Color.white : Color.grey);
                 }

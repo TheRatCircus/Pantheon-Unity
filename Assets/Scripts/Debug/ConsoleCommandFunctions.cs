@@ -270,6 +270,7 @@ namespace Pantheon.Debug
                 if (c.Actor != null && !c.Actor.PlayerControlled)
                     c.Actor.Destroy(null);
             }
+            FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Cell, true);
             return $"Killed all NPCs in {ctrl.World.ActiveLevel}.";
         }
     }

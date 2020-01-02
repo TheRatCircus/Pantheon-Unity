@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Pantheon
 {
@@ -27,6 +28,30 @@ namespace Pantheon
             set => gameObjects = value;
         }
 
+        private Sprite sprite;
+        public Sprite Sprite
+        {
+            get
+            {
+                if (sprite != null)
+                    return sprite;
+                else
+                    return Flyweight.Sprite;
+            }
+            set => sprite = value;
+        }
+        [NonSerialized] private Tile tile;
+        public Tile Tile
+        {
+            get
+            {
+                if (tile != null)
+                    return tile;
+                else
+                    return Flyweight.Tile;
+            }
+            set => tile = value;
+        }
         public EntityTemplate Flyweight { get; set; }
 
         public Dictionary<Type, EntityComponent> Components { get; private set; }
@@ -193,6 +218,21 @@ namespace Pantheon
         {
             DestroyedEvent?.Invoke();
 
+            if (TryGetComponent(out Species species))
+            {
+                Tile tile = ScriptableObject.CreateInstance<Tile>();
+                Sprite sprite = Locator.Loader.Load<Sprite>("Sprite_Corpse");
+                tile.sprite = sprite;
+                Entity corpse = new Entity(new Corpse())
+                {
+                    Name = $"{species.SpeciesDef.Name} corpse",
+                    Sprite = sprite,
+                    Tile = tile
+                };
+                corpse.Move(Level, Cell);
+                corpse.GetComponent<Corpse>().Original = this;
+            }
+
             if (TryGetComponent(out Actor actor))
             {
                 Locator.Scheduler.RemoveActor(actor);
@@ -237,6 +277,13 @@ namespace Pantheon
         private void OnSerializing(StreamingContext ctxt)
         {
             DestroyedEvent = null;
+        }
+
+        [OnDeserializing]
+        private void OnDeserializing(StreamingContext ctxt)
+        {
+            Tile = ScriptableObject.CreateInstance<Tile>();
+            tile.sprite = sprite;
         }
 
         public override string ToString()
