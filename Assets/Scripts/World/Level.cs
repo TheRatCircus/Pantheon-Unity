@@ -307,7 +307,7 @@ namespace Pantheon.World
 
                 ret = Map[randX, randY];
 
-            } while (ret.Blocked);
+            } while (ret.Wall != null);
             return ret;
         }
 
@@ -327,7 +327,7 @@ namespace Pantheon.World
                 for (iX = startX; iX <= endX; iX++)
                     if (!(iX == x && iY == y))
                         if ((oobIsWall && !Contains(iX, iY))
-                            || Map[iX, iY].Terrain.Blocked)
+                            || Map[iX, iY].Wall != null)
                         {
                             wallCounter++;
                         }
@@ -352,7 +352,7 @@ namespace Pantheon.World
                     if (!(iX == x && iY == y))
                         if ((oobIsWall && !Contains(iX, iY)
                             || (oobIsWall && !rect.Contains(iX, iY)))
-                            || Map[iX, iY].Terrain.Blocked)
+                            || Map[iX, iY].Wall != null)
                         {
                             wallCounter++;
                         }
@@ -381,8 +381,15 @@ namespace Pantheon.World
         {
             if (cell.Revealed)
             {
-                terrainTilemap.SetTile((Vector3Int)cell.Position,
-                    cell.Terrain.Tile);
+                RuleTile terrainTile;
+                if (cell.Wall != null)
+                    terrainTile = cell.Wall.Tile;
+                else if (cell.Ground != null)
+                    terrainTile = cell.Ground.Tile;
+                else
+                    terrainTile = null;
+
+                terrainTilemap.SetTile((Vector3Int)cell.Position, terrainTile);
                 terrainTilemap.SetColor((Vector3Int)cell.Position,
                     cell.Visible ? Color.white : Color.grey);
 

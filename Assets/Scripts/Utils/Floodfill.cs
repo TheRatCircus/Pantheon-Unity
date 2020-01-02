@@ -40,7 +40,7 @@ namespace Pantheon.Utils
                             if (closed.Contains(frontierCell))
                                 continue;
 
-                            if (frontierCell.Blocked)
+                            if (frontierCell.Wall != null)
                             {
                                 closed.Add(frontierCell);
                                 continue;

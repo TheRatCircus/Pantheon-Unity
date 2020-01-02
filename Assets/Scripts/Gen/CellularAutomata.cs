@@ -44,15 +44,14 @@ namespace Pantheon.Gen
             for (int iterations = 0; iterations < 10; iterations++)
             {
                 RandomFillMap(level);
-                Utils.Enclose(level, wall);
+                Utils.Enclose(level, wall, floor);
                 MakeCaverns(level);
 
                 if (FillDisconnected(level))
                     return;
             }
 
-            UnityEngine.Debug.Log
-                ("Cellular automata failed after 10 tries.");
+            throw new System.Exception("Cellular automata failed after 10 tries.");
         }
 
         private void MakeCaverns(Level level)
@@ -61,10 +60,12 @@ namespace Pantheon.Gen
                 row <= rect.y2 - 1; row++)
                 for (column = rect.x1; column <= rect.x2; column++)
                 {
+                    level.Map[column, row].Ground = floor;
+
                     if (PlaceWallLogic(level, column, row))
-                        level.Map[column, row].Terrain = wall;
+                        level.Map[column, row].Wall = wall;
                     else
-                        level.Map[column, row].Terrain = floor;
+                        level.Map[column, row].Wall = null;
                 }
         }
 
@@ -100,18 +101,19 @@ namespace Pantheon.Gen
                 {
                     UnityEngine.Debug.Log("No cavern of sufficient size" +
                         " found, regenerating...");
+                    
                     return false;
                 }
 
                 cavern = Floodfill.FillRect(level, rect,
                     level.RandomFloorInRect(rect));
                 attempts++;
-
             } while (cavern.Count < threshold);
             
             foreach (Cell cell in level.CellsInRect(rect))
                 if (!cell.Blocked && !cavern.Contains(cell))
-                    cell.Terrain = wall;
+                    cell.Wall = wall;
+
             return true;
         }
 
@@ -126,18 +128,17 @@ namespace Pantheon.Gen
                     rectMiddle = rect.Center().y;
 
                     if (row == rectMiddle)
-                        level.Map[column, row].Terrain = floor;
+                        level.Map[column, row].Wall = null;
                     else
                     {
-                        if (RandomUtils.RangeInclusive(0, 100)
-                            <= percentWalls)
-                            level.Map[column, row].Terrain = wall;
+                        level.Map[column, row].Ground = floor;
+                        if (RandomUtils.RangeInclusive(0, 100) <= percentWalls)
+                            level.Map[column, row].Wall = wall;
                         else
-                            level.Map[column, row].Terrain = floor;
+                            level.Map[column, row].Wall = null;
                     }
                 }
             }
         }
-
     }
 }

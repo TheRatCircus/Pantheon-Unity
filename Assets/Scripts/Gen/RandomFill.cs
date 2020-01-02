@@ -11,23 +11,27 @@ namespace Pantheon.Gen
     public sealed class RandomFill : BuilderStep
     {
         [JsonProperty] private int percent = 50; // 0...100
-        [JsonProperty] private TerrainDefinition terrain = default;
+        [JsonProperty] private TerrainDefinition ground = default;
+        [JsonProperty] private TerrainDefinition wall = default;
 
         /// <summary>
         /// ID-only constructor for JSON writing.
         /// </summary>
-        /// <param name="terrainID"></param>
-        public RandomFill(string terrainID, int percent)
+        /// <param name="wallID"></param>
+        public RandomFill(string wallID, string groundID, int percent)
         {
-            terrain = ScriptableObject.CreateInstance<TerrainDefinition>();
-            terrain.name = terrainID;
+            wall = ScriptableObject.CreateInstance<TerrainDefinition>();
+            wall.name = wallID;
+            ground = ScriptableObject.CreateInstance<TerrainDefinition>();
+            ground.name = groundID;
             this.percent = percent;
         }
 
         [JsonConstructor]
-        public RandomFill(TerrainDefinition terrain, int percent)
+        public RandomFill(TerrainDefinition wall, TerrainDefinition ground, int percent)
         {
-            this.terrain = terrain;
+            this.wall = wall;
+            this.ground = ground;
             this.percent = percent;
         }
 
@@ -36,16 +40,17 @@ namespace Pantheon.Gen
             int x = 0;
             for (; x < level.Size.x; x++)
                 for (int y = 0; y < level.Size.y; y++)
-                {
                     if (Random.Range(0, 100) < percent)
                         if (level.TryGetCell(x, y, out Cell c))
-                            c.Terrain = terrain;
-                }
+                        {
+                            c.Wall = wall;
+                            c.Ground = ground;
+                        }
         }
 
         public override string ToString()
         {
-            return $"Random fill {terrain} at %{percent}";
+            return $"Random fill {wall} at %{percent}";
         }
     }
 }

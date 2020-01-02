@@ -63,7 +63,10 @@ namespace Pantheon.Gen
                     TerrainDefinition terrain = vault.GetTerrain(
                         x - position.x, y - position.y);
                     if (terrain != null)
-                        level.Map[x, y].Terrain = terrain;
+                    {
+                        level.Map[x, y].Wall = terrain;
+                        level.Map[x, y].Ground = Locator.Loader.Load<TerrainDefinition>("Terrain_StoneFloor");
+                    }
                 }
             return true;
         }

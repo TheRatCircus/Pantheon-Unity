@@ -82,7 +82,7 @@ namespace Pantheon
                     $"No node at {targetPos}.");
 
             // TODO: Find adjacent free node?
-            if (targetNode.Cell.Terrain.Blocked)
+            if (targetNode.Cell.Wall != null)
                 return null;
 
             Heap<Node> openSet = new Heap<Node>(map.Length);
@@ -107,7 +107,7 @@ namespace Pantheon
                 Profiler.BeginSample("Pathfind: Neighbour Search");
                 foreach (Node neighbour in GetNeighbours(currentNode))
                 {
-                    if (neighbour.Cell.Terrain.Blocked || closedSet.Contains(neighbour))
+                    if (neighbour.Cell.Wall != null || closedSet.Contains(neighbour))
                         continue;
 
                     DebugVisualize(neighbour.Cell);

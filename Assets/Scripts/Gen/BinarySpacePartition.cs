@@ -64,7 +64,7 @@ namespace Pantheon.Gen
             for (int i = 0; i < leaves.Count; i++)
             {
                 if (leaves[i].Room != null)
-                    Utils.FillRectTerrain(level, leaves[i].Room, terrain);
+                    Utils.FillRectTerrain(level, leaves[i].Room, null, terrain);
 
                 if (leaves[i].Halls != null)
                     foreach (LevelRect hall in leaves[i].Halls)
@@ -74,7 +74,7 @@ namespace Pantheon.Gen
                             new Vector2Int(
                                 hall.x2 - hall.x1 + 2,
                                 hall.y2 - hall.y1 + 2));
-                        Utils.FillRectTerrain(level, hall, terrain);
+                        Utils.FillRectTerrain(level, hall, null, terrain);
                     }
             }
         }

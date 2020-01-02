@@ -16,20 +16,20 @@ namespace Pantheon.World
         public const float TileOffsetX = .5f;
         public const float TileOffsetY = .5f;
 
-        public Vector2Int Position { get; set; }
+        public Vector2Int Position { get; private set; }
 
         public bool Visible { get; set; } = false;
         public bool Revealed { get; set; } = false;
 
-        public TerrainDefinition Terrain { get; set; }
+        public TerrainDefinition Ground { get; set; }
+        public TerrainDefinition Wall { get; set; }
 
-        public bool Opaque => Terrain.Opaque;
+        public bool Opaque => Wall != null && Wall.Opaque;
         public bool Blocked
         {
             get
             {
-                if (Actor == null)
-                    return Terrain.Blocked;
+                if (Actor == null) return Wall != null;
                 else return true;
             }
         }
@@ -43,9 +43,7 @@ namespace Pantheon.World
         /// <param name="cell"></param>
         /// <returns>True if cell exists, has ground, and is not blocked.</returns>
         public static bool Walkable(Cell cell)
-            => cell != null && cell.Terrain != null && !cell.Terrain.Blocked;
-        public bool HasEnemyOf(Actor actor)
-            => Actor != null && Actor.GetComponent<Actor>().HostileTo(actor);
+            => cell != null && cell.Ground != null && cell.Wall == null;
 
         public Cell(Vector2Int position) => Position = position;
 
@@ -105,6 +103,6 @@ namespace Pantheon.World
         }
 
         public override string ToString()
-            => $"{Terrain.DisplayName} ({(Visible ? "vis" : "non-vis")}) at {Position}";
+            => $"Cell {Position}";
     }
 }

@@ -3,7 +3,8 @@
   "Steps": [
     {
       "$type": "Fill",
-      "terrain": "Terrain_StoneWall"
+      "ground": "Terrain_StoneFloor",
+      "wall": "Terrain_StoneWall"
     },
     {
       "$type": "BinarySpacePartition",

@@ -10,22 +10,26 @@ namespace Pantheon.Gen
 {
     public sealed class Fill : BuilderStep
     {
-        [JsonProperty] private TerrainDefinition terrain = default;
+        [JsonProperty] private TerrainDefinition ground = default;
+        [JsonProperty] private TerrainDefinition wall = default;
 
         /// <summary>
         /// ID-only constructor for JSON writing.
         /// </summary>
         /// <param name="terrainID"></param>
-        public Fill(string terrainID)
+        public Fill(string wallID, string groundID)
         {
-            terrain = ScriptableObject.CreateInstance<TerrainDefinition>();
-            terrain.name = terrainID;
+            wall = ScriptableObject.CreateInstance<TerrainDefinition>();
+            wall.name = wallID;
+            ground = ScriptableObject.CreateInstance<TerrainDefinition>();
+            ground.name = groundID;
         }
 
         [JsonConstructor]
-        public Fill(TerrainDefinition terrain)
+        public Fill(TerrainDefinition wall, TerrainDefinition ground)
         {
-            this.terrain = terrain;
+            this.wall = wall;
+            this.ground = ground;
         }
 
         public override void Run(Level level)
@@ -33,12 +37,11 @@ namespace Pantheon.Gen
             int x = 0;
             for (; x < level.Size.x; x++)
                 for (int y = 0; y < level.Size.y; y++)
-                {
                     if (level.TryGetCell(x, y, out Cell c))
                     {
-                        c.Terrain = terrain;
+                        c.Wall = wall;
+                        c.Ground = ground;
                     }
-                }
         }
     }
 }

@@ -306,3 +306,8 @@ D:\Misc\Development\unity\Pantheon\Temp\bin\Debug\Unity.RenderPipelines.ShaderGr
 D:\Misc\Development\unity\Pantheon\Temp\bin\Debug\Unity.Postprocessing.Runtime.pdb
 D:\Misc\Development\unity\Pantheon\Temp\bin\Debug\Unity.ShaderGraph.Editor.pdb
 D:\Misc\Development\unity\Pantheon\Temp\bin\Debug\Unity.RenderPipelines.Core.ShaderLibrary.pdb
+D:\Misc\Development\unity\Pantheon\Temp\bin\Debug\Assembly-CSharp.dll.CodeAnalysisLog.xml
+D:\Misc\Development\unity\Pantheon\Temp\bin\Debug\Assembly-CSharp.dll.lastcodeanalysissucceeded
+D:\Misc\Development\unity\Pantheon\Temp\bin\Debug\Pantheon.Editor.pdb
+D:\Misc\Development\unity\Pantheon\Temp\bin\Debug\CrossSceneReference.Editor.pdb
+D:\Misc\Development\unity\Pantheon\Temp\bin\Debug\Pantheon.pdb
