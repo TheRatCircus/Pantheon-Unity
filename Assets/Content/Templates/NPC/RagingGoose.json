@@ -25,6 +25,10 @@
     {
       "$type": "Species",
       "SpeciesDef": "Species_Goose"
+    },
+	{
+      "$type": "Status",
+      "Statuses": []
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "ID": "Myth_MotherOfPearl",
-  "EntityName": "Mother of Pearl",
+  "EntityName": "sceptre",
   "Sprite": "Sprite_Prejudice",
   "Tile": null,
   "Components": [
@@ -24,6 +24,30 @@
     {
       "$type": "Relic",
       "Name": "Mother of Pearl"
+    },
+	{
+      "$type": "Evocable",
+      "EvokeTime": 100,
+      "Talents": [
+        {
+          "Range": 5,
+          "Commands": [
+            {
+              "$type": "PointEffectCommand",
+              "cmd": {
+                "$type": "StatusCommand",
+                "Definition": "Status_Momentum",
+                "Duration": 1000,
+                "Magnitude": 1,
+                "Entity": null
+              },
+              "Cell": null,
+              "Range": 5,
+              "Entity": null
+            }
+          ]
+        }
+      ]
     },
     {
       "$type": "Size",

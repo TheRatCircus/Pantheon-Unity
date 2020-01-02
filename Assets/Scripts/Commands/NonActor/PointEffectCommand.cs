@@ -1,6 +1,7 @@
 ﻿// PointEffectCommand.cs
 // Jerome Martina
 
+using Newtonsoft.Json;
 using Pantheon.Core;
 using Pantheon.World;
 using System;
@@ -15,7 +16,7 @@ namespace Pantheon.Commands.NonActor
     {
         public Cell Cell { get; set; }
         public int Range { get; set; } = 5;
-        private NonActorCommand cmd;
+        [JsonProperty] private NonActorCommand cmd;
 
         public PointEffectCommand(Entity entity, NonActorCommand cmd)
             : base(entity)

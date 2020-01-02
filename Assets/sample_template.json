@@ -7,6 +7,7 @@
     {
       "$type": "Actor",
       "Speed": -1,
+      "SpeedModifier": 0,
       "Energy": -1,
       "Command": null
     },
@@ -48,7 +49,26 @@
     {
       "$type": "Evocable",
       "EvokeTime": 100,
-      "Talents": []
+      "Talents": [
+        {
+          "Range": 5,
+          "Commands": [
+            {
+              "$type": "PointEffectCommand",
+              "cmd": {
+                "$type": "StatusCommand",
+                "Definition": "Status_Momentum",
+                "Duration": 1000,
+                "Magnitude": 1,
+                "Entity": null
+              },
+              "Cell": null,
+              "Range": 5,
+              "Entity": null
+            }
+          ]
+        }
+      ]
     },
     {
       "$type": "Health",
@@ -104,6 +124,10 @@
     {
       "$type": "Species",
       "SpeciesDef": null
+    },
+    {
+      "$type": "Status",
+      "Statuses": []
     },
     {
       "$type": "Weight",

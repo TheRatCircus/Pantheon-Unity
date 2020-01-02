@@ -5,6 +5,7 @@
 #undef DEBUG_ASSETLOADER
 
 using Newtonsoft.Json;
+using Pantheon.Components.Statuses;
 using Pantheon.Content;
 using Pantheon.Gen;
 using Pantheon.Serialization.Json;
@@ -48,7 +49,8 @@ namespace Pantheon.Core
                     new TileConverter(),
                     new RuleTileConverter(this),
                     new SpeciesDefinitionConverter(this),
-                    new BodyPartConverter(this)
+                    new BodyPartConverter(this),
+                    new StatusConverter(this)
                 }
             };
 
@@ -158,7 +160,8 @@ namespace Pantheon.Core
             TextAsset text = bundle.LoadAsset<TextAsset>(name);
             UnityEngine.Profiling.Profiler.EndSample();
 
-            return JsonConvert.DeserializeObject<BodyPart>(text.text, genericSettings);
+            return JsonConvert.DeserializeObject<BodyPart>(
+                text.text, genericSettings);
         }
 
         [System.Diagnostics.Conditional("DEBUG_ASSETLOADER")]

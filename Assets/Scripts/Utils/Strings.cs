@@ -34,5 +34,15 @@ namespace Pantheon.Util
                 $"{killer.ToSubjectString(true)} {verb} " +
                 $"{killed.ToSubjectString(false)}!";
         }
+
+        public static string Accelerate(Entity entity)
+        {
+            return entity.PlayerControlled ? "accelerate" : "accelerates";
+        }
+
+        public static string Slow(Entity entity)
+        {
+            return entity.PlayerControlled ? "slow" : "slows";
+        }
     }
 }

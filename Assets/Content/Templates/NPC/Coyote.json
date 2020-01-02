@@ -25,6 +25,10 @@
     {
 	  "$type": "Species",
       "SpeciesDef": "Species_Coyote"
+    },
+	{
+      "$type": "Status",
+      "Statuses": []
     }
   ]
 }

@@ -26,6 +26,10 @@
       "SpeciesDef": "Species_Human"
     },
 	{
+      "$type": "Status",
+      "Statuses": []
+    },
+	{
       "$type": "Wield",
       "Items": [
         null,

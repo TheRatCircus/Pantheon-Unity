@@ -29,9 +29,10 @@ namespace Pantheon.Components
         [SerializeField] private int speed = -1;
         public int Speed
         {
-            get => speed;
+            get => speed + SpeedModifier;
             set { speed = value; SpeedChangedEvent?.Invoke(this); }
         }
+        public int SpeedModifier { get; set; }
         [JsonIgnore] private int energy;
         public int Energy
         {

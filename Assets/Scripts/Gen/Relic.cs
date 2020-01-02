@@ -4,6 +4,7 @@
 using Pantheon.Commands.NonActor;
 using Pantheon.Components;
 using Pantheon.Content;
+using Pantheon.Core;
 using Pantheon.Utils;
 using System;
 using System.Linq;
@@ -69,7 +70,7 @@ namespace Pantheon.Gen
             }
             else
             {
-                Evocable newEvoc = new Evocable(talent);
+                Evocable newEvoc = new Evocable(TurnScheduler.TurnTime, talent);
                 newEvoc.AddTalent(talent);
                 relic.AddComponent(newEvoc);
             }
@@ -124,7 +125,7 @@ namespace Pantheon.Gen
             }
             else
             {
-                Evocable newEvoc = new Evocable(talent);
+                Evocable newEvoc = new Evocable(TurnScheduler.TurnTime, talent);
                 newEvoc.AddTalent(talent);
                 relic.AddComponent(newEvoc);
             }

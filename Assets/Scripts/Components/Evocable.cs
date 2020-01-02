@@ -16,7 +16,8 @@ namespace Pantheon.Components
         private Talent[] talents;
         public Talent[] Talents { get => talents; set => talents = value; }
 
-        public Evocable(params Talent[] talents) => this.talents = talents;
+        public Evocable(int evokeTime = TurnScheduler.TurnTime, 
+            params Talent[] talents) => this.talents = talents;
 
         public CommandResult Evoke(Entity evoker, int talent)
         {
@@ -37,7 +38,7 @@ namespace Pantheon.Components
 
         public override EntityComponent Clone(bool full)
         {
-            throw new NotImplementedException();
+            return new Evocable(EvokeTime, Talents);
         }
     }
 }

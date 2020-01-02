@@ -5,14 +5,18 @@ using Newtonsoft.Json;
 using Pantheon;
 using Pantheon.Commands.NonActor;
 using Pantheon.Components;
+using Pantheon.Components.Statuses;
 using Pantheon.Content;
 using Pantheon.Core;
 using Pantheon.Gen;
 using Pantheon.Serialization.Json;
 using Pantheon.Serialization.Json.Converters;
 using Pantheon.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using Relic = Pantheon.Components.Relic;
@@ -69,7 +73,9 @@ namespace PantheonEditor
                             }
                         },
                     },
-                new Evocable(),
+                new Evocable(TurnScheduler.TurnTime, 
+                    new Talent(5, new PointEffectCommand(null,
+                        new StatusCommand(null, null, new Momentum(), 1000, 1)))),
                 new Health(),
                 new Inventory(20),
                 new Location(),
@@ -89,6 +95,7 @@ namespace PantheonEditor
                 new Relic() { Name = "Orb of Zot" },
                 new Size(1),
                 new Species(null),
+                new Status(),
                 new Weight(50),
                 new Wield(2)
             };
@@ -113,7 +120,8 @@ namespace PantheonEditor
                     new TileConverter(),
                     new RuleTileConverter(),
                     new SpeciesDefinitionConverter(),
-                    new BodyPartConverter()
+                    new BodyPartConverter(),
+                    new StatusConverter()
                 }
             };
 

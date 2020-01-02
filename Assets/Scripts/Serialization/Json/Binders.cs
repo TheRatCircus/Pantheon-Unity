@@ -3,6 +3,7 @@
 
 using Pantheon.Commands.NonActor;
 using Pantheon.Components;
+using Pantheon.Components.Statuses;
 using Pantheon.Gen;
 using System;
 using System.Collections.Generic;
@@ -43,17 +44,21 @@ namespace Pantheon.Serialization.Json
                     typeof(Relic),
                     typeof(Size),
                     typeof(Species),
+                    typeof(Status),
                     typeof(Weight),
                     typeof(Wield),
                     // Commands
                     typeof(ExplodeCommand),
                     typeof(LineEffectCommand),
                     typeof(PointEffectCommand),
+                    typeof(StatusCommand),
                     // AI strategies
                     typeof(DefaultStrategy),
                     typeof(SleepStrategy),
                     typeof(WanderStrategy),
                     typeof(ThrallFollowStrategy),
+                    // Statuses
+                    typeof(Momentum),
                     // Misc
                     typeof(Talent)
                 }
