@@ -1,7 +1,7 @@
 ﻿// Momentum.cs
 // Jerome Martina
 
-using Pantheon.Util;
+using Pantheon.Utils;
 using UnityEngine;
 
 namespace Pantheon.Components.Statuses
@@ -22,7 +22,7 @@ namespace Pantheon.Components.Statuses
                 return;
 
             Locator.Log.Send(
-                $"{entity.ToSubjectString(true)} {Strings.Accelerate(entity)}!",
+                $"{entity.ToSubjectString(true)} {Verbs.Accelerate(entity)}!",
                 Color.white);
 
             actor.SpeedModifier += 200;
@@ -37,7 +37,7 @@ namespace Pantheon.Components.Statuses
 
             Locator.Log.Send(
                 $"{entity.ToSubjectString(true)} " +
-                $"{Strings.Slow(entity)} down to normal speed.",
+                $"{Verbs.Slow(entity)} down to normal speed.",
                 Color.white);
 
             actor.SpeedModifier -= 200;

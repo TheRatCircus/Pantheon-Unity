@@ -3,7 +3,6 @@
 
 using Pantheon.Components;
 using Pantheon.Content;
-using Pantheon.Util;
 using Pantheon.Utils;
 using Pantheon.World;
 using System;
@@ -207,7 +206,7 @@ namespace Pantheon
                 }
                 else if (actor.Control == ActorControl.AI)
                 {
-                    Locator.Log.Send(Strings.Kill(destroyer, this), Color.white);
+                    Locator.Log.Send(Verbs.Kill(destroyer, this), Color.white);
                 }
                 else
                     Locator.Log.Send(

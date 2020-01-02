@@ -3,7 +3,7 @@
 
 using Pantheon.Components;
 using Pantheon.Content;
-using Pantheon.Util;
+using Pantheon.Utils;
 using Pantheon.World;
 using UnityEngine;
 
@@ -45,7 +45,7 @@ namespace Pantheon.Commands.Actor
                     if (atk.Accuracy < Random.Range(0, 101))
                     {
                         Locator.Log.Send(
-                            Strings.Miss(Entity, defender), Color.grey);
+                            Verbs.Miss(Entity, defender), Color.grey);
                         continue;
                     }
                     
@@ -53,7 +53,7 @@ namespace Pantheon.Commands.Actor
                     {
                         Hit hit = new Hit(atk.Damages);
                         Locator.Log.Send(
-                            Strings.Hit(Entity, defender, hit), Color.white);
+                            Verbs.Hit(Entity, defender, hit), Color.white);
                         defender.TakeHit(Entity, hit);
                     }
                 }
