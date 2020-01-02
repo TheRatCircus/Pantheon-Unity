@@ -3,6 +3,7 @@
 
 using Pantheon.Content;
 using Pantheon.Core;
+using Pantheon.Gen;
 using Pantheon.Serialization.Binary.Surrogates;
 using System.IO;
 using System.Runtime.Serialization;
@@ -37,6 +38,12 @@ namespace Pantheon.SaveLoad
                 new SpeciesDefSurrogate(loader));
             selector.AddSurrogate(typeof(EntityTemplate), ctxt, 
                 new EntityTemplateSurrogate(loader));
+            selector.AddSurrogate(typeof(BuilderPlan), ctxt,
+                new BuilderPlanSurrogate(loader));
+            selector.AddSurrogate(typeof(GameObject), ctxt,
+                new PrefabSurrogate(loader));
+            selector.AddSurrogate(typeof(AudioClip), ctxt,
+                new AudioClipSurrogate(loader));
         }
 
         public void WriteSave(Save save)

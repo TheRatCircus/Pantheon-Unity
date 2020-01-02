@@ -11,6 +11,7 @@ namespace Pantheon.Commands.NonActor
     /// <summary>
     /// Fire another command in a line of cells.
     /// </summary>
+    [Serializable]
     public sealed class LineEffectCommand : NonActorCommand,
         ILineTargetedCommand, IRangedCommand
     {

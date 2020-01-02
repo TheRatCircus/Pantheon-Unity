@@ -20,6 +20,7 @@ namespace Pantheon.Commands.NonActor
         Square
     }
 
+    [System.Serializable]
     public sealed class ExplodeCommand : NonActorCommand,
         ICellTargetedCommand, ILineTargetedCommand
     {

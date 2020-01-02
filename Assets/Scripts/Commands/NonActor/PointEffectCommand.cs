@@ -11,6 +11,7 @@ namespace Pantheon.Commands.NonActor
     /// <summary>
     /// Fire another command in/at a specific cell.
     /// </summary>
+    [Serializable]
     public sealed class PointEffectCommand : NonActorCommand,
         ICellTargetedCommand, IRangedCommand
     {

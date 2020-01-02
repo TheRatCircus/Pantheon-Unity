@@ -56,6 +56,7 @@ namespace Pantheon.Components
         }
     }
 
+    [System.Serializable]
     public sealed class StatusEffect
     {
         public StatusDefinition Definition { get; private set; }

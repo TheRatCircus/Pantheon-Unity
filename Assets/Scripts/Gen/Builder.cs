@@ -6,6 +6,7 @@ namespace Pantheon.Gen
     /// <summary>
     /// An object used to generate a level upon request.
     /// </summary>
+    [System.Serializable]
     public sealed class Builder
     {
         public string DisplayName { get; private set; }

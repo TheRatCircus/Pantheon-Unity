@@ -9,6 +9,7 @@ using ActorComp = Pantheon.Components.Actor;
 
 namespace Pantheon.Commands.NonActor
 {
+    [System.Serializable]
     public sealed class MultitossCommand : NonActorCommand
     {
         private Entity item;

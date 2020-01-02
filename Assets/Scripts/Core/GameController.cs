@@ -184,7 +184,7 @@ namespace Pantheon.Core
             Locator.Player.Mode = allow ? InputMode.Default : InputMode.None;
         }
 
-        private void SaveGame()
+        public void SaveGame()
         {
             Save save = new Save(PC.Name, World, Generator, PC);
             saveSystem.WriteSave(save);
