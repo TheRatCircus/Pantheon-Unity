@@ -99,7 +99,8 @@ namespace Pantheon.Core
 
                 if (actor.Control == ActorControl.Player)
                 {
-                    turnProgress += actionCost;
+                    float speedFactor = actor.Speed / TurnTime;
+                    turnProgress += Mathf.FloorToInt(actionCost / speedFactor);
                     if (turnProgress >= TurnTime)
                     {
                         int turnsPassed = turnProgress / TurnTime;

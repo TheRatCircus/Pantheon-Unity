@@ -37,7 +37,7 @@
               "cmd": {
                 "$type": "StatusCommand",
                 "Definition": "Status_Momentum",
-                "Duration": 1000,
+                "Duration": 300,
                 "Magnitude": 1,
                 "Entity": null
               },
