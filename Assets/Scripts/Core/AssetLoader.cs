@@ -17,7 +17,7 @@ using Object = UnityEngine.Object;
 
 namespace Pantheon.Core
 {
-    public sealed class AssetLoader : MonoBehaviour, IAssetLoader
+    public sealed class AssetLoader : IAssetLoader
     {
         private AssetBundle bundle;
 
@@ -26,9 +26,8 @@ namespace Pantheon.Core
         private JsonSerializerSettings genericSettings;
         private JsonSerializerSettings planSettings;
 
-        private void Awake()
+        public AssetLoader()
         {
-            enabled = false;
             bundle = AssetBundle.LoadFromFile(Path.Combine(
                 Application.streamingAssetsPath, "pantheon"));
             System.Diagnostics.Debug.Assert(bundle != null);

@@ -60,9 +60,11 @@ namespace Pantheon.Gen
             }
             else
             {
-                Level level = new Level();
-                level.DisplayName = builder.DisplayName;
-                level.ID = builder.ID;
+                Level level = new Level
+                {
+                    DisplayName = builder.DisplayName,
+                    ID = builder.ID
+                };
                 InitializeMap(level, 200, 200);
                 foreach (BuilderStep step in builder.Plan.Steps)
                     step.Run(level);

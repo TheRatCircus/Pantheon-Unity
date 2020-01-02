@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -719,7 +719,6 @@ GameObject:
   - component: {fileID: 600936734}
   - component: {fileID: 600936736}
   - component: {fileID: 600936735}
-  - component: {fileID: 600936737}
   - component: {fileID: 600936739}
   - component: {fileID: 600936740}
   - component: {fileID: 600936741}
@@ -778,18 +777,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedGuid: 67499598e9f0d741876d556f4007e3ec
---- !u!114 &600936737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 600936733}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 990002e7014f27e43b6e3beacf8b92c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &600936739
 MonoBehaviour:
   m_ObjectHideFlags: 0

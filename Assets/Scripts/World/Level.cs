@@ -5,6 +5,7 @@ using Pantheon.Utils;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Profiling;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
@@ -406,6 +407,13 @@ namespace Pantheon.World
                 else
                     itemTilemap.SetTile((Vector3Int)cell.Position, null);
             }
+        }
+
+        public void ClearTilemaps()
+        {
+            terrainTilemap.ClearAllTiles();
+            itemTilemap.ClearAllTiles();
+            splatterTilemap.ClearAllTiles();
         }
 
         public override string ToString() => $"{DisplayName} {Position}";
