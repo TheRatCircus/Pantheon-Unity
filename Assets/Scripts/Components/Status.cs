@@ -42,6 +42,18 @@ namespace Pantheon.Components
             status.Statuses.Add(effect);
             effect.Definition.Apply(entity);
         }
+
+        public static bool IsAffectedBy(Entity entity, StatusDefinition status)
+        {
+            if (!entity.TryGetComponent(out Status component))
+                return false;
+
+            foreach (StatusEffect effect in component.Statuses)
+                if (effect.Definition == status)
+                    return true;
+
+            return false;
+        }
     }
 
     public sealed class StatusEffect
