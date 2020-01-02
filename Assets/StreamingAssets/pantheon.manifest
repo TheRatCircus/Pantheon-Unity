@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1543415257
+CRC: 2107738923
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: e549e908604292acc27480d4420881de
+    Hash: ea0c713bb50afb76632f5fa8a8d14ddc
   TypeTreeHash:
     serializedVersion: 2
     Hash: 6d7e2b9597fc3920d74aacf034c1d5a5
@@ -57,6 +57,7 @@ ClassTypes:
   Script: {instanceID: 0}
 Assets:
 - Assets/Sprites/Item/Sprite_Grenade.png
+- Assets/Content/Terrain/Terrain_Water.asset
 - Assets/Sprites/Item/Sprite_Cuirass.png
 - Assets/Content/BuilderPlans/Plan_Reformatory.json
 - Assets/CharacterNames.txt
