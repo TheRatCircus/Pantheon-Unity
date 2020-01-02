@@ -8,7 +8,8 @@
     },
     {
       "$type": "BinarySpacePartition",
-      "minRoomSize": 10,
+      "minRoomSize": 8,
+	  "tightFill": false,
       "terrain": "Terrain_Grass"
     }
   ]

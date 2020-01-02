@@ -137,7 +137,7 @@ namespace PantheonEditor
             {
                 Steps = new BuilderStep[]
                 {
-                    new BinarySpacePartition("Terrain_StoneWall", 10),
+                    new BinarySpacePartition("Terrain_StoneWall", 10, true),
                     new CellularAutomata("Terrain_StoneWall", "Terrain_StoneFloor", 45),
                     new Fill("Terrain_StoneWall", "Terrain_StoneFloor"),
                     new RandomFill("Terrain_StoneWall", "Terrain_StoneFloor", 40)

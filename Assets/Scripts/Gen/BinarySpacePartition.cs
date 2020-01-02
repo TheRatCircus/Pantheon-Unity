@@ -13,21 +13,24 @@ namespace Pantheon.Gen
     public sealed class BinarySpacePartition : BuilderStep
     {
         [JsonProperty] private int minRoomSize = 10;
+        [JsonProperty] private bool tightFill;
         // Terrain with which to fill rooms
         [JsonProperty] private TerrainDefinition terrain = default;
 
-        public BinarySpacePartition(string terrainID, int minRoomSize)
+        public BinarySpacePartition(string terrainID, int minRoomSize, bool tightFill)
         {
             terrain = ScriptableObject.CreateInstance<TerrainDefinition>();
             terrain.name = terrainID;
             this.minRoomSize = minRoomSize;
+            this.tightFill = tightFill;
         }
 
         [JsonConstructor]
-        public BinarySpacePartition(TerrainDefinition terrain, int minRoomSize)
+        public BinarySpacePartition(TerrainDefinition terrain, int minRoomSize, bool tightFill)
         {
             this.terrain = terrain;
             this.minRoomSize = minRoomSize;
+            this.tightFill = tightFill;
         }
 
         public override void Run(Level level)
@@ -60,7 +63,7 @@ namespace Pantheon.Gen
                     }
                 }
             }
-            root.CreateRooms(minRoomSize);
+            root.CreateRooms(minRoomSize, tightFill);
             for (int i = 0; i < leaves.Count; i++)
             {
                 if (leaves[i].Room != null)
@@ -144,14 +147,14 @@ namespace Pantheon.Gen
             /// <summary>
             /// Generates all rooms and hallways for this Leaf and all its children.
             /// </summary>
-            public void CreateRooms(int minRoomSize)
+            public void CreateRooms(int minRoomSize, bool tightFill)
             {
                 if (LeftChild != null || RightChild != null)
                 {
                     if (LeftChild != null)
-                        LeftChild.CreateRooms(minRoomSize);
+                        LeftChild.CreateRooms(minRoomSize, tightFill);
                     if (RightChild != null)
-                        RightChild.CreateRooms(minRoomSize);
+                        RightChild.CreateRooms(minRoomSize, tightFill);
 
                     if (LeftChild != null && RightChild != null)
                         CreateHall(LeftChild.GetRoom(), RightChild.GetRoom());
@@ -161,11 +164,13 @@ namespace Pantheon.Gen
                     Vector2Int roomSize;
                     Vector2Int roomPos;
 
-                    roomSize = new Vector2Int(
-                        Width - 1, Height - 1
-                        //RangeInclusive(minRoomSize, Width - 2),
-                        //RangeInclusive(minRoomSize, Height - 2)
-                        );
+                    if (tightFill)
+                        roomSize = new Vector2Int(Width - 1, Height - 1);
+                    else
+                        roomSize = new Vector2Int(
+                            RangeInclusive(minRoomSize, Width - 2),
+                            RangeInclusive(minRoomSize, Height - 2));
+                    
                     roomPos = new Vector2Int(
                         RangeInclusive(1, Width - roomSize.x - 1),
                         RangeInclusive(1, Height - roomSize.y - 1));
