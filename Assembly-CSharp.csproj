@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="Assets\CrossSceneReference\Samples\LoadScenes.cs" />
     <Compile Include="Assets\CrossSceneReference\Samples\TestCrossScene.cs" />
+    <Compile Include="Assets\Tilemap Extras\Runtime\Tiles\RuleTile\RuleTile.cs" />
     <None Include="Assets\CharacterNames.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />

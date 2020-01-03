@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\ScriptCalculator\Editor\ScriptCalculator.cs" />
+    <Compile Include="Assets\Tilemap Extras\Editor\Tiles\RuleTile\RuleTileEditor.cs" />
     <Reference Include="UnityEditor.TestRunner">
       <HintPath>D:/Misc/Development/unity/Pantheon/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
     </Reference>
