@@ -35,7 +35,7 @@ namespace PantheonTests
             DropCommand cmd = new DropCommand(actor);
             CommandResult result = cmd.Execute(out int cost);
 
-            Assert.True(cell.Items.Contains(item));
+            Assert.True(cell.HasItem(item));
             Assert.True(result == CommandResult.Succeeded);
         }
 

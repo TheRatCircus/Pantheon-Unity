@@ -397,10 +397,10 @@ namespace Pantheon.World
                 if (cell.Actor != null)
                     cell.Actor.GameObjects[0].SetSpriteVisibility(cell.Visible);
 
-                if (cell.Items.Count > 0)
+                if (cell.TryGetItem(0, out Entity item))
                 {
                     itemTilemap.SetTile((Vector3Int)cell.Position,
-                        cell.Items[0].Tile);
+                        item.Tile);
                     itemTilemap.SetColor((Vector3Int)cell.Position,
                         cell.Visible ? Color.white : Color.grey);
                 }

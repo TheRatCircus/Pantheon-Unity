@@ -35,7 +35,17 @@ namespace Pantheon.World
         }
 
         public Entity Actor { get; set; }
-        public List<Entity> Items { get; set; } = new List<Entity>();
+        private List<Entity> items;
+        public bool HasItems
+        {
+            get
+            {
+                if (items == null || items.Count < 1)
+                    return false;
+                else
+                    return true;
+            }
+        }
 
         /// <summary>
         /// Whether a cell can be walked on at all (does not factor entities).
@@ -87,7 +97,9 @@ namespace Pantheon.World
             }
 
             // Else, assume entity is an item
-            Items.Add(entity);
+            if (items == null)
+                items = new List<Entity>();
+            items.Add(entity);
         }
 
         /// <summary>
@@ -99,8 +111,28 @@ namespace Pantheon.World
             if (entity == Actor)
                 Actor = null;
             else
-                Items.Remove(entity);
+            {
+                items.Remove(entity);
+                if (items.Count == 0)
+                    items = null;
+            }
         }
+
+        public bool TryGetItem(int index, out Entity item)
+        {
+            if (!HasItems || items.Count < index)
+            {
+                item = null;
+                return false;
+            }
+            else
+            {
+                item = items[index];
+                return true;
+            }
+        }
+
+        public bool HasItem(Entity item) => items.Contains(item);
 
         public override string ToString()
             => $"Cell {Position}";
