@@ -265,9 +265,10 @@ namespace Pantheon.Debug
             if (destination == ctrl.PC.Level)
                 return $"You're already at {destination}.";
 
-            ctrl.UnloadLevel();
+            Level prev = ctrl.World.ActiveLevel;
             ctrl.PC.Move(destination, destination.RandomCell(true));
             ctrl.LoadLevel(destination, true);
+            ctrl.UnloadLevel(prev);
             return $"Moved to {destination}.";
         }
 

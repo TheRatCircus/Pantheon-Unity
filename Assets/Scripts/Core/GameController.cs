@@ -142,9 +142,9 @@ namespace Pantheon.Core
             LevelChangeEvent?.Invoke(level);
         }
 
-        public void UnloadLevel()
+        public void UnloadLevel(Level level)
         {
-            Destroy(World.ActiveLevel.Transform.gameObject);
+            Destroy(level.Transform.gameObject);
         }
 
         public void AssignGameObject(Entity entity)
