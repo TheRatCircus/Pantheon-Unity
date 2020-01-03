@@ -1,0 +1,9 @@
+{
+  "ID": "DEFAULT_SPECIES_ID",
+  "Name": "DEFAULT_SPECIES_NAME",
+  "Sprite": null,
+  "Parts": [
+    "BODYPART__TEST_BEAK"
+  ],
+  "BodyPattern": "Avian"
+}

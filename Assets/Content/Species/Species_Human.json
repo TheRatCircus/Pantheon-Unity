@@ -6,5 +6,6 @@
     "Part_Human_Head",
     "Part_Human_Arms",
     "Part_Human_Legs"
-  ]
+  ],
+  "BodyPattern": "Humanoid"
 }

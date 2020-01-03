@@ -4,13 +4,13 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Pantheon.Components;
-using UnityEngine;
 
 namespace Pantheon.Content
 {
     [JsonConverter(typeof(StringEnumConverter))]
     public enum BodyPartType
     {
+        Torso,
         Head,
         Arms,
         Legs,
@@ -21,34 +21,27 @@ namespace Pantheon.Content
     [System.Serializable]
     public sealed class BodyPart
     {
-        [SerializeField] private string id = "DEFAULT_BODYPART_ID";
-        [SerializeField] private string name = "DEFAULT_BODYPART_NAME";
-        [SerializeField] private BodyPartType type;
-        [SerializeField] private int moveSpeedModifier;
-        [SerializeField] private Melee melee;
-
-        public string ID => id;
-        public string Name => name;
-        public BodyPartType Type => type;
-        public int MoveSpeedModifier => moveSpeedModifier;
-        public Melee Melee => melee;
+        public string ID { get; private set; } = "DEFAULT_BODYPART_ID";
+        public string Name { get; private set; } = "DEFAULT_BODYPART_NAME";
+        public BodyPartType Type { get; private set; }
+        public int MoveSpeedModifier { get; private set; }
+        public SpeciesDefinition Species { get; private set; }
+        public Melee Melee { get; private set; }
 
         public BodyPart() { }
 
-        public BodyPart(string id)
-        {
-            this.id = id;
-        }
+        public BodyPart(string id) => ID = id;
 
         [JsonConstructor]
         public BodyPart(string id, string name, BodyPartType type,
-            int moveSpeedModifier, Melee melee)
+            int moveSpeedModifier, SpeciesDefinition species, Melee melee)
         {
-            this.id = id;
-            this.name = name;
-            this.type = type;
-            this.moveSpeedModifier = moveSpeedModifier;
-            this.melee = melee;
+            ID = id;
+            Name = name;
+            Type = type;
+            MoveSpeedModifier = moveSpeedModifier;
+            Species = species;
+            Melee = melee;
         }
     }
 }

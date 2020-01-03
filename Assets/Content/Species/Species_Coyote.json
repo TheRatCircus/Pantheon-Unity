@@ -6,5 +6,6 @@
     "Part_Coyote_Head",
     "Part_Coyote_Legs",
     "Part_Canine_Teeth"
-  ]
+  ],
+  "BodyPattern": "Canid"
 }

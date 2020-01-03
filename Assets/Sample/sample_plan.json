@@ -1,0 +1,38 @@
+{
+  "ID": "DEFAULT_PLAN_ID",
+  "Steps": [
+    {
+      "$type": "BinarySpacePartition",
+      "minRoomSize": 10,
+      "tightFill": true,
+      "terrain": "Terrain_StoneWall"
+    },
+    {
+      "$type": "CellularAutomata",
+      "wall": "Terrain_StoneWall",
+      "floor": "Terrain_StoneFloor",
+      "percentWalls": 45
+    },
+    {
+      "$type": "Fill",
+      "ground": "Terrain_StoneFloor",
+      "wall": "Terrain_StoneWall"
+    },
+    {
+      "$type": "RandomFill",
+      "percent": 40,
+      "ground": "Terrain_StoneFloor",
+      "wall": "Terrain_StoneWall"
+    }
+  ],
+  "Population": [
+    {
+      "Weight": 512,
+      "Value": "Coyote"
+    },
+    {
+      "Weight": 512,
+      "Value": "RagingGoose"
+    }
+  ]
+}

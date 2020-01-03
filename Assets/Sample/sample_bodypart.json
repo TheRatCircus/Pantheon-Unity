@@ -1,0 +1,8 @@
+{
+  "ID": "DEFAULT_BODYPART_ID",
+  "Name": "DEFAULT_BODYPART_NAME",
+  "Type": "Teeth",
+  "MoveSpeedModifier": 0,
+  "Species": "SPECIES_ID",
+  "Melee": null
+}

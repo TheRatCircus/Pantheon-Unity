@@ -1,0 +1,155 @@
+{
+  "ID": "SAMPLE_ID",
+  "EntityName": "SAMPLE_NAME",
+  "Sprite": null,
+  "Tile": "",
+  "Components": [
+    {
+      "$type": "Actor",
+      "Speed": -1,
+      "SpeedModifier": 0,
+      "Energy": -1,
+      "Command": null
+    },
+    {
+      "$type": "AI",
+      "Strategy": {
+        "$type": "DefaultStrategy",
+        "Target": null
+      }
+    },
+    {
+      "$type": "Ammo",
+      "Type": 2,
+      "Damages": [
+        {
+          "Type": "Piercing",
+          "Min": 3,
+          "Max": 7
+        }
+      ],
+      "OnLandCommand": {
+        "$type": "ExplodeCommand",
+        "Damages": [
+          {
+            "Type": "Searing",
+            "Min": 3,
+            "Max": 7
+          }
+        ],
+        "Pattern": "Square",
+        "Prefab": "FX_Shrapnel",
+        "Sound": null,
+        "Cell": null,
+        "Line": null,
+        "Entity": null
+      },
+      "OnHitCommand": null
+    },
+    {
+      "$type": "Body",
+      "Torso": null,
+      "Parts": null
+    },
+    {
+      "$type": "Corpse",
+      "Original": null,
+      "Skeletal": false
+    },
+    {
+      "$type": "Evocable",
+      "EvokeTime": 100,
+      "Talents": [
+        {
+          "Range": 5,
+          "Commands": [
+            {
+              "$type": "PointEffectCommand",
+              "cmd": {
+                "$type": "StatusCommand",
+                "Definition": "Status_Momentum",
+                "Duration": 1000,
+                "Magnitude": 1,
+                "Entity": null
+              },
+              "Cell": null,
+              "Range": 5,
+              "Entity": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$type": "Health",
+      "Max": 10,
+      "RegenTime": 800,
+      "Regenerating": true,
+      "Invincible": false
+    },
+    {
+      "$type": "Inventory",
+      "Size": 20,
+      "Items": [],
+      "Empty": true
+    },
+    {
+      "$type": "Location",
+      "Cell": null,
+      "Level": null
+    },
+    {
+      "$type": "Melee",
+      "Attacks": [
+        {
+          "Range": 1,
+          "Damages": [
+            {
+              "Type": "Slashing",
+              "Min": 2,
+              "Max": 5
+            }
+          ],
+          "Accuracy": 80,
+          "Time": 120
+        }
+      ]
+    },
+    {
+      "$type": "OnDamageTaken",
+      "Commands": []
+    },
+    {
+      "$type": "OnUse",
+      "UseTime": 100
+    },
+    {
+      "$type": "Relic",
+      "Name": "Orb of Zot"
+    },
+    {
+      "$type": "Size",
+      "Value": 1
+    },
+    {
+      "$type": "Species",
+      "SpeciesDef": null
+    },
+    {
+      "$type": "Status",
+      "Statuses": []
+    },
+    {
+      "$type": "Weight",
+      "Value": 50
+    },
+    {
+      "$type": "Wield",
+      "Items": [
+        null,
+        null
+      ],
+      "Wielding": false
+    }
+  ]
+}
