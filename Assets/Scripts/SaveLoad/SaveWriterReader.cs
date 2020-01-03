@@ -50,8 +50,10 @@ namespace Pantheon.SaveLoad
         {
             UnityEngine.Profiling.Profiler.BeginSample("Save Write");
 
-            BinaryFormatter formatter = new BinaryFormatter();
-            formatter.SurrogateSelector = selector;
+            BinaryFormatter formatter = new BinaryFormatter
+            {
+                SurrogateSelector = selector
+            };
 
             string path = Path.Combine(Application.persistentDataPath,
                 $"{save.Name.ToLower()}.save");
@@ -70,8 +72,10 @@ namespace Pantheon.SaveLoad
 
             if (File.Exists(path))
             {
-                BinaryFormatter formatter = new BinaryFormatter();
-                formatter.SurrogateSelector = selector;
+                BinaryFormatter formatter = new BinaryFormatter
+                {
+                    SurrogateSelector = selector
+                };
 
                 FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read);
                 // Move stream to save object

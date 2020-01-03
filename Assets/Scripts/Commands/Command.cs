@@ -1,6 +1,8 @@
 ﻿// Command.cs
 // Jerome Martina
 
+using Newtonsoft.Json;
+
 namespace Pantheon.Commands
 {
     /// <summary>
@@ -10,7 +12,7 @@ namespace Pantheon.Commands
     public abstract class Command
     {
         // Entity responsible for command, if any exists
-        public Entity Entity { get; set; }
+        [JsonIgnore] public Entity Entity { get; set; }
 
         public Command(Entity entity) => Entity = entity;
     }

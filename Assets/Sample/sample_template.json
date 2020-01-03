@@ -41,8 +41,7 @@
         "Prefab": "FX_Shrapnel",
         "Sound": null,
         "Cell": null,
-        "Line": null,
-        "Entity": null
+        "Line": null
       },
       "OnHitCommand": null
     },
@@ -69,12 +68,10 @@
                 "$type": "StatusCommand",
                 "Definition": "Status_Momentum",
                 "Duration": 1000,
-                "Magnitude": 1,
-                "Entity": null
+                "Magnitude": 1
               },
               "Cell": null,
-              "Range": 5,
-              "Entity": null
+              "Range": 5
             }
           ]
         }
