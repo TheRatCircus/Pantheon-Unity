@@ -5,7 +5,6 @@ using Pantheon.Utils;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Profiling;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
@@ -34,6 +33,7 @@ namespace Pantheon.World
 
         public void AssignGameObject(Transform transform)
         {
+            transform.gameObject.name = ID;
             this.transform = transform;
             entitiesTransform = transform.Find("Entities");
             Transform terrainTransform = transform.Find("Terrain");

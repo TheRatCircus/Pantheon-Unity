@@ -27,7 +27,7 @@ namespace Pantheon.Serialization.Binary.Surrogates
             StreamingContext context, ISurrogateSelector selector)
         {
             AudioClip clip = (AudioClip)obj;
-            clip = loader.Load<AudioClip>("id");
+            clip = loader.Load<AudioClip>(info.GetString("id"));
             obj = clip;
             return obj;
         }

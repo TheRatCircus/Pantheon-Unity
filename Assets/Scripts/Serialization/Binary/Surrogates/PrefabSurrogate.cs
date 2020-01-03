@@ -27,7 +27,7 @@ namespace Pantheon.Serialization.Binary.Surrogates
             StreamingContext context, ISurrogateSelector selector)
         {
             GameObject go = (GameObject)obj;
-            go = loader.Load<GameObject>("id");
+            go = loader.Load<GameObject>(info.GetString("id"));
             obj = go;
             return obj;
         }

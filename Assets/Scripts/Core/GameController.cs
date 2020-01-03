@@ -122,7 +122,6 @@ namespace Pantheon.Core
         /// <param name="refreshFOV"></param>
         public void LoadLevel(Level level, bool refreshFOV)
         {
-            Level prev = World.ActiveLevel;
             World.ActiveLevel = level;
             Scheduler.Queue.Clear();
             level.AssignGameObject(Instantiate(levelPrefab, worldTransform).transform);
@@ -141,13 +140,18 @@ namespace Pantheon.Core
             }
 
             LevelChangeEvent?.Invoke(level);
+        }
 
-            if (prev != null)
-                Destroy(prev.Transform.gameObject);
+        public void UnloadLevel()
+        {
+            Destroy(World.ActiveLevel.Transform.gameObject);
         }
 
         public void AssignGameObject(Entity entity)
         {
+            if (entity.GameObjects == null)
+                entity.GameObjects = new GameObject[1];
+
             if (entity.GameObjects[0] != null)
             {
                 entity.GameObjects[0].transform.SetParent(entity.Level.EntitiesTransform);

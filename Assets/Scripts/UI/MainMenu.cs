@@ -2,6 +2,7 @@
 // Jerome Martina
 
 #define QUICKSTART
+#undef QUICKSTART
 
 using Pantheon.Core;
 using Pantheon.SaveLoad;
@@ -74,6 +75,9 @@ namespace Pantheon.UI
 
         public void ToTitle()
         {
+            foreach (Transform transform in saveOptionsList)
+                Destroy(transform.gameObject);
+
             loadMenu.SetActive(false);
             mainTitle.SetActive(true);
         }
