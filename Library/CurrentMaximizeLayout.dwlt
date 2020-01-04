@@ -19,12 +19,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 30
-    width: 1920
-    height: 947
-  m_MinSize: {x: 679, y: 344}
-  m_MaxSize: {x: 12004, y: 8044}
+    width: 1904
+    height: 931
+  m_MinSize: {x: 506, y: 494}
+  m_MaxSize: {x: 14004, y: 14044}
   vertical: 0
-  controlID: 14831
+  controlID: 582
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -46,10 +46,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 249
+    x: 247
     y: 20
-    width: 1276
-    height: 648
+    width: 1265
+    height: 637
   m_ViewDataDictionary: {fileID: 0}
   m_VSyncEnabled: 0
   m_MaximizeOnPlay: 1
@@ -62,10 +62,10 @@ MonoBehaviour:
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -638
-    m_HBaseRangeMax: 638
-    m_VBaseRangeMin: -315.5
-    m_VBaseRangeMax: 315.5
+    m_HBaseRangeMin: -632.5
+    m_HBaseRangeMax: 632.5
+    m_VBaseRangeMin: -310
+    m_VBaseRangeMax: 310
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -74,7 +74,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -83,25 +83,25 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 17
-      width: 1276
-      height: 631
+      width: 1265
+      height: 620
     m_Scale: {x: 1, y: 1}
-    m_Translation: {x: 638, y: 315.5}
+    m_Translation: {x: 632.5, y: 310}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -638
-      y: -315.5
-      width: 1276
-      height: 631
+      x: -632.5
+      y: -310
+      width: 1265
+      height: 620
     m_MinimalGUI: 1
   m_defaultScale: 1
   m_TargetTexture: {fileID: 0}
   m_CurrentColorSpace: 0
-  m_LastWindowPixelSize: {x: 1276, y: 648}
+  m_LastWindowPixelSize: {x: 1265, y: 637}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
@@ -125,12 +125,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1527
-    height: 947
-  m_MinSize: {x: 404, y: 344}
-  m_MaxSize: {x: 8004, y: 8044}
+    width: 1514
+    height: 931
+  m_MinSize: {x: 404, y: 494}
+  m_MaxSize: {x: 10002, y: 14044}
   vertical: 1
-  controlID: 14832
+  controlID: 583
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -150,12 +150,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1527
-    height: 670
+    width: 1514
+    height: 659
   m_MinSize: {x: 404, y: 222}
   m_MaxSize: {x: 8004, y: 4022}
   vertical: 0
-  controlID: 14833
+  controlID: 584
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -173,8 +173,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 247
-    height: 670
+    width: 245
+    height: 659
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 6}
@@ -204,17 +204,17 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 73
-    width: 247
-    height: 651
+    x: 8
+    y: 81
+    width: 245
+    height: 640
   m_ViewDataDictionary: {fileID: 0}
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 3274fbffba7bfbffc47bfbff52fafbffbc36fcff3271fcff82c4fcff1cdafcff3cdafcff38e1fcfff6fdfcff921afdff3847fdffc84afdff8867fdff6e84fdff74a1fdff68befdff8814feff1e31feff2257feff30cdfeff66d3feff34dafeffcae0feffeebdfffff0bdfffff2bdfffff4bdffff36beffff20fbffffb6450000c04500006edd000020f2000042f700002e0601008406010098060100ba060100dc060100fa11010030120100e81c0100662a01008a2f010076440100cc440100e0440100e6440100f0440100024501001c450100244501009e730100
+      m_ExpandedIDs: a0c5ffff1afbffff1cfbffff1efbffff20fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -284,10 +284,10 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 247
+    x: 245
     y: 0
-    width: 1280
-    height: 670
+    width: 1269
+    height: 659
   m_MinSize: {x: 204, y: 222}
   m_MaxSize: {x: 4004, y: 4022}
   m_ActualView: {fileID: 2}
@@ -319,10 +319,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 247
-    y: 73
-    width: 1278
-    height: 651
+    x: 253
+    y: 81
+    width: 1267
+    height: 640
   m_ViewDataDictionary: {fileID: 0}
   m_ShowContextualTools: 0
   m_WindowGUID: dddf9f25547147743964b3111109dd5a
@@ -841,17 +841,17 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 670
-    width: 1527
-    height: 277
-  m_MinSize: {x: 102, y: 122}
-  m_MaxSize: {x: 4002, y: 4022}
-  m_ActualView: {fileID: 14}
+    y: 659
+    width: 1514
+    height: 272
+  m_MinSize: {x: 232, y: 272}
+  m_MaxSize: {x: 10002, y: 10022}
+  m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
   - {fileID: 14}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -873,10 +873,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 743
-    width: 1527
-    height: 258
+    x: 8
+    y: 740
+    width: 1514
+    height: 253
   m_ViewDataDictionary: {fileID: 0}
   m_SearchFilter:
     m_NameFilter: 
@@ -891,20 +891,20 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Content/BuilderPlans
+    - Assets/Scripts/Core
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Content/BuilderPlans
+  - Assets/Scripts/Core
   m_LastFoldersGridSize: 16
   m_LastProjectPath: D:\Misc\Development\unity\Pantheon
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 763b0000
-    m_LastClickedID: 15222
-    m_ExpandedIDs: 00000000aa3500006e370000e03900002c3a00007c3a0000e63a0000723b0000a63b00000c3c0000aa3c0000d23c00008e3d0000563f0000c63f000082400000b0400000b64000003e41000036460000384600003a4600003c4600003e46000040460000424600004446000046460000484600004a4600004c4600004e460000
+    scrollPos: {x: 0, y: 222}
+    m_SelectedIDs: 5e3e0000
+    m_LastClickedID: 15966
+    m_ExpandedIDs: 00000000ee350000b2370000243a0000703a0000c03a00002a3b0000b63b0000ea3b0000503c0000ee3c0000163d0000d23d0000983f000008400000c4400000f2400000f84000008041000076460000784600007a4600007c4600007e46000080460000824600008446000086460000884600008a4600008c4600008e460000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -932,7 +932,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000aa3500006e370000e03900002c3a00007c3a0000e63a0000723b0000a63b00000c3c0000aa3c0000d23c00008e3d0000563f0000c63f000082400000b0400000b64000003e41000036460000384600003a4600003c4600003e46000040460000424600004446000046460000484600004a4600004c4600004e460000
+    m_ExpandedIDs: 00000000ee350000b2370000243a0000703a0000c03a00002a3b0000b63b0000ea3b0000503c0000ee3c0000163d0000d23d0000983f000008400000c4400000f2400000f84000008041000076460000784600007a4600007c4600007e46000080460000824600008446000086460000884600008a4600008c4600008e460000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1009,10 +1009,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 743
-    width: 1527
-    height: 258
+    x: 8
+    y: 740
+    width: 1514
+    height: 253
   m_ViewDataDictionary: {fileID: 0}
 --- !u!114 &15
 MonoBehaviour:
@@ -1029,18 +1029,18 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1527
+    x: 1514
     y: 0
-    width: 393
-    height: 947
-  m_MinSize: {x: 277, y: 72}
+    width: 390
+    height: 931
+  m_MinSize: {x: 102, y: 122}
   m_MaxSize: {x: 4002, y: 4022}
-  m_ActualView: {fileID: 16}
+  m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 16}
   - {fileID: 17}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1062,10 +1062,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1527
-    y: 73
-    width: 391
-    height: 928
+    x: 1522
+    y: 81
+    width: 388
+    height: 912
   m_ViewDataDictionary: {fileID: 0}
   m_OpenAddComponentMenu: 0
   m_ObjectsLockedBeforeSerialization: []
@@ -1099,10 +1099,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1527
-    y: 73
-    width: 391
-    height: 928
+    x: 1522
+    y: 81
+    width: 388
+    height: 912
   m_ViewDataDictionary: {fileID: 0}
   m_TestTypeToolbarIndex: 1
   m_PlayModeTestListGUI:
@@ -1164,7 +1164,7 @@ MonoBehaviour:
       name: Pantheon
       fullName: Pantheon
       resultStatus: 1
-      duration: 0.1599004
+      duration: 0.1636619
       messages: 
       output: 
       stacktrace: 
@@ -1180,7 +1180,7 @@ MonoBehaviour:
       name: Pantheon.EditorTests.dll
       fullName: D:/Misc/Development/unity/Pantheon/Library/ScriptAssemblies/Pantheon.EditorTests.dll
       resultStatus: 1
-      duration: 0.1140722
+      duration: 0.115031
       messages: 
       output: 
       stacktrace: 
@@ -1196,7 +1196,7 @@ MonoBehaviour:
       name: PantheonTests
       fullName: PantheonTests
       resultStatus: 1
-      duration: 0.1005252
+      duration: 0.1000119
       messages: 
       output: 
       stacktrace: 
@@ -1212,7 +1212,7 @@ MonoBehaviour:
       name: CellTests
       fullName: PantheonTests.CellTests
       resultStatus: 1
-      duration: 0.0302819
+      duration: 0.0309292
       messages: 
       output: 
       stacktrace: 
@@ -1228,7 +1228,7 @@ MonoBehaviour:
       name: CellWithActorIsBlocked
       fullName: PantheonTests.CellTests.CellWithActorIsBlocked
       resultStatus: 1
-      duration: 0.0107476
+      duration: 0.0100967
       messages: 
       output: 
       stacktrace: 
@@ -1245,7 +1245,7 @@ MonoBehaviour:
       name: DefaultCellWithActorIsWalkable
       fullName: PantheonTests.CellTests.DefaultCellWithActorIsWalkable
       resultStatus: 1
-      duration: 0.0005313
+      duration: 0.0004661
       messages: 
       output: 
       stacktrace: 
@@ -1262,7 +1262,7 @@ MonoBehaviour:
       name: CommandTests
       fullName: PantheonTests.CommandTests
       resultStatus: 1
-      duration: 0.0369223
+      duration: 0.038588
       messages: 
       output: 
       stacktrace: 
@@ -1278,7 +1278,7 @@ MonoBehaviour:
       name: DropCommandTest
       fullName: PantheonTests.CommandTests.DropCommandTest
       resultStatus: 1
-      duration: 0.003096
+      duration: 0.0025537
       messages: 
       output: 
       stacktrace: 
@@ -1295,7 +1295,7 @@ MonoBehaviour:
       name: PickupCommandTest
       fullName: PantheonTests.CommandTests.PickupCommandTest
       resultStatus: 1
-      duration: 0.0009286
+      duration: 0.000906
       messages: 
       output: 
       stacktrace: 
@@ -1312,7 +1312,7 @@ MonoBehaviour:
       name: StatusCommandTest
       fullName: PantheonTests.CommandTests.StatusCommandTest
       resultStatus: 1
-      duration: 0.0032463
+      duration: 0.004276
       messages: 
       output: 
       stacktrace: 
@@ -1329,7 +1329,7 @@ MonoBehaviour:
       name: EntityMessageTests
       fullName: PantheonTests.EntityMessageTests
       resultStatus: 1
-      duration: 0.0141858
+      duration: 0.0163408
       messages: 
       output: 
       stacktrace: 
@@ -1345,7 +1345,7 @@ MonoBehaviour:
       name: EntityReceivesMessages
       fullName: PantheonTests.EntityMessageTests.EntityReceivesMessages
       resultStatus: 1
-      duration: 0.0033602
+      duration: 0.0020229
       messages: 
       output: 
       stacktrace: 

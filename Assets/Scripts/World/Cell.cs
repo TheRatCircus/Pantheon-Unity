@@ -16,7 +16,21 @@ namespace Pantheon.World
         public const float TileOffsetX = .5f;
         public const float TileOffsetY = .5f;
 
-        public Vector2Int Position { get; private set; }
+        public byte X { get; private set; }
+        public byte Y { get; private set; }
+        public Vector2Int Position
+        {
+            get => new Vector2Int(X, Y);
+            private set
+            {
+                if (value.x > byte.MaxValue || value.y > byte.MaxValue)
+                    throw new ArgumentException(
+                        $"Pos. {value.x}, {value.y} exceeds cells position bounds.");
+
+                X = (byte)value.x;
+                Y = (byte)value.y;
+            }
+        }
 
         public bool Visible { get; set; } = false;
         public bool Revealed { get; set; } = false;
