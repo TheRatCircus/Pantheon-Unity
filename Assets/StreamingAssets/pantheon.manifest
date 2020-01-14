@@ -1,113 +1,36 @@
 ManifestFileVersion: 0
-CRC: 3613422630
+CRC: 1732275459
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 5edb3e0d0d78aa6783f31cec3e4ee6a2
+    Hash: fe350806ad4aa3d94bd731398e91ad13
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 6d7e2b9597fc3920d74aacf034c1d5a5
+    Hash: 5c4a76c0831618303ee63a1cea41d185
 HashAppended: 0
 ClassTypes:
-- Class: 1
-  Script: {instanceID: 0}
-- Class: 4
-  Script: {instanceID: 0}
-- Class: 21
-  Script: {instanceID: 0}
 - Class: 28
   Script: {instanceID: 0}
-- Class: 48
-  Script: {instanceID: 0}
 - Class: 49
-  Script: {instanceID: 0}
-- Class: 50
-  Script: {instanceID: 0}
-- Class: 61
-  Script: {instanceID: 0}
-- Class: 82
   Script: {instanceID: 0}
 - Class: 83
   Script: {instanceID: 0}
 - Class: 114
-  Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-- Class: 114
-  Script: {fileID: 11500000, guid: b528da40e02f341499308298e077ae3a, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: d94c7c62b7037f44999b9769faf66a83, type: 3}
-- Class: 114
   Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: 6b2f0a044eb88b444bbf028609a9586c, type: 3}
-- Class: 114
   Script: {fileID: 11500000, guid: b5bc4584c6f41714ca6a3cc1c568d2c2, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 77361cca67bf70d4fb5a2a3bf6ec4dd7, type: 3}
 - Class: 115
-  Script: {instanceID: 0}
-- Class: 198
-  Script: {instanceID: 0}
-- Class: 199
-  Script: {instanceID: 0}
-- Class: 212
   Script: {instanceID: 0}
 - Class: 213
   Script: {instanceID: 0}
-- Class: 1839735485
-  Script: {instanceID: 0}
 Assets:
-- Assets/Sprites/Item/Sprite_Grenade.png
 - Assets/Content/Terrain/Terrain_Water.asset
-- Assets/Sprites/Item/Sprite_Cuirass.png
-- Assets/Content/BuilderPlans/Plan_Reformatory.json
 - Assets/CharacterNames.txt
 - Assets/Audio/SFX_Toss.ogg
-- Assets/Sprites/Item/Sprite_Dagger.png
-- Assets/Content/BodyParts/Human/Part_Human_Head.json
-- Assets/Content/Species/Species_Goose.json
-- Assets/Sprites/Actor/Sprite_GiantBumblebee.png
-- Assets/Content/Templates/Item/Item_Sceptre.json
-- Assets/Content/BodyParts/Coyote/Part_Coyote_Legs.json
-- Assets/Sprites/Actor/Sprite_Goose.png
 - Assets/Content/Terrain/Terrain_StoneWall.asset
-- Assets/Content/BodyParts/Human/Part_Human_Legs.json
 - Assets/Audio/SFX_Explosion.ogg
 - Assets/Audio/SFX_Patsons.ogg
-- Assets/Content/BodyParts/Human/Part_Human_Arms.json
-- Assets/Content/BodyParts/Coyote/Part_Coyote_Head.json
-- Assets/Content/BodyParts/Coyote/Part_Canine_Teeth.json
-- Assets/Content/Templates/Item/Item_Dagger.json
-- Assets/Sprites/Item/Sprite_Hatchet.png
-- Assets/Content/BodyParts/Goose/Part_Goose_Legs.json
-- Assets/Sprites/Item/Sprite_Flask.png
-- Assets/Prefabs/FX/FX_Shrapnel.prefab
-- Assets/Content/Templates/Item/Item_Hatchet.json
-- Assets/Sprites/Item/Sprite_Scroll.png
-- Assets/Sprites/Actor/Sprite_Player.png
-- Assets/Sprites/Actor/Sprite_Swine.png
-- Assets/Content/Species/Species_Human.json
-- Assets/Content/Templates/Player.json
-- Assets/Sprites/Actor/Sprite_Pigman.png
-- Assets/Content/Templates/Item/Mythical/Myth_MotherOfPearl.json
-- Assets/Content/BuilderPlans/Plan_FloodPlain.json
-- Assets/Sprites/Item/Sprite_Corpse.png
-- Assets/Content/BodyParts/Goose/Part_Goose_Wings.json
-- Assets/Content/BodyParts/Goose/Part_Goose_Teeth.json
-- Assets/Sprites/Actor/Sprite_Human.png
-- Assets/Content/BodyParts/Goose/Part_Goose_Head.json
-- Assets/Sprites/Item/Sprite_Carbine.png
-- Assets/Content/Templates/NPC/Coyote.json
-- Assets/Sprites/Item/Sprite_Prejudice.png
-- Assets/Prefabs/EntityGameObject.prefab
 - Assets/Content/Terrain/Terrain_Grass.asset
 - Assets/RelicNames.txt
-- Assets/Sprites/Item/Sprite_Cartridges.png
-- Assets/Sprites/Actor/Sprite_Coyote.png
-- Assets/Content/Templates/NPC/RagingGoose.json
-- Assets/Sprites/Actor/Sprite_GenericNPC.png
-- Assets/Prefabs/FX/FX_Toss.prefab
-- Assets/Content/Vaults/Vault_Keep.asset
-- Assets/Content/Species/Species_Coyote.json
 - Assets/Content/Terrain/Terrain_StoneFloor.asset
-- Assets/Content/BuilderPlans/Plan_Subterrane.json
 Dependencies: []
