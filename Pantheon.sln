@@ -1,17 +1,11 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pantheon", "Pantheon.csproj", "{9DBFFA44-1F1A-AF79-EB58-0B2D35EF2F30}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossSceneReference", "CrossSceneReference.csproj", "{6414A4A1-599C-F67C-131D-1580D313A044}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{D8FF56EA-5D97-32BB-196E-D0BA45FA9996}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pantheon.Editor", "Pantheon.Editor.csproj", "{A06B5C3A-19E0-1EEF-7F23-6CB531956359}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{8976FB5C-5AF4-9F4C-A35D-8B005B94FF40}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pantheon.EditorTests", "Pantheon.EditorTests.csproj", "{327A71E9-80C3-73F6-2820-3874FA790762}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossSceneReference.Editor", "CrossSceneReference.Editor.csproj", "{DCA391AA-BF7E-B08C-F5C6-9D77260AD86B}"
 EndProject
@@ -21,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9DBFFA44-1F1A-AF79-EB58-0B2D35EF2F30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9DBFFA44-1F1A-AF79-EB58-0B2D35EF2F30}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9DBFFA44-1F1A-AF79-EB58-0B2D35EF2F30}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9DBFFA44-1F1A-AF79-EB58-0B2D35EF2F30}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6414A4A1-599C-F67C-131D-1580D313A044}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6414A4A1-599C-F67C-131D-1580D313A044}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6414A4A1-599C-F67C-131D-1580D313A044}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,18 +23,10 @@ Global
 		{D8FF56EA-5D97-32BB-196E-D0BA45FA9996}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8FF56EA-5D97-32BB-196E-D0BA45FA9996}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8FF56EA-5D97-32BB-196E-D0BA45FA9996}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A06B5C3A-19E0-1EEF-7F23-6CB531956359}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A06B5C3A-19E0-1EEF-7F23-6CB531956359}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A06B5C3A-19E0-1EEF-7F23-6CB531956359}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A06B5C3A-19E0-1EEF-7F23-6CB531956359}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8976FB5C-5AF4-9F4C-A35D-8B005B94FF40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8976FB5C-5AF4-9F4C-A35D-8B005B94FF40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8976FB5C-5AF4-9F4C-A35D-8B005B94FF40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8976FB5C-5AF4-9F4C-A35D-8B005B94FF40}.Release|Any CPU.Build.0 = Release|Any CPU
-		{327A71E9-80C3-73F6-2820-3874FA790762}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{327A71E9-80C3-73F6-2820-3874FA790762}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{327A71E9-80C3-73F6-2820-3874FA790762}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{327A71E9-80C3-73F6-2820-3874FA790762}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DCA391AA-BF7E-B08C-F5C6-9D77260AD86B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DCA391AA-BF7E-B08C-F5C6-9D77260AD86B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCA391AA-BF7E-B08C-F5C6-9D77260AD86B}.Release|Any CPU.ActiveCfg = Release|Any CPU
