@@ -54,8 +54,7 @@ namespace Pantheon.Core
 
         private void OnEnable()
         {
-            Loader = new AssetLoader();
-            Locator.Loader = Loader;
+            //Loader = new AssetLoader();
             Scheduler = GetComponent<TurnScheduler>();
             Locator.Scheduler = Scheduler;
             Player = GetComponent<Player>();
@@ -74,9 +73,9 @@ namespace Pantheon.Core
             World.Layers.TryGetValue(-2, out Layer surface);
             Generator.PlaceBuilders();
             Level level = surface.RequestLevel(Vector2Int.zero);
-            
+
             // Spawn the player
-            EntityTemplate template = Loader.LoadTemplate("Player");
+            EntityTemplate template = Assets.Templates["Player"];
             Entity player = Spawn.SpawnActor(template, level, level.RandomCell(true));
             player.DestroyedEvent += OnPlayerDeath;
 

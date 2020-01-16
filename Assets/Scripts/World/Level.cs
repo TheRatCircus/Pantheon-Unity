@@ -453,12 +453,12 @@ namespace Pantheon.World
 
         public TerrainDefinition GetTerrain(int x, int y)
         {
-            return Locator.Loader.GetTerrain(TerrainMap[Index(x, y)]);
+            return Assets.GetTerrain(TerrainMap[Index(x, y)]);
         }
 
         public void SetTerrain(int x, int y, TerrainDefinition terrain)
         {
-            TerrainMap[Index(x, y)] = Locator.Loader.GetTerrainIndex(terrain);
+            TerrainMap[Index(x, y)] = Assets.GetTerrainIndex(terrain);
         }
 
         public CellFlag GetFlag(int x, int y)

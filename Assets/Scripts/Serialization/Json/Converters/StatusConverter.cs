@@ -3,18 +3,12 @@
 
 using Newtonsoft.Json;
 using Pantheon.Components.Statuses;
-using Pantheon.Core;
 using System;
 
 namespace Pantheon.Serialization.Json.Converters
 {
     public sealed class StatusConverter : JsonConverter<StatusDefinition>
     {
-        private AssetLoader loader;
-
-        public StatusConverter(AssetLoader loader = null)
-            => this.loader = loader;
-
         public override StatusDefinition ReadJson(JsonReader reader,
             Type objectType, StatusDefinition existingValue,
             bool hasExistingValue, JsonSerializer serializer)

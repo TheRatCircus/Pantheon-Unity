@@ -1,0 +1,22 @@
+ManifestFileVersion: 0
+CRC: 3821454212
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 7656ddc3f9f91a3fcfc213db0970edfb
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/Content/Templates/Item/Item_Sceptre.json
+- Assets/Content/Templates/Item/Item_Dagger.json
+- Assets/Content/Templates/Item/Item_Hatchet.json
+- Assets/Content/Templates/Player.json
+- Assets/Content/Templates/Item/Mythical/Myth_MotherOfPearl.json
+- Assets/Content/Templates/NPC/Coyote.json
+- Assets/Content/Templates/NPC/RagingGoose.json
+Dependencies: []

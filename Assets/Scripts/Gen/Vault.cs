@@ -44,10 +44,9 @@ namespace Pantheon.Gen
             return terrain[markerIndex];
         }
 
-        public static bool Build(string id, World.Level level,
+        public static bool Build(Vault vault, World.Level level,
             Vector2Int position)
         {
-            Vault vault = Locator.Loader.Load<Vault>(id);
             vault.Initialize();
 
             if (!level.Contains(position + vault.Size))

@@ -17,6 +17,10 @@ namespace Pantheon.Serialization.Json.Converters
         public override BodyPart ReadJson(JsonReader reader, Type objectType,
             BodyPart existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
+#if DEBUG_CONVERTER_BODY
+            UnityEngine.Debug.Log((string)reader.Value);
+#endif
+            return Assets.BodyParts[(string)reader.Value];
             return loader.LoadBodyPart(reader.Value as string);
         }
 

@@ -13,7 +13,7 @@ namespace Pantheon.Components.Statuses
     {
         public override string ID => "Status_Momentum";
         public override string Name => "Momentum";
-        public override Sprite Icon => Locator.Loader.Load<Sprite>("Sprite_Momentum");
+        public override Sprite Icon => Assets.Sprites["Sprite_Momentum"];
         public override bool HasMagnitude => false;
 
         public override void Apply(Entity entity)

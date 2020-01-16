@@ -111,7 +111,7 @@ namespace PantheonEditor
             JsonSerializerSettings settings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Binders.entity,
+                SerializationBinder = Binders._entity,
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
@@ -157,7 +157,7 @@ namespace PantheonEditor
             JsonSerializerSettings settings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Binders.entity,
+                SerializationBinder = Binders._entity,
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
@@ -176,7 +176,7 @@ namespace PantheonEditor
             JsonSerializerSettings settings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Binders.entity,
+                SerializationBinder = Binders._entity,
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
@@ -214,7 +214,7 @@ namespace PantheonEditor
             JsonSerializerSettings settings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Binders.entity,
+                SerializationBinder = Binders._entity,
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {

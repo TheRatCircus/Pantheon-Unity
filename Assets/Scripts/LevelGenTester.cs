@@ -37,13 +37,10 @@ namespace Pantheon
                 return;
             }
 
-            loader = new AssetLoader();
-            Locator.Loader = loader;
-
             JsonSerializerSettings settings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Binders.builder,
+                SerializationBinder = Binders._builder,
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
@@ -99,7 +96,7 @@ namespace Pantheon
             for (int i = 0; i < numSpawns; i++)
             {
                 string id = GenericRandomPick<string>.Pick(plan.Population);
-                EntityTemplate template = Locator.Loader.LoadTemplate(id);
+                EntityTemplate template = Assets.Templates[id];
 
                 Cell cell;
                 int attempts = 0;

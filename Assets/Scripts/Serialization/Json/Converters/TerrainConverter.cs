@@ -27,7 +27,7 @@ namespace Pantheon.Serialization.Json.Converters
             if (id == null)
                 return null;
             else
-                return loader.Load<TerrainDefinition>(id);
+                return Assets.GetTerrain(id);
         }
 
         public override void WriteJson(JsonWriter writer,

@@ -18,9 +18,6 @@ namespace Pantheon.SaveLoad
 
         public SaveWriterReader(AssetLoader loader)
         {
-            if (loader == null)
-                throw new System.ArgumentNullException();
-
             selector = new SurrogateSelector();
             StreamingContext ctxt = new StreamingContext(StreamingContextStates.All);
 

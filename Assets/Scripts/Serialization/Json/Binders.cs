@@ -14,7 +14,7 @@ namespace Pantheon.Serialization.Json
     /// <summary> Serialization binders for use with JSON.NET. </summary>
     public static class Binders
     {
-        public static readonly SerializationBinder builder
+        public static readonly SerializationBinder _builder
             = new SerializationBinder
             {
                 KnownTypes = new List<Type>()
@@ -27,7 +27,7 @@ namespace Pantheon.Serialization.Json
                 }
             };
 
-        public static readonly SerializationBinder entity
+        public static readonly SerializationBinder _entity
             = new SerializationBinder
             {
                 KnownTypes = new List<Type>()

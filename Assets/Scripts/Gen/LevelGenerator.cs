@@ -33,9 +33,9 @@ namespace Pantheon.Gen
 
         public void PlaceBuilders()
         {
-            BuilderPlan planSubterrane = Loader.LoadPlan("Plan_StoneEnclosure");
-            BuilderPlan planReform = Loader.LoadPlan("Plan_StoneEnclosure");
-            BuilderPlan planFlood = Loader.LoadPlan("Plan_StoneEnclosure");
+            BuilderPlan planSubterrane = Assets.BuilderPlans["Plan_StoneEnclosure"];
+            BuilderPlan planReform = Assets.BuilderPlans["Plan_StoneEnclosure"];
+            BuilderPlan planFlood = Assets.BuilderPlans["Plan_StoneEnclosure"];
 
             Builder builderSubterrane = new Builder("The Subterrane",
                 "sub_0_0_-2", planSubterrane);
@@ -86,7 +86,7 @@ namespace Pantheon.Gen
             for (int i = 0; i < numSpawns; i++)
             {
                 string id = GenericRandomPick<string>.Pick(plan.Population);
-                EntityTemplate template = Locator.Loader.LoadTemplate(id);
+                EntityTemplate template = Assets.Templates[id];
 
                 Cell cell;
                 int attempts = 0;
@@ -121,7 +121,8 @@ namespace Pantheon.Gen
                 }
                 else
                 {
-                    EntityTemplate basic = Loader.LoadTemplate(Tables.basicItems.Random());
+                    EntityTemplate basic = Assets.Templates[
+                        Tables.basicItems.Random()];
                     item = new Entity(basic);
                 }
                 

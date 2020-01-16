@@ -225,7 +225,7 @@ namespace Pantheon
             if (TryGetComponent(out Species species))
             {
                 Tile tile = ScriptableObject.CreateInstance<Tile>();
-                Sprite sprite = Locator.Loader.Load<Sprite>("Sprite_Corpse");
+                Sprite sprite = Assets.Sprites["Sprite_Corpse"];
                 tile.sprite = sprite;
                 Entity corpse = new Entity(new Corpse())
                 {

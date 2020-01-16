@@ -217,12 +217,12 @@ namespace Pantheon.Debug
 
         public static string Vault(string[] args, GameController ctrl)
         {
-            if (!Locator.Loader.AssetExists(args[0]))
+            if (!Assets.Vaults.TryGetValue(args[0], out Gen.Vault vault))
                 return $"Vault {args[0]} does not exist.";
 
             string ret;
             
-            if (!Gen.Vault.Build(args[0], ctrl.World.ActiveLevel,
+            if (!Gen.Vault.Build(vault, ctrl.World.ActiveLevel,
                 ctrl.Cursor.HoveredCell.Position))
                 ret = $"Failed to build vault {args[0]} at {ctrl.Cursor.HoveredCell.Position}.";
             else

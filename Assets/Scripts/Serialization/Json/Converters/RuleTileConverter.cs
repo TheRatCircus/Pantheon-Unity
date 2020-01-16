@@ -20,6 +20,7 @@ namespace Pantheon.Serialization.Json.Converters
             bool hasExistingValue, JsonSerializer serializer)
         {
             // Tiles are generated programatically during template construction
+            // TODO: This may change
             return null;
         }
 
