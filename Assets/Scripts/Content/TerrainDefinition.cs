@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿// TerrainDefinition.cs
+// Jerome Martina
+
+using UnityEngine;
 
 namespace Pantheon.Content
 {

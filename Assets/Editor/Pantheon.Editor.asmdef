@@ -1,0 +1,17 @@
+{
+    "name": "Pantheon.Editor",
+    "references": [
+        "GUID:478cdff9f8e647f48b622c6950f3a085",
+        "GUID:613783dc1674e844b87788ea74ede0f6"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

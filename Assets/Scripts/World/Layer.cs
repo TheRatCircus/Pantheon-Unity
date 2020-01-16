@@ -1,30 +1,44 @@
-﻿using System;
+﻿// Layer.cs
+// Jerome Martina
+
+using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Pantheon.World
 {
-	[Serializable]
-	public sealed class Layer
-	{
-		public const ushort Height = 8;
-		public const ushort Width = 8;
+    /// <summary>
+    /// A horizontal slice of the game world.
+    /// </summary>
+    [System.Serializable]
+    public sealed class Layer
+    {
+        public int ZLevel { get; private set; }
 
-		public Chunk[] Chunks { get; private set; } = new Chunk[Width * Height];
+        public Dictionary<Vector2Int, Level> Levels { get; private set; }
+            = new Dictionary<Vector2Int, Level>();
 
-		public Layer()
-		{
-			for (byte x = 0; x < Width; x++)
-				for (byte y = 0; y < Height; y++)
-				{
-					Chunks[ChunkIndex(x, y)] = new Chunk(x, y);
-				}
-		}
+        public event Func<Vector3Int, Level> LevelRequestEvent;
 
-		public int ChunkIndex(int x, int y)
-		{
-			if (x > Width || y > Height || x < 0 || y < 0)
-				throw new ArgumentException();
+        public Layer(int z)
+        {
+            ZLevel = z;
+        }
 
-			return Width * x + y;
-		}
-	}
+        public Level RequestLevel(Vector2Int pos)
+        {
+            if (!Levels.ContainsKey(pos))
+            {
+                Level newLevel = LevelRequestEvent?.Invoke(
+                    new Vector3Int(pos.x, pos.y, ZLevel));
+                Levels.Add(pos, newLevel);
+                return newLevel;
+            }
+            else
+            {
+                Levels.TryGetValue(pos, out Level ret);
+                return ret;
+            }
+        }
+    }
 }

@@ -1,0 +1,9 @@
+{
+  "ID": "Plan_StoneEnclosure",
+  "Steps": [
+    {
+      "$type": "Fill",
+      "terrain": "Terrain_StoneFloor"
+    }
+  ]
+}

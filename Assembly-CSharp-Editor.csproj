@@ -63,7 +63,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Editor\BuildAssetBundles.cs" />
     <Compile Include="Assets\ScriptCalculator\Editor\ScriptCalculator.cs" />
     <Compile Include="Assets\Tilemap Extras\Editor\Tiles\RuleTile\RuleTileEditor.cs" />
     <Reference Include="UnityEditor.TestRunner">
@@ -339,6 +338,9 @@
     <Reference Include="UnityEditor.UWP.Extensions">
       <HintPath>D:/Program Files/Unity/Hub/Editor/2019.2.6f1/Editor/Data/PlaybackEngines/MetroSupport/UnityEditor.UWP.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.Advertisements">
       <HintPath>D:/Misc/Development/unity/Pantheon/Library/PackageCache/com.unity.ads@2.0.8/Editor/UnityEditor.Advertisements.dll</HintPath>
     </Reference>
@@ -356,9 +358,6 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>D:/Misc/Development/unity/Pantheon/Library/PackageCache/jillejr.newtonsoft.json-for-unity@12.0.1-patch-001/Plugins/Newtonsoft.Json Editor/Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
-      <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>D:/Misc/Development/unity/Pantheon/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
@@ -723,17 +722,21 @@
       <Project>{D8FF56EA-5D97-32BB-196E-D0BA45FA9996}</Project>
       <Name>Assembly-CSharp</Name>
     </ProjectReference>
+    <ProjectReference Include="Pantheon.Editor.csproj">
+      <Project>{A06B5C3A-19E0-1EEF-7F23-6CB531956359}</Project>
+      <Name>Pantheon.Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="CrossSceneReference.Editor.csproj">
       <Project>{DCA391AA-BF7E-B08C-F5C6-9D77260AD86B}</Project>
       <Name>CrossSceneReference.Editor</Name>
     </ProjectReference>
-    <ProjectReference Include="CrossSceneReference.csproj">
-      <Project>{6414A4A1-599C-F67C-131D-1580D313A044}</Project>
-      <Name>CrossSceneReference</Name>
-    </ProjectReference>
     <ProjectReference Include="Pantheon.csproj">
       <Project>{9DBFFA44-1F1A-AF79-EB58-0B2D35EF2F30}</Project>
       <Name>Pantheon</Name>
+    </ProjectReference>
+    <ProjectReference Include="CrossSceneReference.csproj">
+      <Project>{6414A4A1-599C-F67C-131D-1580D313A044}</Project>
+      <Name>CrossSceneReference</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
