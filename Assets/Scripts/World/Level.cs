@@ -3,7 +3,6 @@
 
 using Pantheon.Components;
 using Pantheon.Content;
-using Pantheon.Core;
 using Pantheon.Utils;
 using System;
 using System.Collections.Generic;
@@ -324,7 +323,6 @@ namespace Pantheon.World
 
         public Cell RandomFloorInRect(LevelRect rect)
         {
-            Cell[,] rectMap = CellsInRect(rect);
             Cell ret;
             int attempts = 0;
             do
@@ -422,13 +420,14 @@ namespace Pantheon.World
                 terrainTilemap.SetColor((Vector3Int)cell.Position,
                     cell.Visible ? Color.white : Color.grey);
 
-                if (cell.Actor != null)
-                    cell.Actor.GameObjects[0].SetSpriteVisibility(cell.Visible);
+                Entity actor = ActorAt(cell.X, cell.Y);
+                if (actor != null)
+                    actor.GameObjects[0].SetSpriteVisibility(cell.Visible);
 
-                if (cell.TryGetItem(0, out Entity item))
+                Entity item = FirstItemAt(cell.X, cell.Y);
+                if (item != null)
                 {
-                    itemTilemap.SetTile((Vector3Int)cell.Position,
-                        item.Tile);
+                    itemTilemap.SetTile((Vector3Int)cell.Position, item.Tile);
                     itemTilemap.SetColor((Vector3Int)cell.Position,
                         cell.Visible ? Color.white : Color.grey);
                 }
@@ -476,19 +475,6 @@ namespace Pantheon.World
             FlagMap[Index(x, y)] &= ~flag;
         }
 
-        public List<Entity> EntitiesAt(int x, int y)
-        {
-            Profiler.BeginSample("Entity Search");
-            List<Entity> ret = new List<Entity>();
-            foreach (Entity e in Entities)
-            {
-                if (e.Position == new Vector2Int(x, y))
-                    ret.Add(e);
-            }
-            Profiler.EndSample();
-            return ret;
-        }
-
         public List<Entity> ItemsAt(int x, int y)
         {
             Profiler.BeginSample("Entity Search");
@@ -511,6 +497,33 @@ namespace Pantheon.World
             {
                 if (e.Position == new Vector2Int(x, y)
                     && e.HasComponent<Actor>())
+                    ret = e;
+            }
+            Profiler.EndSample();
+            return ret;
+        }
+
+        public Entity FirstItemAt(int x, int y)
+        {
+            Profiler.BeginSample("Entity Search");
+            Entity ret = null;
+            foreach (Entity e in Entities)
+            {
+                if (e.Position == new Vector2Int(x, y)
+                    && !e.HasComponent<Actor>())
+                    ret = e;
+            }
+            Profiler.EndSample();
+            return ret;
+        }
+
+        public Entity FirstItemAt(Vector2Int pos)
+        {
+            Profiler.BeginSample("Entity Search");
+            Entity ret = null;
+            foreach (Entity e in Entities)
+            {
+                if (e.Position == pos && !e.HasComponent<Actor>())
                     ret = e;
             }
             Profiler.EndSample();

@@ -11,6 +11,7 @@ namespace Pantheon.World
     /// <summary>
     /// Handle for a cell's absolute position in the world.
     /// </summary>
+    [Serializable]
     public struct CellHandle
     {
         public readonly ICellArea area;
@@ -36,6 +37,7 @@ namespace Pantheon.World
     /// Helper class for interacting with the abstract "cells" of the world;
     /// use only locally.
     /// </summary>
+    [Serializable]
     public sealed class Cell
     {
         // The offset of each tile from Unity's true grid coords
@@ -89,17 +91,6 @@ namespace Pantheon.World
         public bool HasWall => Terrain != null && Terrain.Blocked;
 
         public Entity Actor => handle.area.ActorAt(handle.x, handle.y);
-        public List<Entity> Items => handle.area.ItemsAt(handle.x, handle.y);
-        public bool HasItems
-        {
-            get
-            {
-                if (Items == null || Items.Count < 1)
-                    return false;
-                else
-                    return true;
-            }
-        }
 
         // METHODS
 
@@ -134,21 +125,5 @@ namespace Pantheon.World
                 }
             }
         }
-
-        public bool TryGetItem(int index, out Entity item)
-        {
-            if (!HasItems || Items.Count < index)
-            {
-                item = null;
-                return false;
-            }
-            else
-            {
-                item = Items[index];
-                return true;
-            }
-        }
-
-        public bool HasItem(Entity item) => Items.Contains(item);
     }
 }

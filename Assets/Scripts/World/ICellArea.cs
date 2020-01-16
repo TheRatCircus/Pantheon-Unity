@@ -22,7 +22,6 @@ namespace Pantheon.World
         CellFlag GetFlag(int x, int y);
         void AddFlag(int x, int y, CellFlag flag);
         void RemoveFlag(int x, int y, CellFlag flag);
-        List<Entity> EntitiesAt(int x, int y);
         List<Entity> ItemsAt(int x, int y);
         Entity ActorAt(int x, int y);
     }

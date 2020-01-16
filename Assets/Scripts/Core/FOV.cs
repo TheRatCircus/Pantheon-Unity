@@ -5,6 +5,7 @@ using Pantheon.Utils;
 using Pantheon.World;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Pantheon.Core
 {
@@ -20,9 +21,9 @@ namespace Pantheon.Core
         /// <param name="level"></param>
         /// </summary>
         /// <returns>A HashSet of all cells affected by the refresh.</returns>
-        public static HashSet<Cell> RefreshFOV(Level level, Cell origin,
-            bool drawChanges)
+        public static HashSet<Cell> RefreshFOV(Level level, Cell origin, bool drawChanges)
         {
+            Profiler.BeginSample("FOV");
             // Hide cells at the last refresh position
             if (prev != null)
             {
@@ -45,7 +46,7 @@ namespace Pantheon.Core
                 level.Draw(allRefreshed);
 
             prev = origin;
-
+            Profiler.EndSample();
             return allRefreshed;
         }
 

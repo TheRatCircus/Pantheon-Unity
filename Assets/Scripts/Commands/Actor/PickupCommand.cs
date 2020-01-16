@@ -18,7 +18,8 @@ namespace Pantheon.Commands.Actor
                 throw new System.Exception(
                     $"{Entity} has no inventory.");
 
-            if (!Entity.Cell.TryGetItem(0, out Entity item))
+            Entity item = Entity.Level.FirstItemAt(Entity.Position);
+            if (item == null)
             {
                 cost = -1;
 

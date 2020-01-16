@@ -17,29 +17,6 @@ namespace PantheonTests
     internal sealed class CommandTests
     {
         /// <summary>
-        /// Test that an entity with an item successfully drops it to the cell
-        /// it is in.
-        /// </summary>
-        [Test]
-        public void DropCommandTest()
-        {
-            Cell cell = new Cell(new CellHandle());
-            Entity actor = new Entity(new Inventory(1))
-            {
-                Name = "TEST_ENTITY"
-            };
-            actor.Move(null, cell);
-            Entity item = new Entity("TEST_ITEM");
-            item.Move(null, cell);
-            actor.GetComponent<Inventory>().AddItem(item);
-            DropCommand cmd = new DropCommand(actor);
-            CommandResult result = cmd.Execute(out int cost);
-
-            Assert.True(cell.HasItem(item));
-            Assert.True(result == CommandResult.Succeeded);
-        }
-
-        /// <summary>
         /// Test that an entity can pick up an item, changing all necessary
         /// state in the process.
         /// </summary>
