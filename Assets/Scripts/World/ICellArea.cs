@@ -17,12 +17,15 @@ namespace Pantheon.World
         Vector2Int Size { get; }
 
         int Index(int x, int y);
+        int Index(Vector2Int pos);
         TerrainDefinition GetTerrain(int x, int y);
+        TerrainDefinition GetTerrain(Vector2Int pos);
         void SetTerrain(int x, int y, TerrainDefinition terrain);
         CellFlag GetFlag(int x, int y);
         void AddFlag(int x, int y, CellFlag flag);
         void RemoveFlag(int x, int y, CellFlag flag);
         List<Entity> ItemsAt(int x, int y);
         Entity ActorAt(int x, int y);
+        Entity ActorAt(Vector2Int pos);
     }
 }

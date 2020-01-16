@@ -126,17 +126,19 @@ namespace Pantheon.Core
             level.AssignGameObject(Instantiate(levelPrefab, worldTransform).transform);
 
             if (refreshFOV)
-                FOV.RefreshFOV(level, PC.Cell, false);
+                FOV.RefreshFOV(level, PC.Position, false);
 
-            foreach (Cell c in level.Map)
+            foreach (Entity entity in level.Entities)
             {
-                if (c.Actor != null)
+                if (entity.TryGetComponent(out Actor actor))
                 {
-                    AssignGameObject(c.Actor);
-                    Scheduler.AddActor(c.Actor.GetComponent<Actor>());
+                    AssignGameObject(entity);
+                    Scheduler.AddActor(actor);
                 }
-                level.DrawTile(c);
             }
+
+            foreach (Vector2Int cell in level.Map)  
+                level.DrawTile(cell);
 
             LevelChangeEvent?.Invoke(level);
         }

@@ -16,18 +16,15 @@ namespace Pantheon
     [Serializable]
     public sealed class Pathfinder
     {
+        private readonly Level level;
         private Node[,] map;
 
         public Pathfinder(Level level)
         {
+            this.level = level;
             map = new Node[level.Size.x, level.Size.y];
-            GetMap(level);
-        }
-
-        void GetMap(Level level)
-        {
-            foreach (Cell c in level.Map)
-                map[c.Position.x, c.Position.y] = new Node(c);
+            foreach (Vector2Int cell in level.Map)
+                map[cell.x, cell.y] = new Node(cell);
         }
 
         public HashSet<Node> GetNeighbours(Node node)
@@ -42,8 +39,8 @@ namespace Pantheon
                     else
                     {
                         if (map.TryGet(out Node n,
-                            node.Position.x + x,
-                            node.Position.y + y))
+                            node.Cell.x + x,
+                            node.Cell.y + y))
                             neighbours.Add(n);
                     }
 
@@ -51,17 +48,16 @@ namespace Pantheon
             return neighbours;
         }
 
-        public List<Cell> CellPathList(Vector2Int startPos,
-            Vector2Int targetPos)
+        public List<Vector2Int> CellPathList(Vector2Int startPos, Vector2Int targetPos)
         {
             Profiler.BeginSample("Pathfinding");
             List<Node> nodes = FindPath(startPos, targetPos);
             Profiler.EndSample();
 
             if (nodes == null)
-                return new List<Cell>(0);
+                return new List<Vector2Int>(0);
 
-            List<Cell> cellPath = new List<Cell>(nodes.Count);
+            List<Vector2Int> cellPath = new List<Vector2Int>(nodes.Count);
 
             foreach (Node n in nodes)
             {
@@ -82,7 +78,7 @@ namespace Pantheon
                     $"No node at {targetPos}.");
 
             // TODO: Find adjacent free node?
-            if (targetNode.Cell.Terrain.Blocked)
+            if (level.GetTerrain(targetNode.Cell).Blocked)
                 return null;
 
             Heap<Node> openSet = new Heap<Node>(map.Length);
@@ -107,8 +103,8 @@ namespace Pantheon
                 Profiler.BeginSample("Pathfind: Neighbour Search");
                 foreach (Node neighbour in GetNeighbours(currentNode))
                 {
-                    if (neighbour.Cell.Terrain.Blocked || closedSet.Contains(neighbour))
-                        continue;
+                    if (level.GetTerrain(neighbour.Cell).Blocked ||
+                        closedSet.Contains(neighbour))
 
                     DebugVisualize(neighbour.Cell);
 
@@ -149,8 +145,8 @@ namespace Pantheon
         // Get equivalent distance between two nodes
         int GetDistance(Node a, Node b)
         {
-            int dX = Mathf.Abs(a.Position.x - b.Position.x);
-            int dY = Mathf.Abs(a.Position.y - b.Position.y);
+            int dX = Mathf.Abs(a.Cell.x - b.Cell.x);
+            int dY = Mathf.Abs(a.Cell.y - b.Cell.y);
 
             if (dX > dY)
                 return 14 * dY + 10 * (dX - dY);
@@ -159,9 +155,9 @@ namespace Pantheon
         }
 
         [System.Diagnostics.Conditional("DEBUG_PF")]
-        private void DebugVisualize(Cell cell)
+        private void DebugVisualize(Vector2Int cell)
         {
-            Debug.Visualisation.MarkCell(cell, 10);
+            Debug.Visualisation.MarkPos(cell, Color.green, 10);
         }
     }
 }

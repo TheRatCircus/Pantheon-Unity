@@ -14,30 +14,30 @@ namespace Pantheon.Core
         // Not in terms of cells
         public const int FOVRadius = 15;
 
-        private static Cell prev;
+        private static Vector2Int prev;
 
         /// <summary>
         /// Change visibility and reveal new cells.
         /// <param name="level"></param>
         /// </summary>
         /// <returns>A HashSet of all cells affected by the refresh.</returns>
-        public static HashSet<Cell> RefreshFOV(Level level, Cell origin, bool drawChanges)
+        public static HashSet<Vector2Int> RefreshFOV(Level level, Vector2Int origin, bool drawChanges)
         {
             Profiler.BeginSample("FOV");
             // Hide cells at the last refresh position
             if (prev != null)
             {
-                List<Cell> cells = level.GetSquare(prev, FOVRadius);
-                foreach (Cell c in cells)
-                    c.Visible = false;
-                level.Draw(cells);
+                List<Vector2Int> old = level.GetSquare(prev, FOVRadius);
+                foreach (Vector2Int pos in old)
+                    level.RemoveFlag(pos.x, pos.y, CellFlag.Visible);
+                level.Draw(old);
             }
 
-            HashSet<Cell> allRefreshed = new HashSet<Cell>();
+            HashSet<Vector2Int> allRefreshed = new HashSet<Vector2Int>();
             for (int octant = 0; octant < 8; octant++)
             {
-                List<Cell> refreshed = ShadowOctant(level,
-                    origin.Position, octant);
+                List<Vector2Int> refreshed = ShadowOctant(level,
+                    origin, octant);
 
                 allRefreshed.AddMany(refreshed);
             }
@@ -65,7 +65,7 @@ namespace Pantheon.Core
         };
 
         // Generate an octant of shadows, and return the FOV area to be redrawn
-        private static List<Cell> ShadowOctant(Level level, Vector2Int origin,
+        private static List<Vector2Int> ShadowOctant(Level level, Vector2Int origin,
             int octant)
         {
             // Increments based off of octantCoordinates
@@ -74,7 +74,7 @@ namespace Pantheon.Core
 
             ShadowLine line = new ShadowLine();
             bool fullShadow = false;
-            List<Cell> ret = new List<Cell>();
+            List<Vector2Int> ret = new List<Vector2Int>();
 
             for (int row = 0; row < FOVRadius; row++)
             {
@@ -89,7 +89,7 @@ namespace Pantheon.Core
                     // Break on this row if going out of bounds
                     if (!level.Contains(pos)) break;
                     // Add new cells to list of updated cells
-                    ret.Add(level.GetCell(pos));
+                    ret.Add(pos);
                     // Visibility fall off over distance
                     int fallOff = 255;
 

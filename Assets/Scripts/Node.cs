@@ -13,19 +13,18 @@ namespace Pantheon
     [System.Serializable]
     public sealed class Node : IHeapItem<Node>
     {
-        public Cell Cell { get; set; }
+        public Vector2Int Cell { get; set; }
 
         public int GCost { get; set; }
         public int HCost { get; set; }
         public int FCost => GCost + HCost;
         public Node Parent { get; set; }
-        public Vector2Int Position => Cell.Position;
 
         public int HeapIndex { get; set; }
 
-        public Node(Cell cell) => Cell = cell;
+        public Node(Vector2Int cell) => Cell = cell;
 
-        public override string ToString() => $"{Position}";
+        public override string ToString() => $"PF Node: {Cell}";
 
         public int CompareTo(Node other)
         {

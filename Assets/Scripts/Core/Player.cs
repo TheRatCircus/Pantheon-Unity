@@ -251,14 +251,18 @@ namespace Pantheon.Core
             }
         }
 
-        public void RecalculateVisible(IEnumerable<Cell> cells)
+        public void RecalculateVisible(IEnumerable<Vector2Int> cells)
         {
+            Level level = Entity.Level;
             VisibleActors.Clear();
-            foreach (Cell c in cells)
+            foreach (Vector2Int cell in cells)
             {
-                if (c.Actor != null
-                    && c.Actor.GetComponent<Actor>().Control != ActorControl.Player)
-                    VisibleActors.Add(c.Actor);
+                Entity actor = level.ActorAt(cell);
+                if (actor != null
+                    && actor.GetComponent<Actor>().Control != ActorControl.Player)
+                {
+                    VisibleActors.Add(actor);
+                }
             }
         }
 
@@ -293,7 +297,7 @@ namespace Pantheon.Core
 
             Cell cell = target.Cell;
             List<Cell> line = Bresenhams.GetLine(entity.Level, entity.Cell, cell);
-            List<Cell> path = entity.Level.GetPathTo(entity.Cell, cell);
+            List<Vector2Int> path = entity.Level.GetPathTo(entity.Cell, cell);
 
             if (entity.TryGetComponent(out Wield wield))
             {

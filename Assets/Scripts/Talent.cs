@@ -5,6 +5,7 @@ using Pantheon.Commands;
 using Pantheon.Commands.NonActor;
 using Pantheon.World;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Pantheon
 {
@@ -44,7 +45,7 @@ namespace Pantheon
         }
 
         public CommandResult Cast(Entity evoker,
-            Cell cell, List<Cell> line, List<Cell> path)
+            Cell cell, List<Cell> line, List<Vector2Int> path)
         {
             CommandResult result = CommandResult.Succeeded;
 

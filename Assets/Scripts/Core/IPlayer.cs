@@ -3,6 +3,7 @@
 
 using Pantheon.World;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Pantheon.Core
 {
@@ -10,7 +11,7 @@ namespace Pantheon.Core
     {
         Entity Entity { get; }
         InputMode Mode { get; set; }
-        void RecalculateVisible(IEnumerable<Cell> cells);
+        void RecalculateVisible(IEnumerable<Vector2Int> cells);
         HashSet<Entity> VisibleActors { get; }
         InputMode RequestCell(out Cell cell, int range);
         InputMode RequestLine(out List<Cell> line, int range);

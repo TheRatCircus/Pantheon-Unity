@@ -42,11 +42,13 @@ namespace Pantheon.Debug
 
         public static string RevealLevel(string[] args, GameController ctrl)
         {
-            foreach (Cell c in ctrl.World.ActiveLevel.Map)
+            Level level = ctrl.World.ActiveLevel;
+            foreach (Vector2Int cell in ctrl.World.ActiveLevel.Map)
             {
-                c.Revealed = true;
-                ctrl.World.ActiveLevel.Draw(new[] { c });
+                ctrl.World.ActiveLevel.AddFlag(cell.x, cell.y, CellFlag.Revealed);
+                ctrl.World.ActiveLevel.Draw(new[] { cell });
             }
+
             return "Level revealed.";
         }
 
@@ -67,7 +69,7 @@ namespace Pantheon.Debug
             {
                 Entity entity = new Entity(template);
                 entity.Move(ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell);
-                FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Cell, true);
+                FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Position, true);
                 return $"Spawned {entity} at {ctrl.Cursor.HoveredCell}.";
             }
         }
@@ -148,7 +150,7 @@ namespace Pantheon.Debug
             if (Cell.Walkable(cell))
             {
                 ctrl.PC.Move(ctrl.PC.Level, cell);
-                FOV.RefreshFOV(ctrl.PC.Level, ctrl.PC.Cell, true);
+                FOV.RefreshFOV(ctrl.PC.Level, ctrl.PC.Position, true);
                 return $"Teleported player to {cell}.";
             }
             else
@@ -186,7 +188,7 @@ namespace Pantheon.Debug
         {
             Entity relic = Gen.Relic.MakeRelic();
             relic.Move(ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell);
-            FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Cell, true);
+            FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Position, true);
             return $"Spawned {relic} at {ctrl.Cursor.HoveredCell}.";
         }
 
@@ -228,7 +230,7 @@ namespace Pantheon.Debug
             else
                 ret = $"Successfully built vault {args[0]} at {ctrl.Cursor.HoveredCell.Position}.";
 
-            FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Cell, true);
+            FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Position, true);
             return ret;
         }
 
@@ -274,12 +276,13 @@ namespace Pantheon.Debug
 
         public static string KillLevel(string[] args, GameController ctrl)
         {
-            foreach (Cell c in ctrl.World.ActiveLevel.Map)
+            foreach (Entity entity in ctrl.World.ActiveLevel.Entities)
             {
-                if (c.Actor != null && !c.Actor.PlayerControlled)
-                    c.Actor.Destroy(null);
+                if (entity.HasComponent<Actor>() && !entity.PlayerControlled)
+                    entity.Destroy(null);
             }
-            FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Cell, true);
+
+            FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Position, true);
             return $"Killed all NPCs in {ctrl.World.ActiveLevel}.";
         }
     }

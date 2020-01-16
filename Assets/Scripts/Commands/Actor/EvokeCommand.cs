@@ -4,6 +4,7 @@
 using Pantheon.Components;
 using Pantheon.World;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Pantheon.Commands.Actor
 {
@@ -13,7 +14,7 @@ namespace Pantheon.Commands.Actor
 
         public Cell Cell { get; set; }
         public List<Cell> Line { get; set; }
-        public List<Cell> Path { get; set; }
+        public List<Vector2Int> Path { get; set; }
 
         public EvokeCommand(Entity entity, Entity evocable) : base(entity)
         {

@@ -65,10 +65,10 @@ namespace Pantheon
             level.ClearTilemaps();
 
             Stopwatch drawTime = Stopwatch.StartNew();
-            foreach (Cell c in level.Map)
+            foreach (Vector2Int cell in level.Map)
             {
-                c.SetVisibility(true, -1);
-                level.DrawTile(c);
+                level.AddFlag(cell.x, cell.y, CellFlag.Visible);
+                level.DrawTile(cell);
             }
             drawTime.Stop();
             UnityEngine.Debug.Log(

@@ -24,15 +24,15 @@ namespace Pantheon.World
 
         public CellFlag[] FlagMap { get; set; }
         public byte[] TerrainMap { get; set; }
-        public Cell[,] Map
+        public Vector2Int[,] Map
         {
             get
             {
-                Cell[,] ret = new Cell[Size.x, Size.y];
+                Vector2Int[,] ret = new Vector2Int[Size.x, Size.y];
                 for (int x = 0; x < ret.GetLength(0); x++)
                     for (int y = 0; y < ret.GetLength(1); y++)
                     {
-                        ret[x, y] = new Cell(new CellHandle(this, (byte)x, (byte)y));
+                        ret[x, y] = new Vector2Int(x, y);
                     }
                 return ret;
             }
@@ -143,17 +143,17 @@ namespace Pantheon.World
             return (int)Mathf.Sqrt(Mathf.Pow(dx, 2) + Mathf.Pow(dy, 2));
         }
 
-        public List<Cell> GetSquare(Cell origin, int radius)
+        public List<Vector2Int> GetSquare(Vector2Int origin, int radius)
         {
             int dim = (radius * 2) - 1;
             int delta = radius - 1;
-            List<Cell> ret = new List<Cell>();
-            for (int x = origin.Position.x - delta; x < origin.Position.x + delta; x++)
+            List<Vector2Int> ret = new List<Vector2Int>();
+            for (int x = origin.x - delta; x < origin.x + delta; x++)
             {
-                for (int y = origin.Position.y - delta; y < origin.Position.y + delta; y++)
+                for (int y = origin.y - delta; y < origin.y + delta; y++)
                 {
-                    if (TryGetCell(x, y, out Cell c))
-                        ret.Add(c);
+                    if (Contains(x, y))
+                        ret.Add(new Vector2Int(x, y));
                 }
             }
             return ret;
@@ -167,7 +167,7 @@ namespace Pantheon.World
             return Distance(a, b) <= 1;
         }
 
-        public List<Cell> GetPathTo(Cell origin, Cell target)
+        public List<Vector2Int> GetPathTo(Cell origin, Cell target)
             => PF.CellPathList(origin.Position, target.Position);
 
         /// <summary>
@@ -400,40 +400,42 @@ namespace Pantheon.World
             return rectMap;
         }
 
-        public void Draw(IEnumerable<Cell> cells)
+        public void Draw(IEnumerable<Vector2Int> cells)
         {
-            foreach (Cell c in cells)
-                DrawTile(c);
+            foreach (Vector2Int cell in cells)
+                DrawTile(cell);
         }
 
-        public void DrawTile(Cell cell)
+        public void DrawTile(Vector2Int cell)
         {
-            if (cell.Revealed)
+            if (!FlagMap[Index(cell)].HasFlag(CellFlag.Revealed))
+                return;
+
+            bool visible = FlagMap[Index(cell)].HasFlag(CellFlag.Visible);
+
+            RuleTile terrainTile;
+            if (TerrainMap[Index(cell)] != 0)
+                terrainTile = Assets.GetTerrain(TerrainMap[Index(cell.x, cell.y)]).Tile;
+            else
+                terrainTile = null;
+
+            terrainTilemap.SetTile((Vector3Int)cell, terrainTile);
+            terrainTilemap.SetColor((Vector3Int)cell,
+                visible ? Color.white : Color.grey);
+
+            Entity actor = ActorAt(cell.x, cell.y);
+            if (actor != null)
+                actor.GameObjects[0].SetSpriteVisibility(visible);
+
+            Entity item = FirstItemAt(cell.x, cell.y);
+            if (item != null)
             {
-                RuleTile terrainTile;
-                if (cell.Terrain != null)
-                    terrainTile = cell.Terrain.Tile;
-                else
-                    terrainTile = null;
-
-                terrainTilemap.SetTile((Vector3Int)cell.Position, terrainTile);
-                terrainTilemap.SetColor((Vector3Int)cell.Position,
-                    cell.Visible ? Color.white : Color.grey);
-
-                Entity actor = ActorAt(cell.X, cell.Y);
-                if (actor != null)
-                    actor.GameObjects[0].SetSpriteVisibility(cell.Visible);
-
-                Entity item = FirstItemAt(cell.X, cell.Y);
-                if (item != null)
-                {
-                    itemTilemap.SetTile((Vector3Int)cell.Position, item.Tile);
-                    itemTilemap.SetColor((Vector3Int)cell.Position,
-                        cell.Visible ? Color.white : Color.grey);
-                }
-                else
-                    itemTilemap.SetTile((Vector3Int)cell.Position, null);
+                itemTilemap.SetTile((Vector3Int)cell, item.Tile);
+                itemTilemap.SetColor((Vector3Int)cell,
+                    visible ? Color.white : Color.grey);
             }
+            else
+                itemTilemap.SetTile((Vector3Int)cell, null);
         }
 
         public void ClearTilemaps()
@@ -445,14 +447,18 @@ namespace Pantheon.World
 
         public override string ToString() => $"{DisplayName} {Position}";
 
-        public int Index(int x, int y)
-        {
-            return Size.x * x + y;
-        }
+        public int Index(int x, int y) => (Size.x * x) + y;
+
+        public int Index(Vector2Int pos) => (Size.x * pos.x) + pos.y;
 
         public TerrainDefinition GetTerrain(int x, int y)
         {
             return Assets.GetTerrain(TerrainMap[Index(x, y)]);
+        }
+
+        public TerrainDefinition GetTerrain(Vector2Int pos)
+        {
+            return Assets.GetTerrain(TerrainMap[Index(pos.x, pos.y)]);
         }
 
         public void SetTerrain(int x, int y, TerrainDefinition terrain)
@@ -496,6 +502,20 @@ namespace Pantheon.World
             foreach (Entity e in Entities)
             {
                 if (e.Position == new Vector2Int(x, y)
+                    && e.HasComponent<Actor>())
+                    ret = e;
+            }
+            Profiler.EndSample();
+            return ret;
+        }
+
+        public Entity ActorAt(Vector2Int pos)
+        {
+            Profiler.BeginSample("Entity Search");
+            Entity ret = null;
+            foreach (Entity e in Entities)
+            {
+                if (e.Position == new Vector2Int(pos.x, pos.y)
                     && e.HasComponent<Actor>())
                     ret = e;
             }
