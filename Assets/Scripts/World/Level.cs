@@ -557,5 +557,22 @@ namespace Pantheon.World
             else
                 ChunkContaining(pos.x, pos.y).Items.Add(entity);
         }
+
+        public bool CellTerrainIsBlocked(Vector2Int pos)
+        {
+            TerrainDefinition def = GetTerrain(pos);
+            return def != null && def.Blocked;
+        }
+
+        public bool CellIsOpaque(Vector2Int pos)
+        {
+            TerrainDefinition def = GetTerrain(pos);
+            return def != null && def.Opaque;
+        }
+
+        public bool CellHasActor(Vector2Int pos)
+        {
+            return ChunkContaining(pos.x, pos.y).CellHasActor(pos);
+        }
     }
 }

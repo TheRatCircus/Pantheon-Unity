@@ -160,6 +160,16 @@ namespace Pantheon.World
             return null;
         }
 
+        public bool CellHasActor(Vector2Int pos)
+        {
+            foreach (Entity actor in Actors)
+            {
+                if (actor.Position == pos)
+                    return true;
+            }
+            return false;
+        }
+
         public override string ToString() => $"Chunk: {Position}";
     }
 }

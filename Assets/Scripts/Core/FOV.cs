@@ -97,7 +97,7 @@ namespace Pantheon.Core
                     // If entire row is known to be in shadow, set this cell to
                     // be in shadow
                     if (fullShadow || pastMaxDistance)
-                        level.GetCell(pos).SetVisibility(false, fallOff);
+                        level.RemoveFlag(pos.x, pos.y, CellFlag.Visible);
                     else
                     {
                         fallOff = 0;
@@ -118,11 +118,13 @@ namespace Pantheon.Core
 
                         // Set the visibility of this tile
                         bool visible = !line.IsInShadow(projection);
-                        level.GetCell(pos).SetVisibility(visible,
-                            fallOff);
+                        if (visible)
+                            level.AddFlag(pos.x, pos.y, CellFlag.Visible);
+                        else
+                            level.RemoveFlag(pos.y, pos.y, CellFlag.Visible);
 
                         // Add any opaque tiles to the shadow map
-                        if (visible && level.GetCell(pos).Opaque)
+                        if (visible && level.CellIsOpaque(pos))
                         {
                             line.AddShadow(projection);
                             fullShadow = line.IsFullShadow();
