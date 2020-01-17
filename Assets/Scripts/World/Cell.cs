@@ -73,8 +73,8 @@ namespace Pantheon.World
             }
         }
 
-        public TerrainDefinition Terrain 
-        { 
+        public TerrainDefinition Terrain
+        {
             get => handle.area.GetTerrain(handle.x, handle.y);
             set => handle.area.SetTerrain(handle.x, handle.y, value);
         }

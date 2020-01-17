@@ -5,5 +5,15 @@
       "$type": "Fill",
       "terrain": "Terrain_StoneFloor"
     }
+  ],
+  "Population": [
+    {
+      "Weight": 512,
+      "Value": "Coyote"
+    },
+    {
+      "Weight": 512,
+      "Value": "RagingGoose"
+    }
   ]
 }

@@ -163,5 +163,24 @@ namespace Pantheon.Core
             if (currentActor == actor)
                 currentActorRemoved = true;
         }
+
+        public void PlayerToFront()
+        {
+            UnityEngine.Debug.Log("Forcing player to front of turn queue...");
+            for (int i = 0; i < queue.Count; i++)
+            {
+                if (queue[0].Control != ActorControl.Player)
+                {
+                    Actor dequeued = queue[0];
+                    queue.RemoveAt(0);
+                    queue.Add(dequeued);
+                }
+                else break;
+            }
+
+            if (queue[0].Control != ActorControl.Player)
+                throw new Exception(
+                    "Failed to force player to front of turn queue.");
+        }
     }
 }

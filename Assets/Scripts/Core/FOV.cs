@@ -21,7 +21,8 @@ namespace Pantheon.Core
         /// <param name="level"></param>
         /// </summary>
         /// <returns>A HashSet of all cells affected by the refresh.</returns>
-        public static HashSet<Vector2Int> RefreshFOV(Level level, Vector2Int origin, bool drawChanges)
+        public static HashSet<Vector2Int> RefreshFOV(
+            Level level, Vector2Int origin, bool drawChanges)
         {
             Profiler.BeginSample("FOV");
             // Hide cells at the last refresh position
@@ -51,8 +52,7 @@ namespace Pantheon.Core
         }
 
         // Coordinates used to transform a point in an octant
-        private static readonly Vector2Int[,] _octantCoordinates
-            = new Vector2Int[,]
+        private static readonly Vector2Int[,] _octantCoordinates = new Vector2Int[,]
         {
             { new Vector2Int(0, -1), new Vector2Int(1, 0) },
             { new Vector2Int(1, 0), new Vector2Int(0, -1) },

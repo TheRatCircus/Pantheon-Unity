@@ -2,7 +2,6 @@
 // Jerome Martina
 
 #define DEBUG_LEVELGEN
-#undef DEBUG_LEVELGEN
 
 using Pantheon.Content;
 using Pantheon.Core;

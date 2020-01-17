@@ -83,6 +83,8 @@ namespace Pantheon.Core
 
             hud.Initialize(Scheduler, PC, level, LevelChangeEvent);
             LoadLevel(level, true);
+            Scheduler.PlayerToFront();
+            Scheduler.enabled = true;
             MoveCameraTo(player.GameObjects[0].transform);
             cursor.Level = level;
         }

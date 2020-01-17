@@ -24,7 +24,8 @@ public static class EditorScenes
             OpenScenes();
             AssetBundle.UnloadAllAssetBundles(true);
         }
-        if (state == PlayModeStateChange.ExitingEditMode) CloseScenes();
+        if (state == PlayModeStateChange.ExitingEditMode)
+            CloseScenes();
     }
 
     private static void OpenScenes()

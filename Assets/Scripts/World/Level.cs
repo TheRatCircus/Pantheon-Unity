@@ -74,7 +74,7 @@ namespace Pantheon.World
 
         public void Initialize()
         {
-            PF = new Pathfinder(this);
+            //PF = new Pathfinder(this);
         }
 
         public bool TryGetCell(int x, int y, out Cell cell)
