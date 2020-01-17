@@ -125,7 +125,7 @@ namespace Pantheon.Gen
                     item = new Entity(basic);
                 }
                 
-                item.Move(level, cell);
+                item.Move(level, cell.Position);
                 points--;
             }
         }

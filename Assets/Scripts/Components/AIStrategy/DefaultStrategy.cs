@@ -6,7 +6,6 @@
 
 using Pantheon.Commands.Actor;
 using Pantheon.World;
-using UnityEngine;
 
 namespace Pantheon.Components
 {
@@ -41,7 +40,7 @@ namespace Pantheon.Components
                 Cell targetCell = Target.Cell;
 
                 if (ai.Entity.Level.AdjacentTo(ai.Entity.Cell, targetCell))
-                    return new MeleeCommand(ai.Entity, targetCell);
+                    return new MeleeCommand(ai.Entity, targetCell.Position);
                 else
                     return MoveCommand.MoveOrWait(ai.Entity, targetCell);
             }

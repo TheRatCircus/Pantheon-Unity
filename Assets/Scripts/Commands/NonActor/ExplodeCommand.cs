@@ -29,23 +29,23 @@ namespace Pantheon.Commands.NonActor
         public GameObject Prefab { get; set; }
         public AudioClip Sound { get; set; }
 
-        public Cell Cell { get; set; }
-        public List<Cell> Line { get; set; }
-
+        public Vector2Int Cell { get; set; }
+        public Line Line { get; set; }
+        
         public ExplodeCommand(Entity entity) : base(entity) { }
 
         public override CommandResult Execute()
         {
             // Fall back on assumption that entity itself is exploding
             if (Cell == null)
-                Cell = Entity.Cell;
+                Cell = Entity.Position;
 
             switch (Pattern)
             {
                 case ExplosionPattern.Point:
                     {
                         GameObject explObj = Object.Instantiate(
-                        Prefab, Cell.Position.ToVector3(), new Quaternion(), null);
+                        Prefab, Cell.ToVector3(), new Quaternion(), null);
                         PointExplosion expl = explObj.GetComponent<PointExplosion>();
                         expl.Initialize(Entity, Cell);
                         expl.Fire(Damages);
@@ -59,11 +59,11 @@ namespace Pantheon.Commands.NonActor
                     // Exclude origin cell
                     for (int i = 1; i < Line.Count; i++)
                     {
-                        Cell c = Line[i];
+                        Vector2Int cell = Line[i];
                         GameObject explObj = Object.Instantiate(
-                        Prefab, c.Position.ToVector3(), new Quaternion(), null);
+                        Prefab, cell.ToVector3(), new Quaternion(), null);
                         PointExplosion expl = explObj.GetComponent<PointExplosion>();
-                        expl.Initialize(Entity, c);
+                        expl.Initialize(Entity, cell);
                         expl.Fire(Damages);
                         Object.Destroy(explObj, 5f);
                     }
@@ -74,7 +74,7 @@ namespace Pantheon.Commands.NonActor
                     throw new System.NotImplementedException();
             }
 
-            AudioSource.PlayClipAtPoint(Sound, Cell.Position.ToVector3());
+            AudioSource.PlayClipAtPoint(Sound, Cell.ToVector3());
             return CommandResult.Succeeded;
         }
     }

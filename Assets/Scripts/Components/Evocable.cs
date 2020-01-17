@@ -3,9 +3,8 @@
 
 using Pantheon.Commands;
 using Pantheon.Core;
-using Pantheon.World;
+using Pantheon.Utils;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Pantheon.Components
@@ -26,7 +25,7 @@ namespace Pantheon.Components
         }
 
         public CommandResult Evoke(Entity evoker, int talent,
-            Cell cell, List<Cell> line, List<Vector2Int> path)
+            Vector2Int cell, Line line, Line path)
         {
             return talents[talent].Cast(evoker, cell, line, path);
         }

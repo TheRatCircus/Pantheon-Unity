@@ -30,9 +30,9 @@ namespace PantheonTests
             {
                 Name = "TEST_ENTITY"
             };
-            actor.Move(null, cell);
+            actor.Move(null, cell.Position);
             Entity item = new Entity("TEST_ITEM");
-            item.Move(null, cell);
+            item.Move(null, cell.Position);
             PickupCommand cmd = new PickupCommand(actor);
             CommandResult result = cmd.Execute(out int cost);
 

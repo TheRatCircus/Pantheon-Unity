@@ -40,7 +40,7 @@ namespace Pantheon.Components
             else // Move to engage with enemy
             {
                 if (ai.Entity.Level.AdjacentTo(ai.Entity.Cell, enemyCell))
-                    return new MeleeCommand(ai.Entity, enemyCell);
+                    return new MeleeCommand(ai.Entity, enemyCell.Position);
                 else
                     return MoveCommand.MoveOrWait(ai.Entity, enemyCell);
             }

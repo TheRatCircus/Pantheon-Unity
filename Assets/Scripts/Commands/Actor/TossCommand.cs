@@ -23,7 +23,7 @@ namespace Pantheon.Commands.Actor
         {
             if (Entity.PlayerControlled)
             {
-                switch (Locator.Player.RequestLine(out List<Cell> line, 7))
+                switch (Locator.Player.RequestLine(out Line line, 7))
                 {
                     case InputMode.Cancelling:
                         cost = -1;

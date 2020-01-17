@@ -3,6 +3,7 @@
 
 using Pantheon.Components;
 using Pantheon.Core;
+using Pantheon.Utils;
 using Pantheon.World;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,8 +13,8 @@ namespace Pantheon.Commands.Actor
 {
     public sealed class MoveCommand : ActorCommand
     {
-        private Level destinationLevel;
-        private Cell destinationCell;
+        private readonly Level destinationLevel;
+        private readonly Vector2Int destinationCell;
 
         /// <summary>
         /// Given an AI entity, move to a target only if possible.
@@ -23,7 +24,7 @@ namespace Pantheon.Commands.Actor
         /// <returns></returns>
         public static ActorCommand MoveOrWait(Entity entity, Cell target)
         {
-            List<Vector2Int> path = entity.Level.GetPathTo(entity.Cell, target);
+            Line path = entity.Level.GetPathTo(entity.Cell, target);
 
             if (path.Count > 0)
                 return new MoveCommand(entity, path[0]);
@@ -31,36 +32,31 @@ namespace Pantheon.Commands.Actor
                 return new WaitCommand(entity);
         }
 
-        public MoveCommand(Entity entity, Cell destination)
+        public MoveCommand(Entity entity, Vector2Int destination)
             : base(entity)
         {
             destinationCell = destination;
             destinationLevel = entity.Level;
         }
 
-        public MoveCommand(Entity actor, Vector2Int dir)
-            : base(actor)
+        public static MoveCommand MoveInDirection(Entity entity, Vector2Int dir)
         {
-            destinationLevel = Entity.Level;
-
-            if (destinationLevel.TryGetCell(Entity.Cell.Position + dir, out Cell c))
-                destinationCell = c;
-            else
-                destinationCell = null;
+            return new MoveCommand(entity, entity.Position + dir);
         }
 
         public override CommandResult Execute(out int cost)
         {
-            if (!Cell.Walkable(destinationCell))
+            if (!destinationLevel.Walkable(destinationCell))
             {
                 cost = -1;
                 return CommandResult.Failed;
             }
 
-            if (destinationCell.Actor != null)
+            Entity e = destinationLevel.ActorAt(destinationCell);
+            if (e != null)
             {
                 ActorComp actor = Entity.GetComponent<ActorComp>();
-                if (actor.HostileTo(destinationCell.Actor.GetComponent<ActorComp>()))
+                if (actor.HostileTo(e.GetComponent<ActorComp>()))
                 {
                     ActorCommand cmd = new MeleeCommand(Entity, destinationCell);
                     return cmd.Execute(out cost);

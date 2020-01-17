@@ -115,6 +115,8 @@ namespace Pantheon.World
             return ret;
         }
 
+        public static Vector2Int NullCell => new Vector2Int(-1, -1);
+
         public bool TryGetCell(int x, int y, out Cell cell)
         {
             if (Contains(x, y))
@@ -209,7 +211,7 @@ namespace Pantheon.World
             return Distance(a, b) <= 1;
         }
 
-        public List<Vector2Int> GetPathTo(Cell origin, Cell target)
+        public Line GetPathTo(Cell origin, Cell target)
             => PF.CellPathList(origin.Position, target.Position);
 
         /// <summary>
@@ -558,6 +560,17 @@ namespace Pantheon.World
                 ChunkContaining(pos.x, pos.y).Items.Add(entity);
         }
 
+        public bool CellIsBlocked(Vector2Int pos)
+        {
+            if (CellTerrainIsBlocked(pos))
+                return true;
+
+            if (CellHasActor(pos))
+                return true;
+
+            return false;
+        }
+
         public bool CellTerrainIsBlocked(Vector2Int pos)
         {
             TerrainDefinition def = GetTerrain(pos);
@@ -573,6 +586,11 @@ namespace Pantheon.World
         public bool CellHasActor(Vector2Int pos)
         {
             return ChunkContaining(pos.x, pos.y).CellHasActor(pos);
+        }
+
+        public bool Walkable(Vector2Int pos)
+        {
+            return !CellTerrainIsBlocked(pos);
         }
     }
 }

@@ -68,7 +68,7 @@ namespace Pantheon.Debug
             else
             {
                 Entity entity = new Entity(template);
-                entity.Move(ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell);
+                entity.Move(ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell.Position);
                 FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Position, true);
                 return $"Spawned {entity} at {ctrl.Cursor.HoveredCell}.";
             }
@@ -84,7 +84,7 @@ namespace Pantheon.Debug
             {
                 EntityTemplate template = ctrl.Loader.LoadTemplate(args[0]);
                 Entity item = new Entity(template);
-                item.Move(receiver.Level, receiver.Cell);
+                item.Move(receiver.Level, receiver.Cell.Position);
                 inv.AddItem(item);
                 return $"Gave {item.Name} to {receiver.Name}.";
             }
@@ -149,7 +149,7 @@ namespace Pantheon.Debug
             Cell cell = ctrl.Cursor.HoveredCell;
             if (Cell.Walkable(cell))
             {
-                ctrl.PC.Move(ctrl.PC.Level, cell);
+                ctrl.PC.Move(ctrl.PC.Level, cell.Position);
                 FOV.RefreshFOV(ctrl.PC.Level, ctrl.PC.Position, true);
                 return $"Teleported player to {cell}.";
             }
@@ -187,7 +187,7 @@ namespace Pantheon.Debug
         public static string Relic(string[] args, GameController ctrl)
         {
             Entity relic = Gen.Relic.MakeRelic();
-            relic.Move(ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell);
+            relic.Move(ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell.Position);
             FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Position, true);
             return $"Spawned {relic} at {ctrl.Cursor.HoveredCell}.";
         }
@@ -268,7 +268,7 @@ namespace Pantheon.Debug
                 return $"You're already at {destination}.";
 
             Level prev = ctrl.World.ActiveLevel;
-            ctrl.PC.Move(destination, destination.RandomCell(true));
+            ctrl.PC.Move(destination, destination.RandomCell(true).Position);
             ctrl.LoadLevel(destination, true);
             ctrl.UnloadLevel(prev);
             return $"Moved to {destination}.";

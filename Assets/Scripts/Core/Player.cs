@@ -48,8 +48,8 @@ namespace Pantheon.Core
         private Inventory inventory;
 
         private int targetingRange;
-        private Cell selectedCell;
-        private List<Cell> selectedLine = new List<Cell>();
+        private Vector2Int selectedCell;
+        private Line selectedLine = new Line();
         public HashSet<Entity> VisibleActors { get; private set; }
             = new HashSet<Entity>();
         public List<Cell> AutoMovePath { get; set; }
@@ -201,12 +201,12 @@ namespace Pantheon.Core
 
             if (Input.GetMouseButtonDown(0) && withinRange)
             {
-                selectedCell = cursor.HoveredCell;
+                selectedCell = cursor.HoveredCell.Position;
                 Mode = InputMode.Default;
             }
             else if (Input.GetMouseButtonDown(1))
             {
-                selectedCell = null;
+                selectedCell = Level.NullCell;
                 Mode = InputMode.Cancelling;
                 Locator.Log.Send("Targeting cancelled.", Color.blue);
             }
@@ -219,7 +219,7 @@ namespace Pantheon.Core
 
             CleanOverlays();
 
-            List<Cell> line = new List<Cell>();
+            Line line = new Line();
 
             if (withinRange)
             {
@@ -227,11 +227,11 @@ namespace Pantheon.Core
                     Entity.Level,
                     Entity.Cell,
                     cursor.HoveredCell);
-                foreach (Cell c in line)
+                foreach (Vector2Int c in line)
                 {
                    GameObject overlayObj = Instantiate(
                        targetOverlay,
-                       c.Position.ToVector3(),
+                       c.ToVector3(),
                        new Quaternion());
 
                     targetOverlays.Add(overlayObj);
@@ -296,8 +296,8 @@ namespace Pantheon.Core
             }
 
             Cell cell = target.Cell;
-            List<Cell> line = Bresenhams.GetLine(entity.Level, entity.Cell, cell);
-            List<Vector2Int> path = entity.Level.GetPathTo(entity.Cell, cell);
+            Line line = Bresenhams.GetLine(entity.Level, entity.Cell, cell);
+            Line path = entity.Level.GetPathTo(entity.Cell, cell);
 
             if (entity.TryGetComponent(out Wield wield))
             {
@@ -309,7 +309,7 @@ namespace Pantheon.Core
                     {
                         EvokeCommand cmd = new EvokeCommand(entity, evocables[0])
                         {
-                            Cell = cell,
+                            Cell = cell.Position,
                             Line = line,
                             Path = path
                         };
@@ -331,10 +331,10 @@ namespace Pantheon.Core
                 }
             }
 
-            return new MeleeCommand(entity, cell);
+            return new MeleeCommand(entity, cell.Position);
         }
 
-        public InputMode RequestCell(out Cell cell, int range)
+        public InputMode RequestCell(out Vector2Int cell, int range)
         {
             switch (Mode)
             {
@@ -342,23 +342,23 @@ namespace Pantheon.Core
                     targetingRange = range;
                     Mode = InputMode.Point;
                     PointSelect();
-                    cell = null;
+                    cell = Level.NullCell;
                     return Mode;
                 case InputMode.Cancelling: // Stop polling for cell
                     Mode = InputMode.Default;
-                    cell = null;
+                    cell = Level.NullCell;
                     CleanOverlays();
                     return InputMode.Cancelling;
                 case InputMode.Point:
                     if (selectedCell == null)
                         // Still no selection
-                        cell = null;
+                        cell = Level.NullCell;
                     else
                     {
                         // Selection made
                         Mode = InputMode.Default;
                         cell = selectedCell;
-                        selectedCell = null;
+                        selectedCell = Level.NullCell;
                         CleanOverlays();
                     }
                     return Mode;
@@ -368,7 +368,7 @@ namespace Pantheon.Core
             }
         }
 
-        public InputMode RequestLine(out List<Cell> line, int range)
+        public InputMode RequestLine(out Line line, int range)
         {
             switch (Mode)
             {
@@ -391,7 +391,7 @@ namespace Pantheon.Core
                     {
                         // Selection made
                         Mode = InputMode.Default;
-                        line = new List<Cell>(selectedLine);
+                        line = new Line(selectedLine);
                         selectedLine.Clear();
                         CleanOverlays();
                     }

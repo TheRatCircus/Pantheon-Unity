@@ -3,6 +3,7 @@
 
 using Pantheon.World;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Pantheon.Components
 {
@@ -42,10 +43,10 @@ namespace Pantheon.Components
         /// <summary>
         /// Move entities in inventory when entity moves.
         /// </summary>
-        public void Move(Level level, Cell cell)
+        public void Move(Level level, Vector2Int cell)
         {
-            foreach (Entity items in Items)
-                items.Move(level, cell);
+            foreach (Entity item in Items)
+                item.Move(level, cell);
         }
 
         public override EntityComponent Clone(bool full)

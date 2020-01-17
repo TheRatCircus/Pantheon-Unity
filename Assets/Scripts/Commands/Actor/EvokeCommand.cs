@@ -2,8 +2,7 @@
 // Jerome Martina
 
 using Pantheon.Components;
-using Pantheon.World;
-using System.Collections.Generic;
+using Pantheon.Utils;
 using UnityEngine;
 
 namespace Pantheon.Commands.Actor
@@ -12,9 +11,9 @@ namespace Pantheon.Commands.Actor
     {
         private Entity item;
 
-        public Cell Cell { get; set; }
-        public List<Cell> Line { get; set; }
-        public List<Vector2Int> Path { get; set; }
+        public Vector2Int Cell { get; set; }
+        public Line Line { get; set; }
+        public Line Path { get; set; }
 
         public EvokeCommand(Entity entity, Entity evocable) : base(entity)
         {

@@ -21,7 +21,7 @@ namespace Pantheon.Core
         {
             Entity entity = new Entity(template);
             Locator.Scheduler.AddActor(entity.GetComponent<Actor>());
-            entity.Move(level, cell);
+            entity.Move(level, cell.Position);
             if (entity.Cell.Visible)
                 Locator.Player.VisibleActors.Add(entity);
             return entity;

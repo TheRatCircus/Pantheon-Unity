@@ -19,15 +19,15 @@ namespace Pantheon
 
         private Entity sender;
         private Line line;
-        private Cell target;
+        private Vector2Int target;
         private Entity[] debris;
 
-        public void InitializeToss(Entity tosser, Entity entity, List<Cell> line)
+        public void InitializeToss(Entity tosser, Entity entity, Line line)
         {
             GetComponent<SpriteRenderer>().sprite = entity.Flyweight.Sprite;
             projName = entity.ToSubjectString(true);
             sender = tosser;
-            this.line = (Line)line;
+            this.line = line;
             debris = new Entity[] { entity };
 
             if (entity.TryGetComponent(out Melee melee))
@@ -63,7 +63,7 @@ namespace Pantheon
 
         private IEnumerator Fly()
         {
-            Vector3 targetPos = target.Position.ToVector3();
+            Vector3 targetPos = target.ToVector3();
             
             // Move to target
             while (transform.position != targetPos)
@@ -87,12 +87,12 @@ namespace Pantheon
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            Cell collisionCell;
+            Vector2Int collisionCell;
             EntityWrapper wrapper = collision.gameObject.GetComponent<EntityWrapper>();
             if (wrapper)
             {
                 Entity entity = wrapper.Entity;
-                collisionCell = entity.Cell;
+                collisionCell = entity.Position;
 
                 // Proj can't collide with entity not in the line
                 if (!line.Contains(collisionCell))

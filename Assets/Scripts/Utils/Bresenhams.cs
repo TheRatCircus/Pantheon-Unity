@@ -1,7 +1,6 @@
 ﻿// Bresenham.cs
 // Courtesy of Jason Morley
 
-using System.Collections.Generic;
 using UnityEngine;
 using Pantheon.World;
 
@@ -17,7 +16,7 @@ namespace Pantheon.Utils
             bool Plot(int cellX, int cellY)
             {
                 Cell cell = level.GetCell(new Vector2Int(cellX, cellY));
-                ret.Add(cell);
+                ret.Add(cell.Position);
                 return true;
             }
 

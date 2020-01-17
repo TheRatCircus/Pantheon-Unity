@@ -11,19 +11,14 @@ namespace Pantheon.Commands.Actor
 {
     public sealed class MeleeCommand : ActorCommand
     {
-        private Cell target;
+        private Vector2Int target;
 
-        public MeleeCommand(Entity entity, Cell target)
+        public MeleeCommand(Entity entity, Vector2Int target)
             : base(entity) => this.target = target;
 
         public override CommandResult Execute(out int cost)
         {
-            Entity defender;
-
-            if (target.Actor != null)
-                defender = target.Actor;
-            else
-                defender = null;
+            Entity defender = Entity.Level.ActorAt(target);
 
             SpeciesDefinition species = Entity.GetComponent<Species>().SpeciesDef;
 

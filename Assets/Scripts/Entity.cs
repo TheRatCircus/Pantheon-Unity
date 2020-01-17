@@ -185,26 +185,19 @@ namespace Pantheon
                 ec.Receive(msg);
         }
 
-        public void Move(Level level, Cell cell)
+        public void Move(Level level, Vector2Int cell)
         {
-            Cell prev = Cell;
-
-            //if (prev != null)
-            //    prev.RemoveEntity(this);
-
             Level = level;
-            Cell = cell;
-            Level.MoveEntityTo(this, cell.Position);
+            Cell = level.GetCell(cell);
+            Level.MoveEntityTo(this, cell);
 
             if (GameObjects.HasElements())
-                GameObjects[0].transform.position = cell.Position.ToVector3();
+                GameObjects[0].transform.position = cell.ToVector3();
 
             if (TryGetComponent(out Inventory inv))
                 inv.Move(level, cell);
 
-            Position = cell.Position;
-
-            //Cell.AddEntity(this);
+            Position = cell;
         }
 
         public void TakeHit(Entity hitter, Hit hit)
@@ -234,7 +227,7 @@ namespace Pantheon
                     Sprite = sprite,
                     Tile = tile
                 };
-                corpse.Move(Level, Cell);
+                corpse.Move(Level, Position);
                 corpse.GetComponent<Corpse>().Original = this;
             }
 

@@ -3,6 +3,7 @@
 
 using Pantheon.Commands;
 using Pantheon.Commands.NonActor;
+using Pantheon.Utils;
 using Pantheon.World;
 using System.Collections.Generic;
 using UnityEngine;
@@ -45,16 +46,18 @@ namespace Pantheon
         }
 
         public CommandResult Cast(Entity evoker,
-            Cell cell, List<Cell> line, List<Vector2Int> path)
+            Vector2Int cell, Line line, Line path)
         {
             CommandResult result = CommandResult.Succeeded;
+
+            Level level = evoker.Level;
 
             foreach (NonActorCommand nac in Commands)
             {
                 nac.Entity = evoker;
 
                 if (nac is IEntityTargetedCommand etc)
-                    etc.Target = cell.Actor;
+                    etc.Target = level.ActorAt(cell);
                 if (nac is ICellTargetedCommand ctc)
                     ctc.Cell = cell;
                 if (nac is ILineTargetedCommand ltc)
