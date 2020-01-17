@@ -16,7 +16,7 @@ namespace Pantheon.Utils
         private Level level;
 
         public int[,] Map { get; private set; }
-        private HashSet<Cell> goals = new HashSet<Cell>();
+        private HashSet<Vector2Int> goals = new HashSet<Vector2Int>();
         private List<Vector2Int> open = new List<Vector2Int>();
         private HashSet<Vector2Int> closed = new HashSet<Vector2Int>();
 
@@ -26,18 +26,16 @@ namespace Pantheon.Utils
             Map = new int[level.CellSize.x, level.CellSize.y];
         }
 
-        public void SetGoals(IEnumerable<Cell> goals)
+        public void SetGoals(IEnumerable<Vector2Int> goals)
         {
-            this.goals = (HashSet<Cell>)goals;
+            this.goals = (HashSet<Vector2Int>)goals;
         }
 
-        public void SetGoals(params Cell[] goals)
+        public void SetGoals(params Vector2Int[] goals)
         {
             this.goals.Clear();
-            foreach (Cell c in goals)
-            {
+            foreach (Vector2Int c in goals)
                 this.goals.Add(c);
-            }
         }
 
         public void Recalculate()
@@ -48,10 +46,10 @@ namespace Pantheon.Utils
                     Map[x, y] = 255;
                 }
 
-            foreach (Cell c in goals)
+            foreach (Vector2Int c in goals)
             {
-                Map[c.Position.x, c.Position.y] = 0;
-                open.Add(c.Position);
+                Map[c.x, c.y] = 0;
+                open.Add(c);
             }
 
             
@@ -114,10 +112,10 @@ namespace Pantheon.Utils
                     Map[x, y] = 255;
                 }
 
-            foreach (Cell c in goals)
+            foreach (Vector2Int c in goals)
             {
-                Map[c.Position.x, c.Position.y] = 0;
-                open.Add(c.Position);
+                Map[c.x, c.y] = 0;
+                open.Add(c);
             }
 
             int iterations = 0; // Arbitrary limiter
