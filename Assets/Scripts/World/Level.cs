@@ -400,7 +400,7 @@ namespace Pantheon.World
                 for (iX = startX; iX <= endX; iX++)
                     if (!(iX == x && iY == y))
                         if ((oobIsWall && !Contains(iX, iY))
-                            || GetCell(iX, iY).HasWall)
+                            || GetTerrain(iX, iY).Blocked)
                         {
                             wallCounter++;
                         }
@@ -425,7 +425,7 @@ namespace Pantheon.World
                     if (!(iX == x && iY == y))
                         if ((oobIsWall && !Contains(iX, iY)
                             || (oobIsWall && !rect.Contains(iX, iY)))
-                            || GetCell(iX, iY).HasWall)
+                            || GetTerrain(iX, iY).Blocked)
                         {
                             wallCounter++;
                         }

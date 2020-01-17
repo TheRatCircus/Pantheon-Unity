@@ -69,7 +69,7 @@ namespace Pantheon.Gen
 
             numWalls = level.GetAdjacentWalls(rect, x, y, 1, 1, true);
 
-            if (level.GetCell(x, y).Blocked)
+            if (level.GetTerrain(x, y).Blocked)
             {
                 if (numWalls >= 4)
                     return true;

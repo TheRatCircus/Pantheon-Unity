@@ -63,7 +63,7 @@ namespace Pantheon.Gen
                         x - position.x, y - position.y);
                     if (terrain != null)
                     {
-                        level.GetCell(x, y).Terrain = terrain;
+                        level.SetTerrain(x, y, terrain);
                     }
                 }
             return true;
