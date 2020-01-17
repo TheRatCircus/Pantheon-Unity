@@ -47,6 +47,21 @@ namespace Pantheon.World
                 return ret;
             }
         }
+        public HashSet<Entity> Actors
+        {
+            get
+            {
+                HashSet<Entity> ret = new HashSet<Entity>();
+                foreach (Chunk chunk in Chunks)
+                {
+                    if (chunk.Actors.Count < 1)
+                        continue;
+
+                    ret.AddMany(chunk.Actors);
+                }
+                return ret;
+            }
+        }
 
         public Pathfinder PF { get; private set; }
 
@@ -54,9 +69,6 @@ namespace Pantheon.World
         public Transform Transform => transform;
         [NonSerialized] private Transform entitiesTransform;
         public Transform EntitiesTransform => entitiesTransform;
-
-        public HashSet<Entity> Entities { get; private set; }
-            = new HashSet<Entity>();
 
         [NonSerialized] private Tilemap terrainTilemap;
         [NonSerialized] private Tilemap splatterTilemap;
@@ -515,70 +527,35 @@ namespace Pantheon.World
 
         public List<Entity> ItemsAt(int x, int y)
         {
-            Profiler.BeginSample("Entity Search");
-            List<Entity> ret = new List<Entity>();
-            foreach (Entity e in Entities)
-            {
-                if (e.Position == new Vector2Int(x, y)
-                    && !e.HasComponent<Actor>())
-                    ret.Add(e);
-            }
-            Profiler.EndSample();
-            return ret;
+            return ChunkContaining(x, y).ItemsAt(x, y);
         }
 
         public Entity ActorAt(int x, int y)
         {
-            Profiler.BeginSample("Entity Search");
-            foreach (Entity e in Entities)
-            {
-                if (e.Position == new Vector2Int(x, y)
-                    && e.HasComponent<Actor>())
-                {
-                    return e;
-                }
-            }
-            Profiler.EndSample();
-            return null;
+            return ChunkContaining(x, y).ActorAt(x, y);
         }
 
         public Entity ActorAt(Vector2Int pos)
         {
-            Profiler.BeginSample("Entity Search");
-            foreach (Entity e in Entities)
-            {
-                if (e.Position == new Vector2Int(pos.x, pos.y)
-                    && e.HasComponent<Actor>())
-                {
-                    return e;
-                }
-            }
-            Profiler.EndSample();
-            return null;
+            return ChunkContaining(pos.x, pos.y).ActorAt(pos.x, pos.y);
         }
 
         public Entity FirstItemAt(int x, int y)
         {
-            Profiler.BeginSample("Entity Search");
-            foreach (Entity e in Entities)
-            {
-                if (e.Position == new Vector2Int(x, y) && !e.HasComponent<Actor>())
-                    return e;
-            }
-            Profiler.EndSample();
-            return null;
+            return ChunkContaining(x, y).FirstItemAt(x, y);
         }
 
         public Entity FirstItemAt(Vector2Int pos)
         {
-            Profiler.BeginSample("Entity Search");
-            foreach (Entity e in Entities)
-            {
-                if (e.Position == pos && !e.HasComponent<Actor>())
-                    return e;
-            }
-            Profiler.EndSample();
-            return null;
+            return ChunkContaining(pos.x, pos.y).FirstItemAt(pos);
+        }
+
+        public void MoveEntityTo(Entity entity, Vector2Int pos)
+        {
+            if (entity.HasComponent<Actor>())
+                ChunkContaining(pos.x, pos.y).Actors.Add(entity);
+            else
+                ChunkContaining(pos.x, pos.y).Items.Add(entity);
         }
     }
 }

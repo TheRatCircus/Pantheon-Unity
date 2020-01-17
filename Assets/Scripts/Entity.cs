@@ -193,8 +193,9 @@ namespace Pantheon
             //    prev.RemoveEntity(this);
 
             Level = level;
-            Level.Entities.Add(this);
             Cell = cell;
+            Level.MoveEntityTo(this, cell.Position);
+
             if (GameObjects.HasElements())
                 GameObjects[0].transform.position = cell.Position.ToVector3();
 

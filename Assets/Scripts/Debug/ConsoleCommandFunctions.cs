@@ -276,9 +276,9 @@ namespace Pantheon.Debug
 
         public static string KillLevel(string[] args, GameController ctrl)
         {
-            foreach (Entity entity in ctrl.World.ActiveLevel.Entities)
+            foreach (Entity entity in ctrl.World.ActiveLevel.Actors)
             {
-                if (entity.HasComponent<Actor>() && !entity.PlayerControlled)
+                if (!entity.PlayerControlled)
                     entity.Destroy(null);
             }
 

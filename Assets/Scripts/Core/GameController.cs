@@ -130,16 +130,13 @@ namespace Pantheon.Core
             if (refreshFOV)
                 FOV.RefreshFOV(level, PC.Position, false);
 
-            foreach (Entity entity in level.Entities)
+            foreach (Entity entity in level.Actors)
             {
-                if (entity.TryGetComponent(out Actor actor))
-                {
-                    AssignGameObject(entity);
-                    Scheduler.AddActor(actor);
-                }
+                AssignGameObject(entity);
+                Scheduler.AddActor(entity.GetComponent<Actor>());
             }
 
-            foreach (Vector2Int cell in level.Map)  
+            foreach (Vector2Int cell in level.Map)
                 level.DrawTile(cell);
 
             LevelChangeEvent?.Invoke(level);
