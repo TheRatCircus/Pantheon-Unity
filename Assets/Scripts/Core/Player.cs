@@ -184,8 +184,8 @@ namespace Pantheon.Core
 
         private void PointSelect()
         {
-            bool withinRange = Entity.Level.Distance(
-                Entity.Cell, cursor.HoveredCell) < targetingRange;
+            bool withinRange = Level.Distance(
+                Entity.Cell.Position, cursor.HoveredCell.Position) < targetingRange;
 
             CleanOverlays();
 
@@ -214,8 +214,8 @@ namespace Pantheon.Core
 
         private void LineSelect()
         {
-            bool withinRange = Entity.Level.Distance(
-                Entity.Cell, cursor.HoveredCell) < targetingRange;
+            bool withinRange = Level.Distance(
+                Entity.Cell.Position, cursor.HoveredCell.Position) < targetingRange;
 
             CleanOverlays();
 
@@ -287,7 +287,7 @@ namespace Pantheon.Core
 
             foreach (Entity enemy in visibleEnemies)
             {
-                int d = entity.Level.Distance(enemy.Cell, entity.Cell);
+                int d = Level.Distance(enemy.Cell.Position, entity.Cell.Position);
                 if (d < distance)
                 {
                     distance = d;
@@ -318,7 +318,7 @@ namespace Pantheon.Core
                 }
             }
 
-            if (!entity.Level.AdjacentTo(entity.Cell, cell))
+            if (!entity.Level.AdjacentTo(entity.Cell.Position, cell.Position))
             {
                 if (path.Count > 0)
                     return new MoveCommand(entity, path[0]);

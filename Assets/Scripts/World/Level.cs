@@ -179,10 +179,10 @@ namespace Pantheon.World
                 return true;
         }
 
-        public int Distance(Cell a, Cell b)
+        public static int Distance(Vector2Int a, Vector2Int b)
         {
-            int dx = b.Position.x - a.Position.x;
-            int dy = b.Position.y - a.Position.y;
+            int dx = b.x - a.x;
+            int dy = b.y - a.y;
 
             return (int)Mathf.Sqrt(Mathf.Pow(dx, 2) + Mathf.Pow(dy, 2));
         }
@@ -203,7 +203,7 @@ namespace Pantheon.World
             return ret;
         }
 
-        public bool AdjacentTo(Cell a, Cell b)
+        public bool AdjacentTo(Vector2Int a, Vector2Int b)
         {
             if (a.Equals(b))
                 throw new ArgumentException("Argument cells are the same.");
@@ -233,59 +233,6 @@ namespace Pantheon.World
 
             Chunk chunk = ChunkContaining(x, y);
             return new Cell(new CellHandle(chunk, (byte)newX, (byte)newY));
-        }
-
-        /// <summary>
-        /// Find the nearest cell passing a predicate using a spiral algorithm.
-        /// </summary>
-        /// <param name="origin"></param>
-        /// <param name="radius"></param>
-        /// <param name="condition"></param>
-        /// <returns>The nearest cell meeting the predicate, or null if none found.</returns>
-        public Cell FindNearest(Cell origin, int radius, Predicate<Cell> condition)
-        {
-            Cell c = origin;
-            if (condition(c))
-                return c;
-
-            for (int i = 0; i < radius; i++)
-            {
-                int j = i + 1;
-                int k = j + 1;
-
-                c = Translate(c, 0, 1); // Up
-                if (condition(c))
-                    return c;
-
-                for (int right = 0; right < (i + j); right++)
-                {
-                    c = Translate(c, 1, 0);
-                    if (condition(c))
-                        return c;
-                }
-
-                for (int down = 0; down < (i + k); down++)
-                {
-                    c = Translate(c, 0, -1);
-                    if (condition(c))
-                        return c;
-                }
-
-                for (int left = 0; left < (i + k); left++)
-                {
-                    c = Translate(c, -1, 0);
-                    if (condition(c))
-                        return c;
-                }
-
-                for (int up = 0; up < (i + k); up++)
-                {
-                    c = Translate(c, 0, 1);
-                    if (condition(c))
-                        return c;
-                }
-            }
-            return null;
         }
 
         /// <summary>

@@ -161,17 +161,17 @@ namespace Pantheon.Utils
             closed.Clear();
         }
 
-        public Vector2Int RollDownhill(Cell origin)
+        public Vector2Int RollDownhill(Vector2Int origin)
         {
-            Vector2Int lowestPosition = origin.Position;
+            Vector2Int lowestPosition = origin;
             int lowest = 255;
 
-            for (int x = origin.Position.x - 1; x <= origin.Position.x + 1;
+            for (int x = origin.x - 1; x <= origin.x + 1;
                 x++)
-                for (int y = origin.Position.y - 1; y <= origin.Position.y + 1;
+                for (int y = origin.y - 1; y <= origin.y + 1;
                     y++)
                 {
-                    if (x == origin.Position.x && y == origin.Position.y)
+                    if (x == origin.x && y == origin.y)
                         continue;
 
                     if (!Map.TryGet(out int weight, x, y))
