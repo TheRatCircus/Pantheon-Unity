@@ -78,8 +78,8 @@ namespace Pantheon.Gen
 
         private void PopulateNPCs(BuilderPlan plan, Level level)
         {
-            int minSpawns = level.TerrainMap.Length / 100;
-            int maxSpawns = level.TerrainMap.Length / 90;
+            int minSpawns = level.CellCount / 100;
+            int maxSpawns = level.CellCount / 90;
             int numSpawns = Random.Range(minSpawns, maxSpawns);
 
             for (int i = 0; i < numSpawns; i++)

@@ -31,8 +31,8 @@ namespace Pantheon.Gen
         public override void Run(Level level)
         {
             int x = 0;
-            for (; x < level.Size.x; x++)
-                for (int y = 0; y < level.Size.y; y++)
+            for (; x < level.CellSize.x; x++)
+                for (int y = 0; y < level.CellSize.y; y++)
                     if (level.TryGetCell(x, y, out Cell c))
                     {
                         c.Terrain = terrain;

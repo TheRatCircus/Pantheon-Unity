@@ -8,46 +8,57 @@ using UnityEngine.Profiling;
 
 namespace Pantheon.World
 {
-    public sealed class Chunk
+    public sealed class Chunk : ICellArea
     {
         public const int Width = 20;
         public const int Height = 20;
 
         public Vector2Int Position { get; private set; }
+        public readonly int offsetX;
+        public readonly int offsetY;
+
         public byte[] Terrain { get; } = new byte[Width * Height];
         public CellFlag[] Flags { get; } = new CellFlag[Width * Height];
 
-        public HashSet<Entity> Actors { get; private set; }
-        public HashSet<Entity> Items { get; private set; }
+        public HashSet<Entity> Actors { get; private set; } = new HashSet<Entity>();
+        public HashSet<Entity> Items { get; private set; } = new HashSet<Entity>();
         public HashSet<Entity> Features { get; private set; }
         public HashSet<Entity> Clouds { get; private set; }
 
-        public Chunk(Vector2Int position) => Position = position;
-
-        /// <summary>
-        /// Map 2D coords to this chunk's 1D arrays.
-        /// </summary>
-        private byte Index(int x, int y) => (byte)((Width * x) + y);
-
-        /// <summary>
-        /// Map 2D coords to this chunk's 1D arrays.
-        /// </summary>
-        private byte Index(Vector2Int pos) => (byte)((Width * pos.x) + pos.y);
-
-        /// <summary>
-        /// Get the distance of this chunk in cells to global (0,0).
-        /// </summary>
-        public Vector2Int Offset()
+        public Chunk(Vector2Int position)
         {
-            return new Vector2Int(Width * Position.x, Height * Position.y);
+            Position = position;
+            offsetX = Position.x * Width;
+            offsetY = Position.y * Height;
+        }
+
+        /// <summary>
+        /// Map 2D coords to this chunk's 1D arrays.
+        /// </summary>
+        public int Index(int x, int y)
+        {
+            int localX = x - offsetX;
+            int localY = y - offsetY;
+
+            return (Width * localX) + localY;
+        }
+
+        /// <summary>
+        /// Map 2D coords to this chunk's 1D arrays.
+        /// </summary>
+        public int Index(Vector2Int pos)
+        {
+            int localX = pos.x - offsetX;
+            int localY = pos.y - offsetY;
+
+            return (Width * localX) + localY;
         }
 
         public bool Contains(int x, int y)
         {
-            Vector2Int offset = Offset();
-            if (x >= offset.x + Width || y >= offset.y + Height)
+            if (x >= offsetX + Width || y >= offsetY + Height)
                 return false;
-            else if (x < offset.x || y < offset.y)
+            else if (x < offsetX || y < offsetY)
                 return false;
             else
                 return true;
@@ -55,10 +66,9 @@ namespace Pantheon.World
 
         public bool Contains(Vector2Int pos)
         {
-            Vector2Int offset = Offset();
-            if (pos.x >= offset.x + Width || pos.y >= offset.y + Height)
+            if (pos.x >= offsetX + Width || pos.y >= offsetY + Height)
                 return false;
-            else if (pos.x < offset.x || pos.y < offset.y)
+            else if (pos.x < offsetX || pos.y < offsetY)
                 return false;
             else
                 return true;
@@ -149,5 +159,7 @@ namespace Pantheon.World
             Profiler.EndSample();
             return null;
         }
+
+        public override string ToString() => $"Chunk: {Position}";
     }
 }

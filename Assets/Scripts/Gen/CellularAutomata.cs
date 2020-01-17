@@ -35,7 +35,7 @@ namespace Pantheon.Gen
         public override void Run(Level level)
         {
             rect = new LevelRect(new Vector2Int(), new Vector2Int(
-                        level.Size.x - 1, level.Size.y - 1));
+                        level.CellSize.x - 1, level.CellSize.y - 1));
 
             for (int iterations = 0; iterations < 10; iterations++)
             {

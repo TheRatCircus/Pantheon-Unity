@@ -14,26 +14,36 @@ using Random = UnityEngine.Random;
 namespace Pantheon.World
 {
     [Serializable]
-    public sealed class Level : ICellArea
+    public sealed class Level
     {
         public string DisplayName { get; set; } = "DEFAULT_LEVEL_NAME";
         public string ID { get; set; } = "DEFAULT_LEVEL_ID";
 
         public Vector3Int Position { get; set; }
-        public Vector2Int Size { get; set; }
+        public Vector2Int ChunkSize { get; set; }
+        public Vector2Int CellSize => new Vector2Int(
+            Chunk.Width * ChunkSize.x,
+            Chunk.Height * ChunkSize.y);
+            
+        public int CellCount => CellSize.x * CellSize.y;
 
-        public CellFlag[] FlagMap { get; set; }
-        public byte[] TerrainMap { get; set; }
-        public Vector2Int[,] Map
+        public Chunk[] Chunks { get; private set; }
+        public Vector2Int[] Map
         {
             get
             {
-                Vector2Int[,] ret = new Vector2Int[Size.x, Size.y];
-                for (int x = 0; x < ret.GetLength(0); x++)
-                    for (int y = 0; y < ret.GetLength(1); y++)
+                int i = 0;
+                Vector2Int[] ret = new Vector2Int[CellCount];
+                foreach (Chunk chunk in Chunks)
+                {
+                    for (int x = chunk.offsetX; x < chunk.offsetX + Chunk.Width - 1; x++)
                     {
-                        ret[x, y] = new Vector2Int(x, y);
+                        for (int y = chunk.offsetY; y < chunk.offsetY + Chunk.Height - 1; y++)
+                        {
+                            ret[i++] = new Vector2Int(x, y);
+                        }
                     }
+                }
                 return ret;
             }
         }
@@ -54,9 +64,16 @@ namespace Pantheon.World
 
         public Level(Vector2Int size)
         {
-            Size = size;
-            TerrainMap = new byte[size.x * size.y];
-            FlagMap = new CellFlag[TerrainMap.Length];
+            if (size.x % Chunk.Width != 0 || size.y % Chunk.Height != 0)
+                throw new ArgumentException(
+                    "Level size must conform to chunk grain.");
+
+            ChunkSize = new Vector2Int(size.x / Chunk.Width, size.y / Chunk.Height);
+            
+            Chunks = new Chunk[ChunkSize.x * ChunkSize.y];
+            for (int x = 0; x < ChunkSize.x; x++)
+                for (int y = 0; y < ChunkSize.y; y++)
+                    Chunks[Index(x, y)] = new Chunk(new Vector2Int(x, y));
         }
 
         public void AssignGameObject(Transform transform)
@@ -77,11 +94,21 @@ namespace Pantheon.World
             PF = new Pathfinder(this);
         }
 
+        public Chunk ChunkContaining(int x, int y)
+        {
+            int cX = x / Chunk.Width;
+            int cY = y / Chunk.Height;
+
+            Chunk ret = Chunks[(ChunkSize.x * cX) + cY];
+            return ret;
+        }
+
         public bool TryGetCell(int x, int y, out Cell cell)
         {
             if (Contains(x, y))
             {
-                cell = new Cell(new CellHandle(this, (byte)x, (byte)y));
+                Chunk chunk = ChunkContaining(x, y);
+                cell = new Cell(new CellHandle(chunk, (byte)x, (byte)y));
                 return true;
             }
             else
@@ -95,7 +122,8 @@ namespace Pantheon.World
         {
             if (Contains(pos))
             {
-                cell = new Cell(new CellHandle(this, (byte)pos.x, (byte)pos.y));
+                Chunk chunk = ChunkContaining(pos.x, pos.y);
+                cell = new Cell(new CellHandle(chunk, (byte)pos.x, (byte)pos.y));
                 return true;
             }
             else
@@ -107,17 +135,19 @@ namespace Pantheon.World
 
         public Cell GetCell(Vector2Int pos)
         {
-            return new Cell(new CellHandle(this, (byte)pos.x, (byte)pos.y));
+            Chunk chunk = ChunkContaining(pos.x, pos.y);
+            return new Cell(new CellHandle(chunk, (byte)pos.x, (byte)pos.y));
         }
 
         public Cell GetCell(int x, int y)
         {
-            return new Cell(new CellHandle(this, (byte)x, (byte)y));
+            Chunk chunk = ChunkContaining(x, y);
+            return new Cell(new CellHandle(chunk, (byte)x, (byte)y));
         }
 
         public bool Contains(int x, int y)
         {
-            if (x >= Size.x || y >= Size.y)
+            if (x >= CellSize.x || y >= CellSize.y)
                 return false;
             else if (x < 0 || y < 0)
                 return false;
@@ -127,7 +157,7 @@ namespace Pantheon.World
 
         public bool Contains(Vector2Int pos)
         {
-            if (pos.x >= Size.x || pos.y >= Size.y)
+            if (pos.x >= CellSize.x || pos.y >= CellSize.y)
                 return false;
             else if (pos.x < 0 || pos.y < 0)
                 return false;
@@ -182,12 +212,13 @@ namespace Pantheon.World
             int newX = origin.Position.x + x;
             int newY = origin.Position.y + y;
 
-            if (newX < 0 || newX >= Size.x)
+            if (newX < 0 || newX >= CellSize.x)
                 return null;
-            if (newY < 0 || newY >= Size.y)
+            if (newY < 0 || newY >= CellSize.y)
                 return null;
 
-            return new Cell(new CellHandle(this, (byte)newX, (byte)newY));
+            Chunk chunk = ChunkContaining(x, y);
+            return new Cell(new CellHandle(chunk, (byte)newX, (byte)newY));
         }
 
         /// <summary>
@@ -309,8 +340,8 @@ namespace Pantheon.World
                     throw new Exception(
                         $"No eligible cell found after {tries} attempts.");
 
-                Vector2Int pos = new Vector2Int(Random.Range(0, Size.x),
-                    Random.Range(0, Size.y));
+                Vector2Int pos = new Vector2Int(Random.Range(0, CellSize.x),
+                    Random.Range(0, CellSize.y));
                 if (!TryGetCell(pos, out cell))
                     continue;
 
@@ -334,7 +365,8 @@ namespace Pantheon.World
                 int randX = Random.Range(rect.x1, rect.x2);
                 int randY = Random.Range(rect.y1, rect.y2);
 
-                ret = new Cell(new CellHandle(this, (byte)randX, (byte)randY));
+                Chunk chunk = ChunkContaining(randX, randY);
+                ret = new Cell(new CellHandle(chunk, (byte)randX, (byte)randY));
 
             } while (ret.HasWall);
             return ret;
@@ -408,16 +440,14 @@ namespace Pantheon.World
 
         public void DrawTile(Vector2Int cell)
         {
-            if (!FlagMap[Index(cell)].HasFlag(CellFlag.Revealed))
+            Chunk chunk = ChunkContaining(cell.x, cell.y);
+
+            if (!chunk.GetFlag(cell.x, cell.y).HasFlag(CellFlag.Revealed))
                 return;
 
-            bool visible = FlagMap[Index(cell)].HasFlag(CellFlag.Visible);
+            bool visible = chunk.GetFlag(cell.x, cell.y).HasFlag(CellFlag.Visible);
 
-            RuleTile terrainTile;
-            if (TerrainMap[Index(cell)] != 0)
-                terrainTile = Assets.GetTerrain(TerrainMap[Index(cell.x, cell.y)]).Tile;
-            else
-                terrainTile = null;
+            RuleTile terrainTile = chunk.GetTerrain(cell).Tile;
 
             terrainTilemap.SetTile((Vector3Int)cell, terrainTile);
             terrainTilemap.SetColor((Vector3Int)cell,
@@ -447,38 +477,40 @@ namespace Pantheon.World
 
         public override string ToString() => $"{DisplayName} {Position}";
 
-        public int Index(int x, int y) => (Size.x * x) + y;
+        public int Index(int x, int y) => (ChunkSize.x * x) + y;
 
-        public int Index(Vector2Int pos) => (Size.x * pos.x) + pos.y;
+        public int Index(Vector2Int pos) => (ChunkSize.x * pos.x) + pos.y;
 
         public TerrainDefinition GetTerrain(int x, int y)
         {
-            return Assets.GetTerrain(TerrainMap[Index(x, y)]);
+            return ChunkContaining(x, y).GetTerrain(x, y);
         }
 
         public TerrainDefinition GetTerrain(Vector2Int pos)
         {
-            return Assets.GetTerrain(TerrainMap[Index(pos.x, pos.y)]);
+            return ChunkContaining(pos.x, pos.y).GetTerrain(pos);
         }
 
         public void SetTerrain(int x, int y, TerrainDefinition terrain)
         {
-            TerrainMap[Index(x, y)] = Assets.GetTerrainIndex(terrain);
+            ChunkContaining(x, y).SetTerrain(x, y, terrain);
         }
 
         public CellFlag GetFlag(int x, int y)
         {
-            return FlagMap[Index(x, y)];
+            return ChunkContaining(x, y).GetFlag(x, y);
         }
 
         public void AddFlag(int x, int y, CellFlag flag)
         {
-            FlagMap[Index(x, y)] |= flag;
+            Chunk chunk = ChunkContaining(x, y);
+            chunk.Flags[chunk.Index(x, y)] |= flag;
         }
 
         public void RemoveFlag(int x, int y, CellFlag flag)
         {
-            FlagMap[Index(x, y)] &= ~flag;
+            Chunk chunk = ChunkContaining(x, y);
+            chunk.Flags[chunk.Index(x, y)] &= ~flag;
         }
 
         public List<Entity> ItemsAt(int x, int y)

@@ -53,15 +53,15 @@ namespace Pantheon.Gen
 
         public static void Enclose(Level level, TerrainDefinition terrain)
         {
-            for (int x = 0; x < level.Size.x; x++)
-                for (int y = 0; y < level.Size.y; y++)
+            for (int x = 0; x < level.CellSize.x; x++)
+                for (int y = 0; y < level.CellSize.y; y++)
                 {
                     if (x == 0)
                     {
                         level.SetTerrain(x, y, terrain);
                         continue;
                     }
-                    else if (x == level.Size.x - 1)
+                    else if (x == level.CellSize.x - 1)
                     {
                         level.SetTerrain(x, y, terrain);
                         continue;
@@ -73,7 +73,7 @@ namespace Pantheon.Gen
                             level.SetTerrain(x, y, terrain);
                             continue;
                         }
-                        else if (y == level.Size.y - 1)
+                        else if (y == level.CellSize.y - 1)
                         {
                             level.SetTerrain(x, y, terrain);
                             continue;

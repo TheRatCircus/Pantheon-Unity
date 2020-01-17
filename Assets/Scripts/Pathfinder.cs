@@ -22,8 +22,8 @@ namespace Pantheon
         public Pathfinder(Level level)
         {
             this.level = level;
-            map = new Node[level.Size.x, level.Size.y];
-            Vector2Int[,] levelMap = level.Map;
+            map = new Node[level.CellSize.x, level.CellSize.y];
+            Vector2Int[] levelMap = level.Map;
             foreach (Vector2Int cell in levelMap)
                 map[cell.x, cell.y] = new Node(cell);
         }

@@ -23,7 +23,7 @@ namespace Pantheon.Utils
         public DijkstraMap(Level level)
         {
             this.level = level;
-            Map = new int[level.Size.x, level.Size.y];
+            Map = new int[level.CellSize.x, level.CellSize.y];
         }
 
         public void SetGoals(IEnumerable<Cell> goals)

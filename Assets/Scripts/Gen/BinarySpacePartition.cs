@@ -37,7 +37,7 @@ namespace Pantheon.Gen
         {
             List<Leaf> leaves = new List<Leaf>();
 
-            Leaf root = new Leaf(0, 0, level.Size.x, level.Size.y);
+            Leaf root = new Leaf(0, 0, level.CellSize.x, level.CellSize.y);
             leaves.Add(root);
 
             bool didSplit = true;

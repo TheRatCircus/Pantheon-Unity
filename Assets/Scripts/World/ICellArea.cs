@@ -12,12 +12,13 @@ namespace Pantheon.World
     /// </summary>
     public interface ICellArea
     {
-        byte[] TerrainMap { get; }
-        HashSet<Entity> Entities { get; }
-        Vector2Int Size { get; }
+        byte[] Terrain { get; }
+        CellFlag[] Flags { get; }
+        HashSet<Entity> Actors { get; }
+        HashSet<Entity> Items { get; }
+        HashSet<Entity> Features { get; }
+        HashSet<Entity> Clouds { get; }
 
-        int Index(int x, int y);
-        int Index(Vector2Int pos);
         TerrainDefinition GetTerrain(int x, int y);
         TerrainDefinition GetTerrain(Vector2Int pos);
         void SetTerrain(int x, int y, TerrainDefinition terrain);
