@@ -9,12 +9,12 @@ namespace Pantheon.Utils
 {
     public static class Floodfill
     {
-        public static HashSet<Cell> FillRect(Level level, LevelRect rect,
-            Cell start)
+        public static HashSet<Vector2Int> FillRect(
+            Level level, LevelRect rect, Vector2Int start)
         {
-            HashSet<Cell> filled = new HashSet<Cell>();
-            List<Cell> open = new List<Cell>();
-            HashSet<Cell> closed = new HashSet<Cell>();
+            HashSet<Vector2Int> filled = new HashSet<Vector2Int>();
+            List<Vector2Int> open = new List<Vector2Int>();
+            HashSet<Vector2Int> closed = new HashSet<Vector2Int>();
 
             filled.Add(start);
             open.Add(start);
@@ -27,33 +27,30 @@ namespace Pantheon.Utils
                     for (int x = -1; x <= 1; x++)
                         for (int y = -1; y <= 1; y++)
                         {
-                            Vector2Int frontier = open[i].Position;
+                            Vector2Int frontier = open[i];
                             frontier += new Vector2Int(x, y);
-                            Cell frontierCell;
 
-                            if (level.Contains(frontier) &&
-                                rect.Contains(frontier))
-                                frontierCell = level.GetCell(frontier);
-                            else
+                            if (!level.Contains(frontier) ||
+                                !rect.Contains(frontier))
                                 continue;
 
-                            if (closed.Contains(frontierCell))
+                            if (closed.Contains(frontier))
                                 continue;
 
-                            if (frontierCell.HasWall)
+                            if (level.CellTerrainIsBlocked(frontier))
                             {
-                                closed.Add(frontierCell);
+                                closed.Add(frontier);
                                 continue;
                             }
 
-                            if (filled.Contains(frontierCell))
+                            if (filled.Contains(frontier))
                             {
-                                closed.Add(frontierCell);
+                                closed.Add(frontier);
                                 continue;
                             }
 
-                            filled.Add(frontierCell);
-                            open.Add(frontierCell);
+                            filled.Add(frontier);
+                            open.Add(frontier);
                         }
                     open.RemoveAt(i);
                 }

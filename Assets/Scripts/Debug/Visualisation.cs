@@ -2,7 +2,6 @@
 // Jerome Martina
 
 using UnityEngine;
-using Pantheon.World;
 using Pantheon.Utils;
 
 namespace Pantheon.Debug
@@ -12,22 +11,6 @@ namespace Pantheon.Debug
     /// </summary>
     public static class Visualisation
     {
-        /// <summary>
-        /// Draw an X on a cell (aligned to world grid).
-        /// </summary>
-        /// <param name="cell"></param>
-        public static void MarkCell(Cell cell, float duration)
-        {
-            Vector3 start = cell.Position.ToVector3();
-            start.x -= Cell.TileOffsetX;
-            start.y -= Cell.TileOffsetY;
-            Vector3 end = new Vector3(start.x + 1f, start.y + 1f, start.z + 1f);
-            UnityEngine.Debug.DrawLine(start, end, Color.cyan, duration);
-            start.y += 1f;
-            end.y -= 1f;
-            UnityEngine.Debug.DrawLine(start, end, Color.cyan, duration);
-        }
-
         /// <summary>
         /// Draw an X on a position.
         /// </summary>

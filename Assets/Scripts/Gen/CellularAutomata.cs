@@ -87,7 +87,7 @@ namespace Pantheon.Gen
         private bool FillDisconnected(Level level)
         {
             int threshold = (int)(rect.Width * rect.Height * .4f);
-            HashSet<Cell> cavern = new HashSet<Cell>();
+            HashSet<Vector2Int> cavern = new HashSet<Vector2Int>();
             int attempts = 0;
             do
             {
@@ -100,12 +100,12 @@ namespace Pantheon.Gen
                 }
 
                 cavern = Floodfill.FillRect(level, rect,
-                    level.RandomFloorInRect(rect));
+                    level.RandomFloorInRect(rect).Position);
                 attempts++;
             } while (cavern.Count < threshold);
 
             foreach (Cell cell in level.CellsInRect(rect))
-                if (!cell.Blocked && !cavern.Contains(cell))
+                if (!cell.Blocked && !cavern.Contains(cell.Position))
                     cell.Terrain = terrain;
 
             return true;
