@@ -3,7 +3,6 @@
 
 using Pantheon.Content;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Pantheon.World

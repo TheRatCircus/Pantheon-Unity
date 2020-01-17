@@ -146,10 +146,10 @@ namespace Pantheon.Debug
 
         public static string Teleport(string[] args, GameController ctrl)
         {
-            Cell cell = ctrl.Cursor.HoveredCell;
-            if (Cell.Walkable(cell))
+            Vector2Int cell = ctrl.Cursor.HoveredCell.Position;
+            if (ctrl.World.ActiveLevel.Walkable(cell))
             {
-                ctrl.PC.Move(ctrl.PC.Level, cell.Position);
+                ctrl.PC.Move(ctrl.PC.Level, cell);
                 FOV.RefreshFOV(ctrl.PC.Level, ctrl.PC.Position, true);
                 return $"Teleported player to {cell}.";
             }
