@@ -23,7 +23,8 @@ namespace Pantheon
         {
             this.level = level;
             map = new Node[level.Size.x, level.Size.y];
-            foreach (Vector2Int cell in level.Map)
+            Vector2Int[,] levelMap = level.Map;
+            foreach (Vector2Int cell in levelMap)
                 map[cell.x, cell.y] = new Node(cell);
         }
 
@@ -105,6 +106,7 @@ namespace Pantheon
                 {
                     if (level.GetTerrain(neighbour.Cell).Blocked ||
                         closedSet.Contains(neighbour))
+                        continue;
 
                     DebugVisualize(neighbour.Cell);
 

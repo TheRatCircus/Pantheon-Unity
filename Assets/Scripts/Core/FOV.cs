@@ -25,16 +25,17 @@ namespace Pantheon.Core
             Level level, Vector2Int origin, bool drawChanges)
         {
             Profiler.BeginSample("FOV");
+            HashSet<Vector2Int> allRefreshed = new HashSet<Vector2Int>();
+
             // Hide cells at the last refresh position
             if (prev != null)
             {
                 List<Vector2Int> old = level.GetSquare(prev, FOVRadius);
                 foreach (Vector2Int pos in old)
                     level.RemoveFlag(pos.x, pos.y, CellFlag.Visible);
-                level.Draw(old);
+                allRefreshed.AddMany(old);
             }
 
-            HashSet<Vector2Int> allRefreshed = new HashSet<Vector2Int>();
             for (int octant = 0; octant < 8; octant++)
             {
                 List<Vector2Int> refreshed = ShadowOctant(level,

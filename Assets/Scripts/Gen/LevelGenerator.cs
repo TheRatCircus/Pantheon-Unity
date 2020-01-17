@@ -10,6 +10,7 @@ using Pantheon.World;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Pantheon.Gen
 {
@@ -79,8 +80,7 @@ namespace Pantheon.Gen
         {
             int minSpawns = level.TerrainMap.Length / 100;
             int maxSpawns = level.TerrainMap.Length / 90;
-
-            int numSpawns = UnityEngine.Random.Range(minSpawns, maxSpawns);
+            int numSpawns = Random.Range(minSpawns, maxSpawns);
 
             for (int i = 0; i < numSpawns; i++)
             {

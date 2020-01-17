@@ -74,7 +74,7 @@ namespace Pantheon.World
 
         public void Initialize()
         {
-            //PF = new Pathfinder(this);
+            PF = new Pathfinder(this);
         }
 
         public bool TryGetCell(int x, int y, out Cell cell)
@@ -498,56 +498,55 @@ namespace Pantheon.World
         public Entity ActorAt(int x, int y)
         {
             Profiler.BeginSample("Entity Search");
-            Entity ret = null;
             foreach (Entity e in Entities)
             {
                 if (e.Position == new Vector2Int(x, y)
                     && e.HasComponent<Actor>())
-                    ret = e;
+                {
+                    return e;
+                }
             }
             Profiler.EndSample();
-            return ret;
+            return null;
         }
 
         public Entity ActorAt(Vector2Int pos)
         {
             Profiler.BeginSample("Entity Search");
-            Entity ret = null;
             foreach (Entity e in Entities)
             {
                 if (e.Position == new Vector2Int(pos.x, pos.y)
                     && e.HasComponent<Actor>())
-                    ret = e;
+                {
+                    return e;
+                }
             }
             Profiler.EndSample();
-            return ret;
+            return null;
         }
 
         public Entity FirstItemAt(int x, int y)
         {
             Profiler.BeginSample("Entity Search");
-            Entity ret = null;
             foreach (Entity e in Entities)
             {
-                if (e.Position == new Vector2Int(x, y)
-                    && !e.HasComponent<Actor>())
-                    ret = e;
+                if (e.Position == new Vector2Int(x, y) && !e.HasComponent<Actor>())
+                    return e;
             }
             Profiler.EndSample();
-            return ret;
+            return null;
         }
 
         public Entity FirstItemAt(Vector2Int pos)
         {
             Profiler.BeginSample("Entity Search");
-            Entity ret = null;
             foreach (Entity e in Entities)
             {
                 if (e.Position == pos && !e.HasComponent<Actor>())
-                    ret = e;
+                    return e;
             }
             Profiler.EndSample();
-            return ret;
+            return null;
         }
     }
 }
