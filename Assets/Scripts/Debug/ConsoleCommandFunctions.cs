@@ -157,33 +157,6 @@ namespace Pantheon.Debug
                 return "Targeted cell is not walkable.";
         }
 
-        public static string Strategy(string[] args, GameController ctrl)
-        {
-            if (ctrl.Cursor.HoveredCell.Actor == null)
-                return "No NPC in selected cell.";
-
-            if (!ctrl.Cursor.HoveredCell.Actor.TryGetComponent(out AI ai))
-                return "Entity in selected cell has no AI.";
-
-            switch (args[0].ToLower())
-            {
-                case "default":
-                    ai.Strategy = new DefaultStrategy();
-                    return $"Changed strategy of {ai.Entity} to Default.";
-                case "wander":
-                    ai.Strategy = new WanderStrategy();
-                    return $"Changed strategy of {ai.Entity} to Wander.";
-                case "sleep":
-                    ai.Strategy = new SleepStrategy();
-                    return $"Changed strategy of {ai.Entity} to Sleep.";
-                case "thrallfollow":
-                    ai.Strategy = new ThrallFollowStrategy(ctrl.PC.GetComponent<Actor>());
-                    return $"Changed strategy of {ai.Entity} to Thrall Follow.";
-                default:
-                    return $"Strategy {args[0]} does not exist.";
-            }
-        }
-
         public static string Relic(string[] args, GameController ctrl)
         {
             Entity relic = Gen.Relic.MakeRelic();
@@ -207,14 +180,7 @@ namespace Pantheon.Debug
 
         public static string Enthrall(string[] args, GameController ctrl)
         {
-            if (ctrl.Cursor.HoveredCell.Actor == null)
-                return "No NPC in selected cell.";
-
-            if (!ctrl.Cursor.HoveredCell.Actor.TryGetComponent(out AI ai))
-                return "Entity in selected cell has no AI.";
-
-            ai.Strategy = new ThrallFollowStrategy(ctrl.PC.GetComponent<Actor>());
-            return $"Changed strategy of {ai.Entity} to Thrall Follow.";
+            throw new NotImplementedException();
         }
 
         public static string Vault(string[] args, GameController ctrl)

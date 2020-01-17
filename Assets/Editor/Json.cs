@@ -43,7 +43,7 @@ namespace PantheonEditor
             EntityComponent[] components = new EntityComponent[]
             {
                 new Actor(),
-                new AI(new DefaultStrategy()),
+                new AI(),
                 new Ammo()
                     {
                         Type = AmmoType.Cartridges,

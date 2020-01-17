@@ -14,19 +14,17 @@ namespace Pantheon.Components
     {
         [JsonIgnore] public Actor Actor { get; private set; }
 
-        public AIStrategy Strategy { get; set; }
-
-        public AI(AIStrategy strategy) => Strategy = strategy;
+        public AI() { }
 
         public void SetActor(Actor actor)
         {
             Actor = actor;
             actor.AIDecisionEvent += DecideCommand;
         }
-        
+
         public void DecideCommand()
         {
-            Actor.Command = Strategy.Decide(this);
+            throw new System.NotImplementedException();
             DebugLogAI();
         }
 
@@ -34,25 +32,17 @@ namespace Pantheon.Components
         {
             switch (msg)
             {
-                case DamageEventMessage dem:
-                    if (!(Strategy is ThrallFollowStrategy))
-                    {
-                        if (Strategy is DefaultStrategy ds && ds.Target != dem.Damager)
-                            ds.SetTarget(dem.Damager);
-                        else
-                            Strategy = new DefaultStrategy(dem.Damager);
-
-                        Locator.Log.Send(
-                            $"{Entity.ToSubjectString(true)} notices you!",
-                            Colours._orange);
-                    }
+                case DamageEventMessage _:
+                    Locator.Log.Send(
+                        $"{Entity.ToSubjectString(true)} notices you!",
+                        Colours._orange);
                     break;
                 default:
                     break;
             }
         }
 
-        public override EntityComponent Clone(bool full) => new AI(Strategy);
+        public override EntityComponent Clone(bool full) => new AI();
 
         [System.Diagnostics.Conditional("DEBUG_AI")]
         private void DebugLogAI()

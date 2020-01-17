@@ -54,11 +54,6 @@ namespace Pantheon.Serialization.Json
                     typeof(LineEffectCommand),
                     typeof(PointEffectCommand),
                     typeof(StatusCommand),
-                    // AI strategies
-                    typeof(DefaultStrategy),
-                    typeof(SleepStrategy),
-                    typeof(WanderStrategy),
-                    typeof(ThrallFollowStrategy),
                     // Statuses
                     typeof(Momentum),
                     // Misc

@@ -41,7 +41,7 @@ namespace PantheonEditor
         public RuleTile tile = default;
 
         public Actor actor = new Actor();
-        public AI ai = new AI(new DefaultStrategy());
+        public AI ai = new AI();
         public Health health = new Health();
 
         private EntityComponent[] components;
