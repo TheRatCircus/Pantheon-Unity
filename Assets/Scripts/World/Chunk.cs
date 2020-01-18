@@ -8,7 +8,7 @@ using UnityEngine.Profiling;
 
 namespace Pantheon.World
 {
-    public sealed class Chunk : ICellArea
+    public sealed class Chunk
     {
         public const int Width = 20;
         public const int Height = 20;
