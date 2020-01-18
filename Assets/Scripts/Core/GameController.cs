@@ -3,7 +3,6 @@
 
 using Pantheon.Components;
 using Pantheon.Content;
-using Pantheon.Gen;
 using Pantheon.SaveLoad;
 using Pantheon.UI;
 using Pantheon.Utils;
@@ -20,6 +19,9 @@ namespace Pantheon.Core
         PlayerDead
     }
 
+    /// <summary>
+    /// Contain and process all game state.
+    /// </summary>
     public sealed class GameController : MonoBehaviour
     {
         [SerializeField] private GameObject levelPrefab = default;
@@ -37,9 +39,9 @@ namespace Pantheon.Core
         public GameLog Log => log;
         public Player Player { get; private set; }
 
-        public GameWorld World { get; private set; }
+        [System.NonSerialized] private GameWorld world;
+        public GameWorld World { get => world; private set => world = value; }
         public AssetLoader Loader { get; private set; }
-        public LevelGenerator Generator { get; private set; }
         public TurnScheduler Scheduler { get; private set; }
         private SaveWriterReader saveSystem;
 
@@ -54,7 +56,6 @@ namespace Pantheon.Core
 
         private void OnEnable()
         {
-            //Loader = new AssetLoader();
             Scheduler = GetComponent<TurnScheduler>();
             Locator.Scheduler = Scheduler;
             Player = GetComponent<Player>();
@@ -66,12 +67,9 @@ namespace Pantheon.Core
         {
             saveSystem = new SaveWriterReader(Loader);
 
-            Generator = new LevelGenerator(Loader);
-            World = new GameWorld(Generator);
-
+            World = new GameWorld();
             World.NewLayer(-2);
             World.Layers.TryGetValue(-2, out Layer surface);
-            Generator.PlaceBuilders();
             Level level = surface.RequestLevel(Vector2Int.zero);
 
             // Spawn the player
@@ -96,8 +94,6 @@ namespace Pantheon.Core
             Save save = saveSystem.ReadSave(path);
 
             World = save.World;
-            Generator = save.Generator;
-            Generator.Loader = Loader;
             PC = save.Player;
             PC.DestroyedEvent += OnPlayerDeath;
 
@@ -190,7 +186,7 @@ namespace Pantheon.Core
 
         public void SaveGame()
         {
-            Save save = new Save(PC.Name, World, Generator, PC);
+            Save save = new Save(PC.Name, World, PC);
             saveSystem.WriteSave(save);
         }
 

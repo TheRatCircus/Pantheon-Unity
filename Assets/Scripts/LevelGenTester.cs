@@ -84,58 +84,5 @@ namespace Pantheon
             level = null;
             AssetBundle.UnloadAllAssetBundles(true);
         }
-
-        private void PopulateNPCs(BuilderPlan plan, Level level)
-        {
-            int minSpawns = level.Map.Length / 100;
-            int maxSpawns = level.Map.Length / 90;
-
-            int numSpawns = UnityEngine.Random.Range(minSpawns, maxSpawns);
-
-            for (int i = 0; i < numSpawns; i++)
-            {
-                string id = GenericRandomPick<string>.Pick(plan.Population);
-                EntityTemplate template = Assets.Templates[id];
-
-                Vector2Int cell;
-                int attempts = 0;
-                do
-                {
-                    if (attempts > 100)
-                        throw new Exception
-                            ($"No valid NPC spawn position found after " +
-                            $"{attempts} tries.");
-
-                    cell = level.RandomCell(true);
-                    attempts++;
-
-                } while (!level.Walkable(cell));
-
-                Spawn.SpawnActor(template, level, cell);
-            }
-        }
-
-        private void PopulateItems(Level level)
-        {
-            int points = 100;
-            while (points > 0)
-            {
-                Vector2Int cell = level.RandomCell(true);
-                Entity item;
-                if (RandomUtils.OneChanceIn(3)) // Relic
-                {
-                    item = Relic.MakeRelic();
-                    points -= 9; // Relics take a total of 10 points
-                }
-                else
-                {
-                    EntityTemplate basic = Assets.Templates[Tables.basicItems.Random()];
-                    item = new Entity(basic);
-                }
-
-                item.Move(level, cell);
-                points--;
-            }
-        }
     }
 }

@@ -1,7 +1,6 @@
 ﻿// Save.cs
 // Jerome Martina
 
-using Pantheon.Gen;
 using Pantheon.World;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -13,15 +12,12 @@ namespace Pantheon.SaveLoad
     {
         public string Name { get; set; }
         public GameWorld World { get; private set; }
-        public LevelGenerator Generator { get; private set; }
         public Entity Player { get; private set; }
 
-        public Save(string name, GameWorld world, LevelGenerator generator,
-            Entity player)
+        public Save(string name, GameWorld world, Entity player)
         {
             Name = name;
             World = world;
-            Generator = generator;
             Player = player;
         }
 

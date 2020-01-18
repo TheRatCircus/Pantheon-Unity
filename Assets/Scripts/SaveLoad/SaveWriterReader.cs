@@ -76,7 +76,7 @@ namespace Pantheon.SaveLoad
 
                 FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read);
                 // Move stream to save object
-                string name = formatter.Deserialize(stream) as string;
+                _ = formatter.Deserialize(stream) as string;
                 Save save = formatter.Deserialize(stream) as Save;
                 stream.Close();
 
