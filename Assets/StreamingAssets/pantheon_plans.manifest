@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1694732999
+CRC: 658172534
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: f27e8615018e6245ae8bf3132812ddac
+    Hash: 13d1702d9c9e778ae7858f05ca18fbb1
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5ad585dd02dfb5016c0dad519eab8f49
@@ -14,6 +14,5 @@ ClassTypes:
 Assets:
 - Assets/Content/BuilderPlans/Plan_Reformatory.json
 - Assets/Content/BuilderPlans/Plan_FloodPlain.json
-- Assets/Content/BuilderPlans/Plan_StoneEnclosure.json
 - Assets/Content/BuilderPlans/Plan_Subterrane.json
 Dependencies: []

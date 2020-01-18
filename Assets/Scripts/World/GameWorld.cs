@@ -25,20 +25,20 @@ namespace Pantheon.World
 
         public GameWorld()
         {
-            BuilderPlan planSubterrane = Assets.BuilderPlans["Plan_StoneEnclosure"];
-            //BuilderPlan planReform = Assets.BuilderPlans["Plan_StoneEnclosure"];
-            //BuilderPlan planFlood = Assets.BuilderPlans["Plan_StoneEnclosure"];
+            BuilderPlan planSubterrane = Assets.BuilderPlans["Plan_Subterrane"];
+            BuilderPlan planReform = Assets.BuilderPlans["Plan_Reformatory"];
+            BuilderPlan planFlood = Assets.BuilderPlans["Plan_FloodPlain"];
 
             Builder builderSubterrane = new Builder("The Subterrane",
                 "sub_0_0_-2", planSubterrane);
-            //Builder builderReform = new Builder("The Reformatory",
-            //    "reform_0_0_-1", planReform);
-            //Builder builderFlood = new Builder("The Floodplain",
-            //    "floodplain_0_0_0", planFlood);
+            Builder builderReform = new Builder("The Reformatory",
+                "reform_0_0_-1", planReform);
+            Builder builderFlood = new Builder("The Floodplain",
+                "floodplain_0_0_0", planFlood);
 
             LayerLevelBuilders.Add(new Vector3Int(0, 0, -2), builderSubterrane);
-            //LayerLevelBuilders.Add(new Vector3Int(0, 0, -1), builderReform);
-            //LayerLevelBuilders.Add(new Vector3Int(0, 0, 0), builderFlood);
+            LayerLevelBuilders.Add(new Vector3Int(0, 0, -1), builderReform);
+            LayerLevelBuilders.Add(new Vector3Int(0, 0, 0), builderFlood);
         }
 
         public void NewLayer(int z)

@@ -345,7 +345,7 @@ namespace Pantheon.World
                     if (!(iX == x && iY == y))
                         if ((oobIsWall && !Contains(iX, iY)
                             || (oobIsWall && !rect.Contains(iX, iY)))
-                            || GetTerrain(iX, iY).Blocked)
+                            || CellIsWalled(new Vector2Int(iX, iY)))
                         {
                             wallCounter++;
                         }
@@ -379,7 +379,12 @@ namespace Pantheon.World
 
             bool visible = chunk.GetFlag(cell.x, cell.y).HasFlag(CellFlag.Visible);
 
-            RuleTile terrainTile = chunk.GetTerrain(cell).Tile;
+            RuleTile terrainTile;
+            TerrainDefinition terrain = chunk.GetTerrain(cell);
+            if (terrain != null)
+                terrainTile = terrain.Tile;
+            else
+                terrainTile = null;
 
             terrainTilemap.SetTile((Vector3Int)cell, terrainTile);
             terrainTilemap.SetColor((Vector3Int)cell,

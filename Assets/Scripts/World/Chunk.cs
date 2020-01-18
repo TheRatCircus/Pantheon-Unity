@@ -2,13 +2,14 @@
 // Jerome Martina
 
 using Pantheon.Content;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Profiling;
 
 namespace Pantheon.World
 {
-    [System.Serializable]
+    [Serializable]
     public sealed class Chunk
     {
         public const int Width = 20;

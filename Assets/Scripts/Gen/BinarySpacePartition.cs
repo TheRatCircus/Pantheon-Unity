@@ -12,10 +12,10 @@ namespace Pantheon.Gen
 {
     public sealed class BinarySpacePartition : BuilderStep
     {
-        [JsonProperty] private int minRoomSize = 10;
-        [JsonProperty] private bool tightFill;
+        [JsonProperty] private readonly int minRoomSize = 10;
+        [JsonProperty] private readonly bool tightFill;
         // Terrain with which to fill rooms
-        [JsonProperty] private TerrainDefinition terrain = default;
+        [JsonProperty] private readonly TerrainDefinition terrain = default;
 
         public BinarySpacePartition(string terrainID, int minRoomSize, bool tightFill)
         {
