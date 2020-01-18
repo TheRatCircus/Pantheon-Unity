@@ -6,6 +6,7 @@ using Pantheon.Content;
 using Pantheon.Utils;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.Profiling;
 using UnityEngine.Tilemaps;
@@ -67,7 +68,12 @@ namespace Pantheon.World
             }
         }
 
-        public Pathfinder PF { get; private set; }
+        [NonSerialized] private Pathfinder pathfinder;
+        public Pathfinder Pathfinder 
+        { 
+            get => pathfinder; 
+            private set => pathfinder = value; 
+        }
 
         [NonSerialized] private Transform transform;
         public Transform Transform => transform;
@@ -107,7 +113,7 @@ namespace Pantheon.World
 
         public void Initialize()
         {
-            PF = new Pathfinder(this);
+            Pathfinder = new Pathfinder(this);
         }
 
         public Chunk ChunkContaining(int x, int y)
@@ -175,7 +181,7 @@ namespace Pantheon.World
         }
 
         public Line GetPathTo(Vector2Int origin, Vector2Int target)
-            => PF.CellPathList(origin, target);
+            => Pathfinder.CellPathList(origin, target);
 
         /// <summary>
         /// Find a cell by position relative to an origin cell.
@@ -519,6 +525,18 @@ namespace Pantheon.World
         public bool CellIsVisible(Vector2Int pos)
         {
             return ChunkContaining(pos.x, pos.y).CellIsVisible(pos);
+        }
+
+        [OnSerializing]
+        private void OnSerializing(StreamingContext ctxt)
+        {
+            Pathfinder = null;
+        }
+
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext ctxt)
+        {
+            Pathfinder = new Pathfinder(this);
         }
     }
 }

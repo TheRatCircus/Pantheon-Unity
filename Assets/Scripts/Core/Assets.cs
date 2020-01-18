@@ -16,9 +16,7 @@ namespace Pantheon
     public static class Assets
     {
         [RuntimeInitializeOnLoadMethod]
-#pragma warning disable IDE0051 // Remove unused private members
-        private static void OnStartup()
-#pragma warning restore IDE0051
+        public static void LoadAssets()
         {
             JsonSerializerSettings genericSettings = new JsonSerializerSettings()
             {

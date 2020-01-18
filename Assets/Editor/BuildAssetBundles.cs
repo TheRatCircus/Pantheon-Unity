@@ -3,6 +3,7 @@
 
 using System.Diagnostics;
 using UnityEditor;
+using UnityEngine;
 
 namespace PantheonEditor
 {
@@ -21,6 +22,12 @@ namespace PantheonEditor
             stopwatch.Stop();
             UnityEngine.Debug.Log(
                 $"Finished building AssetBundles in {stopwatch.ElapsedMilliseconds} ms.");
+        }
+
+        [MenuItem("Tools/Unload AssetBundles")]
+        private static void UnloadAllAssetBundles()
+        {
+            AssetBundle.UnloadAllAssetBundles(true);
         }
     }
 }
