@@ -123,14 +123,14 @@ namespace Pantheon.Core
             Scheduler.Queue.Clear();
             level.AssignGameObject(Instantiate(levelPrefab, worldTransform).transform);
 
-            if (refreshFOV)
-                FOV.RefreshFOV(level, PC.Position, false);
-
             foreach (Entity entity in level.Actors)
             {
                 AssignGameObject(entity);
                 Scheduler.AddActor(entity.GetComponent<Actor>());
             }
+
+            if (refreshFOV)
+                FOV.RefreshFOV(level, PC.Position, true);
 
             foreach (Vector2Int cell in level.Map)
                 level.DrawTile(cell);
