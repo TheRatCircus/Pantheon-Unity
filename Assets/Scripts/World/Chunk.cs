@@ -110,7 +110,9 @@ namespace Pantheon.World
             List<Entity> ret = new List<Entity>();
             foreach (Entity e in Items)
                 if (e.Position == new Vector2Int(x, y))
+                {
                     ret.Add(e);
+                }
            
             Profiler.EndSample();
             return ret;
@@ -121,7 +123,10 @@ namespace Pantheon.World
             Profiler.BeginSample("Entity Search");
             foreach (Entity e in Actors)
                 if (e.Position == new Vector2Int(x, y))
+                {
+                    Profiler.EndSample();
                     return e;
+                }
             
             Profiler.EndSample();
             return null;
@@ -132,7 +137,10 @@ namespace Pantheon.World
             Profiler.BeginSample("Entity Search");
             foreach (Entity e in Actors)
                 if (e.Position == new Vector2Int(pos.x, pos.y))
-                    return e;                
+                {
+                    Profiler.EndSample();
+                    return e;
+                }
             
             Profiler.EndSample();
             return null;
@@ -143,7 +151,10 @@ namespace Pantheon.World
             Profiler.BeginSample("Entity Search");
             foreach (Entity e in Items)
                 if (e.Position == new Vector2Int(x, y))
+                {
+                    Profiler.EndSample();
                     return e;
+                }
             
             Profiler.EndSample();
             return null;
@@ -154,7 +165,10 @@ namespace Pantheon.World
             Profiler.BeginSample("Entity Search");
             foreach (Entity e in Items)
                 if (e.Position == pos)
+                {
+                    Profiler.EndSample();
                     return e;
+                } 
             
             Profiler.EndSample();
             return null;
