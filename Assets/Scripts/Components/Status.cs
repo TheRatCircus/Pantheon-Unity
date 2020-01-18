@@ -29,11 +29,6 @@ namespace Pantheon.Components
             }
         }
 
-        public override EntityComponent Clone(bool full)
-        {
-            return new Status(new List<StatusEffect>(Statuses));
-        }
-
         public static void ApplyStatus(Entity entity, StatusEffect effect)
         {
             if (!entity.TryGetComponent(out Status status))
@@ -53,6 +48,11 @@ namespace Pantheon.Components
                     return true;
 
             return false;
+        }
+        
+        public override EntityComponent Clone(bool full)
+        {
+            return new Status(new List<StatusEffect>(Statuses));
         }
     }
 

@@ -20,7 +20,6 @@ namespace Pantheon
     {
         [SerializeField] private GameObject levelObj = default;
         private Level level;
-        private AssetLoader loader;
 
         [SerializeField] private TextAsset planJsonFile = default;
         [SerializeField] private int sizeX = 200;
@@ -44,7 +43,7 @@ namespace Pantheon
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
-                    new TerrainConverter(loader)
+                    new TerrainConverter()
                 }
             };
 
@@ -130,7 +129,7 @@ namespace Pantheon
                 }
                 else
                 {
-                    EntityTemplate basic = loader.LoadTemplate(Tables.basicItems.Random());
+                    EntityTemplate basic = Assets.Templates[Tables.basicItems.Random()];
                     item = new Entity(basic);
                 }
 

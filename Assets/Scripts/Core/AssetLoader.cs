@@ -43,11 +43,11 @@ namespace Pantheon.Core
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
-                    new SpriteConverter(this),
+                    new SpriteConverter(),
                     new TileConverter(),
-                    new RuleTileConverter(this),
-                    new SpeciesDefinitionConverter(this),
-                    new BodyPartConverter(this),
+                    new RuleTileConverter(),
+                    new SpeciesDefinitionConverter(),
+                    new BodyPartConverter(),
                     new StatusConverter()
                 }
             };

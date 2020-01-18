@@ -25,7 +25,7 @@ namespace Pantheon.Components
         public void DecideCommand()
         {
             throw new System.NotImplementedException();
-            DebugLogAI();
+            //DebugLogAI();
         }
 
         public override void Receive(IComponentMessage msg)

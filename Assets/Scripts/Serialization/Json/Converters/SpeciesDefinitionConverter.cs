@@ -26,7 +26,6 @@ namespace Pantheon.Serialization.Json.Converters
             JsonSerializer serializer)
         {
             return Assets.Species[(string)reader.Value];
-            return loader.LoadSpeciesDef((string)reader.Value);
         }
 
         public override bool CanRead => true;
