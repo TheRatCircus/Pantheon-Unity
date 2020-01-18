@@ -4,9 +4,9 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Pantheon.Utils;
-using Pantheon.World;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Pantheon.Commands.NonActor
 {
@@ -20,7 +20,7 @@ namespace Pantheon.Commands.NonActor
         Square
     }
 
-    [System.Serializable]
+    [Serializable]
     public sealed class ExplodeCommand : NonActorCommand,
         ICellTargetedCommand, ILineTargetedCommand
     {
@@ -29,8 +29,10 @@ namespace Pantheon.Commands.NonActor
         public GameObject Prefab { get; set; }
         public AudioClip Sound { get; set; }
 
-        public Vector2Int Cell { get; set; }
-        public Line Line { get; set; }
+        [NonSerialized] private Vector2Int cell;
+        [NonSerialized] private Line line;
+        public Vector2Int Cell { get => cell; set => cell = value; }
+        public Line Line { get => line; set => line = value; }
         
         public ExplodeCommand(Entity entity) : base(entity) { }
 
@@ -71,7 +73,7 @@ namespace Pantheon.Commands.NonActor
                     Line = null;
                     break;
                 default:
-                    throw new System.NotImplementedException();
+                    throw new NotImplementedException();
             }
 
             AudioSource.PlayClipAtPoint(Sound, Cell.ToVector3());

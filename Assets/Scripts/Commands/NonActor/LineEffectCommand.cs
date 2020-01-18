@@ -5,7 +5,6 @@ using Pantheon.Core;
 using Pantheon.Utils;
 using Pantheon.World;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Pantheon.Commands.NonActor
@@ -17,7 +16,8 @@ namespace Pantheon.Commands.NonActor
     public sealed class LineEffectCommand : NonActorCommand,
         ILineTargetedCommand, IRangedCommand
     {
-        public Line Line { get; set; }
+        [NonSerialized] private Line line;
+        public Line Line { get => line; set => line = value; }
         public int Range { get; set; } = 5;
         private NonActorCommand cmd;
 

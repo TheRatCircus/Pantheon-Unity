@@ -8,6 +8,7 @@ using UnityEngine.Profiling;
 
 namespace Pantheon.World
 {
+    [System.Serializable]
     public sealed class Chunk
     {
         public const int Width = 20;
