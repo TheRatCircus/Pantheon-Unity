@@ -433,6 +433,17 @@ namespace Pantheon.World
             chunk.Flags[chunk.Index(x, y)] |= flag;
         }
 
+        public void SetVisibility(int x, int y, bool visible)
+        {
+            if (visible)
+            {
+                AddFlag(x, y, CellFlag.Visible);
+                AddFlag(x, y, CellFlag.Revealed);
+            }
+            else
+                RemoveFlag(x, y, CellFlag.Visible);
+        }
+
         public void RemoveFlag(int x, int y, CellFlag flag)
         {
             Chunk chunk = ChunkContaining(x, y);

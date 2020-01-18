@@ -32,8 +32,8 @@ namespace Pantheon.Core
         [SerializeField] private Camera cam = default;
         [SerializeField] private Cursor cursor = default;
         [SerializeField] private HUD hud = default;
-        public Cursor Cursor => cursor;
         [SerializeField] private GameLog log = default;
+        public Cursor Cursor => cursor;
         public GameLog Log => log;
         public Player Player { get; private set; }
 

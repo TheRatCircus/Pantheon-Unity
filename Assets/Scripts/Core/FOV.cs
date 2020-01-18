@@ -14,7 +14,7 @@ namespace Pantheon.Core
         // Not in terms of cells
         public const int FOVRadius = 15;
 
-        private static Vector2Int prev;
+        private static Vector2Int prev = Level.NullCell;
 
         /// <summary>
         /// Change visibility and reveal new cells.
@@ -28,11 +28,11 @@ namespace Pantheon.Core
             HashSet<Vector2Int> allRefreshed = new HashSet<Vector2Int>();
 
             // Hide cells at the last refresh position
-            if (prev != null)
+            if (prev != Level.NullCell)
             {
                 List<Vector2Int> old = level.GetSquare(prev, FOVRadius);
                 foreach (Vector2Int pos in old)
-                    level.RemoveFlag(pos.x, pos.y, CellFlag.Visible);
+                    level.SetVisibility(pos.x, pos.y, false);
                 allRefreshed.AddMany(old);
             }
 
@@ -97,7 +97,7 @@ namespace Pantheon.Core
                     // If entire row is known to be in shadow, set this cell to
                     // be in shadow
                     if (fullShadow || pastMaxDistance)
-                        level.RemoveFlag(pos.x, pos.y, CellFlag.Visible);
+                        level.SetVisibility(pos.x, pos.y, false);
                     else
                     {
                         fallOff = 0;
@@ -109,8 +109,7 @@ namespace Pantheon.Core
                         }
                         else
                         {
-                            float normalized = distance /
-                                FOVRadius;
+                            float normalized = distance / FOVRadius;
                             normalized = Mathf.Pow(normalized, 2);
                             fallOff = (int)(normalized * 255);
                         }
@@ -118,10 +117,7 @@ namespace Pantheon.Core
 
                         // Set the visibility of this tile
                         bool visible = !line.IsInShadow(projection);
-                        if (visible)
-                            level.AddFlag(pos.x, pos.y, CellFlag.Visible);
-                        else
-                            level.RemoveFlag(pos.y, pos.y, CellFlag.Visible);
+                        level.SetVisibility(pos.x, pos.y, visible);
 
                         // Add any opaque tiles to the shadow map
                         if (visible && level.CellIsOpaque(pos))

@@ -1,6 +1,7 @@
 ﻿// Entity.cs
 // Jerome Martina
 
+using Newtonsoft.Json;
 using Pantheon.Components;
 using Pantheon.Content;
 using Pantheon.Utils;
@@ -17,7 +18,7 @@ namespace Pantheon
     public sealed class Entity
     {
         public string Name { get; set; }
-        public Vector2Int Position { get; set; }
+        [JsonIgnore] public Vector2Int Position { get; set; }
 
         public bool Blocking { get; set; } = false;
         public bool InInventory { get; set; } = false;

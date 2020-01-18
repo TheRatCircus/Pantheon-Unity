@@ -7,9 +7,7 @@
     {
       "$type": "Actor",
       "control": "Player",
-      "Speed": 100,
-      "Energy": 0,
-      "Command": null
+      "Speed": 100
     },
     {
       "$type": "Health",

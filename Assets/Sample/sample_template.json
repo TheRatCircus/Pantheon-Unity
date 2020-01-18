@@ -92,7 +92,6 @@
     },
     {
       "$type": "Location",
-      "Cell": null,
       "Level": null
     },
     {
