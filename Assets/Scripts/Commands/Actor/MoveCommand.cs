@@ -5,7 +5,6 @@ using Pantheon.Components;
 using Pantheon.Core;
 using Pantheon.Utils;
 using Pantheon.World;
-using System.Collections.Generic;
 using UnityEngine;
 using ActorComp = Pantheon.Components.Actor;
 
@@ -39,7 +38,7 @@ namespace Pantheon.Commands.Actor
             destinationLevel = entity.Level;
         }
 
-        public static MoveCommand MoveInDirection(Entity entity, Vector2Int dir)
+        public static MoveCommand Directional(Entity entity, Vector2Int dir)
         {
             return new MoveCommand(entity, entity.Position + dir);
         }

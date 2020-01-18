@@ -86,35 +86,35 @@ namespace Pantheon.Core
 
             if (Input.GetButtonDown("Up"))
             {
-                actor.Command = new MoveCommand(Entity, Vector2Int.up);
+                actor.Command = MoveCommand.Directional(Entity, Vector2Int.up);
             }
             else if (Input.GetButtonDown("Down"))
             {
-                actor.Command = new MoveCommand(Entity, Vector2Int.down);
+                actor.Command = MoveCommand.Directional(Entity, Vector2Int.down);
             }
             else if (Input.GetButtonDown("Left"))
             {
-                actor.Command = new MoveCommand(Entity, Vector2Int.left);
+                actor.Command = MoveCommand.Directional(Entity, Vector2Int.left);
             }
             else if (Input.GetButtonDown("Right"))
             {
-                actor.Command = new MoveCommand(Entity, Vector2Int.right);
+                actor.Command = MoveCommand.Directional(Entity, Vector2Int.right);
             }
             else if (Input.GetButtonDown("Up Left"))
             {
-                actor.Command = new MoveCommand(Entity, new Vector2Int(-1, 1));
+                actor.Command = MoveCommand.Directional(Entity, new Vector2Int(-1, 1));
             }
             else if (Input.GetButtonDown("Up Right"))
             {
-                actor.Command = new MoveCommand(Entity, new Vector2Int(1, 1));
+                actor.Command = MoveCommand.Directional(Entity, new Vector2Int(1, 1));
             }
             else if (Input.GetButtonDown("Down Left"))
             {
-                actor.Command = new MoveCommand(Entity, new Vector2Int(-1, -1));
+                actor.Command = MoveCommand.Directional(Entity, new Vector2Int(-1, -1));
             }
             else if (Input.GetButtonDown("Down Right"))
             {
-                actor.Command = new MoveCommand(Entity, new Vector2Int(1, -1));
+                actor.Command = MoveCommand.Directional(Entity, new Vector2Int(1, -1));
             }
             else if (Input.GetButtonDown("Wait"))
                 actor.Command = new WaitCommand(Entity);
