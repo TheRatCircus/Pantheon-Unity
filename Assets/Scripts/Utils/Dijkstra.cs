@@ -76,7 +76,7 @@ namespace Pantheon.Utils
                                 continue;
 
                             if (!level.Contains(frontier) ||
-                                level.CellTerrainIsBlocked(frontier) ||
+                                level.CellIsWalled(frontier) ||
                                 level.CellHasActor(frontier))
                             {
                                 closed.Add(frontier);
@@ -142,7 +142,7 @@ namespace Pantheon.Utils
                                 continue;
 
                             if (!level.Contains(frontier) ||
-                                level.CellTerrainIsBlocked(frontier) ||
+                                level.CellIsWalled(frontier) ||
                                 level.CellHasActor(frontier))
                             {
                                 closed.Add(frontier);

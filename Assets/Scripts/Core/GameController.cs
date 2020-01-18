@@ -160,7 +160,7 @@ namespace Pantheon.Core
 
             GameObject entityObj = Instantiate(
                 GameObjectPrefab,
-                entity.Cell.Position.ToVector3(),
+                entity.Position.ToVector3(),
                 new Quaternion(),
                 entity.Level.EntitiesTransform);
 
@@ -170,7 +170,7 @@ namespace Pantheon.Core
             SpriteRenderer sr = entityObj.GetComponent<SpriteRenderer>();
             sr.sprite = entity.Flyweight.Sprite;
 
-            if (!entity.Cell.Visible)
+            if (!entity.Visible)
                 sr.enabled = false;
 
             entity.GameObjects = new GameObject[1];

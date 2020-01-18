@@ -39,7 +39,7 @@ namespace Pantheon.Commands.Actor
                             // Line has come through
                             GameObject tossFXObj = Object.Instantiate(
                                 PrefabProvider.TossFXPrefab,
-                                Entity.Cell.Position.ToVector3(),
+                                Entity.Position.ToVector3(),
                                 new Quaternion());
                             LineProjectile proj = tossFXObj.GetComponent<LineProjectile>();
                             proj.InitializeToss(Entity, item, line);

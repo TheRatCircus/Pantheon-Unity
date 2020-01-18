@@ -16,6 +16,10 @@ namespace Pantheon.World
     [Serializable]
     public sealed class Level
     {
+        // The offset of each tile from Unity's true grid coords
+        public const float TileOffsetX = .5f;
+        public const float TileOffsetY = .5f;
+
         public string DisplayName { get; set; } = "DEFAULT_LEVEL_NAME";
         public string ID { get; set; } = "DEFAULT_LEVEL_ID";
 
@@ -117,48 +121,6 @@ namespace Pantheon.World
 
         public static Vector2Int NullCell => new Vector2Int(-1, -1);
 
-        public bool TryGetCell(int x, int y, out Cell cell)
-        {
-            if (Contains(x, y))
-            {
-                Chunk chunk = ChunkContaining(x, y);
-                cell = new Cell(new CellHandle(chunk, (byte)x, (byte)y));
-                return true;
-            }
-            else
-            {
-                cell = null;
-                return false;
-            }
-        }
-
-        public bool TryGetCell(Vector2Int pos, out Cell cell)
-        {
-            if (Contains(pos))
-            {
-                Chunk chunk = ChunkContaining(pos.x, pos.y);
-                cell = new Cell(new CellHandle(chunk, (byte)pos.x, (byte)pos.y));
-                return true;
-            }
-            else
-            {
-                cell = null;
-                return false;
-            }
-        }
-
-        public Cell GetCell(Vector2Int pos)
-        {
-            Chunk chunk = ChunkContaining(pos.x, pos.y);
-            return new Cell(new CellHandle(chunk, (byte)pos.x, (byte)pos.y));
-        }
-
-        public Cell GetCell(int x, int y)
-        {
-            Chunk chunk = ChunkContaining(x, y);
-            return new Cell(new CellHandle(chunk, (byte)x, (byte)y));
-        }
-
         public bool Contains(int x, int y)
         {
             if (x >= CellSize.x || y >= CellSize.y)
@@ -208,11 +170,12 @@ namespace Pantheon.World
             if (a.Equals(b))
                 throw new ArgumentException("Argument cells are the same.");
 
+            // TODO: == 1
             return Distance(a, b) <= 1;
         }
 
-        public Line GetPathTo(Cell origin, Cell target)
-            => PF.CellPathList(origin.Position, target.Position);
+        public Line GetPathTo(Vector2Int origin, Vector2Int target)
+            => PF.CellPathList(origin, target);
 
         /// <summary>
         /// Find a cell by position relative to an origin cell.
@@ -221,18 +184,17 @@ namespace Pantheon.World
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public Cell Translate(Cell origin, int x, int y)
+        public Vector2Int Translate(Vector2Int origin, int x, int y)
         {
-            int newX = origin.Position.x + x;
-            int newY = origin.Position.y + y;
+            int newX = origin.x + x;
+            int newY = origin.y + y;
 
             if (newX < 0 || newX >= CellSize.x)
-                return null;
+                return NullCell;
             if (newY < 0 || newY >= CellSize.y)
-                return null;
+                return NullCell;
 
-            Chunk chunk = ChunkContaining(x, y);
-            return new Cell(new CellHandle(chunk, (byte)newX, (byte)newY));
+            return new Vector2Int(newX, newY);
         }
 
         /// <summary>
@@ -242,14 +204,15 @@ namespace Pantheon.World
         /// <param name="radius"></param>
         /// <param name="condition"></param>
         /// <returns></returns>
-        public List<Entity> FindBySpiral(Cell origin, int radius, Predicate<Entity> condition)
+        public List<Entity> FindBySpiral(Vector2Int origin, int radius, Predicate<Entity> condition)
         {
             // Be aware that no null checks are performed on cell entities
             // so that the predicate can take nulls into account
             List<Entity> ret = new List<Entity>();
-            Cell c = origin;
-            if (condition(c.Actor))
-                ret.Add(c.Actor);
+            Vector2Int c = origin;
+            Entity e = ActorAt(c);
+            if (condition(e))
+                ret.Add(e);
 
             for (int i = 0; i < radius; i++)
             {
@@ -257,43 +220,48 @@ namespace Pantheon.World
                 int k = j + 1;
 
                 c = Translate(c, 0, 1); // Up
-                if (condition(c.Actor))
-                    ret.Add(c.Actor);
+                e = ActorAt(c);
+                if (condition(e))
+                    ret.Add(e);
 
                 for (int right = 0; right < (i + j); right++)
                 {
                     c = Translate(c, 1, 0);
-                    if (condition(c.Actor))
-                        ret.Add(c.Actor);
+                    e = ActorAt(c);
+                    if (condition(e))
+                        ret.Add(e);
                 }
 
                 for (int down = 0; down < (i + k); down++)
                 {
                     c = Translate(c, 0, -1);
-                    if (condition(c.Actor))
-                        ret.Add(c.Actor);
+                    e = ActorAt(c);
+                    if (condition(e))
+                        ret.Add(e);
                 }
 
                 for (int left = 0; left < (i + k); left++)
                 {
                     c = Translate(c, -1, 0);
-                    if (condition(c.Actor))
-                        ret.Add(c.Actor);
+                    e = ActorAt(c);
+                    if (condition(e))
+                        ret.Add(e);
                 }
 
                 for (int up = 0; up < (i + k); up++)
                 {
                     c = Translate(c, 0, 1);
-                    if (condition(c.Actor))
-                        ret.Add(c.Actor);
+                    e = ActorAt(c);
+                    if (condition(e))
+                        ret.Add(e);
                 }
             }
             return ret;
         }
 
-        public Cell RandomCell(bool open)
+        public Vector2Int RandomCell(bool open)
         {
-            Cell cell;
+            Vector2Int cell;
             int tries = 0;
             do
             {
@@ -301,21 +269,19 @@ namespace Pantheon.World
                     throw new Exception(
                         $"No eligible cell found after {tries} attempts.");
 
-                Vector2Int pos = new Vector2Int(Random.Range(0, CellSize.x),
+                cell = new Vector2Int(Random.Range(0, CellSize.x),
                     Random.Range(0, CellSize.y));
-                if (!TryGetCell(pos, out cell))
-                    continue;
 
-                if (!open || !cell.Blocked)
+                if (!open || !CellIsBlocked(cell))
                     break;
 
             } while (true);
             return cell;
         }
 
-        public Cell RandomFloorInRect(LevelRect rect)
+        public Vector2Int RandomFloorInRect(LevelRect rect)
         {
-            Cell ret;
+            Vector2Int ret;
             int attempts = 0;
             do
             {
@@ -326,10 +292,9 @@ namespace Pantheon.World
                 int randX = Random.Range(rect.x1, rect.x2);
                 int randY = Random.Range(rect.y1, rect.y2);
 
-                Chunk chunk = ChunkContaining(randX, randY);
-                ret = new Cell(new CellHandle(chunk, (byte)randX, (byte)randY));
+                ret = new Vector2Int(randX, randY);
 
-            } while (ret.HasWall);
+            } while (CellIsWalled(ret));
             return ret;
         }
 
@@ -381,14 +346,14 @@ namespace Pantheon.World
             return wallCounter;
         }
 
-        public Cell[,] CellsInRect(LevelRect rect)
+        public Vector2Int[,] CellsInRect(LevelRect rect)
         {
-            Cell[,] rectMap = new Cell[rect.Width, rect.Height];
+            Vector2Int[,] rectMap = new Vector2Int[rect.Width, rect.Height];
             for (int x = rect.x1, rectX = 0; x <= rect.x2 - 1; x++, rectX++)
                 for (int y = rect.y1, rectY = 0; y <= rect.y2 - 1; y++,
                     rectY++)
                 {
-                    rectMap[rectX, rectY] = GetCell(x, y);
+                    rectMap[rectX, rectY] = new Vector2Int(x, y);
                 }
             return rectMap;
         }
@@ -509,7 +474,7 @@ namespace Pantheon.World
 
         public bool CellIsBlocked(Vector2Int pos)
         {
-            if (CellTerrainIsBlocked(pos))
+            if (CellIsWalled(pos))
                 return true;
 
             if (CellHasActor(pos))
@@ -518,7 +483,7 @@ namespace Pantheon.World
             return false;
         }
 
-        public bool CellTerrainIsBlocked(Vector2Int pos)
+        public bool CellIsWalled(Vector2Int pos)
         {
             TerrainDefinition def = GetTerrain(pos);
             return def != null && def.Blocked;
@@ -537,7 +502,12 @@ namespace Pantheon.World
 
         public bool Walkable(Vector2Int pos)
         {
-            return !CellTerrainIsBlocked(pos);
+            return !CellIsWalled(pos);
+        }
+
+        public bool CellIsVisible(Vector2Int pos)
+        {
+            return ChunkContaining(pos.x, pos.y).CellIsVisible(pos);
         }
     }
 }

@@ -37,7 +37,7 @@ namespace Pantheon.Utils
                             if (closed.Contains(frontier))
                                 continue;
 
-                            if (level.CellTerrainIsBlocked(frontier))
+                            if (level.CellIsWalled(frontier))
                             {
                                 closed.Add(frontier);
                                 continue;

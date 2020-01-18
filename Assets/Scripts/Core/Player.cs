@@ -41,19 +41,15 @@ namespace Pantheon.Core
             {
                 entity = value;
                 actor = value.GetComponent<Actor>();
-                inventory = value.GetComponent<Inventory>();
             }
         }
         private Actor actor;
-        private Inventory inventory;
 
         private int targetingRange;
         private Vector2Int selectedCell;
         private Line selectedLine = new Line();
         public HashSet<Entity> VisibleActors { get; private set; }
             = new HashSet<Entity>();
-        public List<Cell> AutoMovePath { get; set; }
-            = new List<Cell>();
 
         private void Update()
         {
@@ -185,7 +181,7 @@ namespace Pantheon.Core
         private void PointSelect()
         {
             bool withinRange = Level.Distance(
-                Entity.Cell.Position, cursor.HoveredCell.Position) < targetingRange;
+                Entity.Position, cursor.HoveredCell) < targetingRange;
 
             CleanOverlays();
 
@@ -193,7 +189,7 @@ namespace Pantheon.Core
             {
                 GameObject overlayObj = Instantiate(
                    targetOverlay,
-                   cursor.HoveredCell.Position.ToVector3(),
+                   cursor.HoveredCell.ToVector3(),
                    new Quaternion());
 
                 targetOverlays.Add(overlayObj);
@@ -201,7 +197,7 @@ namespace Pantheon.Core
 
             if (Input.GetMouseButtonDown(0) && withinRange)
             {
-                selectedCell = cursor.HoveredCell.Position;
+                selectedCell = cursor.HoveredCell;
                 Mode = InputMode.Default;
             }
             else if (Input.GetMouseButtonDown(1))
@@ -215,7 +211,7 @@ namespace Pantheon.Core
         private void LineSelect()
         {
             bool withinRange = Level.Distance(
-                Entity.Cell.Position, cursor.HoveredCell.Position) < targetingRange;
+                Entity.Position, cursor.HoveredCell) < targetingRange;
 
             CleanOverlays();
 
@@ -223,10 +219,7 @@ namespace Pantheon.Core
 
             if (withinRange)
             {
-                line = Bresenhams.GetLine(
-                    Entity.Level,
-                    Entity.Cell,
-                    cursor.HoveredCell);
+                line = Bresenhams.GetLine(Entity.Position, cursor.HoveredCell);
                 foreach (Vector2Int c in line)
                 {
                    GameObject overlayObj = Instantiate(
@@ -287,7 +280,7 @@ namespace Pantheon.Core
 
             foreach (Entity enemy in visibleEnemies)
             {
-                int d = Level.Distance(enemy.Cell.Position, entity.Cell.Position);
+                int d = Level.Distance(enemy.Position, entity.Position);
                 if (d < distance)
                 {
                     distance = d;
@@ -295,9 +288,9 @@ namespace Pantheon.Core
                 }
             }
 
-            Cell cell = target.Cell;
-            Line line = Bresenhams.GetLine(entity.Level, entity.Cell, cell);
-            Line path = entity.Level.GetPathTo(entity.Cell, cell);
+            Vector2Int cell = target.Position;
+            Line line = Bresenhams.GetLine(entity.Position, cell);
+            Line path = entity.Level.GetPathTo(entity.Position, cell);
 
             if (entity.TryGetComponent(out Wield wield))
             {
@@ -309,7 +302,7 @@ namespace Pantheon.Core
                     {
                         EvokeCommand cmd = new EvokeCommand(entity, evocables[0])
                         {
-                            Cell = cell.Position,
+                            Cell = cell,
                             Line = line,
                             Path = path
                         };
@@ -318,20 +311,21 @@ namespace Pantheon.Core
                 }
             }
 
-            if (!entity.Level.AdjacentTo(entity.Cell.Position, cell.Position))
+            if (!entity.Level.AdjacentTo(entity.Position, cell))
             {
                 if (path.Count > 0)
                     return new MoveCommand(entity, path[0]);
                 else
                 {
+                    Entity actor = entity.Level.ActorAt(cell);
                     Locator.Log.Send(
-                        $"Cannot find a path to {cell.Actor.ToSubjectString(false)}.",
+                        $"Cannot find a path to {actor.ToSubjectString(false)}.",
                         Color.grey);
                     return null;
                 }
             }
 
-            return new MeleeCommand(entity, cell.Position);
+            return new MeleeCommand(entity, cell);
         }
 
         public InputMode RequestCell(out Vector2Int cell, int range)

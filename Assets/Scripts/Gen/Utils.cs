@@ -13,10 +13,7 @@ namespace Pantheon.Gen
         {
             for (int x = rect.x1; x < rect.x2; x++)
                 for (int y = rect.y1; y < rect.y2; y++)
-                    if (level.TryGetCell(x, y, out Cell c))
-                    {
-                        level.SetTerrain(x, y, terrain);
-                    }
+                    level.SetTerrain(x, y, terrain);
         }
 
         public static void Enclose(Level level, LevelRect rect,

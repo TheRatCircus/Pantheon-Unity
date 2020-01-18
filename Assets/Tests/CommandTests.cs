@@ -5,10 +5,8 @@ using NUnit.Framework;
 using Pantheon;
 using Pantheon.Components.Statuses;
 using Pantheon.Commands;
-using Pantheon.Commands.Actor;
 using Pantheon.Commands.NonActor;
 using Pantheon.Components;
-using Pantheon.World;
 using UnityEngine;
 using Pantheon.Core;
 
@@ -16,30 +14,6 @@ namespace PantheonTests
 {
     internal sealed class CommandTests
     {
-        /// <summary>
-        /// Test that an entity can pick up an item, changing all necessary
-        /// state in the process.
-        /// </summary>
-        [Test]
-        public void PickupCommandTest()
-        {
-            Cell cell = new Cell(new CellHandle());
-            Entity actor = new Entity(
-                new Inventory(1),
-                new Actor(TurnScheduler.TurnTime, ActorControl.AI))
-            {
-                Name = "TEST_ENTITY"
-            };
-            actor.Move(null, cell.Position);
-            Entity item = new Entity("TEST_ITEM");
-            item.Move(null, cell.Position);
-            PickupCommand cmd = new PickupCommand(actor);
-            CommandResult result = cmd.Execute(out int cost);
-
-            Assert.True(actor.GetComponent<Inventory>().Items.Contains(item));
-            Assert.True(result == CommandResult.Succeeded);
-        }
-
         /// <summary>
         /// Test that an entity which can be affected by statuses actually
         /// receives and stores one.

@@ -12,20 +12,21 @@ namespace Pantheon.UI
         [SerializeField] private Grid grid = default;
         public Level Level { get; set; }
 
-        public Cell HoveredCell { get; private set; }
+        public Vector2Int HoveredCell { get; private set; }
 
         private void Update()
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             // Offset tile anchor
-            mousePos.x += Cell.TileOffsetX;
-            mousePos.y += Cell.TileOffsetY;
+            mousePos.x += Level.TileOffsetX;
+            mousePos.y += Level.TileOffsetY;
             Vector3Int posInt = grid.LocalToCell(mousePos);
 
-            if (Level.TryGetCell(posInt.x, posInt.y, out Cell c))
+            //if (Level.TryGetCell(posInt.x, posInt.y, out Cell c))
+            if (Level.Contains(posInt.x, posInt.y))
             {
-                HoveredCell = c;
-                Vector3 cursorPos = new Vector3(c.Position.x, c.Position.y);
+                HoveredCell = new Vector2Int(posInt.x, posInt.y);
+                Vector3 cursorPos = new Vector3(HoveredCell.x, HoveredCell.y);
                 cursor.transform.position = cursorPos;
             }
 

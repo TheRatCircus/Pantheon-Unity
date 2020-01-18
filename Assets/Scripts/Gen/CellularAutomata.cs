@@ -99,14 +99,13 @@ namespace Pantheon.Gen
                     return false;
                 }
 
-                cavern = Floodfill.FillRect(level, rect,
-                    level.RandomFloorInRect(rect).Position);
+                cavern = Floodfill.FillRect(level, rect, level.RandomFloorInRect(rect));
                 attempts++;
             } while (cavern.Count < threshold);
 
-            foreach (Cell cell in level.CellsInRect(rect))
-                if (!cell.Blocked && !cavern.Contains(cell.Position))
-                    cell.Terrain = terrain;
+            foreach (Vector2Int cell in level.CellsInRect(rect))
+                if (!level.CellIsBlocked(cell) && !cavern.Contains(cell))
+                    level.SetTerrain(cell.x, cell.y, terrain);
 
             return true;
         }

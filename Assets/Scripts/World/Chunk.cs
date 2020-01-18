@@ -170,6 +170,11 @@ namespace Pantheon.World
             return false;
         }
 
+        public bool CellIsVisible(Vector2Int pos)
+        {
+            return Flags[Index(pos)].HasFlag(CellFlag.Visible);
+        }
+
         public override string ToString() => $"Chunk: {Position}";
     }
 }

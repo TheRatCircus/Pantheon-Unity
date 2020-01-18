@@ -4,6 +4,7 @@
 using Pantheon.Components;
 using Pantheon.Content;
 using Pantheon.World;
+using UnityEngine;
 
 namespace Pantheon.Core
 {
@@ -17,12 +18,12 @@ namespace Pantheon.Core
         /// <param name="level"></param>
         /// <param name="cell"></param>
         /// <returns></returns>
-        public static Entity SpawnActor(EntityTemplate template, Level level, Cell cell)
+        public static Entity SpawnActor(EntityTemplate template, Level level, Vector2Int cell)
         {
             Entity entity = new Entity(template);
             Locator.Scheduler.AddActor(entity.GetComponent<Actor>());
-            entity.Move(level, cell.Position);
-            if (entity.Cell.Visible)
+            entity.Move(level, cell);
+            if (entity.Level.CellIsVisible(cell))
                 Locator.Player.VisibleActors.Add(entity);
             return entity;
         }

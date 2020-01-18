@@ -90,7 +90,7 @@ namespace Pantheon.Core
                 ActionDoneEvent?.Invoke();
                 
                 // If actor was player or visible, refresh FOV
-                if (actor.Control == ActorControl.Player || actor.Entity.Cell.Visible)
+                if (actor.Control == ActorControl.Player || actor.Entity.Visible)
                 {
                     HashSet<Vector2Int> refreshed = FOV.RefreshFOV(
                         player.Entity.Level, player.Entity.Position, true);
@@ -122,7 +122,7 @@ namespace Pantheon.Core
 
             // It's possible that scheduler was locked, all energy was burned,
             // and then scheduler was unlocked again, so refresh one more time
-            if (actor.Control == ActorControl.Player || actor.Entity.Cell.Visible)
+            if (actor.Control == ActorControl.Player || actor.Entity.Visible)
             {
                 HashSet<Vector2Int> refreshed = FOV.RefreshFOV(
                     player.Entity.Level, player.Entity.Position, true);

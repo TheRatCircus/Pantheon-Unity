@@ -57,11 +57,6 @@ namespace Pantheon
 
         public Dictionary<Type, EntityComponent> Components { get; private set; }
 
-        public Cell Cell
-        {
-            get => GetComponent<Location>().Cell;
-            set => GetComponent<Location>().Cell = value;
-        }
         public Level Level
         {
             get => GetComponent<Location>().Level;
@@ -78,6 +73,7 @@ namespace Pantheon
                     return true;
             }
         }
+        // XXX: Pointless
         public bool PlayerControlled
         {
             get
@@ -88,6 +84,7 @@ namespace Pantheon
                     return false;
             }
         }
+        public bool Visible => Level.CellIsVisible(Position);
 
         public event Action DestroyedEvent;
 
@@ -188,7 +185,6 @@ namespace Pantheon
         public void Move(Level level, Vector2Int cell)
         {
             Level = level;
-            Cell = level.GetCell(cell);
             Level.MoveEntityTo(this, cell);
 
             if (GameObjects.HasElements())
@@ -274,7 +270,6 @@ namespace Pantheon
         [OnSerializing]
         private void OnSerializing(StreamingContext ctxt)
         {
-            Cell = null;
             DestroyedEvent = null;
         }
 
@@ -283,12 +278,6 @@ namespace Pantheon
         {
             Tile = ScriptableObject.CreateInstance<Tile>();
             tile.sprite = sprite;
-        }
-
-        [OnDeserialized]
-        private void OnDeserialized(StreamingContext ctxt)
-        {
-            Cell = Level.GetCell(Position);
         }
 
         public override string ToString()

@@ -60,15 +60,17 @@ namespace Pantheon.Debug
             EntityTemplate template = ctrl.Loader.LoadTemplate(args[0]);
             if (Array.Exists(template.Components, ec => { return ec is Actor; }))
             {
-                Entity entity = Core.Spawn.SpawnActor(template,
-                    ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell);
+                Entity entity = Core.Spawn.SpawnActor(
+                    template,
+                    ctrl.World.ActiveLevel,
+                    ctrl.Cursor.HoveredCell);
                 ctrl.AssignGameObject(entity);
                 return $"Spawned {entity} at {ctrl.Cursor.HoveredCell}.";
             }
             else
             {
                 Entity entity = new Entity(template);
-                entity.Move(ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell.Position);
+                entity.Move(ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell);
                 FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Position, true);
                 return $"Spawned {entity} at {ctrl.Cursor.HoveredCell}.";
             }
@@ -76,7 +78,7 @@ namespace Pantheon.Debug
 
         public static string Give(string[] args, GameController ctrl)
         {
-            Entity receiver = ctrl.Cursor.HoveredCell.Actor;
+            Entity receiver = ctrl.World.ActiveLevel.ActorAt(ctrl.Cursor.HoveredCell);
             
             if (!receiver.TryGetComponent(out Inventory inv))
                 return $"{receiver.Name} has no inventory.";
@@ -84,7 +86,7 @@ namespace Pantheon.Debug
             {
                 EntityTemplate template = ctrl.Loader.LoadTemplate(args[0]);
                 Entity item = new Entity(template);
-                item.Move(receiver.Level, receiver.Cell.Position);
+                item.Move(receiver.Level, receiver.Position);
                 inv.AddItem(item);
                 return $"Gave {item.Name} to {receiver.Name}.";
             }
@@ -102,7 +104,7 @@ namespace Pantheon.Debug
 
         public static string DescribeComponent(string[] args, GameController ctrl)
         {
-            Entity e = ctrl.Cursor.HoveredCell.Actor;
+            Entity e = ctrl.World.ActiveLevel.ActorAt(ctrl.Cursor.HoveredCell);
             switch (args[0].ToLower())
             {
                 case "actor":
@@ -120,7 +122,7 @@ namespace Pantheon.Debug
 
         public static string Destroy(string[] args, GameController ctrl)
         {
-            Entity e = ctrl.Cursor.HoveredCell.Actor;
+            Entity e = ctrl.World.ActiveLevel.ActorAt(ctrl.Cursor.HoveredCell);
             if (e == null)
                 return $"Nothing under the cursor to destroy.";
             e.Destroy(null);
@@ -146,7 +148,7 @@ namespace Pantheon.Debug
 
         public static string Teleport(string[] args, GameController ctrl)
         {
-            Vector2Int cell = ctrl.Cursor.HoveredCell.Position;
+            Vector2Int cell = ctrl.Cursor.HoveredCell;
             if (ctrl.World.ActiveLevel.Walkable(cell))
             {
                 ctrl.PC.Move(ctrl.PC.Level, cell);
@@ -160,7 +162,7 @@ namespace Pantheon.Debug
         public static string Relic(string[] args, GameController ctrl)
         {
             Entity relic = Gen.Relic.MakeRelic();
-            relic.Move(ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell.Position);
+            relic.Move(ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell);
             FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Position, true);
             return $"Spawned {relic} at {ctrl.Cursor.HoveredCell}.";
         }
@@ -191,10 +193,10 @@ namespace Pantheon.Debug
             string ret;
             
             if (!Gen.Vault.Build(vault, ctrl.World.ActiveLevel,
-                ctrl.Cursor.HoveredCell.Position))
-                ret = $"Failed to build vault {args[0]} at {ctrl.Cursor.HoveredCell.Position}.";
+                ctrl.Cursor.HoveredCell))
+                ret = $"Failed to build vault {args[0]} at {ctrl.Cursor.HoveredCell}.";
             else
-                ret = $"Successfully built vault {args[0]} at {ctrl.Cursor.HoveredCell.Position}.";
+                ret = $"Successfully built vault {args[0]} at {ctrl.Cursor.HoveredCell}.";
 
             FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Position, true);
             return ret;
@@ -234,7 +236,7 @@ namespace Pantheon.Debug
                 return $"You're already at {destination}.";
 
             Level prev = ctrl.World.ActiveLevel;
-            ctrl.PC.Move(destination, destination.RandomCell(true).Position);
+            ctrl.PC.Move(destination, destination.RandomCell(true));
             ctrl.LoadLevel(destination, true);
             ctrl.UnloadLevel(prev);
             return $"Moved to {destination}.";

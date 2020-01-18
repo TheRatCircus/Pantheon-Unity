@@ -87,7 +87,7 @@ namespace Pantheon.Gen
                 string id = GenericRandomPick<string>.Pick(plan.Population);
                 EntityTemplate template = Assets.Templates[id];
 
-                Cell cell;
+                Vector2Int cell;
                 int attempts = 0;
                 do
                 {
@@ -99,7 +99,7 @@ namespace Pantheon.Gen
                     cell = level.RandomCell(true);
                     attempts++;
 
-                } while (!Cell.Walkable(cell));
+                } while (!level.Walkable(cell));
 
                 Spawn.SpawnActor(template, level, cell);
             }
@@ -111,7 +111,7 @@ namespace Pantheon.Gen
             int points = 100;
             while (points > 0)
             {
-                Cell cell = level.RandomCell(true);
+                Vector2Int cell = level.RandomCell(true);
                 Entity item;
                 if (RandomUtils.OneChanceIn(3)) // Relic
                 {
@@ -125,7 +125,7 @@ namespace Pantheon.Gen
                     item = new Entity(basic);
                 }
                 
-                item.Move(level, cell.Position);
+                item.Move(level, cell);
                 points--;
             }
         }

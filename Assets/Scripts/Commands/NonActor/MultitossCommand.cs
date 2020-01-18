@@ -42,7 +42,7 @@ namespace Pantheon.Commands.NonActor
             {
                 GameObject tossFXObj = Object.Instantiate(
                     PrefabProvider.TossFXPrefab,
-                    Entity.Cell.Position.ToVector3(),
+                    Entity.Position.ToVector3(),
                     new Quaternion());
                 LineProjectile proj = tossFXObj.GetComponent<LineProjectile>();
                 proj.InitializeToss(Entity, item, lines[i]);
@@ -55,13 +55,13 @@ namespace Pantheon.Commands.NonActor
         private Line[] FindTargets()
         {
             Line[] ret = new Line[count];
-            List<Entity> enemies = Entity.Level.FindBySpiral(Entity.Cell, 11,
+            List<Entity> enemies = Entity.Level.FindBySpiral(Entity.Position, 11,
                 delegate (Entity e)
                 {
                     if (e == null)
                         return false;
 
-                    if (!e.Cell.Visible)
+                    if (!e.Visible)
                         return false;
 
                     if (!e.TryGetComponent(out ActorComp actor))
@@ -79,7 +79,7 @@ namespace Pantheon.Commands.NonActor
             for (int i = 0; i < count; i++)
             {
                 ret[i] = Bresenhams.GetLine(
-                    Entity.Level, Entity.Cell, enemies.ElementAtOrLast(i).Cell);
+                    Entity.Position, enemies.ElementAtOrLast(i).Position);
             }
 
             return ret;
