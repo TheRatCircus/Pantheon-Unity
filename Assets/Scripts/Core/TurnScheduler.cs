@@ -99,6 +99,8 @@ namespace Pantheon.Core
 
                 if (actor.Control == ActorControl.Player)
                 {
+                    player.Entity.Level.UpdateFleeMap(player.Entity.Position);
+
                     float speedFactor = actor.Speed / TurnTime;
                     turnProgress += Mathf.FloorToInt(actionCost / speedFactor);
                     if (turnProgress >= TurnTime)

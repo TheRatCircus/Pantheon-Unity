@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Pantheon.World;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Profiling;
@@ -38,7 +39,7 @@ namespace Pantheon.Utils
                 this.goals.Add(c);
         }
 
-        public void Recalculate()
+        public void Recalculate(Func<Level, Vector2Int, bool> predicate)
         {
             for (int x = 0; x < Map.GetLength(0); x++)
                 for (int y = 0; y < Map.GetLength(1); y++)
@@ -83,6 +84,12 @@ namespace Pantheon.Utils
                                 continue;
                             }
 
+                            if (!predicate(level, frontier))
+                            {
+                                closed.Add(frontier);
+                                continue;
+                            }
+
                             if (Map[frontier.x, frontier.y] < 255)
                             {
                                 closed.Add(frontier);
@@ -101,7 +108,6 @@ namespace Pantheon.Utils
                 iterations++;
             }
             closed.Clear();
-            
         }
 
         public System.Collections.IEnumerator RecalculateAsync()
@@ -159,6 +165,15 @@ namespace Pantheon.Utils
                 iterations++;
             }
             closed.Clear();
+        }
+
+        public void Invert()
+        {
+            for (int x = 0; x < Map.GetLength(0); x++)
+                for (int y = 0; y < Map.GetLength(1); y++)
+                {
+                    Map[x, y] = Mathf.RoundToInt(Map[x, y] * -1.2f);
+                }
         }
 
         public Vector2Int RollDownhill(Vector2Int origin)

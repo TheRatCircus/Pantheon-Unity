@@ -101,7 +101,7 @@ namespace Pantheon.Gen
                     return false;
                 }
 
-                cavern = Floodfill.FillRect(level, rect, level.RandomFloorInRect(rect));
+                cavern = FloodFill.FillRect(level, rect, level.RandomFloorInRect(rect));
                 attempts++;
             } while (cavern.Count < threshold);
 

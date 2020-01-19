@@ -74,12 +74,18 @@ namespace Pantheon.World
             get => pathfinder; 
             private set => pathfinder = value; 
         }
+        [NonSerialized] private DijkstraMap fleeMap;
+        public DijkstraMap FleeMap
+        {
+            get => fleeMap;
+            private set => fleeMap = value;
+        }
 
+        [NonSerialized] private LevelWrapper wrapper;
         [NonSerialized] private Transform transform;
         public Transform Transform => transform;
         [NonSerialized] private Transform entitiesTransform;
         public Transform EntitiesTransform => entitiesTransform;
-
         [NonSerialized] private Tilemap terrainTilemap;
         [NonSerialized] private Tilemap splatterTilemap;
         [NonSerialized] private Tilemap itemTilemap;
@@ -100,6 +106,8 @@ namespace Pantheon.World
 
         public void AssignGameObject(Transform transform)
         {
+            wrapper = transform.GetComponent<LevelWrapper>();
+            wrapper.Level = this;
             transform.gameObject.name = ID;
             this.transform = transform;
             entitiesTransform = transform.Find("Entities");
@@ -114,6 +122,7 @@ namespace Pantheon.World
         public void Initialize()
         {
             Pathfinder = new Pathfinder(this);
+            FleeMap = new DijkstraMap(this);
         }
 
         public Chunk ChunkContaining(int x, int y)
@@ -532,16 +541,26 @@ namespace Pantheon.World
             return ChunkContaining(pos.x, pos.y).CellIsVisible(pos);
         }
 
+        public void UpdateFleeMap(Vector2Int playerPos)
+        {
+            FleeMap.SetGoals(playerPos);
+            FleeMap.Recalculate(
+                (Level level, Vector2Int cell) => level.CellIsVisible(cell));
+            FleeMap.Invert();
+        }
+
         [OnSerializing]
         private void OnSerializing(StreamingContext ctxt)
         {
             Pathfinder = null;
+            FleeMap = null;
         }
 
         [OnDeserialized]
         private void OnDeserialized(StreamingContext ctxt)
         {
             Pathfinder = new Pathfinder(this);
+            FleeMap = new DijkstraMap(this);
         }
     }
 }

@@ -227,6 +227,15 @@ namespace Pantheon.Core
                 hotbarUI.SetSelected(9);
                 HotbarSelection = 9;
             }
+
+            if (Input.GetKeyDown(KeyCode.U))
+            {
+                FloodFill.FillLevel(Entity.Level, Entity.Position,
+                    delegate (Level level, Vector2Int pos) 
+                    {
+                        return level.CellIsVisible(pos);
+                    });
+            }
         }
 
         private void PointSelect()
