@@ -63,8 +63,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Depends\Tilemap Extras\Editor\Tiles\RuleTile\RuleTileEditor.cs" />
     <Compile Include="Assets\ScriptCalculator\Editor\ScriptCalculator.cs" />
-    <Compile Include="Assets\Tilemap Extras\Editor\Tiles\RuleTile\RuleTileEditor.cs" />
     <Reference Include="UnityEditor.TestRunner">
       <HintPath>D:/Misc/Development/unity/Pantheon/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
     </Reference>
@@ -726,13 +726,13 @@
       <Project>{A06B5C3A-19E0-1EEF-7F23-6CB531956359}</Project>
       <Name>Pantheon.Editor</Name>
     </ProjectReference>
-    <ProjectReference Include="CrossSceneReference.Editor.csproj">
-      <Project>{DCA391AA-BF7E-B08C-F5C6-9D77260AD86B}</Project>
-      <Name>CrossSceneReference.Editor</Name>
-    </ProjectReference>
     <ProjectReference Include="Pantheon.csproj">
       <Project>{9DBFFA44-1F1A-AF79-EB58-0B2D35EF2F30}</Project>
       <Name>Pantheon</Name>
+    </ProjectReference>
+    <ProjectReference Include="CrossSceneReference.Editor.csproj">
+      <Project>{DCA391AA-BF7E-B08C-F5C6-9D77260AD86B}</Project>
+      <Name>CrossSceneReference.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="CrossSceneReference.csproj">
       <Project>{6414A4A1-599C-F67C-131D-1580D313A044}</Project>
