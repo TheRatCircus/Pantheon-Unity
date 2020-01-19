@@ -30,6 +30,7 @@ namespace Pantheon.Core
 
         [SerializeField] private Cursor cursor = default;
         [SerializeField] private HUD hud = default;
+        [SerializeField] private Hotbar hotbarUI = default;
         private List<GameObject> targetOverlays = new List<GameObject>(10);
 
         public InputMode Mode { get; set; } = InputMode.Default;
@@ -55,7 +56,7 @@ namespace Pantheon.Core
             = new HashSet<Entity>();
 
         public NewTalent[] Hotbar = new NewTalent[10];
-        public int HotbarSelection = 0;
+        public int HotbarSelection;
 
         private void Awake()
         {
@@ -191,7 +192,53 @@ namespace Pantheon.Core
             }
             else if (Input.GetKeyDown(KeyCode.Alpha1))
             {
+                hotbarUI.SetSelected(0);
                 HotbarSelection = 0;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                hotbarUI.SetSelected(1);
+                HotbarSelection = 1;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                hotbarUI.SetSelected(2);
+                HotbarSelection = 2;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                hotbarUI.SetSelected(3);
+                HotbarSelection = 3;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                hotbarUI.SetSelected(4);
+                HotbarSelection = 4;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha6))
+            {
+                hotbarUI.SetSelected(5);
+                HotbarSelection = 5;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha7))
+            {
+                hotbarUI.SetSelected(6);
+                HotbarSelection = 6;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha8))
+            {
+                hotbarUI.SetSelected(7);
+                HotbarSelection = 7;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha9))
+            {
+                hotbarUI.SetSelected(8);
+                HotbarSelection = 8;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha0))
+            {
+                hotbarUI.SetSelected(9);
+                HotbarSelection = 9;
             }
         }
 
