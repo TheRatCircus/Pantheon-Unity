@@ -15,19 +15,36 @@
       "RegenTime": 800,
       "Regenerating": true
     },
-	{
+	  {
 	  "$type": "Inventory",
 	  "Size": 40
-	},
+	  },
     {
 	  "$type": "Species",
       "SpeciesDef": "Species_Human"
     },
-	{
+    {
       "$type": "Status",
       "Statuses": []
     },
-	{
+    {
+      "$type": "Talents",
+      "All": [
+        {
+          "$type": "Punch"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+	  {
       "$type": "Wield",
       "Items": [
         null,

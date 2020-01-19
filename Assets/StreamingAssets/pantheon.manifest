@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3667655682
+CRC: 625275371
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 3cfb20a9eb7408858340809e0c816874
+    Hash: 7554becc97836371cf89c6a8c099caa8
   TypeTreeHash:
     serializedVersion: 2
     Hash: c3cf0dfa8abf08b86737c9c570da1419
@@ -75,6 +75,7 @@ Assets:
 - Assets/Sprites/Actor/Sprite_Swine.png
 - Assets/Sprites/Actor/Sprite_Pigman.png
 - Assets/Sprites/Item/Sprite_Corpse.png
+- Assets/Sprites/UI/Talent/Sprite_UI_Punch.png
 - Assets/Sprites/Actor/Sprite_Human.png
 - Assets/Sprites/Item/Sprite_Carbine.png
 - Assets/Sprites/Item/Sprite_Prejudice.png

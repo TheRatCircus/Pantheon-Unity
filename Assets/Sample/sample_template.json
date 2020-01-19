@@ -12,11 +12,7 @@
       "Command": null
     },
     {
-      "$type": "AI",
-      "Strategy": {
-        "$type": "DefaultStrategy",
-        "Target": null
-      }
+      "$type": "AI"
     },
     {
       "$type": "Ammo",
@@ -40,7 +36,12 @@
         "Pattern": "Square",
         "Prefab": "FX_Shrapnel",
         "Sound": null,
-        "Cell": null,
+        "Cell": {
+          "x": 0,
+          "y": 0,
+          "magnitude": 0.0,
+          "sqrMagnitude": 0
+        },
         "Line": null
       },
       "OnHitCommand": null
@@ -54,28 +55,6 @@
       "$type": "Corpse",
       "Original": null,
       "Skeletal": false
-    },
-    {
-      "$type": "Evocable",
-      "EvokeTime": 100,
-      "Talents": [
-        {
-          "Range": 5,
-          "Commands": [
-            {
-              "$type": "PointEffectCommand",
-              "cmd": {
-                "$type": "StatusCommand",
-                "Definition": "Status_Momentum",
-                "Duration": 1000,
-                "Magnitude": 1
-              },
-              "Cell": null,
-              "Range": 5
-            }
-          ]
-        }
-      ]
     },
     {
       "$type": "Health",
@@ -134,6 +113,15 @@
     {
       "$type": "Status",
       "Statuses": []
+    },
+    {
+      "$type": "Talents",
+      "All": [
+        {
+          "$type": "Punch"
+        },
+        null
+      ]
     },
     {
       "$type": "Weight",

@@ -2937,6 +2937,17 @@ MonoBehaviour:
   - {fileID: 1079058353}
   - {fileID: 97496836}
   - {fileID: 133618095}
+  icons:
+  - {fileID: 1953010899}
+  - {fileID: 1099923096}
+  - {fileID: 649640946}
+  - {fileID: 497946125}
+  - {fileID: 1933551322}
+  - {fileID: 209250507}
+  - {fileID: 1119127868}
+  - {fileID: 98290909}
+  - {fileID: 1603437044}
+  - {fileID: 1100922035}
 --- !u!1 &1443714223
 GameObject:
   m_ObjectHideFlags: 0

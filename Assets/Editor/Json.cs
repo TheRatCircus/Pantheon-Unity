@@ -5,8 +5,8 @@ using Newtonsoft.Json;
 using Pantheon;
 using Pantheon.Commands.NonActor;
 using Pantheon.Components;
-using Pantheon.Components.Statuses;
 using Pantheon.Content;
+using Pantheon.Content.Talents;
 using Pantheon.Core;
 using Pantheon.Gen;
 using Pantheon.Serialization.Json;
@@ -74,9 +74,6 @@ namespace PantheonEditor
                     },
                 new Body(),
                 new Corpse(),
-                new Evocable(TurnScheduler.TurnTime,
-                    new Talent(5, new PointEffectCommand(null,
-                        new StatusCommand(null, null, new Momentum(), 1000, 1)))),
                 new Health(),
                 new Inventory(20),
                 new Location(),
@@ -97,6 +94,7 @@ namespace PantheonEditor
                 new Size(1),
                 new Species(null),
                 new Status(),
+                new Talents(new Punch(), null),
                 new Weight(50),
                 new Wield(2)
             };

@@ -1,16 +1,16 @@
 ﻿// TalentCommand.cs
 // Jerome Martina
 
+using Pantheon.Content.Talents;
 using Pantheon.Core;
-using NewTalent = Pantheon.Content.Talents.Talent;
 
 namespace Pantheon.Commands.Actor
 {
     public sealed class TalentCommand : ActorCommand
     {
-        private readonly NewTalent talent;
+        private readonly Talent talent;
 
-        public TalentCommand(Entity entity, NewTalent talent) : base(entity)
+        public TalentCommand(Entity entity, Talent talent) : base(entity)
         {
             this.talent = talent;
         }

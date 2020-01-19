@@ -76,6 +76,7 @@ namespace Pantheon.Core
             EntityTemplate template = Assets.Templates["Player"];
             Entity player = Spawn.SpawnActor(template, level, level.RandomCell(true));
             player.DestroyedEvent += OnPlayerDeath;
+            Player.FillHotbar(player.GetComponent<Talents>().All);
 
             PC = player;
 

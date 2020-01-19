@@ -4,6 +4,7 @@
 using Pantheon.Commands.NonActor;
 using Pantheon.Components;
 using Pantheon.Components.Statuses;
+using Pantheon.Content.Talents;
 using Pantheon.Gen;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,6 @@ namespace Pantheon.Serialization.Json
                     typeof(Ammo),
                     typeof(Body),
                     typeof(Corpse),
-                    typeof(Evocable),
                     typeof(Health),
                     typeof(Inventory),
                     typeof(Melee),
@@ -47,6 +47,7 @@ namespace Pantheon.Serialization.Json
                     typeof(Size),
                     typeof(Species),
                     typeof(Status),
+                    typeof(Talents),
                     typeof(Weight),
                     typeof(Wield),
                     // Commands
@@ -56,8 +57,9 @@ namespace Pantheon.Serialization.Json
                     typeof(StatusCommand),
                     // Statuses
                     typeof(Momentum),
-                    // Misc
-                    typeof(Talent)
+                    // Talents
+                    typeof(Talent),
+                    typeof(Punch)
                 }
             };
     }

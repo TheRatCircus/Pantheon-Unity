@@ -31,7 +31,7 @@ namespace Pantheon.Components
             Entity[] evocables = new Entity[Items.Length];
             for (int i = 0; i < Items.Length; i++)
             {
-                if (Items[i] != null && Items[i].HasComponent<Evocable>())
+                if (Items[i] != null && Items[i].HasComponent<Talents>())
                     evocables[i] = Items[i];
             }
             return evocables.Compress();

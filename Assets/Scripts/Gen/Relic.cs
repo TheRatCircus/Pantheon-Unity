@@ -43,93 +43,93 @@ namespace Pantheon.Gen
         private static readonly Func<Entity>[] TossingWeaponFunctions
             = new Func<Entity>[]
         {
-            MultitossWeapon
+            //MultitossWeapon
         };
 
         private static readonly Func<Entity>[] MagicWeaponFunctions
             = new Func<Entity>[]
         {
-            ExplosiveMagicWeapon
+            //ExplosiveMagicWeapon
         };
 
-        private static Entity MultitossWeapon()
-        {
-            EntityTemplate basic = Assets.Templates[
-                Tables.basicTossingWeapons.Random()];
-            Entity relic = new Entity(basic);
+        //private static Entity MultitossWeapon()
+        //{
+        //    EntityTemplate basic = Assets.Templates[
+        //        Tables.basicTossingWeapons.Random()];
+        //    Entity relic = new Entity(basic);
 
-            GameObject fxPrefab = Assets.TossFXPrefab;
-            NonActorCommand nac = new MultitossCommand(null, relic, 3);
-            Talent talent = new Talent(11, nac);
+        //    GameObject fxPrefab = Assets.TossFXPrefab;
+        //    NonActorCommand nac = new MultitossCommand(null, relic, 3);
+        //    Talent talent = new Talent(11, nac);
 
-            if (relic.TryGetComponent(out Evocable evoc))
-            {
-                evoc.AddTalent(talent);
-            }
-            else
-            {
-                Evocable newEvoc = new Evocable(TurnScheduler.TurnTime, talent);
-                newEvoc.AddTalent(talent);
-                relic.AddComponent(newEvoc);
-            }
+        //    if (relic.TryGetComponent(out Talents evoc))
+        //    {
+        //        evoc.AddTalent(talent);
+        //    }
+        //    else
+        //    {
+        //        Talents newEvoc = new Talents(TurnScheduler.TurnTime, talent);
+        //        newEvoc.AddTalent(talent);
+        //        relic.AddComponent(newEvoc);
+        //    }
 
-            return relic;
-        }
+        //    return relic;
+        //}
 
-        private static Entity ExplosiveMagicWeapon()
-        {
-            GameObject fxPrefab = Assets.Prefabs[
-                Tables.explosionFXIDs.Random()];
-            AudioClip sfx = Assets.Audio["SFX_Explosion"];
+        //private static Entity ExplosiveMagicWeapon()
+        //{
+        //    GameObject fxPrefab = Assets.Prefabs[
+        //        Tables.explosionFXIDs.Random()];
+        //    AudioClip sfx = Assets.Audio["SFX_Explosion"];
 
-            NonActorCommand nac;
-            ExplodeCommand expl = new ExplodeCommand(null)
-            {
-                Prefab = fxPrefab,
-                Sound = sfx,
-                Damages = new Damage[] {
-                    new Damage()
-                    {
-                        Min = 7,
-                        Max = 14,
-                        Type = DamageType.Piercing
-                    }
-                }
-            };
+        //    NonActorCommand nac;
+        //    ExplodeCommand expl = new ExplodeCommand(null)
+        //    {
+        //        Prefab = fxPrefab,
+        //        Sound = sfx,
+        //        Damages = new Damage[] {
+        //            new Damage()
+        //            {
+        //                Min = 7,
+        //                Max = 14,
+        //                Type = DamageType.Piercing
+        //            }
+        //        }
+        //    };
 
-            int r = Random.Range(0, 2);
-            switch (r)
-            {
-                default:
-                case 0:
-                    expl.Pattern = ExplosionPattern.Point;
-                    nac = new PointEffectCommand(null, expl);
-                    break;
-                case 1:
-                    expl.Pattern = ExplosionPattern.Line;
-                    nac = new LineEffectCommand(null, expl);
-                    break;
-            }
+        //    int r = Random.Range(0, 2);
+        //    switch (r)
+        //    {
+        //        default:
+        //        case 0:
+        //            expl.Pattern = ExplosionPattern.Point;
+        //            nac = new PointEffectCommand(null, expl);
+        //            break;
+        //        case 1:
+        //            expl.Pattern = ExplosionPattern.Line;
+        //            nac = new LineEffectCommand(null, expl);
+        //            break;
+        //    }
 
-            Talent talent = new Talent(5, nac);
+        //    Talent talent = new Talent(5, nac);
 
-            EntityTemplate basic = Assets.Templates[
-                Tables.basicMagicWeapons.Random()];
-            Entity relic = new Entity(basic);
+        //    EntityTemplate basic = Assets.Templates[
+        //        Tables.basicMagicWeapons.Random()];
+        //    Entity relic = new Entity(basic);
 
-            if (relic.TryGetComponent(out Evocable evoc))
-            {
-                evoc.AddTalent(talent);
-            }
-            else
-            {
-                Evocable newEvoc = new Evocable(TurnScheduler.TurnTime, talent);
-                newEvoc.AddTalent(talent);
-                relic.AddComponent(newEvoc);
-            }
+        //    if (relic.TryGetComponent(out Talents evoc))
+        //    {
+        //        evoc.AddTalent(talent);
+        //    }
+        //    else
+        //    {
+        //        Talents newEvoc = new Talents(TurnScheduler.TurnTime, talent);
+        //        newEvoc.AddTalent(talent);
+        //        relic.AddComponent(newEvoc);
+        //    }
 
-            return relic;
-        }
+        //    return relic;
+        //}
 
         private static void NameRelic(Entity relic, Components.Relic comp)
         {
