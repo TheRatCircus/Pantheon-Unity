@@ -15,5 +15,6 @@ namespace Pantheon.Core
         HashSet<Entity> VisibleActors { get; }
         InputMode RequestCell(out Vector2Int cell, int range);
         InputMode RequestLine(out Line line, int range);
+        Vector2Int GetTargetedAdjacent();
     }
 }

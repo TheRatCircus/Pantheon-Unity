@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3983150342
+CRC: 3667655682
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 5a24352241d00e60255277c2b6af9f2f
+    Hash: 3cfb20a9eb7408858340809e0c816874
   TypeTreeHash:
     serializedVersion: 2
     Hash: c3cf0dfa8abf08b86737c9c570da1419
@@ -87,4 +87,5 @@ Assets:
 - Assets/Prefabs/FX/FX_Toss.prefab
 - Assets/Content/Vaults/Vault_Keep.asset
 - Assets/Content/Terrain/Terrain_StoneFloor.asset
+- Assets/Audio/SFX_Punch.ogg
 Dependencies: []

@@ -24,6 +24,7 @@ namespace PantheonEditor
     public static class Json
     {
         [MenuItem("Assets/Pantheon/JSON/New File")]
+#pragma warning disable IDE0051 // Remove unused private members
         private static void NewFile()
         {
             string dataPath = Application.dataPath;
@@ -73,7 +74,7 @@ namespace PantheonEditor
                     },
                 new Body(),
                 new Corpse(),
-                new Evocable(TurnScheduler.TurnTime, 
+                new Evocable(TurnScheduler.TurnTime,
                     new Talent(5, new PointEffectCommand(null,
                         new StatusCommand(null, null, new Momentum(), 1000, 1)))),
                 new Health(),
@@ -227,5 +228,6 @@ namespace PantheonEditor
             AssetDatabase.Refresh();
             Debug.Log($"Wrote sample body part to {path}.");
         }
+#pragma warning restore IDE0051 // Remove unused private members
     }
 }

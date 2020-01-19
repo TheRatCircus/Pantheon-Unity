@@ -9,6 +9,7 @@ using Pantheon.World;
 using System.Collections.Generic;
 using UnityEngine;
 using Cursor = Pantheon.UI.Cursor;
+using NewTalent = Pantheon.Content.Talents.Talent;
 
 namespace Pantheon.Core
 {
@@ -46,10 +47,20 @@ namespace Pantheon.Core
         private Actor actor;
 
         private int targetingRange;
-        private Vector2Int selectedCell;
+
+        private Vector2Int selectedCell = Level.NullCell;
         private Line selectedLine = new Line();
+
         public HashSet<Entity> VisibleActors { get; private set; }
             = new HashSet<Entity>();
+
+        public NewTalent[] Hotbar = new NewTalent[10];
+        public int HotbarSelection = 0;
+
+        private void Awake()
+        {
+            Hotbar[0] = new Content.Talents.Punch();
+        }
 
         private void Update()
         {
@@ -60,6 +71,12 @@ namespace Pantheon.Core
                 Input.GetAxis("MouseX") == 0 &&
                 Input.GetAxis("MouseY") == 0)
                 return;
+
+            if (Entity.Level.CellIsVisible(cursor.HoveredCell))
+            {
+                selectedCell = cursor.HoveredCell;
+                selectedLine = Bresenhams.GetLine(Entity.Position, selectedCell);
+            }
 
             switch (Mode)
             {
@@ -74,14 +91,6 @@ namespace Pantheon.Core
                     return;
                 default:
                     throw new System.NotImplementedException();
-            }
-
-            // Set automove path
-            if (Input.GetMouseButtonDown(0))
-            {
-                //AutoMovePath = PlayerEntity.Level.GetPathTo(
-                //    PlayerEntity.Cell, cursor.HoveredCell);
-                //return;
             }
 
             if (Input.GetButtonDown("Up"))
@@ -175,6 +184,14 @@ namespace Pantheon.Core
                     actor.Command = new EvokeCommand(
                         Entity, wield.Items[0]);
                 }
+            }
+            else if (Input.GetMouseButtonDown(0))
+            {
+                actor.Command = new TalentCommand(Entity, Hotbar[HotbarSelection]);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                HotbarSelection = 0;
             }
         }
 
@@ -396,11 +413,28 @@ namespace Pantheon.Core
             }
         }
 
+        public Vector2Int GetTargetedAdjacent()
+        {
+            if (selectedLine.Count < 1)
+                return Level.NullCell;
+            else
+                return selectedLine[1];
+        }
+
         private void CleanOverlays()
         {
             foreach (GameObject go in targetOverlays)
                 Destroy(go);
             targetOverlays.Clear();
+        }
+
+        private void OnDrawGizmos()
+        {
+            foreach (Vector2Int cell in selectedLine)
+                Gizmos.DrawCube(cell.ToVector3(), new Vector3(.2f, .2f, .2f));
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawCube(selectedCell.ToVector3(), new Vector3(.3f, .3f, .3f));
         }
     }
 }

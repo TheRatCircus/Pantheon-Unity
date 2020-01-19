@@ -44,5 +44,10 @@ namespace Pantheon.Utils
         {
             return entity.PlayerControlled ? "slow" : "slows";
         }
+
+        public static string Punch(Entity entity)
+        {
+            return entity.PlayerControlled ? "punch" : "punches";
+        }
     }
 }
