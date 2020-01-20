@@ -41,6 +41,7 @@ namespace Pantheon.Utils
 
         public void Recalculate(Func<Level, Vector2Int, bool> predicate)
         {
+            Profiler.BeginSample("Dijkstra Map Flood Fill");
             for (int x = 0; x < Map.GetLength(0); x++)
                 for (int y = 0; y < Map.GetLength(1); y++)
                 {
@@ -59,13 +60,15 @@ namespace Pantheon.Utils
                 {
                     int prevDist = Map[open[i].x, open[i].y];
 
-                    Profiler.BeginSample("Dijkstra Map Flood Fill");
                     int x = -1;
                     for (; x <= 1; x++)
                         for (int y = -1; y <= 1; y++)
                         {
                             Vector2Int frontier = new Vector2Int(open[i].x + x,
                                 open[i].y + y);
+
+                            if (Map[frontier.x, frontier.y] < 255)
+                                continue;
 
                             if (!level.Contains(frontier) ||
                                 level.CellIsWalled(frontier) ||
@@ -75,19 +78,15 @@ namespace Pantheon.Utils
                             if (!predicate(level, frontier))
                                 continue;
 
-                            if (Map[frontier.x, frontier.y] < 255)
-                                continue;
-
                             Map[frontier.x, frontier.y] = prevDist + 1;
                             temp.Add(frontier);
                         }
-
-                    Profiler.EndSample();
                 }
                 open.Clear();
                 open.AddRange(temp);
                 temp.Clear();
             }
+            Profiler.EndSample();
         }
 
         public System.Collections.IEnumerator RecalculateAsync()

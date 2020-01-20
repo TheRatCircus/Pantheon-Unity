@@ -1,19 +1,18 @@
 ﻿// LevelWrapperEditor.cs
 // Jerome Martina
 
+#define DEBUG_DIJKSTRA
+#undef DEBUG_DIJKSTRA
+
 using Pantheon;
 using UnityEditor;
-using UnityEngine;
 
 namespace PantheonEditor
 {
     [CustomEditor(typeof(LevelWrapper))]
     public sealed class LevelWrapperEditor : Editor
     {
-        public override void OnInspectorGUI()
-        {
-        }
-
+#if DEBUG_DIJKSTRA
         private void OnSceneGUI()
         {
             LevelWrapper wrapper = target as LevelWrapper;
@@ -31,5 +30,6 @@ namespace PantheonEditor
                 }
             Handles.EndGUI();
         }
+#endif
     }
 }
