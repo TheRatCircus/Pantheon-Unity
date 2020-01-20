@@ -186,7 +186,7 @@ namespace Pantheon
         public void Move(Level level, Vector2Int cell)
         {
             Level = level;
-            Level.MoveEntityTo(this, cell);
+            Level.MoveEntity(this, Position, cell);
 
             if (GameObjects.HasElements())
                 GameObjects[0].transform.position = cell.ToVector3();

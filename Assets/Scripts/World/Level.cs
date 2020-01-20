@@ -495,12 +495,23 @@ namespace Pantheon.World
             return ChunkContaining(pos.x, pos.y).FirstItemAt(pos);
         }
 
-        public void MoveEntityTo(Entity entity, Vector2Int pos)
+        public void MoveEntity(Entity entity, Vector2Int from, Vector2Int to)
         {
+            Chunk prev = ChunkContaining(from.x, from.y);
+            Chunk dest = ChunkContaining(to.x, to.y);
+
+            if (prev == dest)
+                return;
+
             if (entity.HasComponent<Actor>())
-                ChunkContaining(pos.x, pos.y).Actors.Add(entity);
+                prev.Actors.Remove(entity);
             else
-                ChunkContaining(pos.x, pos.y).Items.Add(entity);
+                prev.Items.Remove(entity);
+
+            if (entity.HasComponent<Actor>())
+                dest.Actors.Add(entity);
+            else
+                dest.Items.Add(entity);
         }
 
         public bool CellIsBlocked(Vector2Int pos)
