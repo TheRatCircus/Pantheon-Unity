@@ -60,7 +60,8 @@ namespace Pantheon.Commands.Actor
                     ActorCommand cmd = new MeleeCommand(Entity, destinationCell);
                     return cmd.Execute(out cost);
                 }
-                else if (Entity.HasComponent<AI>())
+                else 
+                if (Entity.HasComponent<AI>())
                 {
                     ActorCommand cmd = new WaitCommand(Entity);
                     return cmd.Execute(out cost);

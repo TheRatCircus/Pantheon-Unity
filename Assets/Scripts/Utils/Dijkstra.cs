@@ -14,12 +14,12 @@ namespace Pantheon.Utils
     /// </summary>
     public sealed class DijkstraMap
     {
-        private Level level;
+        private readonly Level level;
 
         public int[,] Map { get; private set; }
         private HashSet<Vector2Int> goals = new HashSet<Vector2Int>();
         private List<Vector2Int> open = new List<Vector2Int>();
-        private HashSet<Vector2Int> closed = new HashSet<Vector2Int>();
+        private HashSet<Vector2Int> temp = new HashSet<Vector2Int>();
 
         public DijkstraMap(Level level)
         {
@@ -52,18 +52,12 @@ namespace Pantheon.Utils
                 Map[c.x, c.y] = 0;
                 open.Add(c);
             }
-
             
-            int iterations = 0; // Arbitrary limiter
             while (open.Count > 0)
             {
-                // Keep a temporary list so open can be emptied and then
-                // refreshed from scratch
-                List<Vector2Int> temp = new List<Vector2Int>();
                 for (int i = 0; i < open.Count; i++)
                 {
                     int prevDist = Map[open[i].x, open[i].y];
-                    closed.Add(open[i]); // Immediately close origin
 
                     Profiler.BeginSample("Dijkstra Map Flood Fill");
                     int x = -1;
@@ -73,28 +67,16 @@ namespace Pantheon.Utils
                             Vector2Int frontier = new Vector2Int(open[i].x + x,
                                 open[i].y + y);
 
-                            if (closed.Contains(frontier))
-                                continue;
-
                             if (!level.Contains(frontier) ||
                                 level.CellIsWalled(frontier) ||
                                 level.CellHasActor(frontier))
-                            {
-                                closed.Add(frontier);
                                 continue;
-                            }
 
                             if (!predicate(level, frontier))
-                            {
-                                closed.Add(frontier);
                                 continue;
-                            }
 
                             if (Map[frontier.x, frontier.y] < 255)
-                            {
-                                closed.Add(frontier);
                                 continue;
-                            }
 
                             Map[frontier.x, frontier.y] = prevDist + 1;
                             temp.Add(frontier);
@@ -105,9 +87,7 @@ namespace Pantheon.Utils
                 open.Clear();
                 open.AddRange(temp);
                 temp.Clear();
-                iterations++;
             }
-            closed.Clear();
         }
 
         public System.Collections.IEnumerator RecalculateAsync()
@@ -124,36 +104,29 @@ namespace Pantheon.Utils
                 open.Add(c);
             }
 
-            int iterations = 0; // Arbitrary limiter
             while (open.Count > 0)
             {
-                // Keep a temporary list so open can be emptied and then
-                // refreshed from scratch
-                List<Vector2Int> temp = new List<Vector2Int>();
                 for (int i = 0; i < open.Count; i++)
                 {
                     int prevDist = Map[open[i].x, open[i].y];
-                    closed.Add(open[i]); // Immediately close origin
-
                     int x = -1;
+
                     for (; x <= 1; x++)
                         for (int y = -1; y <= 1; y++)
                         {
-                            yield return new WaitForSeconds(.1f);
+                            yield return null;
 
                             Vector2Int frontier = new Vector2Int(open[i].x + x,
                                 open[i].y + y);
 
-                            if (closed.Contains(frontier))
-                                continue;
-
                             if (!level.Contains(frontier) ||
                                 level.CellIsWalled(frontier) ||
                                 level.CellHasActor(frontier))
-                            {
-                                closed.Add(frontier);
                                 continue;
-                            }
+
+
+                            if (Map[frontier.x, frontier.y] < 255)
+                                continue;
 
                             Map[frontier.x, frontier.y] = prevDist + 1;
                             temp.Add(frontier);
@@ -162,9 +135,7 @@ namespace Pantheon.Utils
                 open.Clear();
                 open.AddRange(temp);
                 temp.Clear();
-                iterations++;
             }
-            closed.Clear();
         }
 
         public void Invert()

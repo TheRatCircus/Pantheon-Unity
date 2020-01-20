@@ -52,9 +52,6 @@ namespace Pantheon.Core
         private Vector2Int selectedCell = Level.NullCell;
         private Line selectedLine = new Line();
 
-        public HashSet<Entity> VisibleActors { get; private set; }
-            = new HashSet<Entity>();
-
         public Talent[] Hotbar = new Talent[10];
         public int HotbarSelection;
 
@@ -301,21 +298,6 @@ namespace Pantheon.Core
                 selectedLine.Clear();
                 Mode = InputMode.Cancelling;
                 Locator.Log.Send("Targeting cancelled.", Color.blue);
-            }
-        }
-
-        public void RecalculateVisible(IEnumerable<Vector2Int> cells)
-        {
-            Level level = Entity.Level;
-            VisibleActors.Clear();
-            foreach (Vector2Int cell in cells)
-            {
-                Entity actor = level.ActorAt(cell);
-                if (actor != null
-                    && actor.GetComponent<Actor>().Control != ActorControl.Player)
-                {
-                    VisibleActors.Add(actor);
-                }
             }
         }
 

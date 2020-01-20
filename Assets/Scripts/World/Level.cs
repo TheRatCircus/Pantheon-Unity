@@ -543,10 +543,12 @@ namespace Pantheon.World
 
         public void UpdateFleeMap(Vector2Int playerPos)
         {
+            Profiler.BeginSample("Update Flee Map");
             FleeMap.SetGoals(playerPos);
             FleeMap.Recalculate(
                 (Level level, Vector2Int cell) => level.CellIsVisible(cell));
             FleeMap.Invert();
+            Profiler.EndSample();
         }
 
         [OnSerializing]

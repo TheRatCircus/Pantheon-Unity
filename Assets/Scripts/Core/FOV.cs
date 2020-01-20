@@ -27,6 +27,7 @@ namespace Pantheon.Core
             Profiler.BeginSample("FOV");
             HashSet<Vector2Int> allRefreshed = new HashSet<Vector2Int>();
 
+            Profiler.BeginSample("FOV: Hide Old");
             // Hide cells at the last refresh position
             if (prev != Level.NullCell)
             {
@@ -35,7 +36,9 @@ namespace Pantheon.Core
                     level.SetVisibility(pos.x, pos.y, false);
                 allRefreshed.AddMany(old);
             }
+            Profiler.EndSample();
 
+            Profiler.BeginSample("FOV: Refresh");
             for (int octant = 0; octant < 8; octant++)
             {
                 List<Vector2Int> refreshed = ShadowOctant(level,
@@ -43,9 +46,12 @@ namespace Pantheon.Core
 
                 allRefreshed.AddMany(refreshed);
             }
+            Profiler.EndSample();
 
+            Profiler.BeginSample("FOV: Draw");
             if (drawChanges)
                 level.Draw(allRefreshed);
+            Profiler.EndSample();
 
             prev = origin;
             Profiler.EndSample();

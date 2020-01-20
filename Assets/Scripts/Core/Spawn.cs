@@ -23,8 +23,6 @@ namespace Pantheon.Core
             Entity entity = new Entity(template);
             Locator.Scheduler.AddActor(entity.GetComponent<Actor>());
             entity.Move(level, cell);
-            if (entity.Level.CellIsVisible(cell))
-                Locator.Player.VisibleActors.Add(entity);
             return entity;
         }
     }

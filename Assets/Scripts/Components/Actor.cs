@@ -96,7 +96,8 @@ namespace Pantheon.Components
 
         public bool HostileTo(Actor other)
         {
-            throw new NotImplementedException();
+            return false;
+            //throw new NotImplementedException();
 
             //if (other == this) // Actor probably not hostile to itself
             //    return false;

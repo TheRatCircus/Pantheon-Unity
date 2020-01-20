@@ -9,6 +9,7 @@ using Pantheon.Commands.Actor;
 using Pantheon.Utils;
 using System;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Pantheon.Components
 {
@@ -32,6 +33,7 @@ namespace Pantheon.Components
 
         public void DecideCommand()
         {
+            Profiler.BeginSample("AI");
             int max = 0;
             int i = -1;
 
@@ -48,12 +50,14 @@ namespace Pantheon.Components
             if (i == -1)
             {
                 Actor.Command = new WaitCommand(Entity);
+                Profiler.EndSample();
                 return;
             }
 
             AIUtility highest = Utilities[i];
             Actor.Command = highest.Invoke(Entity, this);
             DebugLogAI(highest, max);
+            Profiler.EndSample();
         }
 
         public override void Receive(IComponentMessage msg)
