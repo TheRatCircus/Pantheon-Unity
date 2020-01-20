@@ -50,6 +50,11 @@ namespace Pantheon.Serialization.Json
                     typeof(Talents),
                     typeof(Weight),
                     typeof(Wield),
+                    // AI utilities
+                    typeof(AIUtility),
+                    typeof(ApproachUtility),
+                    typeof(AttackUtility),
+                    typeof(FleeUtility),
                     // Commands
                     typeof(ExplodeCommand),
                     typeof(LineEffectCommand),

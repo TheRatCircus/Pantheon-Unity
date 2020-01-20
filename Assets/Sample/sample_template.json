@@ -12,7 +12,19 @@
       "Command": null
     },
     {
-      "$type": "AI"
+      "$type": "AI",
+      "Utilities": [
+        {
+          "$type": "ApproachUtility"
+        },
+        {
+          "$type": "AttackUtility",
+          "Aggression": 50
+        },
+        {
+          "$type": "FleeUtility"
+        }
+      ]
     },
     {
       "$type": "Ammo",
@@ -119,8 +131,7 @@
       "All": [
         {
           "$type": "Punch"
-        },
-        null
+        }
       ]
     },
     {

@@ -77,7 +77,7 @@ namespace Pantheon.World
                 foreach (BuilderStep step in builder.Plan.Steps)
                     step.Run(level);
                 if (builder.Plan.Population != null)
-                    //NPC.PopulateNPCs(builder.Plan, level);
+                    NPC.PopulateNPCs(builder.Plan, level);
                 //Items.PopulateItems(level);
                 level.Initialize();
                 LayerLevelBuilders.Remove(pos);

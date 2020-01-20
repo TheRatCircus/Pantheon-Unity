@@ -16,11 +16,11 @@
       "Regenerating": true
     },
 	  {
-	  "$type": "Inventory",
-	  "Size": 40
+	    "$type": "Inventory",
+	    "Size": 40
 	  },
     {
-	  "$type": "Species",
+	    "$type": "Species",
       "SpeciesDef": "Species_Human"
     },
     {
@@ -32,16 +32,7 @@
       "All": [
         {
           "$type": "Punch"
-        },
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        }
       ]
     },
 	  {

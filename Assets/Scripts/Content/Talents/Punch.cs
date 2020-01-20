@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Pantheon.Commands;
+using Pantheon.Components;
 using Pantheon.Utils;
 using UnityEngine;
 
@@ -14,10 +15,15 @@ namespace Pantheon.Content.Talents
 
         public override CommandResult Cast(Entity caster)
         {
+            Vector2Int target;
             if (!caster.PlayerControlled)
-                throw new System.NotImplementedException();
+                target = caster.GetComponent<AI>().Target.Position;
+            else
+                target = Locator.Player.GetTargetedAdjacent();
 
-            Vector2Int target = Locator.Player.GetTargetedAdjacent();
+            if (!caster.Level.AdjacentTo(caster.Position, target))
+                throw new System.Exception(
+                    $"Punch targeted non-adjacent cell.");
 
             Entity enemy = caster.Level.ActorAt(target);
 

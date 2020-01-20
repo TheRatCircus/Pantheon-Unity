@@ -11,9 +11,18 @@
     },
     {
       "$type": "AI",
-      "Strategy": {
-        "$type": "DefaultStrategy"
-	  }
+      "Utilities": [
+        {
+          "$type": "ApproachUtility"
+        },
+        {
+          "$type": "AttackUtility",
+          "Aggression": 50
+        },
+        {
+          "$type": "FleeUtility"
+        }
+      ]
     },
     {
       "$type": "Health",
@@ -25,9 +34,17 @@
       "$type": "Species",
       "SpeciesDef": "Species_Goose"
     },
-	{
+    {
       "$type": "Status",
       "Statuses": []
+    },
+    {
+      "$type": "Talents",
+      "All": [
+        {
+          "$type": "Punch"
+        }
+      ]
     }
   ]
 }

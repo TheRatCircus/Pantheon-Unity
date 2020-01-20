@@ -249,7 +249,6 @@ namespace Pantheon
                         Color.grey);
             }
 
-            //Cell.RemoveEntity(this);
             UnityEngine.Object.Destroy(GameObjects[0]);
         }
 

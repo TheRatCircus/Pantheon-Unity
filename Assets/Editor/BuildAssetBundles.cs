@@ -9,10 +9,9 @@ namespace PantheonEditor
 {
     public static class BuildAssetBundles
     {
-        [MenuItem("Assets/Build AssetBundles")]
+        [MenuItem("Tools/Build AssetBundles")]
 #pragma warning disable IDE0051 // Remove unused private members
         private static void BuildAllAssetBundles()
-#pragma warning restore IDE0051
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
             BuildPipeline.BuildAssetBundles(
@@ -29,5 +28,6 @@ namespace PantheonEditor
         {
             AssetBundle.UnloadAllAssetBundles(true);
         }
+#pragma warning restore IDE0051 // Remove unused private members
     }
 }

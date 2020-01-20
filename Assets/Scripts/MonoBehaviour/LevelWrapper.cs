@@ -2,7 +2,6 @@
 // Jerome Martina
 
 using Pantheon.World;
-using UnityEditor;
 using UnityEngine;
 
 namespace Pantheon
@@ -20,9 +19,7 @@ namespace Pantheon
                         Level.FleeMap.Map[x, y] <= -30)
                         continue;
 
-                    Handles.Label(
-                        new Vector3Int(x, y, 0),
-                        Level.FleeMap.Map[x, y].ToString());
+                    // TODO: Label Dijkstra map positions
                 }
         }
     }
