@@ -249,6 +249,7 @@ namespace Pantheon
                         Color.grey);
             }
 
+            Position = Level.NullCell;
             UnityEngine.Object.Destroy(GameObjects[0]);
         }
 
