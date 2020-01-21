@@ -25,7 +25,7 @@ namespace Pantheon.Serialization.Json.Converters
             SpeciesDefinition existingValue, bool hasExistingValue,
             JsonSerializer serializer)
         {
-            return loader.LoadSpeciesDef((string)reader.Value);
+            return Assets.Species[(string)reader.Value];
         }
 
         public override bool CanRead => true;

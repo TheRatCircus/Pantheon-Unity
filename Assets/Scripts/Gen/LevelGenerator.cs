@@ -20,22 +20,16 @@ namespace Pantheon.Gen
     [Serializable]
     public sealed class LevelGenerator
     {
-        [NonSerialized]
-        private AssetLoader loader;
-        public AssetLoader Loader { get => loader; set => loader = value; }
-
         public Dictionary<Vector3Int, Builder> LayerLevelBuilders
         { get; private set; } = new Dictionary<Vector3Int, Builder>();
         public Dictionary<string, Builder> IDLevelBuilders
         { get; private set; } = new Dictionary<string, Builder>();
 
-        public LevelGenerator(AssetLoader loader) => Loader = loader;
-
         public void PlaceBuilders()
         {
-            BuilderPlan planSubterrane = Loader.LoadPlan("Plan_Subterrane");
-            BuilderPlan planReform = Loader.LoadPlan("Plan_Reformatory");
-            BuilderPlan planFlood = Loader.LoadPlan("Plan_FloodPlain");
+            BuilderPlan planSubterrane = Assets.BuilderPlans["Plan_Subterrane"];
+            BuilderPlan planReform = Assets.BuilderPlans["Plan_Reformatory"];
+            BuilderPlan planFlood = Assets.BuilderPlans["Plan_FloodPlain"];
 
             Builder builderSubterrane = new Builder("The Subterrane",
                 "sub_0_0_-2", planSubterrane);
@@ -98,7 +92,7 @@ namespace Pantheon.Gen
             for (int i = 0; i < numSpawns; i++)
             {
                 string id = GenericRandomPick<string>.Pick(plan.Population);
-                EntityTemplate template = Locator.Loader.LoadTemplate(id);
+                EntityTemplate template = Assets.Templates[id];
 
                 Cell cell;
                 int attempts = 0;
@@ -133,7 +127,7 @@ namespace Pantheon.Gen
                 }
                 else
                 {
-                    EntityTemplate basic = Loader.LoadTemplate(Tables.basicItems.Random());
+                    EntityTemplate basic = Assets.Templates[Tables.basicItems.Random()];
                     item = new Entity(basic);
                 }
                 

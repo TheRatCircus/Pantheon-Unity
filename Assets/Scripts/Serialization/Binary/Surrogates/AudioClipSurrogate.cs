@@ -2,20 +2,12 @@
 // Jerome Martina
 
 using System.Runtime.Serialization;
-using Pantheon.Core;
 using UnityEngine;
 
 namespace Pantheon.Serialization.Binary.Surrogates
 {
     public sealed class AudioClipSurrogate : ISerializationSurrogate
     {
-        private AssetLoader loader;
-
-        public AudioClipSurrogate(AssetLoader loader)
-        {
-            this.loader = loader;
-        }
-
         public void GetObjectData(object obj, SerializationInfo info,
             StreamingContext context)
         {
@@ -27,7 +19,7 @@ namespace Pantheon.Serialization.Binary.Surrogates
             StreamingContext context, ISurrogateSelector selector)
         {
             AudioClip clip = (AudioClip)obj;
-            clip = loader.Load<AudioClip>(info.GetString("id"));
+            clip = Assets.Audio[info.GetString("id")];
             obj = clip;
             return obj;
         }

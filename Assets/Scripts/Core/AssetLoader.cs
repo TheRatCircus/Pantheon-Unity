@@ -39,7 +39,7 @@ namespace Pantheon.Core
             jsonSettings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Binders.entity,
+                SerializationBinder = Binders._entity,
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
@@ -55,7 +55,7 @@ namespace Pantheon.Core
             speciesSettings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Binders.entity,
+                SerializationBinder = Binders._entity,
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
@@ -68,7 +68,7 @@ namespace Pantheon.Core
             genericSettings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Binders.entity,
+                SerializationBinder = Binders._entity,
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
@@ -80,7 +80,7 @@ namespace Pantheon.Core
             planSettings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Binders.builder,
+                SerializationBinder = Binders._builder,
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {

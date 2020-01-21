@@ -2,20 +2,12 @@
 // Jerome Martina
 
 using System.Runtime.Serialization;
-using Pantheon.Core;
 using UnityEngine;
 
 namespace Pantheon.Serialization.Binary.Surrogates
 {
     public sealed class PrefabSurrogate : ISerializationSurrogate
     {
-        private AssetLoader loader;
-
-        public PrefabSurrogate(AssetLoader loader)
-        {
-            this.loader = loader;
-        }
-
         public void GetObjectData(object obj, SerializationInfo info,
             StreamingContext context)
         {
@@ -27,7 +19,7 @@ namespace Pantheon.Serialization.Binary.Surrogates
             StreamingContext context, ISurrogateSelector selector)
         {
             GameObject go = (GameObject)obj;
-            go = loader.Load<GameObject>(info.GetString("id"));
+            go = Assets.Prefabs[info.GetString("id")];
             obj = go;
             return obj;
         }

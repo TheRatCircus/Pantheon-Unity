@@ -2,7 +2,6 @@
 // Jerome Martina
 
 using Pantheon.Content;
-using Pantheon.Core;
 using Pantheon.Gen;
 using Pantheon.Serialization.Binary.Surrogates;
 using System.IO;
@@ -16,11 +15,8 @@ namespace Pantheon.SaveLoad
     {
         SurrogateSelector selector;
 
-        public SaveWriterReader(AssetLoader loader)
+        public SaveWriterReader()
         {
-            if (loader == null)
-                throw new System.ArgumentNullException();
-
             selector = new SurrogateSelector();
             StreamingContext ctxt = new StreamingContext(StreamingContextStates.All);
 
@@ -28,22 +24,20 @@ namespace Pantheon.SaveLoad
                 new Vector3IntSurrogate());
             selector.AddSurrogate(typeof(Vector2Int), ctxt, 
                 new Vector2IntSurrogate());
-            selector.AddSurrogate(typeof(ScriptableObject), ctxt, 
-                new EntityTemplateSurrogate(loader));
-            selector.AddSurrogate(typeof(TerrainDefinition), ctxt, 
-                new TerrainDefSurrogate(loader));
-            selector.AddSurrogate(typeof(Sprite), ctxt, 
-                new SpriteSurrogate(loader));
-            selector.AddSurrogate(typeof(SpeciesDefinition), ctxt, 
-                new SpeciesDefSurrogate(loader));
             selector.AddSurrogate(typeof(EntityTemplate), ctxt, 
-                new EntityTemplateSurrogate(loader));
+                new EntityTemplateSurrogate());
+            selector.AddSurrogate(typeof(TerrainDefinition), ctxt, 
+                new TerrainDefSurrogate());
+            selector.AddSurrogate(typeof(Sprite), ctxt, 
+                new SpriteSurrogate());
+            selector.AddSurrogate(typeof(SpeciesDefinition), ctxt, 
+                new SpeciesDefSurrogate());
             selector.AddSurrogate(typeof(BuilderPlan), ctxt,
-                new BuilderPlanSurrogate(loader));
+                new BuilderPlanSurrogate());
             selector.AddSurrogate(typeof(GameObject), ctxt,
-                new PrefabSurrogate(loader));
+                new PrefabSurrogate());
             selector.AddSurrogate(typeof(AudioClip), ctxt,
-                new AudioClipSurrogate(loader));
+                new AudioClipSurrogate());
         }
 
         public void WriteSave(Save save)

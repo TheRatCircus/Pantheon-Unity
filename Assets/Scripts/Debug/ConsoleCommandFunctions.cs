@@ -52,10 +52,9 @@ namespace Pantheon.Debug
 
         public static string Spawn(string[] args, GameController ctrl)
         {
-            if (!ctrl.Loader.AssetExists(args[0]))
+            if (!Assets.Templates.TryGetValue(args[0], out EntityTemplate template))
                 return $"No template named \"{args[0]}\" exists.";
 
-            EntityTemplate template = ctrl.Loader.LoadTemplate(args[0]);
             if (Array.Exists(template.Components, ec => { return ec is Actor; }))
             {
                 Entity entity = Core.Spawn.SpawnActor(template,
@@ -80,7 +79,7 @@ namespace Pantheon.Debug
                 return $"{receiver.Name} has no inventory.";
             else
             {
-                EntityTemplate template = ctrl.Loader.LoadTemplate(args[0]);
+                EntityTemplate template = Assets.Templates[args[0]];
                 Entity item = new Entity(template);
                 item.Move(receiver.Level, receiver.Cell);
                 inv.AddItem(item);
@@ -217,7 +216,7 @@ namespace Pantheon.Debug
 
         public static string Vault(string[] args, GameController ctrl)
         {
-            if (!Locator.Loader.AssetExists(args[0]))
+            if (!Assets.Vaults.ContainsKey(args[0]))
                 return $"Vault {args[0]} does not exist.";
 
             string ret;

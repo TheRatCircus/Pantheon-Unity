@@ -19,7 +19,7 @@ namespace Pantheon.Serialization.Json.Converters
             Type objectType, Sprite existingValue,
             bool hasExistingValue, JsonSerializer serializer)
         {
-            return loader.Load<Sprite>((string)reader.Value);
+            return Assets.Sprites[(string)reader.Value];
         }
 
         public override void WriteJson(JsonWriter writer, Sprite value,

@@ -20,7 +20,6 @@ namespace Pantheon
     {
         [SerializeField] private GameObject levelObj = default;
         private Level level;
-        private AssetLoader loader;
 
         [SerializeField] private TextAsset planJsonFile = default;
         [SerializeField] private int sizeX = 200;
@@ -37,17 +36,14 @@ namespace Pantheon
                 return;
             }
 
-            loader = new AssetLoader();
-            Locator.Loader = loader;
-
             JsonSerializerSettings settings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Binders.builder,
+                SerializationBinder = Binders._builder,
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
-                    new TerrainConverter(loader)
+                    new TerrainConverter()
                 }
             };
 
@@ -111,7 +107,7 @@ namespace Pantheon
             for (int i = 0; i < numSpawns; i++)
             {
                 string id = GenericRandomPick<string>.Pick(plan.Population);
-                EntityTemplate template = Locator.Loader.LoadTemplate(id);
+                EntityTemplate template = Assets.Templates[id];
 
                 Cell cell;
                 int attempts = 0;
@@ -145,7 +141,7 @@ namespace Pantheon
                 }
                 else
                 {
-                    EntityTemplate basic = loader.LoadTemplate(Tables.basicItems.Random());
+                    EntityTemplate basic = Assets.Templates[Tables.basicItems.Random()];
                     item = new Entity(basic);
                 }
 

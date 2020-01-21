@@ -54,13 +54,11 @@ namespace Pantheon.Gen
 
         private static Entity MultitossWeapon()
         {
-            EntityTemplate basic = Locator.Loader.LoadTemplate(
-                Tables.basicTossingWeapons.Random());
+            EntityTemplate basic = Assets.Templates[Tables.basicTossingWeapons.Random()];
             Entity relic = new Entity(basic);
 
 
-            GameObject fxPrefab = Locator.Loader.Load<GameObject>(
-                "FX_Toss");
+            GameObject fxPrefab = Assets.TossFXPrefab;
             NonActorCommand nac = new MultitossCommand(null, relic, 3);
             Talent talent = new Talent(11, nac);
 
@@ -80,9 +78,8 @@ namespace Pantheon.Gen
 
         private static Entity ExplosiveMagicWeapon()
         {
-            GameObject fxPrefab = Locator.Loader.Load<GameObject>(
-                Tables.explosionFXIDs.Random());
-            AudioClip sfx = Locator.Loader.Load<AudioClip>("SFX_Explosion");
+            GameObject fxPrefab = Assets.Prefabs[Tables.explosionFXIDs.Random()];
+            AudioClip sfx = Assets.Audio["SFX_Explosion"];
 
             NonActorCommand nac;
             ExplodeCommand expl = new ExplodeCommand(null)
@@ -115,8 +112,7 @@ namespace Pantheon.Gen
 
             Talent talent = new Talent(5, nac);
 
-            EntityTemplate basic = Locator.Loader.LoadTemplate(
-                Tables.basicMagicWeapons.Random());
+            EntityTemplate basic = Assets.Templates[Tables.basicMagicWeapons.Random()];
             Entity relic = new Entity(basic);
 
             if (relic.TryGetComponent(out Evocable evoc))
@@ -135,9 +131,7 @@ namespace Pantheon.Gen
 
         private static void NameRelic(Entity relic, Components.Relic comp)
         {
-            TextAsset nameAsset = Locator.Loader.Load<TextAsset>(
-                "RelicNames");
-            string[] tokens = nameAsset.text.Split(new[] { Environment.NewLine },
+            string[] tokens = Assets.RelicNames.text.Split(new[] { Environment.NewLine },
                 StringSplitOptions.RemoveEmptyEntries);
 
             int r = Random.Range(0, 11);

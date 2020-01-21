@@ -1,7 +1,6 @@
 ﻿// BuilderPlanSurrogate.cs
 // Jerome Martina
 
-using Pantheon.Core;
 using Pantheon.Gen;
 using System.Runtime.Serialization;
 
@@ -9,13 +8,6 @@ namespace Pantheon.Serialization.Binary.Surrogates
 {
     public sealed class BuilderPlanSurrogate : ISerializationSurrogate
     {
-        private AssetLoader loader;
-
-        public BuilderPlanSurrogate(AssetLoader loader)
-        {
-            this.loader = loader;
-        }
-
         public void GetObjectData(object obj, SerializationInfo info,
             StreamingContext context)
         {
@@ -27,7 +19,7 @@ namespace Pantheon.Serialization.Binary.Surrogates
             StreamingContext context, ISurrogateSelector selector)
         {
             BuilderPlan plan = (BuilderPlan)obj;
-            plan = loader.LoadPlan(info.GetString("id"));
+            plan = Assets.BuilderPlans[info.GetString("id")];
             obj = plan;
             return obj;
         }

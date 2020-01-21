@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 330066898
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 8624c9eb04775a608a13438a93732c44
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/Content/BuilderPlans/Plan_Reformatory.json
+- Assets/Content/BuilderPlans/Plan_FloodPlain.json
+- Assets/Content/BuilderPlans/Plan_Subterrane.json
+Dependencies: []

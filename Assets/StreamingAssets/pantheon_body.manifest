@@ -1,0 +1,25 @@
+ManifestFileVersion: 0
+CRC: 3510668687
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 83e908c116396ed02928a396cc866983
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/Content/BodyParts/Human/Part_Human_Head.json
+- Assets/Content/BodyParts/Coyote/Part_Coyote_Legs.json
+- Assets/Content/BodyParts/Human/Part_Human_Legs.json
+- Assets/Content/BodyParts/Human/Part_Human_Arms.json
+- Assets/Content/BodyParts/Coyote/Part_Coyote_Head.json
+- Assets/Content/BodyParts/Coyote/Part_Canine_Teeth.json
+- Assets/Content/BodyParts/Goose/Part_Goose_Legs.json
+- Assets/Content/BodyParts/Goose/Part_Goose_Wings.json
+- Assets/Content/BodyParts/Goose/Part_Goose_Teeth.json
+- Assets/Content/BodyParts/Goose/Part_Goose_Head.json
+Dependencies: []

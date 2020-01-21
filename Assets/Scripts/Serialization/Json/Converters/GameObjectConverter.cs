@@ -16,7 +16,7 @@ namespace Pantheon.Serialization.Json.Converters
             GameObject existingValue, bool hasExistingValue,
             JsonSerializer serializer)
         {
-            return loader.Load<GameObject>((string)reader.Value);
+            return Assets.Prefabs[(string)reader.Value];
         }
 
         public override void WriteJson(JsonWriter writer, GameObject value,

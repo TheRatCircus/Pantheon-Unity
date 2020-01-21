@@ -3,7 +3,6 @@
 
 using UnityEngine;
 using System.Runtime.Serialization;
-using Pantheon.Core;
 
 namespace Pantheon.Serialization.Binary.Surrogates
 {
@@ -12,13 +11,6 @@ namespace Pantheon.Serialization.Binary.Surrogates
     /// </summary>
     public sealed class SpriteSurrogate : ISerializationSurrogate
     {
-        private AssetLoader loader;
-
-        public SpriteSurrogate(AssetLoader loader)
-        {
-            this.loader = loader;
-        }
-
         public void GetObjectData(object obj, SerializationInfo info,
             StreamingContext context)
         {
@@ -30,7 +22,7 @@ namespace Pantheon.Serialization.Binary.Surrogates
             StreamingContext context, ISurrogateSelector selector)
         {
             Sprite sprite = (Sprite)obj;
-            sprite = loader.Load<Sprite>(info.GetString("id"));
+            sprite = Assets.Sprites[info.GetString("id")];
             obj = sprite;
             return obj;
         }

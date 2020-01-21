@@ -47,7 +47,7 @@ namespace Pantheon.Gen
         public static bool Build(string id, World.Level level,
             Vector2Int position)
         {
-            Vault vault = Locator.Loader.Load<Vault>(id);
+            Vault vault = Assets.Vaults[id];
             vault.Initialize();
 
             if (!level.Contains(position + vault.Size))
@@ -65,7 +65,7 @@ namespace Pantheon.Gen
                     if (terrain != null)
                     {
                         level.Map[x, y].Wall = terrain;
-                        level.Map[x, y].Ground = Locator.Loader.Load<TerrainDefinition>("Terrain_StoneFloor");
+                        level.Map[x, y].Ground = Assets.GetTerrain("Terrain_StoneFloor");
                     }
                 }
             return true;

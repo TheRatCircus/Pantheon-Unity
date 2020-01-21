@@ -38,7 +38,6 @@ namespace Pantheon.Core
         public Player Player { get; private set; }
 
         public GameWorld World { get; private set; }
-        public AssetLoader Loader { get; private set; }
         public LevelGenerator Generator { get; private set; }
         public TurnScheduler Scheduler { get; private set; }
         private SaveWriterReader saveSystem;
@@ -54,8 +53,6 @@ namespace Pantheon.Core
 
         private void OnEnable()
         {
-            Loader = new AssetLoader();
-            Locator.Loader = Loader;
             Scheduler = GetComponent<TurnScheduler>();
             Locator.Scheduler = Scheduler;
             Player = GetComponent<Player>();
@@ -65,9 +62,9 @@ namespace Pantheon.Core
 
         public void NewGame(string playerName)
         {
-            saveSystem = new SaveWriterReader(Loader);
+            saveSystem = new SaveWriterReader();
 
-            Generator = new LevelGenerator(Loader);
+            Generator = new LevelGenerator();
             World = new GameWorld(Generator);
 
             World.NewLayer(-2);
@@ -76,7 +73,7 @@ namespace Pantheon.Core
             Level level = surface.RequestLevel(Vector2Int.zero);
             
             // Spawn the player
-            EntityTemplate template = Loader.LoadTemplate("Player");
+            EntityTemplate template = Assets.Templates["Player"];
             Entity player = Spawn.SpawnActor(template, level, level.RandomCell(true));
             player.DestroyedEvent += OnPlayerDeath;
 
@@ -90,13 +87,12 @@ namespace Pantheon.Core
 
         public void LoadGame(string path)
         {
-            saveSystem = new SaveWriterReader(Loader);
+            saveSystem = new SaveWriterReader();
 
             Save save = saveSystem.ReadSave(path);
 
             World = save.World;
             Generator = save.Generator;
-            Generator.Loader = Loader;
             PC = save.Player;
             PC.DestroyedEvent += OnPlayerDeath;
 

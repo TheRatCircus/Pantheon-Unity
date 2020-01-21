@@ -3,7 +3,6 @@
 
 using System.Runtime.Serialization;
 using Pantheon.Content;
-using Pantheon.Core;
 
 namespace Pantheon.Serialization.Binary.Surrogates
 {
@@ -12,13 +11,6 @@ namespace Pantheon.Serialization.Binary.Surrogates
     /// </summary>
     public sealed class TerrainDefSurrogate : ISerializationSurrogate
     {
-        private AssetLoader loader;
-
-        public TerrainDefSurrogate(AssetLoader loader)
-        {
-            this.loader = loader;
-        }
-
         public void GetObjectData(object obj, SerializationInfo info,
             StreamingContext context)
         {
@@ -30,7 +22,7 @@ namespace Pantheon.Serialization.Binary.Surrogates
             StreamingContext context, ISurrogateSelector selector)
         {
             TerrainDefinition td = (TerrainDefinition)obj;
-            td = loader.Load<TerrainDefinition>(info.GetString("id"));
+            td = Assets.GetTerrain(info.GetString("id"));
             obj = td;
             return obj;
         }
