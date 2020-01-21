@@ -12,50 +12,44 @@ namespace Pantheon.Core
     public static class FOV
     {
         // Not in terms of cells
-        public const int FOVRadius = 15;
+        public const int FOVRadius = 10;
 
         private static Vector2Int prev = Level.NullCell;
 
         /// <summary>
         /// Change visibility and reveal new cells.
-        /// <param name="level"></param>
         /// </summary>
         /// <returns>A HashSet of all cells affected by the refresh.</returns>
         public static HashSet<Vector2Int> RefreshFOV(
             Level level, Vector2Int origin, bool drawChanges)
         {
             Profiler.BeginSample("FOV");
-            HashSet<Vector2Int> allRefreshed = new HashSet<Vector2Int>();
+            HashSet<Vector2Int> changed = new HashSet<Vector2Int>();
 
-            Profiler.BeginSample("FOV: Hide Old");
             // Hide cells at the last refresh position
             if (prev != Level.NullCell)
             {
-                List<Vector2Int> old = level.GetSquare(prev, FOVRadius);
+                List<Vector2Int> old = level.GetSquare(prev, 15);
                 foreach (Vector2Int pos in old)
-                    level.SetVisibility(pos.x, pos.y, false);
-                allRefreshed.AddMany(old);
+                {
+                    if (level.SetVisibility(pos.x, pos.y, false))
+                        level.DrawTile(pos);
+                }
             }
-            Profiler.EndSample();
 
-            Profiler.BeginSample("FOV: Refresh");
             for (int octant = 0; octant < 8; octant++)
             {
                 List<Vector2Int> refreshed = ShadowOctant(level,
                     origin, octant);
 
-                allRefreshed.AddMany(refreshed);
+                changed.AddMany(refreshed);
             }
-            Profiler.EndSample();
 
-            Profiler.BeginSample("FOV: Draw");
-            if (drawChanges)
-                level.Draw(allRefreshed);
-            Profiler.EndSample();
+            level.Draw(changed);
 
             prev = origin;
             Profiler.EndSample();
-            return allRefreshed;
+            return changed;
         }
 
         // Coordinates used to transform a point in an octant
@@ -95,15 +89,16 @@ namespace Pantheon.Core
                 {
                     // Break on this row if going out of bounds
                     if (!level.Contains(pos)) break;
-                    // Add new cells to list of updated cells
-                    ret.Add(pos);
                     // Visibility fall off over distance
                     int fallOff = 255;
 
                     // If entire row is known to be in shadow, set this cell to
                     // be in shadow
                     if (fullShadow || pastMaxDistance)
-                        level.SetVisibility(pos.x, pos.y, false);
+                    {
+                        if (level.SetVisibility(pos.x, pos.y, false))
+                            ret.Add(pos);
+                    }
                     else
                     {
                         fallOff = 0;
@@ -123,7 +118,8 @@ namespace Pantheon.Core
 
                         // Set the visibility of this tile
                         bool visible = !line.IsInShadow(projection);
-                        level.SetVisibility(pos.x, pos.y, visible);
+                        if (level.SetVisibility(pos.x, pos.y, visible))
+                            ret.Add(pos);
 
                         // Add any opaque tiles to the shadow map
                         if (visible && level.CellIsOpaque(pos))

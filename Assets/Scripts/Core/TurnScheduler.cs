@@ -3,7 +3,6 @@
 // with modifications by Jerome Martina
 
 using Pantheon.Components;
-using Pantheon.World;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,6 +24,8 @@ namespace Pantheon.Core
 
         private List<Actor> queue = new List<Actor>();
         public List<Actor> Queue => queue;
+
+        private HashSet<Vector2Int> dirtyCells = new HashSet<Vector2Int>();
 
         [ReadOnly] [SerializeField] private int lockCount = 0;
         private Actor currentActor = null;
@@ -89,18 +90,12 @@ namespace Pantheon.Core
                 actor.Energy -= actionCost;
                 ActionDoneEvent?.Invoke();
 
-                // If actor was player or visible, refresh FOV
-                Profiler.BeginSample("Scheduler: Per Command FOV");
-                if (actor.Entity.Visible)
-                {
-                    FOV.RefreshFOV(
-                        player.Entity.Level, player.Entity.Position, true);
-                }
-                Profiler.EndSample();
+                player.Entity.Level.Draw(dirtyCells);
+                dirtyCells.Clear();
 
-                Profiler.BeginSample("Scheduler: Player Only");
                 if (actor.Control == ActorControl.Player)
                 {
+                    FOV.RefreshFOV(player.Entity.Level, player.Entity.Position, true);
                     player.Entity.Level.UpdateFleeMap(player.Entity.Position);
 
                     float speedFactor = actor.Speed / TurnTime;
@@ -119,23 +114,11 @@ namespace Pantheon.Core
                     // Signals a successful player action to HUD
                     PlayerActionEvent?.Invoke(actor.Energy);
                 }
-                Profiler.EndSample();
 
                 // Action may have added a lock
                 if (lockCount > 0)
                     return false;
             }
-
-            // It's possible that scheduler was locked, all energy was burned,
-            // and then scheduler was unlocked again, so refresh one more time
-            Profiler.BeginSample("Scheduler: Final FOV");
-            if (actor.Entity.Visible)
-                if (actor.Control == ActorControl.Player)
-                {
-                    FOV.RefreshFOV(
-                        player.Entity.Level, player.Entity.Position, true);
-                }
-            Profiler.EndSample();
 
             // Give the actor their speed value's worth of energy back
             actor.Energy += actor.Speed;
@@ -173,6 +156,8 @@ namespace Pantheon.Core
             if (currentActor == actor)
                 currentActorRemoved = true;
         }
+
+        public void DirtyCell(Vector2Int cell) => dirtyCells.Add(cell);
 
         public void PlayerToFront()
         {

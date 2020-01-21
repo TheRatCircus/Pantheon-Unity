@@ -194,7 +194,9 @@ namespace Pantheon
             if (TryGetComponent(out Inventory inv))
                 inv.Move(level, cell);
 
+            Locator.Scheduler.DirtyCell(Position);
             Position = cell;
+            Locator.Scheduler.DirtyCell(Position);
         }
 
         public void TakeHit(Entity hitter, Hit hit)

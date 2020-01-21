@@ -3,6 +3,7 @@
 
 using Pantheon.Components;
 using System;
+using UnityEngine;
 
 namespace Pantheon.Core
 {
@@ -16,5 +17,6 @@ namespace Pantheon.Core
         public void Lock() { }
         public void RemoveActor(Actor actor) { }
         public void Unlock() { }
+        public void DirtyCell(Vector2Int cell) { }
     }
 }

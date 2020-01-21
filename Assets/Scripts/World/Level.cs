@@ -1,6 +1,8 @@
 ﻿// Level.cs
 // Jerome Martina
 
+#define DEBUG_DRAW
+
 using Pantheon.Components;
 using Pantheon.Content;
 using Pantheon.Utils;
@@ -41,9 +43,9 @@ namespace Pantheon.World
                 Vector2Int[] ret = new Vector2Int[CellCount];
                 foreach (Chunk chunk in Chunks)
                 {
-                    for (int x = chunk.offsetX; x < chunk.offsetX + Chunk.Width - 1; x++)
+                    for (int x = chunk.offsetX; x < chunk.offsetX + Chunk.Width; x++)
                     {
-                        for (int y = chunk.offsetY; y < chunk.offsetY + Chunk.Height - 1; y++)
+                        for (int y = chunk.offsetY; y < chunk.offsetY + Chunk.Height; y++)
                         {
                             ret[i++] = new Vector2Int(x, y);
                         }
@@ -381,6 +383,9 @@ namespace Pantheon.World
 
         public void DrawTile(Vector2Int cell)
         {
+#if DEBUG_DRAW
+            Debug.Visualisation.MarkPos(cell, Color.cyan, 3f);
+#endif
             Chunk chunk = ChunkContaining(cell.x, cell.y);
 
             if (!chunk.GetFlag(cell.x, cell.y).HasFlag(CellFlag.Revealed))
@@ -395,7 +400,10 @@ namespace Pantheon.World
             else
                 terrainTile = null;
 
-            terrainTilemap.SetTile((Vector3Int)cell, terrainTile);
+            // Only change tile if terrain changed
+            if (terrainTilemap.GetTile((Vector3Int)cell) != terrainTile)
+                terrainTilemap.SetTile((Vector3Int)cell, terrainTile);
+
             terrainTilemap.SetColor((Vector3Int)cell,
                 visible ? Color.white : Color.grey);
 
@@ -453,15 +461,22 @@ namespace Pantheon.World
             chunk.Flags[chunk.Index(x, y)] |= flag;
         }
 
-        public void SetVisibility(int x, int y, bool visible)
+        /// <returns>True if visibility actually changed state.</returns>
+        public bool SetVisibility(int x, int y, bool visible)
         {
+            Chunk chunk = ChunkContaining(x, y);
+            bool noChange;
             if (visible)
             {
-                AddFlag(x, y, CellFlag.Visible);
-                AddFlag(x, y, CellFlag.Revealed);
+                noChange = chunk.Flags[chunk.Index(x, y)].HasFlag(CellFlag.Visible);
+                chunk.Flags[chunk.Index(x, y)] |= CellFlag.Visible | CellFlag.Revealed;
             }
             else
-                RemoveFlag(x, y, CellFlag.Visible);
+            {
+                noChange = !chunk.Flags[chunk.Index(x, y)].HasFlag(CellFlag.Visible | CellFlag.Revealed);
+                chunk.Flags[chunk.Index(x, y)] &= ~CellFlag.Visible;
+            }
+            return !noChange;
         }
 
         public void RemoveFlag(int x, int y, CellFlag flag)
