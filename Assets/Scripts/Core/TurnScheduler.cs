@@ -2,6 +2,9 @@
 // Courtesy of Dan Korostelev
 // with modifications by Jerome Martina
 
+#define DEBUG_SCHEDULER
+#undef DEBUG_SCHEDULER
+
 using Pantheon.Components;
 using Pantheon.World;
 using System;
@@ -66,9 +69,11 @@ namespace Pantheon.Core
 
             while (actor.Energy > 0)
             {
+                Profiler.BeginSample("Scheduler: Act()");
                 currentActor = actor;
                 int actionCost = actor.Act();
                 currentActor = null;
+                Profiler.EndSample();
 
                 if (currentActorRemoved)
                 {
@@ -80,7 +85,9 @@ namespace Pantheon.Core
                     UnityEngine.Debug.LogWarning(
                         "A command with 0 energy cost was scheduled.");
 
+#if DEBUG_SCHEDULER
                 ActorDebugEvent?.Invoke(actor);
+#endif
 
                 // Handle asynchronous input by returning -1
                 if (actionCost < 0)
@@ -90,9 +97,12 @@ namespace Pantheon.Core
                 actor.Energy -= actionCost;
                 ActionDoneEvent?.Invoke();
 
+                Profiler.BeginSample("Scheduler: Draw Dirty");
                 actor.Entity.Level.Draw(dirtyCells);
                 dirtyCells.Clear();
-               
+                Profiler.EndSample();
+
+                Profiler.BeginSample("Scheduler: Player");
                 if (actor.Control == ActorControl.Player)
                 {
                     FOV.RefreshFOV(player.Entity.Level, player.Entity.Cell, true);
@@ -113,6 +123,7 @@ namespace Pantheon.Core
                     // Signals a successful player action to HUD
                     PlayerActionEvent?.Invoke(actor.Energy);
                 }
+                Profiler.EndSample();
                 // Action may have added a lock
                 if (lockCount > 0)
                     return false;
