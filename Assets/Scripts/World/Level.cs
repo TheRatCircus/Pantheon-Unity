@@ -2,10 +2,12 @@
 // Jerome Martina
 
 #define DEBUG_DRAW
+#undef DEBUG_DRAW
 
 using Pantheon.Utils;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.Profiling;
 using UnityEngine.Tilemaps;
@@ -23,7 +25,12 @@ namespace Pantheon.World
         public Vector2Int Size { get; set; }
 
         public Cell[,] Map { get; set; }
-        public Pathfinder PF { get; private set; }
+        [NonSerialized] private Pathfinder pathfinder;
+        public Pathfinder Pathfinder
+        {
+            get => pathfinder;
+            private set => pathfinder = value;
+        }
 
         [NonSerialized] private Transform transform;
         public Transform Transform => transform;
@@ -49,7 +56,7 @@ namespace Pantheon.World
 
         public void Initialize()
         {
-            PF = new Pathfinder(this);
+            Pathfinder = new Pathfinder(this);
         }
 
         public bool TryGetCell(int x, int y, out Cell cell)
@@ -142,7 +149,7 @@ namespace Pantheon.World
         }
 
         public List<Cell> GetPathTo(Cell origin, Cell target)
-            => PF.CellPathList(origin.Position, target.Position);
+            => Pathfinder.CellPathList(origin.Position, target.Position);
 
         /// <summary>
         /// Find a cell by position relative to an origin cell.
@@ -407,15 +414,15 @@ namespace Pantheon.World
             if (cell.Actor != null)
                 cell.Actor.GameObjects[0].SetSpriteVisibility(cell.Visible);
 
-            if (cell.TryGetItem(0, out Entity item))
-            {
-                itemTilemap.SetTile((Vector3Int)cell.Position,
-                    item.Tile);
-                itemTilemap.SetColor((Vector3Int)cell.Position,
-                    cell.Visible ? Color.white : Color.grey);
-            }
-            else
-                itemTilemap.SetTile((Vector3Int)cell.Position, null);
+            //if (cell.TryGetItem(0, out Entity item))
+            //{
+            //    itemTilemap.SetTile((Vector3Int)cell.Position,
+            //        item.Tile);
+            //    itemTilemap.SetColor((Vector3Int)cell.Position,
+            //        cell.Visible ? Color.white : Color.grey);
+            //}
+            //else
+            //    itemTilemap.SetTile((Vector3Int)cell.Position, null);
 
             Profiler.EndSample();
         }
@@ -425,6 +432,18 @@ namespace Pantheon.World
             terrainTilemap.ClearAllTiles();
             itemTilemap.ClearAllTiles();
             splatterTilemap.ClearAllTiles();
+        }
+
+        [OnSerializing]
+        private void OnSerializing(StreamingContext ctxt)
+        {
+            Pathfinder = null;
+        }
+
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext ctxt)
+        {
+            Pathfinder = new Pathfinder(this);
         }
 
         public override string ToString() => $"{DisplayName} {Position}";

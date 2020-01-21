@@ -16,7 +16,7 @@ namespace Pantheon
     [Serializable]
     public sealed class Pathfinder
     {
-        private Node[,] map;
+        private readonly Node[,] map;
 
         public Pathfinder(Level level)
         {
