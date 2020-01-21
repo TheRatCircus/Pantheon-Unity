@@ -189,7 +189,10 @@ namespace Pantheon
             Cell prev = Cell;
 
             if (prev != null)
+            {
                 prev.DeallocateEntity(this);
+                Locator.Scheduler.MarkDirtyCell(prev);
+            }
 
             Level = level;
             Cell = cell;
@@ -200,6 +203,7 @@ namespace Pantheon
                 inv.Move(level, cell);
 
             Cell.AllocateEntity(this);
+            Locator.Scheduler.MarkDirtyCell(Cell);
         }
 
         public void TakeHit(Entity hitter, Hit hit)

@@ -7,6 +7,7 @@ using Pantheon.World;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Pantheon.Core
 {
@@ -24,6 +25,7 @@ namespace Pantheon.Core
 
         private List<Actor> queue = new List<Actor>();
         public List<Actor> Queue => queue;
+        private HashSet<Cell> dirtyCells = new HashSet<Cell>();
 
         [ReadOnly] [SerializeField] private int lockCount = 0;
         private Actor currentActor = null;
@@ -65,7 +67,6 @@ namespace Pantheon.Core
             while (actor.Energy > 0)
             {
                 currentActor = actor;
-
                 int actionCost = actor.Act();
                 currentActor = null;
 
@@ -88,17 +89,14 @@ namespace Pantheon.Core
                 // An action has just been done
                 actor.Energy -= actionCost;
                 ActionDoneEvent?.Invoke();
-                
-                // If actor was player or visible, refresh FOV
-                if (actor.Control == ActorControl.Player || actor.Entity.Cell.Visible)
-                {
-                    HashSet<Cell> refreshed = FOV.RefreshFOV(
-                        player.Entity.Level, player.Entity.Cell, true);
-                    player.RecalculateVisible(refreshed);
-                }
 
+                actor.Entity.Level.Draw(dirtyCells);
+                dirtyCells.Clear();
+               
                 if (actor.Control == ActorControl.Player)
                 {
+                    FOV.RefreshFOV(player.Entity.Level, player.Entity.Cell, true);
+                    
                     float speedFactor = actor.Speed / TurnTime;
                     turnProgress += Mathf.FloorToInt(actionCost / speedFactor);
                     if (turnProgress >= TurnTime)
@@ -119,16 +117,6 @@ namespace Pantheon.Core
                 if (lockCount > 0)
                     return false;
             }
-
-            // It's possible that scheduler was locked, all energy was burned,
-            // and then scheduler was unlocked again, so refresh one more time
-            if (actor.Control == ActorControl.Player || actor.Entity.Cell.Visible)
-            {
-                HashSet<Cell> refreshed = FOV.RefreshFOV(
-                    player.Entity.Level, player.Entity.Cell, true);
-                player.RecalculateVisible(refreshed);
-            }
-
             // Give the actor their speed value's worth of energy back
             actor.Energy += actor.Speed;
 
@@ -163,5 +151,7 @@ namespace Pantheon.Core
             if (currentActor == actor)
                 currentActorRemoved = true;
         }
+
+        public void MarkDirtyCell(Cell cell) => dirtyCells.Add(cell);
     }
 }

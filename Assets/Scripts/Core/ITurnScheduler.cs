@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Pantheon.Components;
+using Pantheon.World;
 using System;
 
 namespace Pantheon.Core
@@ -12,6 +13,7 @@ namespace Pantheon.Core
         void RemoveActor(Actor actor);
         void Lock();
         void Unlock();
+        void MarkDirtyCell(Cell cell);
         event Action ClockTickEvent;
     }
 }

@@ -1,10 +1,13 @@
 ﻿// Level.cs
 // Jerome Martina
 
+#define DEBUG_DRAW
+
 using Pantheon.Utils;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Profiling;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
@@ -380,33 +383,41 @@ namespace Pantheon.World
 
         public void DrawTile(Cell cell)
         {
-            if (cell.Revealed)
-            {
-                RuleTile terrainTile;
-                if (cell.Wall != null)
-                    terrainTile = cell.Wall.Tile;
-                else if (cell.Ground != null)
-                    terrainTile = cell.Ground.Tile;
-                else
-                    terrainTile = null;
+#if DEBUG_DRAW
+            Debug.Visualisation.MarkCell(cell, 3f);
+#endif
+            if (!cell.Revealed)
+                return;
 
+            Profiler.BeginSample("Level.DrawTile()");
+
+            RuleTile terrainTile;
+            if (cell.Wall != null)
+                terrainTile = cell.Wall.Tile;
+            else if (cell.Ground != null)
+                terrainTile = cell.Ground.Tile;
+            else
+                terrainTile = null;
+
+            if (terrainTilemap.GetTile((Vector3Int)cell.Position) != terrainTile)
                 terrainTilemap.SetTile((Vector3Int)cell.Position, terrainTile);
-                terrainTilemap.SetColor((Vector3Int)cell.Position,
+            terrainTilemap.SetColor((Vector3Int)cell.Position,
+                cell.Visible ? Color.white : Color.grey);
+
+            if (cell.Actor != null)
+                cell.Actor.GameObjects[0].SetSpriteVisibility(cell.Visible);
+
+            if (cell.TryGetItem(0, out Entity item))
+            {
+                itemTilemap.SetTile((Vector3Int)cell.Position,
+                    item.Tile);
+                itemTilemap.SetColor((Vector3Int)cell.Position,
                     cell.Visible ? Color.white : Color.grey);
-
-                if (cell.Actor != null)
-                    cell.Actor.GameObjects[0].SetSpriteVisibility(cell.Visible);
-
-                if (cell.TryGetItem(0, out Entity item))
-                {
-                    itemTilemap.SetTile((Vector3Int)cell.Position,
-                        item.Tile);
-                    itemTilemap.SetColor((Vector3Int)cell.Position,
-                        cell.Visible ? Color.white : Color.grey);
-                }
-                else
-                    itemTilemap.SetTile((Vector3Int)cell.Position, null);
             }
+            else
+                itemTilemap.SetTile((Vector3Int)cell.Position, null);
+
+            Profiler.EndSample();
         }
 
         public void ClearTilemaps()

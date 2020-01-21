@@ -1,6 +1,8 @@
 ﻿// Cell.cs
 // Jerome Martina
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Pantheon.Components;
 using Pantheon.Content;
 using System;
@@ -9,6 +11,14 @@ using UnityEngine;
 
 namespace Pantheon.World
 {
+    [Flags]
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum CellFlag : byte
+    {
+        Visible = 1 << 0,
+        Revealed = 1 << 1
+    }
+
     [Serializable]
     public sealed class Cell
     {
@@ -31,9 +41,30 @@ namespace Pantheon.World
                 Y = (byte)value.y;
             }
         }
+        public CellFlag Flags { get; set; }
 
-        public bool Visible { get; set; } = false;
-        public bool Revealed { get; set; } = false;
+        public bool Visible
+        {
+            get => Flags.HasFlag(CellFlag.Visible);
+            set
+            {
+                if (value)
+                    Flags |= CellFlag.Visible;
+                else
+                    Flags &= ~CellFlag.Visible;
+            }
+        }
+        public bool Revealed
+        {
+            get => Flags.HasFlag(CellFlag.Revealed);
+            set
+            {
+                if (value)
+                    Flags |= CellFlag.Revealed;
+                else
+                    Flags &= ~CellFlag.Revealed;
+            }
+        }
 
         public TerrainDefinition Ground { get; set; }
         public TerrainDefinition Wall { get; set; }
@@ -71,23 +102,31 @@ namespace Pantheon.World
 
         public Cell(Vector2Int position) => Position = position;
 
-        public void SetVisibility(bool visible, int fallOff)
+        /// <returns>True if a change in visibility actually occurred.</returns>
+        public bool SetVisibility(bool visible, int fallOff)
         {
+            bool noChange;
             if (!visible)
             {
+                noChange = !Visible || !Revealed;
                 Visible = false;
-                return;
             }
             else
             {
+                
                 if (fallOff > 100)
+                {
+                    noChange = !Visible || !Revealed;
                     Visible = false;
+                }
                 else
                 {
+                    noChange = Visible;
                     Visible = true;
                     Revealed = true;
                 }
             }
+            return !noChange;
         }
 
         /// <summary>
