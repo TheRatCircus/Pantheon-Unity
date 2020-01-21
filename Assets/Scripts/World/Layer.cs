@@ -10,7 +10,7 @@ namespace Pantheon.World
     /// <summary>
     /// A horizontal slice of the game world.
     /// </summary>
-    [Serializable]
+    [System.Serializable]
     public sealed class Layer
     {
         public int ZLevel { get; private set; }

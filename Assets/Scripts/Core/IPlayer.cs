@@ -1,8 +1,8 @@
 ﻿// IPlayer.cs
 // Jerome Martina
 
-using Pantheon.Utils;
-using UnityEngine;
+using Pantheon.World;
+using System.Collections.Generic;
 
 namespace Pantheon.Core
 {
@@ -10,8 +10,9 @@ namespace Pantheon.Core
     {
         Entity Entity { get; }
         InputMode Mode { get; set; }
-        InputMode RequestCell(out Vector2Int cell, int range);
-        InputMode RequestLine(out Line line, int range);
-        Vector2Int GetTargetedAdjacent();
+        void RecalculateVisible(IEnumerable<Cell> cells);
+        HashSet<Entity> VisibleActors { get; }
+        InputMode RequestCell(out Cell cell, int range);
+        InputMode RequestLine(out List<Cell> line, int range);
     }
 }

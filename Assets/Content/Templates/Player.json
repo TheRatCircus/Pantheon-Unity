@@ -7,7 +7,9 @@
     {
       "$type": "Actor",
       "control": "Player",
-      "Speed": 100
+      "Speed": 100,
+      "Energy": 0,
+      "Command": null
     },
     {
       "$type": "Health",
@@ -15,27 +17,19 @@
       "RegenTime": 800,
       "Regenerating": true
     },
-	  {
-	    "$type": "Inventory",
-	    "Size": 40
-	  },
+	{
+	  "$type": "Inventory",
+	  "Size": 40
+	},
     {
-	    "$type": "Species",
+	  "$type": "Species",
       "SpeciesDef": "Species_Human"
     },
-    {
+	{
       "$type": "Status",
       "Statuses": []
     },
-    {
-      "$type": "Talents",
-      "All": [
-        {
-          "$type": "Punch"
-        }
-      ]
-    },
-	  {
+	{
       "$type": "Wield",
       "Items": [
         null,

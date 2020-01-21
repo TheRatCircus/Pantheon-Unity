@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Newtonsoft.Json;
+using Pantheon.Core;
 using Pantheon.Utils;
 using System;
 using System.Runtime.Serialization;
@@ -48,12 +49,18 @@ namespace Pantheon.Components
             Current = this.max;
             this.regenTime = regenTime;
             RegenProgress = this.regenTime;
+            Locator.Scheduler.ClockTickEvent += Regen;
         }
 
-        public Health(int current)
+        public Health(int max, int regenTime,
+            int current, int regenProgress, bool regenerating, bool invincible)
+            : this(max, regenTime)
         {
             Current = current;
-            Locator.Scheduler.ClockTickEvent += Regen;
+            RegenTime = regenTime;
+            RegenProgress = regenProgress;
+            Regenerating = regenerating;
+            Invincible = invincible;
         }
 
         /// <returns>True if entity ran out of health.</returns>
@@ -103,20 +110,9 @@ namespace Pantheon.Components
         public override EntityComponent Clone(bool full)
         {
             if (full)
-                return new Health(Current)
-                {
-                    Max = Max,
-                    RegenTime = RegenTime,
-                    RegenProgress = RegenProgress,
-                    Regenerating = Regenerating,
-                    Invincible = Invincible
-                };
+                return new Health(Max, RegenTime, Current, RegenProgress, Regenerating, Invincible);
             else
-                return new Health()
-                {
-                    Max = Max,
-                    RegenTime = RegenTime
-                };
+                return new Health(Max, RegenTime);
         }
 
         public override string ToString()

@@ -18,6 +18,9 @@ namespace Pantheon.SaveLoad
 
         public SaveWriterReader(AssetLoader loader)
         {
+            if (loader == null)
+                throw new System.ArgumentNullException();
+
             selector = new SurrogateSelector();
             StreamingContext ctxt = new StreamingContext(StreamingContextStates.All);
 
@@ -76,7 +79,7 @@ namespace Pantheon.SaveLoad
 
                 FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read);
                 // Move stream to save object
-                _ = formatter.Deserialize(stream) as string;
+                string name = formatter.Deserialize(stream) as string;
                 Save save = formatter.Deserialize(stream) as Save;
                 stream.Close();
 

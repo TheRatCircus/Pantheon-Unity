@@ -12,10 +12,10 @@ namespace Pantheon.Gen
 {
     public sealed class BinarySpacePartition : BuilderStep
     {
-        [JsonProperty] private readonly int minRoomSize = 10;
-        [JsonProperty] private readonly bool tightFill;
+        [JsonProperty] private int minRoomSize = 10;
+        [JsonProperty] private bool tightFill;
         // Terrain with which to fill rooms
-        [JsonProperty] private readonly TerrainDefinition terrain = default;
+        [JsonProperty] private TerrainDefinition terrain = default;
 
         public BinarySpacePartition(string terrainID, int minRoomSize, bool tightFill)
         {
@@ -37,7 +37,7 @@ namespace Pantheon.Gen
         {
             List<Leaf> leaves = new List<Leaf>();
 
-            Leaf root = new Leaf(0, 0, level.CellSize.x, level.CellSize.y);
+            Leaf root = new Leaf(0, 0, level.Size.x, level.Size.y);
             leaves.Add(root);
 
             bool didSplit = true;
@@ -67,7 +67,7 @@ namespace Pantheon.Gen
             for (int i = 0; i < leaves.Count; i++)
             {
                 if (leaves[i].Room != null)
-                    Utils.FillRectTerrain(level, leaves[i].Room, terrain);
+                    Utils.FillRectTerrain(level, leaves[i].Room, null, terrain);
 
                 if (leaves[i].Halls != null)
                     foreach (LevelRect hall in leaves[i].Halls)
@@ -77,7 +77,7 @@ namespace Pantheon.Gen
                             new Vector2Int(
                                 hall.x2 - hall.x1 + 2,
                                 hall.y2 - hall.y1 + 2));
-                        Utils.FillRectTerrain(level, hall, terrain);
+                        Utils.FillRectTerrain(level, hall, null, terrain);
                     }
             }
         }

@@ -7,22 +7,14 @@
     {
       "$type": "Actor",
       "control": "AI",
-      "Speed": 100
+      "Speed": 100,
+      "Command": null
     },
     {
       "$type": "AI",
-      "Utilities": [
-        {
-          "$type": "ApproachUtility"
-        },
-        {
-          "$type": "AttackUtility",
-          "Aggression": 50
-        },
-        {
-          "$type": "FleeUtility"
-        }
-      ]
+      "Strategy": {
+        "$type": "DefaultStrategy"
+	  }
     },
     {
       "$type": "Health",
@@ -34,17 +26,9 @@
 	  "$type": "Species",
       "SpeciesDef": "Species_Coyote"
     },
-    {
+	{
       "$type": "Status",
       "Statuses": []
-    },
-    {
-      "$type": "Talents",
-      "All": [
-        {
-          "$type": "Punch"
-        }
-      ]
     }
   ]
 }

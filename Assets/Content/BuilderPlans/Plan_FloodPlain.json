@@ -3,12 +3,13 @@
   "Steps": [
     {
       "$type": "Fill",
-      "terrain": "Terrain_Water"
+      "ground": "Terrain_Water",
+      "wall": null
     },
     {
       "$type": "BinarySpacePartition",
       "minRoomSize": 8,
-	    "tightFill": false,
+	  "tightFill": false,
       "terrain": "Terrain_Grass"
     }
   ]

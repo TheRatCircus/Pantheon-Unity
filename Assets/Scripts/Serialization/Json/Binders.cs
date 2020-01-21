@@ -4,7 +4,6 @@
 using Pantheon.Commands.NonActor;
 using Pantheon.Components;
 using Pantheon.Components.Statuses;
-using Pantheon.Content.Talents;
 using Pantheon.Gen;
 using System;
 using System.Collections.Generic;
@@ -15,7 +14,7 @@ namespace Pantheon.Serialization.Json
     /// <summary> Serialization binders for use with JSON.NET. </summary>
     public static class Binders
     {
-        public static readonly SerializationBinder _builder
+        public static readonly SerializationBinder builder
             = new SerializationBinder
             {
                 KnownTypes = new List<Type>()
@@ -28,7 +27,7 @@ namespace Pantheon.Serialization.Json
                 }
             };
 
-        public static readonly SerializationBinder _entity
+        public static readonly SerializationBinder entity
             = new SerializationBinder
             {
                 KnownTypes = new List<Type>()
@@ -38,6 +37,7 @@ namespace Pantheon.Serialization.Json
                     typeof(Ammo),
                     typeof(Body),
                     typeof(Corpse),
+                    typeof(Evocable),
                     typeof(Health),
                     typeof(Inventory),
                     typeof(Melee),
@@ -47,24 +47,22 @@ namespace Pantheon.Serialization.Json
                     typeof(Size),
                     typeof(Species),
                     typeof(Status),
-                    typeof(Talents),
                     typeof(Weight),
                     typeof(Wield),
-                    // AI utilities
-                    typeof(AIUtility),
-                    typeof(ApproachUtility),
-                    typeof(AttackUtility),
-                    typeof(FleeUtility),
                     // Commands
                     typeof(ExplodeCommand),
                     typeof(LineEffectCommand),
                     typeof(PointEffectCommand),
                     typeof(StatusCommand),
+                    // AI strategies
+                    typeof(DefaultStrategy),
+                    typeof(SleepStrategy),
+                    typeof(WanderStrategy),
+                    typeof(ThrallFollowStrategy),
                     // Statuses
                     typeof(Momentum),
-                    // Talents
-                    typeof(Talent),
-                    typeof(Punch)
+                    // Misc
+                    typeof(Talent)
                 }
             };
     }

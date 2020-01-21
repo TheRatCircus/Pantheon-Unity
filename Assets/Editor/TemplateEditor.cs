@@ -27,7 +27,7 @@ namespace PantheonEditor
             = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Objects,
-            SerializationBinder = Binders._entity,
+            SerializationBinder = Binders.entity,
             Formatting = Formatting.Indented,
             Converters = new List<JsonConverter>()
             {

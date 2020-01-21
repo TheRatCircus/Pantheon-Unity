@@ -43,98 +43,101 @@ namespace Pantheon.Gen
         private static readonly Func<Entity>[] TossingWeaponFunctions
             = new Func<Entity>[]
         {
-            //MultitossWeapon
+            MultitossWeapon
         };
 
         private static readonly Func<Entity>[] MagicWeaponFunctions
             = new Func<Entity>[]
         {
-            //ExplosiveMagicWeapon
+            ExplosiveMagicWeapon
         };
 
-        //private static Entity MultitossWeapon()
-        //{
-        //    EntityTemplate basic = Assets.Templates[
-        //        Tables.basicTossingWeapons.Random()];
-        //    Entity relic = new Entity(basic);
+        private static Entity MultitossWeapon()
+        {
+            EntityTemplate basic = Locator.Loader.LoadTemplate(
+                Tables.basicTossingWeapons.Random());
+            Entity relic = new Entity(basic);
 
-        //    GameObject fxPrefab = Assets.TossFXPrefab;
-        //    NonActorCommand nac = new MultitossCommand(null, relic, 3);
-        //    Talent talent = new Talent(11, nac);
 
-        //    if (relic.TryGetComponent(out Talents evoc))
-        //    {
-        //        evoc.AddTalent(talent);
-        //    }
-        //    else
-        //    {
-        //        Talents newEvoc = new Talents(TurnScheduler.TurnTime, talent);
-        //        newEvoc.AddTalent(talent);
-        //        relic.AddComponent(newEvoc);
-        //    }
+            GameObject fxPrefab = Locator.Loader.Load<GameObject>(
+                "FX_Toss");
+            NonActorCommand nac = new MultitossCommand(null, relic, 3);
+            Talent talent = new Talent(11, nac);
 
-        //    return relic;
-        //}
+            if (relic.TryGetComponent(out Evocable evoc))
+            {
+                evoc.AddTalent(talent);
+            }
+            else
+            {
+                Evocable newEvoc = new Evocable(TurnScheduler.TurnTime, talent);
+                newEvoc.AddTalent(talent);
+                relic.AddComponent(newEvoc);
+            }
 
-        //private static Entity ExplosiveMagicWeapon()
-        //{
-        //    GameObject fxPrefab = Assets.Prefabs[
-        //        Tables.explosionFXIDs.Random()];
-        //    AudioClip sfx = Assets.Audio["SFX_Explosion"];
+            return relic;
+        }
 
-        //    NonActorCommand nac;
-        //    ExplodeCommand expl = new ExplodeCommand(null)
-        //    {
-        //        Prefab = fxPrefab,
-        //        Sound = sfx,
-        //        Damages = new Damage[] {
-        //            new Damage()
-        //            {
-        //                Min = 7,
-        //                Max = 14,
-        //                Type = DamageType.Piercing
-        //            }
-        //        }
-        //    };
+        private static Entity ExplosiveMagicWeapon()
+        {
+            GameObject fxPrefab = Locator.Loader.Load<GameObject>(
+                Tables.explosionFXIDs.Random());
+            AudioClip sfx = Locator.Loader.Load<AudioClip>("SFX_Explosion");
 
-        //    int r = Random.Range(0, 2);
-        //    switch (r)
-        //    {
-        //        default:
-        //        case 0:
-        //            expl.Pattern = ExplosionPattern.Point;
-        //            nac = new PointEffectCommand(null, expl);
-        //            break;
-        //        case 1:
-        //            expl.Pattern = ExplosionPattern.Line;
-        //            nac = new LineEffectCommand(null, expl);
-        //            break;
-        //    }
+            NonActorCommand nac;
+            ExplodeCommand expl = new ExplodeCommand(null)
+            {
+                Prefab = fxPrefab,
+                Sound = sfx,
+                Damages = new Damage[] {
+                    new Damage()
+                    {
+                        Min = 7,
+                        Max = 14,
+                        Type = DamageType.Piercing
+                    }
+                }
+            };
 
-        //    Talent talent = new Talent(5, nac);
+            int r = Random.Range(0, 2);
+            switch (r)
+            {
+                default:
+                case 0:
+                    expl.Pattern = ExplosionPattern.Point;
+                    nac = new PointEffectCommand(null, expl);
+                    break;
+                case 1:
+                    expl.Pattern = ExplosionPattern.Line;
+                    nac = new LineEffectCommand(null, expl);
+                    break;
+            }
 
-        //    EntityTemplate basic = Assets.Templates[
-        //        Tables.basicMagicWeapons.Random()];
-        //    Entity relic = new Entity(basic);
+            Talent talent = new Talent(5, nac);
 
-        //    if (relic.TryGetComponent(out Talents evoc))
-        //    {
-        //        evoc.AddTalent(talent);
-        //    }
-        //    else
-        //    {
-        //        Talents newEvoc = new Talents(TurnScheduler.TurnTime, talent);
-        //        newEvoc.AddTalent(talent);
-        //        relic.AddComponent(newEvoc);
-        //    }
+            EntityTemplate basic = Locator.Loader.LoadTemplate(
+                Tables.basicMagicWeapons.Random());
+            Entity relic = new Entity(basic);
 
-        //    return relic;
-        //}
+            if (relic.TryGetComponent(out Evocable evoc))
+            {
+                evoc.AddTalent(talent);
+            }
+            else
+            {
+                Evocable newEvoc = new Evocable(TurnScheduler.TurnTime, talent);
+                newEvoc.AddTalent(talent);
+                relic.AddComponent(newEvoc);
+            }
+
+            return relic;
+        }
 
         private static void NameRelic(Entity relic, Components.Relic comp)
         {
-            string[] tokens = Assets.RelicNames.text.Split(
-                new[] { Environment.NewLine },
+            TextAsset nameAsset = Locator.Loader.Load<TextAsset>(
+                "RelicNames");
+            string[] tokens = nameAsset.text.Split(new[] { Environment.NewLine },
                 StringSplitOptions.RemoveEmptyEntries);
 
             int r = Random.Range(0, 11);

@@ -13,9 +13,5 @@ namespace Pantheon.Core
         SpeciesDefinition LoadSpeciesDef(string name);
         BodyPart LoadBodyPart(string name);
         bool AssetExists(string name);
-
-        // TODO: Temporary
-        TerrainDefinition GetTerrain(byte index);
-        byte GetTerrainIndex(TerrainDefinition terrain);
     }
 }

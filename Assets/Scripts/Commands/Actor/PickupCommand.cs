@@ -18,8 +18,7 @@ namespace Pantheon.Commands.Actor
                 throw new System.Exception(
                     $"{Entity} has no inventory.");
 
-            Entity item = Entity.Level.FirstItemAt(Entity.Position);
-            if (item == null)
+            if (!Entity.Cell.TryGetItem(0, out Entity item))
             {
                 cost = -1;
 
@@ -34,7 +33,7 @@ namespace Pantheon.Commands.Actor
                 return CommandResult.Failed;
             }
 
-            //item.Cell.RemoveEntity(item);
+            item.Cell.DeallocateEntity(item);
             inv.AddItem(item);
             cost = Core.TurnScheduler.TurnTime;
 

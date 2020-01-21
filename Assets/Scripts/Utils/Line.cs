@@ -3,33 +3,21 @@
 
 using Pantheon.World;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Pantheon.Utils
 {
     /// <summary>
-    /// One-dimensional ordered List of cells. Also use for paths.
+    /// Ordered List of cells.
     /// </summary>
-    public class Line : List<Vector2Int>
+    public class Line : List<Cell>
     {
-        public Level Level { get; set; }
-
-        public Line() { }
-
-        public Line(int capacity) => Capacity = capacity;
-
-        public Line(Line line)
-        {
-            foreach (Vector2Int cell in line)
-                Add(cell);
-        }
-
         public bool IsObstructed()
         {
-            foreach (Vector2Int cell in this)
-                if (Level.CellIsBlocked(cell))
+            foreach (Cell cell in this)
+            {
+                if (cell.Blocked)
                     return true;
-            
+            }
             return false;
         }
     }

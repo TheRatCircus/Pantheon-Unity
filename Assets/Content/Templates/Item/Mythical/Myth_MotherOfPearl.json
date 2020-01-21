@@ -25,9 +25,29 @@
       "$type": "Relic",
       "Name": "Mother of Pearl"
     },
-    {
-      "$type": "Talents",
-      "All": []
+	{
+      "$type": "Evocable",
+      "EvokeTime": 100,
+      "Talents": [
+        {
+          "Range": 5,
+          "Commands": [
+            {
+              "$type": "PointEffectCommand",
+              "cmd": {
+                "$type": "StatusCommand",
+                "Definition": "Status_Momentum",
+                "Duration": 300,
+                "Magnitude": 1,
+                "Entity": null
+              },
+              "Cell": null,
+              "Range": 5,
+              "Entity": null
+            }
+          ]
+        }
+      ]
     },
     {
       "$type": "Size",

@@ -42,13 +42,11 @@ namespace Pantheon.Debug
 
         public static string RevealLevel(string[] args, GameController ctrl)
         {
-            Level level = ctrl.World.ActiveLevel;
-            foreach (Vector2Int cell in ctrl.World.ActiveLevel.Map)
+            foreach (Cell c in ctrl.World.ActiveLevel.Map)
             {
-                ctrl.World.ActiveLevel.AddFlag(cell.x, cell.y, CellFlag.Revealed);
-                ctrl.World.ActiveLevel.Draw(new[] { cell });
+                c.Revealed = true;
+                ctrl.World.ActiveLevel.Draw(new[] { c });
             }
-
             return "Level revealed.";
         }
 
@@ -60,10 +58,8 @@ namespace Pantheon.Debug
             EntityTemplate template = ctrl.Loader.LoadTemplate(args[0]);
             if (Array.Exists(template.Components, ec => { return ec is Actor; }))
             {
-                Entity entity = Core.Spawn.SpawnActor(
-                    template,
-                    ctrl.World.ActiveLevel,
-                    ctrl.Cursor.HoveredCell);
+                Entity entity = Core.Spawn.SpawnActor(template,
+                    ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell);
                 ctrl.AssignGameObject(entity);
                 return $"Spawned {entity} at {ctrl.Cursor.HoveredCell}.";
             }
@@ -71,14 +67,14 @@ namespace Pantheon.Debug
             {
                 Entity entity = new Entity(template);
                 entity.Move(ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell);
-                FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Position, true);
+                FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Cell, true);
                 return $"Spawned {entity} at {ctrl.Cursor.HoveredCell}.";
             }
         }
 
         public static string Give(string[] args, GameController ctrl)
         {
-            Entity receiver = ctrl.World.ActiveLevel.ActorAt(ctrl.Cursor.HoveredCell);
+            Entity receiver = ctrl.Cursor.HoveredCell.Actor;
             
             if (!receiver.TryGetComponent(out Inventory inv))
                 return $"{receiver.Name} has no inventory.";
@@ -86,7 +82,7 @@ namespace Pantheon.Debug
             {
                 EntityTemplate template = ctrl.Loader.LoadTemplate(args[0]);
                 Entity item = new Entity(template);
-                item.Move(receiver.Level, receiver.Position);
+                item.Move(receiver.Level, receiver.Cell);
                 inv.AddItem(item);
                 return $"Gave {item.Name} to {receiver.Name}.";
             }
@@ -104,7 +100,7 @@ namespace Pantheon.Debug
 
         public static string DescribeComponent(string[] args, GameController ctrl)
         {
-            Entity e = ctrl.World.ActiveLevel.ActorAt(ctrl.Cursor.HoveredCell);
+            Entity e = ctrl.Cursor.HoveredCell.Actor;
             switch (args[0].ToLower())
             {
                 case "actor":
@@ -122,7 +118,7 @@ namespace Pantheon.Debug
 
         public static string Destroy(string[] args, GameController ctrl)
         {
-            Entity e = ctrl.World.ActiveLevel.ActorAt(ctrl.Cursor.HoveredCell);
+            Entity e = ctrl.Cursor.HoveredCell.Actor;
             if (e == null)
                 return $"Nothing under the cursor to destroy.";
             e.Destroy(null);
@@ -148,22 +144,49 @@ namespace Pantheon.Debug
 
         public static string Teleport(string[] args, GameController ctrl)
         {
-            Vector2Int cell = ctrl.Cursor.HoveredCell;
-            if (ctrl.World.ActiveLevel.Walkable(cell))
+            Cell cell = ctrl.Cursor.HoveredCell;
+            if (Cell.Walkable(cell))
             {
                 ctrl.PC.Move(ctrl.PC.Level, cell);
-                FOV.RefreshFOV(ctrl.PC.Level, ctrl.PC.Position, true);
+                FOV.RefreshFOV(ctrl.PC.Level, ctrl.PC.Cell, true);
                 return $"Teleported player to {cell}.";
             }
             else
                 return "Targeted cell is not walkable.";
         }
 
+        public static string Strategy(string[] args, GameController ctrl)
+        {
+            if (ctrl.Cursor.HoveredCell.Actor == null)
+                return "No NPC in selected cell.";
+
+            if (!ctrl.Cursor.HoveredCell.Actor.TryGetComponent(out AI ai))
+                return "Entity in selected cell has no AI.";
+
+            switch (args[0].ToLower())
+            {
+                case "default":
+                    ai.Strategy = new DefaultStrategy();
+                    return $"Changed strategy of {ai.Entity} to Default.";
+                case "wander":
+                    ai.Strategy = new WanderStrategy();
+                    return $"Changed strategy of {ai.Entity} to Wander.";
+                case "sleep":
+                    ai.Strategy = new SleepStrategy();
+                    return $"Changed strategy of {ai.Entity} to Sleep.";
+                case "thrallfollow":
+                    ai.Strategy = new ThrallFollowStrategy(ctrl.PC.GetComponent<Actor>());
+                    return $"Changed strategy of {ai.Entity} to Thrall Follow.";
+                default:
+                    return $"Strategy {args[0]} does not exist.";
+            }
+        }
+
         public static string Relic(string[] args, GameController ctrl)
         {
             Entity relic = Gen.Relic.MakeRelic();
             relic.Move(ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell);
-            FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Position, true);
+            FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Cell, true);
             return $"Spawned {relic} at {ctrl.Cursor.HoveredCell}.";
         }
 
@@ -182,23 +205,30 @@ namespace Pantheon.Debug
 
         public static string Enthrall(string[] args, GameController ctrl)
         {
-            throw new NotImplementedException();
+            if (ctrl.Cursor.HoveredCell.Actor == null)
+                return "No NPC in selected cell.";
+
+            if (!ctrl.Cursor.HoveredCell.Actor.TryGetComponent(out AI ai))
+                return "Entity in selected cell has no AI.";
+
+            ai.Strategy = new ThrallFollowStrategy(ctrl.PC.GetComponent<Actor>());
+            return $"Changed strategy of {ai.Entity} to Thrall Follow.";
         }
 
         public static string Vault(string[] args, GameController ctrl)
         {
-            if (!Assets.Vaults.TryGetValue(args[0], out Gen.Vault vault))
+            if (!Locator.Loader.AssetExists(args[0]))
                 return $"Vault {args[0]} does not exist.";
 
             string ret;
             
-            if (!Gen.Vault.Build(vault, ctrl.World.ActiveLevel,
-                ctrl.Cursor.HoveredCell))
-                ret = $"Failed to build vault {args[0]} at {ctrl.Cursor.HoveredCell}.";
+            if (!Gen.Vault.Build(args[0], ctrl.World.ActiveLevel,
+                ctrl.Cursor.HoveredCell.Position))
+                ret = $"Failed to build vault {args[0]} at {ctrl.Cursor.HoveredCell.Position}.";
             else
-                ret = $"Successfully built vault {args[0]} at {ctrl.Cursor.HoveredCell}.";
+                ret = $"Successfully built vault {args[0]} at {ctrl.Cursor.HoveredCell.Position}.";
 
-            FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Position, true);
+            FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Cell, true);
             return ret;
         }
 
@@ -244,13 +274,12 @@ namespace Pantheon.Debug
 
         public static string KillLevel(string[] args, GameController ctrl)
         {
-            foreach (Entity entity in ctrl.World.ActiveLevel.Actors)
+            foreach (Cell c in ctrl.World.ActiveLevel.Map)
             {
-                if (!entity.PlayerControlled)
-                    entity.Destroy(null);
+                if (c.Actor != null && !c.Actor.PlayerControlled)
+                    c.Actor.Destroy(null);
             }
-
-            FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Position, true);
+            FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Cell, true);
             return $"Killed all NPCs in {ctrl.World.ActiveLevel}.";
         }
     }

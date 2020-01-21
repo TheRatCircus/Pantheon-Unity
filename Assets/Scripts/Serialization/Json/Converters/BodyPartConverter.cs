@@ -17,7 +17,7 @@ namespace Pantheon.Serialization.Json.Converters
         public override BodyPart ReadJson(JsonReader reader, Type objectType,
             BodyPart existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            return Assets.BodyParts[(string)reader.Value];
+            return loader.LoadBodyPart(reader.Value as string);
         }
 
         public override void WriteJson(JsonWriter writer, BodyPart value, 

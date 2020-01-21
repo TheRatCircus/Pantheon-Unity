@@ -39,23 +39,23 @@ namespace Pantheon.Core
             jsonSettings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Binders._entity,
+                SerializationBinder = Binders.entity,
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
-                    new SpriteConverter(),
+                    new SpriteConverter(this),
                     new TileConverter(),
-                    new RuleTileConverter(),
-                    new SpeciesDefinitionConverter(),
-                    new BodyPartConverter(),
-                    new StatusConverter()
+                    new RuleTileConverter(this),
+                    new SpeciesDefinitionConverter(this),
+                    new BodyPartConverter(this),
+                    new StatusConverter(this)
                 }
             };
 
             speciesSettings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Binders._entity,
+                SerializationBinder = Binders.entity,
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
@@ -68,7 +68,7 @@ namespace Pantheon.Core
             genericSettings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Binders._entity,
+                SerializationBinder = Binders.entity,
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
@@ -80,7 +80,7 @@ namespace Pantheon.Core
             planSettings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Binders._builder,
+                SerializationBinder = Binders.builder,
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
@@ -166,46 +166,6 @@ namespace Pantheon.Core
         public void LogLoad(string msg)
         {
             UnityEngine.Debug.Log(msg);
-        }
-
-        // TODO: Temporary
-
-        public TerrainDefinition GetTerrain(byte index)
-        {
-            switch (index)
-            {
-                default:
-                case 0:
-                    return null;
-                case 1:
-                    return Load<TerrainDefinition>("Terrain_Grass");
-                case 2:
-                    return Load<TerrainDefinition>("Terrain_StoneWall");
-                case 3:
-                    return Load<TerrainDefinition>("Terrain_StoneFloor");
-                case 4:
-                    return Load<TerrainDefinition>("Terrain_Water");
-            }
-        }
-
-        public byte GetTerrainIndex(TerrainDefinition terrain)
-        {
-            if (terrain == null)
-                return 0;
-
-            switch (terrain.name)
-            {
-                default:
-                    return 0;
-                case "Terrain_Grass":
-                    return 1;
-                case "Terrain_StoneWall":
-                    return 2;
-                case "Terrain_StoneFloor":
-                    return 3;
-                case "Terrain_Water":
-                    return 4;
-            }
         }
     }
 }

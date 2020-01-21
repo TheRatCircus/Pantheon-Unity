@@ -3,6 +3,7 @@
 
 using Pantheon.Components;
 using Pantheon.Content;
+using Pantheon.Gen;
 using Pantheon.SaveLoad;
 using Pantheon.UI;
 using Pantheon.Utils;
@@ -19,9 +20,6 @@ namespace Pantheon.Core
         PlayerDead
     }
 
-    /// <summary>
-    /// Contain and process all game state.
-    /// </summary>
     public sealed class GameController : MonoBehaviour
     {
         [SerializeField] private GameObject levelPrefab = default;
@@ -34,14 +32,14 @@ namespace Pantheon.Core
         [SerializeField] private Camera cam = default;
         [SerializeField] private Cursor cursor = default;
         [SerializeField] private HUD hud = default;
-        [SerializeField] private GameLog log = default;
         public Cursor Cursor => cursor;
+        [SerializeField] private GameLog log = default;
         public GameLog Log => log;
         public Player Player { get; private set; }
 
-        [System.NonSerialized] private GameWorld world;
-        public GameWorld World { get => world; private set => world = value; }
+        public GameWorld World { get; private set; }
         public AssetLoader Loader { get; private set; }
+        public LevelGenerator Generator { get; private set; }
         public TurnScheduler Scheduler { get; private set; }
         private SaveWriterReader saveSystem;
 
@@ -56,6 +54,8 @@ namespace Pantheon.Core
 
         private void OnEnable()
         {
+            Loader = new AssetLoader();
+            Locator.Loader = Loader;
             Scheduler = GetComponent<TurnScheduler>();
             Locator.Scheduler = Scheduler;
             Player = GetComponent<Player>();
@@ -67,23 +67,23 @@ namespace Pantheon.Core
         {
             saveSystem = new SaveWriterReader(Loader);
 
-            World = new GameWorld();
+            Generator = new LevelGenerator(Loader);
+            World = new GameWorld(Generator);
+
             World.NewLayer(-2);
             World.Layers.TryGetValue(-2, out Layer surface);
+            Generator.PlaceBuilders();
             Level level = surface.RequestLevel(Vector2Int.zero);
-
+            
             // Spawn the player
-            EntityTemplate template = Assets.Templates["Player"];
+            EntityTemplate template = Loader.LoadTemplate("Player");
             Entity player = Spawn.SpawnActor(template, level, level.RandomCell(true));
             player.DestroyedEvent += OnPlayerDeath;
-            Player.FillHotbar(player.GetComponent<Talents>().All);
 
             PC = player;
 
             hud.Initialize(Scheduler, PC, level, LevelChangeEvent);
             LoadLevel(level, true);
-            Scheduler.PlayerToFront();
-            Scheduler.enabled = true;
             MoveCameraTo(player.GameObjects[0].transform);
             cursor.Level = level;
         }
@@ -95,6 +95,8 @@ namespace Pantheon.Core
             Save save = saveSystem.ReadSave(path);
 
             World = save.World;
+            Generator = save.Generator;
+            Generator.Loader = Loader;
             PC = save.Player;
             PC.DestroyedEvent += OnPlayerDeath;
 
@@ -124,17 +126,18 @@ namespace Pantheon.Core
             Scheduler.Queue.Clear();
             level.AssignGameObject(Instantiate(levelPrefab, worldTransform).transform);
 
-            foreach (Entity entity in level.Actors)
-            {
-                AssignGameObject(entity);
-                Scheduler.AddActor(entity.GetComponent<Actor>());
-            }
-
             if (refreshFOV)
-                FOV.RefreshFOV(level, PC.Position, true);
+                FOV.RefreshFOV(level, PC.Cell, false);
 
-            foreach (Vector2Int cell in level.Map)
-                level.DrawTile(cell);
+            foreach (Cell c in level.Map)
+            {
+                if (c.Actor != null)
+                {
+                    AssignGameObject(c.Actor);
+                    Scheduler.AddActor(c.Actor.GetComponent<Actor>());
+                }
+                level.DrawTile(c);
+            }
 
             LevelChangeEvent?.Invoke(level);
         }
@@ -157,7 +160,7 @@ namespace Pantheon.Core
 
             GameObject entityObj = Instantiate(
                 GameObjectPrefab,
-                entity.Position.ToVector3(),
+                entity.Cell.Position.ToVector3(),
                 new Quaternion(),
                 entity.Level.EntitiesTransform);
 
@@ -167,7 +170,7 @@ namespace Pantheon.Core
             SpriteRenderer sr = entityObj.GetComponent<SpriteRenderer>();
             sr.sprite = entity.Flyweight.Sprite;
 
-            if (!entity.Visible)
+            if (!entity.Cell.Visible)
                 sr.enabled = false;
 
             entity.GameObjects = new GameObject[1];
@@ -187,7 +190,7 @@ namespace Pantheon.Core
 
         public void SaveGame()
         {
-            Save save = new Save(PC.Name, World, PC);
+            Save save = new Save(PC.Name, World, Generator, PC);
             saveSystem.WriteSave(save);
         }
 

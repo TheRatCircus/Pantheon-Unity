@@ -9,73 +9,83 @@ namespace Pantheon.Gen
     public static class Utils
     {
         public static void FillRectTerrain(Level level, LevelRect rect,
-            TerrainDefinition terrain)
+            TerrainDefinition wall, TerrainDefinition ground)
         {
             for (int x = rect.x1; x < rect.x2; x++)
                 for (int y = rect.y1; y < rect.y2; y++)
-                {
-                    if (level.Contains(x, y))
-                        level.SetTerrain(x, y, terrain);
-                }
+                    if (level.TryGetCell(x, y, out Cell c))
+                    {
+                        level.Map[x, y].Wall = wall;
+                        level.Map[x, y].Ground = ground;
+                    }
         }
 
         public static void Enclose(Level level, LevelRect rect,
-            TerrainDefinition terrain)
+            TerrainDefinition wall, TerrainDefinition ground)
         {
             for (int x = rect.x1; x <= rect.x2; x++)
                 for (int y = rect.y1; y <= rect.y2; y++)
                 {
                     if (x == rect.x1)
                     {
-                        level.SetTerrain(x, y, terrain);
+                        level.Map[x, y].Wall = wall;
+                        level.Map[x, y].Ground = ground;
                         continue;
                     }
                     else if (x == rect.x2)
                     {
-                        level.SetTerrain(x, y, terrain);
+                        level.Map[x, y].Wall = wall;
+                        level.Map[x, y].Ground = ground;
                         continue;
                     }
                     else
                     {
                         if (y == rect.y1)
                         {
-                            level.SetTerrain(x, y, terrain);
+                            level.Map[x, y].Wall = wall;
+                            level.Map[x, y].Ground = ground;
                             continue;
                         }
                         else if (y == rect.y2)
                         {
-                            level.SetTerrain(x, y, terrain);
+                            level.Map[x, y].Wall = wall;
+                            level.Map[x, y].Ground = ground;
                             continue;
                         }
                     }
                 }
         }
 
-        public static void Enclose(Level level, TerrainDefinition terrain)
+        public static void Enclose(Level level, TerrainDefinition wall,
+            TerrainDefinition ground)
         {
-            for (int x = 0; x < level.CellSize.x; x++)
-                for (int y = 0; y < level.CellSize.y; y++)
+            for (int x = 0; x < level.Size.x; x++)
+                for (int y = 0; y < level.Size.y; y++)
                 {
                     if (x == 0)
                     {
-                        level.SetTerrain(x, y, terrain);
+                        level.Map[x, y].Wall = wall;
+                        level.Map[x, y].Ground = ground;
                         continue;
                     }
-                    else if (x == level.CellSize.x - 1)
+                    else if (x == level.Size.x - 1)
                     {
-                        level.SetTerrain(x, y, terrain);
+                        level.Map[x, y].Wall = wall;
+                        level.Map[x, y].Ground = ground;
                         continue;
                     }
                     else
                     {
                         if (y == 0)
                         {
-                            level.SetTerrain(x, y, terrain);
+                            level.Map[x, y].Wall = wall;
+                            level.Map[x, y].Ground = ground;
                             continue;
                         }
-                        else if (y == level.CellSize.y - 1)
+                        else if (y == level.Size.y - 1)
                         {
-                            level.SetTerrain(x, y, terrain);
+                            level.Map[x, y].Wall = wall;
+                            level.Map[x, y].Ground = ground;
                             continue;
                         }
                     }

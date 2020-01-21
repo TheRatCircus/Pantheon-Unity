@@ -25,7 +25,7 @@ namespace PantheonEditor
             = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Auto,
-            SerializationBinder = Binders._entity,
+            SerializationBinder = Binders.entity,
             Formatting = Formatting.Indented,
             Converters = new List<JsonConverter>()
                 {
@@ -41,7 +41,7 @@ namespace PantheonEditor
         public RuleTile tile = default;
 
         public Actor actor = new Actor();
-        public AI ai = new AI();
+        public AI ai = new AI(new DefaultStrategy());
         public Health health = new Health();
 
         private EntityComponent[] components;

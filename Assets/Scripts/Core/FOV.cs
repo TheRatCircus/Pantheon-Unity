@@ -5,55 +5,53 @@ using Pantheon.Utils;
 using Pantheon.World;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace Pantheon.Core
 {
     public static class FOV
     {
         // Not in terms of cells
-        public const int FOVRadius = 10;
+        public const int FOVRadius = 15;
 
-        private static Vector2Int prev = Level.NullCell;
+        private static Cell prev;
 
         /// <summary>
         /// Change visibility and reveal new cells.
+        /// <param name="level"></param>
         /// </summary>
         /// <returns>A HashSet of all cells affected by the refresh.</returns>
-        public static HashSet<Vector2Int> RefreshFOV(
-            Level level, Vector2Int origin, bool drawChanges)
+        public static HashSet<Cell> RefreshFOV(Level level, Cell origin,
+            bool drawChanges)
         {
-            Profiler.BeginSample("FOV");
-            HashSet<Vector2Int> changed = new HashSet<Vector2Int>();
-
             // Hide cells at the last refresh position
-            if (prev != Level.NullCell)
+            if (prev != null)
             {
-                List<Vector2Int> old = level.GetSquare(prev, 15);
-                foreach (Vector2Int pos in old)
-                {
-                    if (level.SetVisibility(pos.x, pos.y, false))
-                        level.DrawTile(pos);
-                }
+                List<Cell> cells = level.GetSquare(prev, FOVRadius);
+                foreach (Cell c in cells)
+                    c.Visible = false;
+                level.Draw(cells);
             }
 
+            HashSet<Cell> allRefreshed = new HashSet<Cell>();
             for (int octant = 0; octant < 8; octant++)
             {
-                List<Vector2Int> refreshed = ShadowOctant(level,
-                    origin, octant);
+                List<Cell> refreshed = ShadowOctant(level,
+                    origin.Position, octant);
 
-                changed.AddMany(refreshed);
+                allRefreshed.AddMany(refreshed);
             }
 
-            level.Draw(changed);
+            if (drawChanges)
+                level.Draw(allRefreshed);
 
             prev = origin;
-            Profiler.EndSample();
-            return changed;
+
+            return allRefreshed;
         }
 
         // Coordinates used to transform a point in an octant
-        private static readonly Vector2Int[,] _octantCoordinates = new Vector2Int[,]
+        private static readonly Vector2Int[,] _octantCoordinates
+            = new Vector2Int[,]
         {
             { new Vector2Int(0, -1), new Vector2Int(1, 0) },
             { new Vector2Int(1, 0), new Vector2Int(0, -1) },
@@ -66,7 +64,7 @@ namespace Pantheon.Core
         };
 
         // Generate an octant of shadows, and return the FOV area to be redrawn
-        private static List<Vector2Int> ShadowOctant(Level level, Vector2Int origin,
+        private static List<Cell> ShadowOctant(Level level, Vector2Int origin,
             int octant)
         {
             // Increments based off of octantCoordinates
@@ -75,7 +73,7 @@ namespace Pantheon.Core
 
             ShadowLine line = new ShadowLine();
             bool fullShadow = false;
-            List<Vector2Int> ret = new List<Vector2Int>();
+            List<Cell> ret = new List<Cell>();
 
             for (int row = 0; row < FOVRadius; row++)
             {
@@ -89,16 +87,15 @@ namespace Pantheon.Core
                 {
                     // Break on this row if going out of bounds
                     if (!level.Contains(pos)) break;
+                    // Add new cells to list of updated cells
+                    ret.Add(level.GetCell(pos));
                     // Visibility fall off over distance
                     int fallOff = 255;
 
                     // If entire row is known to be in shadow, set this cell to
                     // be in shadow
                     if (fullShadow || pastMaxDistance)
-                    {
-                        if (level.SetVisibility(pos.x, pos.y, false))
-                            ret.Add(pos);
-                    }
+                        level.GetCell(pos).SetVisibility(false, fallOff);
                     else
                     {
                         fallOff = 0;
@@ -110,7 +107,8 @@ namespace Pantheon.Core
                         }
                         else
                         {
-                            float normalized = distance / FOVRadius;
+                            float normalized = distance /
+                                FOVRadius;
                             normalized = Mathf.Pow(normalized, 2);
                             fallOff = (int)(normalized * 255);
                         }
@@ -118,11 +116,11 @@ namespace Pantheon.Core
 
                         // Set the visibility of this tile
                         bool visible = !line.IsInShadow(projection);
-                        if (level.SetVisibility(pos.x, pos.y, visible))
-                            ret.Add(pos);
+                        level.GetCell(pos).SetVisibility(visible,
+                            fallOff);
 
                         // Add any opaque tiles to the shadow map
-                        if (visible && level.CellIsOpaque(pos))
+                        if (visible && level.GetCell(pos).Opaque)
                         {
                             line.AddShadow(projection);
                             fullShadow = line.IsFullShadow();

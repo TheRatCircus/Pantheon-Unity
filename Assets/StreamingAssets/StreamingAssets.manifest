@@ -1,19 +1,7 @@
 ManifestFileVersion: 0
-CRC: 1187282845
+CRC: 453831971
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
       Name: pantheon
-      Dependencies: {}
-    Info_1:
-      Name: pantheon_templates
-      Dependencies: {}
-    Info_2:
-      Name: pantheon_species
-      Dependencies: {}
-    Info_3:
-      Name: pantheon_body
-      Dependencies: {}
-    Info_4:
-      Name: pantheon_plans
       Dependencies: {}

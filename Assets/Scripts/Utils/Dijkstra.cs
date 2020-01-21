@@ -2,7 +2,6 @@
 // Jerome Martina
 
 using Pantheon.World;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Profiling;
@@ -14,52 +13,60 @@ namespace Pantheon.Utils
     /// </summary>
     public sealed class DijkstraMap
     {
-        private readonly Level level;
+        private Level level;
 
         public int[,] Map { get; private set; }
-        private HashSet<Vector2Int> goals = new HashSet<Vector2Int>();
+        private HashSet<Cell> goals = new HashSet<Cell>();
         private List<Vector2Int> open = new List<Vector2Int>();
-        private HashSet<Vector2Int> temp = new HashSet<Vector2Int>();
+        private HashSet<Vector2Int> closed = new HashSet<Vector2Int>();
 
         public DijkstraMap(Level level)
         {
             this.level = level;
-            Map = new int[level.CellSize.x, level.CellSize.y];
+            Map = new int[level.Size.x, level.Size.y];
         }
 
-        public void SetGoals(IEnumerable<Vector2Int> goals)
+        public void SetGoals(IEnumerable<Cell> goals)
         {
-            this.goals = (HashSet<Vector2Int>)goals;
+            this.goals = (HashSet<Cell>)goals;
         }
 
-        public void SetGoals(params Vector2Int[] goals)
+        public void SetGoals(params Cell[] goals)
         {
             this.goals.Clear();
-            foreach (Vector2Int c in goals)
+            foreach (Cell c in goals)
+            {
                 this.goals.Add(c);
+            }
         }
 
-        public void Recalculate(Func<Level, Vector2Int, bool> predicate)
+        public void Recalculate()
         {
-            Profiler.BeginSample("Dijkstra Map Flood Fill");
             for (int x = 0; x < Map.GetLength(0); x++)
                 for (int y = 0; y < Map.GetLength(1); y++)
                 {
                     Map[x, y] = 255;
                 }
 
-            foreach (Vector2Int c in goals)
+            foreach (Cell c in goals)
             {
-                Map[c.x, c.y] = 0;
-                open.Add(c);
+                Map[c.Position.x, c.Position.y] = 0;
+                open.Add(c.Position);
             }
+
             
+            int iterations = 0; // Arbitrary limiter
             while (open.Count > 0)
             {
+                // Keep a temporary list so open can be emptied and then
+                // refreshed from scratch
+                List<Vector2Int> temp = new List<Vector2Int>();
                 for (int i = 0; i < open.Count; i++)
                 {
                     int prevDist = Map[open[i].x, open[i].y];
+                    closed.Add(open[i]); // Immediately close origin
 
+                    Profiler.BeginSample("Dijkstra Map Flood Fill");
                     int x = -1;
                     for (; x <= 1; x++)
                         for (int y = -1; y <= 1; y++)
@@ -67,26 +74,36 @@ namespace Pantheon.Utils
                             Vector2Int frontier = new Vector2Int(open[i].x + x,
                                 open[i].y + y);
 
-                            if (Map[frontier.x, frontier.y] < 255)
+                            if (closed.Contains(frontier))
                                 continue;
 
                             if (!level.Contains(frontier) ||
-                                level.CellIsWalled(frontier) ||
-                                level.CellHasActor(frontier))
+                                level.GetCell(frontier).Blocked ||
+                                level.GetCell(frontier).Actor != null)
+                            {
+                                closed.Add(frontier);
                                 continue;
+                            }
 
-                            if (!predicate(level, frontier))
+                            if (Map[frontier.x, frontier.y] < 255)
+                            {
+                                closed.Add(frontier);
                                 continue;
+                            }
 
                             Map[frontier.x, frontier.y] = prevDist + 1;
                             temp.Add(frontier);
                         }
+
+                    Profiler.EndSample();
                 }
                 open.Clear();
                 open.AddRange(temp);
                 temp.Clear();
+                iterations++;
             }
-            Profiler.EndSample();
+            closed.Clear();
+            
         }
 
         public System.Collections.IEnumerator RecalculateAsync()
@@ -97,35 +114,42 @@ namespace Pantheon.Utils
                     Map[x, y] = 255;
                 }
 
-            foreach (Vector2Int c in goals)
+            foreach (Cell c in goals)
             {
-                Map[c.x, c.y] = 0;
-                open.Add(c);
+                Map[c.Position.x, c.Position.y] = 0;
+                open.Add(c.Position);
             }
 
+            int iterations = 0; // Arbitrary limiter
             while (open.Count > 0)
             {
+                // Keep a temporary list so open can be emptied and then
+                // refreshed from scratch
+                List<Vector2Int> temp = new List<Vector2Int>();
                 for (int i = 0; i < open.Count; i++)
                 {
                     int prevDist = Map[open[i].x, open[i].y];
-                    int x = -1;
+                    closed.Add(open[i]); // Immediately close origin
 
+                    int x = -1;
                     for (; x <= 1; x++)
                         for (int y = -1; y <= 1; y++)
                         {
-                            yield return null;
+                            yield return new WaitForSeconds(.1f);
 
                             Vector2Int frontier = new Vector2Int(open[i].x + x,
                                 open[i].y + y);
 
+                            if (closed.Contains(frontier))
+                                continue;
+
                             if (!level.Contains(frontier) ||
-                                level.CellIsWalled(frontier) ||
-                                level.CellHasActor(frontier))
+                                level.GetCell(frontier).Blocked ||
+                                level.GetCell(frontier).Actor != null)
+                            {
+                                closed.Add(frontier);
                                 continue;
-
-
-                            if (Map[frontier.x, frontier.y] < 255)
-                                continue;
+                            }
 
                             Map[frontier.x, frontier.y] = prevDist + 1;
                             temp.Add(frontier);
@@ -134,29 +158,22 @@ namespace Pantheon.Utils
                 open.Clear();
                 open.AddRange(temp);
                 temp.Clear();
+                iterations++;
             }
+            closed.Clear();
         }
 
-        public void Invert()
+        public Vector2Int RollDownhill(Cell origin)
         {
-            for (int x = 0; x < Map.GetLength(0); x++)
-                for (int y = 0; y < Map.GetLength(1); y++)
-                {
-                    Map[x, y] = Mathf.RoundToInt(Map[x, y] * -1.2f);
-                }
-        }
-
-        public Vector2Int RollDownhill(Vector2Int origin)
-        {
-            Vector2Int lowestPosition = origin;
+            Vector2Int lowestPosition = origin.Position;
             int lowest = 255;
 
-            for (int x = origin.x - 1; x <= origin.x + 1;
+            for (int x = origin.Position.x - 1; x <= origin.Position.x + 1;
                 x++)
-                for (int y = origin.y - 1; y <= origin.y + 1;
+                for (int y = origin.Position.y - 1; y <= origin.Position.y + 1;
                     y++)
                 {
-                    if (x == origin.x && y == origin.y)
+                    if (x == origin.Position.x && y == origin.Position.y)
                         continue;
 
                     if (!Map.TryGet(out int weight, x, y))

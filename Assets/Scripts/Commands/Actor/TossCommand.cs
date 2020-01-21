@@ -4,7 +4,9 @@
 using Pantheon.Components;
 using Pantheon.Core;
 using Pantheon.Utils;
+using Pantheon.World;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -21,7 +23,7 @@ namespace Pantheon.Commands.Actor
         {
             if (Entity.PlayerControlled)
             {
-                switch (Locator.Player.RequestLine(out Line line, 7))
+                switch (Locator.Player.RequestLine(out List<Cell> line, 7))
                 {
                     case InputMode.Cancelling:
                         cost = -1;
@@ -36,8 +38,8 @@ namespace Pantheon.Commands.Actor
 
                             // Line has come through
                             GameObject tossFXObj = Object.Instantiate(
-                                Assets.TossFXPrefab,
-                                Entity.Position.ToVector3(),
+                                PrefabProvider.TossFXPrefab,
+                                Entity.Cell.Position.ToVector3(),
                                 new Quaternion());
                             LineProjectile proj = tossFXObj.GetComponent<LineProjectile>();
                             proj.InitializeToss(Entity, item, line);

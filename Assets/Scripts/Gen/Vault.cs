@@ -44,15 +44,16 @@ namespace Pantheon.Gen
             return terrain[markerIndex];
         }
 
-        public static bool Build(Vault vault, World.Level level,
+        public static bool Build(string id, World.Level level,
             Vector2Int position)
         {
+            Vault vault = Locator.Loader.Load<Vault>(id);
             vault.Initialize();
 
             if (!level.Contains(position + vault.Size))
             {
-                UnityEngine.Debug.LogWarning(
-                    "Position too close to level bounds.");
+                UnityEngine.Debug.LogWarning
+                    ("Position too close to level bounds.");
                 return false;
             }
 
@@ -63,7 +64,8 @@ namespace Pantheon.Gen
                         x - position.x, y - position.y);
                     if (terrain != null)
                     {
-                        level.SetTerrain(x, y, terrain);
+                        level.Map[x, y].Wall = terrain;
+                        level.Map[x, y].Ground = Locator.Loader.Load<TerrainDefinition>("Terrain_StoneFloor");
                     }
                 }
             return true;

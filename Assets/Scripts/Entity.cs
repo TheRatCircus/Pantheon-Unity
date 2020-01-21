@@ -1,7 +1,6 @@
 ﻿// Entity.cs
 // Jerome Martina
 
-using Newtonsoft.Json;
 using Pantheon.Components;
 using Pantheon.Content;
 using Pantheon.Utils;
@@ -18,7 +17,6 @@ namespace Pantheon
     public sealed class Entity
     {
         public string Name { get; set; }
-        [JsonIgnore] public Vector2Int Position { get; set; }
 
         public bool Blocking { get; set; } = false;
         public bool InInventory { get; set; } = false;
@@ -58,6 +56,11 @@ namespace Pantheon
 
         public Dictionary<Type, EntityComponent> Components { get; private set; }
 
+        public Cell Cell
+        {
+            get => GetComponent<Location>().Cell;
+            set => GetComponent<Location>().Cell = value;
+        }
         public Level Level
         {
             get => GetComponent<Location>().Level;
@@ -74,7 +77,6 @@ namespace Pantheon
                     return true;
             }
         }
-        // XXX: Pointless
         public bool PlayerControlled
         {
             get
@@ -85,7 +87,6 @@ namespace Pantheon
                     return false;
             }
         }
-        public bool Visible => Level.CellIsVisible(Position);
 
         public event Action DestroyedEvent;
 
@@ -183,20 +184,22 @@ namespace Pantheon
                 ec.Receive(msg);
         }
 
-        public void Move(Level level, Vector2Int cell)
+        public void Move(Level level, Cell cell)
         {
-            Level = level;
-            Level.MoveEntity(this, Position, cell);
+            Cell prev = Cell;
 
+            if (prev != null)
+                prev.DeallocateEntity(this);
+
+            Level = level;
+            Cell = cell;
             if (GameObjects.HasElements())
-                GameObjects[0].transform.position = cell.ToVector3();
+                GameObjects[0].transform.position = cell.Position.ToVector3();
 
             if (TryGetComponent(out Inventory inv))
                 inv.Move(level, cell);
 
-            Locator.Scheduler.DirtyCell(Position);
-            Position = cell;
-            Locator.Scheduler.DirtyCell(Position);
+            Cell.AllocateEntity(this);
         }
 
         public void TakeHit(Entity hitter, Hit hit)
@@ -218,7 +221,7 @@ namespace Pantheon
             if (TryGetComponent(out Species species))
             {
                 Tile tile = ScriptableObject.CreateInstance<Tile>();
-                Sprite sprite = Assets.Sprites["Sprite_Corpse"];
+                Sprite sprite = Locator.Loader.Load<Sprite>("Sprite_Corpse");
                 tile.sprite = sprite;
                 Entity corpse = new Entity(new Corpse())
                 {
@@ -226,7 +229,7 @@ namespace Pantheon
                     Sprite = sprite,
                     Tile = tile
                 };
-                corpse.Move(Level, Position);
+                corpse.Move(Level, Cell);
                 corpse.GetComponent<Corpse>().Original = this;
             }
 
@@ -251,7 +254,7 @@ namespace Pantheon
                         Color.grey);
             }
 
-            Position = Level.NullCell;
+            Cell.DeallocateEntity(this);
             UnityEngine.Object.Destroy(GameObjects[0]);
         }
 

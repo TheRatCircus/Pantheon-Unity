@@ -3,7 +3,6 @@
 
 using Pantheon.Commands.Actor;
 using Pantheon.Components;
-using Pantheon.Content.Talents;
 using Pantheon.UI;
 using Pantheon.Utils;
 using Pantheon.World;
@@ -30,7 +29,6 @@ namespace Pantheon.Core
 
         [SerializeField] private Cursor cursor = default;
         [SerializeField] private HUD hud = default;
-        [SerializeField] private Hotbar hotbarUI = default;
         private List<GameObject> targetOverlays = new List<GameObject>(10);
 
         public InputMode Mode { get; set; } = InputMode.Default;
@@ -43,28 +41,19 @@ namespace Pantheon.Core
             {
                 entity = value;
                 actor = value.GetComponent<Actor>();
+                inventory = value.GetComponent<Inventory>();
             }
         }
         private Actor actor;
+        private Inventory inventory;
 
         private int targetingRange;
-
-        private Vector2Int selectedCell = Level.NullCell;
-        private Line selectedLine = new Line();
-
-        public Talent[] Hotbar = new Talent[10];
-        public int HotbarSelection;
-
-        public void FillHotbar(Talent[] talents)
-        {
-            Hotbar = talents;
-
-            for (int i = 0; i < Hotbar.Length; i++)
-            {
-                if (Hotbar[i] != null)
-                    hotbarUI.SetSprite(i, Hotbar[i].Icon);
-            }
-        }
+        private Cell selectedCell;
+        private List<Cell> selectedLine = new List<Cell>();
+        public HashSet<Entity> VisibleActors { get; private set; }
+            = new HashSet<Entity>();
+        public List<Cell> AutoMovePath { get; set; }
+            = new List<Cell>();
 
         private void Update()
         {
@@ -75,12 +64,6 @@ namespace Pantheon.Core
                 Input.GetAxis("MouseX") == 0 &&
                 Input.GetAxis("MouseY") == 0)
                 return;
-
-            if (Entity.Level.CellIsVisible(cursor.HoveredCell))
-            {
-                selectedCell = cursor.HoveredCell;
-                selectedLine = Bresenhams.GetLine(Entity.Position, selectedCell);
-            }
 
             switch (Mode)
             {
@@ -97,37 +80,45 @@ namespace Pantheon.Core
                     throw new System.NotImplementedException();
             }
 
+            // Set automove path
+            if (Input.GetMouseButtonDown(0))
+            {
+                //AutoMovePath = PlayerEntity.Level.GetPathTo(
+                //    PlayerEntity.Cell, cursor.HoveredCell);
+                //return;
+            }
+
             if (Input.GetButtonDown("Up"))
             {
-                actor.Command = MoveCommand.Directional(Entity, Vector2Int.up);
+                actor.Command = new MoveCommand(Entity, Vector2Int.up);
             }
             else if (Input.GetButtonDown("Down"))
             {
-                actor.Command = MoveCommand.Directional(Entity, Vector2Int.down);
+                actor.Command = new MoveCommand(Entity, Vector2Int.down);
             }
             else if (Input.GetButtonDown("Left"))
             {
-                actor.Command = MoveCommand.Directional(Entity, Vector2Int.left);
+                actor.Command = new MoveCommand(Entity, Vector2Int.left);
             }
             else if (Input.GetButtonDown("Right"))
             {
-                actor.Command = MoveCommand.Directional(Entity, Vector2Int.right);
+                actor.Command = new MoveCommand(Entity, Vector2Int.right);
             }
             else if (Input.GetButtonDown("Up Left"))
             {
-                actor.Command = MoveCommand.Directional(Entity, new Vector2Int(-1, 1));
+                actor.Command = new MoveCommand(Entity, new Vector2Int(-1, 1));
             }
             else if (Input.GetButtonDown("Up Right"))
             {
-                actor.Command = MoveCommand.Directional(Entity, new Vector2Int(1, 1));
+                actor.Command = new MoveCommand(Entity, new Vector2Int(1, 1));
             }
             else if (Input.GetButtonDown("Down Left"))
             {
-                actor.Command = MoveCommand.Directional(Entity, new Vector2Int(-1, -1));
+                actor.Command = new MoveCommand(Entity, new Vector2Int(-1, -1));
             }
             else if (Input.GetButtonDown("Down Right"))
             {
-                actor.Command = MoveCommand.Directional(Entity, new Vector2Int(1, -1));
+                actor.Command = new MoveCommand(Entity, new Vector2Int(1, -1));
             }
             else if (Input.GetButtonDown("Wait"))
                 actor.Command = new WaitCommand(Entity);
@@ -135,6 +126,10 @@ namespace Pantheon.Core
             {
                 actor.Command = new UseItemCommand(Entity,
                     Entity.GetComponent<Inventory>().Items[0]);
+            }
+            else if (Input.GetButtonDown("Autoattack"))
+            {
+                actor.Command = Autoattack();
             }
             else if (Input.GetButtonDown("Pickup"))
                 actor.Command = new PickupCommand(Entity);
@@ -170,75 +165,27 @@ namespace Pantheon.Core
             else if (Input.GetButtonDown("Wield"))
                 actor.Command = new WieldCommand(Entity,
                     Entity.GetComponent<Inventory>().Items[0]);
-            else if (Input.GetMouseButtonDown(0))
+            else if (Input.GetButtonDown("Evoke"))
             {
-                actor.Command = new TalentCommand(Entity, Hotbar[HotbarSelection]);
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                hotbarUI.SetSelected(0);
-                HotbarSelection = 0;
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                hotbarUI.SetSelected(1);
-                HotbarSelection = 1;
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                hotbarUI.SetSelected(2);
-                HotbarSelection = 2;
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                hotbarUI.SetSelected(3);
-                HotbarSelection = 3;
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha5))
-            {
-                hotbarUI.SetSelected(4);
-                HotbarSelection = 4;
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha6))
-            {
-                hotbarUI.SetSelected(5);
-                HotbarSelection = 5;
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha7))
-            {
-                hotbarUI.SetSelected(6);
-                HotbarSelection = 6;
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha8))
-            {
-                hotbarUI.SetSelected(7);
-                HotbarSelection = 7;
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha9))
-            {
-                hotbarUI.SetSelected(8);
-                HotbarSelection = 8;
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha0))
-            {
-                hotbarUI.SetSelected(9);
-                HotbarSelection = 9;
-            }
-
-            if (Input.GetKeyDown(KeyCode.U))
-            {
-                FloodFill.FillLevel(Entity.Level, Entity.Position,
-                    delegate (Level level, Vector2Int pos) 
-                    {
-                        return level.CellIsVisible(pos);
-                    });
+                Wield wield = Entity.GetComponent<Wield>();
+                if (!wield.Wielding)
+                {
+                    Locator.Log.Send("You aren't wielding anything.",
+                        Color.grey);
+                    return;
+                }
+                else
+                {
+                    actor.Command = new EvokeCommand(
+                        Entity, wield.Items[0]);
+                }
             }
         }
 
         private void PointSelect()
         {
-            bool withinRange = Level.Distance(
-                Entity.Position, cursor.HoveredCell) < targetingRange;
+            bool withinRange = Entity.Level.Distance(
+                Entity.Cell, cursor.HoveredCell) < targetingRange;
 
             CleanOverlays();
 
@@ -246,7 +193,7 @@ namespace Pantheon.Core
             {
                 GameObject overlayObj = Instantiate(
                    targetOverlay,
-                   cursor.HoveredCell.ToVector3(),
+                   cursor.HoveredCell.Position.ToVector3(),
                    new Quaternion());
 
                 targetOverlays.Add(overlayObj);
@@ -259,7 +206,7 @@ namespace Pantheon.Core
             }
             else if (Input.GetMouseButtonDown(1))
             {
-                selectedCell = Level.NullCell;
+                selectedCell = null;
                 Mode = InputMode.Cancelling;
                 Locator.Log.Send("Targeting cancelled.", Color.blue);
             }
@@ -267,21 +214,24 @@ namespace Pantheon.Core
 
         private void LineSelect()
         {
-            bool withinRange = Level.Distance(
-                Entity.Position, cursor.HoveredCell) < targetingRange;
+            bool withinRange = Entity.Level.Distance(
+                Entity.Cell, cursor.HoveredCell) < targetingRange;
 
             CleanOverlays();
 
-            Line line = new Line();
+            List<Cell> line = new List<Cell>();
 
             if (withinRange)
             {
-                line = Bresenhams.GetLine(Entity.Position, cursor.HoveredCell);
-                foreach (Vector2Int c in line)
+                line = Bresenhams.GetLine(
+                    Entity.Level,
+                    Entity.Cell,
+                    cursor.HoveredCell);
+                foreach (Cell c in line)
                 {
                    GameObject overlayObj = Instantiate(
                        targetOverlay,
-                       c.ToVector3(),
+                       c.Position.ToVector3(),
                        new Quaternion());
 
                     targetOverlays.Add(overlayObj);
@@ -301,7 +251,86 @@ namespace Pantheon.Core
             }
         }
 
-        public InputMode RequestCell(out Vector2Int cell, int range)
+        public void RecalculateVisible(IEnumerable<Cell> cells)
+        {
+            VisibleActors.Clear();
+            foreach (Cell c in cells)
+            {
+                if (c.Actor != null
+                    && c.Actor.GetComponent<Actor>().Control != ActorControl.Player)
+                    VisibleActors.Add(c.Actor);
+            }
+        }
+
+        private ActorCommand Autoattack()
+        {
+            HashSet<Entity> visibleEnemies = new HashSet<Entity>();
+
+            foreach (Entity npc in VisibleActors)
+            {
+                if (npc.GetComponent<Actor>().HostileTo(actor))
+                    visibleEnemies.Add(npc);
+            }
+
+            if (visibleEnemies.Count < 1)
+            {
+                Locator.Log.Send("No visible enemies.", Color.grey);
+                return null;
+            }
+
+            Entity target = null;
+            int distance = 255;
+
+            foreach (Entity enemy in visibleEnemies)
+            {
+                int d = entity.Level.Distance(enemy.Cell, entity.Cell);
+                if (d < distance)
+                {
+                    distance = d;
+                    target = enemy;
+                }
+            }
+
+            Cell cell = target.Cell;
+            List<Cell> line = Bresenhams.GetLine(entity.Level, entity.Cell, cell);
+            List<Cell> path = entity.Level.GetPathTo(entity.Cell, cell);
+
+            if (entity.TryGetComponent(out Wield wield))
+            {
+                Entity[] evocables = wield.GetEvocables();
+                if (evocables.Length > 0)
+                {
+                    Talent talent = evocables[0].GetComponent<Evocable>().Talents[0];
+                    if (talent.Range >= distance)
+                    {
+                        EvokeCommand cmd = new EvokeCommand(entity, evocables[0])
+                        {
+                            Cell = cell,
+                            Line = line,
+                            Path = path
+                        };
+                        return cmd;
+                    }
+                }
+            }
+
+            if (!entity.Level.AdjacentTo(entity.Cell, cell))
+            {
+                if (path.Count > 0)
+                    return new MoveCommand(entity, path[0]);
+                else
+                {
+                    Locator.Log.Send(
+                        $"Cannot find a path to {cell.Actor.ToSubjectString(false)}.",
+                        Color.grey);
+                    return null;
+                }
+            }
+
+            return new MeleeCommand(entity, cell);
+        }
+
+        public InputMode RequestCell(out Cell cell, int range)
         {
             switch (Mode)
             {
@@ -309,23 +338,23 @@ namespace Pantheon.Core
                     targetingRange = range;
                     Mode = InputMode.Point;
                     PointSelect();
-                    cell = Level.NullCell;
+                    cell = null;
                     return Mode;
                 case InputMode.Cancelling: // Stop polling for cell
                     Mode = InputMode.Default;
-                    cell = Level.NullCell;
+                    cell = null;
                     CleanOverlays();
                     return InputMode.Cancelling;
                 case InputMode.Point:
                     if (selectedCell == null)
                         // Still no selection
-                        cell = Level.NullCell;
+                        cell = null;
                     else
                     {
                         // Selection made
                         Mode = InputMode.Default;
                         cell = selectedCell;
-                        selectedCell = Level.NullCell;
+                        selectedCell = null;
                         CleanOverlays();
                     }
                     return Mode;
@@ -335,7 +364,7 @@ namespace Pantheon.Core
             }
         }
 
-        public InputMode RequestLine(out Line line, int range)
+        public InputMode RequestLine(out List<Cell> line, int range)
         {
             switch (Mode)
             {
@@ -358,7 +387,7 @@ namespace Pantheon.Core
                     {
                         // Selection made
                         Mode = InputMode.Default;
-                        line = new Line(selectedLine);
+                        line = new List<Cell>(selectedLine);
                         selectedLine.Clear();
                         CleanOverlays();
                     }
@@ -369,28 +398,11 @@ namespace Pantheon.Core
             }
         }
 
-        public Vector2Int GetTargetedAdjacent()
-        {
-            if (selectedLine.Count < 1)
-                return Level.NullCell;
-            else
-                return selectedLine[1];
-        }
-
         private void CleanOverlays()
         {
             foreach (GameObject go in targetOverlays)
                 Destroy(go);
             targetOverlays.Clear();
-        }
-
-        private void OnDrawGizmos()
-        {
-            foreach (Vector2Int cell in selectedLine)
-                Gizmos.DrawCube(cell.ToVector3(), new Vector3(.2f, .2f, .2f));
-
-            Gizmos.color = Color.red;
-            Gizmos.DrawCube(selectedCell.ToVector3(), new Vector3(.3f, .3f, .3f));
         }
     }
 }

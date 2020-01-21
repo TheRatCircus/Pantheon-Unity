@@ -12,9 +12,9 @@ namespace Pantheon.Gen
 {
     public sealed class CellularAutomata : BuilderStep
     {
-        [JsonProperty] private readonly TerrainDefinition floor;
-        [JsonProperty] private readonly TerrainDefinition wall;
-        [JsonProperty] readonly int percentWalls = 45;
+        [JsonProperty] private TerrainDefinition wall;
+        [JsonProperty] private TerrainDefinition floor;
+        [JsonProperty] int percentWalls = 45;
 
         private LevelRect rect;
 
@@ -28,8 +28,8 @@ namespace Pantheon.Gen
         }
 
         [JsonConstructor]
-        public CellularAutomata(
-            TerrainDefinition wall, TerrainDefinition floor, int percentWalls)
+        public CellularAutomata(TerrainDefinition wall, TerrainDefinition floor,
+            int percentWalls)
         {
             this.wall = wall;
             this.floor = floor;
@@ -39,12 +39,12 @@ namespace Pantheon.Gen
         public override void Run(Level level)
         {
             rect = new LevelRect(new Vector2Int(), new Vector2Int(
-                        level.CellSize.x - 1, level.CellSize.y - 1));
+                        level.Size.x - 1, level.Size.y - 1));
 
             for (int iterations = 0; iterations < 10; iterations++)
             {
                 RandomFillMap(level);
-                Utils.Enclose(level, wall);
+                Utils.Enclose(level, wall, floor);
                 MakeCaverns(level);
 
                 if (FillDisconnected(level))
@@ -60,18 +60,22 @@ namespace Pantheon.Gen
                 row <= rect.y2 - 1; row++)
                 for (column = rect.x1; column <= rect.x2; column++)
                 {
+                    level.Map[column, row].Ground = floor;
+
                     if (PlaceWallLogic(level, column, row))
-                        level.SetTerrain(column, row, wall);
+                        level.Map[column, row].Wall = wall;
                     else
-                        level.SetTerrain(column, row, floor);
+                        level.Map[column, row].Wall = null;
                 }
         }
 
         private bool PlaceWallLogic(Level level, int x, int y)
         {
-            int numWalls = level.GetAdjacentWalls(rect, x, y, 1, 1, true);
+            int numWalls = 0;
 
-            if (level.CellIsWalled(new Vector2Int(x, y)))
+            numWalls = level.GetAdjacentWalls(rect, x, y, 1, 1, true);
+
+            if (level.Map[x, y].Blocked)
             {
                 if (numWalls >= 4)
                     return true;
@@ -89,7 +93,7 @@ namespace Pantheon.Gen
         private bool FillDisconnected(Level level)
         {
             int threshold = (int)(rect.Width * rect.Height * .4f);
-            HashSet<Vector2Int> cavern = new HashSet<Vector2Int>();
+            HashSet<Cell> cavern = new HashSet<Cell>();
             int attempts = 0;
             do
             {
@@ -101,13 +105,14 @@ namespace Pantheon.Gen
                     return false;
                 }
 
-                cavern = FloodFill.FillRect(level, rect, level.RandomFloorInRect(rect));
+                cavern = Floodfill.FillRect(level, rect,
+                    level.RandomFloorInRect(rect));
                 attempts++;
             } while (cavern.Count < threshold);
-
-            foreach (Vector2Int cell in level.CellsInRect(rect))
-                if (!level.CellIsBlocked(cell) && !cavern.Contains(cell))
-                    level.SetTerrain(cell.x, cell.y, wall);
+            
+            foreach (Cell cell in level.CellsInRect(rect))
+                if (!cell.Blocked && !cavern.Contains(cell))
+                    cell.Wall = wall;
 
             return true;
         }
@@ -123,14 +128,14 @@ namespace Pantheon.Gen
                     rectMiddle = rect.Center().y;
 
                     if (row == rectMiddle)
-                        level.SetTerrain(column, row, floor);
+                        level.Map[column, row].Wall = null;
                     else
                     {
+                        level.Map[column, row].Ground = floor;
                         if (RandomUtils.RangeInclusive(0, 100) <= percentWalls)
-                            //level.Map[column, row].Wall = wall;
-                            level.SetTerrain(column, row, wall);
+                            level.Map[column, row].Wall = wall;
                         else
-                            level.SetTerrain(column, row, floor);
+                            level.Map[column, row].Wall = null;
                     }
                 }
             }

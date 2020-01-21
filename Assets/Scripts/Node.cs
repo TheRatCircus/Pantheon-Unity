@@ -2,7 +2,7 @@
 // Courtesy of Sebastian Lague
 
 using Pantheon.Utils;
-using System;
+using Pantheon.World;
 using UnityEngine;
 
 namespace Pantheon
@@ -10,33 +10,22 @@ namespace Pantheon
     /// <summary>
     /// A pathfinding node corresponding to a cell.
     /// </summary>
-    [Serializable]
+    [System.Serializable]
     public sealed class Node : IHeapItem<Node>
     {
-        public Vector2Int Cell { get; set; }
+        public Cell Cell { get; set; }
 
         public int GCost { get; set; }
         public int HCost { get; set; }
         public int FCost => GCost + HCost;
-        private Node parent;
-        public Node Parent
-        {
-            get => parent;
-            set
-            {
-                if (parent == this)
-                    throw new ArgumentException(
-                        "Node cannot be its own parent.");
-                else
-                    parent = value;
-            }
-        }
+        public Node Parent { get; set; }
+        public Vector2Int Position => Cell.Position;
 
         public int HeapIndex { get; set; }
 
-        public Node(Vector2Int cell) => Cell = cell;
+        public Node(Cell cell) => Cell = cell;
 
-        public override string ToString() => $"PF Node: {Cell}";
+        public override string ToString() => $"{Position}";
 
         public int CompareTo(Node other)
         {

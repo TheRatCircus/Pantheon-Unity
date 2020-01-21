@@ -1,12 +1,13 @@
 ﻿// ILineTargetedCommand.cs
 // Jerome Martina
 
-using Pantheon.Utils;
+using Pantheon.World;
+using System.Collections.Generic;
 
 namespace Pantheon.Commands
 {
     public interface ILineTargetedCommand
     {
-        Line Line { get; set; }
+        List<Cell> Line { get; set; }
     }
 }
