@@ -66,47 +66,8 @@ namespace Pantheon
             get => GetComponent<Location>().Level;
             set => GetComponent<Location>().Level = value;
         }
-        // Address in third-person if not player entity
-        public bool ThirdPerson
-        {
-            get
-            {
-                if (TryGetComponent(out Actor actor))
-                    return actor.Control != ActorControl.Player;
-                else
-                    return true;
-            }
-        }
-        public bool PlayerControlled
-        {
-            get
-            {
-                if (TryGetComponent(out Actor actor))
-                    return actor.Control == ActorControl.Player;
-                else
-                    return false;
-            }
-        }
 
         public event Action DestroyedEvent;
-
-        /// <summary>
-        /// Construct a temporary pretend entity from a TerrainDef.
-        /// </summary>
-        /// <param name="terrain"></param>
-        /// <returns></returns>
-        public static Entity VirtualEntity(TerrainDefinition terrain)
-        {
-            return new Entity(terrain.DisplayName);
-        }
-
-        public Entity(string name)
-        {
-            Name = name;
-            Components = new Dictionary<Type, EntityComponent>();
-            AddComponent(new Location());
-            ConnectComponents();
-        }
 
         public Entity(params EntityComponent[] components)
         {

@@ -6,6 +6,8 @@ using UnityEngine;
 
 namespace Pantheon.Commands.Actor
 {
+    using Actor = Components.Entity.Actor;
+
     /// <summary>
     /// Drop an item from one's inventory into the cell below.
     /// </summary>
@@ -15,7 +17,7 @@ namespace Pantheon.Commands.Actor
 
         public override CommandResult Execute(out int cost)
         {
-            bool player = Entity.PlayerControlled;
+            bool player = Actor.PlayerControlled(Entity);
 
             if (!Entity.TryGetComponent(out Inventory inv))
                 throw new System.Exception(

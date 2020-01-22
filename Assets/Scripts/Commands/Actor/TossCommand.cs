@@ -12,6 +12,8 @@ using Object = UnityEngine.Object;
 
 namespace Pantheon.Commands.Actor
 {
+    using Actor = Components.Entity.Actor;
+
     public sealed class TossCommand : ActorCommand
     {
         private Entity item;
@@ -21,7 +23,7 @@ namespace Pantheon.Commands.Actor
 
         public override CommandResult Execute(out int cost)
         {
-            if (Entity.PlayerControlled)
+            if (Actor.PlayerControlled(Entity))
             {
                 switch (Locator.Player.RequestLine(out List<Cell> line, 7))
                 {

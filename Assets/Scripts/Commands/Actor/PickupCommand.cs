@@ -6,13 +6,15 @@ using UnityEngine;
 
 namespace Pantheon.Commands.Actor
 {
+    using Actor = Components.Entity.Actor;
+
     public sealed class PickupCommand : ActorCommand
     {
         public PickupCommand(Entity entity) : base(entity) { }
 
         public override CommandResult Execute(out int cost)
         {
-            bool player = Entity.PlayerControlled;
+            bool player = Actor.PlayerControlled(Entity);
 
             if (!Entity.TryGetComponent(out Inventory inv))
                 throw new System.Exception(

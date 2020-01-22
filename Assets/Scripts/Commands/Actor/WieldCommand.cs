@@ -7,6 +7,8 @@ using UnityEngine;
 
 namespace Pantheon.Commands.Actor
 {
+    using Actor = Components.Entity.Actor;
+
     public sealed class WieldCommand : ActorCommand
     {
         private Entity item;
@@ -26,7 +28,7 @@ namespace Pantheon.Commands.Actor
 
             wield.TryWield(item, out Entity unwielded);
 
-            if (Entity.PlayerControlled)
+            if (Actor.PlayerControlled(Entity))
             {
                 if (unwielded != null)
                     Locator.Log.Send(

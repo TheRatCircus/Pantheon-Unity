@@ -275,7 +275,7 @@ namespace Pantheon.Debug
         {
             foreach (Cell c in ctrl.World.ActiveLevel.Map)
             {
-                if (c.Actor != null && !c.Actor.PlayerControlled)
+                if (c.Actor != null && !Actor.PlayerControlled(c.Actor))
                     c.Actor.Destroy(null);
             }
             FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Cell, true);

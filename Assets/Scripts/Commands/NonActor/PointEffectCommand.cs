@@ -8,6 +8,8 @@ using System;
 
 namespace Pantheon.Commands.NonActor
 {
+    using Actor = Components.Entity.Actor;
+
     /// <summary>
     /// Fire another command in/at a specific cell.
     /// </summary>
@@ -38,7 +40,7 @@ namespace Pantheon.Commands.NonActor
                 return CommandResult.Succeeded;
             }
 
-            if (Entity.PlayerControlled)
+            if (Actor.PlayerControlled(Entity))
             {
                 switch (Locator.Player.RequestCell(out Cell cell, Range))
                 {

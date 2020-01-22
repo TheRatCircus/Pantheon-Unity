@@ -29,7 +29,7 @@ namespace PantheonTests
                 Name = "TEST_ENTITY"
             };
             actor.Move(null, cell);
-            Entity item = new Entity("TEST_ITEM");
+            Entity item = new Entity { Name = "TEST_ITEM" };
             item.Move(null, cell);
             actor.GetComponent<Inventory>().AddItem(item);
             DropCommand cmd = new DropCommand(actor);
@@ -54,7 +54,7 @@ namespace PantheonTests
                 Name = "TEST_ENTITY"
             };
             actor.Move(null, cell);
-            Entity item = new Entity("TEST_ITEM");
+            Entity item = new Entity { Name = "TEST_ITEM" };
             item.Move(null, cell);
             PickupCommand cmd = new PickupCommand(actor);
             CommandResult result = cmd.Execute(out int cost);

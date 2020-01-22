@@ -1,6 +1,8 @@
 ﻿// Verbs.cs
 // Jerome Martina
 
+using Pantheon.Components.Entity;
+
 namespace Pantheon.Utils
 {
     public static class Verbs
@@ -8,7 +10,7 @@ namespace Pantheon.Utils
         public static string Miss(Entity attacker, Entity defender)
         {
             // 3rd person: "misses", 1st/2nd person: "miss"
-            string verb = attacker.ThirdPerson ? "misses" : "miss";
+            string verb = Actor.PlayerControlled(attacker) ? "miss" : "misses";
             string ret =
                 $"{attacker.ToSubjectString(true)} " +
                 $"{verb} {defender.ToSubjectString(false)}.";
@@ -17,7 +19,7 @@ namespace Pantheon.Utils
 
         public static string Hit(Entity attacker, Entity defender, Hit hit)
         {
-            string verb = attacker.ThirdPerson ? "hits" : "hit";
+            string verb = Actor.PlayerControlled(attacker) ? "hit" : "hits";
             return
                 $"{attacker.ToSubjectString(true)} {verb} " +
                 $"{defender.ToSubjectString(false)} " +
@@ -29,7 +31,7 @@ namespace Pantheon.Utils
             if (killer == null)
                 return $"{killed.ToSubjectString(true)} is killed!";
 
-            string verb = killer.ThirdPerson ? "kills" : "kill";
+            string verb = Actor.PlayerControlled(killer) ? "kill" : "kills";
             return
                 $"{killer.ToSubjectString(true)} {verb} " +
                 $"{killed.ToSubjectString(false)}!";
@@ -37,17 +39,17 @@ namespace Pantheon.Utils
 
         public static string Accelerate(Entity entity)
         {
-            return entity.PlayerControlled ? "accelerate" : "accelerates";
+            return Actor.PlayerControlled(entity) ? "accelerate" : "accelerates";
         }
 
         public static string Slow(Entity entity)
         {
-            return entity.PlayerControlled ? "slow" : "slows";
+            return Actor.PlayerControlled(entity) ? "slow" : "slows";
         }
 
         public static string Swing(Entity entity)
         {
-            return entity.PlayerControlled ? "swing" : "swings";
+            return Actor.PlayerControlled(entity) ? "swing" : "swings";
         }
     }
 }

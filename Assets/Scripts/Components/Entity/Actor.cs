@@ -15,6 +15,8 @@ using UnityEngine;
 
 namespace Pantheon.Components.Entity
 {
+    using Entity = Pantheon.Entity;
+
     [JsonConverter(typeof(StringEnumConverter))]
     public enum ActorControl
     {
@@ -59,6 +61,14 @@ namespace Pantheon.Components.Entity
 
         public event Action<Actor> EnergyChangedEvent;
         public event Action<Actor> SpeedChangedEvent;
+
+        public static bool PlayerControlled(Entity entity)
+        {
+            if (entity.TryGetComponent(out Actor actor))
+                return actor.Control == ActorControl.Player;
+            else
+                return false;
+        }
 
         public Actor() => Energy = speed;
 
