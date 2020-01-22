@@ -415,15 +415,15 @@ namespace Pantheon.World
             if (cell.Actor != null)
                 cell.Actor.GameObjects[0].SetSpriteVisibility(cell.Visible);
 
-            //if (cell.TryGetItem(0, out Entity item))
-            //{
-            //    itemTilemap.SetTile((Vector3Int)cell.Position,
-            //        item.Tile);
-            //    itemTilemap.SetColor((Vector3Int)cell.Position,
-            //        cell.Visible ? Color.white : Color.grey);
-            //}
-            //else
-            //    itemTilemap.SetTile((Vector3Int)cell.Position, null);
+            if (cell.TryGetItem(0, out Entity item))
+            {
+                itemTilemap.SetTile((Vector3Int)cell.Position,
+                    item.Tile);
+                itemTilemap.SetColor((Vector3Int)cell.Position,
+                    cell.Visible ? Color.white : Color.grey);
+            }
+            else
+                itemTilemap.SetTile((Vector3Int)cell.Position, null);
 
             Profiler.EndSample();
         }
