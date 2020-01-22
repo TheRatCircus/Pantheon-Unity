@@ -23,6 +23,7 @@ namespace Pantheon.World
 
         public Vector3Int Position { get; private set; }
         public Vector2Int Size { get; set; }
+        public int CellCount => Size.x * Size.y;
 
         public Cell[,] Map { get; set; }
         [NonSerialized] private Pathfinder pathfinder;

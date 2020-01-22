@@ -23,22 +23,26 @@ namespace Pantheon.Core
     public sealed class GameController : MonoBehaviour
     {
         [SerializeField] private GameObject levelPrefab = default;
-        public GameObject LevelPrefab => levelPrefab;
         [SerializeField] private GameObject gameObjectPrefab = default;
-        public GameObject GameObjectPrefab => gameObjectPrefab;
         [SerializeField] private Transform worldTransform = default;
+        public GameObject LevelPrefab => levelPrefab;
+        public GameObject GameObjectPrefab => gameObjectPrefab;
         public Transform WorldTransform => worldTransform;
 
         [SerializeField] private Camera cam = default;
         [SerializeField] private Cursor cursor = default;
         [SerializeField] private HUD hud = default;
-        public Cursor Cursor => cursor;
         [SerializeField] private GameLog log = default;
+        public Cursor Cursor => cursor;
         public GameLog Log => log;
         public Player Player { get; private set; }
 
-        public GameWorld World { get; private set; }
-        public LevelGenerator Generator { get; private set; }
+        [System.NonSerialized] private GameWorld world;
+        public GameWorld World
+        {
+            get => world;
+            private set => world = value;
+        }
         public TurnScheduler Scheduler { get; private set; }
         private SaveWriterReader saveSystem;
 
@@ -64,12 +68,9 @@ namespace Pantheon.Core
         {
             saveSystem = new SaveWriterReader();
 
-            Generator = new LevelGenerator();
-            World = new GameWorld(Generator);
-
+            World = new GameWorld();
             World.NewLayer(-2);
             World.Layers.TryGetValue(-2, out Layer surface);
-            Generator.PlaceBuilders();
             Level level = surface.RequestLevel(Vector2Int.zero);
             
             // Spawn the player
@@ -92,7 +93,6 @@ namespace Pantheon.Core
             Save save = saveSystem.ReadSave(path);
 
             World = save.World;
-            Generator = save.Generator;
             PC = save.Player;
             PC.DestroyedEvent += OnPlayerDeath;
 
@@ -186,7 +186,7 @@ namespace Pantheon.Core
 
         public void SaveGame()
         {
-            Save save = new Save(PC.Name, World, Generator, PC);
+            Save save = new Save(PC.Name, World, PC);
             saveSystem.WriteSave(save);
         }
 
