@@ -74,7 +74,7 @@ namespace Pantheon.Commands.NonActor
                     throw new System.NotImplementedException();
             }
 
-            AudioSource.PlayClipAtPoint(Sound, Cell.Position.ToVector3());
+            Locator.Audio.Buffer(Sound, Cell.Position.ToVector3());
             return CommandResult.Succeeded;
         }
     }

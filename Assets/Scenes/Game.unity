@@ -866,6 +866,7 @@ GameObject:
   - component: {fileID: 600936739}
   - component: {fileID: 600936740}
   - component: {fileID: 600936741}
+  - component: {fileID: 600936737}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -921,6 +922,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedGuid: 67499598e9f0d741876d556f4007e3ec
+--- !u!114 &600936737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600936733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e92d9ccee3cbd9c4ebbea1988a52ede3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &600936739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -969,7 +982,6 @@ MonoBehaviour:
   cursor: {fileID: 599566653}
   hud: {fileID: 1429926819}
   hotbarUI: {fileID: 1429926820}
-  HotbarSelection: 0
 --- !u!1 &914664005
 GameObject:
   m_ObjectHideFlags: 0

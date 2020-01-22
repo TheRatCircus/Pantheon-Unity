@@ -12,5 +12,6 @@ namespace Pantheon
         public static ITurnScheduler Scheduler { get; set; }
         = new NullTurnScheduler();
         public static IPlayer Player { get; set; }
+        public static IAudioManager Audio { get; set; }
     }
 }

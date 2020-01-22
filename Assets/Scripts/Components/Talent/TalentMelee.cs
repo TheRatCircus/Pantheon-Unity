@@ -25,8 +25,9 @@ namespace Pantheon.Components.Talent
 
             if (enemy == null)
             {
-                AudioSource.PlayClipAtPoint(
-                    Assets.Audio["SFX_Toss"], target.Position.ToVector3());
+                Locator.Audio.Buffer(
+                    Assets.Audio["SFX_Toss"],
+                    target.Position.ToVector3());
                 Locator.Log.Send(
                     $"{caster.ToSubjectString(true)}" +
                     $" {Verbs.Swing(caster)} at nothing.",
@@ -34,8 +35,9 @@ namespace Pantheon.Components.Talent
                 return CommandResult.Succeeded;
             }
 
-            AudioSource.PlayClipAtPoint(
-                Assets.Audio["SFX_Punch"], target.Position.ToVector3());
+            Locator.Audio.Buffer(
+                Assets.Audio["SFX_Punch"],
+                target.Position.ToVector3());
 
             Hit hit = new Hit(Damages);
             Locator.Log.Send(Verbs.Hit(caster, enemy, hit), Color.white);

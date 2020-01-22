@@ -3,11 +3,11 @@
 
 using Pantheon.Components.Entity;
 using Pantheon.Content;
-using Pantheon.Gen;
 using Pantheon.SaveLoad;
 using Pantheon.UI;
 using Pantheon.Utils;
 using Pantheon.World;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cursor = Pantheon.UI.Cursor;
@@ -37,7 +37,7 @@ namespace Pantheon.Core
         public GameLog Log => log;
         public Player Player { get; private set; }
 
-        [System.NonSerialized] private GameWorld world;
+        [NonSerialized] private GameWorld world;
         public GameWorld World
         {
             get => world;
@@ -45,6 +45,7 @@ namespace Pantheon.Core
         }
         public TurnScheduler Scheduler { get; private set; }
         private SaveWriterReader saveSystem;
+        public AudioManager Audio { get; private set; }
 
         public GameState State { get; private set; } = GameState.Default;
         public Entity PC
@@ -53,7 +54,7 @@ namespace Pantheon.Core
             set => Player.Entity = value;
         }
 
-        public event System.Action<Level> LevelChangeEvent;
+        public event Action<Level> LevelChangeEvent;
 
         private void OnEnable()
         {
@@ -62,6 +63,8 @@ namespace Pantheon.Core
             Player = GetComponent<Player>();
             Locator.Player = Player;
             Locator.Log = Log;
+            Audio = GetComponent<AudioManager>();
+            Locator.Audio = Audio;
         }
 
         public void NewGame(string playerName)
