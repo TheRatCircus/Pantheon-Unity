@@ -4,7 +4,7 @@
 using NUnit.Framework;
 using Pantheon;
 using Pantheon.Commands.NonActor;
-using Pantheon.Components;
+using Pantheon.Components.Entity;
 using Pantheon.UI;
 
 namespace PantheonTests

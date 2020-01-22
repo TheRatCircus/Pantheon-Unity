@@ -6,7 +6,7 @@
 
 using Pantheon.Commands.Actor;
 
-namespace Pantheon.Components
+namespace Pantheon.Components.Entity
 {
     [System.Serializable]
     public abstract class AIStrategy

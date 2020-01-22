@@ -3,7 +3,7 @@
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Pantheon.Components;
+using Pantheon.Components.Entity;
 
 namespace Pantheon.Content
 {

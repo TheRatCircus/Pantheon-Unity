@@ -1,7 +1,7 @@
 ﻿// ConsoleCommandFunctions.cs
 // Jerome Martina
 
-using Pantheon.Components;
+using Pantheon.Components.Entity;
 using Pantheon.Content;
 using Pantheon.Core;
 using Pantheon.World;

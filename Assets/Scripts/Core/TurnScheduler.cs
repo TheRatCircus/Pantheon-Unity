@@ -5,7 +5,7 @@
 #define DEBUG_SCHEDULER
 #undef DEBUG_SCHEDULER
 
-using Pantheon.Components;
+using Pantheon.Components.Entity;
 using Pantheon.World;
 using System;
 using System.Collections.Generic;

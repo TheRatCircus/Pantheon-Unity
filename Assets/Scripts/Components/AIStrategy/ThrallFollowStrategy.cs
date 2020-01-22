@@ -5,7 +5,7 @@ using Pantheon.Commands.Actor;
 using Pantheon.World;
 using UnityEngine;
 
-namespace Pantheon.Components
+namespace Pantheon.Components.Entity
 {
     /// <summary>
     /// Follow a designated master and attack any hostiles coming close to it.

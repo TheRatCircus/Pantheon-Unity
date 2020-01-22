@@ -1,66 +1,82 @@
 ﻿// Talent.cs
 // Jerome Martina
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Pantheon.Commands;
 using Pantheon.Commands.NonActor;
+using Pantheon.Components.Entity;
+using Pantheon.Core;
 using Pantheon.World;
 using System.Collections.Generic;
 
 namespace Pantheon
 {
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum TalentTargeting : byte
+    {
+        None,
+        Adjacent,
+    }
+
     [System.Serializable]
     public sealed class Talent
     {
+        public string Name { get; set; }
         public int Range { get; set; }
-        public NonActorCommand[] Commands { get; set; }
+        public int Time { get; set; } = TurnScheduler.TurnTime;
+        public TalentTargeting Targeting { get; set; } = TalentTargeting.None;
+        public TalentComponent[] Components { get; set; }
+        public NonActorCommand[] OnCast { get; set; }
 
-        public Talent(int range, params NonActorCommand[] commands)
+        public static Talent[] GetAllTalents(Entity entity)
         {
-            Range = range;
-            Commands = commands;
-            foreach (NonActorCommand cmd in Commands)
+            List<Talent> ret = new List<Talent>();
+            if (entity.TryGetComponent(out Talented talented))
             {
-                if (cmd is IRangedCommand rc)
-                    rc.Range = Range;
+                foreach (Talent talent in talented.Talents)
+                    ret.Add(talent);
             }
+
+            if (entity.TryGetComponent(out Wield wield))
+            {
+                foreach (Entity item in wield.Items)
+                {
+                    if (item != null && item.TryGetComponent(out Evocable evoc))
+                    {
+                        foreach (Talent talent in evoc.Talents)
+                            ret.Add(talent);
+                    }
+                }
+            }
+
+            return ret.ToArray();
         }
 
-        public CommandResult Cast(Entity evoker)
+        public CommandResult Cast(Entity caster, Cell target)
         {
             CommandResult result = CommandResult.Succeeded;
 
-            foreach (NonActorCommand nac in Commands)
+            if (OnCast != null)
             {
-                nac.Entity = evoker;
-                CommandResult r = nac.Execute();
+                foreach (NonActorCommand nac in OnCast)
+                {
+                    if (nac == null)
+                        continue;
 
-                if (r == CommandResult.InProgress)
-                    result = CommandResult.InProgress;
-                if (r == CommandResult.Cancelled)
-                    result = CommandResult.Cancelled;
+                    nac.Entity = caster;
+                    CommandResult r = nac.Execute();
+
+                    if (r == CommandResult.InProgress)
+                        result = CommandResult.InProgress;
+                    if (r == CommandResult.Cancelled)
+                        result = CommandResult.Cancelled;
+                }
             }
 
-            return result;
-        }
-
-        public CommandResult Cast(Entity evoker,
-            Cell cell, List<Cell> line, List<Cell> path)
-        {
-            CommandResult result = CommandResult.Succeeded;
-
-            foreach (NonActorCommand nac in Commands)
+            foreach (TalentComponent component in Components)
             {
-                nac.Entity = evoker;
-
-                if (nac is IEntityTargetedCommand etc)
-                    etc.Target = cell.Actor;
-                if (nac is ICellTargetedCommand ctc)
-                    ctc.Cell = cell;
-                if (nac is ILineTargetedCommand ltc)
-                    ltc.Line = line;
-
-                CommandResult r = nac.Execute();
-
+                CommandResult r = component.Invoke(caster, target);
                 if (r == CommandResult.InProgress)
                     result = CommandResult.InProgress;
                 if (r == CommandResult.Cancelled)

@@ -4,8 +4,10 @@
 using Pantheon.Utils;
 using UnityEngine;
 
-namespace Pantheon.Components.Statuses
+namespace Pantheon.Components.Entity.Statuses
 {
+    using Entity = Pantheon.Entity;
+
     /// <summary>
     /// Increases an actor's speed to 3 times its normal value.
     /// </summary>

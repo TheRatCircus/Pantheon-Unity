@@ -57,25 +57,7 @@
     },
     {
       "$type": "Evocable",
-      "EvokeTime": 100,
-      "Talents": [
-        {
-          "Range": 5,
-          "Commands": [
-            {
-              "$type": "PointEffectCommand",
-              "cmd": {
-                "$type": "StatusCommand",
-                "Definition": "Status_Momentum",
-                "Duration": 1000,
-                "Magnitude": 1
-              },
-              "Cell": null,
-              "Range": 5
-            }
-          ]
-        }
-      ]
+      "Talents": []
     },
     {
       "$type": "Health",
@@ -135,6 +117,30 @@
     {
       "$type": "Status",
       "Statuses": []
+    },
+    {
+      "$type": "Talented",
+      "Talents": [
+        {
+          "Name": "Punch",
+          "Range": 1,
+          "Time": 100,
+          "Targeting": "None",
+          "Components": [
+            {
+              "$type": "TalentMelee",
+              "Damages": [
+                {
+                  "Type": "Bludgeoning",
+                  "Min": 2,
+                  "Max": 4
+                }
+              ]
+            }
+          ],
+          "OnCast": null
+        }
+      ]
     },
     {
       "$type": "Weight",

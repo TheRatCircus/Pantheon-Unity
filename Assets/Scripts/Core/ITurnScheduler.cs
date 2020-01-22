@@ -1,7 +1,7 @@
 ﻿// ITurnScheduler.cs
 // Jerome Martina
 
-using Pantheon.Components;
+using Pantheon.Components.Entity;
 using Pantheon.World;
 using System;
 

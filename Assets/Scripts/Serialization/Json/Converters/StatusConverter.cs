@@ -2,7 +2,7 @@
 // Jerome Martina
 
 using Newtonsoft.Json;
-using Pantheon.Components.Statuses;
+using Pantheon.Components.Entity.Statuses;
 using Pantheon.Core;
 using System;
 

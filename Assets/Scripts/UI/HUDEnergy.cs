@@ -1,7 +1,7 @@
 ﻿// HUDEnergy.cs
 // Jerome Martina
 
-using Pantheon.Components;
+using Pantheon.Components.Entity;
 using TMPro;
 using UnityEngine;
 

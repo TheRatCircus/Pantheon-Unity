@@ -1,7 +1,7 @@
 ﻿// MeleeCommand.cs
 // Jerome Martina
 
-using Pantheon.Components;
+using Pantheon.Components.Entity;
 using Pantheon.Content;
 using Pantheon.Utils;
 using Pantheon.World;

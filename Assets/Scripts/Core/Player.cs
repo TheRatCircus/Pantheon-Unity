@@ -2,11 +2,12 @@
 // Jerome Martina
 
 using Pantheon.Commands.Actor;
-using Pantheon.Components;
+using Pantheon.Components.Entity;
 using Pantheon.UI;
 using Pantheon.Utils;
 using Pantheon.World;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Cursor = Pantheon.UI.Cursor;
 
@@ -65,6 +66,12 @@ namespace Pantheon.Core
                 Input.GetAxis("MouseY") == 0)
                 return;
 
+            if (cursor.HoveredCell.Visible)
+            {
+                selectedCell = cursor.HoveredCell;
+                selectedLine = Bresenhams.GetLine(Entity.Level, Entity.Cell, selectedCell);
+            }
+
             switch (Mode)
             {
                 case InputMode.Default:
@@ -120,16 +127,18 @@ namespace Pantheon.Core
             {
                 actor.Command = new MoveCommand(Entity, new Vector2Int(1, -1));
             }
+            else if (Input.GetMouseButtonDown(0))
+            {
+                Talent talent = Talent.GetAllTalents(Entity)[0];
+                Cell target = GetTalentTarget(talent.Targeting);
+                actor.Command = new TalentCommand(Entity, talent, target);
+            }
             else if (Input.GetButtonDown("Wait"))
                 actor.Command = new WaitCommand(Entity);
             else if (Input.GetButtonDown("Use"))
             {
                 actor.Command = new UseItemCommand(Entity,
                     Entity.GetComponent<Inventory>().Items[0]);
-            }
-            else if (Input.GetButtonDown("Autoattack"))
-            {
-                actor.Command = Autoattack();
             }
             else if (Input.GetButtonDown("Pickup"))
                 actor.Command = new PickupCommand(Entity);
@@ -165,21 +174,6 @@ namespace Pantheon.Core
             else if (Input.GetButtonDown("Wield"))
                 actor.Command = new WieldCommand(Entity,
                     Entity.GetComponent<Inventory>().Items[0]);
-            else if (Input.GetButtonDown("Evoke"))
-            {
-                Wield wield = Entity.GetComponent<Wield>();
-                if (!wield.Wielding)
-                {
-                    Locator.Log.Send("You aren't wielding anything.",
-                        Color.grey);
-                    return;
-                }
-                else
-                {
-                    actor.Command = new EvokeCommand(
-                        Entity, wield.Items[0]);
-                }
-            }
         }
 
         private void PointSelect()
@@ -262,74 +256,6 @@ namespace Pantheon.Core
             }
         }
 
-        private ActorCommand Autoattack()
-        {
-            HashSet<Entity> visibleEnemies = new HashSet<Entity>();
-
-            foreach (Entity npc in VisibleActors)
-            {
-                if (npc.GetComponent<Actor>().HostileTo(actor))
-                    visibleEnemies.Add(npc);
-            }
-
-            if (visibleEnemies.Count < 1)
-            {
-                Locator.Log.Send("No visible enemies.", Color.grey);
-                return null;
-            }
-
-            Entity target = null;
-            int distance = 255;
-
-            foreach (Entity enemy in visibleEnemies)
-            {
-                int d = entity.Level.Distance(enemy.Cell, entity.Cell);
-                if (d < distance)
-                {
-                    distance = d;
-                    target = enemy;
-                }
-            }
-
-            Cell cell = target.Cell;
-            List<Cell> line = Bresenhams.GetLine(entity.Level, entity.Cell, cell);
-            List<Cell> path = entity.Level.GetPathTo(entity.Cell, cell);
-
-            if (entity.TryGetComponent(out Wield wield))
-            {
-                Entity[] evocables = wield.GetEvocables();
-                if (evocables.Length > 0)
-                {
-                    Talent talent = evocables[0].GetComponent<Evocable>().Talents[0];
-                    if (talent.Range >= distance)
-                    {
-                        EvokeCommand cmd = new EvokeCommand(entity, evocables[0])
-                        {
-                            Cell = cell,
-                            Line = line,
-                            Path = path
-                        };
-                        return cmd;
-                    }
-                }
-            }
-
-            if (!entity.Level.AdjacentTo(entity.Cell, cell))
-            {
-                if (path.Count > 0)
-                    return new MoveCommand(entity, path[0]);
-                else
-                {
-                    Locator.Log.Send(
-                        $"Cannot find a path to {cell.Actor.ToSubjectString(false)}.",
-                        Color.grey);
-                    return null;
-                }
-            }
-
-            return new MeleeCommand(entity, cell);
-        }
-
         public InputMode RequestCell(out Cell cell, int range)
         {
             switch (Mode)
@@ -403,6 +329,33 @@ namespace Pantheon.Core
             foreach (GameObject go in targetOverlays)
                 Destroy(go);
             targetOverlays.Clear();
+        }
+
+        private Cell GetTalentTarget(TalentTargeting targeting)
+        {
+            switch (targeting)
+            {
+                case TalentTargeting.Adjacent:
+                    return selectedLine.ElementAtOrDefault(1);
+                case TalentTargeting.None:
+                    return null;
+                default:
+                    throw new System.ArgumentException(
+                        "Invalid talent targeting scheme.");
+            }
+        }
+
+        private void OnDrawGizmos()
+        {
+            foreach (Cell cell in selectedLine)
+                Gizmos.DrawCube(
+                    cell.Position.ToVector3(),
+                    new Vector3(.2f, .2f, .2f));
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawCube(
+                selectedCell.Position.ToVector3(),
+                new Vector3(.3f, .3f, .3f));
         }
     }
 }

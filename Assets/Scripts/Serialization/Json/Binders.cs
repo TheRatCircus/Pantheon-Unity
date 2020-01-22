@@ -2,12 +2,13 @@
 // Jerome Martina
 
 using Pantheon.Commands.NonActor;
-using Pantheon.Components;
-using Pantheon.Components.Statuses;
+using Pantheon.Components.Entity;
+using Pantheon.Components.Entity.Statuses;
 using Pantheon.Gen;
 using System;
 using System.Collections.Generic;
-using Relic = Pantheon.Components.Relic;
+using Relic = Pantheon.Components.Entity.Relic;
+using TalentMelee = Pantheon.Components.Talent.TalentMelee;
 
 namespace Pantheon.Serialization.Json
 {
@@ -47,6 +48,7 @@ namespace Pantheon.Serialization.Json
                     typeof(Size),
                     typeof(Species),
                     typeof(Status),
+                    typeof(Talented),
                     typeof(Weight),
                     typeof(Wield),
                     // Commands
@@ -61,8 +63,9 @@ namespace Pantheon.Serialization.Json
                     typeof(ThrallFollowStrategy),
                     // Statuses
                     typeof(Momentum),
-                    // Misc
-                    typeof(Talent)
+                    // Talent
+                    typeof(Talent),
+                    typeof(TalentMelee)
                 }
             };
     }

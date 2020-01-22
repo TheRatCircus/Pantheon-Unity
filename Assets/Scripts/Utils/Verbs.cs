@@ -44,5 +44,10 @@ namespace Pantheon.Utils
         {
             return entity.PlayerControlled ? "slow" : "slows";
         }
+
+        public static string Swing(Entity entity)
+        {
+            return entity.PlayerControlled ? "swing" : "swings";
+        }
     }
 }

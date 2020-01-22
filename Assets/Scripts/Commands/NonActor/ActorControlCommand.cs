@@ -1,10 +1,10 @@
 ﻿// ActorControlCommand.cs
 // Jerome Martina
 
-using Pantheon.Components;
+using Pantheon.Components.Entity;
 using System;
 using UnityEngine;
-using ActorComp = Pantheon.Components.Actor;
+using ActorComp = Pantheon.Components.Entity.Actor;
 
 namespace Pantheon.Commands.NonActor
 {

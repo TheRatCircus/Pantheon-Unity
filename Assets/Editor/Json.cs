@@ -4,8 +4,8 @@
 using Newtonsoft.Json;
 using Pantheon;
 using Pantheon.Commands.NonActor;
-using Pantheon.Components;
-using Pantheon.Components.Statuses;
+using Pantheon.Components.Entity;
+using Pantheon.Components.Talent;
 using Pantheon.Content;
 using Pantheon.Core;
 using Pantheon.Gen;
@@ -17,7 +17,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 using BodyPart = Pantheon.Content.BodyPart;
-using Relic = Pantheon.Components.Relic;
+using Relic = Pantheon.Components.Entity.Relic;
 
 namespace PantheonEditor
 {
@@ -73,9 +73,7 @@ namespace PantheonEditor
                     },
                 new Body(),
                 new Corpse(),
-                new Evocable(TurnScheduler.TurnTime, 
-                    new Talent(5, new PointEffectCommand(null,
-                        new StatusCommand(null, null, new Momentum(), 1000, 1)))),
+                new Evocable(),
                 new Health(),
                 new Inventory(20),
                 new Location(),
@@ -96,6 +94,32 @@ namespace PantheonEditor
                 new Size(1),
                 new Species(null),
                 new Status(),
+                new Talented()
+                {
+                    Talents = new Talent[]
+                    {
+                        new Talent()
+                        { 
+                            Name = "Punch",
+                            Range = 1,
+                            Components = new TalentComponent[]
+                            {
+                                new TalentMelee
+                                {
+                                    Damages = new Damage[]
+                                    {
+                                        new Damage
+                                        { 
+                                            Min = 2,
+                                            Max = 4,
+                                            Type = DamageType.Bludgeoning
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 new Weight(50),
                 new Wield(2)
             };

@@ -2,7 +2,7 @@
 // Jerome Martina
 
 using static System.Environment;
-using Pantheon.Components;
+using Pantheon.Components.Entity;
 using UnityEngine;
 using Newtonsoft.Json;
 using UnityEngine.Tilemaps;

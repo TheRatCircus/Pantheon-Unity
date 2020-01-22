@@ -4,7 +4,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Pantheon;
-using Pantheon.Components;
+using Pantheon.Components.Entity;
 using Pantheon.Content;
 using Pantheon.Serialization.Json;
 using Pantheon.Serialization.Json.Converters;

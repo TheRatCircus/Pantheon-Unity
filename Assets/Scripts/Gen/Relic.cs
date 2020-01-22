@@ -2,9 +2,8 @@
 // Jerome Martina
 
 using Pantheon.Commands.NonActor;
-using Pantheon.Components;
+using Pantheon.Components.Entity;
 using Pantheon.Content;
-using Pantheon.Core;
 using Pantheon.Utils;
 using System;
 using System.Linq;
@@ -13,6 +12,8 @@ using Random = UnityEngine.Random;
 
 namespace Pantheon.Gen
 {
+    using Components = Components.Entity;
+
     /// <summary> Relic generation functions. </summary>
     public static class Relic
     {
@@ -57,10 +58,12 @@ namespace Pantheon.Gen
             EntityTemplate basic = Assets.Templates[Tables.basicTossingWeapons.Random()];
             Entity relic = new Entity(basic);
 
-
             GameObject fxPrefab = Assets.TossFXPrefab;
             NonActorCommand nac = new MultitossCommand(null, relic, 3);
-            Talent talent = new Talent(11, nac);
+            Talent talent = new Talent
+            {
+                OnCast = new[] { nac }
+            };
 
             if (relic.TryGetComponent(out Evocable evoc))
             {
@@ -68,7 +71,7 @@ namespace Pantheon.Gen
             }
             else
             {
-                Evocable newEvoc = new Evocable(TurnScheduler.TurnTime, talent);
+                Evocable newEvoc = new Evocable(talent);
                 newEvoc.AddTalent(talent);
                 relic.AddComponent(newEvoc);
             }
@@ -110,7 +113,10 @@ namespace Pantheon.Gen
                     break;
             }
 
-            Talent talent = new Talent(5, nac);
+            Talent talent = new Talent
+            {
+                OnCast = new[] { nac }
+            };
 
             EntityTemplate basic = Assets.Templates[Tables.basicMagicWeapons.Random()];
             Entity relic = new Entity(basic);
@@ -121,7 +127,7 @@ namespace Pantheon.Gen
             }
             else
             {
-                Evocable newEvoc = new Evocable(TurnScheduler.TurnTime, talent);
+                Evocable newEvoc = new Evocable(talent);
                 newEvoc.AddTalent(talent);
                 relic.AddComponent(newEvoc);
             }

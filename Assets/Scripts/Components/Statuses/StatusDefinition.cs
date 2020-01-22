@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
 
-namespace Pantheon.Components.Statuses
+namespace Pantheon.Components.Entity.Statuses
 {
+    using Entity = Pantheon.Entity;
+
     public abstract class StatusDefinition
     {
         public abstract string ID { get; }

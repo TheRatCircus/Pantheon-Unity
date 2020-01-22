@@ -2,8 +2,8 @@
 // Jerome Martina
 
 using Newtonsoft.Json;
-using Pantheon.Components;
-using Pantheon.Components.Statuses;
+using Pantheon.Components.Entity;
+using Pantheon.Components.Entity.Statuses;
 
 namespace Pantheon.Commands.NonActor
 {

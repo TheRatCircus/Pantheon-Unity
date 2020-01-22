@@ -7,7 +7,7 @@
 using Pantheon.Commands.Actor;
 using Pantheon.Utils;
 
-namespace Pantheon.Components
+namespace Pantheon.Components.Entity
 {
     /// <summary>
     /// Causes NPC to wait in place.

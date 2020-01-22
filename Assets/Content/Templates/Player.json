@@ -17,23 +17,47 @@
       "RegenTime": 800,
       "Regenerating": true
     },
-	{
-	  "$type": "Inventory",
-	  "Size": 40
-	},
     {
-	  "$type": "Species",
+      "$type": "Inventory",
+      "Size": 40
+    },
+    {
+      "$type": "Species",
       "SpeciesDef": "Species_Human"
     },
-	{
+    {
       "$type": "Status",
       "Statuses": []
     },
-	{
+    {
       "$type": "Wield",
       "Items": [
         null,
         null
+      ]
+    },
+    {
+      "$type": "Talented",
+      "Talents": [
+        {
+          "Name": "Punch",
+          "Range": 1,
+          "Time": 100,
+          "Targeting": "Adjacent",
+          "Components": [
+            {
+              "$type": "TalentMelee",
+              "Damages": [
+                {
+                  "Type": "Bludgeoning",
+                  "Min": 2,
+                  "Max": 4
+                }
+              ]
+            }
+          ],
+          "OnCast": null
+        }
       ]
     }
   ]

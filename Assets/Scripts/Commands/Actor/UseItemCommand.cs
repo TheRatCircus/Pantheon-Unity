@@ -1,7 +1,7 @@
 ﻿// UseItemCommand.cs
 // Jerome Martina
 
-using Pantheon.Components;
+using Pantheon.Components.Entity;
 
 namespace Pantheon.Commands.Actor
 {

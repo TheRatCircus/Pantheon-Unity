@@ -5,7 +5,7 @@ using Pantheon.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ActorComp = Pantheon.Components.Actor;
+using ActorComp = Pantheon.Components.Entity.Actor;
 
 namespace Pantheon.Commands.NonActor
 {

@@ -8,7 +8,7 @@ using Pantheon.Commands.Actor;
 using Pantheon.Utils;
 using Pantheon.World;
 
-namespace Pantheon.Components
+namespace Pantheon.Components.Entity
 {
     /// <summary>
     /// Wander at random throughout the level.

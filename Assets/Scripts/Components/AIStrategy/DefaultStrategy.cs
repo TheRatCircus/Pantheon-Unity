@@ -6,10 +6,11 @@
 
 using Pantheon.Commands.Actor;
 using Pantheon.World;
-using UnityEngine;
 
-namespace Pantheon.Components
+namespace Pantheon.Components.Entity
 {
+    using Entity = Pantheon.Entity;
+
     /// <summary>
     /// Basic enemy strategy. Move to player and melee.
     /// </summary>

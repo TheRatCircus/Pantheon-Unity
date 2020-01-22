@@ -3,11 +3,11 @@
 
 using NUnit.Framework;
 using Pantheon;
-using Pantheon.Components.Statuses;
+using Pantheon.Components.Entity.Statuses;
 using Pantheon.Commands;
 using Pantheon.Commands.Actor;
 using Pantheon.Commands.NonActor;
-using Pantheon.Components;
+using Pantheon.Components.Entity;
 using Pantheon.World;
 using UnityEngine;
 using Pantheon.Core;
