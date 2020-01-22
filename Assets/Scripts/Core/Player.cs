@@ -347,6 +347,9 @@ namespace Pantheon.Core
 
         private void OnDrawGizmos()
         {
+            if (selectedLine == null || selectedCell == null)
+                return;
+
             foreach (Cell cell in selectedLine)
                 Gizmos.DrawCube(
                     cell.Position.ToVector3(),
