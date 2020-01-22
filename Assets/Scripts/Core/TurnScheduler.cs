@@ -85,9 +85,7 @@ namespace Pantheon.Core
                     UnityEngine.Debug.LogWarning(
                         "A command with 0 energy cost was scheduled.");
 
-#if DEBUG_SCHEDULER
-                ActorDebugEvent?.Invoke(actor);
-#endif
+                SendActorDebugEvent(actor);
 
                 // Handle asynchronous input by returning -1
                 if (actionCost < 0)
@@ -164,5 +162,11 @@ namespace Pantheon.Core
         }
 
         public void MarkDirtyCell(Cell cell) => dirtyCells.Add(cell);
+
+        [System.Diagnostics.Conditional("DEBUG_SCHEDULER")]
+        private void SendActorDebugEvent(Actor actor)
+        {
+            ActorDebugEvent?.Invoke(actor);
+        }
     }
 }
