@@ -11,6 +11,10 @@ namespace Pantheon.Utils
     /// </summary>
     public class Line : List<Cell>
     {
+        public Line() { }
+
+        public Line(int capacity) => Capacity = capacity;
+
         public bool IsObstructed()
         {
             foreach (Cell cell in this)

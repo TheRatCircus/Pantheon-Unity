@@ -66,7 +66,7 @@ namespace Pantheon.Core
                 Input.GetAxis("MouseY") == 0)
                 return;
 
-            if (cursor.HoveredCell.Visible)
+            if (cursor.HoveredCell != null && cursor.HoveredCell.Visible)
             {
                 selectedCell = cursor.HoveredCell;
                 selectedLine = Bresenhams.GetLine(Entity.Level, Entity.Cell, selectedCell);

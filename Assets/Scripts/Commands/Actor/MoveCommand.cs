@@ -23,7 +23,7 @@ namespace Pantheon.Commands.Actor
         /// <returns></returns>
         public static ActorCommand MoveOrWait(Entity entity, Cell target)
         {
-            List<Cell> path = entity.Level.GetPathTo(entity.Cell, target);
+            List<Cell> path = entity.Level.GetPath(entity.Cell, target);
 
             if (path.Count > 0)
                 return new MoveCommand(entity, path[0]);

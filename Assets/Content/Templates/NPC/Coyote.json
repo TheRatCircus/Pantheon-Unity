@@ -12,9 +12,19 @@
     },
     {
       "$type": "AI",
-      "Strategy": {
-        "$type": "DefaultStrategy"
-	  }
+      "Strategy": null,
+      "Utilities": [
+        {
+          "$type": "ApproachUtility"
+        },
+        {
+          "$type": "AttackUtility",
+          "Aggression": 50
+        },
+        {
+          "$type": "FleeUtility"
+        }
+      ]
     },
     {
       "$type": "Health",
@@ -26,9 +36,33 @@
 	  "$type": "Species",
       "SpeciesDef": "Species_Coyote"
     },
-	{
+    {
       "$type": "Status",
       "Statuses": []
+    },
+    {
+      "$type": "Talented",
+      "Talents": [
+        {
+          "Name": "Bite",
+          "Range": 1,
+          "Time": 100,
+          "Targeting": "Adjacent",
+          "Components": [
+            {
+              "$type": "TalentMelee",
+              "Damages": [
+                {
+                  "Type": "Piercing",
+                  "Min": 1,
+                  "Max": 3
+                }
+              ]
+            }
+          ],
+          "OnCast": null
+        }
+      ]
     }
   ]
 }

@@ -148,7 +148,7 @@ namespace Pantheon.World
             return Distance(a, b) <= 1;
         }
 
-        public List<Cell> GetPathTo(Cell origin, Cell target)
+        public Line GetPath(Cell origin, Cell target)
             => Pathfinder.CellPathList(origin.Position, target.Position);
 
         /// <summary>

@@ -51,7 +51,7 @@ namespace Pantheon
             return neighbours;
         }
 
-        public List<Cell> CellPathList(Vector2Int startPos,
+        public Line CellPathList(Vector2Int startPos,
             Vector2Int targetPos)
         {
             Profiler.BeginSample("Pathfinding");
@@ -59,9 +59,9 @@ namespace Pantheon
             Profiler.EndSample();
 
             if (nodes == null)
-                return new List<Cell>(0);
+                return new Line(0);
 
-            List<Cell> cellPath = new List<Cell>(nodes.Count);
+            Line cellPath = new Line(nodes.Count);
 
             foreach (Node n in nodes)
             {

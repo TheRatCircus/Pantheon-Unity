@@ -1,7 +1,6 @@
 ﻿// Bresenham.cs
 // Courtesy of Jason Morley
 
-using System.Collections.Generic;
 using UnityEngine;
 using Pantheon.World;
 

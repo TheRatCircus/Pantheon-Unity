@@ -17,10 +17,6 @@ namespace Pantheon.Components.Talent
 
         public override CommandResult Invoke(Entity caster, Cell target)
         {
-            if (!caster.PlayerControlled)
-                throw new System.NotImplementedException(
-                    "An NPC should not be able to cast this talent.");
-
             if (target == null)
                 throw new System.NotImplementedException(
                     "Melee talents need a target cell.");

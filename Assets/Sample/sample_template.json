@@ -13,10 +13,19 @@
     },
     {
       "$type": "AI",
-      "Strategy": {
-        "$type": "DefaultStrategy",
-        "Target": null
-      }
+      "Strategy": null,
+      "Utilities": [
+        {
+          "$type": "ApproachUtility"
+        },
+        {
+          "$type": "AttackUtility",
+          "Aggression": 50
+        },
+        {
+          "$type": "FleeUtility"
+        }
+      ]
     },
     {
       "$type": "Ammo",

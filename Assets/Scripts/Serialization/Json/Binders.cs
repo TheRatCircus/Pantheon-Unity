@@ -61,6 +61,12 @@ namespace Pantheon.Serialization.Json
                     typeof(SleepStrategy),
                     typeof(WanderStrategy),
                     typeof(ThrallFollowStrategy),
+                    // AI utilities
+                     // AI utilities
+                    typeof(AIUtility),
+                    typeof(ApproachUtility),
+                    typeof(AttackUtility),
+                    typeof(FleeUtility),
                     // Statuses
                     typeof(Momentum),
                     // Talent
