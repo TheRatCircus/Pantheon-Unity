@@ -2,16 +2,19 @@
 // Jerome Martina
 
 using Pantheon.Utils;
+using System;
 
 namespace Pantheon.Components.Entity
 {
     using Entity = Pantheon.Entity;
 
-    [System.Serializable]
+    [Serializable]
     public sealed class Wield : EntityComponent
     {
         public Entity[] Items { get; set; }
         public bool Wielding => Items.HasElements();
+
+        public event Action<Entity[]> WieldChangeEvent;
 
         public Wield(int max) => Items = new Entity[max];
 
@@ -25,6 +28,7 @@ namespace Pantheon.Components.Entity
             unwielded = Items[0];
             Items[0] = item;
             // TODO: Evaluate wieldability based on size, weight
+            WieldChangeEvent?.Invoke(Items);
             return true;
         }
 

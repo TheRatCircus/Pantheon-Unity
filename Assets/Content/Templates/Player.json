@@ -41,6 +41,7 @@
       "Talents": [
         {
           "Name": "Punch",
+          "Icon": "Sprite_Punch",
           "Range": 1,
           "Time": 100,
           "Targeting": "Adjacent",

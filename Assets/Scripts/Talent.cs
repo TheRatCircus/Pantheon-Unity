@@ -9,6 +9,7 @@ using Pantheon.Components.Entity;
 using Pantheon.Core;
 using Pantheon.World;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Pantheon
 {
@@ -23,6 +24,7 @@ namespace Pantheon
     public sealed class Talent
     {
         public string Name { get; set; }
+        public Sprite Icon { get; set; }
         public int Range { get; set; }
         public int Time { get; set; } = TurnScheduler.TurnTime;
         public TalentTargeting Targeting { get; set; } = TalentTargeting.None;

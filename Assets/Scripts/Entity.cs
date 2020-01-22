@@ -18,8 +18,8 @@ namespace Pantheon
     {
         public string Name { get; set; }
 
-        public bool Blocking { get; set; } = false;
-        public bool InInventory { get; set; } = false;
+        public bool Blocking { get; set; }
+        public bool InInventory { get; set; }
         [NonSerialized]
         private GameObject[] gameObjects = new GameObject[1];
         public GameObject[] GameObjects

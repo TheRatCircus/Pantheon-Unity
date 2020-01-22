@@ -30,6 +30,7 @@ namespace Pantheon.Core
 
         [SerializeField] private Cursor cursor = default;
         [SerializeField] private HUD hud = default;
+        [SerializeField] private Hotbar hotbarUI = default;
         private List<GameObject> targetOverlays = new List<GameObject>(10);
 
         public InputMode Mode { get; set; } = InputMode.Default;
@@ -55,6 +56,15 @@ namespace Pantheon.Core
             = new HashSet<Entity>();
         public List<Cell> AutoMovePath { get; set; }
             = new List<Cell>();
+
+        public Talent[] Talents { get; private set; } = new Talent[10];
+        private int hotbarSelection;
+
+        private void Start()
+        {
+            //Entity.GetComponent<Talented>().TalentChangeEvent += UpdateHotbar;
+            Entity.GetComponent<Wield>().WieldChangeEvent += UpdateHotbar;
+        }
 
         private void Update()
         {
@@ -129,9 +139,12 @@ namespace Pantheon.Core
             }
             else if (Input.GetMouseButtonDown(0))
             {
-                Talent talent = Talent.GetAllTalents(Entity)[0];
-                Cell target = GetTalentTarget(talent.Targeting);
-                actor.Command = new TalentCommand(Entity, talent, target);
+                Talent talent = Talents[hotbarSelection];
+                if (talent != null)
+                {
+                    Cell target = GetTalentTarget(talent.Targeting);
+                    actor.Command = new TalentCommand(Entity, talent, target);
+                }
             }
             else if (Input.GetButtonDown("Wait"))
                 actor.Command = new WaitCommand(Entity);
@@ -174,6 +187,56 @@ namespace Pantheon.Core
             else if (Input.GetButtonDown("Wield"))
                 actor.Command = new WieldCommand(Entity,
                     Entity.GetComponent<Inventory>().Items[0]);
+            else if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                hotbarUI.SetSelected(0);
+                hotbarSelection = 0;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                hotbarUI.SetSelected(1);
+                hotbarSelection = 1;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                hotbarUI.SetSelected(2);
+                hotbarSelection = 2;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                hotbarUI.SetSelected(3);
+                hotbarSelection = 3;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                hotbarUI.SetSelected(4);
+                hotbarSelection = 4;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha6))
+            {
+                hotbarUI.SetSelected(5);
+                hotbarSelection = 5;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha7))
+            {
+                hotbarUI.SetSelected(6);
+                hotbarSelection = 6;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha8))
+            {
+                hotbarUI.SetSelected(7);
+                hotbarSelection = 7;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha9))
+            {
+                hotbarUI.SetSelected(8);
+                hotbarSelection = 8;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha0))
+            {
+                hotbarUI.SetSelected(9);
+                hotbarSelection = 9;
+            }
         }
 
         private void PointSelect()
@@ -223,10 +286,10 @@ namespace Pantheon.Core
                     cursor.HoveredCell);
                 foreach (Cell c in line)
                 {
-                   GameObject overlayObj = Instantiate(
-                       targetOverlay,
-                       c.Position.ToVector3(),
-                       new Quaternion());
+                    GameObject overlayObj = Instantiate(
+                        targetOverlay,
+                        c.Position.ToVector3(),
+                        new Quaternion());
 
                     targetOverlays.Add(overlayObj);
                 }
@@ -343,6 +406,76 @@ namespace Pantheon.Core
                     throw new System.ArgumentException(
                         "Invalid talent targeting scheme.");
             }
+        }
+
+        private void UpdateHotbar(Talent[] talents)
+        {
+            int i = 0;
+
+            foreach (Talent talent in talents)
+            {
+                if (talent == null)
+                    continue;
+
+                while (Talents[i++] != null)
+                {
+                    if (i >= Talents.Length)
+                        return;
+                }
+                Talents[i] = talent;
+            }
+        }
+
+        private void UpdateHotbar(Entity[] items)
+        {
+            int i = 0;
+
+            foreach (Entity item in items)
+            {
+                if (item == null || !item.TryGetComponent(out Evocable evoc))
+                    continue;
+
+                foreach (Talent talent in evoc.Talents)
+                {
+                    if (talent == null)
+                        continue;
+
+                    while (Talents[i++] != null)
+                    {
+                        if (i >= Talents.Length)
+                            return;
+                    }
+                    Talents[i] = talent;
+                }
+            }
+        }
+
+        public void UpdateHotbar()
+        {
+            Talent[] talents = Talent.GetAllTalents(Entity);
+            int i = 0;
+            foreach (Talent talent in talents)
+            {
+                if (talent == null)
+                    continue;
+
+                while (Talents[i] != null)
+                {
+                    if (i >= Talents.Length)
+                        return;
+
+                    i++;
+                }
+                Talents[i] = talent;
+            }
+
+            for (int j = 0; j < Talents.Length; j++)
+            {
+                if (Talents[j] != null)
+                    hotbarUI.SetSprite(j, Talents[j].Icon);
+            }
+
+            hotbarUI.SetSelected(0);
         }
 
         private void OnDrawGizmos()

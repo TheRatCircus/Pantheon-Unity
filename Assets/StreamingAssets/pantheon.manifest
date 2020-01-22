@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 61083150
+CRC: 1193730614
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 39306831416a71653f132632ae51eb21
+    Hash: 298d11546857469d72083cd04c9ae4d9
   TypeTreeHash:
     serializedVersion: 2
     Hash: c3cf0dfa8abf08b86737c9c570da1419
@@ -88,4 +88,5 @@ Assets:
 - Assets/Prefabs/FX/FX_Toss.prefab
 - Assets/Content/Vaults/Vault_Keep.asset
 - Assets/Content/Terrain/Terrain_StoneFloor.asset
+- Assets/Sprites/UI/Talent/Sprite_Punch.png
 Dependencies: []

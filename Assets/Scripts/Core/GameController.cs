@@ -79,6 +79,7 @@ namespace Pantheon.Core
             player.DestroyedEvent += OnPlayerDeath;
 
             PC = player;
+            Player.UpdateHotbar();
 
             hud.Initialize(Scheduler, PC, level, LevelChangeEvent);
             LoadLevel(level, true);

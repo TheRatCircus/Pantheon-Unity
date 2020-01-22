@@ -132,6 +132,7 @@
       "Talents": [
         {
           "Name": "Punch",
+          "Icon": null,
           "Range": 1,
           "Time": 100,
           "Targeting": "None",

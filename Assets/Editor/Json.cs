@@ -102,6 +102,7 @@ namespace PantheonEditor
                         { 
                             Name = "Punch",
                             Range = 1,
+                            Icon = null,
                             Components = new TalentComponent[]
                             {
                                 new TalentMelee
