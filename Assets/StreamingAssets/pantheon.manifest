@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1628300514
+CRC: 61083150
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 7f5fec4beacf179c96f2afd8ce044ae8
+    Hash: 39306831416a71653f132632ae51eb21
   TypeTreeHash:
     serializedVersion: 2
     Hash: c3cf0dfa8abf08b86737c9c570da1419
@@ -59,7 +59,7 @@ Assets:
 - Assets/Sprites/Item/Sprite_Grenade.png
 - Assets/Content/Terrain/Terrain_Water.asset
 - Assets/Sprites/Item/Sprite_Cuirass.png
-- Assets/CharacterNames.txt
+- Assets/Content/CharacterNames.txt
 - Assets/Audio/SFX_Toss.ogg
 - Assets/Sprites/Item/Sprite_Dagger.png
 - Assets/Sprites/Actor/Sprite_GiantBumblebee.png
@@ -81,7 +81,7 @@ Assets:
 - Assets/Sprites/Item/Sprite_Prejudice.png
 - Assets/Prefabs/EntityGameObject.prefab
 - Assets/Content/Terrain/Terrain_Grass.asset
-- Assets/RelicNames.txt
+- Assets/Content/RelicNames.txt
 - Assets/Sprites/Item/Sprite_Cartridges.png
 - Assets/Sprites/Actor/Sprite_Coyote.png
 - Assets/Sprites/Actor/Sprite_GenericNPC.png

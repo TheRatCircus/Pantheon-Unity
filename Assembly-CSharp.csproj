@@ -63,30 +63,30 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\CrossSceneReference\Samples\LoadScenes.cs" />
-    <Compile Include="Assets\CrossSceneReference\Samples\TestCrossScene.cs" />
-    <Compile Include="Assets\Tilemap Extras\Runtime\Tiles\RuleTile\RuleTile.cs" />
-    <None Include="Assets\CharacterNames.txt" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+    <Compile Include="Assets\Depends\CrossSceneReference\Samples\LoadScenes.cs" />
+    <Compile Include="Assets\Depends\CrossSceneReference\Samples\TestCrossScene.cs" />
+    <Compile Include="Assets\Depends\Tilemap Extras\Runtime\Tiles\RuleTile\RuleTile.cs" />
+    <None Include="Assets\Content\CharacterNames.txt" />
+    <None Include="Assets\Depends\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
+    <None Include="Assets\Depends\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\ScriptCalculator\Readme.txt" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
-    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
-    <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
-    <None Include="Assets\RelicNames.txt" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
+    <None Include="Assets\Depends\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
+    <None Include="Assets\Depends\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+    <None Include="Assets\Depends\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\Depends\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+    <None Include="Assets\Depends\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
+    <None Include="Assets\Depends\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
+    <None Include="Assets\Depends\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
+    <None Include="Assets\Depends\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+    <None Include="Assets\Depends\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\Depends\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\Content\RelicNames.txt" />
+    <None Include="Assets\Depends\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\Depends\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
+    <None Include="Assets\Depends\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
+    <None Include="Assets\Depends\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
+    <None Include="Assets\Depends\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
+    <None Include="Assets\Depends\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/Misc/Development/unity/Pantheon/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
@@ -705,13 +705,13 @@
       <Project>{A06B5C3A-19E0-1EEF-7F23-6CB531956359}</Project>
       <Name>Pantheon.Editor</Name>
     </ProjectReference>
-    <ProjectReference Include="CrossSceneReference.Editor.csproj">
-      <Project>{DCA391AA-BF7E-B08C-F5C6-9D77260AD86B}</Project>
-      <Name>CrossSceneReference.Editor</Name>
-    </ProjectReference>
     <ProjectReference Include="Pantheon.csproj">
       <Project>{9DBFFA44-1F1A-AF79-EB58-0B2D35EF2F30}</Project>
       <Name>Pantheon</Name>
+    </ProjectReference>
+    <ProjectReference Include="CrossSceneReference.Editor.csproj">
+      <Project>{DCA391AA-BF7E-B08C-F5C6-9D77260AD86B}</Project>
+      <Name>CrossSceneReference.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="CrossSceneReference.csproj">
       <Project>{6414A4A1-599C-F67C-131D-1580D313A044}</Project>
