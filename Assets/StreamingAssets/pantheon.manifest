@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1193730614
+CRC: 2873940203
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 298d11546857469d72083cd04c9ae4d9
+    Hash: db47eafc492110e05554742f3de1410d
   TypeTreeHash:
     serializedVersion: 2
     Hash: c3cf0dfa8abf08b86737c9c570da1419
@@ -78,6 +78,7 @@ Assets:
 - Assets/Sprites/Item/Sprite_Corpse.png
 - Assets/Sprites/Actor/Sprite_Human.png
 - Assets/Sprites/Item/Sprite_Carbine.png
+- Assets/Audio/SFX_Splat_Flesh.ogg
 - Assets/Sprites/Item/Sprite_Prejudice.png
 - Assets/Prefabs/EntityGameObject.prefab
 - Assets/Content/Terrain/Terrain_Grass.asset

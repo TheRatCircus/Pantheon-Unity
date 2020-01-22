@@ -93,6 +93,7 @@ namespace PantheonEditor
                 new Relic() { Name = "Orb of Zot" },
                 new Size(1),
                 new Species(null),
+                new Splat() { Sound = null },
                 new Status(),
                 new Talented()
                 {

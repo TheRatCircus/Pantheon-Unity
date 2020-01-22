@@ -124,6 +124,10 @@
       "SpeciesDef": null
     },
     {
+      "$type": "Splat",
+      "Sound": null
+    },
+    {
       "$type": "Status",
       "Statuses": []
     },

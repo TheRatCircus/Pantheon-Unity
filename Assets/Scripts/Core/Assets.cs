@@ -27,12 +27,13 @@ namespace Pantheon
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
-                    new SpriteConverter(),
-                    new TileConverter(),
+                    new AudioClipConverter(),
+                    new BodyPartConverter(),
                     new RuleTileConverter(),
                     new SpeciesDefinitionConverter(),
-                    new BodyPartConverter(),
-                    new StatusConverter()
+                    new SpriteConverter(),
+                    new StatusConverter(),
+                    new TileConverter(),
                 }
             };
 

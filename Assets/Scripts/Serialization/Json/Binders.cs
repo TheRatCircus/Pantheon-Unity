@@ -47,6 +47,7 @@ namespace Pantheon.Serialization.Json
                     typeof(Relic),
                     typeof(Size),
                     typeof(Species),
+                    typeof(Splat),
                     typeof(Status),
                     typeof(Talented),
                     typeof(Weight),

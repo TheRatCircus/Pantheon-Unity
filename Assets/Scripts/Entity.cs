@@ -170,13 +170,21 @@ namespace Pantheon
         public void TakeHit(Entity hitter, Hit hit)
         {
             // TODO: OnHitEvent
-            Health health = GetComponent<Health>();
-            foreach (HitDamage damage in hit.damages)
-                if (health.Damage(hitter, damage))
-                {
-                    Destroy(hitter);
-                    break;
-                }
+            if (TryGetComponent(out Splat splat))
+            {
+                if (splat.Sound != null)
+                    Locator.Audio.Buffer(splat.Sound, Cell.Position.ToVector3());
+            }
+
+            if (TryGetComponent(out Health health))
+            {
+                foreach (HitDamage damage in hit.damages)
+                    if (health.Damage(hitter, damage))
+                    {
+                        Destroy(hitter);
+                        break;
+                    }
+            }
         }
 
         public void Destroy(Entity destroyer)

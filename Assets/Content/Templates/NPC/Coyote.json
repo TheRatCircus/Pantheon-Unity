@@ -33,8 +33,12 @@
       "Regenerating": true
     },
     {
-	  "$type": "Species",
+      "$type": "Species",
       "SpeciesDef": "Species_Coyote"
+    },
+    {
+      "$type": "Splat",
+      "Sound": "SFX_Splat_Flesh"
     },
     {
       "$type": "Status",

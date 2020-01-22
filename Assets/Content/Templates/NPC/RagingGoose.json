@@ -37,6 +37,10 @@
       "SpeciesDef": "Species_Goose"
     },
     {
+      "$type": "Splat",
+      "Sound": "SFX_Splat_Flesh"
+    },
+    {
       "$type": "Status",
       "Statuses": []
     },
