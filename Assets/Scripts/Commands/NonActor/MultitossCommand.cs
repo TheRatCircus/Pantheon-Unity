@@ -30,7 +30,7 @@ namespace Pantheon.Commands.NonActor
                 return CommandResult.Failed;
             else
             {
-                PrefabProvider.Inst.StartCoroutine(Fire(lines));
+                Global.Instance.StartCoroutine(Fire(lines));
                 return CommandResult.Succeeded;
             }
         }
@@ -41,7 +41,7 @@ namespace Pantheon.Commands.NonActor
             for (int i = 0; i < count; i++)
             {
                 GameObject tossFXObj = Object.Instantiate(
-                    PrefabProvider.TossFXPrefab,
+                    Assets.TossFXPrefab,
                     Entity.Cell.Position.ToVector3(),
                     new Quaternion());
                 LineProjectile proj = tossFXObj.GetComponent<LineProjectile>();
