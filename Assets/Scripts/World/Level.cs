@@ -97,6 +97,15 @@ namespace Pantheon.World
                     $"Level {ID} has no cell at {pos}.");
         }
 
+        public Cell GetCell(int x, int y)
+        {
+            if (Map[x, y] != null)
+                return Map[x, y];
+            else
+                throw new ArgumentException(
+                    $"Level {ID} has no cell at {x}, {y}.");
+        }
+
         public bool Contains(int x, int y)
         {
             if (x >= Size.x || y >= Size.y)

@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Pantheon.World;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -59,6 +60,38 @@ namespace Pantheon.Utils
                 }
             }
             return filled;
+        }
+
+        public static HashSet<Cell> FillLevel(
+            Level level,
+            Cell origin,
+            Predicate<Cell> condition)
+        {
+            HashSet<Cell> ret = new HashSet<Cell>();
+            Stack<Cell> cells = new Stack<Cell>();
+            cells.Push(origin);
+
+            while (cells.Count > 0)
+            {
+                Cell a = cells.Pop();
+
+                if (a.X > level.Size.x || a.X < 0 ||
+                    a.Y > level.Size.y || a.Y < 0)
+                    continue;
+
+                if (ret.Contains(a))
+                    continue;
+
+                if (!condition(a))
+                    continue;
+
+                ret.Add(a);
+                cells.Push(level.GetCell(a.X - 1, a.Y));
+                cells.Push(level.GetCell(a.X + 1, a.Y));
+                cells.Push(level.GetCell(a.X, a.Y - 1));
+                cells.Push(level.GetCell(a.X, a.Y + 1));
+            }
+            return ret;
         }
     }
 }

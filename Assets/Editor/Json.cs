@@ -106,7 +106,7 @@ namespace PantheonEditor
                             Icon = null,
                             Components = new TalentComponent[]
                             {
-                                new TalentMelee
+                                new AdjacentAttack
                                 {
                                     Damages = new Damage[]
                                     {
@@ -117,9 +117,24 @@ namespace PantheonEditor
                                             Type = DamageType.Bludgeoning
                                         }
                                     }
+                                },
+                                new CircularAttack
+                                {
+                                    Damages = new Damage[]
+                                    {
+                                        new Damage
+                                        {
+                                            Min = 5,
+                                            Max = 7,
+                                            Type = DamageType.Slashing
+                                        }
+                                    },
+                                    HitSound = null,
+                                    Radius = 3,
+                                    Range = 1
                                 }
                             }
-                        }
+                        },
                     }
                 },
                 new Weight(50),

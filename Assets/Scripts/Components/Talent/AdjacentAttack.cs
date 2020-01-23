@@ -1,4 +1,4 @@
-﻿// Talent.cs
+﻿// AdjacentAttack.cs
 // Jerome Martina
 
 using Pantheon.Commands;
@@ -11,7 +11,7 @@ namespace Pantheon.Components.Talent
     using Entity = Pantheon.Entity;
 
     [System.Serializable]
-    public sealed class TalentMelee : TalentComponent
+    public sealed class AdjacentAttack : TalentComponent
     {
         public Damage[] Damages { get; set; }
 
@@ -19,7 +19,7 @@ namespace Pantheon.Components.Talent
         {
             if (target == null)
                 throw new System.NotImplementedException(
-                    "Melee talents need a target cell.");
+                    "Target cell needed.");
 
             Entity enemy = target.Actor;
 

@@ -142,7 +142,7 @@
           "Targeting": "None",
           "Components": [
             {
-              "$type": "TalentMelee",
+              "$type": "AdjacentAttack",
               "Damages": [
                 {
                   "Type": "Bludgeoning",
@@ -150,6 +150,19 @@
                   "Max": 4
                 }
               ]
+            },
+            {
+              "$type": "CircularAttack",
+              "Damages": [
+                {
+                  "Type": "Slashing",
+                  "Min": 5,
+                  "Max": 7
+                }
+              ],
+              "Radius": 2,
+              "Range": 4,
+              "HitSound": null
             }
           ],
           "OnCast": null

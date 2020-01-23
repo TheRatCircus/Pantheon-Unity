@@ -54,7 +54,7 @@
           "Targeting": "Adjacent",
           "Components": [
             {
-              "$type": "TalentMelee",
+              "$type": "AdjacentAttack",
               "Damages": [
                 {
                   "Type": "Piercing",

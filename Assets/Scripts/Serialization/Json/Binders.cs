@@ -8,7 +8,7 @@ using Pantheon.Gen;
 using System;
 using System.Collections.Generic;
 using Relic = Pantheon.Components.Entity.Relic;
-using TalentMelee = Pantheon.Components.Talent.TalentMelee;
+using Pantheon.Components.Talent;
 
 namespace Pantheon.Serialization.Json
 {
@@ -72,7 +72,8 @@ namespace Pantheon.Serialization.Json
                     typeof(Momentum),
                     // Talent
                     typeof(Talent),
-                    typeof(TalentMelee)
+                    typeof(AdjacentAttack),
+                    typeof(CircularAttack)
                 }
             };
     }

@@ -51,12 +51,35 @@
           "Targeting": "Adjacent",
           "Components": [
             {
-              "$type": "TalentMelee",
+              "$type": "AdjacentAttack",
               "Damages": [
                 {
                   "Type": "Bludgeoning",
                   "Min": 2,
                   "Max": 4
+                }
+              ]
+            }
+          ],
+          "OnCast": null
+        },
+        {
+          "Name": "Contempt",
+          "Icon": "Sprite_Contempt",
+          "Range": 1,
+          "Time": 100,
+          "Targeting": "Adjacent",
+          "Components": [
+            {
+              "$type": "CircularAttack",
+              "Range": 3,
+              "Radius": 9,
+              "HitSound": "SFX_Patsons",
+              "Damages": [
+                {
+                  "Type": "Bludgeoning",
+                  "Min": 5,
+                  "Max": 9
                 }
               ]
             }
