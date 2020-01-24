@@ -87,8 +87,8 @@ namespace Pantheon
 
             Components = new Dictionary<Type, EntityComponent>();
 
-            foreach (EntityComponent component in template.Components)
-                AddComponent(component.Clone(false));
+            //foreach (EntityComponent component in template.Components)
+            //    AddComponent(component.Clone(false));
 
             AddComponent(new Location());
             ConnectComponents();
@@ -107,6 +107,13 @@ namespace Pantheon
         {
             if (Components.TryGetValue(typeof(T), out EntityComponent ret))
                 return (T)ret;
+            else if (Flyweight != null && Flyweight.TryGetComponent(out T tec))
+            {
+                // Get clone from template, add to Components, return it
+                T clone = (T)tec.Clone(false);
+                AddComponent(clone);
+                return clone;
+            }
             else
                 throw new ArgumentException(
                     $"Component of type {typeof(T)} not found.");
@@ -115,15 +122,23 @@ namespace Pantheon
         public bool TryGetComponent<T>(out T ret)
             where T : EntityComponent
         {
-            if (!Components.TryGetValue(typeof(T), out EntityComponent c))
+            if (Components.TryGetValue(typeof(T), out EntityComponent ec))
             {
-                ret = null;
-                return false;
+                ret = (T)ec;
+                return true;
+            }
+            else if (Flyweight != null && Flyweight.TryGetComponent(out T tec))
+            {
+                // Get clone from template, add to Components, return it
+                T clone = (T)tec.Clone(false);
+                AddComponent(clone);
+                ret = clone;
+                return true;
             }
             else
             {
-                ret = (T)c;
-                return true;
+                ret = null;
+                return false;
             }
         }
 

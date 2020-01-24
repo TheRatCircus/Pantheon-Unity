@@ -4,6 +4,7 @@
 using Pantheon.Content;
 using Pantheon.Gen;
 using Pantheon.Serialization.Binary.Surrogates;
+using Pantheon.World;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -11,9 +12,10 @@ using UnityEngine;
 
 namespace Pantheon.SaveLoad
 {
+    // XXX: This class can be static
     public sealed class SaveWriterReader
     {
-        SurrogateSelector selector;
+        private readonly SurrogateSelector selector;
 
         public SaveWriterReader()
         {

@@ -51,6 +51,20 @@ namespace Pantheon.Content
             }
         }
 
+        public bool TryGetComponent<T>(out T ret) where T : EntityComponent
+        {
+            foreach (EntityComponent ec in Components)
+            {
+                if (ec.GetType() == typeof(T))
+                {
+                    ret = (T)ec;
+                    return true;
+                }
+            }
+            ret = null;
+            return false;
+        }
+
         public override string ToString()
         {
             string ret = $"{EntityName}{NewLine}";

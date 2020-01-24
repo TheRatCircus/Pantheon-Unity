@@ -55,10 +55,7 @@ namespace Pantheon.World
             itemTilemap = itemsTransform.GetComponent<Tilemap>();
         }
 
-        public void Initialize()
-        {
-            Pathfinder = new Pathfinder(this);
-        }
+        public void Initialize() => Pathfinder = new Pathfinder(this);
 
         public bool TryGetCell(int x, int y, out Cell cell)
         {

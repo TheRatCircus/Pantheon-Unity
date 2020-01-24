@@ -18,7 +18,7 @@ namespace Pantheon.SaveLoad
         public Save(string name, GameWorld world, Entity player)
         {
             Name = name;
-            //World = world;
+            World = world;
             Player = player;
         }
 
