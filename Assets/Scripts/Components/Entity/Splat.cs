@@ -8,11 +8,12 @@ namespace Pantheon.Components.Entity
     [System.Serializable]
     public sealed class Splat : EntityComponent
     {
+        public GameObject FXPrefab { get; set; }
         public AudioClip Sound { get; set; }
 
         public override EntityComponent Clone(bool full)
         {
-            return new Splat() { Sound = Sound };
+            return new Splat() { Sound = Sound, FXPrefab = FXPrefab };
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Object = UnityEngine.Object;
 
 namespace Pantheon
 {
@@ -189,6 +190,10 @@ namespace Pantheon
             {
                 if (splat.Sound != null)
                     Locator.Audio.Buffer(splat.Sound, Cell.Position.ToVector3());
+                if (splat.FXPrefab != null && RandomUtils.OneChanceIn(2))
+                    Object.Destroy(Object.Instantiate(
+                        splat.FXPrefab, Cell.Position.ToVector3(),
+                        new Quaternion(), null) as GameObject, 1f);
             }
 
             if (TryGetComponent(out Health health))

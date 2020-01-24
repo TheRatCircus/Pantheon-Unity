@@ -125,6 +125,7 @@
     },
     {
       "$type": "Splat",
+      "FXPrefab": null,
       "Sound": null
     },
     {

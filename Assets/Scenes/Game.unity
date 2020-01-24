@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -978,8 +978,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetOverlayTile: {fileID: 11400000, guid: 9bb0957d045dfd048a60f2f5a9dfb82d, type: 2}
-  targetOverlay: {fileID: 7267454669974299993, guid: eb73acf3ac1caff4d82ad41e54cd4516,
-    type: 3}
   cursor: {fileID: 599566653}
   hud: {fileID: 1429926819}
   hotbarUI: {fileID: 1429926820}

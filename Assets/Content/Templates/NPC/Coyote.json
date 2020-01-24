@@ -38,7 +38,8 @@
     },
     {
       "$type": "Splat",
-      "Sound": "SFX_Splat_Flesh"
+      "Sound": "SFX_Splat_Flesh",
+      "FXPrefab": "FX_Splat_Blood"
     },
     {
       "$type": "Status",

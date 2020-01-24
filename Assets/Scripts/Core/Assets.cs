@@ -29,6 +29,7 @@ namespace Pantheon
                 {
                     new AudioClipConverter(),
                     new BodyPartConverter(),
+                    new GameObjectConverter(),
                     new RuleTileConverter(),
                     new SpeciesDefinitionConverter(),
                     new SpriteConverter(),
