@@ -55,6 +55,8 @@ namespace Pantheon.Core
             return changed;
         }
 
+        public static void ResetPrevious() => prev = null;
+
         // Coordinates used to transform a point in an octant
         private static readonly Vector2Int[,] _octantCoords
             = new Vector2Int[,]

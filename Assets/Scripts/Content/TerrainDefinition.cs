@@ -20,5 +20,7 @@ namespace Pantheon.Content
         public Sprite Sprite => sprite;
         public bool Blocked => blocked;
         public bool Opaque => opaque;
+
+        public override string ToString() => DisplayName;
     }
 }

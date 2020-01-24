@@ -187,7 +187,6 @@ namespace Pantheon.World
 
         public bool HasItem(Entity item) => items.Contains(item);
 
-        public override string ToString()
-            => $"Cell {Position}";
+        public override string ToString() => $"Cell ({Terrain}) {Position}";
     }
 }

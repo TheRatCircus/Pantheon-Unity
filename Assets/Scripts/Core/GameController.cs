@@ -202,7 +202,7 @@ namespace Pantheon.Core
 
         public static void QuitToTitle()
         {
-            AssetBundle.UnloadAllAssetBundles(true);
+            FOV.ResetPrevious();
             SceneManager.LoadScene(Scenes.MainMenu, LoadSceneMode.Single);
         }
     }

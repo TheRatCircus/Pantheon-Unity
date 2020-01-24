@@ -2,6 +2,7 @@
 // Jerome Martina
 
 #define QUICKSTART
+#undef QUICKSTART
 
 using Pantheon.Core;
 using Pantheon.SaveLoad;
