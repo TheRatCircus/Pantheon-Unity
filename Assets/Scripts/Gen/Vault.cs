@@ -64,8 +64,7 @@ namespace Pantheon.Gen
                         x - position.x, y - position.y);
                     if (terrain != null)
                     {
-                        level.Map[x, y].Wall = terrain;
-                        level.Map[x, y].Ground = Assets.GetTerrain("Terrain_StoneFloor");
+                        level.Map[x, y].Terrain = terrain;
                     }
                 }
             return true;

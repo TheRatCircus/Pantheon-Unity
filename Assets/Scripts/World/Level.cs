@@ -328,7 +328,7 @@ namespace Pantheon.World
 
                 ret = Map[randX, randY];
 
-            } while (ret.Wall != null);
+            } while (ret.Walled);
             return ret;
         }
 
@@ -348,7 +348,7 @@ namespace Pantheon.World
                 for (iX = startX; iX <= endX; iX++)
                     if (!(iX == x && iY == y))
                         if ((oobIsWall && !Contains(iX, iY))
-                            || Map[iX, iY].Wall != null)
+                            || Map[iX, iY].Walled)
                         {
                             wallCounter++;
                         }
@@ -373,7 +373,7 @@ namespace Pantheon.World
                     if (!(iX == x && iY == y))
                         if ((oobIsWall && !Contains(iX, iY)
                             || (oobIsWall && !rect.Contains(iX, iY)))
-                            || Map[iX, iY].Wall != null)
+                            || Map[iX, iY].Walled)
                         {
                             wallCounter++;
                         }
@@ -409,10 +409,8 @@ namespace Pantheon.World
             Profiler.BeginSample("Level.DrawTile()");
 
             RuleTile terrainTile;
-            if (cell.Wall != null)
-                terrainTile = cell.Wall.Tile;
-            else if (cell.Ground != null)
-                terrainTile = cell.Ground.Tile;
+            if (cell.Terrain != null)
+                terrainTile = cell.Terrain.Tile;
             else
                 terrainTile = null;
 

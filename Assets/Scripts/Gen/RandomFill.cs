@@ -11,27 +11,22 @@ namespace Pantheon.Gen
     public sealed class RandomFill : BuilderStep
     {
         [JsonProperty] private int percent = 50; // 0...100
-        [JsonProperty] private TerrainDefinition ground = default;
-        [JsonProperty] private TerrainDefinition wall = default;
+        [JsonProperty] private TerrainDefinition terrain = default;
 
         /// <summary>
         /// ID-only constructor for JSON writing.
         /// </summary>
-        /// <param name="wallID"></param>
-        public RandomFill(string wallID, string groundID, int percent)
+        public RandomFill(string terrainID, int percent)
         {
-            wall = ScriptableObject.CreateInstance<TerrainDefinition>();
-            wall.name = wallID;
-            ground = ScriptableObject.CreateInstance<TerrainDefinition>();
-            ground.name = groundID;
+            terrain = ScriptableObject.CreateInstance<TerrainDefinition>();
+            terrain.name = terrainID;
             this.percent = percent;
         }
 
         [JsonConstructor]
-        public RandomFill(TerrainDefinition wall, TerrainDefinition ground, int percent)
+        public RandomFill(TerrainDefinition terrain, int percent)
         {
-            this.wall = wall;
-            this.ground = ground;
+            this.terrain = terrain;
             this.percent = percent;
         }
 
@@ -43,14 +38,13 @@ namespace Pantheon.Gen
                     if (Random.Range(0, 100) < percent)
                         if (level.TryGetCell(x, y, out Cell c))
                         {
-                            c.Wall = wall;
-                            c.Ground = ground;
+                            c.Terrain = terrain;
                         }
         }
 
         public override string ToString()
         {
-            return $"Random fill {wall} at %{percent}";
+            return $"Random fill {terrain} at %{percent}";
         }
     }
 }

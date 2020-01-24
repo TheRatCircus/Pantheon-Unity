@@ -4,7 +4,7 @@
     {
       "$type": "CellularAutomata",
       "wall": "Terrain_StoneWall",
-      "floor": "Terrain_StoneFloor",
+      "floor":  "Terrain_StoneFloor",
       "percentWalls": 45
     }
   ],

@@ -66,18 +66,18 @@ namespace Pantheon.World
             }
         }
 
-        public TerrainDefinition Ground { get; set; }
-        public TerrainDefinition Wall { get; set; }
+        public TerrainDefinition Terrain { get; set; }
 
-        public bool Opaque => Wall != null && Wall.Opaque;
+        public bool Opaque => Terrain != null && Terrain.Opaque;
         public bool Blocked
         {
             get
             {
-                if (Actor == null) return Wall != null;
+                if (Actor == null) return Terrain != null && Terrain.Blocked;
                 else return true;
             }
         }
+        public bool Walled => Terrain != null && Terrain.Blocked;
 
         public Entity Actor { get; set; }
         private List<Entity> items;
@@ -98,7 +98,7 @@ namespace Pantheon.World
         /// <param name="cell"></param>
         /// <returns>True if cell exists, has ground, and is not blocked.</returns>
         public static bool Walkable(Cell cell)
-            => cell != null && cell.Ground != null && cell.Wall == null;
+            => cell != null && cell.Terrain != null && !cell.Terrain.Blocked;
 
         public Cell(Vector2Int position) => Position = position;
 

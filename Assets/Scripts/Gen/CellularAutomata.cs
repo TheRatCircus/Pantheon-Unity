@@ -44,7 +44,7 @@ namespace Pantheon.Gen
             for (int iterations = 0; iterations < 10; iterations++)
             {
                 RandomFillMap(level);
-                Utils.Enclose(level, wall, floor);
+                Utils.Enclose(level, wall);
                 MakeCaverns(level);
 
                 if (FillDisconnected(level))
@@ -60,12 +60,10 @@ namespace Pantheon.Gen
                 row <= rect.y2 - 1; row++)
                 for (column = rect.x1; column <= rect.x2; column++)
                 {
-                    level.Map[column, row].Ground = floor;
-
                     if (PlaceWallLogic(level, column, row))
-                        level.Map[column, row].Wall = wall;
+                        level.Map[column, row].Terrain = wall;
                     else
-                        level.Map[column, row].Wall = null;
+                        level.Map[column, row].Terrain = floor;
                 }
         }
 
@@ -111,8 +109,8 @@ namespace Pantheon.Gen
             } while (cavern.Count < threshold);
             
             foreach (Cell cell in level.CellsInRect(rect))
-                if (!cell.Blocked && !cavern.Contains(cell))
-                    cell.Wall = wall;
+                if (!cell.Walled && !cavern.Contains(cell))
+                    cell.Terrain = wall;
 
             return true;
         }
@@ -128,14 +126,13 @@ namespace Pantheon.Gen
                     rectMiddle = rect.Center().y;
 
                     if (row == rectMiddle)
-                        level.Map[column, row].Wall = null;
+                        level.Map[column, row].Terrain = floor;
                     else
                     {
-                        level.Map[column, row].Ground = floor;
                         if (RandomUtils.RangeInclusive(0, 100) <= percentWalls)
-                            level.Map[column, row].Wall = wall;
+                            level.Map[column, row].Terrain = wall;
                         else
-                            level.Map[column, row].Wall = null;
+                            level.Map[column, row].Terrain = floor;
                     }
                 }
             }

@@ -21,7 +21,7 @@ namespace PantheonTests
             Cell cell = new Cell(new Vector2Int(0, 0))
             {
                 Actor = new Entity { Name = "TEST_ACTOR" },
-                Ground = ScriptableObject.CreateInstance<TerrainDefinition>()
+                Terrain = ScriptableObject.CreateInstance<TerrainDefinition>()
             };
             Assert.True(Cell.Walkable(cell));
         }
@@ -39,7 +39,7 @@ namespace PantheonTests
                     Name = "TEST_ACTOR",
                     Blocking = true
                 },
-                Ground = ScriptableObject.CreateInstance<TerrainDefinition>()
+                Terrain = ScriptableObject.CreateInstance<TerrainDefinition>()
             };
             Assert.True(cell.Blocked);
         }
