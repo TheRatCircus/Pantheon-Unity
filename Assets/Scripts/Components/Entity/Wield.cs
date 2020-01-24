@@ -3,6 +3,7 @@
 
 using Pantheon.Utils;
 using System;
+using System.Runtime.Serialization;
 
 namespace Pantheon.Components.Entity
 {
@@ -41,6 +42,12 @@ namespace Pantheon.Components.Entity
                     evocables[i] = Items[i];
             }
             return evocables.Compress();
+        }
+
+        [OnSerializing]
+        private void OnSerializing(StreamingContext ctxt)
+        {
+            Helpers.ClearNonSerializableDelegates(ref WieldChangeEvent);
         }
 
         public override EntityComponent Clone(bool full)

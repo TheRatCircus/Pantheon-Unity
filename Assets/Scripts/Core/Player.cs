@@ -44,11 +44,9 @@ namespace Pantheon.Core
             {
                 entity = value;
                 actor = value.GetComponent<Actor>();
-                inventory = value.GetComponent<Inventory>();
             }
         }
         private Actor actor;
-        private Inventory inventory;
 
         private int targetingRange;
         private Cell selectedCell;
@@ -64,7 +62,8 @@ namespace Pantheon.Core
         private void Start()
         {
             //Entity.GetComponent<Talented>().TalentChangeEvent += UpdateHotbar;
-            Entity.GetComponent<Wield>().WieldChangeEvent += UpdateHotbar;
+            if (Entity.TryGetComponent(out Wield wield))
+                wield.WieldChangeEvent += UpdateHotbar;
             selectedCell = Entity.Cell;
             selectedLine = Bresenhams.GetLine(Entity.Level, Entity.Cell, selectedCell);
             VisibleCells = Floodfill.FillIf(
