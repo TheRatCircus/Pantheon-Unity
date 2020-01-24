@@ -4,6 +4,7 @@
 using Pantheon.Commands;
 using Pantheon.Utils;
 using Pantheon.World;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Pantheon.Components.Talent
@@ -14,6 +15,11 @@ namespace Pantheon.Components.Talent
     public sealed class AdjacentAttack : TalentComponent
     {
         public Damage[] Damages { get; set; }
+
+        public override HashSet<Cell> GetTargetedCells(Entity caster, Cell target)
+        {
+            return new HashSet<Cell> { target };
+        }
 
         public override CommandResult Invoke(Entity caster, Cell target)
         {

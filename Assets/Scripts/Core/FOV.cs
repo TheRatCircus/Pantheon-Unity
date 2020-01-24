@@ -48,6 +48,10 @@ namespace Pantheon.Core
 
             prev = origin;
 
+            HashSet<Cell> visibles = Floodfill.FillIf(
+                level, origin, (Cell c) => c.Visible);
+            Locator.Player.UpdateVisibles(visibles);
+
             return changed;
         }
 

@@ -214,6 +214,13 @@ namespace Pantheon.Utils
             return adds;
         }
 
+        public static HashSet<T> ToHashSet<T>(
+        this IEnumerable<T> source,
+        IEqualityComparer<T> comparer = null)
+        {
+            return new HashSet<T>(source, comparer);
+        }
+
         public static bool TryGet<T>(this T[,] array, out T ret, int x, int y)
         {
             if (x < 0 || y < 0)

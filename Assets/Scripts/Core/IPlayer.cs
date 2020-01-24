@@ -10,8 +10,8 @@ namespace Pantheon.Core
     {
         Entity Entity { get; }
         InputMode Mode { get; set; }
-        void RecalculateVisible(IEnumerable<Cell> cells);
-        HashSet<Entity> VisibleActors { get; }
+        void UpdateVisibles(IEnumerable<Cell> cells);
+        HashSet<Cell> VisibleCells { get; }
         InputMode RequestCell(out Cell cell, int range);
         InputMode RequestLine(out List<Cell> line, int range);
     }

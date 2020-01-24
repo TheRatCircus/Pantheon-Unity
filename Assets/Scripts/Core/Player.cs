@@ -9,6 +9,7 @@ using Pantheon.World;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using Cursor = Pantheon.UI.Cursor;
 
 namespace Pantheon.Core
@@ -26,12 +27,12 @@ namespace Pantheon.Core
 
     public sealed class Player : MonoBehaviour, IPlayer
     {
-        [SerializeField] private GameObject targetOverlay = default;
+        [SerializeField] private Tile targetOverlayTile = default;
 
         [SerializeField] private Cursor cursor = default;
         [SerializeField] private HUD hud = default;
         [SerializeField] private Hotbar hotbarUI = default;
-        private List<GameObject> targetOverlays = new List<GameObject>(10);
+        [SerializeField] private Tilemap targetingTilemap = default;
 
         public InputMode Mode { get; set; } = InputMode.Default;
 
@@ -52,8 +53,8 @@ namespace Pantheon.Core
         private int targetingRange;
         private Cell selectedCell;
         private List<Cell> selectedLine = new List<Cell>();
-        public HashSet<Entity> VisibleActors { get; private set; }
-            = new HashSet<Entity>();
+        public HashSet<Cell> VisibleCells { get; private set; }
+            = new HashSet<Cell>();
         public List<Cell> AutoMovePath { get; set; }
             = new List<Cell>();
 
@@ -64,6 +65,12 @@ namespace Pantheon.Core
         {
             //Entity.GetComponent<Talented>().TalentChangeEvent += UpdateHotbar;
             Entity.GetComponent<Wield>().WieldChangeEvent += UpdateHotbar;
+            selectedCell = Entity.Cell;
+            selectedLine = Bresenhams.GetLine(Entity.Level, Entity.Cell, selectedCell);
+            VisibleCells = Floodfill.FillIf(
+                Entity.Level,
+                Entity.Cell,
+                (Cell c) => c.Visible);
         }
 
         private void Update()
@@ -239,21 +246,23 @@ namespace Pantheon.Core
             }
         }
 
+        private void LateUpdate()
+        {
+            DrawTalentOverlays();
+        }
+
         private void PointSelect()
         {
             bool withinRange = Entity.Level.Distance(
                 Entity.Cell, cursor.HoveredCell) < targetingRange;
 
-            CleanOverlays();
+            targetingTilemap.ClearAllTiles();
 
             if (withinRange)
             {
-                GameObject overlayObj = Instantiate(
-                   targetOverlay,
-                   cursor.HoveredCell.Position.ToVector3(),
-                   new Quaternion());
-
-                targetOverlays.Add(overlayObj);
+                targetingTilemap.SetTile(
+                    (Vector3Int)cursor.HoveredCell.Position,
+                    targetOverlayTile);
             }
 
             if (Input.GetMouseButtonDown(0) && withinRange)
@@ -274,7 +283,7 @@ namespace Pantheon.Core
             bool withinRange = Entity.Level.Distance(
                 Entity.Cell, cursor.HoveredCell) < targetingRange;
 
-            CleanOverlays();
+            targetingTilemap.ClearAllTiles();
 
             List<Cell> line = new List<Cell>();
 
@@ -284,15 +293,11 @@ namespace Pantheon.Core
                     Entity.Level,
                     Entity.Cell,
                     cursor.HoveredCell);
-                foreach (Cell c in line)
-                {
-                    GameObject overlayObj = Instantiate(
-                        targetOverlay,
-                        c.Position.ToVector3(),
-                        new Quaternion());
 
-                    targetOverlays.Add(overlayObj);
-                }
+                foreach (Cell c in line)
+                    targetingTilemap.SetTile(
+                        (Vector3Int)c.Position, 
+                        targetOverlayTile);
             }
 
             if (Input.GetMouseButtonDown(0) && withinRange)
@@ -308,15 +313,10 @@ namespace Pantheon.Core
             }
         }
 
-        public void RecalculateVisible(IEnumerable<Cell> cells)
+        public void UpdateVisibles(IEnumerable<Cell> cells)
         {
-            VisibleActors.Clear();
-            foreach (Cell c in cells)
-            {
-                if (c.Actor != null
-                    && c.Actor.GetComponent<Actor>().Control != ActorControl.Player)
-                    VisibleActors.Add(c.Actor);
-            }
+            VisibleCells.Clear();
+            VisibleCells.AddMany(cells);
         }
 
         public InputMode RequestCell(out Cell cell, int range)
@@ -332,7 +332,7 @@ namespace Pantheon.Core
                 case InputMode.Cancelling: // Stop polling for cell
                     Mode = InputMode.Default;
                     cell = null;
-                    CleanOverlays();
+                    targetingTilemap.ClearAllTiles();
                     return InputMode.Cancelling;
                 case InputMode.Point:
                     if (selectedCell == null)
@@ -344,7 +344,7 @@ namespace Pantheon.Core
                         Mode = InputMode.Default;
                         cell = selectedCell;
                         selectedCell = null;
-                        CleanOverlays();
+                        targetingTilemap.ClearAllTiles();
                     }
                     return Mode;
                 default:
@@ -366,7 +366,7 @@ namespace Pantheon.Core
                 case InputMode.Cancelling: // Stop polling for line
                     Mode = InputMode.Default;
                     line = null;
-                    CleanOverlays();
+                    targetingTilemap.ClearAllTiles();
                     return InputMode.Cancelling;
                 case InputMode.Line:
                     if (selectedLine.Count < 1)
@@ -378,7 +378,7 @@ namespace Pantheon.Core
                         Mode = InputMode.Default;
                         line = new List<Cell>(selectedLine);
                         selectedLine.Clear();
-                        CleanOverlays();
+                        targetingTilemap.ClearAllTiles();
                     }
                     return Mode;
                 default:
@@ -387,11 +387,30 @@ namespace Pantheon.Core
             }
         }
 
-        private void CleanOverlays()
+        private void DrawTalentOverlays()
         {
-            foreach (GameObject go in targetOverlays)
-                Destroy(go);
-            targetOverlays.Clear();
+            targetingTilemap.ClearAllTiles();
+
+            Talent talent = Talents[hotbarSelection];
+
+            if (talent == null)
+                return;
+
+            HashSet<Cell> targeted = new HashSet<Cell>();
+
+            foreach (TalentComponent tc in talent.Components)
+                targeted.AddMany(tc.GetTargetedCells(Entity, selectedCell));
+
+            HashSet<Cell> overlayed = new HashSet<Cell>();
+
+            foreach (Cell c in targeted)
+            {
+                if (overlayed.Contains(c))
+                    continue;
+
+                targetingTilemap.SetTile((Vector3Int)c.Position, targetOverlayTile);
+                overlayed.Add(c);
+            }
         }
 
         private Cell GetTalentTarget(TalentTargeting targeting)

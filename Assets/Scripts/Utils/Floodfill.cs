@@ -62,7 +62,7 @@ namespace Pantheon.Utils
             return filled;
         }
 
-        public static HashSet<Cell> FillLevel(
+        public static HashSet<Cell> FillIf(
             Level level,
             Cell origin,
             Predicate<Cell> condition)
@@ -86,10 +86,15 @@ namespace Pantheon.Utils
                     continue;
 
                 ret.Add(a);
-                cells.Push(level.GetCell(a.X - 1, a.Y));
-                cells.Push(level.GetCell(a.X + 1, a.Y));
-                cells.Push(level.GetCell(a.X, a.Y - 1));
-                cells.Push(level.GetCell(a.X, a.Y + 1));
+
+                if (level.TryGetCell(a.X - 1, a.Y, out Cell left))
+                    cells.Push(left);
+                if (level.TryGetCell(a.X + 1, a.Y, out Cell right))
+                    cells.Push(right);
+                if (level.TryGetCell(a.X, a.Y - 1, out Cell down))
+                    cells.Push(down);
+                if (level.TryGetCell(a.X, a.Y + 1, out Cell up))
+                    cells.Push(up);
             }
             return ret;
         }
