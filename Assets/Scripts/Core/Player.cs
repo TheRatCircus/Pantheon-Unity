@@ -417,7 +417,7 @@ namespace Pantheon.Core
             switch (targeting)
             {
                 case TalentTargeting.Adjacent:
-                    return selectedLine.ElementAtOrDefault(1);
+                    return selectedLine.ElementAtOrLast(1);
                 case TalentTargeting.None:
                     return null;
                 default:
