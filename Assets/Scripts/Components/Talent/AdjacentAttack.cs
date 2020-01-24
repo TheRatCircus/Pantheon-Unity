@@ -18,7 +18,8 @@ namespace Pantheon.Components.Talent
 
         public override HashSet<Cell> GetTargetedCells(Entity caster, Cell target)
         {
-            return new HashSet<Cell> { target };
+            Line line = Bresenhams.GetLine(caster.Level, caster.Cell, target);
+            return new HashSet<Cell> { line.ElementAtOrLast(1) };
         }
 
         public override CommandResult Invoke(Entity caster, Cell target)
