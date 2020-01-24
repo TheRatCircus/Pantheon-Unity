@@ -143,6 +143,7 @@
           "Components": [
             {
               "$type": "AdjacentAttack",
+              "Accuracy": 50,
               "Damages": [
                 {
                   "Type": "Bludgeoning",
@@ -160,8 +161,9 @@
                   "Max": 7
                 }
               ],
-              "Radius": 2,
-              "Range": 4,
+              "Radius": 3,
+              "Range": 1,
+              "Accuracy": 0,
               "HitSound": null
             }
           ],

@@ -14,6 +14,7 @@ namespace Pantheon.Components.Talent
     [System.Serializable]
     public sealed class AdjacentAttack : TalentComponent
     {
+        public int Accuracy { get; set; } = 50;
         public Damage[] Damages { get; set; }
 
         public override HashSet<Cell> GetTargetedCells(Entity caster, Cell target)
@@ -39,6 +40,13 @@ namespace Pantheon.Components.Talent
                     $"{caster.ToSubjectString(true)}" +
                     $" {Verbs.Swing(caster)} at nothing.",
                     Color.grey);
+                return CommandResult.Succeeded;
+            }
+
+            if (Accuracy < Random.Range(0, 101))
+            {
+                Locator.Log.Send(
+                    Verbs.Miss(caster, enemy), Color.grey);
                 return CommandResult.Succeeded;
             }
 

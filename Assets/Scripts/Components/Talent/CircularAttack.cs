@@ -18,6 +18,7 @@ namespace Pantheon.Components.Talent
         public Damage[] Damages { get; set; }
         public int Radius { get; set; } = 1;
         public int Range { get; set; } // Greater than 0 creates a ring
+        public int Accuracy { get; set; }
         public AudioClip HitSound { get; set; }
 
         public override HashSet<Cell> GetTargetedCells(Entity caster, Cell target)
@@ -98,6 +99,13 @@ namespace Pantheon.Components.Talent
                 Entity enemy = c.Actor;
                 if (enemy == null)
                     continue;
+
+                if (Accuracy < Random.Range(0, 101))
+                {
+                    Locator.Log.Send(
+                        Verbs.Miss(caster, enemy), Color.grey);
+                    continue;
+                }
 
                 Hit hit = new Hit(Damages);
                 Locator.Log.Send(Verbs.Hit(caster, enemy, hit), Color.white);

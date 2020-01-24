@@ -52,6 +52,7 @@
           "Components": [
             {
               "$type": "AdjacentAttack",
+              "Accuracy": 70,
               "Damages": [
                 {
                   "Type": "Bludgeoning",
@@ -74,6 +75,7 @@
               "$type": "CircularAttack",
               "Range": 8,
               "Radius": 9,
+              "Accuracy": 70,
               "HitSound": "SFX_Patsons",
               "Damages": [
                 {
