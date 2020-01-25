@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.LWRP;
 using Vector2Int = UnityEngine.Vector2Int;
 
 namespace Pantheon.Utils
@@ -205,6 +206,7 @@ namespace Pantheon.Utils
         public static void SetSpriteVisibility(this GameObject gameObject, bool visible)
         {
             gameObject.GetComponent<SpriteRenderer>().enabled = visible;
+            gameObject.GetComponent<Light2D>().enabled = visible;
         }
 
         /// <summary>
