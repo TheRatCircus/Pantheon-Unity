@@ -48,5 +48,37 @@ namespace Pantheon.Utils
                 action.Invoke(xc - y, yc - x);
             }
         }
+
+        /// <summary>
+        /// Draw an arc from north to east.
+        /// </summary>
+        public static void DrawArc(int xc, int yc, int r,
+            Action<int, int> action)
+        {
+            int x = 0, y = r;
+            int d = 3 - 2 * r;
+            Subsequence();
+            while (y >= x)
+            {
+                x++;
+
+                if (d > 0)
+                {
+                    y--;
+                    d = d + 4 * (x - y) + 10;
+                }
+                else
+                {
+                    d = d + 4 * x + 6;
+                }
+                Subsequence();
+            }
+
+            void Subsequence()
+            {
+                action.Invoke(xc + x, yc + y);
+                action.Invoke(xc + y, yc + x);
+            }
+        }
     }
 }

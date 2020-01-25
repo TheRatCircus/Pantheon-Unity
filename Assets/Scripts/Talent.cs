@@ -23,7 +23,8 @@ namespace Pantheon
     [System.Serializable]
     public sealed class Talent
     {
-        public string Name { get; set; }
+        public string ID { get; set; } = "DEFAULT_TALENT_ID";
+        public string Name { get; set; } = "DEFAULT_TALENT_NAME";
         public Sprite Icon { get; set; }
         public int Range { get; set; }
         public int Time { get; set; } = TurnScheduler.TurnTime;

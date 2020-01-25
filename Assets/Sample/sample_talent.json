@@ -1,0 +1,36 @@
+{
+  "ID": "Talent_Foobar",
+  "Name": "Foobar",
+  "Icon": "Sprite_Punch",
+  "Range": 1,
+  "Time": 100,
+  "Targeting": "Adjacent",
+  "Components": [
+    {
+      "$type": "AdjacentAttack",
+      "Accuracy": 75,
+      "Damages": [
+        {
+          "Type": "Bludgeoning",
+          "Min": 2,
+          "Max": 4
+        }
+      ]
+    },
+    {
+      "$type": "CircularAttack",
+      "Damages": [
+        {
+          "Type": "Slashing",
+          "Min": 5,
+          "Max": 8
+        }
+      ],
+      "Radius": 1,
+      "Range": 2,
+      "Accuracy": 80,
+      "HitSound": "SFX_Patsons"
+    }
+  ],
+  "OnCast": null
+}

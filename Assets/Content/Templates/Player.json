@@ -8,8 +8,7 @@
       "$type": "Actor",
       "control": "Player",
       "Speed": 100,
-      "Energy": 0,
-      "Command": null
+      "Energy": 0
     },
     {
       "$type": "Health",
@@ -44,51 +43,8 @@
     {
       "$type": "Talented",
       "Talents": [
-        {
-          "Name": "Punch",
-          "Icon": "Sprite_Punch",
-          "Range": 1,
-          "Time": 100,
-          "Targeting": "Adjacent",
-          "Components": [
-            {
-              "$type": "AdjacentAttack",
-              "Accuracy": 70,
-              "Damages": [
-                {
-                  "Type": "Bludgeoning",
-                  "Min": 2,
-                  "Max": 4
-                }
-              ]
-            }
-          ],
-          "OnCast": null
-        },
-        {
-          "Name": "Contempt",
-          "Icon": "Sprite_Contempt",
-          "Range": 1,
-          "Time": 100,
-          "Targeting": "Adjacent",
-          "Components": [
-            {
-              "$type": "CircularAttack",
-              "Range": 8,
-              "Radius": 9,
-              "Accuracy": 70,
-              "HitSound": "SFX_Patsons",
-              "Damages": [
-                {
-                  "Type": "Bludgeoning",
-                  "Min": 5,
-                  "Max": 9
-                }
-              ]
-            }
-          ],
-          "OnCast": null
-        }
+        "Talent_Punch",
+        "Talent_Contempt"
       ]
     }
   ]

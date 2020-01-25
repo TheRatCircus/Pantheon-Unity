@@ -3,11 +3,13 @@
 
 using System.Diagnostics;
 using UnityEditor;
+using UnityEngine;
 
 namespace PantheonEditor
 {
-    public static class BuildAssetBundles
+    public static class AssetBundleEditor
     {
+#pragma warning disable IDE0051
         [MenuItem("Assets/Build AssetBundles")]
         private static void BuildAllAssetBundles()
         {
@@ -20,5 +22,12 @@ namespace PantheonEditor
             UnityEngine.Debug.Log(
                 $"Finished building AssetBundles in {stopwatch.ElapsedMilliseconds} ms.");
         }
+
+        [MenuItem("Tools/Unload AssetBundles")]
+        private static void ForceUnload()
+        {
+            AssetBundle.UnloadAllAssetBundles(true);
+        }
+#pragma warning restore 
     }
 }

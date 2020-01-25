@@ -1,0 +1,21 @@
+{
+  "ID": "Talent_Punch",
+  "Name": "Punch",
+  "Icon": "Sprite_Punch",
+  "Range": 1,
+  "Time": 100,
+  "Targeting": "Adjacent",
+  "Components": [
+    {
+      "$type": "AdjacentAttack",
+      "Accuracy": 70,
+      "Damages": [
+        {
+          "Type": "Bludgeoning",
+          "Min": 2,
+          "Max": 4
+        }
+      ]
+    }
+  ]
+}

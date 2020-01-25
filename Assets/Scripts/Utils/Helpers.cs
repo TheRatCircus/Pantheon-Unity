@@ -151,41 +151,52 @@ namespace Pantheon.Utils
             return false;
         }
 
-        /// <summary>
-        /// Rotate a Vector2Int 90 degrees CW or CCW.
-        /// </summary>
-        /// <param name="vector"></param>
-        /// <param name="ccw"></param>
-        /// <returns></returns>
-        public static void Rotate(ref this Vector2Int vector, bool ccw)
+        public static void Rotate(ref this Vector2Int vector, float deg, bool ccw)
         {
-            double rotX = vector.x;
-            double rotY = vector.y;
+            float rad = deg * Mathf.Deg2Rad;
+
+            float rotX = vector.x;
+            float rotY = vector.y;
 
             if (!ccw)
             {
-                rotX = (
-                    (vector.x * Math.Cos(1.5708)) -
-                    (vector.y * Math.Sin(1.5708)));
-                rotX = Math.Round(rotX);
-                rotY = (
-                    (vector.x * Math.Sin(1.5708)) +
-                    (vector.y * Math.Cos(1.5708)));
-                rotY = Math.Round(rotY);
+                rotX =
+                    (vector.x * Mathf.Cos(rad)) -
+                    (vector.y * Mathf.Sin(rad));
+                rotX = Mathf.FloorToInt(rotX);
+                rotY =
+                    (vector.x * Mathf.Sin(rad)) +
+                    (vector.y * Mathf.Cos(rad));
+                rotY = Mathf.FloorToInt(rotY);
             }
             else
             {
                 rotX = (int)(
-                    (vector.x * Math.Cos(-1.5708)) -
-                    (vector.y * Math.Sin(-1.5708)));
-                rotX = Math.Round(rotX);
+                    (vector.x * Mathf.Cos(-rad)) -
+                    (vector.y * Mathf.Sin(-rad)));
+                rotX = Mathf.FloorToInt(rotX);
                 rotY = (int)(
-                    (vector.x * Math.Sin(-1.5708)) +
-                    (vector.y * Math.Cos(-1.5708)));
-                rotY = Math.Round(rotY);
+                    (vector.x * Mathf.Sin(-rad)) +
+                    (vector.y * Mathf.Cos(-rad)));
+                rotY = Mathf.FloorToInt(rotY);
             }
 
             vector.Set((int)rotX, (int)rotY);
+        }
+
+        public static Vector2Int Rotate(this Vector2Int vector, float deg)
+        {
+            Vector2Int ret = new Vector2Int(vector.x, vector.y);
+            double rad = deg * Mathf.Deg2Rad;
+
+            ret.x = (int)Math.Round(
+                (vector.x * Math.Cos(rad)) -
+                (vector.y * Math.Sin(rad)));
+            ret.y = (int)Math.Round(
+                (vector.x * Math.Sin(rad)) +
+                (vector.y * Math.Cos(rad)));
+
+            return ret;
         }
 
         public static Vector2Int Quotient(this Vector2Int vector, int divisor)

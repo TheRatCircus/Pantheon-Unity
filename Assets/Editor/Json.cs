@@ -23,6 +23,7 @@ namespace PantheonEditor
 {
     public static class Json
     {
+#pragma warning disable IDE0051
         [MenuItem("Assets/Pantheon/JSON/New File")]
         private static void NewFile()
         {
@@ -37,6 +38,7 @@ namespace PantheonEditor
         private static void GenerateSampleTemplate()
         {
             GameObject mockGo = new GameObject();
+            GameObject fxShrapnelPrefab = new GameObject("FX_Shrapnel");
             TurnScheduler scheduler = mockGo.AddComponent<TurnScheduler>();
             Locator.Scheduler = scheduler;
 
@@ -58,7 +60,7 @@ namespace PantheonEditor
                             },
                         OnLandCommand = new ExplodeCommand(null)
                         {
-                            Prefab = new GameObject("FX_Shrapnel"),
+                            Prefab = fxShrapnelPrefab,
                             Pattern = ExplosionPattern.Square,
                             Damages = new Damage[]
                             {
@@ -101,6 +103,7 @@ namespace PantheonEditor
                     {
                         new Talent()
                         { 
+                            ID = "Talent_Punch",
                             Name = "Punch",
                             Range = 1,
                             Icon = null,
@@ -158,6 +161,7 @@ namespace PantheonEditor
                 {
                     new GameObjectConverter(),
                     new SpriteConverter(),
+                    new TalentConverter(),
                     new TileConverter(),
                     new RuleTileConverter(),
                     new SpeciesDefinitionConverter(),
@@ -168,6 +172,8 @@ namespace PantheonEditor
 
             File.AppendAllText(path, JsonConvert.SerializeObject(template, settings));
             AssetDatabase.Refresh();
+            Object.DestroyImmediate(mockGo as GameObject);
+            Object.DestroyImmediate(fxShrapnelPrefab as GameObject);
             Debug.Log($"Wrote sample template with all components to {path}.");
         }
 
@@ -266,6 +272,77 @@ namespace PantheonEditor
 
             File.AppendAllText(path, JsonConvert.SerializeObject(species, settings));
             AssetDatabase.Refresh();
+            Debug.Log($"Wrote sample body part to {path}.");
+        }
+
+        [MenuItem("Assets/Pantheon/JSON/Sample/Talent")]
+        private static void GenerateSampleTalent()
+        {
+            Assets.LoadAssets();
+            Talent talent = new Talent
+            {
+                ID = "Talent_Foobar",
+                Name = "Foobar",
+                Icon = Assets.Sprites["Sprite_Punch"],
+                OnCast = null,
+                Range = 1,
+                Time = TurnScheduler.TurnTime,
+                Components = new TalentComponent[]
+                {
+                    new AdjacentAttack
+                    {
+                        Accuracy = 75,
+                        Damages = new Damage[]
+                        {
+                            new Damage()
+                            { 
+                                Type = DamageType.Bludgeoning,
+                                Min = 2,
+                                Max = 4
+                            }
+                        }
+                    },
+                    new CircularAttack
+                    {
+                        Accuracy = 80,
+                        Radius = 1,
+                        Range = 2,
+                        HitSound = Assets.Audio["SFX_Patsons"],
+                        Damages= new Damage[]
+                        {
+                            new Damage()
+                            {
+                                Type = DamageType.Slashing,
+                                Min = 5,
+                                Max = 8
+                            }
+                        }
+                    }
+                },
+                Targeting = TalentTargeting.Adjacent
+            };
+
+            string path = Application.dataPath + $"/Sample/sample_talent.json";
+
+            if (File.Exists(path))
+                File.Delete(path);
+
+            JsonSerializerSettings settings = new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                SerializationBinder = Binders._entity,
+                Formatting = Formatting.Indented,
+                Converters = new List<JsonConverter>()
+                {
+                    new AudioClipConverter(),
+                    new GameObjectConverter(),
+                    new SpriteConverter()
+                }
+            };
+
+            File.AppendAllText(path, JsonConvert.SerializeObject(talent, settings));
+            AssetDatabase.Refresh();
+            Assets.UnloadAssets();
             Debug.Log($"Wrote sample body part to {path}.");
         }
     }

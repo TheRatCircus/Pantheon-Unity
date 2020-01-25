@@ -432,13 +432,6 @@ namespace Pantheon.World
             Profiler.EndSample();
         }
 
-        public void ClearTilemaps()
-        {
-            terrainTilemap.ClearAllTiles();
-            itemTilemap.ClearAllTiles();
-            splatterTilemap.ClearAllTiles();
-        }
-
         [OnSerializing]
         private void OnSerializing(StreamingContext ctxt)
         {

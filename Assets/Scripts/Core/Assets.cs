@@ -17,10 +17,10 @@ namespace Pantheon
     {
         [RuntimeInitializeOnLoadMethod]
 #pragma warning disable IDE0051 // Remove unused private members
-        private static void OnStartup()
+        public static void LoadAssets()
 #pragma warning restore IDE0051
         {
-            JsonSerializerSettings genericSettings = new JsonSerializerSettings()
+            JsonSerializerSettings genericSettings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
                 SerializationBinder = Binders._entity,
@@ -34,11 +34,26 @@ namespace Pantheon
                     new SpeciesDefinitionConverter(),
                     new SpriteConverter(),
                     new StatusConverter(),
+                    new TalentConverter(),
                     new TileConverter(),
                 }
             };
 
-            JsonSerializerSettings planSettings = new JsonSerializerSettings()
+            JsonSerializerSettings talentSettings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                SerializationBinder = Binders._entity,
+                Formatting = Formatting.Indented,
+                Converters = new List<JsonConverter>()
+                {
+                    new AudioClipConverter(),
+                    new GameObjectConverter(),
+                    new SpriteConverter(),
+                    new StatusConverter()
+                }
+            };
+
+            JsonSerializerSettings planSettings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
                 SerializationBinder = Binders._builder,
@@ -49,7 +64,7 @@ namespace Pantheon
                 }
             };
 
-            JsonSerializerSettings partSettings = new JsonSerializerSettings()
+            JsonSerializerSettings partSettings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
                 SerializationBinder = Binders._entity,
@@ -60,7 +75,7 @@ namespace Pantheon
                 }
             };
 
-            JsonSerializerSettings speciesSettings = new JsonSerializerSettings()
+            JsonSerializerSettings speciesSettings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
                 SerializationBinder = Binders._entity,
@@ -76,6 +91,8 @@ namespace Pantheon
                 Application.streamingAssetsPath, "pantheon"));
             AssetBundle bundleTemplates = AssetBundle.LoadFromFile(Path.Combine(
                 Application.streamingAssetsPath, "pantheon_templates"));
+            AssetBundle bundleTalents = AssetBundle.LoadFromFile(Path.Combine(
+                Application.streamingAssetsPath, "pantheon_talents"));
             AssetBundle bundleSpecies = AssetBundle.LoadFromFile(Path.Combine
                 (Application.streamingAssetsPath, "pantheon_species"));
             AssetBundle bundleBody = AssetBundle.LoadFromFile(Path.Combine(
@@ -85,6 +102,7 @@ namespace Pantheon
 
             Object[] objs = bundleMain.LoadAllAssets();
             Object[] templateFiles = bundleTemplates.LoadAllAssets();
+            Object[] talentFiles = bundleTalents.LoadAllAssets();
             Object[] speciesFiles = bundleSpecies.LoadAllAssets();
             Object[] bodyFiles = bundleBody.LoadAllAssets();
             Object[] planFiles = bundlePlans.LoadAllAssets();
@@ -97,6 +115,8 @@ namespace Pantheon
             Sprites = new ReadOnlyDictionary<string, Sprite>(_sprites);
             _audio = new Dictionary<string, AudioClip>();
             Audio = new ReadOnlyDictionary<string, AudioClip>(_audio);
+            _talents = new Dictionary<string, Talent>(talentFiles.Length);
+            Talents = new ReadOnlyDictionary<string, Talent>(_talents);
             _species = new Dictionary<string, SpeciesDefinition>(speciesFiles.Length);
             Species = new ReadOnlyDictionary<string, SpeciesDefinition>(_species);
             _vaults = new Dictionary<string, Vault>();
@@ -166,6 +186,14 @@ namespace Pantheon
                 }
             }
 
+            foreach (TextAsset ta in talentFiles)
+            {
+                Talent talent =
+                    JsonConvert.DeserializeObject<Talent>(
+                        ta.text, talentSettings);
+                _talents.Add(talent.ID, talent);
+            }
+
             foreach (TextAsset ta in bodyFiles)
             {
                 BodyPart part = JsonConvert.DeserializeObject<BodyPart>(
@@ -195,6 +223,11 @@ namespace Pantheon
                         ta.text, genericSettings);
                 _templates.Add(template.ID, template);
             }
+        }
+
+        public static void UnloadAssets()
+        {
+            AssetBundle.UnloadAllAssetBundles(true);
         }
 
         // Misc
@@ -263,6 +296,12 @@ namespace Pantheon
             throw new System.Exception(
                 $"{terrain} not found in asset database.");
         }
+
+        // Talents
+
+        private static Dictionary<string, Talent> _talents;
+        public static ReadOnlyDictionary<string, Talent> Talents
+        { get; private set; }
 
         // Species
 

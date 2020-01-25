@@ -7,8 +7,7 @@
     {
       "$type": "Actor",
       "control": "AI",
-      "Speed": 100,
-      "Command": null
+      "Speed": 100
     },
     {
       "$type": "AI",
@@ -48,25 +47,7 @@
     {
       "$type": "Talented",
       "Talents": [
-        {
-          "Name": "Bite",
-          "Range": 1,
-          "Time": 100,
-          "Targeting": "Adjacent",
-          "Components": [
-            {
-              "$type": "AdjacentAttack",
-              "Damages": [
-                {
-                  "Type": "Piercing",
-                  "Min": 1,
-                  "Max": 3
-                }
-              ]
-            }
-          ],
-          "OnCast": null
-        }
+        "Talent_Bite_Goose"
       ]
     }
   ]

@@ -2,23 +2,21 @@
 // Jerome Martina
 
 using Newtonsoft.Json;
-using Pantheon.Content;
-using Pantheon.Core;
 using Pantheon.Gen;
 using Pantheon.Serialization.Json;
 using Pantheon.Serialization.Json.Converters;
-using Pantheon.Utils;
 using Pantheon.World;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Pantheon
 {
     public sealed class LevelGenTester : MonoBehaviour
     {
         [SerializeField] private GameObject levelObj = default;
+        [SerializeField] private Tilemap terrainTilemap = default;
         private Level level;
 
         [SerializeField] private TextAsset planJsonFile = default;
@@ -27,8 +25,9 @@ namespace Pantheon
 
         public void RunPlan()
         {
+            UnityEngine.Debug.ClearDeveloperConsole();
             Stopwatch totalTime = Stopwatch.StartNew();
-            AssetBundle.UnloadAllAssetBundles(true);
+            Assets.LoadAssets();
 
             if (planJsonFile == null)
             {
@@ -62,7 +61,6 @@ namespace Pantheon
             }
             level.Initialize();
             level.AssignGameObject(levelObj.transform);
-            level.ClearTilemaps();
 
             Stopwatch drawTime = Stopwatch.StartNew();
             foreach (Cell c in level.Map)
@@ -81,9 +79,9 @@ namespace Pantheon
 
         public void Clear()
         {
-            level.ClearTilemaps();
             level = null;
-            AssetBundle.UnloadAllAssetBundles(true);
+            terrainTilemap.ClearAllTiles();
+            Assets.UnloadAssets();
         }
 
         private void InitializeMap(Level level, int sizeX, int sizeY)

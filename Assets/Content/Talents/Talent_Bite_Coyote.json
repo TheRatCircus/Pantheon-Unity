@@ -1,0 +1,19 @@
+{
+  "ID": "Talent_Bite_Coyote",
+  "Name": "Bite",
+  "Range": 1,
+  "Time": 100,
+  "Targeting": "Adjacent",
+  "Components": [
+    {
+      "$type": "AdjacentAttack",
+      "Damages": [
+        {
+          "Type": "Piercing",
+          "Min": 1,
+          "Max": 2
+        }
+      ]
+    }
+  ]
+}
