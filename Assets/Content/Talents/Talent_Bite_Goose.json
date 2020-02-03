@@ -2,7 +2,7 @@
   "ID": "Talent_Bite_Goose",
   "Name": "Bite",
   "Range": 1,
-  "Time": 100,
+  "Time": 200,
   "Targeting": "Adjacent",
   "Components": [
     {

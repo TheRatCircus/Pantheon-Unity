@@ -23,7 +23,6 @@ namespace Pantheon.Components.Entity.Statuses
         private static readonly Dictionary<string, StatusDefinition> readonlyStatuses
             = new Dictionary<string, StatusDefinition>
         {
-            { "Status_Momentum", new Momentum() }
         };
 
         public static readonly ReadOnlyDictionary<string, StatusDefinition> statuses

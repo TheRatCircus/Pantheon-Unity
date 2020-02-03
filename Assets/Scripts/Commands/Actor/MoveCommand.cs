@@ -49,11 +49,11 @@ namespace Pantheon.Commands.Actor
                 destinationCell = null;
         }
 
-        public override CommandResult Execute(out int cost)
+        public override CommandResult Execute()
         {
             if (!Cell.Walkable(destinationCell))
             {
-                cost = -1;
+                Cost = -1;
                 return CommandResult.Failed;
             }
 
@@ -63,17 +63,21 @@ namespace Pantheon.Commands.Actor
                 if (actor.HostileTo(destinationCell.Actor.GetComponent<ActorComp>()))
                 {
                     ActorCommand cmd = new MeleeCommand(Entity, destinationCell);
-                    return cmd.Execute(out cost);
+                    CommandResult result = cmd.Execute();
+                    Cost = cmd.Cost;
+                    return result;
                 }
                 else if (Entity.HasComponent<AI>())
                 {
                     ActorCommand cmd = new WaitCommand(Entity);
-                    return cmd.Execute(out cost);
+                    CommandResult result = cmd.Execute();
+                    Cost = cmd.Cost;
+                    return result;
                 }
             }
 
             Entity.Move(destinationLevel, destinationCell);
-            cost = TurnScheduler.TurnTime;
+            Cost = TurnScheduler.TurnTime;
             return CommandResult.Succeeded;
         }
 

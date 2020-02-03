@@ -12,7 +12,6 @@ namespace Pantheon.UI
         [SerializeField] private GameObject modalListPrefab = default;
 
         [SerializeField] private HUDHealth health = default;
-        [SerializeField] private HUDEnergy energy = default;
         [SerializeField] private HUDClock clock = default;
         [SerializeField] private HUDLocation location = default;
 
@@ -22,7 +21,6 @@ namespace Pantheon.UI
             Level activeLevel, System.Action<Level> levelChangeEvent)
         {
             health.Initialize(player);
-            energy.Initialize(player);
             clock.Initialize(scheduler);
             location.Initialize(activeLevel, levelChangeEvent);
         }

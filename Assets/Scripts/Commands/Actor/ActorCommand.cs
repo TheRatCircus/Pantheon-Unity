@@ -8,9 +8,13 @@ namespace Pantheon.Commands.Actor
     /// </summary>
     public abstract class ActorCommand : Command
     {
+        public const int DefaultCost = -2;
+
+        public int Cost { get; set; } = DefaultCost;
+
         public ActorCommand(Entity entity) : base(entity) { }
 
-        public abstract CommandResult Execute(out int cost);
+        public abstract CommandResult Execute();
     }
 }
 

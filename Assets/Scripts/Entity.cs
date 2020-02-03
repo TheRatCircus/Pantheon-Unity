@@ -98,10 +98,7 @@ namespace Pantheon
         private void ConnectComponents()
         {
             if (TryGetComponent(out AI ai))
-            {
-                Actor actor = GetComponent<Actor>();
-                ai.SetActor(actor);
-            }
+                ai.Actor = GetComponent<Actor>();
         }
 
         public T GetComponent<T>() where T : EntityComponent

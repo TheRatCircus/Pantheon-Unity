@@ -40,7 +40,7 @@ namespace PantheonEditor
         public Sprite sprite = default;
         public RuleTile tile = default;
 
-        public Actor actor = new Actor();
+        public Actor actor = new Actor(ActorControl.None);
         public AI ai = new AI(new ApproachUtility(), new AttackUtility());
         public Health health = new Health();
 

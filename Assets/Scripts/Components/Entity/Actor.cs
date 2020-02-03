@@ -8,9 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Pantheon.Commands;
 using Pantheon.Commands.Actor;
-using Pantheon.Utils;
 using System;
-using System.Runtime.Serialization;
 using UnityEngine;
 
 namespace Pantheon.Components.Entity
@@ -18,7 +16,7 @@ namespace Pantheon.Components.Entity
     using Entity = Pantheon.Entity;
 
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum ActorControl
+    public enum ActorControl : byte
     {
         None,
         AI,
@@ -28,29 +26,23 @@ namespace Pantheon.Components.Entity
     [Serializable]
     public sealed class Actor : EntityComponent
     {
-        [SerializeField] private int speed = -1;
-        public int Speed
-        {
-            get => speed + SpeedModifier;
-            set { speed = value; SpeedChangedEvent?.Invoke(this); }
-        }
-        public int SpeedModifier { get; set; }
-        [JsonIgnore] private int energy;
-        public int Energy
-        {
-            get => energy;
-            set
-            {
-                energy = value;
-                EnergyChangedEvent?.Invoke(this);
-            }
-        }
+        public int Progress { get; set; }
+        public int Threshold { get; set; }
+
         [JsonIgnore]
         [NonSerialized]
         private ActorCommand command;
-        public ActorCommand Command { get => command; set => command = value; }
-
-        public event Action AIDecisionEvent;
+        public ActorCommand Command { 
+            get => command;
+            set 
+            { 
+                command = value;
+                if (command != null)
+                    Threshold = command.Cost;
+                else
+                    Threshold = 0;
+            }
+        }
 
         [SerializeField] private ActorControl control = default;
         [JsonIgnore] public ActorControl Control
@@ -58,9 +50,6 @@ namespace Pantheon.Components.Entity
             get => control;
             set => control = value;
         }
-
-        public event Action<Actor> EnergyChangedEvent;
-        public event Action<Actor> SpeedChangedEvent;
 
         public static bool PlayerControlled(Entity entity)
         {
@@ -70,32 +59,16 @@ namespace Pantheon.Components.Entity
                 return false;
         }
 
-        public Actor() => Energy = speed;
-
         [JsonConstructor]
-        public Actor(int speed, ActorControl control) : this()
-        {
-            this.speed = speed;
-            this.control = control;
-        }
+        public Actor(ActorControl control) => this.control = control;
 
         public int Act()
         {
-            if (Control == ActorControl.AI)
-            {
-                // Random energy
-                int r = UnityEngine.Random.Range(0, 21);
-                if (r >= 18)
-                    Energy += Speed / 10;
-                else if (r <= 2)
-                    Energy -= Speed / 10;
-                AIDecisionEvent?.Invoke();
-            }
-
             if (Command != null)
             {
-                CommandResult result = Command.Execute(out int cost);
-                DebugLogCommand($"{Entity} doing: {Command} ({cost})");
+                CommandResult result = Command.Execute();
+                int cost = Command.Cost;
+                DebugLogCommand($"{Entity} doing: {Command} ({Command.Cost})");
                 if (result != CommandResult.InProgress)
                     Command = null;
                 return cost;
@@ -132,18 +105,11 @@ namespace Pantheon.Components.Entity
         }
 
         public override EntityComponent Clone(bool full)
-            => new Actor(speed, control);
+            => new Actor(control);
 
         public override string ToString()
         {
-            return $"Actor ({Control}) - Energy: {Energy}";
-        }
-
-        [OnSerializing]
-        private void OnSerializing(StreamingContext ctxt)
-        {
-            Helpers.ClearNonSerializableDelegates(ref EnergyChangedEvent);
-            Helpers.ClearNonSerializableDelegates(ref SpeedChangedEvent);
+            return $"Actor ({Control})";
         }
 
         [System.Diagnostics.Conditional("DEBUG_ACTOR")]

@@ -4,11 +4,11 @@
 using Pantheon.Commands.NonActor;
 using Pantheon.Components.Entity;
 using Pantheon.Components.Entity.Statuses;
+using Pantheon.Components.Talent;
 using Pantheon.Gen;
 using System;
 using System.Collections.Generic;
 using Relic = Pantheon.Components.Entity.Relic;
-using Pantheon.Components.Talent;
 
 namespace Pantheon.Serialization.Json
 {
@@ -69,7 +69,6 @@ namespace Pantheon.Serialization.Json
                     typeof(AttackUtility),
                     typeof(FleeUtility),
                     // Statuses
-                    typeof(Momentum),
                     // Talent
                     typeof(Talent),
                     typeof(AdjacentAttack),

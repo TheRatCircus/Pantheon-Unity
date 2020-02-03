@@ -11,23 +11,14 @@ namespace Pantheon.Commands.Actor
 {
     public sealed class MeleeCommand : ActorCommand
     {
-        private Cell target;
+        private readonly Cell target;
 
         public MeleeCommand(Entity entity, Cell target)
-            : base(entity) => this.target = target;
-
-        public override CommandResult Execute(out int cost)
+            : base(entity)
         {
-            Entity defender;
-
-            if (target.Actor != null)
-                defender = target.Actor;
-            else
-                defender = null;
+            this.target = target;
 
             SpeciesDefinition species = Entity.GetComponent<Species>().SpeciesDef;
-
-            int attackTime = 0;
 
             foreach (BodyPart part in species.Parts)
             {
@@ -39,16 +30,40 @@ namespace Pantheon.Commands.Actor
 
                 foreach (Attack atk in part.Melee.Attacks)
                 {
-                    if (atk.Time > attackTime)
-                        attackTime = atk.Time;
+                    if (atk.Time > Cost)
+                        Cost = atk.Time;
+                }
+            }
+        }
 
+        public override CommandResult Execute()
+        {
+            Entity defender;
+
+            if (target.Actor != null)
+                defender = target.Actor;
+            else
+                defender = null;
+
+            SpeciesDefinition species = Entity.GetComponent<Species>().SpeciesDef;
+
+            foreach (BodyPart part in species.Parts)
+            {
+                if (part.Melee == null)
+                    continue;
+
+                if (part.Melee.Attacks == null)
+                    continue;
+
+                foreach (Attack atk in part.Melee.Attacks)
+                {
                     if (atk.Accuracy < Random.Range(0, 101))
                     {
                         Locator.Log.Send(
                             Verbs.Miss(Entity, defender), Color.grey);
                         continue;
                     }
-                    
+
                     if (defender != null)
                     {
                         Hit hit = new Hit(atk.Damages);
@@ -59,7 +74,6 @@ namespace Pantheon.Commands.Actor
                 }
             }
 
-            cost = attackTime;
             return CommandResult.Succeeded;
         }
     }

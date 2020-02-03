@@ -14,12 +14,12 @@ namespace Pantheon.UI
         public void Initialize(TurnScheduler scheduler)
         {
             scheduler.TimeChangeEvent += Redraw;
-            Redraw(scheduler.Turns);
+            Redraw(scheduler.Time, 0);
         }
 
-        private void Redraw(int time)
+        private void Redraw(int time, int timePassed)
         {
-            timeCounter.text = $"Time: {time}";
+            timeCounter.text = $"Time: {time} ({timePassed})";
         }
     }
 }

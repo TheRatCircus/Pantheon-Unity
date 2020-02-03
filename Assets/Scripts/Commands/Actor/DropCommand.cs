@@ -13,9 +13,12 @@ namespace Pantheon.Commands.Actor
     /// </summary>
     public sealed class DropCommand : ActorCommand
     {
-        public DropCommand(Entity entity) : base(entity) { }
+        public DropCommand(Entity entity) : base(entity)
+        {
+            Cost = Core.TurnScheduler.TurnTime;
+        }
 
-        public override CommandResult Execute(out int cost)
+        public override CommandResult Execute()
         {
             bool player = Actor.PlayerControlled(Entity);
 
@@ -33,14 +36,14 @@ namespace Pantheon.Commands.Actor
                     UnityEngine.Debug.LogWarning(
                         $"NPC {Entity} tried to drop from an empty inventory.");
 
-                cost = -1;
+                Cost = -1;
                 return CommandResult.Failed;
             }
 
             Entity item = inv.Items[0];
             inv.RemoveItem(item);
             item.Cell.AllocateEntity(item);
-            cost = Core.TurnScheduler.TurnTime;
+            Cost = Core.TurnScheduler.TurnTime;
 
             if (player)
                 Locator.Log.Send($"You drop a {item}.", Color.grey);

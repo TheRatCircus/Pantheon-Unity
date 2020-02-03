@@ -16,13 +16,13 @@ namespace Pantheon.Commands.Actor
         public WieldCommand(Entity entity, Entity wieldItem) : base(entity)
         {
             item = wieldItem;
+            Cost = TurnScheduler.TurnTime;
         }
 
-        public override CommandResult Execute(out int cost)
+        public override CommandResult Execute()
         {
             if (!Entity.TryGetComponent(out Wield wield))
             {
-                cost = -1;
                 return CommandResult.Failed;
             }
 
@@ -38,8 +38,7 @@ namespace Pantheon.Commands.Actor
                 Locator.Log.Send($"You wield {item.ToSubjectString(false)}.",
                     Color.white);
             }
-
-            cost = TurnScheduler.TurnTime;
+            
             return CommandResult.Succeeded;
         }
     }

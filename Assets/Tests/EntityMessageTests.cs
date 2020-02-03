@@ -20,7 +20,7 @@ namespace PantheonTests
             Locator.Log = new MockGameLog();
 
             Entity entity = new Entity();
-            Actor actor = new Actor(100, ActorControl.AI);
+            Actor actor = new Actor(ActorControl.AI);
             entity.AddComponent(actor);
             Health health = new Health(10, 800);
             entity.AddComponent(health);

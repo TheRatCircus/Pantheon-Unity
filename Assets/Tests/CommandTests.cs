@@ -33,7 +33,7 @@ namespace PantheonTests
             item.Move(null, cell);
             actor.GetComponent<Inventory>().AddItem(item);
             DropCommand cmd = new DropCommand(actor);
-            CommandResult result = cmd.Execute(out int cost);
+            CommandResult result = cmd.Execute();
 
             Assert.True(cell.HasItem(item));
             Assert.True(result == CommandResult.Succeeded);
@@ -49,7 +49,7 @@ namespace PantheonTests
             Cell cell = new Cell(new Vector2Int(0, 0));
             Entity actor = new Entity(
                 new Inventory(1),
-                new Actor(TurnScheduler.TurnTime, ActorControl.AI))
+                new Actor(ActorControl.AI))
             {
                 Name = "TEST_ENTITY"
             };
@@ -57,7 +57,7 @@ namespace PantheonTests
             Entity item = new Entity { Name = "TEST_ITEM" };
             item.Move(null, cell);
             PickupCommand cmd = new PickupCommand(actor);
-            CommandResult result = cmd.Execute(out int cost);
+            CommandResult result = cmd.Execute();
 
             Assert.True(actor.GetComponent<Inventory>().Items.Contains(item));
             Assert.True(result == CommandResult.Succeeded);

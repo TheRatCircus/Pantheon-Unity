@@ -44,7 +44,7 @@ namespace PantheonEditor
 
             EntityComponent[] components = new EntityComponent[]
             {
-                new Actor(),
+                new Actor(ActorControl.None),
                 new AI(new ApproachUtility(), new AttackUtility(), new FleeUtility()),
                 new Ammo()
                     {

@@ -16,22 +16,24 @@ namespace Pantheon.Commands.Actor
 
     public sealed class TossCommand : ActorCommand
     {
-        private Entity item;
+        private readonly Entity item;
 
         public TossCommand(Entity entity, Entity item)
-            : base(entity) => this.item = item;
+            : base(entity)
+        {
+            this.item = item;
+            Cost = TurnScheduler.TurnTime;
+        }
 
-        public override CommandResult Execute(out int cost)
+        public override CommandResult Execute()
         {
             if (Actor.PlayerControlled(Entity))
             {
                 switch (Locator.Player.RequestLine(out List<Cell> line, 7))
                 {
                     case InputMode.Cancelling:
-                        cost = -1;
                         return CommandResult.Cancelled;
                     case InputMode.Line:
-                        cost = -1;
                         return CommandResult.InProgress;
                     case InputMode.Default:
                         {
@@ -46,7 +48,7 @@ namespace Pantheon.Commands.Actor
                             LineProjectile proj = tossFXObj.GetComponent<LineProjectile>();
                             proj.InitializeToss(Entity, item, line);
                             proj.Fire();
-                            cost = TurnScheduler.TurnTime;
+                            
                             return CommandResult.Succeeded;
                         }
                     default:

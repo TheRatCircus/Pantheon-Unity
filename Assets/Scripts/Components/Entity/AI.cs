@@ -9,7 +9,6 @@ using Pantheon.Commands.Actor;
 using Pantheon.Utils;
 using Pantheon.World;
 using System;
-using UnityEngine;
 
 namespace Pantheon.Components.Entity
 {
@@ -25,15 +24,9 @@ namespace Pantheon.Components.Entity
         public AIStrategy Strategy { get; set; }
         public AIUtility[] Utilities { get; private set; }
 
-        [JsonIgnore] public Actor Actor { get; private set; }
+        [JsonIgnore] public Actor Actor { get; set; }
 
         public AI(params AIUtility[] utilities) => Utilities = utilities;
-
-        public void SetActor(Actor actor)
-        {
-            Actor = actor;
-            actor.AIDecisionEvent += DecideCommand;
-        }
 
         public void DecideCommand()
         {

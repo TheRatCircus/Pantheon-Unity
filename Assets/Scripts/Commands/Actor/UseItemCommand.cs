@@ -7,25 +7,30 @@ namespace Pantheon.Commands.Actor
 {
     public sealed class UseItemCommand : ActorCommand
     {
-        private Entity item;
+        private readonly Entity item;
 
-        public UseItemCommand(Entity user, Entity item)
-            : base(user) => this.item = item;
-
-        public override CommandResult Execute(out int cost)
+        public UseItemCommand(Entity user, Entity item) : base(user)
         {
             if (!item.TryGetComponent(out OnUse onUse))
             {
-                cost = -1;
+                Cost = -1;
+            }
+            else
+            {
+                Cost = Cost = onUse.UseTime;
+            }  
+            this.item = item;
+        }
+
+        public override CommandResult Execute()
+        {
+            if (!item.TryGetComponent(out OnUse onUse))
+            {
                 return CommandResult.Failed;
             }
             else
             {
                 CommandResult result = onUse.Invoke(Entity);
-                if (result != CommandResult.Succeeded)
-                    cost = -1;
-                else
-                    cost = onUse.UseTime;
                 return result;
             }
         }

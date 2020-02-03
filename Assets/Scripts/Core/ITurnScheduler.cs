@@ -4,6 +4,7 @@
 using Pantheon.Components.Entity;
 using Pantheon.World;
 using System;
+using UnityEngine;
 
 namespace Pantheon.Core
 {
@@ -13,6 +14,8 @@ namespace Pantheon.Core
         void RemoveActor(Actor actor);
         void Lock();
         void Unlock();
+        void TargetCell(Vector2Int pos);
+        void UntargetCell(Vector2Int pos);
         void MarkDirtyCell(Cell cell);
         event Action ClockTickEvent;
     }

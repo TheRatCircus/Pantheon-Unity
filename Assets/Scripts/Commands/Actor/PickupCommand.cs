@@ -10,9 +10,12 @@ namespace Pantheon.Commands.Actor
 
     public sealed class PickupCommand : ActorCommand
     {
-        public PickupCommand(Entity entity) : base(entity) { }
+        public PickupCommand(Entity entity) : base(entity)
+        {
+            Cost = Core.TurnScheduler.TurnTime;
+        }
 
-        public override CommandResult Execute(out int cost)
+        public override CommandResult Execute()
         {
             bool player = Actor.PlayerControlled(Entity);
 
@@ -22,8 +25,6 @@ namespace Pantheon.Commands.Actor
 
             if (!Entity.Cell.TryGetItem(0, out Entity item))
             {
-                cost = -1;
-
                 if (player)
                     Locator.Log.Send(
                         "There is nothing here to take.",
@@ -37,7 +38,6 @@ namespace Pantheon.Commands.Actor
 
             item.Cell.DeallocateEntity(item);
             inv.AddItem(item);
-            cost = Core.TurnScheduler.TurnTime;
 
             if (player)
                 Locator.Log.Send(
