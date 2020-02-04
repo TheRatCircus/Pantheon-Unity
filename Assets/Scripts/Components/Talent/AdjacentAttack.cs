@@ -12,7 +12,7 @@ namespace Pantheon.Components.Talent
     using Entity = Pantheon.Entity;
 
     [System.Serializable]
-    public sealed class AdjacentAttack : TalentComponent
+    public sealed class AdjacentAttack : TalentBehaviour
     {
         public int Accuracy { get; set; } = 50;
         public Damage[] Damages { get; set; }

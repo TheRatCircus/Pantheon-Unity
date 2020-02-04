@@ -5,17 +5,15 @@
   "Range": 1,
   "Time": 100,
   "Targeting": "Adjacent",
-  "Components": [
-    {
-      "$type": "AdjacentAttack",
-      "Accuracy": 70,
-      "Damages": [
-        {
-          "Type": "Bludgeoning",
-          "Min": 2,
-          "Max": 4
-        }
-      ]
-    }
-  ]
+  "Behaviour": {
+    "$type": "AdjacentAttack",
+    "Accuracy": 70,
+    "Damages": [
+      {
+        "Type": "Bludgeoning",
+        "Min": 2,
+        "Max": 4
+      }
+    ]
+  }
 }

@@ -4,16 +4,14 @@
   "Range": 1,
   "Time": 100,
   "Targeting": "Adjacent",
-  "Components": [
-    {
-      "$type": "AdjacentAttack",
-      "Damages": [
-        {
-          "Type": "Piercing",
-          "Min": 1,
-          "Max": 2
-        }
-      ]
-    }
-  ]
+  "Behaviour": {
+    "$type": "AdjacentAttack",
+    "Damages": [
+      {
+        "Type": "Piercing",
+        "Min": 1,
+        "Max": 2
+      }
+    ]
+  }
 }

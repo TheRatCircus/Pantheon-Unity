@@ -5,20 +5,18 @@
   "Range": 1,
   "Time": 100,
   "Targeting": "Adjacent",
-  "Components": [
-    {
-      "$type": "CircularAttack",
-      "Range": 8,
-      "Radius": 9,
-      "Accuracy": 70,
-      "HitSound": "SFX_Patsons",
-      "Damages": [
-        {
-          "Type": "Slashing",
-          "Min": 5,
-          "Max": 9
-        }
-      ]
-    }
-  ]
+  "Behaviour": {
+    "$type": "CircularAttack",
+    "Range": 8,
+    "Radius": 9,
+    "Accuracy": 70,
+    "HitSound": "SFX_Patsons",
+    "Damages": [
+      {
+        "Type": "Slashing",
+        "Min": 5,
+        "Max": 9
+      }
+    ]
+  }
 }

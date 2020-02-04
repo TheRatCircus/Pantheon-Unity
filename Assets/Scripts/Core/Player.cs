@@ -396,10 +396,7 @@ namespace Pantheon.Core
                 return;
 
             HashSet<Cell> targeted = new HashSet<Cell>();
-
-            foreach (TalentComponent tc in talent.Components)
-                targeted.AddMany(tc.GetTargetedCells(Entity, selectedCell));
-
+            targeted.AddMany(talent.Behaviour.GetTargetedCells(Entity, selectedCell));
             HashSet<Cell> overlayed = new HashSet<Cell>();
 
             foreach (Cell c in targeted)

@@ -25,14 +25,9 @@ namespace Pantheon.Commands.Actor
             if (!Actor.PlayerControlled(Entity))
             {
                 HashSet<Cell> cells = new HashSet<Cell>();
-                foreach (TalentComponent tc in talent.Components)
-                {
-                    cells.AddMany(tc.GetTargetedCells(Entity, target));
-                }
+                cells.AddMany(talent.Behaviour.GetTargetedCells(Entity, target));
                 foreach (Cell c in cells)
-                {
                     Locator.Scheduler.TargetCell(c.Position);
-                }
             }
         }
 
@@ -41,14 +36,9 @@ namespace Pantheon.Commands.Actor
             if (!Actor.PlayerControlled(Entity))
             {
                 HashSet<Cell> cells = new HashSet<Cell>();
-                foreach (TalentComponent tc in talent.Components)
-                {
-                    cells.AddMany(tc.GetTargetedCells(Entity, target));
-                }
+                cells.AddMany(talent.Behaviour.GetTargetedCells(Entity, target));
                 foreach (Cell c in cells)
-                {
                     Locator.Scheduler.UntargetCell(c.Position);
-                }
             }
             return talent.Cast(Entity, target);
         }

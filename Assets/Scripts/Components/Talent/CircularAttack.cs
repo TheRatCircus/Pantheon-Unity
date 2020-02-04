@@ -13,7 +13,7 @@ namespace Pantheon.Components.Talent
     using Entity = Pantheon.Entity;
 
     [System.Serializable]
-    public sealed class CircularAttack : TalentComponent
+    public sealed class CircularAttack : TalentBehaviour
     {
         public Damage[] Damages { get; set; }
         public int Radius { get; set; } = 1;

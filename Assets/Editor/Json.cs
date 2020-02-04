@@ -102,41 +102,8 @@ namespace PantheonEditor
                     Talents = new Talent[]
                     {
                         new Talent()
-                        { 
-                            ID = "Talent_Punch",
-                            Name = "Punch",
-                            Range = 1,
-                            Icon = null,
-                            Components = new TalentComponent[]
-                            {
-                                new AdjacentAttack
-                                {
-                                    Damages = new Damage[]
-                                    {
-                                        new Damage
-                                        { 
-                                            Min = 2,
-                                            Max = 4,
-                                            Type = DamageType.Bludgeoning
-                                        }
-                                    }
-                                },
-                                new CircularAttack
-                                {
-                                    Damages = new Damage[]
-                                    {
-                                        new Damage
-                                        {
-                                            Min = 5,
-                                            Max = 7,
-                                            Type = DamageType.Slashing
-                                        }
-                                    },
-                                    HitSound = null,
-                                    Radius = 3,
-                                    Range = 1
-                                }
-                            }
+                        {
+                            ID = "Talent_Foobar"
                         },
                     }
                 },
@@ -292,35 +259,16 @@ namespace PantheonEditor
                 OnCast = null,
                 Range = 1,
                 Time = TurnScheduler.TurnTime,
-                Components = new TalentComponent[]
+                Behaviour = new AdjacentAttack
                 {
-                    new AdjacentAttack
+                    Accuracy = 75,
+                    Damages = new Damage[]
                     {
-                        Accuracy = 75,
-                        Damages = new Damage[]
+                        new Damage()
                         {
-                            new Damage()
-                            { 
-                                Type = DamageType.Bludgeoning,
-                                Min = 2,
-                                Max = 4
-                            }
-                        }
-                    },
-                    new CircularAttack
-                    {
-                        Accuracy = 80,
-                        Radius = 1,
-                        Range = 2,
-                        HitSound = Assets.Audio["SFX_Patsons"],
-                        Damages= new Damage[]
-                        {
-                            new Damage()
-                            {
-                                Type = DamageType.Slashing,
-                                Min = 5,
-                                Max = 8
-                            }
+                            Type = DamageType.Bludgeoning,
+                            Min = 2,
+                            Max = 4
                         }
                     }
                 },

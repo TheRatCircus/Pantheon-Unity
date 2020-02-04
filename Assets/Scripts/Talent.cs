@@ -29,7 +29,7 @@ namespace Pantheon
         public int Range { get; set; }
         public int Time { get; set; } = TurnScheduler.TurnTime;
         public TalentTargeting Targeting { get; set; } = TalentTargeting.None;
-        public TalentComponent[] Components { get; set; }
+        public TalentBehaviour Behaviour { get; set; }
         public NonActorCommand[] OnCast { get; set; }
 
         public static Talent[] GetAllTalents(Entity entity)
@@ -58,8 +58,6 @@ namespace Pantheon
 
         public CommandResult Cast(Entity caster, Cell target)
         {
-            CommandResult result = CommandResult.Succeeded;
-
             if (OnCast != null)
             {
                 foreach (NonActorCommand nac in OnCast)
@@ -68,25 +66,11 @@ namespace Pantheon
                         continue;
 
                     nac.Entity = caster;
-                    CommandResult r = nac.Execute();
-
-                    if (r == CommandResult.InProgress)
-                        result = CommandResult.InProgress;
-                    if (r == CommandResult.Cancelled)
-                        result = CommandResult.Cancelled;
+                    nac.Execute();
                 }
             }
 
-            foreach (TalentComponent component in Components)
-            {
-                CommandResult r = component.Invoke(caster, target);
-                if (r == CommandResult.InProgress)
-                    result = CommandResult.InProgress;
-                if (r == CommandResult.Cancelled)
-                    result = CommandResult.Cancelled;
-            }
-
-            return result;
+            return Behaviour.Invoke(caster, target);
         }
     }
 }
