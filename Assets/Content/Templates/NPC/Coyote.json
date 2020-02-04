@@ -1,6 +1,7 @@
 {
   "ID": "Coyote",
   "EntityName": "coyote",
+  "Flags": "Blocking",
   "Sprite": "Sprite_Coyote",
   "Tile": null,
   "Components": [

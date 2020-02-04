@@ -4,33 +4,20 @@
 using static System.Environment;
 using Pantheon.Components.Entity;
 using UnityEngine;
-using Newtonsoft.Json;
 using UnityEngine.Tilemaps;
 
 namespace Pantheon.Content
 {
     public sealed class EntityTemplate
     {
-        public string ID { get; private set; } = "DEFAULT_TEMPLATE_ID";
-        public string EntityName { get; private set; } = "DEFAULT_ENTITY_NAME";
-        public Sprite Sprite { get; private set; } = default;
-        public Tile Tile { get; private set; } = default;
-        public EntityComponent[] Components { get; private set; }
+        public string ID { get; set; } = "DEFAULT_TEMPLATE_ID";
+        public string EntityName { get; set; } = "DEFAULT_ENTITY_NAME";
+        public EntityFlag Flags { get; set; }
+        public Sprite Sprite { get; set; }
+        public Tile Tile { get; set; }
+        public EntityComponent[] Components { get; set; }
 
-        [JsonConstructor]
-        public EntityTemplate(string id, string entityName, Sprite sprite,
-            params EntityComponent[] components)
-        {
-            ID = id;
-            EntityName = entityName;
-            Sprite = sprite;
-            Components = components;
-            if (Tile == null)
-            {
-                Tile = ScriptableObject.CreateInstance<Tile>();
-                Tile.sprite = Sprite;
-            }
-        }
+        public EntityTemplate() { }
 
         public EntityTemplate(Entity entity)
         {

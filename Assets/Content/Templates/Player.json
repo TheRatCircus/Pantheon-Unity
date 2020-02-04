@@ -1,6 +1,7 @@
 {
   "ID": "Player",
   "EntityName": "the Hero",
+  "Flags": "Blocking, Unique",
   "Sprite": "Sprite_Player",
   "Tile": "Tile_Player",
   "Components": [

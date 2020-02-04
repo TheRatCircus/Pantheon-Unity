@@ -1,6 +1,8 @@
 ﻿// Entity.cs
 // Jerome Martina
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Pantheon.Components.Entity;
 using Pantheon.Content;
 using Pantheon.Utils;
@@ -14,13 +16,54 @@ using Object = UnityEngine.Object;
 
 namespace Pantheon
 {
+    [Flags]
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum EntityFlag : byte
+    {
+        Blocking = 1 << 0,
+        InInventory = 1 << 1,
+        Unique = 1 << 2
+    }
+
     [Serializable]
     public sealed class Entity
     {
         public string Name { get; set; }
+        public EntityFlag Flags { get; set; }
 
-        public bool Blocking { get; set; }
-        public bool InInventory { get; set; }
+        public bool Blocking
+        {
+            get => Flags.HasFlag(EntityFlag.Blocking);
+            set
+            {
+                if (value)
+                    Flags |= EntityFlag.Blocking;
+                else
+                    Flags &= ~EntityFlag.Blocking;
+            }
+        }
+        public bool InInventory
+        {
+            get => Flags.HasFlag(EntityFlag.InInventory);
+            set
+            {
+                if (value)
+                    Flags |= EntityFlag.InInventory;
+                else
+                    Flags &= ~EntityFlag.InInventory;
+            }
+        }
+        public bool Unique
+        {
+            get => Flags.HasFlag(EntityFlag.Unique);
+            set
+            {
+                if (value)
+                    Flags |= EntityFlag.Unique;
+                else
+                    Flags &= ~EntityFlag.Unique;
+            }
+        }
         [NonSerialized]
         private GameObject[] gameObjects = new GameObject[1];
         public GameObject[] GameObjects

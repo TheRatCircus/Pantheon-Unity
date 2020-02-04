@@ -1,6 +1,7 @@
 {
   "ID": "RagingGoose",
   "EntityName": "raging goose",
+  "Flags": "Blocking",
   "Sprite": "Sprite_Goose",
   "Tile": null,
   "Components": [

@@ -1,14 +1,14 @@
 {
   "ID": "SAMPLE_ID",
   "EntityName": "SAMPLE_NAME",
+  "Flags": "Blocking, Unique",
   "Sprite": null,
-  "Tile": "",
+  "Tile": null,
   "Components": [
     {
       "$type": "Actor",
-      "Speed": -1,
-      "SpeedModifier": 0,
-      "Energy": -1,
+      "Progress": 0,
+      "Threshold": 0,
       "Command": null
     },
     {

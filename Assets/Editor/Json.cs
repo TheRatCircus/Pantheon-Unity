@@ -144,8 +144,13 @@ namespace PantheonEditor
                 new Wield(2)
             };
 
-            EntityTemplate template = new EntityTemplate(
-                "SAMPLE_ID", "SAMPLE_NAME", null, components);
+            EntityTemplate template = new EntityTemplate
+            {
+                ID = "SAMPLE_ID",
+                EntityName = "SAMPLE_NAME",
+                Flags = EntityFlag.Unique | EntityFlag.Blocking,
+                Components = components
+            };
 
             string path = Application.dataPath + $"/Sample/sample_template.json";
 
