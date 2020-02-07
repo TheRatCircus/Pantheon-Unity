@@ -66,7 +66,7 @@ namespace Pantheon.Debug
             {
                 Entity entity = new Entity(template);
                 entity.Move(ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell);
-                FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Cell, true);
+                Locator.Scheduler.RedrawDirtyCells(entity.Level);
                 return $"Spawned {entity} at {ctrl.Cursor.HoveredCell}.";
             }
         }

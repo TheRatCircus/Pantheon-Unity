@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Pantheon
 {
@@ -113,6 +114,7 @@ namespace Pantheon
             Templates = new ReadOnlyDictionary<string, EntityTemplate>(_templates);
             _sprites = new Dictionary<string, Sprite>();
             Sprites = new ReadOnlyDictionary<string, Sprite>(_sprites);
+            _tiles = new Dictionary<string, TileBase>();
             _audio = new Dictionary<string, AudioClip>();
             Audio = new ReadOnlyDictionary<string, AudioClip>(_audio);
             _talents = new Dictionary<string, Talent>(talentFiles.Length);
@@ -254,6 +256,37 @@ namespace Pantheon
         private static Dictionary<string, Sprite> _sprites;
         public static ReadOnlyDictionary<string, Sprite> Sprites
         { get; private set; }
+
+        // Tiles
+
+        private static Dictionary<string, TileBase> _tiles;
+
+        /// <summary>
+        /// Get the tile corresponding to a sprite.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sprite"></param>
+        /// <returns></returns>
+        public static T GetTile<T>(Sprite sprite) where T : TileBase
+        {
+            // Sprite_Foobar becomes Tile_Foobar
+            string id = $"Tile_{sprite.name.Split('_')[1]}";
+
+            if (_tiles.TryGetValue(id, out TileBase ret))
+                return (T)ret;
+            else
+            {
+                T tile = ScriptableObject.CreateInstance<T>();
+                tile.name = id;
+
+                if (tile is Tile t)
+                    t.sprite = sprite;
+                else if (tile is RuleTile rt)
+                    rt.m_DefaultSprite = sprite;
+                
+                return tile;
+            }
+        }
 
         // AudioClips
 

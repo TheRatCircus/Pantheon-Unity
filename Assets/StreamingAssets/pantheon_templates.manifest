@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1089184651
+CRC: 3613425312
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 7892fd3a136c4ac86387358b5948a37d
+    Hash: cb4e0ac78ed2272cded993f893320c49
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5ad585dd02dfb5016c0dad519eab8f49
@@ -12,6 +12,7 @@ ClassTypes:
 - Class: 49
   Script: {instanceID: 0}
 Assets:
+- Assets/Content/Templates/Item/Item_ThrowingHatchets.json
 - Assets/Content/Templates/Item/Item_Sceptre.json
 - Assets/Content/Templates/Item/Item_Dagger.json
 - Assets/Content/Templates/Item/Item_Hatchet.json

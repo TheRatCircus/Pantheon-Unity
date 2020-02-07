@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 736099112
+CRC: 2649425690
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8901b4cb15d02f8fa68cd673797b7bad
+    Hash: 1e492c25f9b89c3fc2e14e6022ecc202
   TypeTreeHash:
     serializedVersion: 2
     Hash: 0e2e60589b6cb39266a7f562c3b42d44
@@ -65,9 +65,11 @@ Assets:
 - Assets/Sprites/Item/Sprite_Grenade.png
 - Assets/Content/Terrain/Terrain_Water.asset
 - Assets/Sprites/Item/Sprite_Cuirass.png
+- Assets/Tiles/Item/Tile_Carbine.asset
 - Assets/Content/CharacterNames.txt
 - Assets/Audio/SFX_Toss.ogg
 - Assets/Sprites/Item/Sprite_Dagger.png
+- Assets/Tiles/Item/Tile_Grenade.asset
 - Assets/Sprites/Actor/Sprite_GiantBumblebee.png
 - Assets/Sprites/Actor/Sprite_Goose.png
 - Assets/Content/Terrain/Terrain_StoneWall.asset
@@ -84,19 +86,27 @@ Assets:
 - Assets/Sprites/Actor/Sprite_Player.png
 - Assets/Sprites/Actor/Sprite_Swine.png
 - Assets/Sprites/Actor/Sprite_Pigman.png
+- Assets/Tiles/Item/Tile_Corpse.asset
 - Assets/Sprites/Item/Sprite_Corpse.png
+- Assets/Tiles/Item/Tile_Dagger.asset
 - Assets/Sprites/Actor/Sprite_Human.png
+- Assets/Tiles/Item/Tile_Scroll.asset
 - Assets/Sprites/Item/Sprite_Carbine.png
+- Assets/Tiles/Item/Tile_Prejudice.asset
 - Assets/Audio/SFX_Splat_Flesh.ogg
 - Assets/Sprites/Item/Sprite_Prejudice.png
 - Assets/Prefabs/EntityGameObject.prefab
+- Assets/Tiles/Item/Tile_Flask.asset
 - Assets/Content/Terrain/Terrain_Grass.asset
 - Assets/Content/RelicNames.txt
 - Assets/Sprites/Item/Sprite_Cartridges.png
 - Assets/Sprites/Actor/Sprite_Coyote.png
+- Assets/Tiles/Item/Tile_Cuirass.asset
 - Assets/Sprites/Actor/Sprite_GenericNPC.png
 - Assets/Prefabs/FX/FX_Toss.prefab
 - Assets/Content/Vaults/Vault_Keep.asset
+- Assets/Tiles/Item/Tile_Hatchet.asset
 - Assets/Content/Terrain/Terrain_StoneFloor.asset
 - Assets/Sprites/UI/Talent/Sprite_Punch.png
+- Assets/Tiles/Item/Tile_Cartridges.asset
 Dependencies: []

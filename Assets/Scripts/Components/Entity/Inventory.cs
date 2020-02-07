@@ -46,8 +46,8 @@ namespace Pantheon.Components.Entity
         /// </summary>
         public void Move(Level level, Cell cell)
         {
-            foreach (Entity items in Items)
-                items.Move(level, cell);
+            foreach (Entity item in Items)
+                item.Move(level, cell);
         }
 
         public override EntityComponent Clone(bool full)

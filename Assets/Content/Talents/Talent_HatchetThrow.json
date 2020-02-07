@@ -1,0 +1,20 @@
+{
+  "ID": "Talent_HatchetThrow",
+  "Name": "Hatchet Toss",
+  "Icon": "Sprite_Hatchet",
+  "Range": 7,
+  "Time": 100,
+  "Targeting": "Line",
+  "Behaviour": {
+    "$type": "TossTalent",
+	"Range" : 7,
+    "Accuracy": 70,
+    "Damages": [
+      {
+        "Type": "Slashing",
+        "Min": 2,
+        "Max": 4
+      }
+    ]
+  }
+}

@@ -5,6 +5,8 @@ using static System.Environment;
 using Pantheon.Components.Entity;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace Pantheon.Content
 {
@@ -17,6 +19,7 @@ namespace Pantheon.Content
         public Tile Tile { get; set; }
         public EntityComponent[] Components { get; set; }
 
+        [JsonConstructor]
         public EntityTemplate() { }
 
         public EntityTemplate(Entity entity)
@@ -50,6 +53,12 @@ namespace Pantheon.Content
             }
             ret = null;
             return false;
+        }
+
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext ctxt)
+        {
+            Tile = Assets.GetTile<Tile>(Sprite);
         }
 
         public override string ToString()

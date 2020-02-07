@@ -63,7 +63,6 @@ namespace Pantheon.Serialization.Json
                     typeof(WanderStrategy),
                     typeof(ThrallFollowStrategy),
                     // AI utilities
-                     // AI utilities
                     typeof(AIUtility),
                     typeof(ApproachUtility),
                     typeof(AttackUtility),
@@ -72,7 +71,8 @@ namespace Pantheon.Serialization.Json
                     // Talent
                     typeof(Talent),
                     typeof(AdjacentAttack),
-                    typeof(CircularAttack)
+                    typeof(CircularAttack),
+                    typeof(TossTalent)
                 }
             };
     }

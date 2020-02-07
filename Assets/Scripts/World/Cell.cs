@@ -158,9 +158,11 @@ namespace Pantheon.World
         /// <summary>
         /// Remove an entity from storage based on its archetype.
         /// </summary>
-        /// <param name="entity"></param>
         public void DeallocateEntity(Entity entity)
         {
+            if (entity.InInventory)
+                return;
+
             if (entity == Actor)
                 Actor = null;
             else

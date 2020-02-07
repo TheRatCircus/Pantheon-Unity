@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Pantheon.Commands;
+using Pantheon.Components.Talent;
 using Pantheon.World;
 using System;
 
@@ -11,12 +12,19 @@ namespace Pantheon.Components.Entity
     using Entity = Pantheon.Entity;
 
     [Serializable]
-    public sealed class Evocable : EntityComponent
+    public sealed class Evocable : EntityComponent, IEntityDependentComponent
     {
         private Talent[] talents;
         public Talent[] Talents { get => talents; set => talents = value; }
 
         public Evocable(params Talent[] talents) => this.talents = talents;
+
+        public void SetEntity()
+        {
+            foreach (Talent t in talents)
+                if (t.Behaviour is IEntityBasedTalent ebt)
+                    ebt.Entity = Entity;
+        }
 
         public CommandResult Evoke(Entity caster, int talent, Cell target)
         {

@@ -211,8 +211,7 @@ namespace Pantheon.Core
             SendActorDebugEvent(actor);
 
             Profiler.BeginSample("Scheduler: Draw Dirty");
-            actor.Entity.Level.Draw(dirtyCells);
-            dirtyCells.Clear();
+            RedrawDirtyCells(actor.Entity.Level);
             Profiler.EndSample();
 
             Actor dequeued = Queue[0];
@@ -269,6 +268,12 @@ namespace Pantheon.Core
         }
 
         public void MarkDirtyCell(Cell cell) => dirtyCells.Add(cell);
+
+        public void RedrawDirtyCells(Level level)
+        {
+            level.Draw(dirtyCells);
+            dirtyCells.Clear();
+        }
 
         [System.Diagnostics.Conditional("DEBUG_SCHEDULER")]
         private void SendActorDebugEvent(Actor actor)

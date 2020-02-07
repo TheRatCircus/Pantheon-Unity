@@ -19,7 +19,6 @@ namespace Pantheon.Serialization.Json.Converters
             Type objectType, RuleTile existingValue,
             bool hasExistingValue, JsonSerializer serializer)
         {
-            // Tiles are generated programatically during template construction
             return null;
         }
 

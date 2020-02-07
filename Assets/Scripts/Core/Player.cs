@@ -415,6 +415,8 @@ namespace Pantheon.Core
             {
                 case TalentTargeting.Adjacent:
                     return selectedLine.ElementAtOrLast(1);
+                case TalentTargeting.Line:
+                    return selectedLine.Last();
                 case TalentTargeting.None:
                     return null;
                 default:

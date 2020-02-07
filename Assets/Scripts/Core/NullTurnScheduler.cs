@@ -17,6 +17,7 @@ namespace Pantheon.Core
         public void RemoveActor(Actor actor) { }
         public void TargetCell(Vector2Int pos) { }
         public void UntargetCell(Vector2Int pos) { }
+        public void RedrawDirtyCells(Level level) { }
         public void MarkDirtyCell(Cell cell) { }
     }
 }

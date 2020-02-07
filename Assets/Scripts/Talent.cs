@@ -18,6 +18,7 @@ namespace Pantheon
     {
         None,
         Adjacent,
+        Line
     }
 
     [System.Serializable]

@@ -129,10 +129,11 @@ namespace Pantheon
             Name = template.EntityName;
             Flyweight = template;
 
-            Components = new Dictionary<Type, EntityComponent>();
+            Components = new Dictionary<Type, EntityComponent>(1);
 
-            //foreach (EntityComponent component in template.Components)
-            //    AddComponent(component.Clone(false));
+            foreach (EntityComponent component in template.Components)
+                if (component is IEntityDependentComponent)
+                    AddComponent(component.Clone(false));
 
             AddComponent(new Location());
             ConnectComponents();
@@ -185,7 +186,9 @@ namespace Pantheon
 
         public void AddComponent(EntityComponent ec)
         {
-            ec.GetEntityEvent += delegate { return this; };
+            ec.Entity = this;
+            if (ec is IEntityDependentComponent edc)
+                edc.SetEntity();
             ec.MessageEvent += RelayMessage;
             Components.Add(ec.GetType(), ec);
         }
@@ -288,7 +291,7 @@ namespace Pantheon
             }
 
             Cell.DeallocateEntity(this);
-            UnityEngine.Object.Destroy(GameObjects[0]);
+            Object.Destroy(GameObjects[0]);
         }
 
         public string ToSubjectString(bool sentenceStart)

@@ -1,0 +1,31 @@
+{
+  "ID": "Item_ThrowingHatchets",
+  "EntityName": "throwing hatchets",
+  "Sprite": "Sprite_Hatchet",
+  "Tile": "Tile_Hatchet",
+  "Components": [
+	{
+      "$type": "Melee",
+      "Attacks": [
+        {
+          "Range": 1,
+          "Damages": [
+            {
+              "Type": 1,
+              "Min": 4,
+              "Max": 8
+            }
+          ],
+          "Accuracy": 80,
+          "Time": 120
+        }
+      ]
+    },
+	{
+      "$type": "Evocable",
+      "Talents": [
+		"Talent_HatchetThrow"
+	  ]
+    },
+  ]
+}
