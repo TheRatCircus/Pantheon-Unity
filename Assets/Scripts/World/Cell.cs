@@ -153,6 +153,7 @@ namespace Pantheon.World
             if (items == null)
                 items = new List<Entity>();
             items.Add(entity);
+            Locator.Scheduler.MarkDirtyCell(this);
         }
 
         /// <summary>
@@ -171,6 +172,7 @@ namespace Pantheon.World
                 if (items.Count == 0)
                     items = null;
             }
+            Locator.Scheduler.MarkDirtyCell(this);
         }
 
         public bool TryGetItem(int index, out Entity item)
