@@ -257,11 +257,11 @@ namespace PantheonEditor
                 Name = "Foobar",
                 Icon = Assets.Sprites["Sprite_Punch"],
                 OnCast = null,
-                Range = 1,
                 Time = TurnScheduler.TurnTime,
-                Behaviour = new AdjacentAttack
+                Behaviour = new CellTalent
                 {
                     Accuracy = 75,
+                    Range = 1,
                     Damages = new Damage[]
                     {
                         new Damage()
@@ -271,8 +271,7 @@ namespace PantheonEditor
                             Max = 4
                         }
                     }
-                },
-                Targeting = TalentTargeting.Adjacent
+                }
             };
 
             string path = Application.dataPath + $"/Sample/sample_talent.json";

@@ -1,4 +1,4 @@
-﻿// AdjacentAttack.cs
+﻿// RingTalent.cs
 // Jerome Martina
 
 using Pantheon.Commands;
@@ -13,11 +13,11 @@ namespace Pantheon.Components.Talent
     using Entity = Pantheon.Entity;
 
     [System.Serializable]
-    public sealed class CircularAttack : TalentBehaviour
+    public sealed class RingTalent : TalentBehaviour
     {
         public Damage[] Damages { get; set; }
-        public int Radius { get; set; } = 1;
-        public int Range { get; set; } // Greater than 0 creates a ring
+        public int Radius { get; set; } = 3;
+        // Greater Range than 0 creates a ring
         public int Accuracy { get; set; }
         public AudioClip HitSound { get; set; }
 

@@ -18,7 +18,6 @@ namespace Pantheon.Components.Talent
         private static readonly WaitForSeconds delay = new WaitForSeconds(.1f);
 
         public Damage[] Damages { get; set; }
-        public int Range { get; set; } = 3;
         public int Accuracy { get; set; }
         public AudioClip HitSound { get; set; }
 

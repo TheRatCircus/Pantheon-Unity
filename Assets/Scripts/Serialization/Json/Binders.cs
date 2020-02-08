@@ -70,8 +70,8 @@ namespace Pantheon.Serialization.Json
                     // Statuses
                     // Talent
                     typeof(Talent),
-                    typeof(AdjacentAttack),
-                    typeof(CircularAttack),
+                    typeof(CellTalent),
+                    typeof(RingTalent),
                     typeof(TossTalent)
                 }
             };

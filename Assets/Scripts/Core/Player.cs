@@ -148,7 +148,7 @@ namespace Pantheon.Core
                 Talent talent = Talents[hotbarSelection];
                 if (talent != null)
                 {
-                    Cell target = GetTalentTarget(talent.Targeting);
+                    Cell target = selectedCell;
                     actor.Command = new TalentCommand(Entity, talent, target);
                 }
             }
@@ -406,22 +406,6 @@ namespace Pantheon.Core
 
                 targetingTilemap.SetTile((Vector3Int)c.Position, targetOverlayTile);
                 overlayed.Add(c);
-            }
-        }
-
-        private Cell GetTalentTarget(TalentTargeting targeting)
-        {
-            switch (targeting)
-            {
-                case TalentTargeting.Adjacent:
-                    return selectedLine.ElementAtOrLast(1);
-                case TalentTargeting.Line:
-                    return selectedLine.Last();
-                case TalentTargeting.None:
-                    return null;
-                default:
-                    throw new System.ArgumentException(
-                        "Invalid talent targeting scheme.");
             }
         }
 

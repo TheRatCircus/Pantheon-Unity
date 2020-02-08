@@ -1,18 +1,20 @@
-﻿// AdjacentAttack.cs
+﻿// CellTalent.cs
 // Jerome Martina
 
 using Pantheon.Commands;
 using Pantheon.Utils;
 using Pantheon.World;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Pantheon.Components.Talent
 {
     using Entity = Pantheon.Entity;
 
-    [System.Serializable]
-    public sealed class AdjacentAttack : TalentBehaviour
+    [Serializable]
+    public sealed class CellTalent : TalentBehaviour
     {
         public int Accuracy { get; set; } = 50;
         public Damage[] Damages { get; set; }
@@ -20,14 +22,13 @@ namespace Pantheon.Components.Talent
         public override HashSet<Cell> GetTargetedCells(Entity caster, Cell target)
         {
             Line line = Bresenhams.GetLine(caster.Level, caster.Cell, target);
-            return new HashSet<Cell> { line.ElementAtOrLast(1) };
+            return new HashSet<Cell> { line.ElementAtOrLast(Range) };
         }
 
         public override CommandResult Invoke(Entity caster, Cell target)
         {
             if (target == null)
-                throw new System.NotImplementedException(
-                    "Target cell needed.");
+                throw new NotImplementedException("Target cell needed.");
 
             Entity enemy = target.Actor;
 

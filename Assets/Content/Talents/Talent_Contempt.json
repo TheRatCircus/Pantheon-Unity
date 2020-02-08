@@ -6,9 +6,9 @@
   "Time": 100,
   "Targeting": "Adjacent",
   "Behaviour": {
-    "$type": "CircularAttack",
-    "Range": 8,
-    "Radius": 9,
+    "$type": "RingTalent",
+    "Range": 2,
+    "Radius": 3,
     "Accuracy": 70,
     "HitSound": "SFX_Patsons",
     "Damages": [

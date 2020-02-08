@@ -5,7 +5,8 @@
   "Time": 100,
   "Targeting": "Adjacent",
   "Behaviour": {
-    "$type": "AdjacentAttack",
+    "$type": "CellTalent",
+	"Range": 1,
     "Damages": [
       {
         "Type": "Piercing",
