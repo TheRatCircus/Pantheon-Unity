@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3613425312
+CRC: 2068211082
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: cb4e0ac78ed2272cded993f893320c49
+    Hash: 7f78581e51a33e82fcd433a0f9e24e84
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5ad585dd02dfb5016c0dad519eab8f49
@@ -15,6 +15,7 @@ Assets:
 - Assets/Content/Templates/Item/Item_ThrowingHatchets.json
 - Assets/Content/Templates/Item/Item_Sceptre.json
 - Assets/Content/Templates/Item/Item_Dagger.json
+- Assets/Content/Templates/NPC/Lucien.json
 - Assets/Content/Templates/Item/Item_Hatchet.json
 - Assets/Content/Templates/Player.json
 - Assets/Content/Templates/Item/Mythical/Myth_MotherOfPearl.json

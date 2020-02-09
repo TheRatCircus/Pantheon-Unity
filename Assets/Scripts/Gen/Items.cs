@@ -23,8 +23,8 @@ namespace Pantheon.Gen
                 }
                 else
                 {
-                    EntityTemplate basic = Assets.Templates[
-                        Tables.basicItems.Random()];
+                    EntityTemplate basic = Assets.GetTemplate(
+                        Tables.basicItems.Random());
                     item = new Entity(basic);
                 }
 

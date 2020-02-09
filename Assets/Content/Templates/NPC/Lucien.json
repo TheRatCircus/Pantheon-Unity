@@ -1,0 +1,51 @@
+{
+  "ID": "Lucien",
+  "EntityName": "Lucien",
+  "Flags": "Blocking, Unique",
+  "Sprite": "Sprite_Human",
+  "Components": [
+    {
+      "$type": "Actor",
+      "control": "AI",
+      "Speed": 100
+    },
+    {
+      "$type": "AI",
+      "Strategy": null,
+      "Utilities": [
+        {
+          "$type": "ApproachUtility"
+        },
+        {
+          "$type": "AttackUtility",
+          "Aggression": 110
+        },
+        {
+          "$type": "FleeUtility"
+        }
+      ]
+    },
+    {
+      "$type": "Health",
+      "Max": 6,
+      "RegenTime": 800,
+      "Regenerating": true
+    },
+    {
+      "$type": "Species",
+      "SpeciesDef": "Species_Goose"
+    },
+    {
+      "$type": "Splat",
+      "Sound": "SFX_Splat_Flesh",
+      "FXPrefab": "FX_Splat_Blood"
+    },
+    {
+      "$type": "Status",
+      "Statuses": []
+    }
+  ],
+  "Items": [ 
+	"Item_ThrowingHatchets"
+  ]
+}

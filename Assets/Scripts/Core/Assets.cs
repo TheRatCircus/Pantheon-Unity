@@ -17,88 +17,22 @@ namespace Pantheon
     public static class Assets
     {
         [RuntimeInitializeOnLoadMethod]
-#pragma warning disable IDE0051 // Remove unused private members
         public static void LoadAssets()
 #pragma warning restore IDE0051
         {
-            JsonSerializerSettings genericSettings = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Binders._entity,
-                Formatting = Formatting.Indented,
-                Converters = new List<JsonConverter>()
-                {
-                    new AudioClipConverter(),
-                    new BodyPartConverter(),
-                    new GameObjectConverter(),
-                    new RuleTileConverter(),
-                    new SpeciesDefinitionConverter(),
-                    new SpriteConverter(),
-                    new StatusConverter(),
-                    new TalentConverter(),
-                    new TileConverter(),
-                }
-            };
+            
 
-            JsonSerializerSettings talentSettings = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Binders._entity,
-                Formatting = Formatting.Indented,
-                Converters = new List<JsonConverter>()
-                {
-                    new AudioClipConverter(),
-                    new GameObjectConverter(),
-                    new SpriteConverter(),
-                    new StatusConverter()
-                }
-            };
-
-            JsonSerializerSettings planSettings = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Binders._builder,
-                Formatting = Formatting.Indented,
-                Converters = new List<JsonConverter>()
-                {
-                    new TerrainConverter()
-                }
-            };
-
-            JsonSerializerSettings partSettings = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Binders._entity,
-                Formatting = Formatting.Indented,
-                Converters = new List<JsonConverter>()
-                {
-                    new SpriteConverter()
-                }
-            };
-
-            JsonSerializerSettings speciesSettings = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = Binders._entity,
-                Formatting = Formatting.Indented,
-                Converters = new List<JsonConverter>()
-                {
-                    new BodyPartConverter(),
-                    new SpriteConverter()
-                }
-            };
-
-            AssetBundle bundleMain = AssetBundle.LoadFromFile(Path.Combine(
+            bundleMain = AssetBundle.LoadFromFile(Path.Combine(
                 Application.streamingAssetsPath, "pantheon"));
-            AssetBundle bundleTemplates = AssetBundle.LoadFromFile(Path.Combine(
+            bundleTemplates = AssetBundle.LoadFromFile(Path.Combine(
                 Application.streamingAssetsPath, "pantheon_templates"));
-            AssetBundle bundleTalents = AssetBundle.LoadFromFile(Path.Combine(
+            bundleTalents = AssetBundle.LoadFromFile(Path.Combine(
                 Application.streamingAssetsPath, "pantheon_talents"));
-            AssetBundle bundleSpecies = AssetBundle.LoadFromFile(Path.Combine
+            bundleSpecies = AssetBundle.LoadFromFile(Path.Combine
                 (Application.streamingAssetsPath, "pantheon_species"));
-            AssetBundle bundleBody = AssetBundle.LoadFromFile(Path.Combine(
+            bundleBody = AssetBundle.LoadFromFile(Path.Combine(
                 Application.streamingAssetsPath, "pantheon_body"));
-            AssetBundle bundlePlans = AssetBundle.LoadFromFile(Path.Combine(
+            bundlePlans = AssetBundle.LoadFromFile(Path.Combine(
                 Application.streamingAssetsPath, "pantheon_plans"));
 
             Object[] objs = bundleMain.LoadAllAssets();
@@ -111,7 +45,6 @@ namespace Pantheon
             _prefabs = new Dictionary<string, GameObject>();
             Prefabs = new ReadOnlyDictionary<string, GameObject>(_prefabs);
             _templates = new Dictionary<string, EntityTemplate>(templateFiles.Length);
-            Templates = new ReadOnlyDictionary<string, EntityTemplate>(_templates);
             _sprites = new Dictionary<string, Sprite>();
             Sprites = new ReadOnlyDictionary<string, Sprite>(_sprites);
             _tiles = new Dictionary<string, TileBase>();
@@ -218,19 +151,87 @@ namespace Pantheon
                 _builderPlans.Add(plan.ID, plan);
             }
 
-            foreach (TextAsset ta in templateFiles)
-            {
-                EntityTemplate template =
-                    JsonConvert.DeserializeObject<EntityTemplate>(
-                        ta.text, genericSettings);
-                _templates.Add(template.ID, template);
-            }
+            // Template data is lazy-initialized
         }
 
         public static void UnloadAssets()
         {
             AssetBundle.UnloadAllAssetBundles(true);
         }
+
+        private static AssetBundle bundleMain;
+        private static AssetBundle bundleTemplates;
+        private static AssetBundle bundleTalents;
+        private static AssetBundle bundleSpecies;
+        private static AssetBundle bundleBody;
+        private static AssetBundle bundlePlans;
+
+        private static readonly JsonSerializerSettings genericSettings = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto,
+            SerializationBinder = Binders._entity,
+            Formatting = Formatting.Indented,
+            Converters = new List<JsonConverter>()
+                {
+                    new AudioClipConverter(),
+                    new BodyPartConverter(),
+                    new GameObjectConverter(),
+                    new RuleTileConverter(),
+                    new SpeciesDefinitionConverter(),
+                    new SpriteConverter(),
+                    new StatusConverter(),
+                    new TalentConverter(),
+                    new TileConverter(),
+                }
+        };
+
+        private static readonly JsonSerializerSettings talentSettings = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto,
+            SerializationBinder = Binders._entity,
+            Formatting = Formatting.Indented,
+            Converters = new List<JsonConverter>()
+                {
+                    new AudioClipConverter(),
+                    new GameObjectConverter(),
+                    new SpriteConverter(),
+                    new StatusConverter()
+                }
+        };
+
+        private static readonly JsonSerializerSettings planSettings = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto,
+            SerializationBinder = Binders._builder,
+            Formatting = Formatting.Indented,
+            Converters = new List<JsonConverter>()
+                {
+                    new TerrainConverter()
+                }
+        };
+
+        private static readonly JsonSerializerSettings partSettings = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto,
+            SerializationBinder = Binders._entity,
+            Formatting = Formatting.Indented,
+            Converters = new List<JsonConverter>()
+                {
+                    new SpriteConverter()
+                }
+        };
+
+        private static readonly JsonSerializerSettings speciesSettings = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto,
+            SerializationBinder = Binders._entity,
+            Formatting = Formatting.Indented,
+            Converters = new List<JsonConverter>()
+                {
+                    new BodyPartConverter(),
+                    new SpriteConverter()
+                }
+        };
 
         // Misc
 
@@ -248,8 +249,27 @@ namespace Pantheon
         // Templates
 
         private static Dictionary<string, EntityTemplate> _templates;
-        public static ReadOnlyDictionary<string, EntityTemplate> Templates
-        { get; private set; }
+
+        public static EntityTemplate GetTemplate(string id)
+        {
+            if (_templates.TryGetValue(id, out EntityTemplate ret))
+                return ret;
+            else
+            {
+                TextAsset ta = bundleTemplates.LoadAsset<TextAsset>(id);
+
+                if (ta == null)
+                    return null;
+
+                EntityTemplate template =
+                    JsonConvert.DeserializeObject<EntityTemplate>(
+                        ta.text, genericSettings);
+                _templates.Add(template.ID, template);
+                return template;
+            }
+        }
+
+        public static bool TemplateExists(string id) => _templates.ContainsKey(id);
 
         // Sprites
 

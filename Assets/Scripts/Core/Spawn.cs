@@ -19,6 +19,7 @@ namespace Pantheon.Core
         /// <returns></returns>
         public static Entity SpawnActor(EntityTemplate template, Level level, Cell cell)
         {
+            // TODO: Check that template actually represents actor
             Entity entity = new Entity(template);
             Locator.Scheduler.AddActor(entity.GetComponent<Actor>());
             entity.Move(level, cell);

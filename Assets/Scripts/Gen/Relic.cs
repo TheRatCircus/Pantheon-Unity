@@ -55,7 +55,7 @@ namespace Pantheon.Gen
 
         private static Entity MultitossWeapon()
         {
-            EntityTemplate basic = Assets.Templates[Tables.basicTossingWeapons.Random()];
+            EntityTemplate basic = Assets.GetTemplate(Tables.basicTossingWeapons.Random());
             Entity relic = new Entity(basic);
 
             GameObject fxPrefab = Assets.TossFXPrefab;
@@ -118,7 +118,7 @@ namespace Pantheon.Gen
                 OnCast = new[] { nac }
             };
 
-            EntityTemplate basic = Assets.Templates[Tables.basicMagicWeapons.Random()];
+            EntityTemplate basic = Assets.GetTemplate(Tables.basicMagicWeapons.Random());
             Entity relic = new Entity(basic);
 
             if (relic.TryGetComponent(out Evocable evoc))

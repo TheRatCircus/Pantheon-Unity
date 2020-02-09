@@ -135,7 +135,7 @@
     {
       "$type": "Talented",
       "Talents": [
-        "Talent_Punch"
+        "Talent_Foobar"
       ]
     },
     {
@@ -150,5 +150,8 @@
       ],
       "Wielding": false
     }
+  ],
+  "Items": [
+    "Item_SampleItem"
   ]
 }

@@ -21,7 +21,7 @@ namespace Pantheon.Gen
             for (int i = 0; i < numSpawns; i++)
             {
                 string id = GenericRandomPick<string>.Pick(plan.Population);
-                EntityTemplate template = Assets.Templates[id];
+                EntityTemplate template = Assets.GetTemplate(id);
 
                 Cell cell;
                 int attempts = 0;

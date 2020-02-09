@@ -19,7 +19,7 @@ namespace Pantheon.Serialization.Binary.Surrogates
             StreamingContext context, ISurrogateSelector selector)
         {
             EntityTemplate et = (EntityTemplate)obj;
-            et = Assets.Templates[info.GetString("id")];
+            et = Assets.GetTemplate(info.GetString("id"));
             obj = et;
             return obj;
         }

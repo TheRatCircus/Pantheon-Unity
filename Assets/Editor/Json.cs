@@ -116,7 +116,15 @@ namespace PantheonEditor
                 ID = "SAMPLE_ID",
                 EntityName = "SAMPLE_NAME",
                 Flags = EntityFlag.Unique | EntityFlag.Blocking,
-                Components = components
+                Components = components,
+                Items = new EntityTemplate[]
+                {
+                    new EntityTemplate
+                    {
+                        ID = "Item_SampleItem",
+                        EntityName = "sample item"
+                    }
+                }
             };
 
             string path = Application.dataPath + $"/Sample/sample_template.json";

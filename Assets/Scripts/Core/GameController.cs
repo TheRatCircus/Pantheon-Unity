@@ -75,9 +75,9 @@ namespace Pantheon.Core
             World.NewLayer(-2);
             World.Layers.TryGetValue(-2, out Layer surface);
             Level level = surface.RequestLevel(Vector2Int.zero);
-            
+
             // Spawn the player
-            EntityTemplate template = Assets.Templates["Player"];
+            EntityTemplate template = Assets.GetTemplate("Player");
             Entity player = Spawn.SpawnActor(template, level, level.RandomCell(true));
             player.DestroyedEvent += OnPlayerDeath;
 
