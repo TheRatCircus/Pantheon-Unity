@@ -26,19 +26,7 @@ namespace Pantheon.Content
         public EntityTemplate[] Wielded { get; set; }
 
         [JsonConstructor]
-        public EntityTemplate()
-        {
-            if (Wielded?.Length > 0)
-            {
-                if (!TryGetComponent(out Wield wield))
-                    throw new Exception(
-                        $"Template {ID} specifies wielded items but has no Wield component.");
-
-                if (Wielded.Length < wield.Items.Length)
-                    throw new Exception(
-                        $"Template {ID} does not have enough slots to wield its intended items.");
-            }
-        }
+        public EntityTemplate() { }
 
         public EntityTemplate(Entity entity)
         {
@@ -86,6 +74,17 @@ namespace Pantheon.Content
         private void OnDeserialized(StreamingContext ctxt)
         {
             Tile = Assets.GetTile<Tile>(Sprite);
+
+            if (Wielded?.Length > 0)
+            {
+                if (!TryGetComponent(out Wield wield))
+                    throw new Exception(
+                        $"Template {ID} specifies wielded items but has no Wield component.");
+
+                if (Wielded.Length < wield.Items.Length)
+                    throw new Exception(
+                        $"Template {ID} does not have enough slots to wield its intended items.");
+            }
         }
 
         public override string ToString()

@@ -181,6 +181,7 @@ namespace Pantheon
                     new SpriteConverter(),
                     new StatusConverter(),
                     new TalentConverter(),
+                    new TemplateArrayConverter(),
                     new TileConverter(),
                 }
         };

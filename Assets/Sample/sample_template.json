@@ -154,7 +154,7 @@
   "Inventory": [
     "Item_SampleItem"
   ],
-  "Wield": [
+  "Wielded": [
     "Item_SampleWeapon"
   ]
 }
