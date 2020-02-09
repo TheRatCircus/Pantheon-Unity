@@ -8,6 +8,7 @@ using UnityEngine.Tilemaps;
 using Newtonsoft.Json;
 using System.Runtime.Serialization;
 using Pantheon.Serialization.Json.Converters;
+using System;
 
 namespace Pantheon.Content
 {
@@ -25,7 +26,19 @@ namespace Pantheon.Content
         public EntityTemplate[] Wielded { get; set; }
 
         [JsonConstructor]
-        public EntityTemplate() { }
+        public EntityTemplate()
+        {
+            if (Wielded?.Length > 0)
+            {
+                if (!TryGetComponent(out Wield wield))
+                    throw new Exception(
+                        $"Template {ID} specifies wielded items but has no Wield component.");
+
+                if (Wielded.Length < wield.Items.Length)
+                    throw new Exception(
+                        $"Template {ID} does not have enough slots to wield its intended items.");
+            }
+        }
 
         public EntityTemplate(Entity entity)
         {
@@ -44,6 +57,15 @@ namespace Pantheon.Content
                 Tile = ScriptableObject.CreateInstance<Tile>();
                 Tile.sprite = Sprite;
             }
+        }
+
+        public bool HasComponent<T>() where T : EntityComponent
+        {
+            foreach (EntityComponent ec in Components)
+                if (ec.GetType() == typeof(T))
+                    return true;
+
+            return false;
         }
 
         public bool TryGetComponent<T>(out T ret) where T : EntityComponent

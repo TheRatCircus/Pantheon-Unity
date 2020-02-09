@@ -129,7 +129,6 @@ namespace Pantheon
         {
             Name = template.EntityName;
             Flyweight = template;
-
             Components = new Dictionary<Type, EntityComponent>(5);
             AddComponent(new Location());
 
@@ -140,23 +139,12 @@ namespace Pantheon
 
                 if (component is Wield w && template.Wielded?.Length > 0)
                 {
-                    if (template.Wielded.Length < w.Items.Length)
-                        throw new Exception(
-                            $"{Name} template does not have enough slots to wield its intended items.");
-
                     AddComponent(w.Clone(false));
-
                     Wield wield = GetComponent<Wield>();
-
                     for (int i = 0; i < template.Wielded.Length; i++)
                         wield.Items[i] = new Entity(template.Wielded[i]);
                 }
             }
-
-            if (!HasComponent<Wield>() && template.Wielded?.Length > 0)
-                throw new Exception(
-                    $"{Name} template specifies wielded items but has no Wield component.");
-
             ConnectComponents();
         }
 
@@ -343,6 +331,7 @@ namespace Pantheon
 
         public override string ToString()
         {
+            // TODO: Factor EntityFlags.Unique
             if (TryGetComponent(out Relic relic))
                 return relic.Name;
             else
