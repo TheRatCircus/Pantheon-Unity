@@ -1,6 +1,7 @@
 ﻿// Wield.cs
 // Jerome Martina
 
+using Newtonsoft.Json;
 using Pantheon.Utils;
 using Pantheon.World;
 using System;
@@ -14,7 +15,7 @@ namespace Pantheon.Components.Entity
     public sealed class Wield : EntityComponent
     {
         public Entity[] Items { get; set; }
-        public bool Wielding => Items.HasElements();
+        [JsonIgnore] public bool Wielding => Items.HasElements();
 
         public event Action<Entity[]> WieldChangeEvent;
 

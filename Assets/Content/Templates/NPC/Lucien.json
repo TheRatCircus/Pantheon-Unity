@@ -43,10 +43,18 @@
     {
       "$type": "Status",
       "Statuses": []
+    },
+	{
+      "$type": "Wield",
+      "Items": [
+        null,
+        null
+      ]
     }
   ],
   "Inventory": [],
   "Wielded": [
+	"Item_ThrowingHatchets",
 	"Item_ThrowingHatchets"
   ]
 }
