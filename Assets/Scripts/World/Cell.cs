@@ -135,8 +135,8 @@ namespace Pantheon.World
         /// <param name="entity"></param>
         public void AllocateEntity(Entity entity)
         {
-            // Don't store the entity if it's in an inventory
-            if (entity.InInventory)
+            // Don't store the entity if it's being carried
+            if (entity.InInventory || entity.Wielded)
                 return;
 
             if (entity.HasComponent<Actor>())
@@ -161,7 +161,7 @@ namespace Pantheon.World
         /// </summary>
         public void DeallocateEntity(Entity entity)
         {
-            if (entity.InInventory)
+            if (entity.InInventory || entity.Wielded)
                 return;
 
             if (entity == Actor)

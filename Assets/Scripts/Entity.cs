@@ -23,7 +23,8 @@ namespace Pantheon
     {
         Blocking = 1 << 0,
         InInventory = 1 << 1,
-        Unique = 1 << 2
+        Wielded = 1 << 2,
+        Unique = 1 << 3
     }
 
     [Serializable]
@@ -54,6 +55,17 @@ namespace Pantheon
                     Flags &= ~EntityFlag.InInventory;
             }
         }
+        public bool Wielded
+        {
+            get => Flags.HasFlag(EntityFlag.Wielded);
+            set
+            {
+                if (value)
+                    Flags |= EntityFlag.Wielded;
+                else
+                    Flags &= ~EntityFlag.Wielded;
+            }
+        }
         public bool Unique
         {
             get => Flags.HasFlag(EntityFlag.Unique);
@@ -65,6 +77,7 @@ namespace Pantheon
                     Flags &= ~EntityFlag.Unique;
             }
         }
+
         [NonSerialized]
         private GameObject[] gameObjects = new GameObject[1];
         public GameObject[] GameObjects
@@ -142,7 +155,7 @@ namespace Pantheon
                     AddComponent(w.Clone(false));
                     Wield wield = GetComponent<Wield>();
                     for (int i = 0; i < template.Wielded.Length; i++)
-                        wield.Items[i] = new Entity(template.Wielded[i]);
+                        wield.TryWield(new Entity(template.Wielded[i]), out Entity unwielded);
                 }
             }
             ConnectComponents();

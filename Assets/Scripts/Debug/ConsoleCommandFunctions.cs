@@ -52,6 +52,7 @@ namespace Pantheon.Debug
 
         public static string Spawn(string[] args, GameController ctrl)
         {
+            // TODO: Protect player from spawning another PC
             EntityTemplate template = Assets.GetTemplate(args[0]);
 
             if (template == null)
@@ -75,6 +76,9 @@ namespace Pantheon.Debug
 
         public static string Give(string[] args, GameController ctrl)
         {
+            // TODO: Don't allow giving illegal entities
+            // TODO: Default should be PC
+            // XXX: Add item to inventory before calling Move()
             Entity receiver = ctrl.Cursor.HoveredCell.Actor;
             
             if (!receiver.TryGetComponent(out Inventory inv))

@@ -23,10 +23,17 @@ namespace Pantheon.Commands.Actor
         {
             if (!Entity.TryGetComponent(out Wield wield))
             {
+                Locator.Log.Send(
+                        $"You aren't capable of wielding things.",
+                        Color.yellow);
                 return CommandResult.Failed;
             }
 
-            wield.TryWield(item, out Entity unwielded);
+            if (!wield.TryWield(item, out Entity unwielded))
+            {
+                // Failure reason logged by component
+                return CommandResult.Failed;
+            }
 
             if (Actor.PlayerControlled(Entity))
             {
