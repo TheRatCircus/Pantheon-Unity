@@ -17,6 +17,8 @@ namespace Pantheon.Components.Entity
     {
         public int Aggression { get; private set; } = 50;
 
+        private Talent talent;
+
         public AttackUtility(int aggression = 50) => Aggression = aggression;
 
         public override int Recalculate(Entity entity, AI ai)
@@ -31,15 +33,13 @@ namespace Pantheon.Components.Entity
             if (talents[0].Range < dist)
                 return -1;
 
+            talent = talents[0];
             return Aggression;
         }
 
         public override ActorCommand Invoke(Entity entity, AI ai)
         {
-            return new TalentCommand(
-                entity, 
-                entity.GetComponent<Talented>().Talents[0],
-                ai.Target.Cell);
+            return new TalentCommand(entity, talent, ai.Target.Cell);
         }
     }
 }
