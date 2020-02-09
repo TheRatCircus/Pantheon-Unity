@@ -25,7 +25,9 @@ namespace Pantheon.Components.Entity
                 return -1;
             int dist = entity.Level.Distance(entity.Cell, ai.Target.Cell);
             Talent[] talents = Talent.GetAllTalents(entity);
-            // TODO: Check that any talents exist
+
+            if (talents.Length < 1)
+                return -1;
             if (talents[0].Range < dist)
                 return -1;
 
