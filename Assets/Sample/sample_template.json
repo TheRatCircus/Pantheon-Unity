@@ -151,7 +151,10 @@
       "Wielding": false
     }
   ],
-  "Items": [
+  "Inventory": [
     "Item_SampleItem"
+  ],
+  "Wield": [
+    "Item_SampleWeapon"
   ]
 }

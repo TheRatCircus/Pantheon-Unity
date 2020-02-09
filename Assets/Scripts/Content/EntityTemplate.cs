@@ -20,7 +20,9 @@ namespace Pantheon.Content
         public Tile Tile { get; set; }
         public EntityComponent[] Components { get; set; }
         [JsonConverter(typeof(TemplateArrayConverter))]
-        public EntityTemplate[] Items { get; set; }
+        public EntityTemplate[] Inventory { get; set; }
+        [JsonConverter(typeof(TemplateArrayConverter))]
+        public EntityTemplate[] Wielded { get; set; }
 
         [JsonConstructor]
         public EntityTemplate() { }

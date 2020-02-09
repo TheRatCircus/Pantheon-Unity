@@ -117,12 +117,18 @@ namespace PantheonEditor
                 EntityName = "SAMPLE_NAME",
                 Flags = EntityFlag.Unique | EntityFlag.Blocking,
                 Components = components,
-                Items = new EntityTemplate[]
+                Inventory = new EntityTemplate[]
                 {
                     new EntityTemplate
                     {
-                        ID = "Item_SampleItem",
-                        EntityName = "sample item"
+                        ID = "Item_SampleItem"
+                    }
+                },
+                Wielded = new EntityTemplate[]
+                {
+                    new EntityTemplate
+                    {
+                        ID = "Item_SampleWeapon"
                     }
                 }
             };

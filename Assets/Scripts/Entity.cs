@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Pantheon.Components.Entity;
 using Pantheon.Content;
+using Pantheon.Core;
 using Pantheon.Utils;
 using Pantheon.World;
 using System;
@@ -129,13 +130,33 @@ namespace Pantheon
             Name = template.EntityName;
             Flyweight = template;
 
-            Components = new Dictionary<Type, EntityComponent>(1);
+            Components = new Dictionary<Type, EntityComponent>(5);
+            AddComponent(new Location());
 
             foreach (EntityComponent component in template.Components)
+            {
                 if (component is IEntityDependentComponent)
                     AddComponent(component.Clone(false));
 
-            AddComponent(new Location());
+                if (component is Wield w && template.Wielded?.Length > 0)
+                {
+                    if (template.Wielded.Length < w.Items.Length)
+                        throw new Exception(
+                            $"{Name} template does not have enough slots to wield its intended items.");
+
+                    AddComponent(w.Clone(false));
+
+                    Wield wield = GetComponent<Wield>();
+
+                    for (int i = 0; i < template.Wielded.Length; i++)
+                        wield.Items[i] = new Entity(template.Wielded[i]);
+                }
+            }
+
+            if (!HasComponent<Wield>() && template.Wielded?.Length > 0)
+                throw new Exception(
+                    $"{Name} template specifies wielded items but has no Wield component.");
+
             ConnectComponents();
         }
 
@@ -218,6 +239,8 @@ namespace Pantheon
 
             if (TryGetComponent(out Inventory inv))
                 inv.Move(level, cell);
+            if (TryGetComponent(out Wield wield))
+                wield.Move(level, cell);
 
             Cell.AllocateEntity(this);
         }

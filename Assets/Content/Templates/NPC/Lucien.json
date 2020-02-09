@@ -27,7 +27,7 @@
     },
     {
       "$type": "Health",
-      "Max": 6,
+      "Max": 30,
       "RegenTime": 800,
       "Regenerating": true
     },
@@ -45,7 +45,8 @@
       "Statuses": []
     }
   ],
-  "Items": [ 
+  "Inventory": [],
+  "Wield": [
 	"Item_ThrowingHatchets"
   ]
 }

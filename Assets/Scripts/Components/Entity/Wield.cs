@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Pantheon.Utils;
+using Pantheon.World;
 using System;
 using System.Runtime.Serialization;
 
@@ -42,6 +43,12 @@ namespace Pantheon.Components.Entity
                     evocables[i] = Items[i];
             }
             return evocables.Compress();
+        }
+
+        public void Move(Level level, Cell cell)
+        {
+            foreach (Entity item in Items)
+                item?.Move(level, cell);
         }
 
         [OnSerializing]
