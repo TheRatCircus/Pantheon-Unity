@@ -77,9 +77,10 @@ namespace Pantheon.Debug
         public static string Give(string[] args, GameController ctrl)
         {
             // TODO: Don't allow giving illegal entities
-            // TODO: Default should be PC
-            // XXX: Add item to inventory before calling Move()
             Entity receiver = ctrl.Cursor.HoveredCell.Actor;
+
+            if (receiver == null)
+                receiver = ctrl.PC;
             
             if (!receiver.TryGetComponent(out Inventory inv))
                 return $"{receiver.Name} has no inventory.";
@@ -91,8 +92,8 @@ namespace Pantheon.Debug
                     return $"No item with ID \"{args[0]}\" exists.";
 
                 Entity item = new Entity(template);
-                item.Move(receiver.Level, receiver.Cell);
                 inv.AddItem(item);
+                item.Move(receiver.Level, receiver.Cell);
                 return $"Gave {item.Name} to {receiver.Name}.";
             }
         }
