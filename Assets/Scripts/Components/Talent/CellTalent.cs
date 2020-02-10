@@ -30,13 +30,16 @@ namespace Pantheon.Components.Talent
             if (target == null)
                 throw new NotImplementedException("Target cell needed.");
 
-            Entity enemy = target.Actor;
+            Cell affected = Bresenhams.GetLine(
+                caster.Level, caster.Cell, target).ElementAtOrLast(Range);
+
+            Entity enemy = affected.Actor;
 
             if (enemy == null)
             {
                 Locator.Audio.Buffer(
                     Assets.Audio["SFX_Toss"],
-                    target.Position.ToVector3());
+                    affected.Position.ToVector3());
                 Locator.Log.Send(
                     $"{caster.ToSubjectString(true)}" +
                     $" {Verbs.Swing(caster)} at nothing.",
@@ -53,7 +56,7 @@ namespace Pantheon.Components.Talent
 
             Locator.Audio.Buffer(
                 Assets.Audio["SFX_Punch"],
-                target.Position.ToVector3());
+                affected.Position.ToVector3());
 
             Hit hit = new Hit(Damages);
             Locator.Log.Send(Verbs.Hit(caster, enemy, hit), Color.white);
