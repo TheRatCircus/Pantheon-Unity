@@ -142,6 +142,7 @@ namespace Pantheon
         {
             Name = template.EntityName;
             Flyweight = template;
+            Flags = template.Flags;
             Components = new Dictionary<Type, EntityComponent>(5);
             AddComponent(new Location());
 
@@ -322,6 +323,8 @@ namespace Pantheon
             {
                 if (actor.Control == ActorControl.Player)
                     return sentenceStart ? "You" : "you";
+                else if (Unique)
+                    return Name;
                 else
                     return sentenceStart ? $"The {Name}" : $"the {Name}";
             }
@@ -344,7 +347,6 @@ namespace Pantheon
 
         public override string ToString()
         {
-            // TODO: Factor EntityFlags.Unique
             if (TryGetComponent(out Relic relic))
                 return relic.Name;
             else

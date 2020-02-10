@@ -25,6 +25,7 @@ namespace Pantheon
 
         public Node(Cell cell) => Cell = cell;
 
+        // TODO: No need for string interpolation here
         public override string ToString() => $"{Position}";
 
         public int CompareTo(Node other)
