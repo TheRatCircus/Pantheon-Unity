@@ -146,13 +146,14 @@ namespace Pantheon.World
                         "Cannot allocate 2 actors to one cell.");
                 else
                     Actor = entity;
-                return;
             }
-
-            // Else, assume entity is an item
-            if (items == null)
-                items = new List<Entity>();
-            items.Add(entity);
+            else
+            {
+                // Else, assume entity is an item
+                if (items == null)
+                    items = new List<Entity>();
+                items.Add(entity);
+            }
             Locator.Scheduler.MarkDirtyCell(this);
         }
 
