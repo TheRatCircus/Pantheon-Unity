@@ -20,8 +20,6 @@ namespace Pantheon
         public static void LoadAssets()
 #pragma warning restore IDE0051
         {
-            
-
             bundleMain = AssetBundle.LoadFromFile(Path.Combine(
                 Application.streamingAssetsPath, "pantheon"));
             bundleTemplates = AssetBundle.LoadFromFile(Path.Combine(
@@ -60,6 +58,8 @@ namespace Pantheon
             BodyParts = new ReadOnlyDictionary<string, BodyPart>(_bodyParts);
             _builderPlans = new Dictionary<string, BuilderPlan>(planFiles.Length);
             BuilderPlans = new ReadOnlyDictionary<string, BuilderPlan>(_builderPlans);
+            _dialogue = new Dictionary<string, TextAsset>();
+            Dialogue = new ReadOnlyDictionary<string, TextAsset>(_dialogue);
 
             int t = 1; // 0 represents no terrain
 
@@ -107,16 +107,26 @@ namespace Pantheon
                 {
                     switch (ta.name)
                     {
-                        default:
-                            throw new System.Exception(
-                                $"Unrecognized TextAsset in {bundleMain}:" +
-                                $"{ta.name}.");
                         case "CharacterNames":
                             CharacterNames = ta;
                             continue;
                         case "RelicNames":
                             RelicNames = ta;
                             continue;
+                        default:
+                            break;
+                    }
+
+                    string[] tokens = ta.name.Split('_');
+
+                    switch (tokens[0])
+                    {
+                        case "Dialogue":
+                            _dialogue.Add(tokens[1], ta);
+                            break;
+                        default:
+                            throw new System.Exception(
+                                $"Unrecognized TextAsset \"{ta.name}\"");
                     }
                 }
             }
@@ -380,5 +390,10 @@ namespace Pantheon
         private static Dictionary<string, BuilderPlan> _builderPlans;
         public static ReadOnlyDictionary<string, BuilderPlan> BuilderPlans
         { get; private set; }
+
+        // Text
+
+        private static Dictionary<string, TextAsset> _dialogue;
+        public static ReadOnlyDictionary<string, TextAsset> Dialogue;
     }
 }

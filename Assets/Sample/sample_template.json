@@ -65,6 +65,10 @@
       "Skeletal": false
     },
     {
+      "$type": "Dialogue",
+      "ID": null
+    },
+    {
       "$type": "Evocable",
       "Talents": []
     },
@@ -147,8 +151,7 @@
       "Items": [
         null,
         null
-      ],
-      "Wielding": false
+      ]
     }
   ],
   "Inventory": [

@@ -1,8 +1,5 @@
-﻿// AI.cs
+﻿// FleeUtility.cs
 // Jerome Martina
-
-#define DEBUG_AI
-#undef DEBUG_AI
 
 using Pantheon.Commands.Actor;
 using Pantheon.World;

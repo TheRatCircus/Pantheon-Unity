@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2649425690
+CRC: 2146686435
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 1e492c25f9b89c3fc2e14e6022ecc202
+    Hash: 025e804be4ca472b53a4f62b82ae0794
   TypeTreeHash:
     serializedVersion: 2
     Hash: 0e2e60589b6cb39266a7f562c3b42d44
@@ -79,6 +79,7 @@ Assets:
 - Assets/Audio/SFX_Explosion.ogg
 - Assets/Audio/SFX_Patsons.ogg
 - Assets/Sprites/UI/Talent/Sprite_Contempt.png
+- Assets/Content/Dialogue_Lucien.txt
 - Assets/Sprites/Item/Sprite_Hatchet.png
 - Assets/Sprites/Item/Sprite_Flask.png
 - Assets/Prefabs/FX/FX_Shrapnel.prefab

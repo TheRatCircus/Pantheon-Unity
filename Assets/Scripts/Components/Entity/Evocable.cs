@@ -19,7 +19,7 @@ namespace Pantheon.Components.Entity
 
         public Evocable(params Talent[] talents) => this.talents = talents;
 
-        public void SetEntity()
+        public void Initialize()
         {
             foreach (Talent t in talents)
                 if (t.Behaviour is IEntityBasedTalent ebt)

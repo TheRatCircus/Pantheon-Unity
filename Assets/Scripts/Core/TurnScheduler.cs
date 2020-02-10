@@ -175,7 +175,7 @@ namespace Pantheon.Core
                 timeConsumed = actionCost;
                 time += timeConsumed;
                 TimeChangeEvent?.Invoke(time, timeConsumed);
-                turnProgress += Mathf.FloorToInt(actionCost / TurnTime);
+                turnProgress += Mathf.FloorToInt(actionCost);
                 if (turnProgress >= TurnTime)
                 {
                     int turnsPassed = turnProgress / TurnTime;

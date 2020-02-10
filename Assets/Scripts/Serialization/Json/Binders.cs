@@ -38,6 +38,7 @@ namespace Pantheon.Serialization.Json
                     typeof(Ammo),
                     typeof(Body),
                     typeof(Corpse),
+                    typeof(Dialogue),
                     typeof(Evocable),
                     typeof(Health),
                     typeof(Inventory),

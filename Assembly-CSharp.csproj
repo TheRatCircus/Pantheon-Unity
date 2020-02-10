@@ -70,6 +70,7 @@
     <None Include="Assets\Depends\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\ScriptCalculator\Readme.txt" />
     <None Include="Assets\Depends\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
+    <None Include="Assets\Content\Dialogue_Lucien.txt" />
     <None Include="Assets\Depends\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
     <None Include="Assets\Depends\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\Depends\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />

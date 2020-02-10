@@ -1,0 +1,10 @@
+﻿# AKA Bcadren
+# Felidman with a sense of humour who loves dual wielding
+
+%%% Idle
+
+@npc kicks a pebble.
+@npc mutters something under @possessive breath.
+@npc paces about.
+
+%%%

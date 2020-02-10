@@ -1,8 +1,5 @@
-﻿// AI.cs
+﻿// AIUtility.cs
 // Jerome Martina
-
-#define DEBUG_AI
-#undef DEBUG_AI
 
 using Pantheon.Commands.Actor;
 using System;

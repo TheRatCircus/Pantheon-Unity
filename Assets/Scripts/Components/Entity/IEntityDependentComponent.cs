@@ -5,6 +5,6 @@ namespace Pantheon.Components.Entity
 {
     public interface IEntityDependentComponent
     {
-        void SetEntity();
+        void Initialize();
     }
 }

@@ -24,7 +24,9 @@ namespace Pantheon
         Blocking = 1 << 0,
         InInventory = 1 << 1,
         Wielded = 1 << 2,
-        Unique = 1 << 3
+        Unique = 1 << 3,
+        Male = 1 << 4,
+        Female = 1 << 5
     }
 
     [Serializable]
@@ -211,7 +213,7 @@ namespace Pantheon
         {
             ec.Entity = this;
             if (ec is IEntityDependentComponent edc)
-                edc.SetEntity();
+                edc.Initialize();
             ec.MessageEvent += RelayMessage;
             Components.Add(ec.GetType(), ec);
         }

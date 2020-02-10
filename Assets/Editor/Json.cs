@@ -37,6 +37,7 @@ namespace PantheonEditor
         [MenuItem("Assets/Pantheon/JSON/Sample/Template")]
         private static void GenerateSampleTemplate()
         {
+            Assets.LoadAssets();
             GameObject mockGo = new GameObject();
             GameObject fxShrapnelPrefab = new GameObject("FX_Shrapnel");
             TurnScheduler scheduler = mockGo.AddComponent<TurnScheduler>();
@@ -75,6 +76,7 @@ namespace PantheonEditor
                     },
                 new Body(),
                 new Corpse(),
+                new Dialogue(),
                 new Evocable(),
                 new Health(),
                 new Inventory(20),
@@ -161,6 +163,7 @@ namespace PantheonEditor
             Object.DestroyImmediate(mockGo as GameObject);
             Object.DestroyImmediate(fxShrapnelPrefab as GameObject);
             Debug.Log($"Wrote sample template with all components to {path}.");
+            Assets.UnloadAssets();
         }
 
         [MenuItem("Assets/Pantheon/JSON/Sample/Builder Plan")]
