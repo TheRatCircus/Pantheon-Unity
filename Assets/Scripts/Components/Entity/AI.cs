@@ -21,6 +21,7 @@ namespace Pantheon.Components.Entity
         [JsonIgnore] public Entity[] Thralls { get; private set; }
         [JsonIgnore] public Cell Destination { get; set; }
 
+        public bool Peaceful { get; set; }
         public AIStrategy Strategy { get; set; }
         public AIUtility[] Utilities { get; private set; }
 
@@ -30,6 +31,14 @@ namespace Pantheon.Components.Entity
 
         public void DecideCommand()
         {
+            if (!Peaceful && Entity.Cell.Visible && Target == null)
+            {
+                Target = Locator.Player.Entity;
+                Locator.Log.Send(
+                    $"{Entity.ToSubjectString(true)} notices you!",
+                    Colours._orange);
+            }
+
             int max = 0;
             int i = -1;
 
