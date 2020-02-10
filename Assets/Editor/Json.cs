@@ -271,7 +271,7 @@ namespace PantheonEditor
                 Name = "Foobar",
                 Icon = Assets.Sprites["Sprite_Punch"],
                 OnCast = null,
-                Time = TurnScheduler.TurnTime,
+                PlayerTime = TurnScheduler.TurnTime,
                 Behaviour = new CellTalent
                 {
                     Accuracy = 75,

@@ -20,15 +20,16 @@ namespace Pantheon.Commands.Actor
             this.talent = talent;
             this.target = target;
 
-            Cost = talent.Time;
-
             if (!Actor.PlayerControlled(Entity))
             {
+                Cost = talent.NPCTime;
                 HashSet<Cell> cells = new HashSet<Cell>();
                 cells.AddMany(talent.Behaviour.GetTargetedCells(Entity, target));
                 foreach (Cell c in cells)
                     Locator.Scheduler.TargetCell(c.Position);
             }
+            else
+                Cost = talent.PlayerTime;
         }
 
         public override CommandResult Execute()

@@ -2,7 +2,8 @@
   "ID": "Talent_Bite_Coyote",
   "Name": "Bite",
   "Range": 1,
-  "Time": 100,
+  "PlayerTime": 100,
+  "NPCTime": 120,
   "Targeting": "Adjacent",
   "Behaviour": {
     "$type": "CellTalent",

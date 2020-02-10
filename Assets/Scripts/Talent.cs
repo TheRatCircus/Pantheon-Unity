@@ -27,7 +27,8 @@ namespace Pantheon
         public string ID { get; set; } = "DEFAULT_TALENT_ID";
         public string Name { get; set; } = "DEFAULT_TALENT_NAME";
         public Sprite Icon { get; set; }
-        public int Time { get; set; } = TurnScheduler.TurnTime;
+        public int PlayerTime { get; set; } = TurnScheduler.TurnTime;
+        public int NPCTime { get; set; } = TurnScheduler.TurnTime;
         public int Range => Behaviour.Range;
         public TalentBehaviour Behaviour { get; set; }
         public NonActorCommand[] OnCast { get; set; }

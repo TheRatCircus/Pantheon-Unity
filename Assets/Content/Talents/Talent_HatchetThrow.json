@@ -3,7 +3,8 @@
   "Name": "Hatchet Toss",
   "Icon": "Sprite_Hatchet",
   "Range": 7,
-  "Time": 100,
+  "PlayerTime": 100,
+  "NPCTime": 120,
   "Targeting": "Line",
   "Behaviour": {
     "$type": "TossTalent",
