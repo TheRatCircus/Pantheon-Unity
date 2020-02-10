@@ -26,7 +26,8 @@ namespace Pantheon.Commands.Actor
                 HashSet<Cell> cells = new HashSet<Cell>();
                 cells.AddMany(talent.Behaviour.GetTargetedCells(Entity, target));
                 foreach (Cell c in cells)
-                    Locator.Scheduler.TargetCell(c.Position);
+                    if (c.Visible)
+                        Locator.Scheduler.MarkCell(c.Position);
             }
             else
                 Cost = talent.PlayerTime;
@@ -35,13 +36,16 @@ namespace Pantheon.Commands.Actor
         public override CommandResult Execute()
         {
             if (!Actor.PlayerControlled(Entity))
-            {
-                HashSet<Cell> cells = new HashSet<Cell>();
-                cells.AddMany(talent.Behaviour.GetTargetedCells(Entity, target));
-                foreach (Cell c in cells)
-                    Locator.Scheduler.UntargetCell(c.Position);
-            }
+                UnmarkTargeted();
             return talent.Cast(Entity, target);
+        }
+
+        public void UnmarkTargeted()
+        {
+            HashSet<Cell> cells = new HashSet<Cell>();
+            cells.AddMany(talent.Behaviour.GetTargetedCells(Entity, target));
+            foreach (Cell c in cells)
+                Locator.Scheduler.UnmarkCell(c.Position);
         }
     }
 }

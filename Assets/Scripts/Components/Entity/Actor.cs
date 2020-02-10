@@ -9,7 +9,7 @@ using Newtonsoft.Json.Converters;
 using Pantheon.Commands;
 using Pantheon.Commands.Actor;
 using System;
-using UnityEngine;
+using System.Diagnostics;
 
 namespace Pantheon.Components.Entity
 {
@@ -24,7 +24,7 @@ namespace Pantheon.Components.Entity
     }
 
     [Serializable]
-    public sealed class Actor : EntityComponent
+    public sealed class Actor : EntityComponent, IEntityDependentComponent
     {
         public int Progress { get; set; }
         public int Threshold { get; set; }
@@ -43,13 +43,7 @@ namespace Pantheon.Components.Entity
                     Threshold = 0;
             }
         }
-
-        [SerializeField] private ActorControl control = default;
-        [JsonIgnore] public ActorControl Control
-        {
-            get => control;
-            set => control = value;
-        }
+        public ActorControl Control { get; set; } = default;
 
         public static bool PlayerControlled(Entity entity)
         {
@@ -58,9 +52,6 @@ namespace Pantheon.Components.Entity
             else
                 return false;
         }
-
-        [JsonConstructor]
-        public Actor(ActorControl control) => this.control = control;
 
         public int Act()
         {
@@ -105,17 +96,20 @@ namespace Pantheon.Components.Entity
         }
 
         public override EntityComponent Clone(bool full)
-            => new Actor(control);
+            => new Actor() { Control = Control };
 
-        public override string ToString()
-        {
-            return $"Actor ({Control})";
-        }
+        public override string ToString() => $"Actor ({Control})";
 
-        [System.Diagnostics.Conditional("DEBUG_ACTOR")]
-        private void DebugLogCommand(string msg)
+        [Conditional("DEBUG_ACTOR")]
+        private void DebugLogCommand(string msg) => UnityEngine.Debug.Log(msg);
+
+        public void Initialize()
         {
-            UnityEngine.Debug.Log(msg);
+            Entity.DestroyedEvent += delegate ()
+            {
+                if (Command is TalentCommand tc)
+                    tc.UnmarkTargeted();
+            };
         }
     }
 }

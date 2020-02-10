@@ -429,6 +429,9 @@ namespace Pantheon.World
             else
                 itemTilemap.SetTile((Vector3Int)cell.Position, null);
 
+            if (!cell.Visible)
+                Locator.Scheduler.UnmarkCell(cell.Position);
+
             Profiler.EndSample();
         }
 

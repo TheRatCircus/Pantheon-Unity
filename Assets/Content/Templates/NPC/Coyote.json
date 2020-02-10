@@ -7,7 +7,7 @@
   "Components": [
     {
       "$type": "Actor",
-      "control": "AI",
+      "Control": "AI",
       "Speed": 100,
       "Command": null
     },

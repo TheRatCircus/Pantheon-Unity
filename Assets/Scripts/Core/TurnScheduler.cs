@@ -186,7 +186,7 @@ namespace Pantheon.Core
                 }
                 FOV.RefreshFOV(player.Entity.Level, player.Entity.Cell, true);
             }
-            else
+            else // TODO: Handle ActorControl.None
             {
                 if (actor.Command == null)
                     actor.Entity.GetComponent<AI>().DecideCommand();
@@ -243,7 +243,7 @@ namespace Pantheon.Core
                 currentActorRemoved = true;
         }
 
-        public void TargetCell(Vector2Int pos)
+        public void MarkCell(Vector2Int pos)
         {
             if (enemyTargeting.TryGetValue(pos, out int value))
                 value++;
@@ -253,7 +253,7 @@ namespace Pantheon.Core
                 enemyTargetingTilemap.SetTile((Vector3Int)pos, enemyTargetingTile);
             }
         }
-        public void UntargetCell(Vector2Int pos)
+        public void UnmarkCell(Vector2Int pos)
         {
             if (enemyTargeting.TryGetValue(pos, out int value))
             {
@@ -263,11 +263,9 @@ namespace Pantheon.Core
                     enemyTargetingTilemap.SetTile((Vector3Int)pos, null);
                 }
             }
-            else
-                throw new ArgumentException($"Cell is not targeted.");
         }
 
-        public void MarkDirtyCell(Cell cell) => dirtyCells.Add(cell);
+        public void SetDirtyCell(Cell cell) => dirtyCells.Add(cell);
 
         public void RedrawDirtyCells(Level level)
         {

@@ -14,10 +14,10 @@ namespace Pantheon.Core
         void RemoveActor(Actor actor);
         void Lock();
         void Unlock();
-        void TargetCell(Vector2Int pos);
-        void UntargetCell(Vector2Int pos);
+        void MarkCell(Vector2Int pos);
+        void UnmarkCell(Vector2Int pos);
         void RedrawDirtyCells(Level level);
-        void MarkDirtyCell(Cell cell);
+        void SetDirtyCell(Cell cell);
         event Action ClockTickEvent;
     }
 }

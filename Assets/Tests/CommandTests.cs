@@ -49,7 +49,7 @@ namespace PantheonTests
             Cell cell = new Cell(new Vector2Int(0, 0));
             Entity actor = new Entity(
                 new Inventory(1),
-                new Actor(ActorControl.AI))
+                new Actor { Control = ActorControl.AI })
             {
                 Name = "TEST_ENTITY"
             };
