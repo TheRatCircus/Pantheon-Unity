@@ -425,6 +425,12 @@ namespace Pantheon.Core
                 }
                 Talents[i] = talent;
             }
+
+            for (int j = 0; j < Talents.Length; j++)
+            {
+                if (Talents[j] != null)
+                    hotbarUI.SetSprite(j, Talents[j].Icon);
+            }
         }
 
         private void UpdateHotbar(Entity[] items)
@@ -441,13 +447,19 @@ namespace Pantheon.Core
                     if (talent == null)
                         continue;
 
-                    while (Talents[i++] != null)
+                    while (Talents[i] != null)
                     {
-                        if (i >= Talents.Length)
+                        if (++i >= Talents.Length)
                             return;
                     }
                     Talents[i] = talent;
                 }
+            }
+
+            for (int j = 0; j < Talents.Length; j++)
+            {
+                if (Talents[j] != null)
+                    hotbarUI.SetSprite(j, Talents[j].Icon);
             }
         }
 
