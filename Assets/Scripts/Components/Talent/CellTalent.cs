@@ -41,7 +41,7 @@ namespace Pantheon.Components.Talent
                     Assets.Audio["SFX_Toss"],
                     affected.Position.ToVector3());
                 Locator.Log.Send(
-                    $"{caster.ToSubjectString(true)}" +
+                    $"{Strings.Subject(caster, true)}" +
                     $" {Verbs.Swing(caster)} at nothing.",
                     Color.grey);
                 return CommandResult.Succeeded;

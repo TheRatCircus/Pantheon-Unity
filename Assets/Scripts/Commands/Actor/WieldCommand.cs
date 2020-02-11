@@ -3,6 +3,7 @@
 
 using Pantheon.Components.Entity;
 using Pantheon.Core;
+using Pantheon.Utils;
 using UnityEngine;
 
 namespace Pantheon.Commands.Actor
@@ -39,10 +40,10 @@ namespace Pantheon.Commands.Actor
             {
                 if (unwielded != null)
                     Locator.Log.Send(
-                        $"You unwield {unwielded.ToSubjectString(false)}.",
+                        $"You unwield {Strings.Subject(unwielded, false)}.",
                         Color.white);
 
-                Locator.Log.Send($"You wield {item.ToSubjectString(false)}.",
+                Locator.Log.Send($"You wield {Strings.Subject(item, false)}.",
                     Color.white);
             }
             

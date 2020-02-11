@@ -21,7 +21,7 @@ namespace Pantheon.Components.Entity
                 return;
 
             string line = DialogueHelpers.GetIdleDialogue(ID);
-            line = line.Replace("@npc", Entity.ToSubjectString(false));
+            line = line.Replace("@npc", Strings.Subject(Entity, false));
             line = line.Replace("@possessive", Strings.Possessive(Entity));
             line = line.FirstCharToUpper();
             Locator.Log.Send(line, Color.white);

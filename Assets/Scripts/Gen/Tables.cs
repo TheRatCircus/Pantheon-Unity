@@ -5,6 +5,8 @@ namespace Pantheon.Gen
 {
     public static class Tables
     {
+        // TODO: Un-hardcode all of this
+
         public static readonly string[] basicItems = new string[]
         {
             "Item_Sceptre"

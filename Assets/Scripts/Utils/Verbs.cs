@@ -12,8 +12,8 @@ namespace Pantheon.Utils
             // 3rd person: "misses", 1st/2nd person: "miss"
             string verb = Actor.PlayerControlled(attacker) ? "miss" : "misses";
             string ret =
-                $"{attacker.ToSubjectString(true)} " +
-                $"{verb} {defender.ToSubjectString(false)}.";
+                $"{Strings.Subject(attacker, true)} " +
+                $"{verb} {Strings.Subject(defender, false)}.";
             return ret;
         }
 
@@ -21,20 +21,20 @@ namespace Pantheon.Utils
         {
             string verb = Actor.PlayerControlled(attacker) ? "hit" : "hits";
             return
-                $"{attacker.ToSubjectString(true)} {verb} " +
-                $"{defender.ToSubjectString(false)} " +
+                $"{Strings.Subject(attacker, true)} {verb} " +
+                $"{Strings.Subject(defender, false)} " +
                 $"for {hit.TotalDamage()} damage.";
         }
 
         public static string Kill(Entity killer, Entity killed)
         {
             if (killer == null)
-                return $"{killed.ToSubjectString(true)} is killed!";
+                return $"{Strings.Subject(killed, true)} is killed!";
 
             string verb = Actor.PlayerControlled(killer) ? "kill" : "kills";
             return
-                $"{killer.ToSubjectString(true)} {verb} " +
-                $"{killed.ToSubjectString(false)}!";
+                $"{Strings.Subject(killer, true)} {verb} " +
+                $"{Strings.Subject(killed, false)}!";
         }
 
         public static string Accelerate(Entity entity)

@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Pantheon.Components.Entity;
+using Pantheon.Utils;
 using UnityEngine;
 
 namespace Pantheon.Commands.Actor
@@ -41,7 +42,7 @@ namespace Pantheon.Commands.Actor
 
             if (player)
                 Locator.Log.Send(
-                    $"You pick up {item.ToSubjectString(false)}.",
+                    $"You pick up {Strings.Subject(item, false)}.",
                     Color.grey);
 
             return CommandResult.Succeeded;

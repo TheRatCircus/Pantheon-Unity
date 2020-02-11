@@ -25,7 +25,7 @@ namespace Pantheon
         public void InitializeToss(Entity tosser, Entity entity, List<Cell> line)
         {
             GetComponent<SpriteRenderer>().sprite = entity.Flyweight.Sprite;
-            projName = entity.ToSubjectString(true);
+            projName = Strings.Subject(entity, true);
             sender = tosser;
             this.line = (Line)line;
             debris = new Entity[] { entity };
@@ -103,7 +103,7 @@ namespace Pantheon
 
                 Hit hit = new Hit(damages);
                 Locator.Log.Send(
-                    $"{projName} hits {entity.ToSubjectString(false)}!",
+                    $"{projName} hits {Strings.Subject(entity, false)}!",
                     Color.white);
                 entity.TakeHit(sender, hit);
             }

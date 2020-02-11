@@ -1,6 +1,7 @@
 ﻿// Strings.cs
 // Jerome Martina
 
+using Pantheon.Components.Entity;
 using System;
 using System.Linq;
 
@@ -27,6 +28,23 @@ namespace Pantheon.Utils
                 return "her";
             else
                 return "its";
+        }
+
+        public static string Subject(Entity entity, bool sentenceStart)
+        {
+            if (entity.TryGetComponent(out Relic relic))
+                return relic.Name;
+            else if (entity.TryGetComponent(out Actor actor))
+            {
+                if (actor.Control == ActorControl.Player)
+                    return sentenceStart ? "You" : "you";
+                else if (entity.Unique)
+                    return entity.Name;
+                else
+                    return sentenceStart ? $"The {entity.Name}" : $"the {entity.Name}";
+            }
+            else
+                return sentenceStart ? $"The {entity.Name}" : $"the {entity.Name}";
         }
     }
 }

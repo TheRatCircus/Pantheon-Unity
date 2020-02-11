@@ -24,7 +24,7 @@ namespace Pantheon.Components.Entity
             {
                 ai.Strategy = new DefaultStrategy(Locator.Player.Entity);
                 Locator.Log.Send(
-                    $"{ai.Entity.ToSubjectString(true)} notices you!",
+                    $"{Strings.Subject(ai.Entity, true)} notices you!",
                     Colours._orange);
                 return ai.Strategy.Decide(ai);
             }

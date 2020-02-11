@@ -47,7 +47,7 @@ namespace Pantheon.Components.Entity
             {
                 Target = Locator.Player.Entity;
                 Locator.Log.Send(
-                    $"{Entity.ToSubjectString(true)} notices you!",
+                    $"{Strings.Subject(Entity, true)} notices you!",
                     Colours._orange);
             }
 
@@ -95,7 +95,7 @@ namespace Pantheon.Components.Entity
             Target = damager;
             if (damager == Locator.Player.Entity)
                 Locator.Log.Send(
-                    $"{Entity.ToSubjectString(true)} notices you!",
+                    $"{Strings.Subject(Entity, true)} notices you!",
                     Colours._orange);
         }
 

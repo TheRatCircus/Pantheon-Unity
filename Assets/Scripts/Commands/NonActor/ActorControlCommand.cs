@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Pantheon.Components.Entity;
+using Pantheon.Utils;
 using System;
 using UnityEngine;
 using ActorComp = Pantheon.Components.Entity.Actor;
@@ -30,13 +31,13 @@ namespace Pantheon.Commands.NonActor
                         if (newControl == ActorControl.None)
                         {
                             Locator.Log.Send(
-                                $"{Entity.ToSubjectString(true)} goes limp...",
+                                $"{Strings.Subject(Entity, true)} goes limp...",
                                 Color.cyan);
                         }
                         else if (newControl == ActorControl.Player)
                         {
                             Locator.Log.Send(
-                                $"You possess {Entity.ToSubjectString(false)}!",
+                                $"You possess {Strings.Subject(Entity, false)}!",
                                 Color.cyan);
                         }
                         else
@@ -57,7 +58,7 @@ namespace Pantheon.Commands.NonActor
                         else if (newControl == ActorControl.AI)
                         {
                             Locator.Log.Send(
-                                $"You are possessed by {Target.ToSubjectString(false)}!",
+                                $"You are possessed by {Strings.Subject(Target, false)}!",
                                 Color.magenta);
                         }
                         else
@@ -71,13 +72,13 @@ namespace Pantheon.Commands.NonActor
                         if (newControl == ActorControl.Player)
                         {
                             Locator.Log.Send(
-                                $"You possess {Entity.ToSubjectString(false)}",
+                                $"You possess {Strings.Subject(Entity, false)}",
                                 Color.cyan);
                         }
                         else if (newControl == ActorControl.AI)
                         {
                             Locator.Log.Send(
-                                $"{Entity.ToSubjectString(true)} takes on a new vigour!",
+                                $"{Strings.Subject(Entity, true)} takes on a new vigour!",
                                 Color.cyan);
                         }
                         else

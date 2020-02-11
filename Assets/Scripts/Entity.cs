@@ -309,29 +309,12 @@ namespace Pantheon
                 }
                 else
                     Locator.Log.Send(
-                        $"{ToSubjectString(true)} is destroyed.",
+                        $"{Strings.Subject(this, true)} is destroyed.",
                         Color.grey);
             }
 
             Cell.DeallocateEntity(this);
             Object.Destroy(GameObjects[0]);
-        }
-
-        public string ToSubjectString(bool sentenceStart)
-        {
-            if (TryGetComponent(out Relic relic))
-                return relic.Name;
-            else if (TryGetComponent(out Actor actor))
-            {
-                if (actor.Control == ActorControl.Player)
-                    return sentenceStart ? "You" : "you";
-                else if (Unique)
-                    return Name;
-                else
-                    return sentenceStart ? $"The {Name}" : $"the {Name}";
-            }
-            else
-                return sentenceStart ? $"The {Name}" : $"the {Name}";
         }
 
         [OnSerializing]
