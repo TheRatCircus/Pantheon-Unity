@@ -17,7 +17,19 @@ namespace Pantheon.Components.Entity
     [Serializable]
     public sealed class AI : EntityComponent
     {
-        [JsonIgnore] public Entity Target { get; private set; }
+        private Entity target;
+        [JsonIgnore] public Entity Target
+        {
+            get => target;
+            private set
+            {
+                if (target != null)
+                    target.DestroyedEvent -= ClearTarget;
+                target = value;
+                if (value != null)
+                    target.DestroyedEvent += ClearTarget;
+            }
+        }
         [JsonIgnore] public Entity[] Thralls { get; private set; }
         [JsonIgnore] public Cell Destination { get; set; }
 
@@ -68,15 +80,29 @@ namespace Pantheon.Components.Entity
             switch (msg)
             {
                 case DamageEventMessage dem:
-                    Target = dem.Damager;
-                    if (dem.Damager == Locator.Player.Entity)
-                        Locator.Log.Send(
-                            $"{Entity.ToSubjectString(true)} notices you!",
-                            Colours._orange);
+                    RespondToDamage(dem.Damager);
                     break;
                 default:
                     break;
             }
+        }
+
+        private void RespondToDamage(Entity damager)
+        {
+            if (Target == damager)
+                return;
+
+            Target = damager;
+            if (damager == Locator.Player.Entity)
+                Locator.Log.Send(
+                    $"{Entity.ToSubjectString(true)} notices you!",
+                    Colours._orange);
+        }
+
+        private void ClearTarget()
+        {
+            Target.DestroyedEvent -= ClearTarget;
+            Target = null;
         }
 
         public override EntityComponent Clone(bool full)
