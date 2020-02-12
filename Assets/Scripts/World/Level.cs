@@ -19,10 +19,10 @@ namespace Pantheon.World
     public sealed class Level
     {
         public string DisplayName { get; set; } = "DEFAULT_LEVEL_NAME";
-        public string ID { get; set; }
+        public string ID { get; set; } = "DEFAULT_LEVEL_ID";
 
         public Vector3Int Position { get; private set; }
-        public Vector2Int Size { get; set; }
+        public Vector2Int Size { get; set; } // TODO: Get Map lengths
         public int CellCount => Size.x * Size.y;
 
         public Cell[,] Map { get; set; }
@@ -32,13 +32,16 @@ namespace Pantheon.World
             get => pathfinder;
             private set => pathfinder = value;
         }
+        public List<Connection> Connections { get; private set; }
+            = new List<Connection>(1);
 
         [NonSerialized] private Transform transform;
-        public Transform Transform => transform;
         [NonSerialized] private Transform entitiesTransform;
+        public Transform Transform => transform;
         public Transform EntitiesTransform => entitiesTransform;
 
         [NonSerialized] private Tilemap terrainTilemap;
+        [NonSerialized] private Tilemap featureTilemap;
         [NonSerialized] private Tilemap splatterTilemap;
         [NonSerialized] private Tilemap itemTilemap;
 
@@ -47,12 +50,10 @@ namespace Pantheon.World
             transform.gameObject.name = ID;
             this.transform = transform;
             entitiesTransform = transform.Find("Entities");
-            Transform terrainTransform = transform.Find("Terrain");
-            Transform splatterTransform = transform.Find("Splatter");
-            Transform itemsTransform = transform.Find("Items");
-            terrainTilemap = terrainTransform.GetComponent<Tilemap>();
-            splatterTilemap = splatterTransform.GetComponent<Tilemap>();
-            itemTilemap = itemsTransform.GetComponent<Tilemap>();
+            terrainTilemap = transform.Find("Terrain").GetComponent<Tilemap>();
+            featureTilemap = transform.Find("Features").GetComponent<Tilemap>();
+            splatterTilemap = transform.Find("Splatter").GetComponent<Tilemap>();
+            itemTilemap = transform.Find("Items").GetComponent<Tilemap>();
         }
 
         public void Initialize() => Pathfinder = new Pathfinder(this);
@@ -157,6 +158,15 @@ namespace Pantheon.World
 
         public Line GetPath(Cell origin, Cell target)
             => Pathfinder.CellPathList(origin.Position, target.Position);
+
+        public Connection ConnectionAt(Cell cell)
+        {
+            foreach (Connection conn in Connections)
+                if (conn.Position == cell.Position)
+                    return conn;
+
+            return null;
+        }
 
         /// <summary>
         /// Find a cell by position relative to an origin cell.
@@ -289,6 +299,7 @@ namespace Pantheon.World
 
         public Cell RandomCell(bool open)
         {
+            // TODO: Replace open with predicate
             Cell cell;
             int tries = 0;
             do
@@ -446,7 +457,10 @@ namespace Pantheon.World
             // visibility, they don't change tile
 
             if (!cell.Revealed)
+            {
+                Locator.Scheduler.UnmarkCell(cell.Position);
                 return;
+            }
 
             Profiler.BeginSample("Level.DrawTile()");
 
@@ -473,6 +487,10 @@ namespace Pantheon.World
             }
             else
                 itemTilemap.SetTile((Vector3Int)cell.Position, null);
+
+            Connection conn = ConnectionAt(cell);
+            if (conn != null)
+                featureTilemap.SetTile((Vector3Int)cell.Position, conn.Tile);
 
             if (!cell.Visible)
                 Locator.Scheduler.UnmarkCell(cell.Position);

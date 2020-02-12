@@ -22,6 +22,8 @@ namespace Pantheon.Core
 
     public sealed class GameController : MonoBehaviour
     {
+        private static GameController _inst;
+
         [SerializeField] private GameObject levelPrefab = default;
         [SerializeField] private GameObject gameObjectPrefab = default;
         [SerializeField] private Transform worldTransform = default;
@@ -55,6 +57,8 @@ namespace Pantheon.Core
         }
 
         public event Action<Level> LevelChangeEvent;
+
+        private void Awake() => _inst = this;
 
         private void OnEnable()
         {
@@ -117,6 +121,16 @@ namespace Pantheon.Core
                 SaveGame();
                 QuitToTitle();
             }
+        }
+
+        public static void Travel(Connection connection)
+        {
+            Level prev = _inst.PC.Level;
+            Level destLevel = _inst.World.RequestLevel(connection);
+            Cell cell = destLevel.GetCell(connection.Partner.Position);
+            _inst.PC.Move(destLevel, cell);
+            _inst.LoadLevel(destLevel, true);
+            _inst.UnloadLevel(prev);
         }
 
         /// <summary>

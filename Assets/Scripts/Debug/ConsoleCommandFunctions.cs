@@ -250,6 +250,7 @@ namespace Pantheon.Debug
 
         public static string Travel(string[] args, GameController ctrl)
         {
+            // TODO: Use GameController.Travel()
             Level destination;
             switch (args[0].ToLower())
             {

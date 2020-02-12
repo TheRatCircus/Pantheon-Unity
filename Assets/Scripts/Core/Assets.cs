@@ -75,6 +75,12 @@ namespace Pantheon
                     continue;
                 }
 
+                if (obj is TileBase tile)
+                {
+                    _tiles.Add(tile.name, tile);
+                    continue;
+                }
+
                 if (obj is AudioClip audio)
                 {
                     _audio.Add(audio.name, audio);
@@ -345,6 +351,14 @@ namespace Pantheon
                 
                 return tile;
             }
+        }
+
+        public static T GetTile<T>(string id) where T : TileBase
+        {
+            if (_tiles.TryGetValue(id, out TileBase ret))
+                return (T)ret;
+            else
+                return null;
         }
 
         // AudioClips

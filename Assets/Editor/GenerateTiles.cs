@@ -3,6 +3,7 @@
 
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace PantheonEditor
 {
@@ -33,8 +34,8 @@ namespace PantheonEditor
             {
                 string path = AssetDatabase.GUIDToAssetPath(guid);
                 Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path);
-                RuleTile tile = ScriptableObject.CreateInstance<RuleTile>();
-                tile.m_DefaultSprite = sprite;
+                Tile tile = ScriptableObject.CreateInstance<Tile>();
+                tile.sprite = sprite;
                 string name = sprite.name.Split('_')[1];
                 AssetDatabase.CreateAsset(tile, $"Assets/Tiles/Item/Tile_{name}.asset");
             }

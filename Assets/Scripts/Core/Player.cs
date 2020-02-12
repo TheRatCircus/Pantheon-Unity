@@ -194,6 +194,10 @@ namespace Pantheon.Core
             else if (Input.GetButtonDown("Wield"))
                 actor.Command = new WieldCommand(Entity,
                     Entity.GetComponent<Inventory>().Items[0]);
+            else if (Input.GetButtonDown("Interact"))
+            {
+                actor.Command = new InteractCommand(Entity);
+            }
             else if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 hotbarUI.SetSelected(0);

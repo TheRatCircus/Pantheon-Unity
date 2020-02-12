@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2146686435
+CRC: 215533456
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 025e804be4ca472b53a4f62b82ae0794
+    Hash: c527bd62bad9923c2522928fa7423a45
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 0e2e60589b6cb39266a7f562c3b42d44
+    Hash: 8907bbcee274c479b91e71834c7a884c
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -59,9 +59,14 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 213
   Script: {instanceID: 0}
+- Class: 156049354
+  Script: {instanceID: 0}
+- Class: 483693784
+  Script: {instanceID: 0}
 - Class: 1839735485
   Script: {instanceID: 0}
 Assets:
+- Assets/Tiles/Feature/Fence.asset
 - Assets/Sprites/Item/Sprite_Grenade.png
 - Assets/Content/Terrain/Terrain_Water.asset
 - Assets/Sprites/Item/Sprite_Cuirass.png
@@ -90,11 +95,13 @@ Assets:
 - Assets/Tiles/Item/Tile_Corpse.asset
 - Assets/Sprites/Item/Sprite_Corpse.png
 - Assets/Tiles/Item/Tile_Dagger.asset
+- Assets/Tiles/Feature/StoneStairs_Up.asset
 - Assets/Sprites/Actor/Sprite_Human.png
 - Assets/Tiles/Item/Tile_Scroll.asset
 - Assets/Sprites/Item/Sprite_Carbine.png
 - Assets/Tiles/Item/Tile_Prejudice.asset
 - Assets/Audio/SFX_Splat_Flesh.ogg
+- Assets/Tiles/Feature/StoneStairs_Down.asset
 - Assets/Sprites/Item/Sprite_Prejudice.png
 - Assets/Prefabs/EntityGameObject.prefab
 - Assets/Tiles/Item/Tile_Flask.asset
