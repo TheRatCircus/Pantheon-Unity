@@ -160,8 +160,6 @@ namespace Pantheon.Utils
             while (cells.Count > 0)
             {
                 Cell a = cells.Dequeue();
-                Debug.Visualisation.MarkCell(a, 10f);
-
 
                 if (a.X > level.Size.x || a.X < 0 ||
                     a.Y > level.Size.y || a.Y < 0)
