@@ -1,0 +1,57 @@
+{
+  "ID": "Human",
+  "EntityName": "human",
+  "Flags": "Blocking",
+  "Sprite": "Sprite_Human",
+  "Components": [
+    {
+      "$type": "Actor",
+      "Control": "AI",
+      "Speed": 100
+    },
+    {
+      "$type": "AI",
+      "Strategy": null,
+      "Utilities": [
+        {
+          "$type": "ApproachUtility"
+        },
+        {
+          "$type": "AttackUtility",
+          "Aggression": 110
+        },
+        {
+          "$type": "FleeUtility"
+        }
+      ]
+    },
+    {
+      "$type": "Health",
+      "Max": 30,
+      "RegenTime": 800,
+      "Regenerating": true
+    },
+    {
+      "$type": "Species",
+      "SpeciesDef": "Species_Human"
+    },
+    {
+      "$type": "Splat",
+      "Sound": "SFX_Splat_Flesh",
+      "FXPrefab": "FX_Splat_Blood"
+    },
+    {
+      "$type": "Status",
+      "Statuses": []
+    },
+	{
+      "$type": "Wield",
+      "Items": [
+        null,
+        null
+      ]
+    }
+  ],
+  "Inventory": [],
+  "Wielded": []
+}

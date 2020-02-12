@@ -44,7 +44,8 @@ namespace Pantheon.Debug
                 { "enthrall", new ConsoleCommand(Enthrall) },
                 { "vault", new ConsoleCommand(Vault) },
                 { "travel", new ConsoleCommand(Travel) },
-                { "kill_level", new ConsoleCommand(KillLevel) }
+                { "kill_level", new ConsoleCommand(KillLevel) },
+                { "profession", new ConsoleCommand(Profession) }
             };
 
         private void Awake()

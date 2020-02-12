@@ -10,6 +10,7 @@ using UnityEngine;
 
 namespace Pantheon.Debug
 {
+    // TODO: Rename to ConsoleFuncs
     public static class ConsoleCommandFunctions
     {
         public static string ListLayers(string[] args, GameController ctrl)
@@ -291,6 +292,24 @@ namespace Pantheon.Debug
             }
             FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Cell, true);
             return $"Killed all NPCs in {ctrl.World.ActiveLevel}.";
+        }
+
+        public static string Profession(string[] args, GameController ctrl)
+        {
+            Profession prof = Assets.GetProfession(args[0]);
+
+            if (prof == null)
+                return $"No profession named \"{args[0]}\" exists.";
+
+            Entity entity = ctrl.Cursor.HoveredCell.Actor;
+
+            if (entity == null)
+                return "Please mouseover an actor first.";
+
+            if (!prof.Apply(entity))
+                return "Failed to apply profession.";
+
+            return $"Applied profession {prof.ID} to {entity.Name}.";
         }
     }
 }

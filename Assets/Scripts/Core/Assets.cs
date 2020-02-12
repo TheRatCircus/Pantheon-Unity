@@ -32,9 +32,12 @@ namespace Pantheon
                 Application.streamingAssetsPath, "pantheon_body"));
             bundlePlans = AssetBundle.LoadFromFile(Path.Combine(
                 Application.streamingAssetsPath, "pantheon_plans"));
+            bundleProfessions = AssetBundle.LoadFromFile(Path.Combine(
+                Application.streamingAssetsPath, "pantheon_professions"));
 
             Object[] objs = bundleMain.LoadAllAssets();
             Object[] templateFiles = bundleTemplates.LoadAllAssets();
+            Object[] profFiles = bundleProfessions.LoadAllAssets();
             Object[] talentFiles = bundleTalents.LoadAllAssets();
             Object[] speciesFiles = bundleSpecies.LoadAllAssets();
             Object[] bodyFiles = bundleBody.LoadAllAssets();
@@ -43,6 +46,7 @@ namespace Pantheon
             _prefabs = new Dictionary<string, GameObject>();
             Prefabs = new ReadOnlyDictionary<string, GameObject>(_prefabs);
             _templates = new Dictionary<string, EntityTemplate>(templateFiles.Length);
+            _professions = new Dictionary<string, Profession>(profFiles.Length);
             _sprites = new Dictionary<string, Sprite>();
             Sprites = new ReadOnlyDictionary<string, Sprite>(_sprites);
             _tiles = new Dictionary<string, TileBase>();
@@ -161,7 +165,7 @@ namespace Pantheon
                 _builderPlans.Add(plan.ID, plan);
             }
 
-            // Template data is lazy-initialized
+            // Template, profession data is lazy-initialized
         }
 
         public static void UnloadAssets()
@@ -175,6 +179,7 @@ namespace Pantheon
         private static AssetBundle bundleSpecies;
         private static AssetBundle bundleBody;
         private static AssetBundle bundlePlans;
+        private static AssetBundle bundleProfessions;
 
         private static readonly JsonSerializerSettings genericSettings = new JsonSerializerSettings
         {
@@ -191,7 +196,7 @@ namespace Pantheon
                     new SpriteConverter(),
                     new StatusConverter(),
                     new TalentConverter(),
-                    new TemplateArrayConverter(),
+                    //new TemplateArrayConverter(),
                     new TileConverter(),
                 }
         };
@@ -281,6 +286,29 @@ namespace Pantheon
         }
 
         public static bool TemplateExists(string id) => _templates.ContainsKey(id);
+
+        // Professions
+
+        private static Dictionary<string, Profession> _professions;
+
+        public static Profession GetProfession(string id)
+        {
+            if (_professions.TryGetValue(id, out Profession ret))
+                return ret;
+            else
+            {
+                TextAsset ta = bundleProfessions.LoadAsset<TextAsset>(id);
+
+                if (ta == null)
+                    return null;
+
+                Profession prof =
+                    JsonConvert.DeserializeObject<Profession>(
+                        ta.text, genericSettings);
+                _professions.Add(prof.ID, prof);
+                return prof;
+            }
+        }
 
         // Sprites
 

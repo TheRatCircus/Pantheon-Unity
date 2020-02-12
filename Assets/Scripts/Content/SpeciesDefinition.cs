@@ -10,6 +10,7 @@ namespace Pantheon.Content
     [JsonConverter(typeof(StringEnumConverter))]
     public enum BodyPattern
     {
+        // TODO: BodyPattern.None
         Humanoid,
         Canid,
         Avian
@@ -23,7 +24,9 @@ namespace Pantheon.Content
         public Sprite Sprite { get; set; }
         public BodyPart[] Parts { get; set; }
         public BodyPattern BodyPattern { get; set; }
+        // TODO: Components
 
+        // TODO: Kill this constructor, use object initializers instead
         [JsonConstructor]
         public SpeciesDefinition(string id, string name, Sprite sprite,
             BodyPattern bodyPattern, params BodyPart[] parts)

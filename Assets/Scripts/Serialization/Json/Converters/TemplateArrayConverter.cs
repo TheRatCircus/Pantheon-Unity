@@ -13,6 +13,10 @@ namespace Pantheon.Serialization.Json.Converters
             EntityTemplate[] existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             string[] ids = serializer.Deserialize<string[]>(reader);
+
+            if (ids == null)
+                return null;
+
             EntityTemplate[] templates = new EntityTemplate[ids.Length];
             
             for (int i = 0; i < ids.Length; i++)

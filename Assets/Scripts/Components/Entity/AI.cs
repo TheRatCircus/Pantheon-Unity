@@ -35,7 +35,7 @@ namespace Pantheon.Components.Entity
 
         public bool Peaceful { get; set; }
         public AIStrategy Strategy { get; set; }
-        public AIUtility[] Utilities { get; private set; }
+        public AIUtility[] Utilities { get; set; }
 
         [JsonIgnore] public Actor Actor { get; set; }
 

@@ -264,6 +264,46 @@ namespace PantheonEditor
             Debug.Log($"Wrote sample body part to {path}.");
         }
 
+        [MenuItem("Assets/Pantheon/JSON/Sample/Profession")]
+        private static void GenerateSampleProfession()
+        {
+            Assets.LoadAssets();
+
+            Profession prof = new Profession
+            {
+                ID = "SAMPLE_ID",
+                Name = "SAMPLE_NAME"
+            };
+
+            string path = Application.dataPath + $"/Sample/sample_profession.json";
+
+            if (File.Exists(path))
+                File.Delete(path);
+
+            JsonSerializerSettings settings = new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                SerializationBinder = Binders._entity,
+                Formatting = Formatting.Indented,
+                Converters = new List<JsonConverter>()
+                {
+                    new GameObjectConverter(),
+                    new SpriteConverter(),
+                    new TalentConverter(),
+                    new TileConverter(),
+                    new RuleTileConverter(),
+                    new SpeciesDefinitionConverter(),
+                    new BodyPartConverter(),
+                    new StatusConverter()
+                }
+            };
+
+            File.AppendAllText(path, JsonConvert.SerializeObject(prof, settings));
+            AssetDatabase.Refresh();
+            Debug.Log($"Wrote sample template with all components to {path}.");
+            Assets.UnloadAssets();
+        }
+
         [MenuItem("Assets/Pantheon/JSON/Sample/Talent")]
         private static void GenerateSampleTalent()
         {

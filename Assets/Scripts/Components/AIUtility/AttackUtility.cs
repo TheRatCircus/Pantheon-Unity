@@ -30,6 +30,7 @@ namespace Pantheon.Components.Entity
             if (talents[0].Range < dist)
                 return -1;
 
+            // TODO: Use longest range talent available
             talent = talents[0];
             return Aggression;
         }

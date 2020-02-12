@@ -65,6 +65,22 @@ namespace Pantheon.Components.Entity
             return true;
         }
 
+        /// <summary>
+        /// Wield as many items as possible.
+        /// </summary>
+        public void ForceWield(Entity[] items)
+        {
+            for (int i = 0; i < Items.Length; i++)
+            {
+                if (Items[i] != null) // Unwield previous
+                    Items[i].Wielded = false;
+                Items[i] = items[i];
+                items[i].Wielded = true;
+            }
+
+            WieldChangeEvent?.Invoke(Items);
+        }
+
         public Entity[] GetEvocables()
         {
             // TODO: Collect with List, convert to array

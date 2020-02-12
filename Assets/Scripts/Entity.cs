@@ -223,6 +223,15 @@ namespace Pantheon
             return Components.ContainsKey(typeof(T));
         }
 
+        public bool HasComponent(Type type)
+        {
+            if (type.BaseType != typeof(EntityComponent))
+                throw new ArgumentException(
+                    $"Type must inherit from EntityComponent.");
+
+            return Components.ContainsKey(type);
+        }
+
         private void RelayMessage(IComponentMessage msg)
         {
             foreach (EntityComponent ec in Components.Values)

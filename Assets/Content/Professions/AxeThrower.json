@@ -1,0 +1,11 @@
+{
+  "ID": "AxeThrower",
+  "Name": "axe thrower",
+  "Components": null,
+  "OverwriteAI": false,
+  "Wielded": [
+	"Item_ThrowingHatchets",
+	"Item_ThrowingHatchets"
+  ],
+  "Inventory": null
+}
