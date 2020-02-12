@@ -37,7 +37,7 @@
     },
     {
       "$type": "Species",
-      "SpeciesDef": "Species_Goose"
+      "SpeciesDef": "Species_Human"
     },
     {
       "$type": "Splat",
