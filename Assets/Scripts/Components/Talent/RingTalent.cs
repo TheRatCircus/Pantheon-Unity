@@ -43,7 +43,7 @@ namespace Pantheon.Components.Talent
             });
 
             // Get cells inside bounds
-            HashSet<Cell> excluded = Floodfill.FillIf(
+            HashSet<Cell> excluded = Floodfill.StackFillIf(
                 level, casterCell, (Cell c) => !ret.Contains(c));
 
             // Add cells outside circles

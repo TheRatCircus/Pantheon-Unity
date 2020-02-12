@@ -778,7 +778,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyTargetingTile: {fileID: 11400000, guid: 66ee593d231f37c4cafdc3860aa4fdff, type: 2}
   enemyTargetingTilemap: {fileID: 1248370787}
-  turns: 0
+  time: 0
+  turnProgress: 0
   lockCount: 0
 --- !u!114 &600936740
 MonoBehaviour:
@@ -952,8 +953,8 @@ Tilemap:
   m_TileColorArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Origin: {x: 0, y: 0, z: 0}
-  m_Size: {x: 0, y: 0, z: 1}
+  m_Origin: {x: -3, y: -2, z: 0}
+  m_Size: {x: 11, y: 19, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:

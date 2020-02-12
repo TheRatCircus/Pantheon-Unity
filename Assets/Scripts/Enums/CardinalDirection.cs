@@ -16,5 +16,5 @@ public enum CardinalDirection
     South = 1 << 5,
     SouthWest = 1 << 6,
     West = 1 << 7,
-    NorthWest = 1 << 8,
+    NorthWest = 1 << 8
 }

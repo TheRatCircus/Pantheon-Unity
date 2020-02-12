@@ -228,13 +228,18 @@ namespace Pantheon.Debug
 
         public static string Vault(string[] args, GameController ctrl)
         {
+            float rotation = 0f;
+
+            if (args.Length == 2)
+                float.TryParse(args[1], out rotation);
+
             if (!Assets.Vaults.ContainsKey(args[0]))
                 return $"Vault {args[0]} does not exist.";
 
             string ret;
             
-            if (!Gen.Vault.Build(args[0], ctrl.World.ActiveLevel,
-                ctrl.Cursor.HoveredCell.Position))
+            if (!Gen.Vault.TryBuild(args[0], ctrl.World.ActiveLevel,
+                ctrl.Cursor.HoveredCell.Position, rotation))
                 ret = $"Failed to build vault {args[0]} at {ctrl.Cursor.HoveredCell.Position}.";
             else
                 ret = $"Successfully built vault {args[0]} at {ctrl.Cursor.HoveredCell.Position}.";
@@ -290,6 +295,7 @@ namespace Pantheon.Debug
                 if (c.Actor != null && !Actor.PlayerControlled(c.Actor))
                     c.Actor.Destroy(null);
             }
+            // TODO: Force dirty cell draw instead of FOV refresh
             FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Cell, true);
             return $"Killed all NPCs in {ctrl.World.ActiveLevel}.";
         }

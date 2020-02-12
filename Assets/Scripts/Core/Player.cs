@@ -66,7 +66,7 @@ namespace Pantheon.Core
                 wield.WieldChangeEvent += UpdateHotbar;
             selectedCell = Entity.Cell;
             selectedLine = Bresenhams.GetLine(Entity.Level, Entity.Cell, selectedCell);
-            VisibleCells = Floodfill.FillIf(
+            VisibleCells = Floodfill.StackFillIf(
                 Entity.Level,
                 Entity.Cell,
                 (Cell c) => c.Visible);
@@ -156,6 +156,7 @@ namespace Pantheon.Core
                 actor.Command = new WaitCommand(Entity);
             else if (Input.GetButtonDown("Use"))
             {
+                // TODO: GUI
                 actor.Command = new UseItemCommand(Entity,
                     Entity.GetComponent<Inventory>().Items[0]);
             }

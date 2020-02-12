@@ -48,7 +48,7 @@ namespace Pantheon.Core
 
             prev = origin;
 
-            HashSet<Cell> visibles = Floodfill.FillIf(
+            HashSet<Cell> visibles = Floodfill.StackFillIf(
                 level, origin, (Cell c) => c.Visible);
             Locator.Player.UpdateVisibles(visibles);
 

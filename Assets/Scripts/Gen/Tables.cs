@@ -27,5 +27,10 @@ namespace Pantheon.Gen
         {
             "FX_Shrapnel"
         };
+
+        public static readonly string[] _spawnVaults = new string[]
+        {
+            "Vault_Keep"
+        };
     }
 }

@@ -62,10 +62,15 @@ namespace Pantheon.Utils
             return filled;
         }
 
-        public static HashSet<Cell> FillIf(
+        /// <summary>
+        /// Flood fill only if a considered cell meets a condition.
+        /// </summary>
+        /// <param name="predicate">Cell is not filled if predicate fails.</param>
+        /// <returns>All cells filled.</returns>
+        public static HashSet<Cell> StackFillIf(
             Level level,
             Cell origin,
-            Predicate<Cell> condition)
+            Predicate<Cell> predicate)
         {
             HashSet<Cell> ret = new HashSet<Cell>();
             Stack<Cell> cells = new Stack<Cell>();
@@ -79,10 +84,10 @@ namespace Pantheon.Utils
                     a.Y > level.Size.y || a.Y < 0)
                     continue;
 
-                if (ret.Contains(a))
+                if (!predicate(a))
                     continue;
 
-                if (!condition(a))
+                if (ret.Contains(a))
                     continue;
 
                 ret.Add(a);
@@ -97,6 +102,93 @@ namespace Pantheon.Utils
                     cells.Push(up);
             }
             return ret;
+        }
+
+        /// <summary>
+        /// Flood fill only if a considered cell meets a condition.
+        /// </summary>
+        /// <param name="predicate">Cell is not filled if predicate fails.</param>
+        /// <returns>All cells filled.</returns>
+        public static HashSet<Cell> QueueFillIf(
+            Level level, 
+            Cell origin,
+            Predicate<Cell> predicate)
+        {
+            HashSet<Cell> ret = new HashSet<Cell>();
+            Queue<Cell> cells = new Queue<Cell>();
+            cells.Enqueue(origin);
+
+            while (cells.Count > 0)
+            {
+                Cell a = cells.Dequeue();
+
+                if (a.X > level.Size.x || a.X < 0 ||
+                    a.Y > level.Size.y || a.Y < 0)
+                    continue;
+
+                if (!predicate(a))
+                    continue;
+
+                if (ret.Contains(a))
+                    continue;
+
+                ret.Add(a);
+
+                if (level.TryGetCell(a.X - 1, a.Y, out Cell left))
+                    cells.Enqueue(left);
+                if (level.TryGetCell(a.X + 1, a.Y, out Cell right))
+                    cells.Enqueue(right);
+                if (level.TryGetCell(a.X, a.Y - 1, out Cell down))
+                    cells.Enqueue(down);
+                if (level.TryGetCell(a.X, a.Y + 1, out Cell up))
+                    cells.Enqueue(up);
+            }
+
+            return ret;
+        }
+
+        public static Cell QueueFillForCell(
+            Level level,
+            Cell origin,
+            Predicate<Cell> stopPredicate,
+            Predicate<Cell> returnPredicate)
+        {
+            HashSet<Cell> filled = new HashSet<Cell>();
+            Queue<Cell> cells = new Queue<Cell>();
+            cells.Enqueue(origin);
+
+            while (cells.Count > 0)
+            {
+                Cell a = cells.Dequeue();
+                Debug.Visualisation.MarkCell(a, 10f);
+
+
+                if (a.X > level.Size.x || a.X < 0 ||
+                    a.Y > level.Size.y || a.Y < 0)
+                    continue;
+
+                if (returnPredicate(a))
+                    return a;
+
+                if (!stopPredicate(a))
+                    continue;
+
+                if (filled.Contains(a))
+                    continue;
+
+                filled.Add(a);
+
+                if (level.TryGetCell(a.X - 1, a.Y, out Cell left))
+                    cells.Enqueue(left);
+                if (level.TryGetCell(a.X + 1, a.Y, out Cell right))
+                    cells.Enqueue(right);
+                if (level.TryGetCell(a.X, a.Y - 1, out Cell down))
+                    cells.Enqueue(down);
+                if (level.TryGetCell(a.X, a.Y + 1, out Cell up))
+                    cells.Enqueue(up);
+            }
+
+            return null;
         }
     }
 }

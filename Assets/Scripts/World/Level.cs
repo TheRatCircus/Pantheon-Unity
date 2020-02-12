@@ -329,6 +329,48 @@ namespace Pantheon.World
             return ret;
         }
 
+        public Cell RandomCorner()
+        {
+            int r = Random.Range(0, 4);
+            switch (r)
+            {
+                case 0: // Northeast
+                    return Map[Size.x - 1, Size.y - 1];
+                case 1: // Southeast
+                    return Map[Size.x - 1, 0];
+                case 2: // Southwest
+                    return Map[0, 0];
+                case 3: // Northwest
+                    return Map[0, Size.y - 1];
+                default:
+                    throw new Exception(
+                        "Random.Range() returned illegal value.");
+            }
+        }
+
+        public Cell RandomCorner(out CardinalDirection direction)
+        {
+            int r = Random.Range(0, 4);
+            switch (r)
+            {
+                case 0: // Northeast
+                    direction = CardinalDirection.NorthEast;
+                    return Map[Size.x - 1, Size.y - 1];
+                case 1: // Southeast
+                    direction = CardinalDirection.SouthEast;
+                    return Map[Size.x - 1, 0];
+                case 2: // Southwest
+                    direction = CardinalDirection.SouthWest;
+                    return Map[0, 0];
+                case 3: // Northwest
+                    direction = CardinalDirection.NorthWest;
+                    return Map[0, Size.y - 1];
+                default:
+                    throw new Exception(
+                        "Random.Range() returned illegal value.");
+            }
+        }
+
         public int GetAdjacentWalls(int x, int y, int scopeX, int scopeY,
             bool oobIsWall)
         {
@@ -400,6 +442,9 @@ namespace Pantheon.World
 #if DEBUG_DRAW
             Debug.Visualisation.MarkCell(cell, 3f);
 #endif
+            // XXX: If cells change terrain while visible but do not change
+            // visibility, they don't change tile
+
             if (!cell.Revealed)
                 return;
 

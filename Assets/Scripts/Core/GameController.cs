@@ -78,7 +78,11 @@ namespace Pantheon.Core
 
             // Spawn the player
             EntityTemplate template = Assets.GetTemplate("Player");
-            Entity player = Spawn.SpawnActor(template, level, level.RandomCell(true));
+            Cell spawnCell = Floodfill.QueueFillForCell(
+                level, level.RandomCorner(),
+                (Cell c) => true, 
+                (Cell d) => !d.Blocked);
+            Entity player = Spawn.SpawnActor(template, level, spawnCell);
             player.DestroyedEvent += OnPlayerDeath;
 
             PC = player;
@@ -118,8 +122,6 @@ namespace Pantheon.Core
         /// <summary>
         /// Clear turn queue, set active level, create GameObject, draw level.
         /// </summary>
-        /// <param name="level"></param>
-        /// <param name="refreshFOV"></param>
         public void LoadLevel(Level level, bool refreshFOV)
         {
             World.ActiveLevel = level;
