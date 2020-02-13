@@ -75,10 +75,9 @@ namespace Pantheon.Core
         {
             saveSystem = new SaveWriterReader();
 
-            World = new GameWorld();
-            World.NewLayer(-2);
-            World.Layers.TryGetValue(-2, out Layer surface);
-            Level level = surface.RequestLevel(Vector2Int.zero);
+            World = new GameWorld() { Plan = Assets.WorldPlan };
+            Layer subterrane = World.NewLayer(-2);
+            Level level = subterrane.RequestLevel(Vector2Int.zero);
 
             // Spawn the player
             EntityTemplate template = Assets.GetTemplate("Player");

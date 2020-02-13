@@ -19,19 +19,20 @@ namespace Pantheon
         [SerializeField] private Tilemap terrainTilemap = default;
         private Level level;
 
-        [SerializeField] private TextAsset planJsonFile = default;
+        [SerializeField] private TextAsset builderJsonFile = default;
         [SerializeField] private int sizeX = 200;
         [SerializeField] private int sizeY = 200;
 
-        public void RunPlan()
+        public void RunBuilder()
         {
             UnityEngine.Debug.ClearDeveloperConsole();
             Stopwatch totalTime = Stopwatch.StartNew();
             Assets.LoadAssets();
 
-            if (planJsonFile == null)
+            if (builderJsonFile == null)
             {
-                UnityEngine.Debug.LogError("No plan given for test, aborting.");
+                UnityEngine.Debug.LogError(
+                    "No builder given for test, aborting.");
                 return;
             }
 
@@ -42,16 +43,18 @@ namespace Pantheon
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
-                    new TerrainConverter()
+                    new TerrainConverter(),
+                    new TileConverter(),
+                    new RuleTileConverter()
                 }
             };
 
-            BuilderPlan plan = JsonConvert.DeserializeObject<BuilderPlan>(
-                planJsonFile.text, settings);
+            Builder builder = JsonConvert.DeserializeObject<Builder>(
+                builderJsonFile.text, settings);
 
             level = new Level();
             InitializeMap(level, sizeX, sizeY);
-            foreach (BuilderStep step in plan.Steps)
+            foreach (BuilderStep step in builder.Steps)
             {
                 Stopwatch stepTime = Stopwatch.StartNew();
                 step.Run(level);

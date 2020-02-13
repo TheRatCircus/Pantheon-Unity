@@ -12,10 +12,12 @@ using Pantheon.Gen;
 using Pantheon.Serialization.Json;
 using Pantheon.Serialization.Json.Converters;
 using Pantheon.Utils;
+using Pantheon.World;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using BodyPart = Pantheon.Content.BodyPart;
 using Relic = Pantheon.Components.Entity.Relic;
 
@@ -166,11 +168,25 @@ namespace PantheonEditor
             Assets.UnloadAssets();
         }
 
-        [MenuItem("Assets/Pantheon/JSON/Sample/Builder Plan")]
-        private static void GenerateSamplePlan()
+        [MenuItem("Assets/Pantheon/JSON/Sample/Builder")]
+        private static void GenerateSampleBuilder()
         {
-            BuilderPlan plan = new BuilderPlan
+            TerrainDefinition ground = ScriptableObject.CreateInstance<TerrainDefinition>();
+            ground.name = "Terrain_StoneFloor";
+            TerrainDefinition wall = ScriptableObject.CreateInstance<TerrainDefinition>();
+            wall.name = "Terrain_StoneWall";
+            Tile mockTile = ScriptableObject.CreateInstance<Tile>();
+            mockTile.name = "StoneStairs_Up";
+
+            Builder builder = new Builder
             {
+                ID = "SAMPLE_ID",
+                LevelID = "SAMPLE_ID",
+                DisplayName = "SAMPLE_NAME",
+                Position = new Vector3Int(-2, 1, 1),
+                Ground = ground,
+                Wall = wall,
+                Size = new Vector2Int(80, 80),
                 Steps = new BuilderStep[]
                 {
                     new BinarySpacePartition("Terrain_StoneWall", 10, true),
@@ -178,12 +194,66 @@ namespace PantheonEditor
                     new Fill("Terrain_StoneFloor"),
                     new RandomFill("Terrain_StoneWall", 40)
                 },
+                ConnectionRules = new ConnectionRule[]
+                {
+                    new ConnectionRule()
+                    {
+                        Count = 1,
+                        Key = "Reformatory",
+                        Tile = mockTile
+                    }
+                },
                 Population = new GenericRandomPick<string>[]
                 {
                     new GenericRandomPick<string>(512, "Coyote"),
                     new GenericRandomPick<string>(512, "RagingGoose")
                 }
             };
+
+            string path = Application.dataPath + $"/Sample/sample_builder.json";
+
+            if (File.Exists(path))
+                File.Delete(path);
+
+            JsonSerializerSettings settings = new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                SerializationBinder = Binders._entity,
+                Formatting = Formatting.Indented,
+                Converters = new List<JsonConverter>()
+                {
+                    new RuleTileConverter(),
+                    new TerrainConverter(),
+                    new TileConverter()
+                },
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+
+            File.AppendAllText(path, JsonConvert.SerializeObject(builder, settings));
+            AssetDatabase.Refresh();
+            Debug.Log($"Wrote sample builder to {path}.");
+        }
+
+        [MenuItem("Assets/Pantheon/JSON/Sample/World Plan")]
+        private static void GenerateSampleWorldPlan()
+        {
+            TerrainDefinition ground = ScriptableObject.CreateInstance<TerrainDefinition>();
+            ground.name = "Terrain_StoneFloor";
+            TerrainDefinition wall = ScriptableObject.CreateInstance<TerrainDefinition>();
+            wall.name = "Terrain_StoneWall";
+            Tile mockTile = ScriptableObject.CreateInstance<Tile>();
+            mockTile.name = "StoneStairs_Up";
+
+            Builder builder = new Builder
+            {
+                ID = "SAMPLE_ID"
+            };
+
+            WorldPlan plan = new WorldPlan()
+            {
+                Builders = new Dictionary<string, Builder>()
+            };
+            plan.Builders.Add(builder.ID, builder);
 
             string path = Application.dataPath + $"/Sample/sample_plan.json";
 
@@ -197,13 +267,14 @@ namespace PantheonEditor
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
-                    new TerrainConverter()
-                }
+                    new WorldPlanConverter()
+                },
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             };
 
             File.AppendAllText(path, JsonConvert.SerializeObject(plan, settings));
             AssetDatabase.Refresh();
-            Debug.Log($"Wrote sample builder plan to {path}.");
+            Debug.Log($"Wrote sample world plan to {path}.");
         }
 
         [MenuItem("Assets/Pantheon/JSON/Sample/Body Part")]

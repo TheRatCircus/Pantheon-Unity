@@ -119,20 +119,6 @@ namespace Pantheon.Core
             return JsonConvert.DeserializeObject<EntityTemplate>(text.text, jsonSettings);
         }
 
-        public BuilderPlan LoadPlan(string name)
-        {
-            UnityEngine.Profiling.Profiler.BeginSample("AssetLoader.Load()");
-            if (!bundle.Contains(name))
-                throw new ArgumentException(
-                    $"{name} not found in bundle {bundle.name}.");
-            LogLoad($"Attempting to load asset '{name}'...");
-
-            TextAsset text = bundle.LoadAsset<TextAsset>(name);
-            UnityEngine.Profiling.Profiler.EndSample();
-
-            return JsonConvert.DeserializeObject<BuilderPlan>(text.text, planSettings);
-        }
-
         public SpeciesDefinition LoadSpeciesDef(string name)
         {
             UnityEngine.Profiling.Profiler.BeginSample("AssetLoader.Load()");

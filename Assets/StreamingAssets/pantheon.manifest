@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 215533456
+CRC: 1827363525
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: c527bd62bad9923c2522928fa7423a45
+    Hash: a6b07a1926f197a7a57fe2527927ec63
   TypeTreeHash:
     serializedVersion: 2
     Hash: 8907bbcee274c479b91e71834c7a884c
@@ -116,5 +116,6 @@ Assets:
 - Assets/Tiles/Item/Tile_Hatchet.asset
 - Assets/Content/Terrain/Terrain_StoneFloor.asset
 - Assets/Sprites/UI/Talent/Sprite_Punch.png
+- Assets/Content/WorldPlan.json
 - Assets/Tiles/Item/Tile_Cartridges.asset
 Dependencies: []

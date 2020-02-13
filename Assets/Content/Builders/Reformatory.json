@@ -1,0 +1,45 @@
+{
+  "ID": "Reformatory",
+  "LevelID": "Reformatory",
+  "DisplayName": "The Reformatory",
+  "Position": {
+    "x": 0,
+    "y": 0,
+    "z": -1
+  },
+  "Size": {
+    "x": 80,
+    "y": 80
+  },
+  "Ground": "Terrain_StoneFloor",
+  "Wall": "Terrain_StoneWall",
+  "Steps": [
+    {
+      "$type": "Fill",
+      "terrain": "Terrain_StoneWall"
+    },
+    {
+      "$type": "BinarySpacePartition",
+      "minRoomSize": 10,
+	  "tightFill": true,
+      "terrain": "Terrain_StoneFloor"
+    }
+  ],
+  "ConnectionRules": [
+    {
+      "Key": "Flood",
+      "Count": 1,
+      "Tile": "StoneStairs_Up"
+    }
+  ],
+  "Population": [
+    {
+      "Weight": 512,
+      "Value": "Coyote"
+    },
+    {
+      "Weight": 512,
+      "Value": "RagingGoose"
+    }
+  ]
+}

@@ -15,8 +15,8 @@ namespace PantheonEditor
             base.OnInspectorGUI();
             LevelGenTester tester = target as LevelGenTester;
 
-            if (GUILayout.Button("Run Plan"))
-                tester.RunPlan();
+            if (GUILayout.Button("Run Builder"))
+                tester.RunBuilder();
             if (GUILayout.Button("Clear"))
                 tester.Clear();
         }

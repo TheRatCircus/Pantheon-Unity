@@ -12,7 +12,7 @@ namespace Pantheon.Gen
 {
     public static class NPC
     {
-        public static void PopulateNPCs(BuilderPlan plan, Level level)
+        public static void PopulateNPCs(Builder builder, Level level)
         {
             int minSpawns = level.CellCount / 100;
             int maxSpawns = level.CellCount / 90;
@@ -20,7 +20,7 @@ namespace Pantheon.Gen
 
             for (int i = 0; i < numSpawns; i++)
             {
-                string id = GenericRandomPick<string>.Pick(plan.Population);
+                string id = GenericRandomPick<string>.Pick(builder.Population);
                 EntityTemplate template = Assets.GetTemplate(id);
 
                 Cell cell;

@@ -17,60 +17,21 @@ namespace Pantheon.World
         public Dictionary<string, Level> Levels { get; private set; }
             = new Dictionary<string, Level>();
 
-        public Dictionary<Vector3Int, Builder> LayerLevelBuilders
-        { get; private set; } = new Dictionary<Vector3Int, Builder>();
-        public Dictionary<string, Builder> IDLevelBuilders
-        { get; private set; } = new Dictionary<string, Builder>();
+        [NonSerialized] private WorldPlan plan;
+        public WorldPlan Plan { get => plan; set => plan = value; }
+
         public List<Connection> Connections { get; private set; }
             = new List<Connection>();
 
         // TODO: Move to GameController
         public Level ActiveLevel { get; set; }
 
-        public GameWorld()
-        {
-            // TODO: Text file with world layout
-            BuilderPlan planSubterrane = Assets.BuilderPlans["Plan_Subterrane"];
-            BuilderPlan planReform = Assets.BuilderPlans["Plan_Reformatory"];
-            BuilderPlan planFlood = Assets.BuilderPlans["Plan_FloodPlain"];
-
-            Builder builderSubterrane = new Builder("The Subterrane",
-                "sub_0_0_-2", planSubterrane);
-            Builder builderReform = new Builder("The Reformatory",
-                "reform_0_0_-1", planReform);
-            Builder builderFlood = new Builder("The Floodplain",
-                "floodplain_0_0_0", planFlood);
-
-            LayerLevelBuilders.Add(new Vector3Int(0, 0, -2), builderSubterrane);
-            LayerLevelBuilders.Add(new Vector3Int(0, 0, -1), builderReform);
-            LayerLevelBuilders.Add(new Vector3Int(0, 0, 0), builderFlood);
-            IDLevelBuilders.Add(builderSubterrane.ID, builderSubterrane);
-            IDLevelBuilders.Add(builderReform.ID, builderReform);
-            IDLevelBuilders.Add(builderFlood.ID, builderFlood);
-        }
-
-        public void NewLayer(int z)
+        public Layer NewLayer(int z)
         {
             Layer layer = new Layer(z);
-            layer.LevelRequestEvent += RequestLevel;
             Layers.Add(layer.ZLevel, layer);
-        }
-
-        /// <summary>
-        /// Request a newly-generated level from the level generation machine.
-        /// </summary>
-        /// <param name="pos"></param>
-        /// <param name="layer"></param>
-        /// <returns></returns>
-        public Level RequestLevel(Vector3Int pos)
-        {
-            Level level = GenerateLayerLevel(pos);
-            Levels.Add(level.ID, level);
-            return level;
-
-            // XXX: Not sure why this doesn't send a compiler warning
-            throw new ArgumentException(
-                $"Invalid position for level: {pos}");
+            layer.LevelRequestEvent += GenerateLayerLevel;
+            return layer;
         }
 
         public Level RequestLevel(Connection connection)
@@ -87,42 +48,45 @@ namespace Pantheon.World
 
         public Level GenerateLayerLevel(Vector3Int pos)
         {
-            if (!LayerLevelBuilders.TryGetValue(
-                new Vector3Int(pos.x, pos.y, pos.z),
-                out Builder builder))
-            {
-                throw new ArgumentException(
-                    $"No level builder at {pos}.");
-            }
+            Builder builder = null;
+
+            // TODO: Optimize
+            foreach (Builder b in Plan.Builders.Values)
+                if (b.Position == pos)
+                    builder = b;
+
+            if (builder == null)
+                throw new ArgumentException($"No builder at {pos}");
 
             Level level = new Level
             {
                 DisplayName = builder.DisplayName,
                 ID = builder.ID
             };
-            // TODO: Allow specifying size in plan
-            InitializeMap(level, 200, 200);
-            foreach (BuilderStep step in builder.Plan.Steps)
+            InitializeMap(level, builder.Size.x, builder.Size.y);
+            foreach (BuilderStep step in builder.Steps)
                 step.Run(level);
-            if (builder.Plan.Population != null)
-                NPC.PopulateNPCs(builder.Plan, level);
+            if (builder.Population != null)
+                NPC.PopulateNPCs(builder, level);
             Items.PopulateItems(level);
 
-            Cell connACell = level.RandomCell(true);
-            Connection connA = new Connection()
-            {
-                Key = "reform_0_0_-1",
-                Position = connACell.Position,
-                Tile = Assets.GetTile<Tile>("StoneStairs_Up")
-            };
-            level.Connections.Add(connA);
-            Connections.Add(connA);
+            if (builder.ConnectionRules != null)
+                foreach (ConnectionRule connRule in builder.ConnectionRules)
+                {
+                    Connection connection = new Connection()
+                    {
+                        Position = level.RandomCell(true).Position,
+                        Key = connRule.Key,
+                        Tile = connRule.Tile
+                    };
+                    level.Connections.Add(connection);
+                    Connections.Add(connection);
+                }
 
             // If another level is set to connect to this one, make it so
             foreach (Connection otherConn in Connections)
             {
-                if (otherConn.Key != level.ID ||
-                    otherConn == connA)
+                if (otherConn.Key != level.ID)
                     continue;
 
                 Cell connBCell = level.RandomCell(true);
@@ -136,14 +100,12 @@ namespace Pantheon.World
             }
 
             level.Initialize();
-            LayerLevelBuilders.Remove(pos);
-            IDLevelBuilders.Remove(builder.ID);
             return level;
         }
 
         public Level GenerateIDLevel(string id)
         {
-            if (!IDLevelBuilders.TryGetValue(id, out Builder builder))
+            if (!Plan.Builders.TryGetValue(id, out Builder builder))
             {
                 throw new ArgumentException(
                     $"No level builder with ID {id}.");
@@ -152,32 +114,33 @@ namespace Pantheon.World
             Level level = new Level
             {
                 DisplayName = builder.DisplayName,
-                ID = builder.ID
+                ID = builder.LevelID
             };
-            // TODO: Allow specifying size in plan
-            InitializeMap(level, 200, 200);
-            foreach (BuilderStep step in builder.Plan.Steps)
+
+            InitializeMap(level, builder.Size.x, builder.Size.y);
+            foreach (BuilderStep step in builder.Steps)
                 step.Run(level);
-            if (builder.Plan.Population != null)
-                NPC.PopulateNPCs(builder.Plan, level);
+            if (builder.Population != null)
+                NPC.PopulateNPCs(builder, level);
             Items.PopulateItems(level);
 
-            // TODO: Proper world generation
-            Cell connACell = level.RandomCell(true);
-            Connection connA = new Connection()
-            {
-                Key = "reform_0_0_-1",
-                Position = connACell.Position,
-                Tile = Assets.GetTile<Tile>("StoneStairs_Up")
-            };
-            level.Connections.Add(connA);
-            Connections.Add(connA);
+            if (builder.ConnectionRules != null)
+                foreach (ConnectionRule connRule in builder.ConnectionRules)
+                {
+                    Connection connection = new Connection()
+                    {
+                        Position = level.RandomCell(true).Position,
+                        Key = connRule.Key,
+                        Tile = connRule.Tile
+                    };
+                    level.Connections.Add(connection);
+                    Connections.Add(connection);
+                }
 
             // If another level is set to connect to this one, make it so
             foreach (Connection otherConn in Connections)
             {
-                if (otherConn.Key != level.ID ||
-                    otherConn == connA)
+                if (otherConn.Key != level.ID)
                     continue;
 
                 Cell connBCell = level.RandomCell(true);
@@ -191,8 +154,6 @@ namespace Pantheon.World
             }
 
             level.Initialize();
-            // TODO: Remove from layer level builders
-            IDLevelBuilders.Remove(builder.ID);
             return level;
         }
 
@@ -206,5 +167,11 @@ namespace Pantheon.World
                 for (int y = 0; y < sizeY; y++)
                     level.Map[x, y] = new Cell(new Vector2Int(x, y));
         }
+    }
+
+    public sealed class WorldPlan
+    {
+        public Dictionary<string, Builder> Builders
+        { get; set; } = new Dictionary<string, Builder>();
     }
 }

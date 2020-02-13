@@ -12,7 +12,11 @@ namespace Pantheon.Serialization.Json.Converters
         public override Tile ReadJson(JsonReader reader, Type objectType,
             Tile existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            return null;
+            string s = (string)reader.Value;
+            if (s == null)
+                return null;
+            else
+                return Assets.GetTile<Tile>((string)reader.Value);
         }
 
         public override void WriteJson(JsonWriter writer, Tile value,

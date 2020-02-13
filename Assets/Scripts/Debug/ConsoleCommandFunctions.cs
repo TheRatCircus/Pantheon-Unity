@@ -250,43 +250,7 @@ namespace Pantheon.Debug
 
         public static string Travel(string[] args, GameController ctrl)
         {
-            // TODO: Use GameController.Travel()
-            Level destination;
-            switch (args[0].ToLower())
-            {
-                case "subterrane":
-                    if (!ctrl.World.Levels.TryGetValue(
-                        "sub_0_0_-2", out destination))
-                    {
-                        destination = ctrl.World.RequestLevel(new Vector3Int(0, 0, -2));
-                    }
-                    break;
-                case "reformatory":
-                    if (!ctrl.World.Levels.TryGetValue(
-                        "reform_0_0_-1", out destination))
-                    {
-                        destination = ctrl.World.RequestLevel(new Vector3Int(0, 0, -1));
-                    }
-                    break;
-                case "floodplain":
-                    if (!ctrl.World.Levels.TryGetValue(
-                        "floodplain_0_0_0", out destination))
-                    {
-                        destination = ctrl.World.RequestLevel(new Vector3Int(0, 0, 0));
-                    }
-                    break;
-                default:
-                    return $"Level of ID {args[0]} does not exist.";
-            }
-
-            if (destination == ctrl.PC.Level)
-                return $"You're already at {destination}.";
-
-            Level prev = ctrl.World.ActiveLevel;
-            ctrl.PC.Move(destination, destination.RandomCell(true));
-            ctrl.LoadLevel(destination, true);
-            ctrl.UnloadLevel(prev);
-            return $"Moved to {destination}.";
+            throw new NotImplementedException();
         }
 
         public static string KillLevel(string[] args, GameController ctrl)

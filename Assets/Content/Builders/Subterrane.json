@@ -1,0 +1,41 @@
+{
+  "ID": "Subterrane",
+  "LevelID": "Subterrane",
+  "DisplayName": "The Subterrane",
+  "Position": {
+    "x": 0,
+    "y": 0,
+    "z": -2
+  },
+  "Size": {
+    "x": 80,
+    "y": 80
+  },
+  "Ground": "Terrain_StoneFloor",
+  "Wall": "Terrain_StoneWall",
+  "Steps": [
+    {
+      "$type": "CellularAutomata",
+      "wall": "Terrain_StoneWall",
+      "floor": "Terrain_StoneFloor",
+      "percentWalls": 45
+    }
+  ],
+  "ConnectionRules": [
+    {
+      "Key": "Reformatory",
+      "Count": 1,
+      "Tile": "StoneStairs_Up"
+    }
+  ],
+  "Population": [
+    {
+      "Weight": 512,
+      "Value": "Coyote"
+    },
+    {
+      "Weight": 512,
+      "Value": "RagingGoose"
+    }
+  ]
+}

@@ -2,13 +2,12 @@
 // Jerome Martina
 
 using Pantheon.Content;
-using Pantheon.Gen;
 using Pantheon.Serialization.Binary.Surrogates;
-using Pantheon.World;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Pantheon.SaveLoad
 {
@@ -34,12 +33,12 @@ namespace Pantheon.SaveLoad
                 new SpriteSurrogate());
             selector.AddSurrogate(typeof(SpeciesDefinition), ctxt, 
                 new SpeciesDefSurrogate());
-            selector.AddSurrogate(typeof(BuilderPlan), ctxt,
-                new BuilderPlanSurrogate());
             selector.AddSurrogate(typeof(GameObject), ctxt,
                 new PrefabSurrogate());
             selector.AddSurrogate(typeof(AudioClip), ctxt,
                 new AudioClipSurrogate());
+            selector.AddSurrogate(typeof(Tile), ctxt,
+                new TileSurrogate());
         }
 
         public void WriteSave(Save save)

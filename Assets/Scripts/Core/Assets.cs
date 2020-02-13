@@ -6,6 +6,7 @@ using Pantheon.Content;
 using Pantheon.Gen;
 using Pantheon.Serialization.Json;
 using Pantheon.Serialization.Json.Converters;
+using Pantheon.World;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -30,8 +31,8 @@ namespace Pantheon
                 (Application.streamingAssetsPath, "pantheon_species"));
             bundleBody = AssetBundle.LoadFromFile(Path.Combine(
                 Application.streamingAssetsPath, "pantheon_body"));
-            bundlePlans = AssetBundle.LoadFromFile(Path.Combine(
-                Application.streamingAssetsPath, "pantheon_plans"));
+            bundleBuilders = AssetBundle.LoadFromFile(Path.Combine(
+                Application.streamingAssetsPath, "pantheon_builders"));
             bundleProfessions = AssetBundle.LoadFromFile(Path.Combine(
                 Application.streamingAssetsPath, "pantheon_professions"));
 
@@ -41,7 +42,7 @@ namespace Pantheon
             Object[] talentFiles = bundleTalents.LoadAllAssets();
             Object[] speciesFiles = bundleSpecies.LoadAllAssets();
             Object[] bodyFiles = bundleBody.LoadAllAssets();
-            Object[] planFiles = bundlePlans.LoadAllAssets();
+            Object[] builderFiles = bundleBuilders.LoadAllAssets();
 
             _prefabs = new Dictionary<string, GameObject>();
             Prefabs = new ReadOnlyDictionary<string, GameObject>(_prefabs);
@@ -60,12 +61,14 @@ namespace Pantheon
             Vaults = new ReadOnlyDictionary<string, Vault>(_vaults);
             _bodyParts = new Dictionary<string, BodyPart>(bodyFiles.Length);
             BodyParts = new ReadOnlyDictionary<string, BodyPart>(_bodyParts);
-            _builderPlans = new Dictionary<string, BuilderPlan>(planFiles.Length);
-            BuilderPlans = new ReadOnlyDictionary<string, BuilderPlan>(_builderPlans);
+            _builders = new Dictionary<string, Builder>(builderFiles.Length);
+            Builders = new ReadOnlyDictionary<string, Builder>(_builders);
             _dialogue = new Dictionary<string, TextAsset>();
             Dialogue = new ReadOnlyDictionary<string, TextAsset>(_dialogue);
 
             int t = 1; // 0 represents no terrain
+
+            TextAsset worldPlanFile = null;
 
             foreach (Object obj in objs)
             {
@@ -117,6 +120,9 @@ namespace Pantheon
                 {
                     switch (ta.name)
                     {
+                        case "WorldPlan":
+                            worldPlanFile = ta;
+                            continue;
                         case "CharacterNames":
                             CharacterNames = ta;
                             continue;
@@ -145,14 +151,14 @@ namespace Pantheon
             {
                 Talent talent =
                     JsonConvert.DeserializeObject<Talent>(
-                        ta.text, talentSettings);
+                        ta.text, _talentSettings);
                 _talents.Add(talent.ID, talent);
             }
 
             foreach (TextAsset ta in bodyFiles)
             {
                 BodyPart part = JsonConvert.DeserializeObject<BodyPart>(
-                    ta.text, partSettings);
+                    ta.text, _partSettings);
                 _bodyParts.Add(part.ID, part);
             }
 
@@ -160,16 +166,20 @@ namespace Pantheon
             {
                 SpeciesDefinition s =
                     JsonConvert.DeserializeObject<SpeciesDefinition>(
-                        ta.text, speciesSettings);
+                        ta.text, _speciesSettings);
                 _species.Add(s.ID, s);
             }
 
-            foreach (TextAsset ta in planFiles)
+            foreach (TextAsset ta in builderFiles)
             {
-                BuilderPlan plan = JsonConvert.DeserializeObject<BuilderPlan>(
-                    ta.text, planSettings);
-                _builderPlans.Add(plan.ID, plan);
+                Builder builder = JsonConvert.DeserializeObject<Builder>(
+                    ta.text, _builderSettings);
+                _builders.Add(builder.ID, builder);
             }
+
+            WorldPlan = JsonConvert.DeserializeObject<WorldPlan>(
+                                worldPlanFile.text,
+                                _builderSettings);
 
             // Template, profession data is lazy-initialized
         }
@@ -184,10 +194,10 @@ namespace Pantheon
         private static AssetBundle bundleTalents;
         private static AssetBundle bundleSpecies;
         private static AssetBundle bundleBody;
-        private static AssetBundle bundlePlans;
+        private static AssetBundle bundleBuilders;
         private static AssetBundle bundleProfessions;
 
-        private static readonly JsonSerializerSettings genericSettings = new JsonSerializerSettings
+        private static readonly JsonSerializerSettings _genericSettings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Auto,
             SerializationBinder = Binders._entity,
@@ -207,7 +217,7 @@ namespace Pantheon
                 }
         };
 
-        private static readonly JsonSerializerSettings talentSettings = new JsonSerializerSettings
+        private static readonly JsonSerializerSettings _talentSettings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Auto,
             SerializationBinder = Binders._entity,
@@ -221,18 +231,21 @@ namespace Pantheon
                 }
         };
 
-        private static readonly JsonSerializerSettings planSettings = new JsonSerializerSettings
+        private static readonly JsonSerializerSettings _builderSettings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Auto,
             SerializationBinder = Binders._builder,
             Formatting = Formatting.Indented,
             Converters = new List<JsonConverter>()
                 {
-                    new TerrainConverter()
+                    new WorldPlanConverter(),
+                    new RuleTileConverter(),
+                    new TerrainConverter(),
+                    new TileConverter()
                 }
         };
 
-        private static readonly JsonSerializerSettings partSettings = new JsonSerializerSettings
+        private static readonly JsonSerializerSettings _partSettings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Auto,
             SerializationBinder = Binders._entity,
@@ -243,7 +256,7 @@ namespace Pantheon
                 }
         };
 
-        private static readonly JsonSerializerSettings speciesSettings = new JsonSerializerSettings
+        private static readonly JsonSerializerSettings _speciesSettings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Auto,
             SerializationBinder = Binders._entity,
@@ -259,6 +272,7 @@ namespace Pantheon
 
         public static TextAsset CharacterNames { get; private set; }
         public static TextAsset RelicNames { get; private set; }
+        public static WorldPlan WorldPlan { get; private set; }
 
         // Prefabs
 
@@ -285,7 +299,7 @@ namespace Pantheon
 
                 EntityTemplate template =
                     JsonConvert.DeserializeObject<EntityTemplate>(
-                        ta.text, genericSettings);
+                        ta.text, _genericSettings);
                 _templates.Add(template.ID, template);
                 return template;
             }
@@ -310,7 +324,7 @@ namespace Pantheon
 
                 Profession prof =
                     JsonConvert.DeserializeObject<Profession>(
-                        ta.text, genericSettings);
+                        ta.text, _genericSettings);
                 _professions.Add(prof.ID, prof);
                 return prof;
             }
@@ -429,8 +443,8 @@ namespace Pantheon
 
         // Builder plans
 
-        private static Dictionary<string, BuilderPlan> _builderPlans;
-        public static ReadOnlyDictionary<string, BuilderPlan> BuilderPlans
+        private static Dictionary<string, Builder> _builders;
+        public static ReadOnlyDictionary<string, Builder> Builders
         { get; private set; }
 
         // Text

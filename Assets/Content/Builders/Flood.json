@@ -1,0 +1,45 @@
+{
+  "ID": "Flood",
+  "LevelID": "Flood",
+  "DisplayName": "The Floodplain",
+  "Position": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+  "Size": {
+    "x": 80,
+    "y": 80
+  },
+  "Ground": "Terrain_Grass",
+  "Wall": "Terrain_Water",
+  "Steps": [
+    {
+      "$type": "Fill",
+      "terrain": "Terrain_Water"
+    },
+    {
+      "$type": "BinarySpacePartition",
+      "minRoomSize": 8,
+	  "tightFill": false,
+      "terrain": "Terrain_Grass"
+    }
+  ],
+  "ConnectionRules": [
+    {
+      "Key": "Reformatory",
+      "Count": 1,
+      "Tile": "StoneStairs_Up"
+    }
+  ],
+  "Population": [
+    {
+      "Weight": 512,
+      "Value": "Coyote"
+    },
+    {
+      "Weight": 512,
+      "Value": "RagingGoose"
+    }
+  ]
+}
