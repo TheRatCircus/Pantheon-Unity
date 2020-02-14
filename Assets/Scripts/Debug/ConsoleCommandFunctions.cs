@@ -259,5 +259,12 @@ namespace Pantheon.Debug
 
             return $"Applied profession {prof.ID} to {entity.Name}.";
         }
+
+        public static string RefreshFOV(string[] args, GameController ctrl)
+        {
+            FOV.RefreshFOV(ctrl.ActiveLevel, ctrl.PC.Cell, true);
+            Locator.Scheduler.RedrawDirtyCells(ctrl.ActiveLevel);
+            return "Refreshed FOV.";
+        }
     }
 }

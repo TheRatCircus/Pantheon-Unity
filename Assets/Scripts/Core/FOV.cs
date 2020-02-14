@@ -11,7 +11,7 @@ namespace Pantheon.Core
 {
     public static class FOV
     {
-        // Not in terms of cells
+        // In cells, but does not account for light falloff
         public const int Radius = 15;
 
         private static Vector2Int prev = Level.NullCell;
@@ -100,7 +100,6 @@ namespace Pantheon.Core
                 {
                     // Visibility fall off over distance
                     int fallOff = 255;
-
                     // If entire row is known to be in shadow,
                     // set this cell be in shadow
                     if (fullShadow || pastMaxDistance)

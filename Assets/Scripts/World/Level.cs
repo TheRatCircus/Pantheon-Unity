@@ -164,11 +164,11 @@ namespace Pantheon.World
 
             bool change;
             bool visibleBefore = Visible(x, y);
-
-            if (visible)
+            
+            if (!visible)
             {
-                flagMap[map] |= CellFlag.Visible | CellFlag.Revealed;
-                change = !visibleBefore;
+                change = visibleBefore;
+                flagMap[map] &= ~CellFlag.Visible;
             }
             else
             {

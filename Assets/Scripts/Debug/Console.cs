@@ -45,7 +45,8 @@ namespace Pantheon.Debug
                 { "vault", new ConsoleCommand(Vault) },
                 { "travel", new ConsoleCommand(Travel) },
                 { "kill_level", new ConsoleCommand(KillLevel) },
-                { "profession", new ConsoleCommand(Profession) }
+                { "profession", new ConsoleCommand(Profession) },
+                { "fov", new ConsoleCommand(RefreshFOV) }
             };
 
         private void Awake()
