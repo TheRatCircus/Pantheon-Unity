@@ -33,8 +33,8 @@ namespace Pantheon.Gen
             int x = 0;
             for (; x < level.Size.x; x++)
                 for (int y = 0; y < level.Size.y; y++)
-                    if (level.TryGetCell(x, y, out Cell c))
-                        c.Terrain = terrain;
+                    if (level.Contains(x, y))
+                        level.SetTerrain(x, y, terrain);
         }
     }
 }

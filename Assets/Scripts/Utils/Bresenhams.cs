@@ -8,23 +8,26 @@ namespace Pantheon.Utils
 {
     public static class Bresenhams
     {
-        // Plot a path via Bresenham's Line Algorithm
-        public static Line GetLine(Level level, Cell origin, Cell target)
+        public static Line GetLine(Level level, Vector2Int origin, Vector2Int target)
         {
             Line ret = new Line();
 
             bool Plot(int cellX, int cellY)
             {
-                Cell cell = level.GetCell(new Vector2Int(cellX, cellY));
-                ret.Add(cell);
-                return true;
+                Vector2Int v = new Vector2Int(cellX, cellY);
+                if (level.Contains(v))
+                {
+                    ret.Add(v);
+                    return true;
+                }
+                else return false;
             }
 
             int
-                x0 = origin.Position.x,
-                x1 = target.Position.x,
-                y0 = origin.Position.y,
-                y1 = target.Position.y;
+                x0 = origin.x,
+                x1 = target.x,
+                y0 = origin.y,
+                y1 = target.y;
 
             bool steep = Mathf.Abs(y1 - y0) > Mathf.Abs(x1 - x0);
             bool reverse = false;

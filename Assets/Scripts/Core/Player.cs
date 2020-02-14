@@ -49,12 +49,10 @@ namespace Pantheon.Core
         private Actor actor;
 
         private int targetingRange;
-        private Cell selectedCell;
-        private List<Cell> selectedLine = new List<Cell>();
-        public HashSet<Cell> VisibleCells { get; private set; }
-            = new HashSet<Cell>();
-        public List<Cell> AutoMovePath { get; set; }
-            = new List<Cell>();
+        private Vector2Int selectedCell;
+        private Line selectedLine = new Line();
+        public HashSet<Vector2Int> VisibleCells { get; private set; }
+            = new HashSet<Vector2Int>();
 
         public Talent[] Talents { get; private set; } = new Talent[10];
         private int hotbarSelection;
@@ -69,7 +67,7 @@ namespace Pantheon.Core
             VisibleCells = Floodfill.StackFillIf(
                 Entity.Level,
                 Entity.Cell,
-                (Cell c) => c.Visible);
+                (Vector2Int c) => Entity.Level.Visible(c.x, c.y));
         }
 
         private void Update()
@@ -82,7 +80,8 @@ namespace Pantheon.Core
                 Input.GetAxis("MouseY") == 0)
                 return;
 
-            if (cursor.HoveredCell != null && cursor.HoveredCell.Visible)
+            if (cursor.HoveredCell != null &&
+                Entity.Level.Visible(cursor.HoveredCell.x, cursor.HoveredCell.y))
             {
                 selectedCell = cursor.HoveredCell;
                 selectedLine = Bresenhams.GetLine(Entity.Level, Entity.Cell, selectedCell);
@@ -113,42 +112,42 @@ namespace Pantheon.Core
 
             if (Input.GetButtonDown("Up"))
             {
-                actor.Command = new MoveCommand(Entity, Vector2Int.up);
+                actor.Command = new MoveCommand(Entity, 0, 1);
             }
             else if (Input.GetButtonDown("Down"))
             {
-                actor.Command = new MoveCommand(Entity, Vector2Int.down);
+                actor.Command = new MoveCommand(Entity, 0, -1);
             }
             else if (Input.GetButtonDown("Left"))
             {
-                actor.Command = new MoveCommand(Entity, Vector2Int.left);
+                actor.Command = new MoveCommand(Entity, -1, 0);
             }
             else if (Input.GetButtonDown("Right"))
             {
-                actor.Command = new MoveCommand(Entity, Vector2Int.right);
+                actor.Command = new MoveCommand(Entity, 0, 1);
             }
             else if (Input.GetButtonDown("Up Left"))
             {
-                actor.Command = new MoveCommand(Entity, new Vector2Int(-1, 1));
+                actor.Command = new MoveCommand(Entity, -1, 1);
             }
             else if (Input.GetButtonDown("Up Right"))
             {
-                actor.Command = new MoveCommand(Entity, new Vector2Int(1, 1));
+                actor.Command = new MoveCommand(Entity, 1, 1);
             }
             else if (Input.GetButtonDown("Down Left"))
             {
-                actor.Command = new MoveCommand(Entity, new Vector2Int(-1, -1));
+                actor.Command = new MoveCommand(Entity, -1, -1);
             }
             else if (Input.GetButtonDown("Down Right"))
             {
-                actor.Command = new MoveCommand(Entity, new Vector2Int(1, -1));
+                actor.Command = new MoveCommand(Entity, 1, -1);
             }
             else if (Input.GetMouseButtonDown(0))
             {
                 Talent talent = Talents[hotbarSelection];
                 if (talent != null)
                 {
-                    Cell target = selectedCell;
+                    Vector2Int target = selectedCell;
                     actor.Command = new TalentCommand(Entity, talent, target);
                 }
             }
@@ -257,7 +256,7 @@ namespace Pantheon.Core
 
         private void PointSelect()
         {
-            bool withinRange = Entity.Level.Distance(
+            bool withinRange = Helpers.Distance(
                 Entity.Cell, cursor.HoveredCell) < targetingRange;
 
             targetingTilemap.ClearAllTiles();
@@ -265,8 +264,7 @@ namespace Pantheon.Core
             if (withinRange)
             {
                 targetingTilemap.SetTile(
-                    (Vector3Int)cursor.HoveredCell.Position,
-                    targetOverlayTile);
+                    (Vector3Int)cursor.HoveredCell, targetOverlayTile);
             }
 
             if (Input.GetMouseButtonDown(0) && withinRange)
@@ -276,7 +274,7 @@ namespace Pantheon.Core
             }
             else if (Input.GetMouseButtonDown(1))
             {
-                selectedCell = null;
+                selectedCell = Level.NullCell;
                 Mode = InputMode.Cancelling;
                 Locator.Log.Send("Targeting cancelled.", Color.blue);
             }
@@ -284,12 +282,12 @@ namespace Pantheon.Core
 
         private void LineSelect()
         {
-            bool withinRange = Entity.Level.Distance(
+            bool withinRange = Helpers.Distance(
                 Entity.Cell, cursor.HoveredCell) < targetingRange;
 
             targetingTilemap.ClearAllTiles();
 
-            List<Cell> line = new List<Cell>();
+            Line line = new Line();
 
             if (withinRange)
             {
@@ -298,10 +296,8 @@ namespace Pantheon.Core
                     Entity.Cell,
                     cursor.HoveredCell);
 
-                foreach (Cell c in line)
-                    targetingTilemap.SetTile(
-                        (Vector3Int)c.Position, 
-                        targetOverlayTile);
+                foreach (Vector2Int c in line)
+                    targetingTilemap.SetTile((Vector3Int)c, targetOverlayTile);
             }
 
             if (Input.GetMouseButtonDown(0) && withinRange)
@@ -317,13 +313,13 @@ namespace Pantheon.Core
             }
         }
 
-        public void UpdateVisibles(IEnumerable<Cell> cells)
+        public void UpdateVisibles(IEnumerable<Vector2Int> cells)
         {
             VisibleCells.Clear();
             VisibleCells.AddMany(cells);
         }
 
-        public InputMode RequestCell(out Cell cell, int range)
+        public InputMode RequestCell(out Vector2Int cell, int range)
         {
             switch (Mode)
             {
@@ -331,23 +327,23 @@ namespace Pantheon.Core
                     targetingRange = range;
                     Mode = InputMode.Point;
                     PointSelect();
-                    cell = null;
+                    cell = Level.NullCell;
                     return Mode;
                 case InputMode.Cancelling: // Stop polling for cell
                     Mode = InputMode.Default;
-                    cell = null;
+                    cell = Level.NullCell;
                     targetingTilemap.ClearAllTiles();
                     return InputMode.Cancelling;
                 case InputMode.Point:
                     if (selectedCell == null)
                         // Still no selection
-                        cell = null;
+                        cell = Level.NullCell;
                     else
                     {
                         // Selection made
                         Mode = InputMode.Default;
                         cell = selectedCell;
-                        selectedCell = null;
+                        selectedCell = Level.NullCell;
                         targetingTilemap.ClearAllTiles();
                     }
                     return Mode;
@@ -357,7 +353,7 @@ namespace Pantheon.Core
             }
         }
 
-        public InputMode RequestLine(out List<Cell> line, int range)
+        public InputMode RequestLine(out Line line, int range)
         {
             switch (Mode)
             {
@@ -380,7 +376,7 @@ namespace Pantheon.Core
                     {
                         // Selection made
                         Mode = InputMode.Default;
-                        line = new List<Cell>(selectedLine);
+                        line = new Line(selectedLine);
                         selectedLine.Clear();
                         targetingTilemap.ClearAllTiles();
                     }
@@ -400,16 +396,16 @@ namespace Pantheon.Core
             if (talent == null)
                 return;
 
-            HashSet<Cell> targeted = new HashSet<Cell>();
+            HashSet<Vector2Int> targeted = new HashSet<Vector2Int>();
             targeted.AddMany(talent.Behaviour.GetTargetedCells(Entity, selectedCell));
-            HashSet<Cell> overlayed = new HashSet<Cell>();
+            HashSet<Vector2Int> overlayed = new HashSet<Vector2Int>();
 
-            foreach (Cell c in targeted)
+            foreach (Vector2Int c in targeted)
             {
                 if (overlayed.Contains(c))
                     continue;
 
-                targetingTilemap.SetTile((Vector3Int)c.Position, targetOverlayTile);
+                targetingTilemap.SetTile((Vector3Int)c, targetOverlayTile);
                 overlayed.Add(c);
             }
         }
@@ -501,14 +497,14 @@ namespace Pantheon.Core
             if (selectedLine == null || selectedCell == null)
                 return;
 
-            foreach (Cell cell in selectedLine)
+            foreach (Vector2Int cell in selectedLine)
                 Gizmos.DrawCube(
-                    cell.Position.ToVector3(),
+                    cell.ToVector3(),
                     new Vector3(.2f, .2f, .2f));
 
             Gizmos.color = Color.red;
             Gizmos.DrawCube(
-                selectedCell.Position.ToVector3(),
+                selectedCell.ToVector3(),
                 new Vector3(.3f, .3f, .3f));
         }
     }

@@ -14,7 +14,7 @@ namespace Pantheon.Components.Entity
 
         private void SpeakPerTurn()
         {
-            if (!Entity.Cell.Visible)
+            if (!Entity.Visible)
                 return;
 
             if (!RandomUtils.OneChanceIn(20))

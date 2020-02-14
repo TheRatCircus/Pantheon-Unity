@@ -19,27 +19,27 @@ namespace Pantheon.Components.Talent
         public int Accuracy { get; set; } = 50;
         public Damage[] Damages { get; set; }
 
-        public override HashSet<Cell> GetTargetedCells(Entity caster, Cell target)
+        public override HashSet<Vector2Int> GetTargetedCells(Entity caster, Vector2Int target)
         {
             Line line = Bresenhams.GetLine(caster.Level, caster.Cell, target);
-            return new HashSet<Cell> { line.ElementAtOrLast(Range) };
+            return new HashSet<Vector2Int> { line.ElementAtOrLast(Range) };
         }
 
-        public override CommandResult Invoke(Entity caster, Cell target)
+        public override CommandResult Invoke(Entity caster, Vector2Int target)
         {
             if (target == null)
                 throw new NotImplementedException("Target cell needed.");
 
-            Cell affected = Bresenhams.GetLine(
+            Vector2Int affected = Bresenhams.GetLine(
                 caster.Level, caster.Cell, target).ElementAtOrLast(Range);
 
-            Entity enemy = affected.Actor;
+            Entity enemy = caster.Level.ActorAt(affected);
 
             if (enemy == null)
             {
                 Locator.Audio.Buffer(
                     Assets.Audio["SFX_Toss"],
-                    affected.Position.ToVector3());
+                    affected.ToVector3());
                 Locator.Log.Send(
                     $"{Strings.Subject(caster, true)}" +
                     $" {Verbs.Swing(caster)} at nothing.",
@@ -56,7 +56,7 @@ namespace Pantheon.Components.Talent
 
             Locator.Audio.Buffer(
                 Assets.Audio["SFX_Punch"],
-                affected.Position.ToVector3());
+                affected.ToVector3());
 
             Hit hit = new Hit(Damages);
             Locator.Log.Send(Verbs.Hit(caster, enemy, hit), Color.white);

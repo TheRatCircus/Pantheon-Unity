@@ -43,11 +43,12 @@ namespace Pantheon.Debug
 
         public static string RevealLevel(string[] args, GameController ctrl)
         {
-            foreach (Cell c in ctrl.World.ActiveLevel.Map)
-            {
-                c.Revealed = true;
-                ctrl.World.ActiveLevel.Draw(new[] { c });
-            }
+            Level level = ctrl.ActiveLevel;
+            foreach (Vector2Int c in level.Map)
+                level.Reveal(c.x, c.y);
+
+            level.Draw(level.Map);
+            
             return "Level revealed.";
         }
 
@@ -62,14 +63,14 @@ namespace Pantheon.Debug
             if (Array.Exists(template.Components, ec => { return ec is Actor; }))
             {
                 Entity entity = Core.Spawn.SpawnActor(template,
-                    ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell);
+                    ctrl.ActiveLevel, ctrl.Cursor.HoveredCell);
                 ctrl.AssignGameObject(entity);
                 return $"Spawned {entity} at {ctrl.Cursor.HoveredCell}.";
             }
             else
             {
                 Entity entity = new Entity(template);
-                entity.Move(ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell);
+                entity.Move(ctrl.ActiveLevel, ctrl.Cursor.HoveredCell);
                 Locator.Scheduler.RedrawDirtyCells(entity.Level);
                 return $"Spawned {entity} at {ctrl.Cursor.HoveredCell}.";
             }
@@ -78,7 +79,7 @@ namespace Pantheon.Debug
         public static string Give(string[] args, GameController ctrl)
         {
             // TODO: Don't allow giving illegal entities
-            Entity receiver = ctrl.Cursor.HoveredCell.Actor;
+            Entity receiver = ctrl.ActiveLevel.ActorAt(ctrl.Cursor.HoveredCell);
 
             if (receiver == null)
                 receiver = ctrl.PC;
@@ -111,7 +112,7 @@ namespace Pantheon.Debug
 
         public static string DescribeComponent(string[] args, GameController ctrl)
         {
-            Entity e = ctrl.Cursor.HoveredCell.Actor;
+            Entity e = ctrl.ActiveLevel.ActorAt(ctrl.Cursor.HoveredCell);
             switch (args[0].ToLower())
             {
                 case "actor":
@@ -129,7 +130,7 @@ namespace Pantheon.Debug
 
         public static string Destroy(string[] args, GameController ctrl)
         {
-            Entity e = ctrl.Cursor.HoveredCell.Actor;
+            Entity e = ctrl.ActiveLevel.ActorAt(ctrl.Cursor.HoveredCell);
             if (e == null)
                 return $"Nothing under the cursor to destroy.";
             e.Destroy(null);
@@ -155,8 +156,9 @@ namespace Pantheon.Debug
 
         public static string Teleport(string[] args, GameController ctrl)
         {
-            Cell cell = ctrl.Cursor.HoveredCell;
-            if (Cell.Walkable(cell))
+            Level level = ctrl.ActiveLevel;
+            Vector2Int cell = ctrl.Cursor.HoveredCell;
+            if (level.Walkable(cell))
             {
                 ctrl.PC.Move(ctrl.PC.Level, cell);
                 FOV.RefreshFOV(ctrl.PC.Level, ctrl.PC.Cell, true);
@@ -168,58 +170,30 @@ namespace Pantheon.Debug
 
         public static string Strategy(string[] args, GameController ctrl)
         {
-            if (ctrl.Cursor.HoveredCell.Actor == null)
-                return "No NPC in selected cell.";
-
-            if (!ctrl.Cursor.HoveredCell.Actor.TryGetComponent(out AI ai))
-                return "Entity in selected cell has no AI.";
-
-            switch (args[0].ToLower())
-            {
-                case "default":
-                    ai.Strategy = new DefaultStrategy();
-                    return $"Changed strategy of {ai.Entity} to Default.";
-                case "wander":
-                    ai.Strategy = new WanderStrategy();
-                    return $"Changed strategy of {ai.Entity} to Wander.";
-                case "sleep":
-                    ai.Strategy = new SleepStrategy();
-                    return $"Changed strategy of {ai.Entity} to Sleep.";
-                case "thrallfollow":
-                    ai.Strategy = new ThrallFollowStrategy(ctrl.PC.GetComponent<Actor>());
-                    return $"Changed strategy of {ai.Entity} to Thrall Follow.";
-                default:
-                    return $"Strategy {args[0]} does not exist.";
-            }
+            return "This command has not been implemented yet.";
         }
 
         public static string Relic(string[] args, GameController ctrl)
         {
             Entity relic = Gen.Relic.MakeRelic();
-            relic.Move(ctrl.World.ActiveLevel, ctrl.Cursor.HoveredCell);
-            FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Cell, true);
+            relic.Move(ctrl.ActiveLevel, ctrl.Cursor.HoveredCell);
+            FOV.RefreshFOV(ctrl.ActiveLevel, ctrl.PC.Cell, true);
             return $"Spawned {relic} at {ctrl.Cursor.HoveredCell}.";
         }
 
         public static string MakeIntoRelic(string[] args, GameController ctrl)
         {
-            throw new NotImplementedException();
-
-            //Inventory inv = ctrl.Player.GetComponent<Inventory>();
-            //if (inv.Items.Count < 1)
-            //    return "No items in inventory to make into relics.";
-
-            //Entity item = inv.Items[0];
-            
-            //return $"Made relic: {item}.";
+            return "This command has not been implemented yet.";
         }
 
         public static string Enthrall(string[] args, GameController ctrl)
         {
-            if (ctrl.Cursor.HoveredCell.Actor == null)
+            Entity entity = ctrl.ActiveLevel.ActorAt(ctrl.Cursor.HoveredCell);
+
+            if (entity == null)
                 return "No NPC in selected cell.";
 
-            if (!ctrl.Cursor.HoveredCell.Actor.TryGetComponent(out AI ai))
+            if (!entity.TryGetComponent(out AI ai))
                 return "Entity in selected cell has no AI.";
 
             ai.Strategy = new ThrallFollowStrategy(ctrl.PC.GetComponent<Actor>());
@@ -238,31 +212,34 @@ namespace Pantheon.Debug
 
             string ret;
             
-            if (!Gen.Vault.TryBuild(args[0], ctrl.World.ActiveLevel,
-                ctrl.Cursor.HoveredCell.Position, rotation))
-                ret = $"Failed to build vault {args[0]} at {ctrl.Cursor.HoveredCell.Position}.";
+            if (!Gen.Vault.TryBuild(args[0],
+                ctrl.ActiveLevel,
+                ctrl.Cursor.HoveredCell, 
+                rotation))
+                ret = $"Failed to build vault {args[0]} at {ctrl.Cursor.HoveredCell}.";
             else
-                ret = $"Successfully built vault {args[0]} at {ctrl.Cursor.HoveredCell.Position}.";
+                ret = $"Successfully built vault {args[0]} at {ctrl.Cursor.HoveredCell}.";
 
-            FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Cell, true);
+            FOV.RefreshFOV(ctrl.ActiveLevel, ctrl.PC.Cell, true);
             return ret;
         }
 
         public static string Travel(string[] args, GameController ctrl)
         {
-            throw new NotImplementedException();
+            return "This command has not been implemented yet.";
         }
 
         public static string KillLevel(string[] args, GameController ctrl)
         {
-            foreach (Cell c in ctrl.World.ActiveLevel.Map)
+            Level lvl = ctrl.ActiveLevel;
+            foreach (Vector2Int c in lvl.Map)
             {
-                if (c.Actor != null && !Actor.PlayerControlled(c.Actor))
-                    c.Actor.Destroy(null);
+                Entity entity = lvl.ActorAt(c);
+                if (entity != null && !Actor.PlayerControlled(entity))
+                    entity.Destroy(null);
             }
-            // TODO: Force dirty cell draw instead of FOV refresh
-            FOV.RefreshFOV(ctrl.World.ActiveLevel, ctrl.PC.Cell, true);
-            return $"Killed all NPCs in {ctrl.World.ActiveLevel}.";
+            ctrl.Scheduler.RedrawDirtyCells(lvl);
+            return $"Killed all NPCs in {ctrl.ActiveLevel}.";
         }
 
         public static string Profession(string[] args, GameController ctrl)
@@ -272,7 +249,7 @@ namespace Pantheon.Debug
             if (prof == null)
                 return $"No profession named \"{args[0]}\" exists.";
 
-            Entity entity = ctrl.Cursor.HoveredCell.Actor;
+            Entity entity = ctrl.ActiveLevel.ActorAt(ctrl.Cursor.HoveredCell);
 
             if (entity == null)
                 return "Please mouseover an actor first.";

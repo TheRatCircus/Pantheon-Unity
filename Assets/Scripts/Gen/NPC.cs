@@ -6,6 +6,7 @@ using Pantheon.Core;
 using Pantheon.Utils;
 using Pantheon.World;
 using System;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Pantheon.Gen
@@ -23,7 +24,7 @@ namespace Pantheon.Gen
                 string id = GenericRandomPick<string>.Pick(builder.Population);
                 EntityTemplate template = Assets.GetTemplate(id);
 
-                Cell cell;
+                Vector2Int cell;
                 int attempts = 0;
                 do
                 {
@@ -32,10 +33,10 @@ namespace Pantheon.Gen
                             ($"No valid NPC spawn position found after " +
                             $"{attempts} tries.");
 
-                    cell = level.RandomCell(true);
+                    cell = level.RandomUnwalledCell();
                     attempts++;
 
-                } while (!Cell.Walkable(cell));
+                } while (!level.Walkable(cell));
 
                 Spawn.SpawnActor(template, level, cell);
             }

@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Pantheon.Commands.Actor;
+using Pantheon.Utils;
 using System;
 
 namespace Pantheon.Components.Entity
@@ -22,7 +23,7 @@ namespace Pantheon.Components.Entity
         {
             if (ai.Target == null)
                 return -1;
-            int dist = entity.Level.Distance(entity.Cell, ai.Target.Cell);
+            int dist = Helpers.Distance(entity.Cell, ai.Target.Cell);
             Talent[] talents = Talent.GetAllTalents(entity);
 
             if (talents.Length < 1)

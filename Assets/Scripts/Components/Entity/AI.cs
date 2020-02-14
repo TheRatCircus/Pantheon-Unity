@@ -9,6 +9,7 @@ using Pantheon.Commands.Actor;
 using Pantheon.Utils;
 using Pantheon.World;
 using System;
+using UnityEngine;
 
 namespace Pantheon.Components.Entity
 {
@@ -31,7 +32,7 @@ namespace Pantheon.Components.Entity
             }
         }
         [JsonIgnore] public Entity[] Thralls { get; private set; }
-        [JsonIgnore] public Cell Destination { get; set; }
+        [JsonIgnore] public Vector2Int Destination { get; set; }
 
         public bool Peaceful { get; set; }
         public AIStrategy Strategy { get; set; }
@@ -43,7 +44,7 @@ namespace Pantheon.Components.Entity
 
         public void DecideCommand()
         {
-            if (!Peaceful && Entity.Cell.Visible && Target == null)
+            if (!Peaceful && Entity.Visible && Target == null)
             {
                 Target = Locator.Player.Entity;
                 Locator.Log.Send(

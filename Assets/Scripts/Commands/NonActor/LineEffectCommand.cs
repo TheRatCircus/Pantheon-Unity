@@ -2,9 +2,11 @@
 // Jerome Martina
 
 using Pantheon.Core;
+using Pantheon.Utils;
 using Pantheon.World;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Pantheon.Commands.NonActor
 {
@@ -17,7 +19,7 @@ namespace Pantheon.Commands.NonActor
     public sealed class LineEffectCommand : NonActorCommand,
         ILineTargetedCommand, IRangedCommand
     {
-        public List<Cell> Line { get; set; }
+        public Line Line { get; set; }
         public int Range { get; set; } = 5;
         private NonActorCommand cmd;
 
@@ -32,15 +34,16 @@ namespace Pantheon.Commands.NonActor
             if (Line != null)
             {
                 cmd.Entity = Entity;
+                // XXX: This is not likely to be correct
                 if (cmd is IEntityTargetedCommand etc)
                 {
-                    foreach (Cell c in Line)
-                        etc.Target = c.Actor;
+                    foreach (Vector2Int c in Line)
+                        etc.Target = Level.ActorAt(c);
                     cmd.Execute();
                 }
                 if (cmd is ICellTargetedCommand ctc)
                 {
-                    foreach (Cell c in Line)
+                    foreach (Vector2Int c in Line)
                         ctc.Cell = c;
                     cmd.Execute();
                 }
@@ -55,7 +58,7 @@ namespace Pantheon.Commands.NonActor
 
             if (Actor.PlayerControlled(Entity))
             {
-                switch (Locator.Player.RequestLine(out List<Cell> line, Range))
+                switch (Locator.Player.RequestLine(out Line line, Range))
                 {
                     case InputMode.Cancelling:
                         return CommandResult.Cancelled;
@@ -67,13 +70,13 @@ namespace Pantheon.Commands.NonActor
                             cmd.Entity = Entity;
                             if (cmd is IEntityTargetedCommand etc)
                             {
-                                foreach (Cell c in line)
-                                    etc.Target = c.Actor;
+                                foreach (Vector2Int c in line)
+                                    etc.Target = Level.ActorAt(c);
                                 cmd.Execute();
                             }
                             if (cmd is ICellTargetedCommand ctc)
                             {
-                                foreach (Cell c in line)
+                                foreach (Vector2Int c in line)
                                     ctc.Cell = c;
                                 cmd.Execute();
                             }

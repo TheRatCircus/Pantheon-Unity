@@ -93,7 +93,7 @@ namespace Pantheon.Components.Entity
             return evocables.Compress();
         }
 
-        public void Move(Level level, Cell cell)
+        public void Move(Level level, Vector2Int cell)
         {
             foreach (Entity item in Items)
                 item?.Move(level, cell);

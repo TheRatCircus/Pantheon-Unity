@@ -343,5 +343,18 @@ namespace Pantheon.Utils
             else
                 return list[list.Count - 1];
         }
+
+        public static int Distance(Vector2Int a, Vector2Int b)
+        {
+            int dx = b.x - a.x;
+            int dy = b.y - a.y;
+
+            return (int)Mathf.Sqrt(Mathf.Pow(dx, 2) + Mathf.Pow(dy, 2));
+        }
+
+        public static bool Adjacent(Vector2Int a, Vector2Int b)
+        {
+            return Distance(a, b) == 1;
+        }
     }
 }

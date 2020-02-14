@@ -23,19 +23,20 @@ namespace PantheonTests
         [Test]
         public void DropCommandTest()
         {
-            Cell cell = new Cell(new Vector2Int(0, 0));
+            Level level = new Level(1, 1);
+            Vector2Int cell = new Vector2Int(0, 0);
             Entity actor = new Entity(new Inventory(1))
             {
                 Name = "TEST_ENTITY"
             };
-            actor.Move(null, cell);
+            actor.Move(level, cell);
             Entity item = new Entity { Name = "TEST_ITEM" };
-            item.Move(null, cell);
+            item.Move(level, cell);
             actor.GetComponent<Inventory>().AddItem(item);
             DropCommand cmd = new DropCommand(actor);
             CommandResult result = cmd.Execute();
 
-            Assert.True(cell.HasItem(item));
+            Assert.True(level.ItemsAt(0, 0).Count > 0);
             Assert.True(result == CommandResult.Succeeded);
         }
 
@@ -46,16 +47,17 @@ namespace PantheonTests
         [Test]
         public void PickupCommandTest()
         {
-            Cell cell = new Cell(new Vector2Int(0, 0));
+            Level level = new Level(1, 1);
+            Vector2Int cell = new Vector2Int(0, 0);
             Entity actor = new Entity(
                 new Inventory(1),
                 new Actor { Control = ActorControl.AI })
             {
                 Name = "TEST_ENTITY"
             };
-            actor.Move(null, cell);
+            actor.Move(level, cell);
             Entity item = new Entity { Name = "TEST_ITEM" };
-            item.Move(null, cell);
+            item.Move(level, cell);
             PickupCommand cmd = new PickupCommand(actor);
             CommandResult result = cmd.Execute();
 

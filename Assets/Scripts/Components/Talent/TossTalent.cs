@@ -23,15 +23,15 @@ namespace Pantheon.Components.Talent
 
         [JsonIgnore] public Entity Entity { get; set; }
 
-        public override HashSet<Cell> GetTargetedCells(Entity caster, Cell target)
+        public override HashSet<Vector2Int> GetTargetedCells(Entity caster, Vector2Int target)
         {
             Line line = Bresenhams.GetLine(caster.Level, caster.Cell, target);
-            HashSet<Cell> ret = new HashSet<Cell>();
+            HashSet<Vector2Int> ret = new HashSet<Vector2Int>();
             ret.AddMany(line);
             return ret;
         }
 
-        public override CommandResult Invoke(Entity caster, Cell target)
+        public override CommandResult Invoke(Entity caster, Vector2Int target)
         {
             Line line = Bresenhams.GetLine(caster.Level, caster.Cell, target);
             Global.Instance.StartCoroutine(Fire(caster, line));
@@ -43,7 +43,7 @@ namespace Pantheon.Components.Talent
             Locator.Scheduler.Lock();
             GameObject tossFXObj = Object.Instantiate(
                 Assets.TossFXPrefab,
-                caster.Cell.Position.ToVector3(),
+                caster.Cell.ToVector3(),
                 new Quaternion());
             LineProjectile proj = tossFXObj.GetComponent<LineProjectile>();
             proj.InitializeToss(caster, Entity, line);

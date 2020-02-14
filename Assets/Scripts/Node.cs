@@ -13,17 +13,13 @@ namespace Pantheon
     [System.Serializable]
     public sealed class Node : IHeapItem<Node>
     {
-        public Cell Cell { get; set; }
-
         public int GCost { get; set; }
         public int HCost { get; set; }
         public int FCost => GCost + HCost;
         public Node Parent { get; set; }
-        public Vector2Int Position => Cell.Position;
+        public Vector2Int Position { get; set; }
 
         public int HeapIndex { get; set; }
-
-        public Node(Cell cell) => Cell = cell;
 
         // TODO: No need for string interpolation here
         public override string ToString() => $"{Position}";

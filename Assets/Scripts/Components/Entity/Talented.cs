@@ -4,6 +4,7 @@
 using Pantheon.Commands;
 using Pantheon.World;
 using System;
+using UnityEngine;
 
 namespace Pantheon.Components.Entity
 {
@@ -15,7 +16,7 @@ namespace Pantheon.Components.Entity
     {
         public Talent[] Talents { get; set; }
 
-        public CommandResult Evoke(Entity caster, int talent, Cell target)
+        public CommandResult Evoke(Entity caster, int talent, Vector2Int target)
         {
             return Talents[talent].Cast(caster, target);
         }

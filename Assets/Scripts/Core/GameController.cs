@@ -55,6 +55,7 @@ namespace Pantheon.Core
             get => Player.Entity;
             set => Player.Entity = value;
         }
+        public Level ActiveLevel { get; set; }
 
         public event Action<Level> LevelChangeEvent;
 
@@ -81,10 +82,10 @@ namespace Pantheon.Core
 
             // Spawn the player
             EntityTemplate template = Assets.GetTemplate("Player");
-            Cell spawnCell = Floodfill.QueueFillForCell(
+            Vector2Int spawnCell = Floodfill.QueueFillForCell(
                 level, level.RandomCorner(),
-                (Cell c) => true, 
-                (Cell d) => !d.Blocked);
+                (Vector2Int c) => false, 
+                (Vector2Int d) => !level.Blocked(d.x, d.y));
             Entity player = Spawn.SpawnActor(template, level, spawnCell);
             player.DestroyedEvent += OnPlayerDeath;
 
@@ -107,7 +108,7 @@ namespace Pantheon.Core
             PC = save.Player;
             PC.DestroyedEvent += OnPlayerDeath;
 
-            hud.Initialize(Scheduler, PC, World.ActiveLevel, LevelChangeEvent);
+            hud.Initialize(Scheduler, PC, ActiveLevel, LevelChangeEvent);
             LoadLevel(PC.Level, false);
             MoveCameraTo(PC.GameObjects[0].transform);
             cursor.Level = PC.Level;
@@ -126,7 +127,7 @@ namespace Pantheon.Core
         {
             Level prev = _inst.PC.Level;
             Level destLevel = _inst.World.RequestLevel(connection);
-            Cell cell = destLevel.GetCell(connection.Partner.Position);
+            Vector2Int cell = connection.Partner.Position;
             _inst.PC.Move(destLevel, cell);
             _inst.LoadLevel(destLevel, true);
             _inst.UnloadLevel(prev);
@@ -137,19 +138,20 @@ namespace Pantheon.Core
         /// </summary>
         public void LoadLevel(Level level, bool refreshFOV)
         {
-            World.ActiveLevel = level;
+            ActiveLevel = level;
             Scheduler.Queue.Clear();
             level.AssignGameObject(Instantiate(levelPrefab, worldTransform).transform);
 
             if (refreshFOV)
                 FOV.RefreshFOV(level, PC.Cell, false);
 
-            foreach (Cell c in level.Map)
+            foreach (Vector2Int c in level.Map)
             {
-                if (c.Actor != null)
+                Entity e = level.ActorAt(c);
+                if (e != null)
                 {
-                    AssignGameObject(c.Actor);
-                    Scheduler.AddActor(c.Actor.GetComponent<Actor>());
+                    AssignGameObject(e);
+                    Scheduler.AddActor(e.GetComponent<Actor>());
                 }
                 level.DrawTile(c);
             }
@@ -175,7 +177,7 @@ namespace Pantheon.Core
 
             GameObject entityObj = Instantiate(
                 GameObjectPrefab,
-                entity.Cell.Position.ToVector3(),
+                entity.Cell.ToVector3(),
                 new Quaternion(),
                 entity.Level.EntitiesTransform);
 
@@ -185,10 +187,9 @@ namespace Pantheon.Core
             SpriteRenderer sr = entityObj.GetComponent<SpriteRenderer>();
             sr.sprite = entity.Flyweight.Sprite;
 
-            if (!entity.Cell.Visible)
+            if (!entity.Visible)
                 sr.enabled = false;
 
-            entity.GameObjects = new GameObject[1];
             entity.GameObjects[0] = entityObj;
         }
 

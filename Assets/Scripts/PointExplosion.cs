@@ -10,9 +10,9 @@ namespace Pantheon
     public sealed class PointExplosion : MonoBehaviour
     {
         private Entity source;
-        private Cell cell;
+        private Vector2Int cell;
 
-        public void Initialize(Entity source, Cell origin)
+        public void Initialize(Entity source, Vector2Int origin)
         {
             this.source = source;
             cell = origin;
@@ -20,13 +20,14 @@ namespace Pantheon
 
         public void Fire(Damage[] damages)
         {
-            if (cell.Actor != null)
+            Entity entity = source.Level.ActorAt(cell);
+            if (entity != null)
             {
                 Hit hit = new Hit(damages);
                 Locator.Log.Send(
-                    $"{Strings.Subject(cell.Actor, true)} is caught in the blast!",
+                    $"{Strings.Subject(entity, true)} is caught in the blast!",
                     Color.white);
-                cell.Actor.TakeHit(source, hit);
+                entity.TakeHit(source, hit);
             }
         }
     }

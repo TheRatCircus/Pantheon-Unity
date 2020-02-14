@@ -36,10 +36,8 @@ namespace Pantheon.Gen
             for (; x < level.Size.x; x++)
                 for (int y = 0; y < level.Size.y; y++)
                     if (Random.Range(0, 100) < percent)
-                        if (level.TryGetCell(x, y, out Cell c))
-                        {
-                            c.Terrain = terrain;
-                        }
+                        if (level.Contains(x, y))
+                            level.SetTerrain(x, y, terrain);
         }
 
         public override string ToString()

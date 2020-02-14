@@ -16,18 +16,16 @@ namespace Pantheon
     [Serializable]
     public sealed class Pathfinder
     {
+        private readonly Level level;
         private readonly Node[,] map;
 
         public Pathfinder(Level level)
         {
+            this.level = level;
             map = new Node[level.Size.x, level.Size.y];
-            GetMap(level);
-        }
-
-        void GetMap(Level level)
-        {
-            foreach (Cell c in level.Map)
-                map[c.Position.x, c.Position.y] = new Node(c);
+            for (int y = 0; y < level.Size.y; y++)
+                for (int x = 0; x < level.Size.x; x++)
+                    map[x, y] = new Node() { Position = new Vector2Int(x, y) };
         }
 
         public HashSet<Node> GetNeighbours(Node node)
@@ -51,7 +49,7 @@ namespace Pantheon
             return neighbours;
         }
 
-        public Line CellPathList(Vector2Int startPos,
+        public Line GetPath(Vector2Int startPos,
             Vector2Int targetPos)
         {
             Profiler.BeginSample("Pathfinding");
@@ -65,8 +63,8 @@ namespace Pantheon
 
             foreach (Node n in nodes)
             {
-                cellPath.Add(n.Cell);
-                DebugVisualize(n.Cell);
+                cellPath.Add(n.Position);
+                DebugVisualize(n.Position);
             }
 
             return cellPath;
@@ -82,7 +80,7 @@ namespace Pantheon
                     $"No node at {targetPos}.");
 
             // TODO: Find adjacent free node?
-            if (targetNode.Cell.Walled)
+            if (level.Walled(targetNode.Position))
                 return null;
 
             Heap<Node> openSet = new Heap<Node>(map.Length);
@@ -107,10 +105,10 @@ namespace Pantheon
                 Profiler.BeginSample("Pathfind: Neighbour Search");
                 foreach (Node neighbour in GetNeighbours(currentNode))
                 {
-                    if (neighbour.Cell.Walled || closedSet.Contains(neighbour))
+                    if (level.Walled(neighbour.Position) || closedSet.Contains(neighbour))
                         continue;
 
-                    DebugVisualize(neighbour.Cell);
+                    DebugVisualize(neighbour.Position);
 
                     int newMoveCostToNeighbour = currentNode.GCost +
                         GetDistance(currentNode, neighbour);
@@ -159,9 +157,9 @@ namespace Pantheon
         }
 
         [System.Diagnostics.Conditional("DEBUG_PF")]
-        private void DebugVisualize(Cell cell)
+        private void DebugVisualize(Vector2Int cell)
         {
-            Debug.Visualisation.MarkCell(cell, 10);
+            Debug.Visualisation.MarkPos(cell, Color.white, 10f);
         }
     }
 }

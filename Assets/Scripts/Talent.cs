@@ -57,7 +57,7 @@ namespace Pantheon
             return ret.ToArray();
         }
 
-        public CommandResult Cast(Entity caster, Cell target)
+        public CommandResult Cast(Entity caster, Vector2Int target)
         {
             if (OnCast != null)
             {

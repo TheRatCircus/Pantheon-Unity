@@ -2,8 +2,8 @@
 // Jerome Martina
 
 using Pantheon.Commands;
-using Pantheon.World;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Pantheon
 {
@@ -12,7 +12,7 @@ namespace Pantheon
     {
         public int Range { get; set; } = 1;
 
-        public abstract CommandResult Invoke(Entity caster, Cell target);
-        public abstract HashSet<Cell> GetTargetedCells(Entity caster, Cell target);
+        public abstract CommandResult Invoke(Entity caster, Vector2Int target);
+        public abstract HashSet<Vector2Int> GetTargetedCells(Entity caster, Vector2Int target);
     }
 }

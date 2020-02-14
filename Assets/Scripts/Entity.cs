@@ -35,6 +35,13 @@ namespace Pantheon
         public string Name { get; set; }
         public EntityFlag Flags { get; set; }
 
+        public Vector2Int Cell { get; set; }
+        public Level Level
+        {
+            get => GetComponent<Location>().Level;
+            set => GetComponent<Location>().Level = value;
+        }
+
         public bool Blocking
         {
             get => Flags.HasFlag(EntityFlag.Blocking);
@@ -80,6 +87,8 @@ namespace Pantheon
             }
         }
 
+        public bool Visible => Level.Visible(Cell.x, Cell.y);
+
         [NonSerialized]
         private GameObject[] gameObjects = new GameObject[1];
         public GameObject[] GameObjects
@@ -115,17 +124,6 @@ namespace Pantheon
         public EntityTemplate Flyweight { get; set; }
 
         public Dictionary<Type, EntityComponent> Components { get; private set; }
-
-        public Cell Cell
-        {
-            get => GetComponent<Location>().Cell;
-            set => GetComponent<Location>().Cell = value;
-        }
-        public Level Level
-        {
-            get => GetComponent<Location>().Level;
-            set => GetComponent<Location>().Level = value;
-        }
 
         public event Action DestroyedEvent;
 
@@ -238,24 +236,20 @@ namespace Pantheon
                 ec.Receive(msg);
         }
 
-        public void Move(Level level, Cell cell)
+        public void Move(Level level, Vector2Int cell)
         {
-            Cell prev = Cell;
-
-            if (prev != null)
-                prev.DeallocateEntity(this);
-
+            Vector2Int prev = Cell;
             Level = level;
             Cell = cell;
+            level.MoveEntity(this, prev, Cell);
+
             if (GameObjects.HasElements())
-                GameObjects[0].transform.position = cell.Position.ToVector3();
+                GameObjects[0].transform.position = Cell.ToVector3();
 
             if (TryGetComponent(out Inventory inv))
                 inv.Move(level, cell);
             if (TryGetComponent(out Wield wield))
                 wield.Move(level, cell);
-
-            Cell.AllocateEntity(this);
         }
 
         public void TakeHit(Entity hitter, Hit hit)
@@ -264,10 +258,10 @@ namespace Pantheon
             if (TryGetComponent(out Splat splat))
             {
                 if (splat.Sound != null)
-                    Locator.Audio.Buffer(splat.Sound, Cell.Position.ToVector3());
+                    Locator.Audio.Buffer(splat.Sound, Cell.ToVector3());
                 if (splat.FXPrefab != null && RandomUtils.OneChanceIn(2))
                     Object.Destroy(Object.Instantiate(
-                        splat.FXPrefab, Cell.Position.ToVector3(),
+                        splat.FXPrefab, Cell.ToVector3(),
                         new Quaternion(), null) as GameObject, 1f);
             }
 
@@ -322,7 +316,6 @@ namespace Pantheon
                         Color.grey);
             }
 
-            Cell.DeallocateEntity(this);
             Object.Destroy(GameObjects[0]);
         }
 

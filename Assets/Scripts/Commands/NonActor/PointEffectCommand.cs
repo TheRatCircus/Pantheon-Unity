@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Pantheon.Core;
 using Pantheon.World;
 using System;
+using UnityEngine;
 
 namespace Pantheon.Commands.NonActor
 {
@@ -17,7 +18,7 @@ namespace Pantheon.Commands.NonActor
     public sealed class PointEffectCommand : NonActorCommand,
         ICellTargetedCommand, IRangedCommand
     {
-        public Cell Cell { get; set; }
+        public Vector2Int Cell { get; set; }
         public int Range { get; set; } = 5;
         [JsonProperty] private NonActorCommand cmd;
 
@@ -35,14 +36,14 @@ namespace Pantheon.Commands.NonActor
                 if (cmd is ICellTargetedCommand ctc)
                     ctc.Cell = Cell;
                 if (cmd is IEntityTargetedCommand etc)
-                    etc.Target = Cell.Actor;
+                    etc.Target = Level.ActorAt(Cell);
                 cmd.Execute();
                 return CommandResult.Succeeded;
             }
 
             if (Actor.PlayerControlled(Entity))
             {
-                switch (Locator.Player.RequestCell(out Cell cell, Range))
+                switch (Locator.Player.RequestCell(out Vector2Int cell, Range))
                 {
                     case InputMode.Cancelling:
                         return CommandResult.Cancelled;
@@ -54,7 +55,7 @@ namespace Pantheon.Commands.NonActor
                             if (cmd is ICellTargetedCommand ctc)
                                 ctc.Cell = cell;
                             if (cmd is IEntityTargetedCommand etc)
-                                etc.Target = cell.Actor;
+                                etc.Target = Level.ActorAt(cell);
                             cmd.Execute();
                             return CommandResult.Succeeded;
                         }

@@ -29,7 +29,7 @@ namespace Pantheon.Commands.Actor
         {
             if (Actor.PlayerControlled(Entity))
             {
-                switch (Locator.Player.RequestLine(out List<Cell> line, 7))
+                switch (Locator.Player.RequestLine(out Line line, 7))
                 {
                     case InputMode.Cancelling:
                         return CommandResult.Cancelled;
@@ -43,7 +43,7 @@ namespace Pantheon.Commands.Actor
                             // Line has come through
                             GameObject tossFXObj = Object.Instantiate(
                                 Assets.TossFXPrefab,
-                                Entity.Cell.Position.ToVector3(),
+                                Entity.Cell.ToVector3(),
                                 new Quaternion());
                             LineProjectile proj = tossFXObj.GetComponent<LineProjectile>();
                             proj.InitializeToss(Entity, item, line);

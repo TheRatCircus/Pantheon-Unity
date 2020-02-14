@@ -1,12 +1,12 @@
 ﻿// ICellTargetedCommand.cs
 // Jerome Martina
 
-using Pantheon.World;
+using UnityEngine;
 
 namespace Pantheon.Commands
 {
     public interface ICellTargetedCommand
     {
-        Cell Cell { get; set; }
+        Vector2Int Cell { get; set; }
     }
 }

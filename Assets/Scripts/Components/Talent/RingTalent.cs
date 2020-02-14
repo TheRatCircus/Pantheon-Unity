@@ -21,98 +21,14 @@ namespace Pantheon.Components.Talent
         public int Accuracy { get; set; }
         public AudioClip HitSound { get; set; }
 
-        public override HashSet<Cell> GetTargetedCells(Entity caster, Cell target)
+        public override HashSet<Vector2Int> GetTargetedCells(Entity caster, Vector2Int target)
         {
-            // XXX: There must be a better way
-            Cell casterCell = caster.Cell;
-            Level level = caster.Level;
-            HashSet<Cell> ret = new HashSet<Cell>();
-
-            Circle.DrawCircle(casterCell.Position.x, casterCell.Position.y,
-            Range, delegate (int x, int y)
-            {
-                if (level.TryGetCell(x, y, out Cell cell))
-                    ret.Add(cell);
-            });
-
-            Circle.DrawCircle(casterCell.Position.x, casterCell.Position.y,
-            Radius, delegate (int x, int y)
-            {
-                if (level.TryGetCell(x, y, out Cell cell))
-                    ret.Add(cell);
-            });
-
-            // Get cells inside bounds
-            HashSet<Cell> excluded = Floodfill.StackFillIf(
-                level, casterCell, (Cell c) => !ret.Contains(c));
-
-            // Add cells outside circles
-            for (int y = -Radius; y <= Radius; y++)
-            {
-                for (int x = -Radius; x <= Radius; x++)
-                {
-                    int iX = casterCell.X + x, iY = casterCell.Y + y;
-                    if (level.TryGetCell(iX, iY, out Cell c))
-                    {
-                        if (ret.Contains(c))
-                            break;
-
-                        excluded.Add(c);
-                    }
-                }
-
-                for (int x = Radius; x > -Radius; x--)
-                {
-                    int iX = casterCell.X + x, iY = casterCell.Y + y;
-                    if (level.TryGetCell(iX, iY, out Cell c))
-                    {
-                        if (ret.Contains(c))
-                            break;
-
-                        excluded.Add(c);
-                    }
-                }
-            }
-
-            // Fill between circles and nowhere else
-            ret.AddMany(Locator.Player.VisibleCells.Where(
-                (Cell c) => !excluded.Contains(c)));
-
-            // Filter for visibility
-            return ret.Where((Cell c) => c.Visible).ToHashSet();
+            throw new System.NotImplementedException();
         }
 
-        public override CommandResult Invoke(Entity caster, Cell target)
+        public override CommandResult Invoke(Entity caster, Vector2Int target)
         {
-            if (target == null)
-                throw new System.NotImplementedException(
-                    "Target cell needed.");
-
-            HashSet<Cell> affected = GetTargetedCells(caster, target);
-
-            Locator.Audio.Buffer(
-                HitSound,
-                target.Position.ToVector3());
-
-            foreach (Cell c in affected)
-            {
-                Entity enemy = c.Actor;
-                if (enemy == null)
-                    continue;
-
-                if (Accuracy < Random.Range(0, 101))
-                {
-                    Locator.Log.Send(
-                        Verbs.Miss(caster, enemy), Color.grey);
-                    continue;
-                }
-
-                Hit hit = new Hit(Damages);
-                Locator.Log.Send(Verbs.Hit(caster, enemy, hit), Color.white);
-                enemy.TakeHit(caster, hit);
-            }
-
-            return CommandResult.Succeeded;
+            throw new System.NotImplementedException();
         }
     }
 }

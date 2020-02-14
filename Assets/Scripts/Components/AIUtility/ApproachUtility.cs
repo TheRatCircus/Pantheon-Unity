@@ -17,7 +17,7 @@ namespace Pantheon.Components.Entity
             if (ai.Target == null)
                 return 0;
 
-            int dst = entity.Level.Distance(entity.Cell, ai.Target.Cell);
+            int dst = Helpers.Distance(entity.Cell, ai.Target.Cell);
 
             if (dst > 1)
                 return 80;

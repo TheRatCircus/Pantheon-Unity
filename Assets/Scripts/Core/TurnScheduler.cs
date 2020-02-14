@@ -32,7 +32,7 @@ namespace Pantheon.Core
         public int Time => time;
 
         public List<Actor> Queue { get; } = new List<Actor>();
-        private readonly HashSet<Cell> dirtyCells = new HashSet<Cell>();
+        private readonly HashSet<Vector2Int> dirtyCells = new HashSet<Vector2Int>();
         private readonly Dictionary<Vector2Int, int> enemyTargeting =
             new Dictionary<Vector2Int, int>();
 
@@ -265,7 +265,7 @@ namespace Pantheon.Core
             }
         }
 
-        public void SetDirtyCell(Cell cell) => dirtyCells.Add(cell);
+        public void SetDirtyCell(Vector2Int cell) => dirtyCells.Add(cell);
 
         public void RedrawDirtyCells(Level level)
         {

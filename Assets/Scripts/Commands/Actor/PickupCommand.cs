@@ -3,6 +3,7 @@
 
 using Pantheon.Components.Entity;
 using Pantheon.Utils;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Pantheon.Commands.Actor
@@ -24,7 +25,9 @@ namespace Pantheon.Commands.Actor
                 throw new System.Exception(
                     $"{Entity} has no inventory.");
 
-            if (!Entity.Cell.TryGetItem(0, out Entity item))
+            List<Entity> items = Level.ItemsAt(Entity.Cell.x, Entity.Cell.y);
+
+            if (items.Count < 1)
             {
                 if (player)
                     Locator.Log.Send(
@@ -37,12 +40,11 @@ namespace Pantheon.Commands.Actor
                 return CommandResult.Failed;
             }
 
-            item.Cell.DeallocateEntity(item);
-            inv.AddItem(item);
+            inv.AddItem(items[0]);
 
             if (player)
                 Locator.Log.Send(
-                    $"You pick up {Strings.Subject(item, false)}.",
+                    $"You pick up {Strings.Subject(items[0], false)}.",
                     Color.grey);
 
             return CommandResult.Succeeded;

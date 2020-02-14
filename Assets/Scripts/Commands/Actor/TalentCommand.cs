@@ -4,6 +4,7 @@
 using Pantheon.Utils;
 using Pantheon.World;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Pantheon.Commands.Actor
 {
@@ -12,9 +13,9 @@ namespace Pantheon.Commands.Actor
     public sealed class TalentCommand : ActorCommand
     {
         private readonly Talent talent;
-        private readonly Cell target;
+        private readonly Vector2Int target;
 
-        public TalentCommand(Entity entity, Talent talent, Cell target)
+        public TalentCommand(Entity entity, Talent talent, Vector2Int target)
             : base(entity)
         {
             this.talent = talent;
@@ -23,11 +24,11 @@ namespace Pantheon.Commands.Actor
             if (!Actor.PlayerControlled(Entity))
             {
                 Cost = talent.NPCTime;
-                HashSet<Cell> cells = new HashSet<Cell>();
+                HashSet<Vector2Int> cells = new HashSet<Vector2Int>();
                 cells.AddMany(talent.Behaviour.GetTargetedCells(Entity, target));
-                foreach (Cell c in cells)
-                    if (c.Visible)
-                        Locator.Scheduler.MarkCell(c.Position);
+                foreach (Vector2Int c in cells)
+                    if (entity.Level.Visible(c.x, c.y))
+                        Locator.Scheduler.MarkCell(c);
             }
             else
                 Cost = talent.PlayerTime;
@@ -42,10 +43,10 @@ namespace Pantheon.Commands.Actor
 
         public void UnmarkTargeted()
         {
-            HashSet<Cell> cells = new HashSet<Cell>();
+            HashSet<Vector2Int> cells = new HashSet<Vector2Int>();
             cells.AddMany(talent.Behaviour.GetTargetedCells(Entity, target));
-            foreach (Cell c in cells)
-                Locator.Scheduler.UnmarkCell(c.Position);
+            foreach (Vector2Int c in cells)
+                Locator.Scheduler.UnmarkCell(c);
         }
     }
 }

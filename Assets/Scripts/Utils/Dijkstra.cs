@@ -16,7 +16,7 @@ namespace Pantheon.Utils
         private Level level;
 
         public int[,] Map { get; private set; }
-        private HashSet<Cell> goals = new HashSet<Cell>();
+        private HashSet<Vector2Int> goals = new HashSet<Vector2Int>();
         private List<Vector2Int> open = new List<Vector2Int>();
         private HashSet<Vector2Int> closed = new HashSet<Vector2Int>();
 
@@ -26,18 +26,16 @@ namespace Pantheon.Utils
             Map = new int[level.Size.x, level.Size.y];
         }
 
-        public void SetGoals(IEnumerable<Cell> goals)
+        public void SetGoals(IEnumerable<Vector2Int> goals)
         {
-            this.goals = (HashSet<Cell>)goals;
+            this.goals = (HashSet<Vector2Int>)goals;
         }
 
-        public void SetGoals(params Cell[] goals)
+        public void SetGoals(params Vector2Int[] goals)
         {
             this.goals.Clear();
-            foreach (Cell c in goals)
-            {
+            foreach (Vector2Int c in goals)
                 this.goals.Add(c);
-            }
         }
 
         public void Recalculate()
@@ -48,10 +46,10 @@ namespace Pantheon.Utils
                     Map[x, y] = 255;
                 }
 
-            foreach (Cell c in goals)
+            foreach (Vector2Int c in goals)
             {
-                Map[c.Position.x, c.Position.y] = 0;
-                open.Add(c.Position);
+                Map[c.x, c.y] = 0;
+                open.Add(c);
             }
 
             
@@ -78,8 +76,8 @@ namespace Pantheon.Utils
                                 continue;
 
                             if (!level.Contains(frontier) ||
-                                level.GetCell(frontier).Blocked ||
-                                level.GetCell(frontier).Actor != null)
+                                level.Walled(frontier) ||
+                                level.ActorAt(frontier) != null)
                             {
                                 closed.Add(frontier);
                                 continue;
@@ -114,10 +112,10 @@ namespace Pantheon.Utils
                     Map[x, y] = 255;
                 }
 
-            foreach (Cell c in goals)
+            foreach (Vector2Int c in goals)
             {
-                Map[c.Position.x, c.Position.y] = 0;
-                open.Add(c.Position);
+                Map[c.x, c.y] = 0;
+                open.Add(c);
             }
 
             int iterations = 0; // Arbitrary limiter
@@ -144,8 +142,8 @@ namespace Pantheon.Utils
                                 continue;
 
                             if (!level.Contains(frontier) ||
-                                level.GetCell(frontier).Blocked ||
-                                level.GetCell(frontier).Actor != null)
+                                level.Walled(frontier) ||
+                                level.ActorAt(frontier) != null)
                             {
                                 closed.Add(frontier);
                                 continue;
@@ -163,17 +161,17 @@ namespace Pantheon.Utils
             closed.Clear();
         }
 
-        public Vector2Int RollDownhill(Cell origin)
+        public Vector2Int RollDownhill(Vector2Int origin)
         {
-            Vector2Int lowestPosition = origin.Position;
+            Vector2Int lowestPosition = origin;
             int lowest = 255;
 
-            for (int x = origin.Position.x - 1; x <= origin.Position.x + 1;
+            for (int x = origin.x - 1; x <= origin.x + 1;
                 x++)
-                for (int y = origin.Position.y - 1; y <= origin.Position.y + 1;
+                for (int y = origin.y - 1; y <= origin.y + 1;
                     y++)
                 {
-                    if (x == origin.Position.x && y == origin.Position.y)
+                    if (x == origin.x && y == origin.y)
                         continue;
 
                     if (!Map.TryGet(out int weight, x, y))

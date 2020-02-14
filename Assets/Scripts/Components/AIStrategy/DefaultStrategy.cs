@@ -5,7 +5,9 @@
 #undef DEBUG_AI
 
 using Pantheon.Commands.Actor;
+using Pantheon.Utils;
 using Pantheon.World;
+using UnityEngine;
 
 namespace Pantheon.Components.Entity
 {
@@ -39,9 +41,9 @@ namespace Pantheon.Components.Entity
         {
             if (Target != null) // Player detected
             {
-                Cell targetCell = Target.Cell;
+                Vector2Int targetCell = Target.Cell;
 
-                if (ai.Entity.Level.AdjacentTo(ai.Entity.Cell, targetCell))
+                if (Helpers.Adjacent(ai.Entity.Cell, targetCell))
                     return new MeleeCommand(ai.Entity, targetCell);
                 else
                     return MoveCommand.MoveOrWait(ai.Entity, targetCell);

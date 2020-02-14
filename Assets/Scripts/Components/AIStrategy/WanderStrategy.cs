@@ -6,7 +6,7 @@
 
 using Pantheon.Commands.Actor;
 using Pantheon.Utils;
-using Pantheon.World;
+using UnityEngine;
 
 namespace Pantheon.Components.Entity
 {
@@ -16,11 +16,11 @@ namespace Pantheon.Components.Entity
     [System.Serializable]
     public sealed class WanderStrategy : AIStrategy
     {
-        private Cell destination;
+        private Vector2Int destination;
 
         public override ActorCommand Decide(AI ai)
         {
-            if (ai.Entity.Cell.Visible) // Detect player and begin approach
+            if (ai.Entity.Visible) // Detect player and begin approach
             {
                 ai.Strategy = new DefaultStrategy(Locator.Player.Entity);
                 Locator.Log.Send(
@@ -30,7 +30,7 @@ namespace Pantheon.Components.Entity
             }
 
             if (ai.Entity.Cell != destination)
-                destination = ai.Entity.Level.RandomCell(true);
+                destination = ai.Entity.Level.RandomUnwalledCell();
 
             return MoveCommand.MoveOrWait(ai.Entity, destination);
         }

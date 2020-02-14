@@ -10,12 +10,14 @@ namespace Pantheon.Utils
 {
     public static class Floodfill
     {
-        public static HashSet<Cell> FillRect(Level level, LevelRect rect,
-            Cell start)
+        public static HashSet<Vector2Int> FillRect(
+            Level level, 
+            LevelRect rect,
+            Vector2Int start)
         {
-            HashSet<Cell> filled = new HashSet<Cell>();
-            List<Cell> open = new List<Cell>();
-            HashSet<Cell> closed = new HashSet<Cell>();
+            HashSet<Vector2Int> filled = new HashSet<Vector2Int>();
+            List<Vector2Int> open = new List<Vector2Int>();
+            HashSet<Vector2Int> closed = new HashSet<Vector2Int>();
 
             filled.Add(start);
             open.Add(start);
@@ -28,33 +30,30 @@ namespace Pantheon.Utils
                     for (int x = -1; x <= 1; x++)
                         for (int y = -1; y <= 1; y++)
                         {
-                            Vector2Int frontier = open[i].Position;
+                            Vector2Int frontier = open[i];
                             frontier += new Vector2Int(x, y);
-                            Cell frontierCell;
 
-                            if (level.Contains(frontier) &&
-                                rect.Contains(frontier))
-                                frontierCell = level.GetCell(frontier);
-                            else
+                            if (!level.Contains(frontier) ||
+                                !rect.Contains(frontier))
                                 continue;
 
-                            if (closed.Contains(frontierCell))
+                            if (closed.Contains(frontier))
                                 continue;
 
-                            if (frontierCell.Walled)
+                            if (level.Walled(frontier))
                             {
-                                closed.Add(frontierCell);
+                                closed.Add(frontier);
                                 continue;
                             }
 
-                            if (filled.Contains(frontierCell))
+                            if (filled.Contains(frontier))
                             {
-                                closed.Add(frontierCell);
+                                closed.Add(frontier);
                                 continue;
                             }
 
-                            filled.Add(frontierCell);
-                            open.Add(frontierCell);
+                            filled.Add(frontier);
+                            open.Add(frontier);
                         }
                     open.RemoveAt(i);
                 }
@@ -67,21 +66,20 @@ namespace Pantheon.Utils
         /// </summary>
         /// <param name="predicate">Cell is not filled if predicate fails.</param>
         /// <returns>All cells filled.</returns>
-        public static HashSet<Cell> StackFillIf(
+        public static HashSet<Vector2Int> StackFillIf(
             Level level,
-            Cell origin,
-            Predicate<Cell> predicate)
+            Vector2Int origin,
+            Predicate<Vector2Int> predicate)
         {
-            HashSet<Cell> ret = new HashSet<Cell>();
-            Stack<Cell> cells = new Stack<Cell>();
+            HashSet<Vector2Int> ret = new HashSet<Vector2Int>();
+            Stack<Vector2Int> cells = new Stack<Vector2Int>();
             cells.Push(origin);
 
             while (cells.Count > 0)
             {
-                Cell a = cells.Pop();
+                Vector2Int a = cells.Pop();
 
-                if (a.X > level.Size.x || a.X < 0 ||
-                    a.Y > level.Size.y || a.Y < 0)
+                if (!level.Contains(a))
                     continue;
 
                 if (!predicate(a))
@@ -92,13 +90,17 @@ namespace Pantheon.Utils
 
                 ret.Add(a);
 
-                if (level.TryGetCell(a.X - 1, a.Y, out Cell left))
+                Vector2Int left = new Vector2Int(a.x - 1, a.y);
+                if (level.Contains(left))
                     cells.Push(left);
-                if (level.TryGetCell(a.X + 1, a.Y, out Cell right))
+                Vector2Int right = new Vector2Int(a.x + 1, a.y);
+                if (level.Contains(right))
                     cells.Push(right);
-                if (level.TryGetCell(a.X, a.Y - 1, out Cell down))
+                Vector2Int down = new Vector2Int(a.x, a.y - 1);
+                if (level.Contains(down))
                     cells.Push(down);
-                if (level.TryGetCell(a.X, a.Y + 1, out Cell up))
+                Vector2Int up = new Vector2Int(a.x, a.y + 1);
+                if (level.Contains(up))
                     cells.Push(up);
             }
             return ret;
@@ -109,21 +111,20 @@ namespace Pantheon.Utils
         /// </summary>
         /// <param name="predicate">Cell is not filled if predicate fails.</param>
         /// <returns>All cells filled.</returns>
-        public static HashSet<Cell> QueueFillIf(
+        public static HashSet<Vector2Int> QueueFillIf(
             Level level, 
-            Cell origin,
-            Predicate<Cell> predicate)
+            Vector2Int origin,
+            Predicate<Vector2Int> predicate)
         {
-            HashSet<Cell> ret = new HashSet<Cell>();
-            Queue<Cell> cells = new Queue<Cell>();
+            HashSet<Vector2Int> ret = new HashSet<Vector2Int>();
+            Queue<Vector2Int> cells = new Queue<Vector2Int>();
             cells.Enqueue(origin);
 
             while (cells.Count > 0)
             {
-                Cell a = cells.Dequeue();
+                Vector2Int a = cells.Dequeue();
 
-                if (a.X > level.Size.x || a.X < 0 ||
-                    a.Y > level.Size.y || a.Y < 0)
+                if (!level.Contains(a))
                     continue;
 
                 if (!predicate(a))
@@ -134,41 +135,49 @@ namespace Pantheon.Utils
 
                 ret.Add(a);
 
-                if (level.TryGetCell(a.X - 1, a.Y, out Cell left))
+                Vector2Int left = new Vector2Int(a.x - 1, a.y);
+                if (level.Contains(left))
                     cells.Enqueue(left);
-                if (level.TryGetCell(a.X + 1, a.Y, out Cell right))
+                Vector2Int right = new Vector2Int(a.x + 1, a.y);
+                if (level.Contains(right))
                     cells.Enqueue(right);
-                if (level.TryGetCell(a.X, a.Y - 1, out Cell down))
+                Vector2Int down = new Vector2Int(a.x, a.y - 1);
+                if (level.Contains(down))
                     cells.Enqueue(down);
-                if (level.TryGetCell(a.X, a.Y + 1, out Cell up))
+                Vector2Int up = new Vector2Int(a.x, a.y + 1);
+                if (level.Contains(up))
                     cells.Enqueue(up);
             }
 
             return ret;
         }
 
-        public static Cell QueueFillForCell(
+        /// <summary>
+        /// Flood fill until meeting a cell that passes a condition.
+        /// </summary>
+        /// <param name="continuePredicate">Do not fill cell if this passes.</param>
+        /// <param name="returnPredicate">Return candidate immediately if this passes.</param>
+        public static Vector2Int QueueFillForCell(
             Level level,
-            Cell origin,
-            Predicate<Cell> stopPredicate,
-            Predicate<Cell> returnPredicate)
+            Vector2Int origin,
+            Predicate<Vector2Int> continuePredicate,
+            Predicate<Vector2Int> returnPredicate)
         {
-            HashSet<Cell> filled = new HashSet<Cell>();
-            Queue<Cell> cells = new Queue<Cell>();
+            HashSet<Vector2Int> filled = new HashSet<Vector2Int>();
+            Queue<Vector2Int> cells = new Queue<Vector2Int>();
             cells.Enqueue(origin);
 
             while (cells.Count > 0)
             {
-                Cell a = cells.Dequeue();
+                Vector2Int a = cells.Dequeue();
 
-                if (a.X > level.Size.x || a.X < 0 ||
-                    a.Y > level.Size.y || a.Y < 0)
+                if (!level.Contains(a))
                     continue;
 
                 if (returnPredicate(a))
                     return a;
 
-                if (!stopPredicate(a))
+                if (continuePredicate(a))
                     continue;
 
                 if (filled.Contains(a))
@@ -176,17 +185,21 @@ namespace Pantheon.Utils
 
                 filled.Add(a);
 
-                if (level.TryGetCell(a.X - 1, a.Y, out Cell left))
+                Vector2Int left = new Vector2Int(a.x - 1, a.y);
+                if (level.Contains(left))
                     cells.Enqueue(left);
-                if (level.TryGetCell(a.X + 1, a.Y, out Cell right))
+                Vector2Int right = new Vector2Int(a.x + 1, a.y);
+                if (level.Contains(right))
                     cells.Enqueue(right);
-                if (level.TryGetCell(a.X, a.Y - 1, out Cell down))
+                Vector2Int down = new Vector2Int(a.x, a.y - 1);
+                if (level.Contains(down))
                     cells.Enqueue(down);
-                if (level.TryGetCell(a.X, a.Y + 1, out Cell up))
+                Vector2Int up = new Vector2Int(a.x, a.y + 1);
+                if (level.Contains(up))
                     cells.Enqueue(up);
             }
 
-            return null;
+            return Level.NullCell;
         }
     }
 }

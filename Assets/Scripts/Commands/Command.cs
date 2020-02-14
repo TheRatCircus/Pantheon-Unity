@@ -2,6 +2,7 @@
 // Jerome Martina
 
 using Newtonsoft.Json;
+using Pantheon.World;
 
 namespace Pantheon.Commands
 {
@@ -13,8 +14,13 @@ namespace Pantheon.Commands
     {
         // Entity responsible for command, if any exists
         [JsonIgnore] public Entity Entity { get; set; }
+        [JsonIgnore] protected Level Level { get; set; }
 
-        public Command(Entity entity) => Entity = entity;
+        public Command(Entity entity)
+        {
+            Entity = entity;
+            Level = Entity?.Level;
+        }
     }
 
     public enum CommandResult

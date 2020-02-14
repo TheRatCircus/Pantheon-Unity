@@ -4,6 +4,7 @@
 using Pantheon.Components.Entity;
 using Pantheon.Content;
 using Pantheon.World;
+using UnityEngine;
 
 namespace Pantheon.Core
 {
@@ -17,7 +18,7 @@ namespace Pantheon.Core
         /// <param name="level"></param>
         /// <param name="cell"></param>
         /// <returns></returns>
-        public static Entity SpawnActor(EntityTemplate template, Level level, Cell cell)
+        public static Entity SpawnActor(EntityTemplate template, Level level, Vector2Int cell)
         {
             // TODO: Check that template actually represents actor
             Entity entity = new Entity(template);

@@ -18,6 +18,6 @@ namespace Pantheon.Core
         public void MarkCell(Vector2Int pos) { }
         public void UnmarkCell(Vector2Int pos) { }
         public void RedrawDirtyCells(Level level) { }
-        public void SetDirtyCell(Cell cell) { }
+        public void SetDirtyCell(Vector2Int cell) { }
     }
 }

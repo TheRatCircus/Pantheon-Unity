@@ -4,17 +4,15 @@
 using Pantheon.Components.Entity;
 using Pantheon.Content;
 using Pantheon.Utils;
-using Pantheon.World;
 using UnityEngine;
 
 namespace Pantheon.Commands.Actor
 {
     public sealed class MeleeCommand : ActorCommand
     {
-        private readonly Cell target;
+        private readonly Vector2Int target;
 
-        public MeleeCommand(Entity entity, Cell target)
-            : base(entity)
+        public MeleeCommand(Entity entity, Vector2Int target) : base(entity)
         {
             this.target = target;
 
@@ -38,12 +36,7 @@ namespace Pantheon.Commands.Actor
 
         public override CommandResult Execute()
         {
-            Entity defender;
-
-            if (target.Actor != null)
-                defender = target.Actor;
-            else
-                defender = null;
+            Entity defender = Entity.Level.ActorAt(target);
 
             SpeciesDefinition species = Entity.GetComponent<Species>().SpeciesDef;
 

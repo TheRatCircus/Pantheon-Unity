@@ -2,8 +2,10 @@
 // Jerome Martina
 
 using Pantheon.Commands.Actor;
+using Pantheon.Utils;
 using Pantheon.World;
 using System;
+using UnityEngine;
 
 namespace Pantheon.Components.Entity
 {
@@ -24,18 +26,20 @@ namespace Pantheon.Components.Entity
         {
             if (ai.Destination != null)
             {
-                if (entity.Level.Distance(ai.Target.Cell, ai.Destination) > 20)
+                if (Helpers.Distance(ai.Target.Cell, ai.Destination) > 20)
                 {
-                    Cell cell = entity.Level.GetPath(entity.Cell, ai.Destination)[1];
+                    Vector2Int cell = entity.Level.GetPath(entity.Cell, ai.Destination)[1];
                     return new MoveCommand(entity, cell);
                 }
             }
 
             do
             {
-                ai.Destination = entity.Level.RandomCell(true);
-            } while (entity.Level.Distance(ai.Target.Cell, ai.Destination) < 20);
-            Cell c = entity.Level.GetPath(entity.Cell, ai.Destination)[1];
+                ai.Destination = entity.Level.RandomCell(
+                    (Vector2Int v)
+                    => !entity.Level.Walled(v));
+            } while (Helpers.Distance(ai.Target.Cell, ai.Destination) < 20);
+            Vector2Int c = entity.Level.GetPath(entity.Cell, ai.Destination)[1];
             return new MoveCommand(entity, c);
         }
     }

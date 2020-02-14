@@ -17,7 +17,7 @@ namespace Pantheon.Core
         void MarkCell(Vector2Int pos);
         void UnmarkCell(Vector2Int pos);
         void RedrawDirtyCells(Level level);
-        void SetDirtyCell(Cell cell);
+        void SetDirtyCell(Vector2Int cell);
         event Action ClockTickEvent;
     }
 }

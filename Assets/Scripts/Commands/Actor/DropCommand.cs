@@ -42,7 +42,6 @@ namespace Pantheon.Commands.Actor
 
             Entity item = inv.Items[0];
             inv.RemoveItem(item);
-            item.Cell.AllocateEntity(item);
             Cost = Core.TurnScheduler.TurnTime;
 
             if (player)

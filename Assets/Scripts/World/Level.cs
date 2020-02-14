@@ -4,6 +4,8 @@
 #define DEBUG_DRAW
 #undef DEBUG_DRAW
 
+using Pantheon.Components.Entity;
+using Pantheon.Content;
 using Pantheon.Utils;
 using System;
 using System.Collections.Generic;
@@ -18,22 +20,42 @@ namespace Pantheon.World
     [Serializable]
     public sealed class Level
     {
+        // The offset of each tile from Unity's true grid coords
+        public const float TileOffset = 0.5f;
+
+        public static readonly Vector2Int NullCell = new Vector2Int(-1, -1);
+
         public string DisplayName { get; set; } = "DEFAULT_LEVEL_NAME";
         public string ID { get; set; } = "DEFAULT_LEVEL_ID";
 
         public Vector3Int Position { get; private set; }
-        public Vector2Int Size { get; set; } // TODO: Get Map lengths
+        public Vector2Int Size { get; } // TODO: Get Map lengths
         public int CellCount => Size.x * Size.y;
 
-        public Cell[,] Map { get; set; }
+        private readonly byte[] terrainMap;
+        private readonly CellFlag[] flagMap;
+        public IEnumerable<Vector2Int> Map
+        {
+            get
+            {
+                for (int y = 0; y < Size.y; y++)
+                    for (int x = 0; x < Size.x; x++)
+                        yield return new Vector2Int(x, y);
+            }
+        }
         [NonSerialized] private Pathfinder pathfinder;
         public Pathfinder Pathfinder
         {
             get => pathfinder;
             private set => pathfinder = value;
         }
-        public List<Connection> Connections { get; private set; }
-            = new List<Connection>(1);
+
+        private readonly Dictionary<Vector2Int, Entity> actors
+            = new Dictionary<Vector2Int, Entity>();
+        private readonly Dictionary<Vector2Int, List<Entity>> items
+            = new Dictionary<Vector2Int, List<Entity>>();
+        public Dictionary<Vector2Int, Connection> Connections { get; }
+            = new Dictionary<Vector2Int, Connection>(1);
 
         [NonSerialized] private Transform transform;
         [NonSerialized] private Transform entitiesTransform;
@@ -44,6 +66,13 @@ namespace Pantheon.World
         [NonSerialized] private Tilemap featureTilemap;
         [NonSerialized] private Tilemap splatterTilemap;
         [NonSerialized] private Tilemap itemTilemap;
+
+        public Level(int sizeX, int sizeY)
+        {
+            terrainMap = new byte[sizeX * sizeY];
+            flagMap = new CellFlag[sizeX * sizeY];
+            Size = new Vector2Int(sizeX, sizeY);
+        }
 
         public void AssignGameObject(Transform transform)
         {
@@ -58,331 +87,183 @@ namespace Pantheon.World
 
         public void Initialize() => Pathfinder = new Pathfinder(this);
 
-        public bool TryGetCell(int x, int y, out Cell cell)
+        private int MapCoords(int x, int y) => Size.x * x + y;
+
+        public TerrainDefinition GetTerrain(int x, int y)
         {
-            if (Contains(x, y))
-            {
-                cell = Map[x, y];
-                return true;
-            }
-            else
-            {
-                cell = null;
-                return false;
-            }
+            byte index = terrainMap[MapCoords(x, y)];
+            return Assets.GetTerrain(index);
         }
 
-        public bool TryGetCell(Vector2Int pos, out Cell cell)
+        public void SetTerrain(int x, int y, TerrainDefinition terrain)
         {
-            if (Contains(pos))
-            {
-                cell = Map[pos.x, pos.y];
-                return true;
-            }
-            else
-            {
-                cell = null;
-                return false;
-            }
+            byte index = Assets.GetTerrainIndex(terrain);
+            terrainMap[MapCoords(x, y)] = index;
         }
 
-        public Cell GetCell(Vector2Int pos)
+        public bool Visible(int x, int y)
         {
-            if (Map[pos.x, pos.y] != null)
-                return Map[pos.x, pos.y];
-            else
-                throw new ArgumentException(
-                    $"Level {ID} has no cell at {pos}.");
+            return flagMap[MapCoords(x, y)].HasFlag(CellFlag.Visible);
         }
 
-        public Cell GetCell(int x, int y)
+        public bool Revealed(int x, int y)
         {
-            if (Map[x, y] != null)
-                return Map[x, y];
-            else
-                throw new ArgumentException(
-                    $"Level {ID} has no cell at {x}, {y}.");
+            return flagMap[MapCoords(x, y)].HasFlag(CellFlag.Revealed);
         }
+
+        public bool Blocked(int x, int y)
+        {
+            Vector2Int v = new Vector2Int(x, y);
+            TerrainDefinition terrain = GetTerrain(x, y);
+
+            // TODO: This is to prevent a floorless cell from being considered 
+            // walkable, but in the future this should allow movement via flight
+            return terrain == null || terrain.Blocked || actors.ContainsKey(v);
+        }
+
+        public bool Opaque(int x, int y) => GetTerrain(x, y).Opaque;
 
         public bool Contains(int x, int y)
         {
-            if (x >= Size.x || y >= Size.y)
-                return false;
-            else if (x < 0 || y < 0)
-                return false;
-            else
-                return Map[x, y] != null;
+            return
+                x < Size.x &&
+                y < Size.y &&
+                x >= 0 &&
+                y >= 0;
         }
 
-        public bool Contains(Vector2Int pos)
+        public bool Contains(Vector2Int position)
         {
-            if (pos.x >= Size.x || pos.y >= Size.y)
-                return false;
-            else if (pos.x < 0 || pos.y < 0)
-                return false;
-            else
-                return Map[pos.x, pos.y] != null;
+            return
+                position.x < Size.x &&
+                position.y < Size.y &&
+                position.x >= 0 &&
+                position.y >= 0;
         }
 
-        public int Distance(Cell a, Cell b)
+        public bool Walled(int x, int y) => GetTerrain(x, y).Blocked;
+
+        public bool Walled(Vector2Int cell)
         {
-            int dx = b.Position.x - a.Position.x;
-            int dy = b.Position.y - a.Position.y;
-
-            return (int)Mathf.Sqrt(Mathf.Pow(dx, 2) + Mathf.Pow(dy, 2));
+            return GetTerrain(cell.x, cell.y).Blocked;
         }
 
-        public List<Cell> GetSquare(Cell origin, int radius)
+        public bool Walkable(Vector2Int cell)
+        {
+            TerrainDefinition terrain = GetTerrain(cell.x, cell.y);
+            return 
+                Contains(cell) && 
+                ActorAt(cell) == null && 
+                terrain != null &&
+                !terrain.Blocked;
+        }
+
+        public bool SetVisibility(int x, int y, bool visible)
+        {
+            int map = MapCoords(x, y);
+
+            bool change = 
+                (!Visible(x, y) && visible) || 
+                (Visible(x, y) && !visible);
+
+            if (visible)
+                flagMap[map] |= CellFlag.Visible | CellFlag.Revealed;
+            else
+                flagMap[map] &= ~CellFlag.Visible;
+
+            return change;
+        }
+
+        public void Reveal(int x, int y)
+        {
+            int map = MapCoords(x, y);
+            flagMap[map] |= CellFlag.Revealed;
+        }
+
+        public Entity ActorAt(Vector2Int cell)
+        {
+            if (actors.TryGetValue(cell, out Entity ret))
+                return ret;
+            else
+                return null;
+        }
+
+        public List<Entity> ItemsAt(int x, int y)
+        {
+            if (items.TryGetValue(new Vector2Int(x, y), out List<Entity> ret))
+                return ret;
+            else
+                return new List<Entity>(0);
+        }
+
+        public void ClearEntity(Entity entity)
+        {
+            // Just attempt both
+            actors.Remove(entity.Cell);
+            RemoveItem(entity);
+        }
+
+        public void MoveEntity(Entity entity, Vector2Int from, Vector2Int to)
+        {
+            if (actors.Remove(from) || entity.HasComponent<Actor>())
+                actors.Add(to, entity);
+            else if (RemoveItem(entity))
+                AddItem(entity, to);
+            else // Fall back to assuming this is an item
+                AddItem(entity, to);
+        }
+
+        private void AddItem(Entity item, Vector2Int position)
+        {
+            if (items.TryGetValue(position, out List<Entity> existing))
+                existing.Add(item);
+            else
+                items.Add(position, new List<Entity>() { item });
+        }
+
+        private bool RemoveItem(Entity item)
+        {
+            if (items.TryGetValue(item.Cell, out List<Entity> list))
+                return list.Remove(item);
+            else
+                return false;
+        }
+
+        public Line GetPath(Vector2Int start, Vector2Int end)
+        {
+            return Pathfinder.GetPath(start, end);
+        }
+
+        public List<Vector2Int> CellsInRect(LevelRect rect)
+        {
+            List<Vector2Int> ret = new List<Vector2Int>();
+            for (int x = rect.x1, rectX = 0; x <= rect.x2 - 1; x++, rectX++)
+                for (int y = rect.y1, rectY = 0; y <= rect.y2 - 1; y++,
+                    rectY++)
+                {
+                    ret.Add(new Vector2Int(x, y));
+                    //ret[rectX, rectY] = Map[x, y];
+                }
+            return ret;
+        }
+
+        public List<Vector2Int> GetSquare(Vector2Int origin, int radius)
         {
             int dim = (radius * 2) - 1;
             int delta = radius - 1;
-            List<Cell> ret = new List<Cell>();
-            for (int x = origin.Position.x - delta; x < origin.Position.x + delta; x++)
+            List<Vector2Int> ret = new List<Vector2Int>();
+            for (int x = origin.x - delta; x < origin.x + delta; x++)
             {
-                for (int y = origin.Position.y - delta; y < origin.Position.y + delta; y++)
+                for (int y = origin.y - delta; y < origin.y + delta; y++)
                 {
-                    if (TryGetCell(x, y, out Cell c))
-                        ret.Add(c);
+                    Vector2Int v = new Vector2Int(x, y);
+                    if (Contains(v)) ret.Add(v);
                 }
             }
             return ret;
         }
 
-        public bool AdjacentTo(Cell a, Cell b)
-        {
-            if (a.Equals(b))
-                throw new ArgumentException("Argument cells are the same.");
-
-            return Distance(a, b) <= 1;
-        }
-
-        public Line GetPath(Cell origin, Cell target)
-            => Pathfinder.CellPathList(origin.Position, target.Position);
-
-        public Connection ConnectionAt(Cell cell)
-        {
-            foreach (Connection conn in Connections)
-                if (conn.Position == cell.Position)
-                    return conn;
-
-            return null;
-        }
-
-        /// <summary>
-        /// Find a cell by position relative to an origin cell.
-        /// </summary>
-        /// <param name="origin">Cell to "translate" to another position.</param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        public Cell Translate(Cell origin, int x, int y)
-        {
-            int newX = origin.Position.x + x;
-            int newY = origin.Position.y + y;
-
-            if (newX < 0 || newX >= Map.GetLength(0))
-                return null;
-            if (newY < 0 || newY >= Map.GetLength(1))
-                return null;
-
-            return Map[newX, newY];
-        }
-
-        /// <summary>
-        /// Find the nearest cell passing a predicate using a spiral algorithm.
-        /// </summary>
-        /// <param name="origin"></param>
-        /// <param name="radius"></param>
-        /// <param name="condition"></param>
-        /// <returns>The nearest cell meeting the predicate, or null if none found.</returns>
-        public Cell FindNearest(Cell origin, int radius, Predicate<Cell> condition)
-        {
-            Cell c = origin;
-            if (condition(c))
-                return c;
-
-            for (int i = 0; i < radius; i++)
-            {
-                int j = i + 1;
-                int k = j + 1;
-
-                c = Translate(c, 0, 1); // Up
-                if (condition(c))
-                    return c;
-
-                for (int right = 0; right < (i + j); right++)
-                {
-                    c = Translate(c, 1, 0);
-                    if (condition(c))
-                        return c;
-                }
-
-                for (int down = 0; down < (i + k); down++)
-                {
-                    c = Translate(c, 0, -1);
-                    if (condition(c))
-                        return c;
-                }
-
-                for (int left = 0; left < (i + k); left++)
-                {
-                    c = Translate(c, -1, 0);
-                    if (condition(c))
-                        return c;
-                }
-
-                for (int up = 0; up < (i + k); up++)
-                {
-                    c = Translate(c, 0, 1);
-                    if (condition(c))
-                        return c;
-                }
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Enumerate all entities in an area by distance to an origin.
-        /// </summary>
-        /// <param name="origin"></param>
-        /// <param name="radius"></param>
-        /// <param name="condition"></param>
-        /// <returns></returns>
-        public List<Entity> FindBySpiral(Cell origin, int radius, Predicate<Entity> condition)
-        {
-            // Be aware that no null checks are performed on cell entities
-            // so that the predicate can take nulls into account
-            List<Entity> ret = new List<Entity>();
-            Cell c = origin;
-            if (condition(c.Actor))
-                ret.Add(c.Actor);
-
-            for (int i = 0; i < radius; i++)
-            {
-                int j = i + 1;
-                int k = j + 1;
-
-                c = Translate(c, 0, 1); // Up
-                if (condition(c.Actor))
-                    ret.Add(c.Actor);
-
-                for (int right = 0; right < (i + j); right++)
-                {
-                    c = Translate(c, 1, 0);
-                    if (condition(c.Actor))
-                        ret.Add(c.Actor);
-                }
-
-                for (int down = 0; down < (i + k); down++)
-                {
-                    c = Translate(c, 0, -1);
-                    if (condition(c.Actor))
-                        ret.Add(c.Actor);
-                }
-
-                for (int left = 0; left < (i + k); left++)
-                {
-                    c = Translate(c, -1, 0);
-                    if (condition(c.Actor))
-                        ret.Add(c.Actor);
-                }
-
-                for (int up = 0; up < (i + k); up++)
-                {
-                    c = Translate(c, 0, 1);
-                    if (condition(c.Actor))
-                        ret.Add(c.Actor);
-                }
-            }
-            return ret;
-        }
-
-        public Cell RandomCell(bool open)
-        {
-            // TODO: Replace open with predicate
-            Cell cell;
-            int tries = 0;
-            do
-            {
-                if (++tries >= 500)
-                    throw new Exception(
-                        $"No eligible cell found after {tries} attempts.");
-
-                Vector2Int pos = new Vector2Int(Random.Range(0, Size.x),
-                    Random.Range(0, Size.y));
-                if (!TryGetCell(pos, out cell))
-                    continue;
-
-                if (!open || !cell.Blocked)
-                    break;
-
-            } while (true);
-            return cell;
-        }
-
-        public Cell RandomFloorInRect(LevelRect rect)
-        {
-            Cell[,] rectMap = CellsInRect(rect);
-            Cell ret;
-            int attempts = 0;
-            do
-            {
-                if (attempts > 1000)
-                    throw new Exception($"No random floor found in {rect}" +
-                        " after 1000 tries.");
-
-                int randX = Random.Range(rect.x1, rect.x2);
-                int randY = Random.Range(rect.y1, rect.y2);
-
-                ret = Map[randX, randY];
-
-            } while (ret.Walled);
-            return ret;
-        }
-
-        public Cell RandomCorner()
-        {
-            int r = Random.Range(0, 4);
-            switch (r)
-            {
-                case 0: // Northeast
-                    return Map[Size.x - 1, Size.y - 1];
-                case 1: // Southeast
-                    return Map[Size.x - 1, 0];
-                case 2: // Southwest
-                    return Map[0, 0];
-                case 3: // Northwest
-                    return Map[0, Size.y - 1];
-                default:
-                    throw new Exception(
-                        "Random.Range() returned illegal value.");
-            }
-        }
-
-        public Cell RandomCorner(out CardinalDirection direction)
-        {
-            int r = Random.Range(0, 4);
-            switch (r)
-            {
-                case 0: // Northeast
-                    direction = CardinalDirection.NorthEast;
-                    return Map[Size.x - 1, Size.y - 1];
-                case 1: // Southeast
-                    direction = CardinalDirection.SouthEast;
-                    return Map[Size.x - 1, 0];
-                case 2: // Southwest
-                    direction = CardinalDirection.SouthWest;
-                    return Map[0, 0];
-                case 3: // Northwest
-                    direction = CardinalDirection.NorthWest;
-                    return Map[0, Size.y - 1];
-                default:
-                    throw new Exception(
-                        "Random.Range() returned illegal value.");
-            }
-        }
-
-        public int GetAdjacentWalls(int x, int y, int scopeX, int scopeY,
+        public int AdjacentWallCount(int x, int y, int scopeX, int scopeY,
             bool oobIsWall)
         {
             int startX = x - scopeX;
@@ -398,7 +279,7 @@ namespace Pantheon.World
                 for (iX = startX; iX <= endX; iX++)
                     if (!(iX == x && iY == y))
                         if ((oobIsWall && !Contains(iX, iY))
-                            || Map[iX, iY].Walled)
+                            || Walled(iX, iY))
                         {
                             wallCounter++;
                         }
@@ -406,7 +287,7 @@ namespace Pantheon.World
             return wallCounter;
         }
 
-        public int GetAdjacentWalls(LevelRect rect, int x, int y, int scopeX,
+        public int AdjacentWallCount(LevelRect rect, int x, int y, int scopeX,
             int scopeY, bool oobIsWall)
         {
             int startX = x - scopeX;
@@ -423,79 +304,139 @@ namespace Pantheon.World
                     if (!(iX == x && iY == y))
                         if ((oobIsWall && !Contains(iX, iY)
                             || (oobIsWall && !rect.Contains(iX, iY)))
-                            || Map[iX, iY].Walled)
+                            || Walled(iX, iY))
                         {
                             wallCounter++;
                         }
             return wallCounter;
         }
 
-        public Cell[,] CellsInRect(LevelRect rect)
+        public void Draw(IEnumerable<Vector2Int> cells)
         {
-            Cell[,] rectMap = new Cell[rect.Width, rect.Height];
-            for (int x = rect.x1, rectX = 0; x <= rect.x2 - 1; x++, rectX++)
-                for (int y = rect.y1, rectY = 0; y <= rect.y2 - 1; y++,
-                    rectY++)
-                {
-                    rectMap[rectX, rectY] = Map[x, y];
-                }
-            return rectMap;
+            foreach (Vector2Int cell in cells)
+                DrawTile(cell);
         }
 
-        public void Draw(IEnumerable<Cell> cells)
+        public void DrawTile(Vector2Int cell)
         {
-            foreach (Cell c in cells)
-                DrawTile(c);
-        }
-
-        public void DrawTile(Cell cell)
-        {
-#if DEBUG_DRAW
-            Debug.Visualisation.MarkCell(cell, 3f);
-#endif
-            // XXX: If cells change terrain while visible but do not change
-            // visibility, they don't change tile
-
-            if (!cell.Revealed)
+            if (!Revealed(cell.x, cell.y))
             {
-                Locator.Scheduler.UnmarkCell(cell.Position);
+                Locator.Scheduler.UnmarkCell(cell);
                 return;
             }
 
             Profiler.BeginSample("Level.DrawTile()");
 
             RuleTile terrainTile;
-            if (cell.Terrain != null)
-                terrainTile = cell.Terrain.Tile;
+            TerrainDefinition terrain = GetTerrain(cell.x, cell.y);
+            if (terrain != null)
+                terrainTile = terrain.Tile;
             else
                 terrainTile = null;
 
-            if (terrainTilemap.GetTile((Vector3Int)cell.Position) != terrainTile)
-                terrainTilemap.SetTile((Vector3Int)cell.Position, terrainTile);
-            terrainTilemap.SetColor((Vector3Int)cell.Position,
-                cell.Visible ? Color.white : Color.grey);
+            bool visible = Visible(cell.x, cell.y);
 
-            if (cell.Actor != null)
-                cell.Actor.GameObjects[0].SetSpriteVisibility(cell.Visible);
+            if (terrainTilemap.GetTile((Vector3Int)cell) != terrainTile)
+                terrainTilemap.SetTile((Vector3Int)cell, terrainTile);
+            terrainTilemap.SetColor((Vector3Int)cell,
+                visible ? Color.white : Color.grey);
 
-            if (cell.TryGetItem(0, out Entity item))
+            if (actors.TryGetValue(cell, out Entity actor))
+                actor.GameObjects[0].SetSpriteVisibility(visible);
+
+            List<Entity> items = ItemsAt(cell.x, cell.y);
+            if (items.Count > 0)
             {
-                itemTilemap.SetTile((Vector3Int)cell.Position,
-                    item.Tile);
-                itemTilemap.SetColor((Vector3Int)cell.Position,
-                    cell.Visible ? Color.white : Color.grey);
+                itemTilemap.SetTile((Vector3Int)cell, items[0].Tile);
+                itemTilemap.SetColor((Vector3Int)cell,
+                    visible ? Color.white : Color.grey);
             }
             else
-                itemTilemap.SetTile((Vector3Int)cell.Position, null);
+                itemTilemap.SetTile((Vector3Int)cell, null);
 
-            Connection conn = ConnectionAt(cell);
-            if (conn != null)
-                featureTilemap.SetTile((Vector3Int)cell.Position, conn.Tile);
+            if (Connections.TryGetValue(cell, out Connection conn))
+                featureTilemap.SetTile((Vector3Int)cell, conn.Tile);
 
-            if (!cell.Visible)
-                Locator.Scheduler.UnmarkCell(cell.Position);
+            if (!visible)
+                Locator.Scheduler.UnmarkCell(cell);
 
             Profiler.EndSample();
+        }
+
+        public Vector2Int RandomUnwalledCell()
+        {
+            Vector2Int ret;
+            int attempts = 0;
+            do
+            {
+                if (attempts > 500)
+                    throw new Exception(
+                        $"Failed {attempts} times to get a random cell.");
+
+                ret = new Vector2Int(
+                    Random.Range(0, Size.x),
+                    Random.Range(0, Size.y));
+
+                attempts++;
+            } while (Walled(ret));
+            return ret;
+        }
+
+        public Vector2Int RandomCell(Predicate<Vector2Int> predicate)
+        {
+            Vector2Int ret;
+            int attempts = 0;
+            do
+            {
+                if (attempts > 500)
+                    throw new Exception(
+                        $"Failed {attempts} times to get a random cell.");
+
+                ret = new Vector2Int(
+                    Random.Range(0, Size.x),
+                    Random.Range(0, Size.y));
+
+                attempts++;
+            } while (!predicate(ret));
+            return ret;
+        }
+
+        public Vector2Int RandomFloorInRect(LevelRect rect)
+        {
+            Vector2Int ret;
+            int attempts = 0;
+            do
+            {
+                if (attempts > 1000)
+                    throw new Exception($"No random floor found in {rect}" +
+                        " after 1000 tries.");
+
+                int randX = Random.Range(rect.x1, rect.x2);
+                int randY = Random.Range(rect.y1, rect.y2);
+
+                ret = new Vector2Int(randX, randY);
+
+            } while (Walled(ret));
+            return ret;
+        }
+
+        public Vector2Int RandomCorner()
+        {
+            int r = Random.Range(0, 4);
+            switch (r)
+            {
+                case 0: // Northeast
+                    return new Vector2Int(Size.x - 1, Size.y - 1);
+                case 1: // Southeast
+                    return new Vector2Int(Size.x - 1, 0);
+                case 2: // Southwest
+                    return new Vector2Int(0, 0);
+                case 3: // Northwest
+                    return new Vector2Int(0, Size.y - 1);
+                default:
+                    throw new Exception(
+                        "Random.Range() returned illegal value.");
+            }
         }
 
         [OnSerializing]
@@ -508,6 +449,11 @@ namespace Pantheon.World
         private void OnDeserialized(StreamingContext ctxt)
         {
             Pathfinder = new Pathfinder(this);
+        }
+
+        public string CellToString(Vector2Int cell)
+        {
+            return $"{GetTerrain(cell.x, cell.y)} {cell}";
         }
 
         public override string ToString() => $"{DisplayName} {Position}";

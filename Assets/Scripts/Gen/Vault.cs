@@ -90,9 +90,7 @@ namespace Pantheon.Gen
 
             vault.Initialize();
 
-            //if (!level.Contains(position + vault.Size))
-            //    throw new ArgumentException
-            //        ("Position too close to level bounds.");
+            // TODO: Bounds check
 
             for (int x = position.x; x < vault.Size.x + position.x; x++)
                 for (int y = position.y; y < vault.Size.y + position.y; y++)
@@ -104,8 +102,10 @@ namespace Pantheon.Gen
                         Vector2Int rot = new Vector2Int(
                             x - position.x,
                             y - position.y).Rotate(rotation);
-                        if (level.TryGetCell(rot + position, out World.Cell cell))
-                            cell.Terrain = terrain;
+
+                        Vector2Int v = rot + position;
+                        if (level.Contains(v))
+                            level.SetTerrain(v.x, v.y, terrain);
                     }
                 }
 
@@ -129,6 +129,8 @@ namespace Pantheon.Gen
 
             vault.Initialize();
 
+            // TODO: Bounds check
+
             if (!level.Contains(position + vault.Size))
                 return false;
 
@@ -142,8 +144,10 @@ namespace Pantheon.Gen
                         Vector2Int rot = new Vector2Int(
                             x - position.x,
                             y - position.y).Rotate(rotation);
-                        if (level.TryGetCell(rot + position, out World.Cell cell))
-                            cell.Terrain = terrain;
+
+                        Vector2Int v = rot + position;
+                        if (level.Contains(v))
+                            level.SetTerrain(v.x, v.y, terrain);
                     }
                 }
 

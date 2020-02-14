@@ -13,10 +13,8 @@ namespace Pantheon.Gen
         {
             for (int x = rect.x1; x < rect.x2; x++)
                 for (int y = rect.y1; y < rect.y2; y++)
-                    if (level.TryGetCell(x, y, out Cell c))
-                    {
-                        level.Map[x, y].Terrain = terrain;
-                    }
+                    if (level.Contains(x, y))
+                        level.SetTerrain(x, y, terrain);
         }
 
         public static void Enclose(Level level, LevelRect rect,
@@ -27,24 +25,24 @@ namespace Pantheon.Gen
                 {
                     if (x == rect.x1)
                     {
-                        level.Map[x, y].Terrain = terrain;
+                        level.SetTerrain(x, y, terrain);
                         continue;
                     }
                     else if (x == rect.x2)
                     {
-                        level.Map[x, y].Terrain = terrain;
+                        level.SetTerrain(x, y, terrain);
                         continue;
                     }
                     else
                     {
                         if (y == rect.y1)
                         {
-                            level.Map[x, y].Terrain = terrain;
+                            level.SetTerrain(x, y, terrain);
                             continue;
                         }
                         else if (y == rect.y2)
                         {
-                            level.Map[x, y].Terrain = terrain;
+                            level.SetTerrain(x, y, terrain);
                             continue;
                         }
                     }
@@ -58,24 +56,24 @@ namespace Pantheon.Gen
                 {
                     if (x == 0)
                     {
-                        level.Map[x, y].Terrain = terrain;
+                        level.SetTerrain(x, y, terrain);
                         continue;
                     }
                     else if (x == level.Size.x - 1)
                     {
-                        level.Map[x, y].Terrain = terrain;
+                        level.SetTerrain(x, y, terrain);
                         continue;
                     }
                     else
                     {
                         if (y == 0)
                         {
-                            level.Map[x, y].Terrain = terrain;
+                            level.SetTerrain(x, y, terrain);
                             continue;
                         }
                         else if (y == level.Size.y - 1)
                         {
-                            level.Map[x, y].Terrain = terrain;
+                            level.SetTerrain(x, y, terrain);
                             continue;
                         }
                     }

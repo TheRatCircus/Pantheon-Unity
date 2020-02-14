@@ -23,9 +23,6 @@ namespace Pantheon.World
         public List<Connection> Connections { get; private set; }
             = new List<Connection>();
 
-        // TODO: Move to GameController
-        public Level ActiveLevel { get; set; }
-
         public Layer NewLayer(int z)
         {
             Layer layer = new Layer(z);
@@ -37,7 +34,7 @@ namespace Pantheon.World
         public Level RequestLevel(Connection connection)
         {
             foreach (Level lvl in Levels.Values)
-                foreach (Connection conn in lvl.Connections)
+                foreach (Connection conn in lvl.Connections.Values)
                     if (conn.Partner == connection)
                         return lvl;
 
@@ -58,12 +55,12 @@ namespace Pantheon.World
             if (builder == null)
                 throw new ArgumentException($"No builder at {pos}");
 
-            Level level = new Level
+            Level level = new Level(builder.Size.x, builder.Size.y)
             {
                 DisplayName = builder.DisplayName,
                 ID = builder.ID
             };
-            InitializeMap(level, builder.Size.x, builder.Size.y);
+
             foreach (BuilderStep step in builder.Steps)
                 step.Run(level);
             if (builder.Population != null)
@@ -73,14 +70,14 @@ namespace Pantheon.World
             if (builder.ConnectionRules != null)
                 foreach (ConnectionRule connRule in builder.ConnectionRules)
                 {
+                    Vector2Int cell = level.RandomUnwalledCell();
                     Connection connection = new Connection()
                     {
-                        Position = level.RandomCell(true).Position,
+                        Position = cell,
                         Key = connRule.Key,
                         Tile = connRule.Tile
                     };
-                    level.Connections.Add(connection);
-                    Connections.Add(connection);
+                    level.Connections.Add(cell, connection);
                 }
 
             // If another level is set to connect to this one, make it so
@@ -89,14 +86,15 @@ namespace Pantheon.World
                 if (otherConn.Key != level.ID)
                     continue;
 
-                Cell connBCell = level.RandomCell(true);
+                Vector2Int connBCell = level.RandomUnwalledCell();
                 Connection connB = new Connection()
                 {
-                    Position = connBCell.Position,
+                    Position = connBCell,
                     Partner = otherConn,
                     Tile = Assets.GetTile<Tile>("StoneStairs_Down")
                 };
                 otherConn.Partner = connB;
+                level.Connections.Add(connBCell, connB);
             }
 
             level.Initialize();
@@ -111,30 +109,32 @@ namespace Pantheon.World
                     $"No level builder with ID {id}.");
             }
 
-            Level level = new Level
+            Level level = new Level(builder.Size.x, builder.Size.y)
             {
                 DisplayName = builder.DisplayName,
                 ID = builder.LevelID
             };
 
-            InitializeMap(level, builder.Size.x, builder.Size.y);
             foreach (BuilderStep step in builder.Steps)
                 step.Run(level);
             if (builder.Population != null)
                 NPC.PopulateNPCs(builder, level);
             Items.PopulateItems(level);
 
+            List<Connection> newConnections = new List<Connection>();
+
             if (builder.ConnectionRules != null)
                 foreach (ConnectionRule connRule in builder.ConnectionRules)
                 {
+                    Vector2Int cell = level.RandomUnwalledCell();
                     Connection connection = new Connection()
                     {
-                        Position = level.RandomCell(true).Position,
+                        Position = cell,
                         Key = connRule.Key,
                         Tile = connRule.Tile
                     };
-                    level.Connections.Add(connection);
-                    Connections.Add(connection);
+                    level.Connections.Add(cell, connection);
+                    newConnections.Add(connection);
                 }
 
             // If another level is set to connect to this one, make it so
@@ -143,29 +143,23 @@ namespace Pantheon.World
                 if (otherConn.Key != level.ID)
                     continue;
 
-                Cell connBCell = level.RandomCell(true);
-                Connection connB = new Connection()
+                Vector2Int connBCell = level.RandomUnwalledCell();
+                Connection connection = new Connection()
                 {
-                    Position = connBCell.Position,
+                    Position = connBCell,
                     Partner = otherConn,
                     Tile = Assets.GetTile<Tile>("StoneStairs_Down")
                 };
-                otherConn.Partner = connB;
+                otherConn.Partner = connection;
+                level.Connections.Add(connBCell, connection);
+                newConnections.Add(connection);
             }
+
+            foreach (Connection conn in newConnections)
+                Connections.Add(conn);
 
             level.Initialize();
             return level;
-        }
-
-        private void InitializeMap(Level level, int sizeX, int sizeY)
-        {
-            level.Size = new Vector2Int(sizeX, sizeY);
-            level.Map = new Cell[sizeX, sizeY];
-
-            int x = 0;
-            for (; x < sizeX; x++)
-                for (int y = 0; y < sizeY; y++)
-                    level.Map[x, y] = new Cell(new Vector2Int(x, y));
         }
     }
 

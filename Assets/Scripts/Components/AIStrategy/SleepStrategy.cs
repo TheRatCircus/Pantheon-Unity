@@ -17,7 +17,7 @@ namespace Pantheon.Components.Entity
     {
         public override ActorCommand Decide(AI ai)
         {
-            if (ai.Entity.Cell.Visible) // Detect player and begin approach
+            if (ai.Entity.Visible) // Detect player and begin approach
             {
                 ai.Strategy = new DefaultStrategy(Locator.Player.Entity);
                 Locator.Log.Send(

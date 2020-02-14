@@ -52,8 +52,7 @@ namespace Pantheon
             Builder builder = JsonConvert.DeserializeObject<Builder>(
                 builderJsonFile.text, settings);
 
-            level = new Level();
-            InitializeMap(level, sizeX, sizeY);
+            level = new Level(sizeX, sizeY);
             foreach (BuilderStep step in builder.Steps)
             {
                 Stopwatch stepTime = Stopwatch.StartNew();
@@ -66,9 +65,9 @@ namespace Pantheon
             level.AssignGameObject(levelObj.transform);
 
             Stopwatch drawTime = Stopwatch.StartNew();
-            foreach (Cell c in level.Map)
+            foreach (Vector2Int c in level.Map)
             {
-                c.SetVisibility(true, -1);
+                level.SetVisibility(c.x, c.y, true);
                 level.DrawTile(c);
             }
             drawTime.Stop();
@@ -85,17 +84,6 @@ namespace Pantheon
             level = null;
             terrainTilemap.ClearAllTiles();
             Assets.UnloadAssets();
-        }
-
-        private void InitializeMap(Level level, int sizeX, int sizeY)
-        {
-            level.Size = new Vector2Int(sizeX, sizeY);
-            level.Map = new Cell[sizeX, sizeY];
-
-            int x = 0;
-            for (; x < sizeX; x++)
-                for (int y = 0; y < sizeY; y++)
-                    level.Map[x, y] = new Cell(new Vector2Int(x, y));
         }
     }
 }

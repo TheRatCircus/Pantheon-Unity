@@ -13,33 +13,31 @@ namespace Pantheon.Core
         // Not in terms of cells
         public const int FOVRadius = 15;
 
-        private static Cell prev;
+        private static Vector2Int prev;
 
         /// <summary>
         /// Change visibility and reveal new cells.
         /// <param name="level"></param>
         /// </summary>
         /// <returns>A HashSet of all cells affected by the refresh.</returns>
-        public static HashSet<Cell> RefreshFOV(Level level, Cell origin,
+        public static HashSet<Vector2Int> RefreshFOV(Level level, Vector2Int origin,
             bool drawChanges)
         {
             // Hide cells at the last refresh position
-            if (prev != null && level.Distance(prev, origin) > 1)
+            if (prev != Level.NullCell && Helpers.Distance(prev, origin) > 1)
             {
-                List<Cell> cells = level.GetSquare(prev, FOVRadius);
-                foreach (Cell c in cells)
+                List<Vector2Int> cells = level.GetSquare(prev, FOVRadius);
+                foreach (Vector2Int c in cells)
                 {
-                    if (c.SetVisibility(false, -1))
+                    if (level.SetVisibility(c.x, c.y, false))
                         level.DrawTile(c);
                 }
             }
 
-            HashSet<Cell> changed = new HashSet<Cell>();
+            HashSet<Vector2Int> changed = new HashSet<Vector2Int>();
             for (int octant = 0; octant < 8; octant++)
             {
-                List<Cell> refreshed = ShadowOctant(level,
-                    origin.Position, octant);
-
+                List<Vector2Int> refreshed = ShadowOctant(level, origin, octant);
                 changed.AddMany(refreshed);
             }
 
@@ -48,14 +46,14 @@ namespace Pantheon.Core
 
             prev = origin;
 
-            HashSet<Cell> visibles = Floodfill.StackFillIf(
-                level, origin, (Cell c) => c.Visible);
+            HashSet<Vector2Int> visibles = Floodfill.StackFillIf(
+                level, origin, (Vector2Int c) => level.Visible(c.x, c.y));
             Locator.Player.UpdateVisibles(visibles);
 
             return changed;
         }
 
-        public static void ResetPrevious() => prev = null;
+        public static void ResetPrevious() => prev = Level.NullCell;
 
         // Coordinates used to transform a point in an octant
         private static readonly Vector2Int[,] _octantCoords
@@ -72,7 +70,7 @@ namespace Pantheon.Core
         };
 
         // Generate an octant of shadows, and return the FOV area to be redrawn
-        private static List<Cell> ShadowOctant(Level level, Vector2Int origin,
+        private static List<Vector2Int> ShadowOctant(Level level, Vector2Int origin,
             int octant)
         {
             // Increments based off of octantCoordinates
@@ -81,7 +79,7 @@ namespace Pantheon.Core
 
             ShadowLine line = new ShadowLine();
             bool fullShadow = false;
-            List<Cell> ret = new List<Cell>();
+            List<Vector2Int> ret = new List<Vector2Int>();
 
             for (int row = 0; row < FOVRadius; row++)
             {
@@ -102,9 +100,8 @@ namespace Pantheon.Core
                     // be in shadow
                     if (fullShadow || pastMaxDistance)
                     {
-                        Cell c = level.GetCell(pos);
-                        if (c.SetVisibility(false, fallOff))
-                            ret.Add(c);
+                        if (level.SetVisibility(pos.x, pos.y, false))
+                            ret.Add(pos);
                     }
                     else
                     {
@@ -124,12 +121,11 @@ namespace Pantheon.Core
 
                         // Set the visibility of this tile
                         bool visible = !line.IsInShadow(projection);
-                        Cell c = level.GetCell(pos);
-                        if (c.SetVisibility(visible, fallOff))
-                            ret.Add(c);
+                        if (level.SetVisibility(pos.x, pos.y, visible))
+                            ret.Add(pos);
 
                         // Add any opaque tiles to the shadow map
-                        if (visible && level.GetCell(pos).Opaque)
+                        if (visible && level.Opaque(pos.x, pos.y))
                         {
                             line.AddShadow(projection);
                             fullShadow = line.IsFullShadow();

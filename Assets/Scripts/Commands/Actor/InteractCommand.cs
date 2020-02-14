@@ -18,8 +18,7 @@ namespace Pantheon.Commands.Actor
 
         public override CommandResult Execute()
         {
-            Connection conn = Entity.Level.ConnectionAt(Entity.Cell);
-            if (conn != null)
+            if (Level.Connections.TryGetValue(Entity.Cell, out Connection conn))
             {
                 GameController.Travel(conn);
                 return CommandResult.Succeeded;

@@ -4,6 +4,7 @@
 using Pantheon.Content;
 using Pantheon.Utils;
 using Pantheon.World;
+using UnityEngine;
 
 namespace Pantheon.Gen
 {
@@ -14,7 +15,7 @@ namespace Pantheon.Gen
             int points = 100;
             while (points > 0)
             {
-                Cell cell = level.RandomCell(true);
+                Vector2Int cell = level.RandomUnwalledCell();
                 Entity item;
                 if (RandomUtils.OneChanceIn(3)) // Relic
                 {
