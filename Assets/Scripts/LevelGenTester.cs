@@ -67,7 +67,7 @@ namespace Pantheon
             Stopwatch drawTime = Stopwatch.StartNew();
             foreach (Vector2Int c in level.Map)
             {
-                level.SetVisibility(c.x, c.y, true);
+                level.SetVisibility(c.x, c.y, true, 0);
                 level.DrawTile(c);
             }
             drawTime.Stop();

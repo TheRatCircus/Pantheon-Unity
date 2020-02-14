@@ -158,19 +158,31 @@ namespace Pantheon.World
                 !terrain.Blocked;
         }
 
-        public bool SetVisibility(int x, int y, bool visible)
+        public bool SetVisibility(int x, int y, bool visible, int falloff)
         {
             int map = MapCoords(x, y);
 
-            bool change = 
-                (!Visible(x, y) && visible) || 
-                (Visible(x, y) && !visible);
+            bool change;
+            bool visibleBefore = Visible(x, y);
 
             if (visible)
+            {
                 flagMap[map] |= CellFlag.Visible | CellFlag.Revealed;
+                change = !visibleBefore;
+            }
             else
-                flagMap[map] &= ~CellFlag.Visible;
-
+            {
+                if (falloff > 100)
+                {
+                    change = visibleBefore;
+                    flagMap[map] &= ~CellFlag.Visible;
+                }
+                else
+                {
+                    change = !visibleBefore;
+                    flagMap[map] |= CellFlag.Visible | CellFlag.Revealed;
+                }
+            }
             return change;
         }
 
@@ -334,10 +346,7 @@ namespace Pantheon.World
 
             RuleTile terrainTile;
             TerrainDefinition terrain = GetTerrain(cell.x, cell.y);
-            if (terrain != null)
-                terrainTile = terrain.Tile;
-            else
-                terrainTile = null;
+            terrainTile = terrain?.Tile;
 
             bool visible = Visible(cell.x, cell.y);
 
@@ -458,7 +467,10 @@ namespace Pantheon.World
 
         public string CellToString(Vector2Int cell)
         {
-            return $"{GetTerrain(cell.x, cell.y)} {cell}";
+            return 
+                $"{GetTerrain(cell.x, cell.y)} - " +
+                $"visible: {Visible(cell.x, cell.y)} " +
+                $"{cell}";
         }
 
         public override string ToString() => $"{DisplayName} {Position}";

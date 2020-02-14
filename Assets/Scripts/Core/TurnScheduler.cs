@@ -158,20 +158,19 @@ namespace Pantheon.Core
                 return true;
             }
 
-            Profiler.BeginSample("Scheduler: Act");
             if (actor.Control == ActorControl.Player)
             {
                 currentActor = actor;
+                Profiler.BeginSample("Scheduler: Act");
                 int actionCost = actor.Act();
+                Profiler.EndSample();
                 currentActor = null;
 
                 // Handle asynchronous input by returning -1
                 if (actionCost < 0)
-                {
-                    Profiler.EndSample();
                     return false;
-                }
 
+                Profiler.BeginSample("Scheduler: Time Handling");
                 timeConsumed = actionCost;
                 time += timeConsumed;
                 TimeChangeEvent?.Invoke(time, timeConsumed);
@@ -184,7 +183,11 @@ namespace Pantheon.Core
                     for (int i = 0; i < turnsPassed; i++)
                         ClockTickEvent?.Invoke();
                 }
+                Profiler.EndSample();
+
+                Profiler.BeginSample("Scheduler: FOV");
                 FOV.RefreshFOV(player.Entity.Level, player.Entity.Cell, true);
+                Profiler.EndSample();
             }
             else // TODO: Handle ActorControl.None
             {
@@ -195,12 +198,13 @@ namespace Pantheon.Core
                 if (actor.Progress >= actor.Threshold)
                 {
                     currentActor = actor;
+                    Profiler.BeginSample("Scheduler: Act");
                     actor.Act();
+                    Profiler.EndSample();
                     currentActor = null;
                     actor.Progress = 0;
                 }
             }
-            Profiler.EndSample();
 
             if (currentActorRemoved)
             {

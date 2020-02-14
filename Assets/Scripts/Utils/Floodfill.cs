@@ -71,6 +71,7 @@ namespace Pantheon.Utils
             Vector2Int origin,
             Predicate<Vector2Int> predicate)
         {
+            bool[,] filled = new bool[level.Size.x, level.Size.y];
             HashSet<Vector2Int> ret = new HashSet<Vector2Int>();
             Stack<Vector2Int> cells = new Stack<Vector2Int>();
             cells.Push(origin);
@@ -79,16 +80,17 @@ namespace Pantheon.Utils
             {
                 Vector2Int a = cells.Pop();
 
-                if (!level.Contains(a))
+                if (filled[a.x, a.y])
                     continue;
 
                 if (!predicate(a))
                     continue;
 
-                if (ret.Contains(a))
+                if (!level.Contains(a))
                     continue;
 
                 ret.Add(a);
+                filled[a.x, a.y] = true;
 
                 Vector2Int left = new Vector2Int(a.x - 1, a.y);
                 if (level.Contains(left))
