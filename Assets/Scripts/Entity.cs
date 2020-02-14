@@ -238,6 +238,8 @@ namespace Pantheon
 
         public void Move(Level level, Vector2Int cell)
         {
+            Locator.Scheduler.SetDirtyCell(Cell);
+            Locator.Scheduler.SetDirtyCell(cell);
             Vector2Int prev = Cell;
             Level = level;
             Cell = cell;
@@ -316,6 +318,7 @@ namespace Pantheon
                         Color.grey);
             }
 
+            Level.ClearEntity(this);
             Object.Destroy(GameObjects[0]);
         }
 

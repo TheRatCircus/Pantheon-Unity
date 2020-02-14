@@ -224,7 +224,12 @@ namespace Pantheon.World
         private bool RemoveItem(Entity item)
         {
             if (items.TryGetValue(item.Cell, out List<Entity> list))
-                return list.Remove(item);
+            {
+                bool ret = list.Remove(item);
+                if (list.Count == 0)
+                    items.Remove(item.Cell);
+                return ret;
+            }
             else
                 return false;
         }
