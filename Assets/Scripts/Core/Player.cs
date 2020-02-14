@@ -124,7 +124,7 @@ namespace Pantheon.Core
             }
             else if (Input.GetButtonDown("Right"))
             {
-                actor.Command = new MoveCommand(Entity, 0, 1);
+                actor.Command = new MoveCommand(Entity, 1, 0);
             }
             else if (Input.GetButtonDown("Up Left"))
             {
