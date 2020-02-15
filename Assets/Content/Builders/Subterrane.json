@@ -8,8 +8,8 @@
     "z": -2
   },
   "Size": {
-    "x": 200,
-    "y": 200
+    "x": 500,
+    "y": 500
   },
   "Ground": "Terrain_StoneFloor",
   "Wall": "Terrain_StoneWall",

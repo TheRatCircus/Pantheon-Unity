@@ -206,7 +206,6 @@ namespace Pantheon.Utils
         public static void SetSpriteVisibility(this GameObject gameObject, bool visible)
         {
             gameObject.GetComponent<SpriteRenderer>().enabled = visible;
-            gameObject.GetComponent<Light2D>().enabled = visible;
         }
 
         /// <summary>
