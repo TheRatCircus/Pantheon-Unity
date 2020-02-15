@@ -77,7 +77,6 @@ namespace PantheonEditor
                         },
                     },
                 new Body(),
-                new Corpse(),
                 new Dialogue(),
                 new Evocable(),
                 new Health(),

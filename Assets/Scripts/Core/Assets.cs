@@ -2,10 +2,12 @@
 // Jerome Martina
 
 using Newtonsoft.Json;
+using Pantheon.Components.Entity;
 using Pantheon.Content;
 using Pantheon.Gen;
 using Pantheon.Serialization.Json;
 using Pantheon.Serialization.Json.Converters;
+using Pantheon.Utils;
 using Pantheon.World;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -47,6 +49,7 @@ namespace Pantheon
             _prefabs = new Dictionary<string, GameObject>();
             Prefabs = new ReadOnlyDictionary<string, GameObject>(_prefabs);
             _templates = new Dictionary<string, EntityTemplate>(templateFiles.Length);
+            _corpses = new Dictionary<string, EntityTemplate>();
             _professions = new Dictionary<string, Profession>(profFiles.Length);
             _sprites = new Dictionary<string, Sprite>();
             Sprites = new ReadOnlyDictionary<string, Sprite>(_sprites);
@@ -306,6 +309,27 @@ namespace Pantheon
         }
 
         public static bool TemplateExists(string id) => _templates.ContainsKey(id);
+
+        // Corpse flyweights
+
+        private static Dictionary<string, EntityTemplate> _corpses;
+
+        public static EntityTemplate GetCorpseTemplate(Entity entity)
+        {
+            // TODO: Handle entities which leave corpses but have no species
+            string speciesName = 
+                entity.GetComponent<Species>().
+                SpeciesDef.Name.FirstCharToUpper();
+            string id = $"Corpse_{speciesName}";
+            if (_corpses.TryGetValue(id, out EntityTemplate ret))
+                return ret;
+            else
+            {
+                EntityTemplate template = EntityTemplate.Corpse(id, speciesName, entity);
+                _corpses.Add(template.ID, template);
+                return template;
+            }
+        }
 
         // Professions
 

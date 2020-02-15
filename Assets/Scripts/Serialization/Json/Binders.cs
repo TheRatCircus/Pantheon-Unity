@@ -3,7 +3,6 @@
 
 using Pantheon.Commands.NonActor;
 using Pantheon.Components.Entity;
-using Pantheon.Components.Entity.Statuses;
 using Pantheon.Components.Talent;
 using Pantheon.Gen;
 using System;
@@ -37,7 +36,6 @@ namespace Pantheon.Serialization.Json
                     typeof(AI),
                     typeof(Ammo),
                     typeof(Body),
-                    typeof(Corpse),
                     typeof(Dialogue),
                     typeof(Evocable),
                     typeof(Health),

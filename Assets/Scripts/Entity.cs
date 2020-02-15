@@ -93,30 +93,8 @@ namespace Pantheon
             set => gameObjects = value;
         }
 
-        private Sprite sprite;
-        public Sprite Sprite
-        {
-            get
-            {
-                if (sprite != null)
-                    return sprite;
-                else
-                    return Flyweight.Sprite;
-            }
-            set => sprite = value;
-        }
-        [NonSerialized] private Tile tile;
-        public Tile Tile
-        {
-            get
-            {
-                if (tile != null)
-                    return tile;
-                else
-                    return Flyweight.Tile;
-            }
-            set => tile = value;
-        }
+        public Sprite Sprite => Flyweight.Sprite;
+        public Tile Tile => Flyweight.Tile;
         public EntityTemplate Flyweight { get; set; }
 
         public Dictionary<Type, EntityComponent> Components { get; private set; }
@@ -138,7 +116,14 @@ namespace Pantheon
             Name = template.EntityName;
             Flyweight = template;
             Flags = template.Flags;
-            Components = new Dictionary<Type, EntityComponent>(5);
+
+            if (template.Components == null || template.Components.Length < 1)
+            {
+                Components = new Dictionary<Type, EntityComponent>(0);
+                return;
+            }
+
+            Components = new Dictionary<Type, EntityComponent>(template.Components.Length);
 
             foreach (EntityComponent component in template.Components)
             {
@@ -278,17 +263,8 @@ namespace Pantheon
 
             if (TryGetComponent(out Species species))
             {
-                Tile tile = ScriptableObject.CreateInstance<Tile>();
-                Sprite sprite = Assets.Sprites["Sprite_Corpse"];
-                tile.sprite = sprite;
-                Entity corpse = new Entity(new Corpse())
-                {
-                    Name = $"{species.SpeciesDef.Name} corpse",
-                    Sprite = sprite,
-                    Tile = tile
-                };
+                Entity corpse = new Entity(Assets.GetCorpseTemplate(this));
                 corpse.Move(Level, Cell);
-                corpse.GetComponent<Corpse>().Original = this;
             }
 
             if (TryGetComponent(out Actor actor))
@@ -320,13 +296,6 @@ namespace Pantheon
         private void OnSerializing(StreamingContext ctxt)
         {
             DestroyedEvent = null;
-        }
-
-        [OnDeserializing]
-        private void OnDeserializing(StreamingContext ctxt)
-        {
-            Tile = ScriptableObject.CreateInstance<Tile>();
-            tile.sprite = sprite;
         }
 
         public override string ToString()

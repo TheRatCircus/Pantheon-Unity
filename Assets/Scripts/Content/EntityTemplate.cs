@@ -30,6 +30,7 @@ namespace Pantheon.Content
 
         public EntityTemplate(Entity entity)
         {
+            // TODO: Modernize
             EntityName = entity.Name;
             Sprite = entity.Flyweight.Sprite;
             Components = new EntityComponent[entity.Components.Count];
@@ -45,6 +46,20 @@ namespace Pantheon.Content
                 Tile = ScriptableObject.CreateInstance<Tile>();
                 Tile.sprite = Sprite;
             }
+        }
+
+        public static EntityTemplate Corpse(string id, string name, Entity entity)
+        {
+            EntityTemplate ret = new EntityTemplate()
+            {
+                ID = id,
+                EntityName = entity.Unique ?
+                $"{entity.ToString()}'s corpse" : $"{name.ToLower()} corpse",
+                Sprite = Assets.Sprites["Sprite_Corpse"],
+                Components = new EntityComponent[0]
+            };
+            ret.Tile = Assets.GetTile<Tile>(ret.Sprite);
+            return ret;
         }
 
         public bool HasComponent<T>() where T : EntityComponent
