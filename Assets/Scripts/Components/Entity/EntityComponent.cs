@@ -19,21 +19,4 @@ namespace Pantheon.Components.Entity
 
         public abstract EntityComponent Clone(bool full);
     }
-
-    public interface IComponentMessage
-    {
-        EntityComponent Source { get; }
-    }
-
-    public struct DamageEventMessage : IComponentMessage
-    {
-        public EntityComponent Source { get; private set; }
-        public Entity Damager { get; private set; }
-
-        public DamageEventMessage(EntityComponent source, Entity damager)
-        {
-            Source = source;
-            Damager = damager;
-        }
-    }
 }
