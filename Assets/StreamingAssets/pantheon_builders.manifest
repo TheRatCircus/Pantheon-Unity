@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 667665304
+CRC: 1914034637
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: ba8659facb3f064e3ad618ce4bfc1f4c
+    Hash: 7f37a0bea0e336a85d0d3e4d61e118e1
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5ad585dd02dfb5016c0dad519eab8f49
@@ -13,9 +13,6 @@ ClassTypes:
   Script: {instanceID: 0}
 Assets:
 - Assets/Content/Builders/Subterrane.json
-- Assets/Content/Builders/Plan_Reformatory.json
-- Assets/Content/Builders/Plan_FloodPlain.json
 - Assets/Content/Builders/Reformatory.json
 - Assets/Content/Builders/Flood.json
-- Assets/Content/Builders/Plan_Subterrane.json
 Dependencies: []

@@ -36,11 +36,7 @@ namespace Pantheon
         public EntityFlag Flags { get; set; }
 
         public Vector2Int Cell { get; set; }
-        public Level Level
-        {
-            get => GetComponent<Location>().Level;
-            set => GetComponent<Location>().Level = value;
-        }
+        public Level Level { get; set; }
 
         public bool Blocking
         {
@@ -134,7 +130,6 @@ namespace Pantheon
             foreach (EntityComponent ec in components)
                 AddComponent(ec.Clone(false));
 
-            AddComponent(new Location());
             ConnectComponents();
         }
 
@@ -144,7 +139,6 @@ namespace Pantheon
             Flyweight = template;
             Flags = template.Flags;
             Components = new Dictionary<Type, EntityComponent>(5);
-            AddComponent(new Location());
 
             foreach (EntityComponent component in template.Components)
             {

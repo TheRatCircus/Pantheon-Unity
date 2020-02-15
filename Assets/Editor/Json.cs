@@ -82,7 +82,6 @@ namespace PantheonEditor
                 new Evocable(),
                 new Health(),
                 new Inventory(20),
-                new Location(),
                 new Melee(
                     new MeleeAttack(
                         new Damage[]

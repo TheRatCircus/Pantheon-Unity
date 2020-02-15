@@ -86,11 +86,6 @@
       "Empty": true
     },
     {
-      "$type": "Location",
-      "Cell": null,
-      "Level": null
-    },
-    {
       "$type": "Melee",
       "Attacks": [
         {
