@@ -10,6 +10,7 @@ using Pantheon.Utils;
 using Pantheon.World;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -98,13 +99,18 @@ namespace Pantheon
         public Tile Tile => Flyweight.Tile;
         public EntityTemplate Flyweight { get; set; }
 
-        public Dictionary<Type, EntityComponent> Components { get; private set; }
+        private EntityComponent[] components;
+        public EntityComponent[] Components
+        {
+            get => components;
+            private set => components = value;
+        }
 
         public event Action DestroyedEvent;
 
         public Entity(params EntityComponent[] components)
         {
-            Components = new Dictionary<Type, EntityComponent>();
+            Components = new EntityComponent[components.Length];
 
             foreach (EntityComponent ec in components)
                 AddComponent(ec.Clone(false));
@@ -118,11 +124,11 @@ namespace Pantheon
 
             if (template.Components == null || template.Components.Length < 1)
             {
-                Components = new Dictionary<Type, EntityComponent>(0);
+                Components = new EntityComponent[0];
                 return;
             }
 
-            Components = new Dictionary<Type, EntityComponent>(template.Components.Length);
+            Components = new EntityComponent[template.Components.Length];
 
             foreach (EntityComponent component in template.Components)
             {
@@ -141,29 +147,35 @@ namespace Pantheon
 
         public T GetComponent<T>() where T : EntityComponent
         {
-            if (Components.TryGetValue(typeof(T), out EntityComponent ret))
-                return (T)ret;
-            else if (Flyweight != null && Flyweight.TryGetComponent(out T tec))
+            foreach (EntityComponent ec in Components)
+            {
+                if (ec?.GetType() == typeof(T))
+                    return (T)ec;
+            }
+
+            if (Flyweight != null && Flyweight.TryGetComponent(out T tec))
             {
                 // Get clone from template, add to Components, return it
                 T clone = (T)tec.Clone(false);
                 AddComponent(clone);
                 return clone;
             }
-            else
-                throw new ArgumentException(
-                    $"Component of type {typeof(T)} not found.");
+            else return null;
         }
 
         public bool TryGetComponent<T>(out T ret)
             where T : EntityComponent
         {
-            if (Components.TryGetValue(typeof(T), out EntityComponent ec))
+            foreach (EntityComponent ec in Components)
             {
-                ret = (T)ec;
-                return true;
+                if (ec?.GetType() == typeof(T))
+                {
+                    ret = (T)ec;
+                    return true;
+                }
             }
-            else if (Flyweight != null && Flyweight.TryGetComponent(out T tec))
+
+            if (Flyweight != null && Flyweight.TryGetComponent(out T tec))
             {
                 // Get clone from template, add to Components, return it
                 T clone = (T)tec.Clone(false);
@@ -184,12 +196,33 @@ namespace Pantheon
             if (ec is IEntityDependentComponent edc)
                 edc.Initialize();
             ec.MessageEvent += RelayMessage;
-            Components.Add(ec.GetType(), ec);
+
+            Type type = ec.GetType();
+
+            // First check for existing component of same type
+            for (int i = 0; i < Components.Length; i++)
+                if (Components[i]?.GetType() == type)
+                    throw new ArgumentException(
+                        $"Component of type {type.Name} already present in entity {Name}.");
+
+            for (int i = 0; i < Components.Length; i++)
+                if (Components[i] == null)
+                {
+                    Components[i] = ec;
+                    return;
+                }
+
+            Array.Resize(ref components, Components.Length + 1);
+            Components[Components.Length - 1] = ec;
         }
 
         public bool HasComponent<T>() where T : EntityComponent
         {
-            return Components.ContainsKey(typeof(T));
+            foreach (EntityComponent ec in Components)
+                if (ec.GetType() == typeof(T))
+                    return true;
+
+            return false;
         }
 
         public bool HasComponent(Type type)
@@ -198,13 +231,17 @@ namespace Pantheon
                 throw new ArgumentException(
                     $"Type must inherit from EntityComponent.");
 
-            return Components.ContainsKey(type);
+            foreach (EntityComponent ec in Components)
+                if (ec.GetType() == type)
+                    return true;
+
+            return false;
         }
 
         private void RelayMessage(IComponentMessage msg)
         {
-            foreach (EntityComponent ec in Components.Values)
-                ec.Receive(msg);
+            foreach (EntityComponent ec in Components)
+                ec?.Receive(msg);
         }
 
         public void Move(Level level, Vector2Int cell)

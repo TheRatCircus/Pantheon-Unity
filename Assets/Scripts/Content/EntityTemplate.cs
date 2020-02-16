@@ -33,9 +33,9 @@ namespace Pantheon.Content
             // TODO: Modernize
             EntityName = entity.Name;
             Sprite = entity.Flyweight.Sprite;
-            Components = new EntityComponent[entity.Components.Count];
+            Components = new EntityComponent[entity.Components.Length];
             int i = 0;
-            foreach (EntityComponent ec in entity.Components.Values)
+            foreach (EntityComponent ec in entity.Components)
             {
                 Components[i++] = ec.Clone(false);
             }
