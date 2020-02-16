@@ -13,19 +13,7 @@
     },
     {
       "$type": "AI",
-      "Strategy": null,
-      "Utilities": [
-        {
-          "$type": "ApproachUtility"
-        },
-        {
-          "$type": "AttackUtility",
-          "Aggression": 50
-        },
-        {
-          "$type": "FleeUtility"
-        }
-      ]
+      "Definition": "AI_Coyote"
     },
     {
       "$type": "Health",

@@ -188,16 +188,7 @@ namespace Pantheon.Debug
 
         public static string Enthrall(string[] args, GameController ctrl)
         {
-            Entity entity = ctrl.ActiveLevel.ActorAt(ctrl.Cursor.HoveredCell);
-
-            if (entity == null)
-                return "No NPC in selected cell.";
-
-            if (!entity.TryGetComponent(out AI ai))
-                return "Entity in selected cell has no AI.";
-
-            ai.Strategy = new ThrallFollowStrategy(ctrl.PC.GetComponent<Actor>());
-            return $"Changed strategy of {ai.Entity} to Thrall Follow.";
+            return $"This command is not implemented yet.";
         }
 
         public static string Vault(string[] args, GameController ctrl)

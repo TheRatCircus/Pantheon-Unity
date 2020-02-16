@@ -3,21 +3,19 @@
 
 using Pantheon.Commands.Actor;
 using Pantheon.Utils;
-using System;
 
 namespace Pantheon.Components.Entity
 {
     using Entity = Pantheon.Entity;
 
-    [Serializable]
     public sealed class ApproachUtility : AIUtility
     {
         public override int Recalculate(Entity entity, AI ai)
         {
-            if (ai.Target == null)
+            if (!ai.Alerted)
                 return 0;
 
-            int dst = Helpers.Distance(entity.Cell, ai.Target.Cell);
+            int dst = Helpers.Distance(entity.Cell, Locator.Player.Entity.Cell);
 
             if (dst > 1)
                 return 80;
@@ -27,7 +25,7 @@ namespace Pantheon.Components.Entity
 
         public override ActorCommand Invoke(Entity entity, AI ai)
         {
-            Line path = entity.Level.GetPath(entity.Cell, ai.Target.Cell);
+            Line path = entity.Level.GetPath(entity.Cell, Locator.Player.Entity.Cell);
             if (path.Count < 0)
                 return new WaitCommand(entity);
             else

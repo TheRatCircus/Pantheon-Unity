@@ -85,6 +85,7 @@ namespace Pantheon
 
         public bool Visible => Level.Visible(Cell.x, Cell.y);
 
+        // TODO: Reduce to one GameObject reference
         [NonSerialized]
         private GameObject[] gameObjects = new GameObject[1];
         public GameObject[] GameObjects
@@ -107,8 +108,6 @@ namespace Pantheon
 
             foreach (EntityComponent ec in components)
                 AddComponent(ec.Clone(false));
-
-            ConnectComponents();
         }
 
         public Entity(EntityTemplate template)
@@ -138,13 +137,6 @@ namespace Pantheon
                         wield.TryWield(new Entity(template.Wielded[i]), out Entity unwielded);
                 }
             }
-            ConnectComponents();
-        }
-
-        private void ConnectComponents()
-        {
-            if (TryGetComponent(out AI ai))
-                ai.Actor = GetComponent<Actor>();
         }
 
         public T GetComponent<T>() where T : EntityComponent

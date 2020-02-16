@@ -11,7 +11,8 @@ using UnityEngine.Tilemaps;
 
 namespace Pantheon.SaveLoad
 {
-    // XXX: This class can be static
+    // TODO: This class can be static
+    // TODO: Can some surrogate classes be merged using generics?
     public sealed class SaveWriterReader
     {
         private readonly SurrogateSelector selector;
@@ -39,6 +40,8 @@ namespace Pantheon.SaveLoad
                 new AudioClipSurrogate());
             selector.AddSurrogate(typeof(Tile), ctxt,
                 new TileSurrogate());
+            selector.AddSurrogate(typeof(AIDefinition), ctxt,
+                new AIDefinitionSurrogate());
         }
 
         public void WriteSave(Save save)

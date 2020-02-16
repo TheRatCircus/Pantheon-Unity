@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 3931129598
+CRC: 405725605
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -22,4 +22,7 @@ AssetBundleManifest:
       Dependencies: {}
     Info_6:
       Name: pantheon_builders
+      Dependencies: {}
+    Info_7:
+      Name: pantheon_ai
       Dependencies: {}

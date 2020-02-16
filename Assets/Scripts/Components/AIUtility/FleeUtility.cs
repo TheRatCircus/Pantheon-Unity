@@ -3,7 +3,6 @@
 
 using Pantheon.Commands.Actor;
 using Pantheon.Utils;
-using Pantheon.World;
 using System;
 using UnityEngine;
 
@@ -11,7 +10,6 @@ namespace Pantheon.Components.Entity
 {
     using Entity = Pantheon.Entity;
 
-    [Serializable]
     public sealed class FleeUtility : AIUtility
     {
         public override int Recalculate(Entity entity, AI ai)
@@ -24,23 +22,12 @@ namespace Pantheon.Components.Entity
 
         public override ActorCommand Invoke(Entity entity, AI ai)
         {
-            if (ai.Destination != null)
-            {
-                if (Helpers.Distance(ai.Target.Cell, ai.Destination) > 20)
-                {
-                    Vector2Int cell = entity.Level.GetPath(entity.Cell, ai.Destination)[1];
-                    return new MoveCommand(entity, cell);
-                }
-            }
-
-            do
-            {
-                ai.Destination = entity.Level.RandomCell(
-                    (Vector2Int v)
-                    => !entity.Level.Walled(v));
-            } while (Helpers.Distance(ai.Target.Cell, ai.Destination) < 20);
-            Vector2Int c = entity.Level.GetPath(entity.Cell, ai.Destination)[1];
-            return new MoveCommand(entity, c);
+            int dist = Helpers.Distance(entity.Cell, Locator.Player.Entity.Cell);
+            Vector2Int cell = Floodfill.QueueFillForCell(
+                entity.Level, entity.Cell,
+                (Vector2Int c) => false,
+                (Vector2Int c) => Helpers.Distance(entity.Cell, c) > dist);
+            return new MoveCommand(entity, cell);
         }
     }
 }

@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 2597494461
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: b9ce1dec8dc341870b23a70935ee092d
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/Content/AI/AI_RagingGoose.json
+- Assets/Content/AI/AI_Coyote.json
+- Assets/Content/AI/AI_Human.json
+Dependencies: []

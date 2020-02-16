@@ -14,6 +14,7 @@ namespace Pantheon.Components.Entity
     [Serializable]
     public sealed class Health : EntityComponent
     {
+        // TODO: Reduce values to int16 
         [SerializeField] private int max = 10;
         [SerializeField] private int regenTime = 800; // Time in ticks to regen 1 HP
 

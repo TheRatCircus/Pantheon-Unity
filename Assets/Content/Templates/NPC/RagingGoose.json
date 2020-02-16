@@ -12,19 +12,7 @@
     },
     {
       "$type": "AI",
-      "Strategy": null,
-      "Utilities": [
-        {
-          "$type": "ApproachUtility"
-        },
-        {
-          "$type": "AttackUtility",
-          "Aggression": 110
-        },
-        {
-          "$type": "FleeUtility"
-        }
-      ]
+      "Definition": "AI_RagingGoose"
     },
     {
       "$type": "Health",

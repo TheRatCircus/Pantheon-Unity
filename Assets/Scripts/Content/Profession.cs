@@ -55,8 +55,7 @@ namespace Pantheon.Content
 
                 if (entity.TryGetComponent(out AI ai))
                 {
-                    ai.Utilities = profAi.Utilities;
-                    ai.Peaceful = profAi.Peaceful;
+                    ai.Definition = profAi.Definition;
                 }
                 else
                     entity.AddComponent(profAi.Clone(false));

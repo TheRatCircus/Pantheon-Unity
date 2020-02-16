@@ -37,9 +37,12 @@ namespace Pantheon
                 Application.streamingAssetsPath, "pantheon_builders"));
             bundleProfessions = AssetBundle.LoadFromFile(Path.Combine(
                 Application.streamingAssetsPath, "pantheon_professions"));
+            bundleAI = AssetBundle.LoadFromFile(Path.Combine(
+                Application.streamingAssetsPath, "pantheon_ai"));
 
             Object[] objs = bundleMain.LoadAllAssets();
             Object[] templateFiles = bundleTemplates.LoadAllAssets();
+            Object[] aiFiles = bundleAI.LoadAllAssets();
             Object[] profFiles = bundleProfessions.LoadAllAssets();
             Object[] talentFiles = bundleTalents.LoadAllAssets();
             Object[] speciesFiles = bundleSpecies.LoadAllAssets();
@@ -50,6 +53,8 @@ namespace Pantheon
             Prefabs = new ReadOnlyDictionary<string, GameObject>(_prefabs);
             _templates = new Dictionary<string, EntityTemplate>(templateFiles.Length);
             _corpses = new Dictionary<string, EntityTemplate>();
+            _ai = new Dictionary<string, AIDefinition>(aiFiles.Length);
+            AI = new ReadOnlyDictionary<string, AIDefinition>(_ai);
             _professions = new Dictionary<string, Profession>(profFiles.Length);
             _sprites = new Dictionary<string, Sprite>();
             Sprites = new ReadOnlyDictionary<string, Sprite>(_sprites);
@@ -158,6 +163,14 @@ namespace Pantheon
                 _talents.Add(talent.ID, talent);
             }
 
+            foreach (TextAsset ta in aiFiles)
+            {
+                AIDefinition def =
+                    JsonConvert.DeserializeObject<AIDefinition>(
+                        ta.text, _aiSettings);
+                _ai.Add(def.ID, def);
+            }
+
             foreach (TextAsset ta in bodyFiles)
             {
                 BodyPart part = JsonConvert.DeserializeObject<BodyPart>(
@@ -194,6 +207,7 @@ namespace Pantheon
 
         private static AssetBundle bundleMain;
         private static AssetBundle bundleTemplates;
+        private static AssetBundle bundleAI;
         private static AssetBundle bundleTalents;
         private static AssetBundle bundleSpecies;
         private static AssetBundle bundleBody;
@@ -207,6 +221,7 @@ namespace Pantheon
             Formatting = Formatting.Indented,
             Converters = new List<JsonConverter>()
                 {
+                    new AIDefinitionConverter(),
                     new AudioClipConverter(),
                     new BodyPartConverter(),
                     new GameObjectConverter(),
@@ -218,6 +233,13 @@ namespace Pantheon
                     //new TemplateArrayConverter(),
                     new TileConverter(),
                 }
+        };
+
+        private static readonly JsonSerializerSettings _aiSettings = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto,
+            SerializationBinder = Binders._entity,
+            Formatting = Formatting.Indented
         };
 
         private static readonly JsonSerializerSettings _talentSettings = new JsonSerializerSettings
@@ -330,6 +352,11 @@ namespace Pantheon
                 return template;
             }
         }
+
+        // AI
+
+        private static Dictionary<string, AIDefinition> _ai;
+        public static ReadOnlyDictionary<string, AIDefinition> AI { get; private set; }
 
         // Professions
 

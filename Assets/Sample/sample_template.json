@@ -9,23 +9,13 @@
       "$type": "Actor",
       "Progress": 0,
       "Threshold": 0,
-      "Command": null
+      "Command": null,
+      "Control": "None"
     },
     {
       "$type": "AI",
-      "Strategy": null,
-      "Utilities": [
-        {
-          "$type": "ApproachUtility"
-        },
-        {
-          "$type": "AttackUtility",
-          "Aggression": 50
-        },
-        {
-          "$type": "FleeUtility"
-        }
-      ]
+      "Definition": "SAMPLE_AI_ID",
+      "Alerted": false
     },
     {
       "$type": "Ammo",
@@ -49,7 +39,12 @@
         "Pattern": "Square",
         "Prefab": "FX_Shrapnel",
         "Sound": null,
-        "Cell": null,
+        "Cell": {
+          "x": 0,
+          "y": 0,
+          "magnitude": 0.0,
+          "sqrMagnitude": 0
+        },
         "Line": null
       },
       "OnHitCommand": null
@@ -58,11 +53,6 @@
       "$type": "Body",
       "Torso": null,
       "Parts": null
-    },
-    {
-      "$type": "Corpse",
-      "Original": null,
-      "Skeletal": false
     },
     {
       "$type": "Dialogue",

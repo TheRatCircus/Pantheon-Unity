@@ -1,0 +1,17 @@
+{
+  "ID": "AI_Coyote",
+  "Peaceful": false,
+  "Strategy": null,
+  "Utilities": [
+    {
+      "$type": "ApproachUtility"
+    },
+    {
+      "$type": "AttackUtility",
+      "Aggression": 50
+    },
+    {
+      "$type": "FleeUtility"
+    }
+  ]
+}

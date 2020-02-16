@@ -20,19 +20,7 @@ namespace Pantheon.Components.Entity
 
         public override ActorCommand Decide(AI ai)
         {
-            if (ai.Entity.Visible) // Detect player and begin approach
-            {
-                ai.Strategy = new DefaultStrategy(Locator.Player.Entity);
-                Locator.Log.Send(
-                    $"{Strings.Subject(ai.Entity, true)} notices you!",
-                    Colours._orange);
-                return ai.Strategy.Decide(ai);
-            }
-
-            if (ai.Entity.Cell != destination)
-                destination = ai.Entity.Level.RandomUnwalledCell();
-
-            return MoveCommand.MoveOrWait(ai.Entity, destination);
+            throw new System.NotImplementedException();
         }
     }
 }

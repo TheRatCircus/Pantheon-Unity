@@ -1,0 +1,17 @@
+{
+  "ID": "AI_RagingGoose",
+  "Peaceful": false,
+  "Strategy": null,
+  "Utilities": [
+    {
+      "$type": "ApproachUtility"
+    },
+    {
+      "$type": "AttackUtility",
+      "Aggression": 110
+    },
+    {
+      "$type": "FleeUtility"
+    }
+  ]
+}

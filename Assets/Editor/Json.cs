@@ -48,7 +48,15 @@ namespace PantheonEditor
             EntityComponent[] components = new EntityComponent[]
             {
                 new Actor() { Control = ActorControl.None },
-                new AI(new ApproachUtility(), new AttackUtility(), new FleeUtility()),
+                new AI(new AIDefinition
+                {
+                    ID = "SAMPLE_AI_ID",
+                    Utilities = new AIUtility[]
+                    {
+                        new ApproachUtility(),
+                        new AttackUtility()
+                    }
+                    }),
                 new Ammo()
                     {
                         Type = AmmoType.Cartridges,
@@ -147,6 +155,7 @@ namespace PantheonEditor
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>()
                 {
+                    new AIDefinitionConverter(),
                     new GameObjectConverter(),
                     new SpriteConverter(),
                     new TalentConverter(),

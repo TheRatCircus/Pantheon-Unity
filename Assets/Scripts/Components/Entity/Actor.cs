@@ -74,23 +74,9 @@ namespace Pantheon.Components.Entity
                 return false;
 
             if (Entity.TryGetComponent(out AI ai))
-            {
-                // If other is not this actor's master, be hostile to it
-                if (ai.Strategy is ThrallFollowStrategy tfs)
-                    return tfs.Master != other;
-                else
-                    return true;
-            }
+                return true;
             else if (Control == ActorControl.Player)
-            {
-                AI otherAi = other.Entity.GetComponent<AI>();
-
-                // Don't be hostile to a thrall
-                if (otherAi.Strategy is ThrallFollowStrategy tfs)
-                    return tfs.Master != this;
-                else
-                    return true;
-            }
+                return true;
             else // This actor is uncontrolled
                 return false;
         }
