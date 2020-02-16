@@ -69,7 +69,7 @@ namespace Pantheon.Utils
                 if (level.Walled(a.x, a.y))
                     continue;
 
-                int lowestAdjacent = 255;
+                int lowestAdjacent = Map[a.x, a.y];
 
                 for (int y = -1; y <= 1; y++)
                     for (int x = -1; x <= 1; x++)
@@ -131,11 +131,14 @@ namespace Pantheon.Utils
                 if (level.Walled(a.x, a.y))
                     continue;
 
-                int lowestAdjacent = 255;
+                int lowestAdjacent = Map[a.x, a.y];
 
                 for (int y = -1; y <= 1; y++)
                     for (int x = -1; x <= 1; x++)
                     {
+                        if (x == 0 && y == 0)
+                            continue;
+
                         if (!level.Contains(a.x + x, a.y + y))
                             continue;
 

@@ -1,4 +1,7 @@
-﻿using Pantheon.Utils;
+﻿#define DEBUG_DIJKSTRA
+#undef DEBUG_DIJKSTRA
+
+using Pantheon.Utils;
 using Pantheon.World;
 using UnityEngine;
 
@@ -7,6 +10,14 @@ namespace Pantheon
     public sealed class LevelWrapper : MonoBehaviour
     {
         public Level Level { get; set; }
+
+#if DEBUG_DIJKSTRA
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.U))
+                Level.RecalculatePlayerDijkstra();
+        }
+#endif
 
         private void OnDrawGizmosSelected()
         {
