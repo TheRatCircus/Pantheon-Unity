@@ -106,6 +106,7 @@ namespace Pantheon
             private set => components = value;
         }
 
+        public event Action BecameVisibleEvent;
         public event Action DestroyedEvent;
 
         public Entity(params EntityComponent[] components)
@@ -261,6 +262,8 @@ namespace Pantheon
             if (TryGetComponent(out Wield wield))
                 wield.Move(level, cell);
         }
+
+        public void MakeVisible() => BecameVisibleEvent?.Invoke();
 
         public void TakeHit(Entity hitter, Hit hit)
         {

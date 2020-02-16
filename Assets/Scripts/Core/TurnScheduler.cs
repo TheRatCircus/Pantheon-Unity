@@ -186,7 +186,18 @@ namespace Pantheon.Core
                 Profiler.EndSample();
 
                 Profiler.BeginSample("Scheduler: FOV");
-                FOV.RefreshFOV(player.Entity.Level, player.Entity.Cell, true);
+                HashSet<Vector2Int> refreshed = FOV.RefreshFOV(
+                    player.Entity.Level, 
+                    player.Entity.Cell, true);
+                foreach (Vector2Int c in refreshed)
+                {
+                    // If cell was hidden, ignore actor within
+                    if (!player.Entity.Level.Visible(c.x, c.y))
+                        continue;
+
+                    Entity e = player.Entity.Level.ActorAt(c);
+                    e?.MakeVisible();
+                }
                 Profiler.EndSample();
             }
             else // TODO: Handle ActorControl.None
@@ -238,10 +249,15 @@ namespace Pantheon.Core
         }
 
         // Add and remove actors from the queue
-        public void AddActor(Actor actor) => Queue.Add(actor);
+        public void AddActor(Actor actor)
+        {
+            Queue.Add(actor);
+            actor.Active = true;
+        }
         public void RemoveActor(Actor actor)
         {
             Queue.Remove(actor);
+            actor.Active = false;
 
             if (currentActor == actor)
                 currentActorRemoved = true;

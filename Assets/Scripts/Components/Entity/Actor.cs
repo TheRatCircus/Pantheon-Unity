@@ -26,6 +26,7 @@ namespace Pantheon.Components.Entity
     [Serializable]
     public sealed class Actor : EntityComponent, IEntityDependentComponent
     {
+        public bool Active { get; set; }
         public int Progress { get; set; }
         public int Threshold { get; set; }
 

@@ -2,6 +2,7 @@
   "ID": "AI_Human",
   "Peaceful": false,
   "Strategy": null,
+  "Memory": 30,
   "Utilities": [
     {
       "$type": "ApproachUtility"

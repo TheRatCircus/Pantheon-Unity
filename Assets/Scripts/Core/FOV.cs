@@ -1,6 +1,9 @@
 ﻿// FOV.cs
 // Courtesy of Bob Nystrom
 
+#define DEBUG_FOV
+#undef DEBUG_FOV
+
 using Pantheon.Utils;
 using Pantheon.World;
 using System.Collections.Generic;
@@ -56,6 +59,11 @@ namespace Pantheon.Core
                 (Vector2Int c) => level.Visible(c.x, c.y));
             Locator.Player.UpdateVisibles(visibles);
             Profiler.EndSample();
+
+#if DEBUG_FOV
+            foreach (Vector2Int v in changed)
+                DebugFOV(level, v);
+#endif
 
             return changed;
         }
@@ -161,6 +169,14 @@ namespace Pantheon.Core
             return new Shadow(topLeft, bottomRight,
                 new Vector2(col, row + 2),
                 new Vector2(col + 1, row + 1));
+        }
+
+        private static void DebugFOV(Level level, Vector2Int cell)
+        {
+            Debug.Visualisation.MarkPos(
+                cell,
+                level.Visible(cell.x, cell.y) ? Color.green : Color.red,
+                1f);
         }
     }
 

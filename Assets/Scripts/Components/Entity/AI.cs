@@ -8,29 +8,39 @@ using Pantheon.Commands.Actor;
 using Pantheon.Content;
 using Pantheon.Utils;
 using System;
+using System.Diagnostics;
 
 namespace Pantheon.Components.Entity
 {
     using Entity = Pantheon.Entity;
 
     [Serializable]
-    public sealed class AI : EntityComponent
+    public sealed class AI : EntityComponent, IEntityDependentComponent
     {
         public AIDefinition Definition { get; set; }
         public bool Alerted { get; private set; }
+        private byte memory;
 
         public AI(AIDefinition def) => Definition = def;
+
+        public void Initialize()
+        {
+            Entity.BecameVisibleEvent += OnBecomeVisible;
+        }
 
         public void DecideCommand()
         {
             Actor actor = Entity.GetComponent<Actor>();
 
-            if (!Definition.Peaceful && Entity.Visible && !Alerted)
+            if (Alerted && !Entity.Visible && --memory == 0)
             {
-                Locator.Log.Send(
-                    $"{Strings.Subject(Entity, true)} notices you!",
-                    Colours._orange);
-                Alerted = true;
+                // Tick down memory timer; if target is forgotten, unschedule
+                // self and go back to sleep
+                Alerted = false;
+                Locator.Scheduler.RemoveActor(actor);
+                actor.Command = null;
+                DebugLogAI($"{Entity} has forgotten the player.");
+                return;
             }
 
             int max = 0;
@@ -57,15 +67,44 @@ namespace Pantheon.Components.Entity
             DebugLogAI(highest, max);
         }
 
+        private void OnBecomeVisible()
+        {
+            Actor actor = Entity.GetComponent<Actor>();
+
+            if (!Alerted)
+            {
+                if (!Definition.Peaceful)
+                {
+                    Locator.Log.Send(
+                        $"{Strings.Subject(Entity, true)} notices you!",
+                        Colours._orange);
+                    Locator.Scheduler.AddActor(actor);
+                    Alerted = true;
+                    memory = Definition.Memory;
+                }
+                else
+                {
+                    actor.Command = new WaitCommand(Entity);
+                    return;
+                }
+            }
+        }
+
         public override EntityComponent Clone(bool full) => new AI(Definition);
 
-        [System.Diagnostics.Conditional("DEBUG_AI")]
+        [Conditional("DEBUG_AI")]
         private void DebugLogAI(AIUtility highest, int util)
         {
             UnityEngine.Debug.Log(
                 $"{Entity} AI - " +
                 $"Highest utility: {highest} ({util}) - " +
                 $"Cmd: {Entity.GetComponent<Actor>().Command}");
+        }
+
+        [Conditional("DEBUG_AI")]
+        private void DebugLogAI(string msg)
+        {
+            UnityEngine.Debug.Log(msg);
         }
     }
 }

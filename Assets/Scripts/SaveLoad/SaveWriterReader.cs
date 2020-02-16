@@ -46,6 +46,7 @@ namespace Pantheon.SaveLoad
 
         public void WriteSave(Save save)
         {
+            // TODO: Use Stopwatch instead of profiler
             UnityEngine.Profiling.Profiler.BeginSample("Save Write");
 
             BinaryFormatter formatter = new BinaryFormatter

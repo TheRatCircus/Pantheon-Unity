@@ -2,6 +2,7 @@
   "ID": "AI_Coyote",
   "Peaceful": false,
   "Strategy": null,
+  "Memory": 20,
   "Utilities": [
     {
       "$type": "ApproachUtility"

@@ -94,6 +94,7 @@ namespace Pantheon
                     throw new Exception(
                         $"Pathfinder iterated {j} times.");
 
+                // TODO: Prevent pathfinder running for too long
                 Profiler.BeginSample("Pathfind: Cost Evaluation");
                 Node currentNode = openSet.RemoveFirst();
                 closedSet.Add(currentNode);

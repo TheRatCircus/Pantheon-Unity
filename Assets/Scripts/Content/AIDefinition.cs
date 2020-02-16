@@ -11,5 +11,6 @@ namespace Pantheon.Content
         public bool Peaceful { get; set; }
         public AIStrategy Strategy { get; set; }
         public AIUtility[] Utilities { get; set; }
+        public byte Memory { get; set; }
     }
 }

@@ -150,8 +150,10 @@ namespace Pantheon.Core
                 Entity e = level.ActorAt(c);
                 if (e != null)
                 {
+                    // TODO: Maintain consistent turn order
                     AssignGameObject(e);
-                    Scheduler.AddActor(e.GetComponent<Actor>());
+                    if (e.Visible)
+                        Scheduler.AddActor(e.GetComponent<Actor>());
                 }
                 level.DrawTile(c);
             }
