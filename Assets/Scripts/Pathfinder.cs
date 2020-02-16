@@ -1,13 +1,17 @@
 ﻿// Pathfinder.cs
 // Courtesy of Sebastian Lague
 
-#define DEBUG_PF
-#undef DEBUG_PF
+#define DEBUG_PF_VIS
+#define DEBUG_PF_REPORT
+
+#undef DEBUG_PF_VIS
+#undef DEBUG_PF_REPORT
 
 using Pantheon.Utils;
 using Pantheon.World;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Profiling;
 
@@ -101,7 +105,10 @@ namespace Pantheon
                 Profiler.EndSample();
 
                 if (currentNode == targetNode)
+                {
+                    DebugReport(closedSet.Count);
                     return RetracePath(startNode, targetNode);
+                }
 
                 Profiler.BeginSample("Pathfind: Neighbour Search");
                 foreach (Node neighbour in GetNeighbours(currentNode))
@@ -157,10 +164,16 @@ namespace Pantheon
                 return 14 * dX + 10 * (dY - dX);
         }
 
-        [System.Diagnostics.Conditional("DEBUG_PF")]
+        [Conditional("DEBUG_PF_VIS")]
         private void DebugVisualize(Vector2Int cell)
         {
             Debug.Visualisation.MarkPos(cell, Color.white, 10f);
+        }
+
+        [Conditional("DEBUG_PF_REPORT")]
+        private void DebugReport(int closed)
+        {
+            UnityEngine.Debug.Log($"Path found after closing {closed} cells.");
         }
     }
 }

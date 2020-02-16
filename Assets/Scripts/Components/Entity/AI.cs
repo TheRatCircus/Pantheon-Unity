@@ -30,6 +30,7 @@ namespace Pantheon.Components.Entity
 
         public void DecideCommand()
         {
+            // TODO: Forget player immediately if either entity teleports
             Actor actor = Entity.GetComponent<Actor>();
 
             if (Alerted && !Entity.Visible && --memory == 0)

@@ -2,7 +2,10 @@
 // Jerome Martina
 
 #define DEBUG_DRAW
+#define DEBUG_DIJKSTRA
+
 #undef DEBUG_DRAW
+#undef DEBUG_DIJKSTRA
 
 using Pantheon.Components.Entity;
 using Pantheon.Content;
@@ -43,11 +46,18 @@ namespace Pantheon.World
                         yield return new Vector2Int(x, y);
             }
         }
+
         [NonSerialized] private Pathfinder pathfinder;
         public Pathfinder Pathfinder
         {
             get => pathfinder;
             private set => pathfinder = value;
+        }
+        [NonSerialized] private DijkstraMap playerDijkstra;
+        public DijkstraMap PlayerDijkstra
+        {
+            get => playerDijkstra;
+            set => playerDijkstra = value;
         }
 
         private readonly Dictionary<Vector2Int, Entity> actors
@@ -78,6 +88,7 @@ namespace Pantheon.World
         {
             transform.gameObject.name = ID;
             this.transform = transform;
+            transform.GetComponent<LevelWrapper>().Level = this;
             entitiesTransform = transform.Find("Entities");
             terrainTilemap = transform.Find("Terrain").GetComponent<Tilemap>();
             featureTilemap = transform.Find("Features").GetComponent<Tilemap>();
@@ -85,7 +96,11 @@ namespace Pantheon.World
             itemTilemap = transform.Find("Items").GetComponent<Tilemap>();
         }
 
-        public void Initialize() => Pathfinder = new Pathfinder(this);
+        public void Initialize()
+        {
+            Pathfinder = new Pathfinder(this);
+            PlayerDijkstra = new DijkstraMap(this);
+        }
 
         private int MapCoords(int x, int y) => Size.x * x + y;
 
@@ -151,9 +166,9 @@ namespace Pantheon.World
         public bool Walkable(Vector2Int cell)
         {
             TerrainDefinition terrain = GetTerrain(cell.x, cell.y);
-            return 
-                Contains(cell) && 
-                ActorAt(cell) == null && 
+            return
+                Contains(cell) &&
+                ActorAt(cell) == null &&
                 terrain != null &&
                 !terrain.Blocked;
         }
@@ -164,7 +179,7 @@ namespace Pantheon.World
 
             bool change;
             bool visibleBefore = Visible(x, y);
-            
+
             if (!visible)
             {
                 change = visibleBefore;
@@ -453,21 +468,35 @@ namespace Pantheon.World
             }
         }
 
+        public void RecalculatePlayerDijkstra()
+        {
+            PlayerDijkstra.SetGoals(Locator.Player.Entity.Cell);
+#if DEBUG_DIJKSTRA
+            Global.Instance.StartCoroutine(
+                PlayerDijkstra.QueueRecalculateDebug(
+                    (Vector2Int c) => Visible(c.x, c.y)));
+#else
+            PlayerDijkstra.QueueRecalculate((Vector2Int c) => Visible(c.x, c.y));
+#endif
+        }
+
         [OnSerializing]
         private void OnSerializing(StreamingContext ctxt)
         {
             Pathfinder = null;
+            PlayerDijkstra = null;
         }
 
         [OnDeserialized]
         private void OnDeserialized(StreamingContext ctxt)
         {
             Pathfinder = new Pathfinder(this);
+            PlayerDijkstra = new DijkstraMap(this);
         }
 
         public string CellToString(Vector2Int cell)
         {
-            return 
+            return
                 $"{GetTerrain(cell.x, cell.y)} - " +
                 $"visible: {Visible(cell.x, cell.y)} " +
                 $"{cell}";
@@ -475,4 +504,5 @@ namespace Pantheon.World
 
         public override string ToString() => $"{DisplayName} {Position}";
     }
+
 }
