@@ -3,6 +3,7 @@
 
 using Pantheon.Commands.Actor;
 using Pantheon.Utils;
+using UnityEngine;
 
 namespace Pantheon.Components.Entity
 {
@@ -25,11 +26,8 @@ namespace Pantheon.Components.Entity
 
         public override ActorCommand Invoke(Entity entity, AI ai)
         {
-            Line path = entity.Level.GetPath(entity.Cell, Locator.Player.Entity.Cell);
-            if (path.Count < 0)
-                return new WaitCommand(entity);
-            else
-                return new MoveCommand(entity, path[0]);
+            Vector2Int cell = entity.Level.PathToPlayer(entity.Cell);
+            return new MoveCommand(entity, cell);
         }
     }
 }

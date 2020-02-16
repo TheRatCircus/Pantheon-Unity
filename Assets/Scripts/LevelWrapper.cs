@@ -1,5 +1,5 @@
 ﻿#define DEBUG_DIJKSTRA
-#undef DEBUG_DIJKSTRA
+//#undef DEBUG_DIJKSTRA
 
 using Pantheon.Utils;
 using Pantheon.World;

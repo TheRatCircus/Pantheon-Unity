@@ -61,7 +61,6 @@ namespace Pantheon
                 UnityEngine.Debug.Log(
                     $"Step {step} took {stepTime.ElapsedMilliseconds} ms.");
             }
-            level.Initialize();
             level.AssignGameObject(levelObj.transform);
 
             Stopwatch drawTime = Stopwatch.StartNew();

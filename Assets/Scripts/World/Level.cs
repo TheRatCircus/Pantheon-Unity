@@ -266,6 +266,21 @@ namespace Pantheon.World
             return Pathfinder.GetPath(start, end);
         }
 
+        public Vector2Int PathToPlayer(Vector2Int start)
+        {
+            if (!Visible(start.x, start.y))
+                return Pathfinder.GetPath(start, Locator.Player.Entity.Cell)[0];
+            else
+            {
+                RecalculatePlayerDijkstra();
+                Vector2Int c = PlayerDijkstra.RollDownhill(start);
+                if (c == start)
+                    return Pathfinder.GetPath(start, Locator.Player.Entity.Cell)[0];
+                else
+                    return c;
+            }
+        }
+
         public List<Vector2Int> CellsInRect(LevelRect rect)
         {
             List<Vector2Int> ret = new List<Vector2Int>();
@@ -476,22 +491,18 @@ namespace Pantheon.World
                 PlayerDijkstra.QueueRecalculateDebug(
                     (Vector2Int c) => Visible(c.x, c.y)));
 #else
-            PlayerDijkstra.QueueRecalculate((Vector2Int c) => Visible(c.x, c.y));
+            PlayerDijkstra.Recalculate(delegate (Vector2Int c)
+            {
+                if (!Visible(c.x, c.y))
+                    return false;
+
+                Entity e = ActorAt(c);
+                if (e != null && !Actor.PlayerControlled(e))
+                    return false;
+                else
+                    return true;
+            });
 #endif
-        }
-
-        [OnSerializing]
-        private void OnSerializing(StreamingContext ctxt)
-        {
-            Pathfinder = null;
-            PlayerDijkstra = null;
-        }
-
-        [OnDeserialized]
-        private void OnDeserialized(StreamingContext ctxt)
-        {
-            Pathfinder = new Pathfinder(this);
-            PlayerDijkstra = new DijkstraMap(this);
         }
 
         public string CellToString(Vector2Int cell)
@@ -504,5 +515,4 @@ namespace Pantheon.World
 
         public override string ToString() => $"{DisplayName} {Position}";
     }
-
 }

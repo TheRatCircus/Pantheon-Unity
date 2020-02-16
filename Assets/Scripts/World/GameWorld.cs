@@ -97,7 +97,6 @@ namespace Pantheon.World
                 level.Connections.Add(connBCell, connB);
             }
 
-            level.Initialize();
             return level;
         }
 
@@ -158,7 +157,6 @@ namespace Pantheon.World
             foreach (Connection conn in newConnections)
                 Connections.Add(conn);
 
-            level.Initialize();
             return level;
         }
     }

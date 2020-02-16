@@ -203,5 +203,43 @@ namespace Pantheon.Utils
 
             return Level.NullCell;
         }
+
+        public static HashSet<Vector2Int> QueueFillToCapacity(
+            Level level,
+            Vector2Int origin,
+            int capacity)
+        {
+            HashSet<Vector2Int> ret = new HashSet<Vector2Int>();
+            Queue<Vector2Int> cells = new Queue<Vector2Int>();
+            cells.Enqueue(origin);
+
+            while (cells.Count > 0 && ret.Count < capacity)
+            {
+                Vector2Int a = cells.Dequeue();
+
+                if (!level.Contains(a))
+                    continue;
+
+                if (ret.Contains(a))
+                    continue;
+
+                ret.Add(a);
+
+                Vector2Int left = new Vector2Int(a.x - 1, a.y);
+                if (level.Contains(left))
+                    cells.Enqueue(left);
+                Vector2Int right = new Vector2Int(a.x + 1, a.y);
+                if (level.Contains(right))
+                    cells.Enqueue(right);
+                Vector2Int down = new Vector2Int(a.x, a.y - 1);
+                if (level.Contains(down))
+                    cells.Enqueue(down);
+                Vector2Int up = new Vector2Int(a.x, a.y + 1);
+                if (level.Contains(up))
+                    cells.Enqueue(up);
+            }
+
+            return ret;
+        }
     }
 }

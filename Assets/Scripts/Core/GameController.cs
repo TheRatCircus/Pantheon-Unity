@@ -141,6 +141,7 @@ namespace Pantheon.Core
             ActiveLevel = level;
             Scheduler.Queue.Clear();
             level.AssignGameObject(Instantiate(levelPrefab, worldTransform).transform);
+            level.Initialize();
 
             if (refreshFOV)
                 FOV.RefreshFOV(level, PC.Cell, false);
