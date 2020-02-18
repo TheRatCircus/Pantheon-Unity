@@ -2,7 +2,6 @@
 // Jerome Martina
 
 using Pantheon.Utils;
-using Pantheon.World;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,7 +24,7 @@ namespace Pantheon.Commands.Actor
             {
                 Cost = talent.NPCTime;
                 HashSet<Vector2Int> cells = new HashSet<Vector2Int>();
-                cells.AddMany(talent.Behaviour.GetTargetedCells(Entity, target));
+                cells.AddMany(talent.GetTargetedCells(Entity, target));
                 foreach (Vector2Int c in cells)
                     if (entity.Level.Visible(c.x, c.y))
                         Locator.Scheduler.MarkCell(c);
@@ -44,7 +43,7 @@ namespace Pantheon.Commands.Actor
         public void UnmarkTargeted()
         {
             HashSet<Vector2Int> cells = new HashSet<Vector2Int>();
-            cells.AddMany(talent.Behaviour.GetTargetedCells(Entity, target));
+            cells.AddMany(talent.GetTargetedCells(Entity, target));
             foreach (Vector2Int c in cells)
                 Locator.Scheduler.UnmarkCell(c);
         }

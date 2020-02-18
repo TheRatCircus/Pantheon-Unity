@@ -397,7 +397,7 @@ namespace Pantheon.Core
                 return;
 
             HashSet<Vector2Int> targeted = new HashSet<Vector2Int>();
-            targeted.AddMany(talent.Behaviour.GetTargetedCells(Entity, selectedCell));
+            targeted.AddMany(talent.GetTargetedCells(Entity, selectedCell));
             HashSet<Vector2Int> overlayed = new HashSet<Vector2Int>();
 
             foreach (Vector2Int c in targeted)

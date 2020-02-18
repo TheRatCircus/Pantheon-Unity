@@ -220,7 +220,7 @@ namespace Pantheon
         public bool HasComponent<T>() where T : EntityComponent
         {
             foreach (EntityComponent ec in Components)
-                if (ec.GetType() == typeof(T))
+                if (ec?.GetType() == typeof(T))
                     return true;
 
             return false;

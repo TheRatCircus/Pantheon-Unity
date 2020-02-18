@@ -23,8 +23,7 @@ namespace Pantheon.Components.Entity
         public void Initialize()
         {
             foreach (Talent t in talents)
-                if (t.Behaviour is IEntityBasedTalent ebt)
-                    ebt.Entity = Entity;
+                t.Entity = Entity;
         }
 
         public CommandResult Evoke(Entity caster, int talent, Vector2Int target)
