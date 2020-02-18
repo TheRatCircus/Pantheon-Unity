@@ -57,5 +57,14 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
-# Exclude ScriptCalculator
+# Other
 Assets/ScriptCalculator/
+bin/x64/Debug/
+obj/Debug/
+.vs/
+Library
+Logs
+UIElementsSchema
+*.csproj
+Pantheon.sln
+app.config
