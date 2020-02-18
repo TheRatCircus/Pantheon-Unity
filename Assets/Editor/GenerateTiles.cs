@@ -36,6 +36,7 @@ namespace PantheonEditor
                 Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path);
                 Tile tile = ScriptableObject.CreateInstance<Tile>();
                 tile.sprite = sprite;
+                tile.flags = TileFlags.LockTransform;
                 string name = sprite.name.Split('_')[1];
                 AssetDatabase.CreateAsset(tile, $"Assets/Tiles/Item/Tile_{name}.asset");
             }

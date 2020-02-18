@@ -12,6 +12,7 @@ using Pantheon.Content;
 using Pantheon.Utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.Profiling;
@@ -223,6 +224,14 @@ namespace Pantheon.World
                 return new List<Entity>(0);
         }
 
+        public Entity TopItemAt(int x, int y)
+        {
+            if (items.TryGetValue(new Vector2Int(x, y), out List<Entity> ret))
+                return ret.FirstOrDefault();
+            else
+                return null;
+        }
+
         public void ClearEntity(Entity entity)
         {
             // Just attempt both
@@ -366,13 +375,10 @@ namespace Pantheon.World
 
         public void DrawTile(Vector2Int cell)
         {
-            if (!Revealed(cell.x, cell.y))
-            {
-                Locator.Scheduler.UnmarkCell(cell);
-                return;
-            }
-
             Profiler.BeginSample("Level.DrawTile()");
+#if DEBUG_DRAW
+            Debug.Visualisation.MarkPos(cell, Color.cyan, 3f);
+#endif
 
             RuleTile terrainTile;
             TerrainDefinition terrain = GetTerrain(cell.x, cell.y);
@@ -380,20 +386,26 @@ namespace Pantheon.World
 
             bool visible = Visible(cell.x, cell.y);
 
-            if (terrainTilemap.GetTile((Vector3Int)cell) != terrainTile)
-                terrainTilemap.SetTile((Vector3Int)cell, terrainTile);
-            terrainTilemap.SetColor((Vector3Int)cell,
-                visible ? Color.white : Color.grey);
+            Color color;
+
+            if (visible)
+                color = Color.white;
+            else if (!Revealed(cell.x, cell.y))
+                color = Color.clear;
+            else
+                color = Color.grey;
+
+            terrainTilemap.SetTile((Vector3Int)cell, terrainTile);
+            terrainTilemap.SetColor((Vector3Int)cell, color);
 
             if (actors.TryGetValue(cell, out Entity actor))
                 actor.GameObjects[0].SetSpriteVisibility(visible);
 
-            List<Entity> items = ItemsAt(cell.x, cell.y);
-            if (items.Count > 0)
+            Entity item = TopItemAt(cell.x, cell.y);
+            if (item != null)
             {
-                itemTilemap.SetTile((Vector3Int)cell, items[0].Tile);
-                itemTilemap.SetColor((Vector3Int)cell,
-                    visible ? Color.white : Color.grey);
+                itemTilemap.SetTile((Vector3Int)cell, item.Tile);
+                itemTilemap.SetColor((Vector3Int)cell, color);
             }
             else
                 itemTilemap.SetTile((Vector3Int)cell, null);
