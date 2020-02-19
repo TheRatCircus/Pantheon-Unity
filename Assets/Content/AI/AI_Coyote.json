@@ -3,6 +3,7 @@
   "Peaceful": false,
   "Strategy": null,
   "Memory": 20,
+  "SweetSpot": 1,
   "Utilities": [
     {
       "$type": "ApproachUtility"

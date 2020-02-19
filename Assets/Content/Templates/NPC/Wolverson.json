@@ -11,7 +11,7 @@
     },
     {
       "$type": "AI",
-      "Definition": "AI_Human"
+      "Definition": "AI_Wolverson"
     },
     {
       "$type": "Health",

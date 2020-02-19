@@ -26,9 +26,9 @@ namespace Pantheon.Components.Entity
                 return -1;
             if (talents[0].Range < dist)
                 return -1;
+            else if (talents[0].Range == dist)
+                return Aggression + 25;
 
-            // XXX: If aggression < 80, this utility never wins unless
-            // NPC is adjacent to target
             return Aggression;
         }
 

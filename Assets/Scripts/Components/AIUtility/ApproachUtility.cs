@@ -11,17 +11,20 @@ namespace Pantheon.Components.Entity
 
     public sealed class ApproachUtility : AIUtility
     {
+        public int SweetSpot { get; private set; } = 1;
+
         public override int Recalculate(Entity entity, AI ai)
         {
             if (!ai.Alerted)
                 return 0;
 
-            int dst = Helpers.Distance(entity.Cell, Locator.Player.Entity.Cell);
+            int dist = Helpers.Distance(entity.Cell, Locator.Player.Entity.Cell);
 
-            if (dst > 1)
-                return 80;
+            if (dist < ai.Definition.SweetSpot ||
+                dist == ai.Definition.SweetSpot)
+                return -1;
             else
-                return 0;
+                return 80;
         }
 
         public override ActorCommand Invoke(Entity entity, AI ai)

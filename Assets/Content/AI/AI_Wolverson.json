@@ -1,16 +1,16 @@
 {
-  "ID": "AI_RagingGoose",
+  "ID": "AI_Wolverson",
   "Peaceful": false,
   "Strategy": null,
-  "Memory": 50,
-  "SweetSpot": 1,
+  "Memory": 30,
+  "SweetSpot": 7,
   "Utilities": [
     {
       "$type": "ApproachUtility"
     },
     {
       "$type": "AttackUtility",
-      "Aggression": 110
+      "Aggression": 60
     },
     {
       "$type": "FleeUtility"
