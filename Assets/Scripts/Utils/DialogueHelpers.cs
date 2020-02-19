@@ -1,8 +1,5 @@
-﻿// Actor.cs
+﻿// DialogueHelpers.cs
 // Jerome Martina
-
-#define DEBUG_ACTOR
-#undef DEBUG_ACTOR
 
 using System.Collections.Generic;
 using System.IO;

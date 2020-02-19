@@ -2,14 +2,12 @@
 // Jerome Martina
 
 using Pantheon.Commands;
-using Pantheon.World;
 using System;
 using UnityEngine;
 
 namespace Pantheon.Components.Entity
 {
     using Entity = Pantheon.Entity;
-    using Talent = Pantheon.Talent;
 
     [Serializable]
     public sealed class Talented : EntityComponent

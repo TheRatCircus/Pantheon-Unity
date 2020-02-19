@@ -70,7 +70,7 @@ namespace Pantheon.Components.Entity
         /// </summary>
         public void ForceWield(Entity[] items)
         {
-            for (int i = 0; i < Items.Length; i++)
+            for (int i = 0; i < items.Length; i++)
             {
                 if (Items[i] != null) // Unwield previous
                     Items[i].Wielded = false;

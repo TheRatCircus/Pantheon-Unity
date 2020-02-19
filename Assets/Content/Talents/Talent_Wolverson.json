@@ -1,0 +1,37 @@
+{
+  "ID": "Talent_Wolverson",
+  "Name": "Wolverson's Triple Grenade Toss",
+  "Icon": "Sprite_Grenade",
+  "PlayerTime": 100,
+  "NPCTime": 210,
+  "Behaviour": {
+    "$type": "MultiRandomTossTalent",
+	"ProjCount": 3,
+	"ProjName": "grenade",
+	"ProjSpins": true,
+	"ProjPierces": false,
+	"HitSound": null,
+    "Accuracy": -1,
+    "Damages": null,
+    "ProjectileLandEffects": [
+      {
+        "$type": "ExplosionEffect",
+        "Pattern": "Square",
+        "Range": 2,
+        "Damages": [
+          {
+            "Type": "Piercing",
+            "Min": 3,
+            "Max": 7
+          }
+        ],
+        "Prefab": "FX_Shrapnel",
+        "Sound": "SFX_Explosion"
+      }
+    ],
+    "Range": 7,
+    "CasterEffects": null,
+    "CasterCellEffects": null
+  },
+  "OnCast": null
+}

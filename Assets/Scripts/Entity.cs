@@ -83,6 +83,9 @@ namespace Pantheon
                     Flags &= ~EntityFlag.Unique;
             }
         }
+        public bool NotOnGround
+            => Flags.HasFlag(EntityFlag.InInventory) ||
+            Flags.HasFlag(EntityFlag.Wielded);
 
         public bool Visible => Level.Visible(Cell.x, Cell.y);
 
@@ -140,8 +143,10 @@ namespace Pantheon
                 {
                     AddComponent(w.Clone(false));
                     Wield wield = GetComponent<Wield>();
+                    Entity[] items = new Entity[template.Wielded.Length];
                     for (int i = 0; i < template.Wielded.Length; i++)
-                        wield.TryWield(new Entity(template.Wielded[i]), out Entity unwielded);
+                        items[i] = new Entity(template.Wielded[i]);
+                    wield.ForceWield(items);
                 }
             }
         }
@@ -253,7 +258,7 @@ namespace Pantheon
             Level = level;
             Cell = cell;
 
-            if (!InInventory)
+            if (!NotOnGround)
                 level.MoveEntity(this, prev, Cell);
 
             if (GameObjects.HasElements())

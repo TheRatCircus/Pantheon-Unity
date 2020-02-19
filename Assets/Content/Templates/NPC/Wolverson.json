@@ -1,0 +1,53 @@
+{
+  "ID": "Wolverson",
+  "EntityName": "Wolverson",
+  "Flags": "Blocking, Unique, Male",
+  "Sprite": "Sprite_Human",
+  "Components": [
+    {
+      "$type": "Actor",
+      "Control": "AI",
+      "Speed": 100
+    },
+    {
+      "$type": "AI",
+      "Definition": "AI_Human"
+    },
+    {
+      "$type": "Health",
+      "Max": 30,
+      "RegenTime": 800,
+      "Regenerating": true
+    },
+    {
+      "$type": "Species",
+      "SpeciesDef": "Species_Human"
+    },
+    {
+      "$type": "Splat",
+      "Sound": "SFX_Splat_Flesh",
+      "FXPrefab": "FX_Splat_Blood"
+    },
+    {
+      "$type": "Status",
+      "Statuses": []
+    },
+	{
+      "$type": "Wield",
+      "Items": [
+        null,
+        null
+      ]
+    },
+	{
+	  "$type": "Talented",
+	  "Talents": [
+		"Talent_Wolverson"
+	  ]
+	}
+  ],
+  "Inventory": [],
+  "Wielded": [
+	"Item_HandGrenades"
+  ]
+}

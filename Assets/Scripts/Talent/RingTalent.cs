@@ -17,13 +17,13 @@ namespace Pantheon
         public AudioClip HitSound { get; set; }
 
         public override HashSet<Vector2Int> GetTargetedCells(
-            Entity caster, Entity evoked, Vector2Int target)
+            Entity caster, Vector2Int target)
         {
             throw new System.NotImplementedException();
         }
 
         public override CommandResult Invoke(
-            Entity caster, Entity evoked, Vector2Int target)
+            Entity caster, Vector2Int target)
         {
             throw new System.NotImplementedException();
         }

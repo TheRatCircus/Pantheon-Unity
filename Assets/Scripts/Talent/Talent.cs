@@ -7,11 +7,13 @@ using Pantheon.Commands;
 using Pantheon.Commands.NonActor;
 using Pantheon.Components.Entity;
 using Pantheon.Core;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Pantheon
 {
+    // TODO: Remove
     [JsonConverter(typeof(StringEnumConverter))]
     public enum TalentTargeting : byte
     {
@@ -20,9 +22,10 @@ namespace Pantheon
         Line
     }
 
-    [System.Serializable]
+    [Serializable]
     public sealed class Talent
     {
+        // TODO: IEvocable, implemented by Entities and BodyParts
         public string ID { get; set; } = "DEFAULT_TALENT_ID";
         public string Name { get; set; } = "DEFAULT_TALENT_NAME";
         public Sprite Icon { get; set; }
@@ -31,8 +34,6 @@ namespace Pantheon
         [JsonIgnore] public int Range => Behaviour.Range;
         public TalentBehaviour Behaviour { get; set; }
         public NonActorCommand[] OnCast { get; set; }
-
-        [JsonIgnore] public Entity Entity { get; set; }
 
         public static Talent[] GetAllTalents(Entity entity)
         {
@@ -72,12 +73,13 @@ namespace Pantheon
                 }
             }
 
-            return Behaviour.Invoke(caster, Entity, target);
+            return Behaviour.Invoke(caster, target);
         }
 
-        public HashSet<Vector2Int> GetTargetedCells(Entity caster, Vector2Int target)
+        public HashSet<Vector2Int> GetTargetedCells(
+            Entity caster, Vector2Int target)
         {
-            return Behaviour.GetTargetedCells(caster, Entity, target);
+            return Behaviour.GetTargetedCells(caster, target);
         }
     }
 }

@@ -7,7 +7,6 @@ using Pantheon.UI;
 using Pantheon.Utils;
 using Pantheon.World;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Cursor = Pantheon.UI.Cursor;
@@ -188,9 +187,11 @@ namespace Pantheon.Core
                 }
             }
             else if (Input.GetButtonDown("Toss"))
+                // TODO: GUI
                 actor.Command = new TossCommand(Entity,
                     Entity.GetComponent<Inventory>().Items[0]);
             else if (Input.GetButtonDown("Wield"))
+                // TODO: GUI
                 actor.Command = new WieldCommand(Entity,
                     Entity.GetComponent<Inventory>().Items[0]);
             else if (Input.GetButtonDown("Interact"))

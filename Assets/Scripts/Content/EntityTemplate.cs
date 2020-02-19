@@ -96,7 +96,7 @@ namespace Pantheon.Content
                     throw new Exception(
                         $"Template {ID} specifies wielded items but has no Wield component.");
 
-                if (Wielded.Length < wield.Items.Length)
+                if (Wielded.Length > wield.Items.Length)
                     throw new Exception(
                         $"Template {ID} does not have enough slots to wield its intended items.");
             }

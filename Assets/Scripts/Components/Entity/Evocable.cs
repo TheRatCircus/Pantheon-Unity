@@ -17,11 +17,7 @@ namespace Pantheon.Components.Entity
 
         public Evocable(params Talent[] talents) => this.talents = talents;
 
-        public void Initialize()
-        {
-            foreach (Talent t in talents)
-                t.Entity = Entity;
-        }
+        public void Initialize() { }
 
         public CommandResult Evoke(Entity caster, int talent, Vector2Int target)
         {

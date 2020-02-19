@@ -4,8 +4,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.LWRP;
-using Vector2Int = UnityEngine.Vector2Int;
+using Random = UnityEngine.Random;
 
 namespace Pantheon.Utils
 {
@@ -354,6 +353,19 @@ namespace Pantheon.Utils
         public static bool Adjacent(Vector2Int a, Vector2Int b)
         {
             return Distance(a, b) == 1;
+        }
+
+        public static void Shuffle<T>(this IList<T> list)
+        {
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = Random.Range(0, n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
         }
     }
 }

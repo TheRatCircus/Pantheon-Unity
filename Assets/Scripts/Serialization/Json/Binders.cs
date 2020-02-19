@@ -72,6 +72,7 @@ namespace Pantheon.Serialization.Json
                     typeof(CellTalent),
                     typeof(RingTalent),
                     typeof(TossTalent),
+                    typeof(MultiRandomTossTalent),
                     // Talent effects
                     typeof(ExplosionEffect)
                 }

@@ -367,6 +367,18 @@ namespace Pantheon.World
             return wallCounter;
         }
 
+        public List<Vector2Int> AdjacentCells(Vector2Int cell)
+        {
+            List<Vector2Int> ret = new List<Vector2Int>();
+            for (int y = -1; y <= 1; y++)
+                for (int x = -1; x <= 1; x++)
+                {
+                    if (Contains(x, y))
+                        ret.Add(new Vector2Int(cell.x + x, cell.y + y));
+                }
+            return ret;
+        }
+
         public void Draw(IEnumerable<Vector2Int> cells)
         {
             foreach (Vector2Int cell in cells)

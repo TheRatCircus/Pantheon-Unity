@@ -19,14 +19,13 @@ namespace Pantheon
         public ICellTalentEffect[] Effects { get; set; }
 
         public override HashSet<Vector2Int> GetTargetedCells(
-            Entity caster, Entity evoked, Vector2Int target)
+            Entity caster, Vector2Int target)
         {
             Line line = Bresenhams.GetLine(caster.Level, caster.Cell, target);
             return new HashSet<Vector2Int> { line.ElementAtOrLast(Range) };
         }
 
-        public override CommandResult Invoke(
-            Entity caster, Entity evoked, Vector2Int target)
+        public override CommandResult Invoke(Entity caster, Vector2Int target)
         {
             if (target == null)
                 throw new NotImplementedException("Target cell needed.");

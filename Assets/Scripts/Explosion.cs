@@ -23,6 +23,7 @@ namespace Pantheon
             if (entity != null)
             {
                 // TODO: Message should inform of damage
+                // TODO: "You are"
                 Hit hit = new Hit(damages);
                 Locator.Log.Send(
                     $"{Strings.Subject(entity, true)} is caught in the blast!",

@@ -2,17 +2,20 @@
 // Jerome Martina
 
 using Pantheon.Commands;
+using Pantheon.Components.Entity;
 using Pantheon.Utils;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Pantheon
 {
     public class TossTalent : TalentBehaviour
     {
         // TODO: Setting for if projectile can hit things
-        private static readonly WaitForSeconds delay = new WaitForSeconds(.1f);
+        protected static readonly WaitForSeconds delay = new WaitForSeconds(.1f);
 
         public Damage[] Damages { get; set; }
         public int Accuracy { get; set; }
@@ -25,7 +28,7 @@ namespace Pantheon
         public IEntityTalentEffect[] ProjectileHitEffects { get; set; }
 
         public override HashSet<Vector2Int> GetTargetedCells(
-            Entity caster, Entity evoked, Vector2Int target)
+            Entity caster, Vector2Int target)
         {
             Line line = Bresenhams.GetLine(caster.Level, caster.Cell, target);
             HashSet<Vector2Int> ret = new HashSet<Vector2Int>();
@@ -40,14 +43,18 @@ namespace Pantheon
         }
 
         public override CommandResult Invoke(Entity caster,
-            Entity evoked, Vector2Int target)
+            Vector2Int target)
         {
+            if (!caster.TryGetComponent(out Wield wield))
+                throw new Exception(
+                    $"{caster} tried to toss but cannot wield.");
+
             Line line = Bresenhams.GetLine(caster.Level, caster.Cell, target);
-            Global.Instance.StartCoroutine(Fire(caster, evoked, line));
+            Global.Instance.StartCoroutine(Fire(caster, wield.Items[0], line));
             return CommandResult.Succeeded;
         }
 
-        private IEnumerator Fire(Entity caster, Entity evoked, Line line)
+        protected IEnumerator Fire(Entity caster, Entity tossed, Line line)
         {
             Locator.Scheduler.Lock();
             GameObject tossFXObj = Object.Instantiate(
@@ -56,14 +63,14 @@ namespace Pantheon
                 new Quaternion());
 
             Projectile proj = tossFXObj.GetComponent<Projectile>();
-            proj.ProjName = Strings.Subject(evoked);
+            proj.ProjName = ProjName;
             proj.Spins = ProjSpins;
             proj.Sender = caster;
             proj.Line = line;
             proj.Damages = Damages;
             proj.Pierces = ProjPierces;
             proj.Target = line[line.Count - 1];
-            proj.GetComponent<SpriteRenderer>().sprite = evoked.Flyweight.Sprite;
+            proj.GetComponent<SpriteRenderer>().sprite = tossed.Flyweight.Sprite;
             proj.OnLandEffects = ProjectileLandEffects;
 
             proj.Fire();

@@ -1,4 +1,4 @@
-﻿// TemplateArrayConverter.cs
+﻿// TemplateConverter.cs
 // Jerome Martina
 
 using Newtonsoft.Json;
@@ -7,6 +7,26 @@ using System;
 
 namespace Pantheon.Serialization.Json.Converters
 {
+    public sealed class TemplateConverter : JsonConverter<EntityTemplate>
+    {
+        public override EntityTemplate ReadJson(JsonReader reader,
+            Type objectType, EntityTemplate existingValue,
+            bool hasExistingValue, JsonSerializer serializer)
+        {
+            string s = (string)reader.Value;
+            if (s == null)
+                return null;
+            else
+                return Assets.GetTemplate(s);
+        }
+
+        public override void WriteJson(JsonWriter writer,
+            EntityTemplate value, JsonSerializer serializer)
+        {
+            writer.WriteValue(value.ID);
+        }
+    }
+
     public sealed class TemplateArrayConverter : JsonConverter<EntityTemplate[]>
     {
         public override EntityTemplate[] ReadJson(JsonReader reader, Type objectType,

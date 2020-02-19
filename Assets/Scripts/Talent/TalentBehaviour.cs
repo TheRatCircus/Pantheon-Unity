@@ -17,13 +17,9 @@ namespace Pantheon
         public ICellTalentEffect CasterCellEffects { get; set; }
 
         public abstract CommandResult Invoke(
-            Entity caster, 
-            Entity evoked, 
-            Vector2Int target);
+            Entity caster, Vector2Int target);
         public abstract HashSet<Vector2Int> GetTargetedCells(
-            Entity caster, 
-            Entity evoked, 
-            Vector2Int target);
+            Entity caster, Vector2Int target);
     }
 
     public interface IEntityTalentEffect

@@ -7,7 +7,6 @@ using Pantheon.Utils;
 namespace Pantheon.Components.Entity
 {
     using Entity = Pantheon.Entity;
-    using Talent = Pantheon.Talent;
 
     public sealed class AttackUtility : AIUtility
     {
@@ -28,7 +27,8 @@ namespace Pantheon.Components.Entity
             if (talents[0].Range < dist)
                 return -1;
 
-            // TODO: Use longest range talent available
+            // XXX: If aggression < 80, this utility never wins unless
+            // NPC is adjacent to target
             return Aggression;
         }
 
