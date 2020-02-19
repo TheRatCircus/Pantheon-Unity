@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 using Pantheon;
 using Pantheon.Commands.NonActor;
 using Pantheon.Components.Entity;
-using Pantheon.Components.Talent;
 using Pantheon.Content;
 using Pantheon.Core;
 using Pantheon.Gen;
@@ -404,6 +403,25 @@ namespace PantheonEditor
                             Type = DamageType.Bludgeoning,
                             Min = 2,
                             Max = 4
+                        }
+                    },
+                    Effects = new ICellTalentEffect[]
+                    {
+                        new ExplosionEffect
+                        {
+                            Damages = new Damage[]
+                            {
+                                new Damage()
+                                {
+                                    Type = DamageType.Searing,
+                                    Min = 3,
+                                    Max = 7
+                                }
+                            },
+                            Range = 3,
+                            Pattern = ExplosionPattern.Square,
+                            Prefab = null,
+                            Sound = null
                         }
                     }
                 }

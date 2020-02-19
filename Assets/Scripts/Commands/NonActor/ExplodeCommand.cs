@@ -1,25 +1,11 @@
 ﻿// ExplodeCommand.cs
 // Jerome Martina
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Pantheon.Utils;
-using Pantheon.World;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Pantheon.Commands.NonActor
 {
-    [JsonConverter(typeof(StringEnumConverter))]
-    public enum ExplosionPattern
-    {
-        Point,
-        Line,
-        Path,
-        Flood,
-        Square
-    }
-
     [System.Serializable]
     public sealed class ExplodeCommand : NonActorCommand,
         ICellTargetedCommand, ILineTargetedCommand
@@ -46,7 +32,7 @@ namespace Pantheon.Commands.NonActor
                     {
                         GameObject explObj = Object.Instantiate(
                         Prefab, Cell.ToVector3(), new Quaternion(), null);
-                        PointExplosion expl = explObj.GetComponent<PointExplosion>();
+                        Explosion expl = explObj.GetComponent<Explosion>();
                         expl.Initialize(Entity, Cell);
                         expl.Fire(Damages);
                         Object.Destroy(explObj, 5f);
@@ -62,7 +48,7 @@ namespace Pantheon.Commands.NonActor
                         Vector2Int c = Line[i];
                         GameObject explObj = Object.Instantiate(
                         Prefab, c.ToVector3(), new Quaternion(), null);
-                        PointExplosion expl = explObj.GetComponent<PointExplosion>();
+                        Explosion expl = explObj.GetComponent<Explosion>();
                         expl.Initialize(Entity, c);
                         expl.Fire(Damages);
                         Object.Destroy(explObj, 5f);

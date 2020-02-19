@@ -308,9 +308,9 @@ namespace Pantheon.World
             int dim = (radius * 2) - 1;
             int delta = radius - 1;
             List<Vector2Int> ret = new List<Vector2Int>();
-            for (int x = origin.x - delta; x < origin.x + delta; x++)
+            for (int x = origin.x - delta; x <= origin.x + delta; x++)
             {
-                for (int y = origin.y - delta; y < origin.y + delta; y++)
+                for (int y = origin.y - delta; y <= origin.y + delta; y++)
                 {
                     Vector2Int v = new Vector2Int(x, y);
                     if (Contains(v)) ret.Add(v);

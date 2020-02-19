@@ -7,7 +7,6 @@ using Pantheon.Commands;
 using Pantheon.Commands.NonActor;
 using Pantheon.Components.Entity;
 using Pantheon.Core;
-using Pantheon.World;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,11 +28,11 @@ namespace Pantheon
         public Sprite Icon { get; set; }
         public int PlayerTime { get; set; } = TurnScheduler.TurnTime;
         public int NPCTime { get; set; } = TurnScheduler.TurnTime;
-        public int Range => Behaviour.Range;
+        [JsonIgnore] public int Range => Behaviour.Range;
         public TalentBehaviour Behaviour { get; set; }
         public NonActorCommand[] OnCast { get; set; }
 
-        public Entity Entity;
+        [JsonIgnore] public Entity Entity { get; set; }
 
         public static Talent[] GetAllTalents(Entity entity)
         {

@@ -3,21 +3,20 @@
 
 using Pantheon.Commands;
 using Pantheon.Utils;
-using Pantheon.World;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Pantheon.Components.Talent
+namespace Pantheon
 {
-    using Entity = Pantheon.Entity;
-
     [Serializable]
-    public sealed class CellTalent : TalentBehaviour
+    public class CellTalent : TalentBehaviour
     {
         public int Accuracy { get; set; } = 50;
         public Damage[] Damages { get; set; }
+
+        public ICellTalentEffect[] Effects { get; set; }
 
         public override HashSet<Vector2Int> GetTargetedCells(
             Entity caster, Entity evoked, Vector2Int target)

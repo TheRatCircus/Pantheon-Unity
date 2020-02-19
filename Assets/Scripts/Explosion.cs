@@ -1,13 +1,12 @@
-﻿// PointExplosion.cs
+﻿// Explosion.cs
 // Jerome Martina
 
 using Pantheon.Utils;
-using Pantheon.World;
 using UnityEngine;
 
 namespace Pantheon
 {
-    public sealed class PointExplosion : MonoBehaviour
+    public sealed class Explosion : MonoBehaviour
     {
         private Entity source;
         private Vector2Int cell;
@@ -23,6 +22,7 @@ namespace Pantheon
             Entity entity = source.Level.ActorAt(cell);
             if (entity != null)
             {
+                // TODO: Message should inform of damage
                 Hit hit = new Hit(damages);
                 Locator.Log.Send(
                     $"{Strings.Subject(entity, true)} is caught in the blast!",

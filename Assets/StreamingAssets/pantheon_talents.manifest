@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3491934255
+CRC: 67430052
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 38e910e48afaef5ae16338074b8a18ec
+    Hash: 3f19f03479578ddddf64235d07509c93
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5ad585dd02dfb5016c0dad519eab8f49
@@ -14,6 +14,7 @@ ClassTypes:
 Assets:
 - Assets/Content/Talents/Talent_Bite_Goose.json
 - Assets/Content/Talents/Talent_Contempt.json
+- Assets/Content/Talents/Talent_GrenadeToss.json
 - Assets/Content/Talents/Talent_HatchetThrow.json
 - Assets/Content/Talents/Talent_Punch.json
 - Assets/Content/Talents/Talent_Bite_Coyote.json

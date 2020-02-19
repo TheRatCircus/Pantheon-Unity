@@ -1,0 +1,14 @@
+{
+  "ID": "Item_HandGrenades",
+  "EntityName": "hand grenades",
+  "Sprite": "Sprite_Grenade",
+  "Tile": "Tile_Grenade",
+  "Components": [
+	{
+      "$type": "Evocable",
+      "Talents": [
+		"Talent_GrenadeToss"
+	  ]
+    },
+  ]
+}

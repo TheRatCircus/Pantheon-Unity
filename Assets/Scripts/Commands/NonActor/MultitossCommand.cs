@@ -44,7 +44,7 @@ namespace Pantheon.Commands.NonActor
                     Assets.TossFXPrefab,
                     Entity.Cell.ToVector3(),
                     new Quaternion());
-                LineProjectile proj = tossFXObj.GetComponent<LineProjectile>();
+                Projectile proj = tossFXObj.GetComponent<Projectile>();
                 proj.InitializeToss(Entity, item, lines[i]);
                 proj.Fire();
                 yield return new WaitForSeconds(delay);

@@ -5,10 +5,17 @@ namespace Pantheon
 {
     public struct Hit
     {
+        // TODO: Encapsulate with property
         public readonly HitDamage[] damages;
 
         public Hit(Damage[] damages)
         {
+            if (damages == null)
+            {
+                this.damages = null;
+                return;
+            }
+
             this.damages = new HitDamage[damages.Length];
             for (int i = 0; i < this.damages.Length; i++)
                 this.damages[i] = new HitDamage(damages[i]);

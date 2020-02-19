@@ -2,14 +2,11 @@
 // Jerome Martina
 
 using Pantheon.Commands;
-using Pantheon.Components.Talent;
-using Pantheon.World;
 using System;
 using UnityEngine;
 
 namespace Pantheon.Components.Entity
 {
-    using Talent = Pantheon.Talent;
     using Entity = Pantheon.Entity;
 
     [Serializable]

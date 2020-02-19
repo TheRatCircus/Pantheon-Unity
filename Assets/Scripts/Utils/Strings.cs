@@ -30,6 +30,23 @@ namespace Pantheon.Utils
                 return "its";
         }
 
+        public static string Subject(Entity entity)
+        {
+            if (entity.TryGetComponent(out Relic relic))
+                return relic.Name;
+            else if (entity.TryGetComponent(out Actor actor))
+            {
+                if (actor.Control == ActorControl.Player)
+                    return "you";
+                else if (entity.Unique)
+                    return entity.Name;
+                else
+                    return $"the {entity.Name}";
+            }
+            else
+                return $"the {entity.Name}";
+        }
+
         public static string Subject(Entity entity, bool sentenceStart)
         {
             if (entity.TryGetComponent(out Relic relic))

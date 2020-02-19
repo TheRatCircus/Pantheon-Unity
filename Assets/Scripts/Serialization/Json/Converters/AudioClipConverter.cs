@@ -9,9 +9,11 @@ namespace Pantheon.Serialization.Json.Converters
 {
     public sealed class AudioClipConverter : JsonConverter<AudioClip>
     {
-        public override AudioClip ReadJson(JsonReader reader, Type objectType, AudioClip existingValue, bool hasExistingValue, JsonSerializer serializer)
+        public override AudioClip ReadJson(JsonReader reader, Type objectType,
+            AudioClip existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            return Assets.Audio[(string)reader.Value];
+            string s = (string)reader.Value;
+            return s != null ? Assets.Audio[s] : null;
         }
 
         public override void WriteJson(JsonWriter writer, AudioClip value,

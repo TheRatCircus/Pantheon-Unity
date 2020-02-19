@@ -7,6 +7,7 @@
   "Components": [
     {
       "$type": "Actor",
+      "Active": false,
       "Progress": 0,
       "Threshold": 0,
       "Command": null,

@@ -252,7 +252,9 @@ namespace Pantheon
             Vector2Int prev = Cell;
             Level = level;
             Cell = cell;
-            level.MoveEntity(this, prev, Cell);
+
+            if (!InInventory)
+                level.MoveEntity(this, prev, Cell);
 
             if (GameObjects.HasElements())
                 GameObjects[0].transform.position = Cell.ToVector3();
@@ -278,7 +280,7 @@ namespace Pantheon
                         new Quaternion(), null) as GameObject, 1f);
             }
 
-            if (TryGetComponent(out Health health))
+            if (TryGetComponent(out Health health) && hit.damages != null)
             {
                 foreach (HitDamage damage in hit.damages)
                     if (health.Damage(hitter, damage))

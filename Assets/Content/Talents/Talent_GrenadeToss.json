@@ -1,28 +1,25 @@
 {
-  "Entity": null,
-  "ID": "Talent_Foobar",
-  "Name": "Foobar",
-  "Icon": "Sprite_Punch",
+  "ID": "Talent_GrenadeToss",
+  "Name": "Grenade Toss",
+  "Icon": "Sprite_Grenade",
   "PlayerTime": 100,
-  "NPCTime": 100,
+  "NPCTime": 120,
   "Behaviour": {
-    "$type": "CellTalent",
-    "Accuracy": 75,
-    "Damages": [
-      {
-        "Type": "Bludgeoning",
-        "Min": 2,
-        "Max": 4
-      }
-    ],
-    "Effects": [
+    "$type": "TossTalent",
+	"ProjName": "grenade",
+	"ProjSpins": true,
+	"ProjPierces": false,
+	"HitSound": null,
+    "Accuracy": -1,
+    "Damages": null,
+    "ProjectileLandEffects": [
       {
         "$type": "ExplosionEffect",
         "Pattern": "Square",
-        "Range": 3,
+        "Range": 2,
         "Damages": [
           {
-            "Type": "Searing",
+            "Type": "Piercing",
             "Min": 3,
             "Max": 7
           }
@@ -31,7 +28,7 @@
         "Sound": "SFX_Explosion"
       }
     ],
-    "Range": 1,
+    "Range": 7,
     "CasterEffects": null,
     "CasterCellEffects": null
   },

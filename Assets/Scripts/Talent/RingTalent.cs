@@ -2,18 +2,13 @@
 // Jerome Martina
 
 using Pantheon.Commands;
-using Pantheon.Utils;
-using Pantheon.World;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-namespace Pantheon.Components.Talent
+namespace Pantheon
 {
-    using Entity = Pantheon.Entity;
-
     [System.Serializable]
-    public sealed class RingTalent : TalentBehaviour
+    public class RingTalent : TalentBehaviour
     {
         public Damage[] Damages { get; set; }
         public int Radius { get; set; } = 3;

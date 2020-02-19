@@ -3,7 +3,6 @@
 
 using Pantheon.Commands.NonActor;
 using Pantheon.Components.Entity;
-using Pantheon.Components.Talent;
 using Pantheon.Gen;
 using System;
 using System.Collections.Generic;
@@ -69,9 +68,12 @@ namespace Pantheon.Serialization.Json
                     // Statuses
                     // Talent
                     typeof(Talent),
+                    // Talent behaviours
                     typeof(CellTalent),
                     typeof(RingTalent),
-                    typeof(TossTalent)
+                    typeof(TossTalent),
+                    // Talent effects
+                    typeof(ExplosionEffect)
                 }
             };
     }
