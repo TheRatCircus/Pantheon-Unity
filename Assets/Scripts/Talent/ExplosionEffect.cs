@@ -46,8 +46,7 @@ namespace Pantheon
                 GameObject explObj = Object.Instantiate(
                     Prefab, v.ToVector3(), new Quaternion());
                 Explosion expl = explObj.GetComponent<Explosion>();
-                // FIXME: v instead of cell
-                expl.Initialize(source, cell);
+                expl.Initialize(source, v);
                 expl.Fire(Damages);
                 Object.Destroy(explObj as GameObject, 5f);
             }
