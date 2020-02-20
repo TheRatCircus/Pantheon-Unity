@@ -50,8 +50,8 @@ namespace Pantheon.Core
         private int targetingRange;
         private Vector2Int selectedCell;
         private Line selectedLine = new Line();
-        public HashSet<Vector2Int> VisibleCells { get; private set; }
-            = new HashSet<Vector2Int>();
+        public List<Vector2Int> VisibleCells { get; private set; }
+            = new List<Vector2Int>();
 
         public Talent[] Talents { get; private set; } = new Talent[10];
         private int hotbarSelection;
@@ -317,7 +317,7 @@ namespace Pantheon.Core
         public void UpdateVisibles(IEnumerable<Vector2Int> cells)
         {
             VisibleCells.Clear();
-            VisibleCells.AddMany(cells);
+            VisibleCells.AddRange(cells);
         }
 
         public InputMode RequestCell(out Vector2Int cell, int range)

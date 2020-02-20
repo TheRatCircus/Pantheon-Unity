@@ -22,8 +22,8 @@ namespace Pantheon.Core
         /// <summary>
         /// Change visibility and reveal new cells.
         /// </summary>
-        /// <returns>A HashSet of all cells affected by the refresh.</returns>
-        public static HashSet<Vector2Int> RefreshFOV(Level level, Vector2Int origin,
+        /// <returns>A List of all cells affected by the refresh.</returns>
+        public static List<Vector2Int> RefreshFOV(Level level, Vector2Int origin,
             bool drawChanges)
         {
             Profiler.BeginSample("FOV: Hide Previous");
@@ -39,13 +39,13 @@ namespace Pantheon.Core
             }
             Profiler.EndSample();
 
-            HashSet<Vector2Int> changed = new HashSet<Vector2Int>();
+            List<Vector2Int> changed = new List<Vector2Int>();
             for (int octant = 0; octant < 8; octant++)
             {
                 Profiler.BeginSample("FOV: Octants");
                 List<Vector2Int> refreshed = ShadowOctant(level, origin, octant);
                 Profiler.EndSample();
-                changed.AddMany(refreshed);
+                changed.AddRange(refreshed);
             }
 
             if (drawChanges)
@@ -54,7 +54,7 @@ namespace Pantheon.Core
             prev = origin;
 
             Profiler.BeginSample("FOV: Get Visibles");
-            HashSet<Vector2Int> visibles = Floodfill.StackFillIf(
+            List<Vector2Int> visibles = Floodfill.StackFillIf(
                 level, origin, 
                 (Vector2Int c) => level.Visible(c.x, c.y));
             Locator.Player.UpdateVisibles(visibles);

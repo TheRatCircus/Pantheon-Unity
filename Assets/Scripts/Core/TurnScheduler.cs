@@ -186,7 +186,7 @@ namespace Pantheon.Core
                 Profiler.EndSample();
 
                 Profiler.BeginSample("Scheduler: FOV");
-                HashSet<Vector2Int> refreshed = FOV.RefreshFOV(
+                List<Vector2Int> refreshed = FOV.RefreshFOV(
                     player.Entity.Level, 
                     player.Entity.Cell, true);
                 foreach (Vector2Int c in refreshed)

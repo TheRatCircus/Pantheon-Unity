@@ -12,7 +12,7 @@ namespace Pantheon.Core
         Entity Entity { get; }
         InputMode Mode { get; set; }
         void UpdateVisibles(IEnumerable<Vector2Int> cells);
-        HashSet<Vector2Int> VisibleCells { get; }
+        List<Vector2Int> VisibleCells { get; }
         InputMode RequestCell(out Vector2Int cell, int range);
         InputMode RequestLine(out Line line, int range);
     }

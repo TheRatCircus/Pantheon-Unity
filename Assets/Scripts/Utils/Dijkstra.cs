@@ -18,9 +18,9 @@ namespace Pantheon.Utils
         private Level level;
 
         public int[,] Map { get; private set; }
-        private HashSet<Vector2Int> goals = new HashSet<Vector2Int>();
+        private List<Vector2Int> goals = new List<Vector2Int>();
         private Queue<Vector2Int> queue = new Queue<Vector2Int>();
-        private HashSet<Vector2Int> modified = new HashSet<Vector2Int>();
+        private List<Vector2Int> modified = new List<Vector2Int>();
 
         public DijkstraMap(Level level)
         {
@@ -30,7 +30,7 @@ namespace Pantheon.Utils
 
         public void SetGoals(IEnumerable<Vector2Int> goals)
         {
-            this.goals = (HashSet<Vector2Int>)goals;
+            this.goals = (List<Vector2Int>)goals;
         }
 
         public void SetGoals(params Vector2Int[] goals)

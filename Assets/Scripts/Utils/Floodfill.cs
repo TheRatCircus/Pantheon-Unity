@@ -66,13 +66,13 @@ namespace Pantheon.Utils
         /// </summary>
         /// <param name="predicate">Cell is not filled if predicate fails.</param>
         /// <returns>All cells filled.</returns>
-        public static HashSet<Vector2Int> StackFillIf(
+        public static List<Vector2Int> StackFillIf(
             Level level,
             Vector2Int origin,
             Predicate<Vector2Int> predicate)
         {
             bool[,] filled = new bool[level.Size.x, level.Size.y];
-            HashSet<Vector2Int> ret = new HashSet<Vector2Int>();
+            List<Vector2Int> ret = new List<Vector2Int>();
             Stack<Vector2Int> cells = new Stack<Vector2Int>();
             cells.Push(origin);
 
