@@ -298,9 +298,15 @@ namespace PantheonEditor
                 }
             };
 
-            BodyPart part = new BodyPart(
-                "DEFAULT_BODYPART_ID", "DEFAULT_BODYPART_NAME",
-                BodyPartType.Teeth, 0, new SpeciesDefinition("SPECIES_ID"), null);
+            BodyPart part = new BodyPart()
+            {
+                ID = "DEFAULT_BODYPART_ID",
+                Name = "DEFAULT_BODYPART_NAME",
+                Type = BodyPartType.Teeth,
+                MoveSpeedModifier = 0,
+                Species = new SpeciesDefinition { ID = "SPECIES_ID" },
+                Melee = null
+            };
 
             string path = Application.dataPath + $"/Sample/sample_bodypart.json";
 
@@ -315,9 +321,17 @@ namespace PantheonEditor
         [MenuItem("Assets/Pantheon/JSON/Sample/Species")]
         private static void GenerateSampleSpecies()
         {
-            SpeciesDefinition species = new SpeciesDefinition(
-                "DEFAULT_SPECIES_ID", "DEFAULT_SPECIES_NAME",
-                null, BodyPattern.Avian, new BodyPart("BODYPART_TEST_BEAK"));
+            SpeciesDefinition species = new SpeciesDefinition()
+            {
+                ID = "DEFAULT_SPECIES_ID",
+                Name = "DEFAULT_SPECIES_NAME",
+                Sprite = null,
+                BodyPlan = BodyPlan.Avian,
+                Parts = new BodyPart[]
+                {
+                    new BodyPart() { ID = "BODYPART_TEST_BEAK" }
+                }
+            };
 
             string path = Application.dataPath + $"/Sample/sample_species.json";
 
