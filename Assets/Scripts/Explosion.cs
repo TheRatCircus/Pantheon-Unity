@@ -22,11 +22,9 @@ namespace Pantheon
             Entity entity = source.Level.ActorAt(cell);
             if (entity != null)
             {
-                // TODO: Message should inform of damage
-                // TODO: "You are"
                 Hit hit = new Hit(damages);
                 Locator.Log.Send(
-                    $"{Strings.Subject(entity, true)} is caught in the blast!",
+                    $"{Verbs.Be(entity)} caught in the blast and take {hit.TotalDamage()} damage!",
                     Color.white);
                 entity.TakeHit(source, hit);
             }

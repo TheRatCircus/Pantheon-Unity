@@ -7,6 +7,15 @@ namespace Pantheon.Utils
 {
     public static class Verbs
     {
+        public static string Be(Entity entity)
+        {
+            // TODO: 1st person
+            // 2nd person "are", 3rd person "is"
+            return 
+                $"{Strings.Subject(entity, true)} " +
+                $"{(Actor.PlayerControlled(entity) ? "are" : " is ")}";
+        }
+
         public static string Miss(Entity attacker, Entity defender)
         {
             // 3rd person: "misses", 1st/2nd person: "miss"
