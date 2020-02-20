@@ -46,7 +46,6 @@ namespace Pantheon.Core
             private set => world = value;
         }
         public TurnScheduler Scheduler { get; private set; }
-        private SaveWriterReader saveSystem;
         public AudioManager Audio { get; private set; }
 
         public GameState State { get; private set; } = GameState.Default;
@@ -74,8 +73,6 @@ namespace Pantheon.Core
 
         public void NewGame(string playerName)
         {
-            saveSystem = new SaveWriterReader();
-
             World = new GameWorld() { Plan = Assets.WorldPlan };
             Layer subterrane = World.NewLayer(-2);
             Level level = subterrane.RequestLevel(Vector2Int.zero);
@@ -100,9 +97,7 @@ namespace Pantheon.Core
 
         public void LoadGame(string path)
         {
-            saveSystem = new SaveWriterReader();
-
-            Save save = saveSystem.ReadSave(path);
+            Save save = Save.ReadSave(path);
 
             World = save.World;
             PC = save.Player;
@@ -210,7 +205,7 @@ namespace Pantheon.Core
         public void SaveGame()
         {
             Save save = new Save(PC.Name, World, PC);
-            saveSystem.WriteSave(save);
+            Save.WriteSave(save);
         }
 
         private void OnPlayerDeath()
