@@ -110,6 +110,18 @@ namespace Pantheon.Utils
                 Vector2Int up = new Vector2Int(a.x, a.y + 1);
                 if (level.Contains(up))
                     queue.Enqueue(up);
+                Vector2Int upperRight = new Vector2Int(a.x + 1, a.y + 1);
+                if (level.Contains(upperRight))
+                    queue.Enqueue(upperRight);
+                Vector2Int lowerRight = new Vector2Int(a.x + 1, a.y - 1);
+                if (level.Contains(lowerRight))
+                    queue.Enqueue(lowerRight);
+                Vector2Int lowerLeft = new Vector2Int(a.x - 1, a.y - 1);
+                if (level.Contains(lowerLeft))
+                    queue.Enqueue(lowerLeft);
+                Vector2Int upperLeft = new Vector2Int(a.x - 1, a.y + 1);
+                if (level.Contains(upperLeft))
+                    queue.Enqueue(upperLeft);
             }
 
             Profiler.EndSample();
@@ -198,6 +210,38 @@ namespace Pantheon.Utils
                     {
                         lowest = weight;
                         lowestPosition = new Vector2Int(x, y);
+                    }
+                }
+
+            if (lowest == 255)
+                return origin;
+
+            return lowestPosition;
+        }
+
+        public Vector2Int RollDownhill(Vector2Int origin, Predicate<Vector2Int> predicate)
+        {
+            Vector2Int lowestPosition = origin;
+            int lowest = Map[origin.x, origin.y];
+
+            for (int x = origin.x - 1; x <= origin.x + 1; x++)
+                for (int y = origin.y - 1; y <= origin.y + 1; y++)
+                {
+                    if (x == origin.x && y == origin.y)
+                        continue;
+
+                    if (!Map.TryGet(out int weight, x, y))
+                        continue;
+
+                    Vector2Int v = new Vector2Int(x, y);
+
+                    if (!predicate(v))
+                        continue;
+
+                    if (weight <= lowest)
+                    {
+                        lowest = weight;
+                        lowestPosition = v;
                     }
                 }
 

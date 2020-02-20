@@ -281,8 +281,9 @@ namespace Pantheon.World
                 return Pathfinder.GetPath(start, Locator.Player.Entity.Cell)[0];
             else
             {
-                RecalculatePlayerDijkstra();
-                Vector2Int c = PlayerDijkstra.RollDownhill(start);
+                Vector2Int c = PlayerDijkstra.RollDownhill(
+                    start, 
+                    (Vector2Int v) => ActorAt(v) == null);
                 if (c == start)
                     return Pathfinder.GetPath(start, Locator.Player.Entity.Cell)[0];
                 else

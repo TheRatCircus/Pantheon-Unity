@@ -170,6 +170,7 @@ namespace Pantheon.Core
                 if (actionCost < 0)
                     return false;
 
+                player.Entity.Level.RecalculatePlayerDijkstra();
                 Profiler.BeginSample("Scheduler: Time Handling");
                 timeConsumed = actionCost;
                 time += timeConsumed;
