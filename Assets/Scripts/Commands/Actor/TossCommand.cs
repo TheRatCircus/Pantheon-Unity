@@ -44,7 +44,7 @@ namespace Pantheon.Commands.Actor
                             GameObject tossFXObj = Object.Instantiate(
                                 Assets.TossFXPrefab,
                                 Entity.Cell.ToVector3(),
-                                new Quaternion());
+                                Quaternion.identity);
                             Projectile proj = tossFXObj.GetComponent<Projectile>();
                             proj.InitializeToss(Entity, item, line);
                             proj.Fire();

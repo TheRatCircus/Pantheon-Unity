@@ -22,8 +22,8 @@ namespace Pantheon.UI
             selection.SetParent(buttons[index].transform, false);
             RectTransform transform = (RectTransform)buttons[index].transform;
             Vector3 pos = transform.position;
-            pos.y -= (transform.rect.height / 3);
-            selection.SetPositionAndRotation(pos, new Quaternion());
+            pos.y -= transform.rect.height / 3;
+            selection.SetPositionAndRotation(pos, Quaternion.identity);
         }
 
         public void SetSprite(int index, Sprite sprite)

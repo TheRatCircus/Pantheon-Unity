@@ -31,7 +31,7 @@ namespace Pantheon.Commands.NonActor
                 case ExplosionPattern.Point:
                     {
                         GameObject explObj = Object.Instantiate(
-                        Prefab, Cell.ToVector3(), new Quaternion(), null);
+                        Prefab, Cell.ToVector3(), Quaternion.identity, null);
                         Explosion expl = explObj.GetComponent<Explosion>();
                         expl.Initialize(Entity, Cell);
                         expl.Fire(Damages);
@@ -47,7 +47,7 @@ namespace Pantheon.Commands.NonActor
                     {
                         Vector2Int c = Line[i];
                         GameObject explObj = Object.Instantiate(
-                        Prefab, c.ToVector3(), new Quaternion(), null);
+                        Prefab, c.ToVector3(), Quaternion.identity, null);
                         Explosion expl = explObj.GetComponent<Explosion>();
                         expl.Initialize(Entity, c);
                         expl.Fire(Damages);

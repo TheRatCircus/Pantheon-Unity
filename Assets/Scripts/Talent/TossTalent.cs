@@ -60,7 +60,7 @@ namespace Pantheon
             GameObject tossFXObj = Object.Instantiate(
                 Assets.TossFXPrefab,
                 caster.Cell.ToVector3(),
-                new Quaternion());
+                Quaternion.identity);
 
             Projectile proj = tossFXObj.GetComponent<Projectile>();
             proj.ProjName = ProjName;

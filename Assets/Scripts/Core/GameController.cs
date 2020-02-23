@@ -176,7 +176,7 @@ namespace Pantheon.Core
             GameObject entityObj = Instantiate(
                 GameObjectPrefab,
                 entity.Cell.ToVector3(),
-                new Quaternion(),
+                Quaternion.identity,
                 entity.Level.EntitiesTransform);
 
             entityObj.name = entity.Name;

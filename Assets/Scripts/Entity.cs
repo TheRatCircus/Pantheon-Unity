@@ -282,7 +282,7 @@ namespace Pantheon
                 if (splat.FXPrefab != null && RandomUtils.OneChanceIn(2))
                     Object.Destroy(Object.Instantiate(
                         splat.FXPrefab, Cell.ToVector3(),
-                        new Quaternion(), null) as GameObject, 1f);
+                        Quaternion.identity, null) as GameObject, 1f);
             }
 
             if (TryGetComponent(out Health health) && hit.damages != null)

@@ -17,6 +17,7 @@ namespace Pantheon.UI
 
         private void Update()
         {
+            // TODO: Cache main camera
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             // Offset tile anchor
             mousePos.x += Level.TileOffset;

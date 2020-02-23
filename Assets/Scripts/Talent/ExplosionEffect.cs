@@ -44,7 +44,7 @@ namespace Pantheon
             foreach (Vector2Int v in level.GetSquare(cell, Range))
             {
                 GameObject explObj = Object.Instantiate(
-                    Prefab, v.ToVector3(), new Quaternion());
+                    Prefab, v.ToVector3(), Quaternion.identity);
                 Explosion expl = explObj.GetComponent<Explosion>();
                 expl.Initialize(source, v);
                 expl.Fire(Damages);
