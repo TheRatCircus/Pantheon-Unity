@@ -207,6 +207,11 @@ namespace Pantheon.Core
                     actor.Entity.GetComponent<AI>().DecideCommand();
   
                 actor.Progress += timeConsumed;
+
+#if DEBUG_SCHEDULER
+                UnityEngine.Debug.Log($"{actor.Command} progress: {actor.Progress}");
+#endif
+
                 if (actor.Progress >= actor.Threshold)
                 {
                     currentActor = actor;
@@ -238,9 +243,9 @@ namespace Pantheon.Core
         }
 #endif
 
-        // Temporarily lock and then unlock the scheduler recursively to allow
-        // things to happen between ticks
-        public void Lock() => lockCount++;
+                // Temporarily lock and then unlock the scheduler recursively to allow
+                // things to happen between ticks
+                public void Lock() => lockCount++;
         public void Unlock()
         {
             if (lockCount == 0)

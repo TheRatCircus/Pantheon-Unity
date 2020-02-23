@@ -47,5 +47,10 @@ namespace Pantheon.Commands.Actor
             foreach (Vector2Int c in cells)
                 Locator.Scheduler.UnmarkCell(c);
         }
+
+        public override string ToString()
+        {
+            return $"{Entity} casting {talent} at {target}";
+        }
     }
 }

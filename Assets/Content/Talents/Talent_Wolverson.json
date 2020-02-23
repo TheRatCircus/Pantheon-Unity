@@ -3,7 +3,7 @@
   "Name": "Wolverson's Triple Grenade Toss",
   "Icon": "Sprite_Grenade",
   "PlayerTime": 100,
-  "NPCTime": 210,
+  "NPCTime": 200,
   "Behaviour": {
     "$type": "MultiRandomTossTalent",
 	"ProjCount": 3,

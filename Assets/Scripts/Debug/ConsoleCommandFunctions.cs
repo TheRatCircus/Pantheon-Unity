@@ -222,6 +222,7 @@ namespace Pantheon.Debug
 
         public static string KillLevel(string[] args, GameController ctrl)
         {
+            // TODO: Iterate through level.Actors instead of cells
             Level lvl = ctrl.ActiveLevel;
             foreach (Vector2Int c in lvl.Map)
             {

@@ -90,6 +90,7 @@ namespace Pantheon.Debug
             string[] tokens = input.Split(' ');
             string output;
 
+            // TODO: tokens[0].ToLower()
             if (!consoleCommands.TryGetValue(tokens[0],
                 out ConsoleCommand cmd))
                 output = $"Command \"{tokens[0]}\" not found";

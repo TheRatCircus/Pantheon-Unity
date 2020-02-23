@@ -22,8 +22,9 @@ namespace Pantheon.Core
         {
             // TODO: Check that template actually represents actor
             Entity entity = new Entity(template);
-            Locator.Scheduler.AddActor(entity.GetComponent<Actor>());
             entity.Move(level, cell);
+            if (entity.Visible)
+                Locator.Scheduler.AddActor(entity.GetComponent<Actor>());
             return entity;
         }
     }
