@@ -1,0 +1,14 @@
+{
+  "ID": "Talent_QuantumStep",
+  "Name": "Quantum Step",
+  "Icon": "Sprite_Contempt",
+  "PlayerTime": 100,
+  "NPCTime": 120,
+  "Behaviour": {
+    "$type": "BlinkTalent",
+	"Range": 2,
+	"Random": false,
+	"CanDisplace": false,
+	"Sound": "SFX_Patsons"
+  }
+}

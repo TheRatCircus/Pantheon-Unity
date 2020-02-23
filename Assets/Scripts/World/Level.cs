@@ -33,7 +33,7 @@ namespace Pantheon.World
         public string ID { get; set; } = "DEFAULT_LEVEL_ID";
 
         public Vector3Int Position { get; private set; }
-        public Vector2Int Size { get; } // TODO: Get Map lengths
+        public Vector2Int Size { get; }
         public int CellCount => Size.x * Size.y;
 
         private readonly byte[] terrainMap;

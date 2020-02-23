@@ -45,7 +45,7 @@
       "$type": "Talented",
       "Talents": [
         "Talent_Punch",
-        "Talent_Contempt"
+		"Talent_QuantumStep"
       ]
     }
   ]

@@ -13,6 +13,8 @@ namespace Pantheon.UI
         [SerializeField] private Transform logTransform = default;
         [SerializeField] private ScrollRect scrollRect = default;
 
+        // TODO: Static Send()
+
         public void Send(string msg, Color color)
         {
             GameObject msgObj = Instantiate(msgPrefab, logTransform);

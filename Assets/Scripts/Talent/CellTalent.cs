@@ -26,6 +26,7 @@ namespace Pantheon
 
         public override CommandResult Invoke(Entity caster, Vector2Int target)
         {
+            // TODO: Compare against Level.NullCell, don't throw
             if (target == null)
                 throw new NotImplementedException("Target cell needed.");
 

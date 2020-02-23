@@ -37,6 +37,7 @@ namespace Pantheon.Utils
 
         public static string Kill(Entity killer, Entity killed)
         {
+            // TODO: Support for self
             if (killer == null)
                 return $"{Strings.Subject(killed, true)} is killed!";
 
@@ -59,6 +60,13 @@ namespace Pantheon.Utils
         public static string Swing(Entity entity)
         {
             return Actor.PlayerControlled(entity) ? "swing" : "swings";
+        }
+
+        public static string Blink(Entity entity)
+        {
+            return 
+                $"{Strings.Subject(entity, true)} " +
+                $"{(Actor.PlayerControlled(entity) ? "blink" : "blinks")}.";
         }
     }
 }

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3933617193
+CRC: 4132243123
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b3c3d7b2c487233f60aba18285eb5d2b
+    Hash: 1fda2aa31e1a78873901b0888c587858
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5ad585dd02dfb5016c0dad519eab8f49
@@ -16,6 +16,7 @@ Assets:
 - Assets/Content/Talents/Talent_Contempt.json
 - Assets/Content/Talents/Talent_GrenadeToss.json
 - Assets/Content/Talents/Talent_HatchetThrow.json
+- Assets/Content/Talents/Talent_QuantumStep.json
 - Assets/Content/Talents/Talent_Punch.json
 - Assets/Content/Talents/Talent_Wolverson.json
 - Assets/Content/Talents/Talent_Bite_Coyote.json

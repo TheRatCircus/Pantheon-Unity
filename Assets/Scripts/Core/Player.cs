@@ -390,6 +390,7 @@ namespace Pantheon.Core
 
         private void DrawTalentOverlays()
         {
+            // TODO: Move tilemap clear to after null check
             targetingTilemap.ClearAllTiles();
 
             Talent talent = Talents[hotbarSelection];
@@ -397,6 +398,7 @@ namespace Pantheon.Core
             if (talent == null)
                 return;
 
+            // TODO: Replace HashSets with Lists here
             HashSet<Vector2Int> targeted = new HashSet<Vector2Int>();
             targeted.AddMany(talent.GetTargetedCells(Entity, selectedCell));
             HashSet<Vector2Int> overlayed = new HashSet<Vector2Int>();

@@ -1,11 +1,8 @@
 ﻿// MultiRandomTossTalent.cs
 // Jerome Martina
 
-using Newtonsoft.Json;
 using Pantheon.Commands;
 using Pantheon.Components.Entity;
-using Pantheon.Content;
-using Pantheon.Serialization.Json.Converters;
 using Pantheon.Utils;
 using System;
 using System.Collections.Generic;
