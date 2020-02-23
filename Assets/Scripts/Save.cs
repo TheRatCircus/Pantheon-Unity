@@ -56,6 +56,8 @@ namespace Pantheon.SaveLoad
                 new TileSurrogate());
             selector.AddSurrogate(typeof(AIDefinition), ctxt,
                 new AIDefinitionSurrogate());
+            selector.AddSurrogate(typeof(Talent), ctxt,
+                new TalentSurrogate());
 
             BinaryFormatter formatter = new BinaryFormatter
             {
@@ -103,6 +105,8 @@ namespace Pantheon.SaveLoad
                 new TileSurrogate());
             selector.AddSurrogate(typeof(AIDefinition), ctxt,
                 new AIDefinitionSurrogate());
+            selector.AddSurrogate(typeof(Talent), ctxt,
+                new TalentSurrogate());
 
             if (File.Exists(path))
             {

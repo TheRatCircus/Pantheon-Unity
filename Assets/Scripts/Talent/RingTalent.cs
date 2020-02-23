@@ -7,7 +7,6 @@ using UnityEngine;
 
 namespace Pantheon
 {
-    [System.Serializable]
     public class RingTalent : TalentBehaviour
     {
         public Damage[] Damages { get; set; }

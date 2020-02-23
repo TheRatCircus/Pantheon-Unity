@@ -10,7 +10,6 @@ using Random = UnityEngine.Random;
 
 namespace Pantheon
 {
-    [Serializable]
     public class CellTalent : TalentBehaviour
     {
         public int Accuracy { get; set; } = 50;

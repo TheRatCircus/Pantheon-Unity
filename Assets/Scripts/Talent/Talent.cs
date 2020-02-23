@@ -7,7 +7,6 @@ using Pantheon.Commands;
 using Pantheon.Commands.NonActor;
 using Pantheon.Components.Entity;
 using Pantheon.Core;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,7 +21,6 @@ namespace Pantheon
         Line
     }
 
-    [Serializable]
     public sealed class Talent
     {
         // TODO: IEvocable, implemented by Entities and BodyParts
