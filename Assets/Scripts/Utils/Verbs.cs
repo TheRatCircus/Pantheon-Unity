@@ -7,6 +7,9 @@ namespace Pantheon.Utils
 {
     public static class Verbs
     {
+        // TODO: Some functions return a whole phrase, others only a word.
+        // This class needs to be made consistent; all should only return a word.
+
         public static string Be(Entity entity)
         {
             // TODO: 1st person

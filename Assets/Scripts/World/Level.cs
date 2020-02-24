@@ -77,6 +77,7 @@ namespace Pantheon.World
         [NonSerialized] private Tilemap featureTilemap;
         [NonSerialized] private Tilemap splatterTilemap;
         [NonSerialized] private Tilemap itemTilemap;
+        [NonSerialized] private Tilemap shadowTilemap;
 
         public Level(int sizeX, int sizeY)
         {
@@ -95,6 +96,7 @@ namespace Pantheon.World
             featureTilemap = transform.Find("Features").GetComponent<Tilemap>();
             splatterTilemap = transform.Find("Splatter").GetComponent<Tilemap>();
             itemTilemap = transform.Find("Items").GetComponent<Tilemap>();
+            shadowTilemap = transform.Find("Shadows").GetComponent<Tilemap>();
         }
 
         public void Initialize()
@@ -161,7 +163,15 @@ namespace Pantheon.World
 
         public bool Walled(Vector2Int cell)
         {
-            return GetTerrain(cell.x, cell.y).Blocked;
+            TerrainDefinition terrain = GetTerrain(cell.x, cell.y);
+
+            if (terrain == null)
+                return false;
+
+            if (terrain.Blocked)
+                return true;
+            else
+                return false;
         }
 
         public bool Walkable(Vector2Int cell)
@@ -425,6 +435,51 @@ namespace Pantheon.World
 
             if (Connections.TryGetValue(cell, out Connection conn))
                 featureTilemap.SetTile((Vector3Int)cell, conn.Tile);
+
+            if (terrain != null && !terrain.Blocked)
+            {
+                Tile shadowTile;
+
+                byte shadowFlag = 0;
+
+                if (Contains(cell.x, cell.y + 1) &&
+                    Walled(cell.x, cell.y + 1))
+                    shadowFlag += 1;
+
+                if (Contains(cell.x + 1, cell.y + 1) &&
+                    Walled(cell.x + 1, cell.y + 1))
+                    shadowFlag += 2;
+
+                if (Contains(cell.x + 1, cell.y) &&
+                    Walled(cell.x + 1, cell.y))
+                    shadowFlag += 4;
+
+                switch (shadowFlag)
+                {
+                    default:
+                    case 0:
+                        shadowTile = null;
+                        break;
+                    case 1:
+                    case 3:
+                        shadowTile = Assets.GetTile<Tile>("Shadow_N");
+                        break;
+                    case 2:
+                        shadowTile = Assets.GetTile<Tile>("Shadow_NE");
+                        break;
+                    case 4:
+                    case 6:
+                        shadowTile = Assets.GetTile<Tile>("Shadow_E");
+                        break;
+                    case 5:
+                    case 7:
+                        shadowTile = Assets.GetTile<Tile>("Shadow_N_E");
+                        break;
+                }
+
+                shadowTilemap.SetTile((Vector3Int)cell, shadowTile);
+                shadowTilemap.SetColor((Vector3Int)cell, color);
+            }
 
             if (!visible)
                 Locator.Scheduler.UnmarkCell(cell);

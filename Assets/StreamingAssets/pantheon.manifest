@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 696230082
+CRC: 1882332013
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 206644f3c2cf6d91cd0f45d59779f3df
+    Hash: 030e12ae6262c0184c2ea61c2d5cc76e
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5c89aca496fcc287184e3eaddb8269e9
@@ -72,12 +72,14 @@ Assets:
 - Assets/Content/CharacterNames.txt
 - Assets/Audio/SFX_Toss.ogg
 - Assets/Sprites/Item/Sprite_Dagger.png
+- Assets/Tiles/Shadow/Shadow_E.asset
 - Assets/Tiles/Item/Tile_Grenade.asset
 - Assets/Sprites/Actor/Sprite_GiantBumblebee.png
 - Assets/Sprites/Actor/Sprite_Goose.png
 - Assets/Content/Terrain/Terrain_StoneWall.asset
 - Assets/Prefabs/FX/FX_Splat_Blood.prefab
 - Assets/Prefabs/FX/FX_Patsons.prefab
+- Assets/Tiles/Shadow/Shadow_N_E.asset
 - Assets/Audio/SFX_Punch.ogg
 - Assets/Audio/SFX_Explosion.ogg
 - Assets/Audio/SFX_Patsons.ogg
@@ -93,6 +95,7 @@ Assets:
 - Assets/Tiles/Item/Tile_Corpse.asset
 - Assets/Sprites/Item/Sprite_Corpse.png
 - Assets/Tiles/Item/Tile_Dagger.asset
+- Assets/Tiles/Shadow/Shadow_NE.asset
 - Assets/Tiles/Feature/StoneStairs_Up.asset
 - Assets/Sprites/Actor/Sprite_Human.png
 - Assets/Tiles/Item/Tile_Scroll.asset
@@ -111,6 +114,7 @@ Assets:
 - Assets/Sprites/Actor/Sprite_GenericNPC.png
 - Assets/Prefabs/FX/FX_Toss.prefab
 - Assets/Content/Vaults/Vault_Keep.asset
+- Assets/Tiles/Shadow/Shadow_N.asset
 - Assets/Tiles/Item/Tile_Hatchet.asset
 - Assets/Content/Terrain/Terrain_StoneFloor.asset
 - Assets/Sprites/UI/Talent/Sprite_Punch.png
