@@ -21,12 +21,7 @@ namespace Pantheon.Utils
 
         public static string Miss(Entity attacker, Entity defender)
         {
-            // 3rd person: "misses", 1st/2nd person: "miss"
-            string verb = Actor.PlayerControlled(attacker) ? "miss" : "misses";
-            string ret =
-                $"{Strings.Subject(attacker, true)} " +
-                $"{verb} {Strings.Subject(defender, false)}.";
-            return ret;
+            return Actor.PlayerControlled(attacker) ? "miss" : "misses";
         }
 
         public static string Hit(Entity attacker, Entity defender, Hit hit)
@@ -70,6 +65,25 @@ namespace Pantheon.Utils
             return 
                 $"{Strings.Subject(entity, true)} " +
                 $"{(Actor.PlayerControlled(entity) ? "blink" : "blinks")}.";
+        }
+
+        public static string TalentFlavourVerb(Entity subject, TalentFlavour flavour)
+        {
+            bool player = Actor.PlayerControlled(subject);
+            switch (flavour)
+            {
+                case TalentFlavour.None:
+                    return player ? "attack" : "attacks";
+                case TalentFlavour.Swing:
+                    return player ? "swing" : "swings";
+                case TalentFlavour.Punch:
+                    return player ? "punch" : "punches";
+                case TalentFlavour.Smite:
+                    return player ? "smite" : "smites";
+                default:
+                    throw new System.ArgumentException(
+                        $"{flavour} is invalid.");
+            }
         }
     }
 }

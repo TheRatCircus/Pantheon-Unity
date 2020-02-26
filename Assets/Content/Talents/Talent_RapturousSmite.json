@@ -1,0 +1,22 @@
+{
+  "ID": "Talent_RapturousSmite",
+  "Name": "Rapturous Smite",
+  "Icon": "Sprite_Contempt",
+  "PlayerTime": 100,
+  "NPCTime": 120,
+  "Behaviour": {
+    "$type": "CellTalent",
+	"Range": 7,
+    "Accuracy": 70,
+	"Radius": 3,
+	"HitSound": "SFX_Patsons",
+	"MissSound": "SFX_Patsons",
+    "Damages": [
+      {
+        "Type": "Searing",
+        "Min": 20,
+        "Max": 30
+      }
+    ]
+  }
+}

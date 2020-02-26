@@ -5,11 +5,13 @@
   "Range": 1,
   "PlayerTime": 100,
   "NPCTime": 120,
-  "Targeting": "Adjacent",
   "Behaviour": {
     "$type": "CellTalent",
 	"Range": 1,
     "Accuracy": 70,
+	"Radius": 1,
+	"HitSound": "SFX_Punch",
+	"MissSound": "SFX_Toss",
     "Damages": [
       {
         "Type": "Bludgeoning",

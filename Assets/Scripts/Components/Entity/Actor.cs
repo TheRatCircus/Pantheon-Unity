@@ -58,6 +58,7 @@ namespace Pantheon.Components.Entity
         {
             if (Command != null)
             {
+                // TODO: Don't unconditionally return cost
                 CommandResult result = Command.Execute();
                 int cost = Command.Cost;
                 DebugLogCommand($"{Entity} doing: {Command} ({Command.Cost})");
